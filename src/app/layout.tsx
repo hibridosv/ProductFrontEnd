@@ -1,12 +1,10 @@
 'use client'
 
 import './globals.css'
-import { Inter } from 'next/font/google'
 import { ProSidebarProvider } from "react-pro-sidebar";
 import {Header, SideBar} from "./components";
 import { ConfigContextProvider } from "../contexts/config-context";
 
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Sistema de inventario',
@@ -22,7 +20,7 @@ export default function RootLayout({
     <ConfigContextProvider>
       <ProSidebarProvider>
       <html lang="en">
-        <body className={inter.className}>
+        <body>
             <div className="container mx-auto px-1">
             <Header />
             <div>
