@@ -27,7 +27,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
             <div className="px-4 pb-4 pt-2 mx-3 border-4 rounded-lg border-cyan-700  text-blue-700">
               Precio Unidad
               <div className="text-4xl flex justify-center">
-                $ {product?.prices[0]?.qty}
+                $ {product?.prices && product.prices.length > 0 ? product.prices[0].qty : null}
               </div>
             </div>
             <div className="px-4 pb-4 pt-2 mx-3 border-4 rounded-lg border-cyan-700">
