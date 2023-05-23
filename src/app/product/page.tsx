@@ -15,7 +15,7 @@ export default function ViewProducts() {
   const { searchTerm, handleSearchTerm } = useSearchTerm()
   const menu = [
     {"name": "AGREGAR PRODUCTO", "link": "/product/add"}, 
-    {"name": "IMPRIMIR", "link": "/print/products"}
+    {"name": "IMPRIMIR", "link": "/"}
   ];
 
   const loadData = async () => {
