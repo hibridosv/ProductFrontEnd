@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+    env: {
+        REACT_APP_NAME: 'Aplicación react',
+        REACT_APP_API_URL: 'http://connect.test/api/',
+      },
+}
 
 module.exports = nextConfig
