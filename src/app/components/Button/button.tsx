@@ -1,4 +1,4 @@
-import { textPresets, iconPresets, stylePresets } from "./button-presets";
+import { textPresets, iconPresets, stylePresets } from './button-presets';
 
 
 export enum Preset {
