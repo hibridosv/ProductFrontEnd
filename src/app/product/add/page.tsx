@@ -19,6 +19,8 @@ export default function AddProduct() {
   const [expiresStatus, setExpiresStatus] = useState<boolean>(false)
   const [brandStatus, setBrandStatus] = useState<boolean>(false)
   const [measuresStatus, setMeasuresStatus] = useState<boolean>(false)
+  const [isSending, setIsSending] = useState(false);
+
 
   const menu = [
     { name: "VER PRODUCTOS", link: "/product" },
@@ -131,6 +133,7 @@ export default function AddProduct() {
 
     const id = toast.loading("Guardando...")
     try {
+      setIsSending(true)
       const response = await postData(`products`, "POST", data);
       setMessage(response);
       console.log(response)
@@ -145,6 +148,8 @@ export default function AddProduct() {
     } catch (error) {
       console.error(error);
       toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000 });
+    } finally{
+      setIsSending(false)
     }
   };
 
@@ -225,7 +230,7 @@ export default function AddProduct() {
 
             <div className="flex justify-center">
 
-              <Button type="submit" preset={Preset.save} />
+              { isSending ? <Button type="submit" disabled={true} preset={Preset.saving} /> : <Button type="submit" preset={Preset.save} /> }
 
             </div>
           </form>

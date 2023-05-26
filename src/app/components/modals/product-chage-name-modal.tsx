@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
@@ -18,6 +19,7 @@ export interface ProductUpdateModalProps {
 export function ProductUpdateModal(props: ProductUpdateModalProps) {
   const { onClose, text, field, type, product } = props;
   const { register, handleSubmit, reset } = useForm();
+  const [isSending, setIsSending] = useState(false);
 
   
 
@@ -25,6 +27,7 @@ export function ProductUpdateModal(props: ProductUpdateModalProps) {
     product[field] = data[field];
     const id = toast.loading("Actualizando...");
     try {
+      setIsSending(true)
       const response = await postData(`products/${product?.id}`, "PUT", product);
       if (!response.message) {
         toast.update(id, {
@@ -51,6 +54,8 @@ export function ProductUpdateModal(props: ProductUpdateModalProps) {
         isLoading: false,
         autoClose: 2000,
       });
+    } finally {
+      setIsSending(false)
     }
   };
 
@@ -80,7 +85,7 @@ export function ProductUpdateModal(props: ProductUpdateModalProps) {
                 </div>
               </div>
               <div className="flex justify-center">
-                <Button type="submit" preset={Preset.save} />
+              { isSending ? <Button type="submit" disabled={true} preset={Preset.saving} /> : <Button type="submit" preset={Preset.save} /> }
               </div>
             </form>
           </div>

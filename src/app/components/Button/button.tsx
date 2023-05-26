@@ -9,6 +9,7 @@ export enum Preset {
     save = "save",
     accept = "accept",
     send = "send",
+    saving = "saving",
   }
   
   export interface ButtonProps {
@@ -18,10 +19,11 @@ export enum Preset {
     onClick?: () => void;
     isFull?: boolean;
     type?: any;
+    disabled?: boolean;
   }
   
   export function Button(props: ButtonProps) {
-    const { preset = Preset.primary, text, onClick, style, isFull = false, type= "button" } = props;
+    const { preset = Preset.primary, text, onClick, style, isFull = false, type= "button", disabled = false } = props;
   
 
     const textStyle = stylePresets[preset] || stylePresets.primary;
@@ -31,7 +33,7 @@ export enum Preset {
     const buttonText = text ? text : textPresets[preset] || "Button"
   
     return (
-      <button type={type} className={textStyles} onClick={onClick}>
+      <button type={type} className={textStyles} onClick={onClick} disabled={disabled}>
        {icon} {buttonText}
       </button>
     );
