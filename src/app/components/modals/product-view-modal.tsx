@@ -6,7 +6,7 @@ import { Button, Preset } from "../button/button"
 import { numberToMoney } from "@/utils/functions";
 import {  GrEdit, GrAction, GrAdd } from "react-icons/gr";
 import { FaEdit } from "react-icons/fa";
-import { ProductUpdateModal } from "./product-chage-name-modal";
+import { ProductUpdateModal } from "./product-update-modal";
 
 export interface ProductViewModalProps {
   onClose: () => void;
