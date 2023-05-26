@@ -7,6 +7,7 @@ import {  GrClose, GrEdit, GrAction } from "react-icons/gr";
 import { Dropdown } from "flowbite-react";
 import { DeleteModal, ProductViewModal } from "../../components/";
 import Link from "next/link";
+import { numberToMoney } from "@/utils/functions";
 
 export enum RowTable {
   cod = "cod",
@@ -55,7 +56,7 @@ export function ProductsTable(props: ProductsTableProps) {
       { !withOutRows?.includes(RowTable.cod) && <td className="py-3 px-6">{product.cod}</td>}
       { !withOutRows?.includes(RowTable.description) && <th className="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer" scope="row" onClick={()=>showProduct(product)}>{product.description}</th>}
       { !withOutRows?.includes(RowTable.quantity) && <td className="py-3 px-6">{product.quantity}</td>}
-      { !withOutRows?.includes(RowTable.prices) && <td className="py-3 px-6">{product.prices[0] ? product.prices[0].price : "0.00"}</td>}
+      { !withOutRows?.includes(RowTable.prices) && <td className="py-3 px-6">{product.prices[0] ? numberToMoney(product.prices[0].price) : numberToMoney(0)}</td>}
       { !withOutRows?.includes(RowTable.category) && <td className="py-3 px-6">{product.category.name}</td>}
       { !withOutRows?.includes(RowTable.brand) && <td className="py-3 px-6">{product?.brand?.name}</td>}
       { !withOutRows?.includes(RowTable.minimum_stock) && <td className="py-3 px-6">{product.minimum_stock}</td>}

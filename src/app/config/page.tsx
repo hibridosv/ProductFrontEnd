@@ -21,9 +21,9 @@ export default function ConfigPrincipal() {
         <div className="col-span-3">
              <ViewTitle text="CONFIGURACIONES PRINCIPALES" />
              {config.configurations.map((item: any, index: any) => (
-                <div className='grid grid-cols-12' key={index}>
-                  <div className='col-span-11 m-3 ml-10 font-semibold'>{item.description}</div>
-                    <div className='col-span-1 m-3'>
+                <div className='grid grid-cols-12 border-y-2' key={index}>
+                  <div className='col-span-10 m-3 ml-10 font-semibold'>{item.description}</div>
+                    <div className='col-span-2 m-3'>
                         <ToggleSwitch
                         checked={item.active}
                         label={item.active ? 'Activo' : 'Inactivo'}

@@ -7,6 +7,7 @@ import { numberToMoney } from "@/utils/functions";
 import {  GrEdit, GrAction, GrAdd } from "react-icons/gr";
 import { FaEdit } from "react-icons/fa";
 import { ProductUpdateModal } from "./product-update-modal";
+import { Alert } from "../alert/alert";
 
 export interface ProductViewModalProps {
   onClose: () => void;
@@ -71,46 +72,57 @@ export function ProductViewModal(props: ProductViewModalProps) {
                     {product?.cod}
                   </dd>
                 </div>
-                <div className="px-4 py-3 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                {product?.product_type === 1 && (<div className="px-4 py-3 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">
                     Categoria
                   </dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {product?.category?.name}
                   </dd>
-                </div>
-                <div className="px-4 py-3 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                </div>) }
+                {product?.product_type === 1 && (<div className="px-4 py-3 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">
                     Proveedor
                   </dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {product?.provider?.name}
                   </dd>
-                </div>
-                <div className="px-4 py-3 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                </div>) }
+                {(product?.product_type === 1 && product?.brand?.name) && (<div className="px-4 py-3 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">Marca</dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {product?.brand?.name}
                   </dd>
-                </div>
+                </div>)}
                 <div className="px-4 py-3 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">Expira</dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {product?.expires ? <div className="text-base	text-red-600	">Con fecha de vencimiento</div> : <div className="text-base	text-blue-600	">Sin fecha de vencimiento</div>}
                   </dd>
                 </div>
-                <div className="px-4 py-3 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                {product?.information && (<div className="px-4 py-3 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">
                     Información
                   </dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {product?.information}
                   </dd>
-                </div>
+                </div>)}
               </dl>
             </div>
           </div>
 
+
+          {product?.product_type != 1 && (
+              <div className="mt-4">
+                <Alert
+                  type={product?.product_type === 2 ? "green" : "red"}
+                  info="Información:"
+                  text={`Este elemento se ha registrado como un ${product?.product_type === 2 ? "servicio": "producto compuesto"}`  }
+                  isDismisible={false}
+                />
+              </div>
+            )}
           {/* Modales  */}
           { showModalEdit && <ProductUpdateModal product={product} field={field} type={type} text={text} onClose={()=> setShowModalEdit(false)} />}
           
@@ -119,10 +131,9 @@ export function ProductViewModal(props: ProductViewModalProps) {
       <Modal.Footer className="flex justify-end gap-4">
         { editable && <Dropdown label={<FaEdit size="1.2em" />} inline={true} >
           <Dropdown.Item>EDITAR PRODUCTO</Dropdown.Item>
-          <Dropdown.Item icon={GrEdit} onClick={()=>getEdit("description", "text", "Cambiar Nombre")}>Cambiar Nombre</Dropdown.Item>
-          <Dropdown.Item icon={GrAction} onClick={()=>getEdit("minimum_stock", "number", "Cambiar Minimo en Stock")}>Minimo de Stock</Dropdown.Item>
+          <Dropdown.Item icon={GrEdit} onClick={()=>getEdit("description", "text", "Cambiar Nombre")}>Cambiar Nombre</Dropdown.Item>    
+          { product?.product_type === 1 && <Dropdown.Item icon={GrAction} onClick={()=>getEdit("minimum_stock", "number", "Cambiar Minimo en Stock")}>Minimo de Stock</Dropdown.Item>}
           <Dropdown.Item icon={GrAdd} onClick={()=>getEdit("information", "text", "Agregar información adicional")}>Información </Dropdown.Item>
-          {/* <Dropdown.Item icon={GrClose} ><span className="text-red-700">Eliminar</span></Dropdown.Item> */}
         </Dropdown>}
         <Button onClick={onClose} preset={Preset.close} />
       </Modal.Footer>

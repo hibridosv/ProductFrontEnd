@@ -37,6 +37,18 @@ export const FieldsFormProduct = [
     style: "medio",
   },
   {
+    id: "cost_price",
+    type: "number",
+    name: "Precio de Costo",
+    style: "medio",
+  },
+  {
+    id: "sale_price",
+    type: "number",
+    name: "Precio de Venta",
+    style: "medio",
+  },
+  {
     id: "category_id",
     type: "select",
     name: "Categoria",
@@ -70,16 +82,5 @@ export const FieldsFormProduct = [
     name: "Medida",
     style: "medio",
   },
-  {
-    id: "cost_price",
-    type: "number",
-    name: "Precio de Costo",
-    style: "medio",
-  },
-  {
-    id: "sale_price",
-    type: "number",
-    name: "Precio de Venta",
-    style: "medio",
-  },
+
 ];
