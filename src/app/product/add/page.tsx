@@ -28,7 +28,7 @@ export default function AddProduct() {
   ];
 
 
-  const { register, handleSubmit, reset, watch } = useForm();
+  const { register, handleSubmit, reset, watch, setValue } = useForm();
 
   useEffect(() => {
     setExpiresStatus(getExpiresStatus("product-expires"))
@@ -142,6 +142,7 @@ export default function AddProduct() {
         setLastProducts(newProducts)
         toast.update(id, { render: "Producto agregado correctamente", type: "success", isLoading: false, autoClose: 2000 });
         reset();
+        setValue("product_type", "1");
       } else {
       toast.update(id, { render: "Faltan algunos datos importantes!", type: "error", isLoading: false, autoClose: 2000 });
       }
@@ -169,7 +170,7 @@ export default function AddProduct() {
             {field.name}
           </label>
           {field.type === "select" ? (
-            <select
+            <select defaultValue={field.values[0] ? field.values[0].id : null}
               id={field.id}
               {...register(field.id)}
               className="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
