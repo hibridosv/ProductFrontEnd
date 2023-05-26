@@ -85,7 +85,7 @@ export function ProductUpdateModal(props: ProductUpdateModalProps) {
                 </div>
               </div>
               <div className="flex justify-center">
-              { isSending ? <Button type="submit" disabled={true} preset={Preset.saving} /> : <Button type="submit" preset={Preset.save} /> }
+              { isSending ? <Button disabled={true} preset={Preset.saving} /> : <Button type="submit" preset={Preset.save} /> }
               </div>
             </form>
           </div>

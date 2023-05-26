@@ -32,10 +32,12 @@ export enum Preset {
     const icon = iconPresets[preset] || iconPresets.primary;
     const buttonText = text ? text : textPresets[preset] || "Button"
   
+    if (disabled) return (<div className={textStyles}>{icon} {buttonText}</div>)
+
     return (
-      <button type={type} className={textStyles} onClick={onClick} disabled={disabled}>
+      <button type={type} className={textStyles} onClick={onClick}>
        {icon} {buttonText}
       </button>
     );
+    
   }
-  
