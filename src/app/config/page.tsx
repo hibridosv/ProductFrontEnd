@@ -17,7 +17,7 @@ export default function ConfigPrincipal() {
 
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
+    <div className="grid grid-cols-1 md:grid-cols-4 pb-10 mx-3">
         <div className="col-span-3">
              <ViewTitle text="CONFIGURACIONES PRINCIPALES" />
              {config.configurations.map((item: any, index: any) => (

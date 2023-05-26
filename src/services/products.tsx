@@ -7,7 +7,7 @@ export interface Products {
 }
 
 export interface Product {
-	id:               number;
+	id:               string;
 	cod:              string;
 	description:      string;
 	quantity:         number;

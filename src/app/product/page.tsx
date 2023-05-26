@@ -6,6 +6,7 @@ import { usePagination } from "../components/pagination";
 import { useSearchTerm } from "../../hooks/useSearchTerm";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { RowTable } from "../components/table/products-table";
 
 export default function ViewProducts() {
   const [isLoading, setIsLoading] = useState(false);
@@ -73,6 +74,7 @@ export default function ViewProducts() {
                 <ProductsTable 
                 products={productos}
                 onDelete={deleteProduct} 
+                withOutRows={[RowTable.brand]}
                  />
                 <Pagination 
                 products={productos}
