@@ -34,6 +34,7 @@ export default function AddProduct() {
     setExpiresStatus(getExpiresStatus("product-expires"))
     setBrandStatus(getExpiresStatus("product-brand"))
     setMeasuresStatus(getExpiresStatus("product-mesaures"))
+    // eslint-disable-next-line
   }, [config])
 
   const getExpiresStatus = (feature: string)=>{
