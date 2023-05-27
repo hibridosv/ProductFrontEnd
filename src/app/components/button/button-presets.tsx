@@ -2,6 +2,7 @@ import { AiFillSave, AiOutlineClose, AiOutlineSend } from "react-icons/ai"
 import { GiCancel } from "react-icons/gi"
 import { RiCheckDoubleFill } from "react-icons/ri"
 import { ImSpinner5 } from "react-icons/im"
+import { AiOutlineCloseCircle } from "react-icons/ai"
 
 /**
  * All text will start off looking like this.
@@ -20,6 +21,7 @@ export const textPresets = {
   accept: "Aceptar",
   send: "Enviar",
   saving: "Guardando...",
+  smallClose: "",
 }
 
 
@@ -33,6 +35,7 @@ export const stylePresets = {
     accept: `${BASE} bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200`,
     send: `${BASE} bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200`,
     saving: `${BASE} bg-neutral-600 hover:bg-neutral-700 focus:ring-neutral-500 focus:ring-offset-neutral-200`,
+    smallClose: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
   }
 
 export const iconPresets = {
@@ -45,4 +48,5 @@ export const iconPresets = {
     accept: <RiCheckDoubleFill className="mr-3"/>,
     send: <AiOutlineSend className="mr-3"/>,
     saving: <ImSpinner5 className="mr-3 animate-spin" />,
+    smallClose: <AiOutlineCloseCircle color="red" size={25} />,
   }

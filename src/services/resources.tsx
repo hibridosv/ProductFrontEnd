@@ -2,7 +2,7 @@
 import { API_URL } from "../constants";
 
   export async function getData(url = '') {
-    console.log("URL: ",`${API_URL}${url}`);
+    // console.log("URL: ",`${API_URL}${url}`);
     const response = await fetch(`${API_URL}${url}`, {
       method: 'GET',
       mode: 'cors',
@@ -19,7 +19,7 @@ import { API_URL } from "../constants";
 
 
   export async function postData(url = '', method = 'POST', data = {}) {
-    console.log("URL: ",`${API_URL}${url}`);
+    // console.log("URL: ",`${API_URL}${url}`);
     const response = await fetch(API_URL + url, {
       method: method, // *GET, POST, PUT, DELETE, etc.
       mode: 'cors', // no-cors, *cors, same-origin

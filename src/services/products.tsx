@@ -42,11 +42,11 @@ export interface Provider {
 }
 
 export interface Category {
-	id:            number;
+	id:            number | string;
 	name:          string;
 	pronoun:       string;
 	img?:           null;
-	category_type?: string;
+	category_type?: number | string;
 	dependable?:    null;
 }
 

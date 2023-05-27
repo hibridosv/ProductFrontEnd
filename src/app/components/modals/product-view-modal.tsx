@@ -1,13 +1,15 @@
 'use client'
 import { useState } from "react";
-import { Product } from "@/services/products";
-import { Dropdown, Modal } from "flowbite-react";
+import { Product, Price } from "@/services/products";
+import { Dropdown, Modal, Tooltip, Button as Boton } from "flowbite-react";
 import { Button, Preset } from "../button/button"
 import { numberToMoney } from "@/utils/functions";
 import {  GrEdit, GrAction, GrAdd } from "react-icons/gr";
 import { FaEdit } from "react-icons/fa";
+import { AiFillInfoCircle } from "react-icons/ai";
 import { ProductUpdateModal } from "./product-update-modal";
 import { Alert } from "../alert/alert";
+import { ProductPrecioMultipleModal } from "./product-precio-multiple-modal";
 
 export interface ProductViewModalProps {
   onClose: () => void;
@@ -18,6 +20,7 @@ export interface ProductViewModalProps {
 export function ProductViewModal(props: ProductViewModalProps) {
   const { onClose, product, editable = false } = props;
   const [showModalEdit, setShowModalEdit] = useState(false)
+  const [showModalPrices, setShowModalPrices] = useState(false)
   const [field, setField] = useState("")
   const [type, setType] = useState("")
   const [text, setText] = useState("")
@@ -28,6 +31,16 @@ export function ProductViewModal(props: ProductViewModalProps) {
     setText(textAsign)
     setShowModalEdit(true)
   }
+
+
+  const listItems = product?.prices?.map((price: Price):any => (
+    <div key={price.id} className="w-full flex justify-center border-2">
+      <div className="m-2">{price.qty }</div>
+      <div className="m-1">=</div>
+      <div className="m-2">{ numberToMoney(price.price)}</div>
+      <div className="m-1">{price.price_type == 1 && "P"} {price.price_type == 2 && "M"} {price.price_type == 3 && "E"}</div>
+    </div>
+  ));
 
   return (
     <Modal show={true} position="center" onClose={onClose}>
@@ -43,12 +56,20 @@ export function ProductViewModal(props: ProductViewModalProps) {
                 {product?.quantity}
               </div>
             </div>
+
+              <Tooltip
+                animation="duration-300"
+                content={listItems}
+              >
             <div className="px-4 pb-4 pt-2 mx-3 border-4 rounded-lg border-cyan-700  text-blue-700">
               Precio Unidad
               <div className="text-4xl flex justify-center">
                 {product?.prices && product.prices.length > 0 ? numberToMoney(product.prices[0].price) : numberToMoney(0)}
               </div>
-            </div>
+              </div>
+              </Tooltip>
+
+            
             <div className="px-4 pb-4 pt-2 mx-3 border-4 rounded-lg border-cyan-700">
               Min Stock
               <div className="text-4xl flex justify-center">
@@ -125,6 +146,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
             )}
           {/* Modales  */}
           { showModalEdit && <ProductUpdateModal product={product} field={field} type={type} text={text} onClose={()=> setShowModalEdit(false)} />}
+          { showModalPrices && <ProductPrecioMultipleModal product={product} onClose={()=> setShowModalPrices(false)} />}
           
         </div>
       </Modal.Body>
@@ -133,7 +155,8 @@ export function ProductViewModal(props: ProductViewModalProps) {
           <Dropdown.Item>EDITAR PRODUCTO</Dropdown.Item>
           <Dropdown.Item icon={GrEdit} onClick={()=>getEdit("description", "text", "Cambiar Nombre")}>Cambiar Nombre</Dropdown.Item>    
           { product?.product_type === 1 && <Dropdown.Item icon={GrAction} onClick={()=>getEdit("minimum_stock", "number", "Cambiar Minimo en Stock")}>Minimo de Stock</Dropdown.Item>}
-          <Dropdown.Item icon={GrAdd} onClick={()=>getEdit("information", "text", "Agregar información adicional")}>Información </Dropdown.Item>
+          <Dropdown.Item icon={GrAdd} onClick={()=>setShowModalPrices(true)}>Agregar Precios</Dropdown.Item>
+          <Dropdown.Item icon={AiFillInfoCircle} onClick={()=>getEdit("information", "text", "Agregar información adicional")}>Información </Dropdown.Item>
         </Dropdown>}
         <Button onClick={onClose} preset={Preset.close} />
       </Modal.Footer>
