@@ -8,7 +8,7 @@ import { Button, Preset } from "../../components/button/button";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ConfigContext } from "../../../contexts/config-context";
-import { style } from "@/app/theme/styles";
+import { style } from "@/theme/styles";
 import { MultiPrice } from "@/app/components/products-components/multi-price";
 
 

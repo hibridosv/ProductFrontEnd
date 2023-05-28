@@ -8,8 +8,7 @@ import { numberToMoney } from "@/utils/functions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RadioButton, Option} from "../radio-button/radio-button";
-import { style } from "@/app/theme";
-import { Loading } from "../loading/loading";
+import { style } from "@/theme";
 
 export interface ProductPrecioMultipleProps {
   product?: Product | any;

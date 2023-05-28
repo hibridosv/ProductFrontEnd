@@ -9,7 +9,7 @@ import { Button, Preset } from "../../components/button/button";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ConfigContext } from "../../../contexts/config-context";
-import { style } from "@/app/theme/styles";
+import { style } from "@/theme/styles";
 
 export default function AddProduct() {
   const [message, setMessage] = useState<any>({});

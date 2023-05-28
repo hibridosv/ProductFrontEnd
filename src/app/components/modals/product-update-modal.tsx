@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { postData } from "@/services/resources";
 import { Product } from "@/services/products";
-import { style } from "@/app/theme";
+import { style } from "@/theme";
 
 export interface ProductUpdateModalProps {
   onClose: () => void;
