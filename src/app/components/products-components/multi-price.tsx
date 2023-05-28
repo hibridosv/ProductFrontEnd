@@ -15,7 +15,7 @@ export interface ProductPrecioMultipleProps {
   product?: Product | any;
 }
 
-export function PrecioMultiple(props: ProductPrecioMultipleProps) {
+export function MultiPrice(props: ProductPrecioMultipleProps) {
   const { product } = props;
   const { register, handleSubmit, reset } = useForm();
   const [isSending, setIsSending] = useState(false);

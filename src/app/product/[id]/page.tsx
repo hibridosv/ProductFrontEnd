@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ConfigContext } from "../../../contexts/config-context";
 import { style } from "@/app/theme/styles";
-import { PrecioMultiple } from "@/app/components/products-components/precio-multiple";
+import { MultiPrice } from "@/app/components/products-components/multi-price";
 
 
 
@@ -308,7 +308,7 @@ import { PrecioMultiple } from "@/app/components/products-components/precio-mult
                 />
               </div>
             )}
-            <PrecioMultiple product={selectedProduct?.data} />
+            <MultiPrice product={selectedProduct?.data} />
           </div>) : <Loading /> }
 
           </div>
