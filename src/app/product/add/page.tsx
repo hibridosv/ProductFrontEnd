@@ -129,6 +129,8 @@ export default function AddProduct() {
       data.minimum_stock = 1;
     }
     if (data.expiration) data.expires = 1;
+    if (!data.cost_price) data.cost_price = 0;
+    if (!data.sale_price) data.sale_price = 0;
 
     const id = toast.loading("Guardando...")
     try {
