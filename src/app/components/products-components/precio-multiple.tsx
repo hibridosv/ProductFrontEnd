@@ -17,10 +17,9 @@ export interface ProductPrecioMultipleProps {
 
 export function PrecioMultiple(props: ProductPrecioMultipleProps) {
   const { product } = props;
-  if (!product) return <Loading />;
   const { register, handleSubmit, reset } = useForm();
   const [isSending, setIsSending] = useState(false);
-  const [newProductPrices, setNewProductPrices] = useState(product.prices);
+  const [newProductPrices, setNewProductPrices] = useState(product?.prices);
   const optionsRadioButton: Option[] = [
     { id: 1, name: "Precios" },
     { id: 2, name: "Mayoristas" },
