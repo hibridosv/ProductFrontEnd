@@ -308,7 +308,7 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
                 />
               </div>
             )}
-            <MultiPrice product={selectedProduct?.data} />
+            { selectedProduct?.data ? <MultiPrice product={selectedProduct?.data} /> : <Loading /> }
           </div>) : <Loading /> }
 
           </div>
