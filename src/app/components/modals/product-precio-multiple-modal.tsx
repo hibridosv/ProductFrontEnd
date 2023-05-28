@@ -9,6 +9,7 @@ import { numberToMoney } from "@/utils/functions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RadioButton, Option} from "../radio-button/radio-button";
+import { style } from "@/app/theme";
 
 export interface ProductPrecioMultipleProps {
   onClose: () => void;
@@ -112,7 +113,7 @@ export function ProductPrecioMultipleModal(props: ProductPrecioMultipleProps) {
                 <div className="w-full md:w-1/2 px-3 mb-4">
                   <label
                     htmlFor="qty"
-                    className="block text-gray-700 text-sm font-bold mb-1"
+                    className={style.inputLabel}
                   >
                     Cantidad
                   </label>
@@ -120,14 +121,14 @@ export function ProductPrecioMultipleModal(props: ProductPrecioMultipleProps) {
                     type="number"
                     id="qty"
                     {...register("qty")}
-                    className="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    className={style.input}
                     step="any"
                   />
                 </div>
                 <div className="w-full md:w-1/2 px-3 mb-4">
                   <label
                     htmlFor="price"
-                    className="block text-gray-700 text-sm font-bold mb-1"
+                    className={style.inputLabel}
                   >
                     Precio
                   </label>
@@ -135,7 +136,7 @@ export function ProductPrecioMultipleModal(props: ProductPrecioMultipleProps) {
                     type="number"
                     id="price"
                     {...register("price")}
-                    className="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    className={style.input}
                     step="any"
                   />
                 </div>

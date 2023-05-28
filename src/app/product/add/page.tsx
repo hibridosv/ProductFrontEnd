@@ -9,6 +9,7 @@ import { Button, Preset } from "../../components/button/button";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ConfigContext } from "../../../contexts/config-context";
+import { style } from "@/app/theme/styles";
 
 export default function AddProduct() {
   const [message, setMessage] = useState<any>({});
@@ -31,13 +32,13 @@ export default function AddProduct() {
   const { register, handleSubmit, reset, watch, setValue } = useForm();
 
   useEffect(() => {
-    setExpiresStatus(getExpiresStatus("product-expires"))
-    setBrandStatus(getExpiresStatus("product-brand"))
-    setMeasuresStatus(getExpiresStatus("product-mesaures"))
+    setExpiresStatus(getConfigStatus("product-expires"))
+    setBrandStatus(getConfigStatus("product-brand"))
+    setMeasuresStatus(getConfigStatus("product-mesaures"))
     // eslint-disable-next-line
   }, [config])
 
-  const getExpiresStatus = (feature: string)=>{
+  const getConfigStatus = (feature: string)=>{
     if (config?.configurations) {
      return config.configurations.find((configuration: any) => configuration.feature === feature)?.active === 1
     }
@@ -48,18 +49,15 @@ export default function AddProduct() {
     (async () => {
       setIsLoading(true);
       try {
-        const cate = await getData("categorys");
-        const quantity = await getData("quantityunits");
-        const provid = await getData("contacts/providers");
-        const bra = await getData("brands");
+        const specialData = await getData("special/initial-add");
         const products = await getData("products?sort=-created_at&perPage=10");       
 
 
         const FieldsFormProduct = [...Fields];
-        const categorys = cate.data
-        const quantityUnits = quantity.data
-        const providers = provid.data
-        const brands = bra.data
+        const categorys = specialData.categories
+        const quantityUnits = specialData.quantityUnits
+        const providers = specialData.providers
+        const brands = specialData.brands
 
         
         const categoriesData = Array.isArray(categorys) ? categorys : [];
@@ -166,7 +164,7 @@ export default function AddProduct() {
         <div key={field.id} className={styled}>
           <label
             htmlFor={field.id}
-            className="block text-gray-700 text-sm font-bold mb-1"
+            className={style.inputLabel}
           >
             {field.name}
           </label>
@@ -174,7 +172,7 @@ export default function AddProduct() {
             <select defaultValue={field.values[0] ? field.values[0].id : null}
               id={field.id}
               {...register(field.id)}
-              className="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className={style.input}
             >
               {field.values?.map((value: any) => {
                 return (
@@ -189,7 +187,7 @@ export default function AddProduct() {
               type={field.type}
               id={field.id}
               {...register(field.id)}
-              className="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              className={style.input}
               step="any"
             />
           )}
@@ -207,14 +205,14 @@ export default function AddProduct() {
         <ViewTitle text="NUEVO PRODUCTO" links={menu} />
         { !isLoading ? (
           <div className="w-full p-4">
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full mx-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="w-full">
 
             <div className="flex flex-wrap -mx-3 mb-6">
               {fieldsModified.map((field: any) => getField(field))}
 
              { expiresStatus && (<div className="w-full md:w-1/2 px-3 mb-4">
-                <label htmlFor="expiration" className="block text-gray-700 text-sm font-bold mb-1" > Fecha de vencimiento </label>
-              <input type="date" id="expiration" {...register("expiration")} className="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" />
+                <label htmlFor="expiration" className={style.inputLabel} > Fecha de vencimiento </label>
+              <input type="date" id="expiration" {...register("expiration")} className={style.input} />
               </div>) }
 
             </div>

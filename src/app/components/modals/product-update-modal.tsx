@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { postData } from "@/services/resources";
 import { Product } from "@/services/products";
+import { style } from "@/app/theme";
 
 export interface ProductUpdateModalProps {
   onClose: () => void;
@@ -30,29 +31,17 @@ export function ProductUpdateModal(props: ProductUpdateModalProps) {
       setIsSending(true)
       const response = await postData(`products/${product?.id}`, "PUT", product);
       if (!response.message) {
-        toast.update(id, {
-          render: "Producto Actualizado correctamente",
-          type: "success",
-          isLoading: false,
-          autoClose: 2000,
+        toast.update(id, { render: "Producto Actualizado correctamente", type: "success", isLoading: false, autoClose: 2000,
         });
         onClose()
         reset();
       } else {
-        toast.update(id, {
-          render: "Faltan algunos datos importantes!",
-          type: "error",
-          isLoading: false,
-          autoClose: 2000,
+        toast.update(id, { render: "Faltan algunos datos importantes!", type: "error", isLoading: false, autoClose: 2000,
         });
       }
     } catch (error) {
       console.error(error);
-      toast.update(id, {
-        render: "Ha ocurrido un error!",
-        type: "error",
-        isLoading: false,
-        autoClose: 2000,
+      toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000,
       });
     } finally {
       setIsSending(false)
@@ -69,17 +58,14 @@ export function ProductUpdateModal(props: ProductUpdateModalProps) {
             <form onSubmit={handleSubmit(onSubmit)} className="w-full mx-6">
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full px-3 mb-2">
-                  <label
-                    htmlFor={field}
-                    className="block text-gray-700 text-sm font-bold mb-1"
-                  >
+                  <label htmlFor={field} className={style.inputLabel} >
                     {text}
                   </label>
                   <input
                     type={type}
                     id={field}
                     {...register(field)}
-                    className="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    className={style.input}
                     step="any"
                   />
                 </div>
