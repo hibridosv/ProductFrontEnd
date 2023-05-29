@@ -21,9 +21,11 @@ export interface Product {
 	expires?:          number;
 	product_type:     number;
 	prescription?:     number;
-	promotion?:        number;
 	ecommerce?:        number;
 	default_discount?: number;
+	measure?: 		   string;
+	extra?: 		   string | any;
+
 }
 
 export interface Brand {

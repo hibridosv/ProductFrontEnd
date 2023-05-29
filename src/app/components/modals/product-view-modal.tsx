@@ -102,7 +102,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
                     {product?.category?.name}
                   </dd>
                 </div>) }
-                {product?.product_type === 1 && (<div className="px-4 py-3 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                {product?.product_type === 1 && (<div className="px-4 py-2 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">
                     Proveedor
                   </dt>
@@ -110,19 +110,25 @@ export function ProductViewModal(props: ProductViewModalProps) {
                     {product?.provider?.name}
                   </dd>
                 </div>) }
-                {(product?.product_type === 1 && product?.brand?.name) && (<div className="px-4 py-3 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="text-sm font-medium text-gray-500">Marca</dt>
+                {(product?.product_type === 1 && product?.default_discount) && (<div className="px-4 py-2 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">Descuento establecido</dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    {product?.brand?.name}
+                    {product?.default_discount} %
                   </dd>
                 </div>)}
-                <div className="px-4 py-3 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                {(product?.product_type === 1 && product?.prescription) && (<div className="px-4 py-2 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">Receta</dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {product?.prescription && <div className="text-base	text-red-600	">ESTE PRODUCTO REQUIERE RECETA</div> }
+                  </dd>
+                </div>)}
+                <div className="px-4 py-2 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">Expira</dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    {product?.expires ? <div className="text-base	text-red-600	">Con fecha de vencimiento</div> : <div className="text-base	text-blue-600	">Sin fecha de vencimiento</div>}
+                    {product?.expires ? <div className="text-base	text-red-600	">CON FECHA DE VENCIMIENTO</div> : <div className="text-base	text-blue-600	">SIN FECHA DE VENCIMIENTO</div>}
                   </dd>
                 </div>
-                {product?.information && (<div className="px-4 py-3 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                {product?.information && (<div className="px-4 py-2 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">
                     Información
                   </dt>
@@ -130,6 +136,20 @@ export function ProductViewModal(props: ProductViewModalProps) {
                     {product?.information}
                   </dd>
                 </div>)}
+                <div className="flex flex-wrap">
+                {(product?.product_type === 1 && product?.brand?.name) && (<div className="w-full md:w-1/2 px-4 py-2 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">Marca</dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {product?.brand?.name}
+                  </dd>
+                </div>)}
+                {(product?.product_type === 1 && product?.measure) && (<div className="w-full md:w-1/2 px-4 py-2 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">Medidas</dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {product?.measure}
+                  </dd>
+                </div>)}
+                </div>
               </dl>
             </div>
           </div>
