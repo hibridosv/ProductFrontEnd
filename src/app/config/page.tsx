@@ -22,10 +22,8 @@ export default function ConfigPrincipal() {
   }
 
   if(!config.configurations) return <Loading />
-  
 
   let configFiltered = config?.configurations.filter((conf: any) => (conf.group === configFilter));
-  console.log(configFiltered)
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 pb-10 mx-3">

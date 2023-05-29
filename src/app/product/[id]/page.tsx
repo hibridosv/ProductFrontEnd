@@ -256,7 +256,7 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
                 </select>
               </div>
 
-              { brandStatus && (<div className="w-full md:w-1/3 px-3 mb-2">
+              { (selectedProduct?.data?.product_type == 1 && brandStatus) && (<div className="w-full md:w-1/3 px-3 mb-2">
                 <label htmlFor="brand_id" className={style.inputLabel}>Marca</label>
                 <select 
                   id="brand_id"
@@ -273,17 +273,17 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
                 </select>
               </div>)}
 
-              { measuresStatus && (<div className="w-full md:w-1/3 px-3 mb-4">
+              { (selectedProduct?.data?.product_type == 1 && measuresStatus) && (<div className="w-full md:w-1/3 px-3 mb-4">
                 <label htmlFor="measure" className={style.inputLabel}>Medida</label>
                 <input type="text" id="measure" {...register("measure")} className={style.input} />
               </div>)}
 
-              { discountStatus && (<div className="w-full md:w-1/3 px-3 mb-4">
+              { (selectedProduct?.data?.product_type == 1 && discountStatus) && (<div className="w-full md:w-1/3 px-3 mb-4">
                 <label htmlFor="default_discount" className={style.inputLabel}>Descuento por Defecto %</label>
                 <input type="number" step="any" id="default_discount" {...register("default_discount")} className={style.input} />
               </div>)}
 
-              { prescriptionStatus && (<div className="w-full md:w-1/3 px-3 mb-4">
+              { (selectedProduct?.data?.product_type == 1 && prescriptionStatus) && (<div className="w-full md:w-1/3 px-3 mb-4">
               <label htmlFor="prescription" className={style.inputLabel} >Solicitar Receta </label>
               <input type="checkbox" placeholder="prescription" {...register("prescription", {})} />
               </div>)}

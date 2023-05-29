@@ -155,14 +155,23 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
 
             </form>
           </div>) : 
-              <div className="mt-4">
+          newProductPrices.length === 0 ? 
+              (<div className="mt-4">
+                <Alert
+                  type="red"
+                  info="Error:"
+                  text="No existe ningun precio! Seleccione el tipo de precio a agregar"
+                  isDismisible={false}
+                />
+              </div>) :
+              (<div className="mt-4">
               <Alert
                 type="green"
                 info="Información:"
                 text="Seleccione el tipo de precio a agregar"
                 isDismisible={false}
               />
-            </div>
+            </div>)
           }
 
           </div>

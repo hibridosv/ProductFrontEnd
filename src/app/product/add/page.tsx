@@ -164,7 +164,7 @@ export default function AddProduct() {
 
   const getField = (field: any): any => {
     // const styled = field.style === "full" ? "w-full px-3 mb-2" : "w-full md:w-1/2 px-3 mb-2";
-    let hiddenFields = watch("product_type") == 1 ? [] : ["category_id", "brand_id", "provider_id", "quantity", "minimum_stock", "quantity_unit_id", "measure"]
+    let hiddenFields = watch("product_type") == 1 ? [] : ["category_id", "brand_id", "provider_id", "quantity", "minimum_stock", "quantity_unit_id", "measure", "default_discount"]
     if(!brandStatus) hiddenFields.push("brand_id")
     if(!measuresStatus) hiddenFields.push("measure")
     if(!discountStatus) hiddenFields.push("default_discount")
@@ -220,12 +220,12 @@ export default function AddProduct() {
             <div className="flex flex-wrap -mx-3 mb-6">
               {fieldsModified.map((field: any) => getField(field))}
 
-             { expiresStatus && (<div className="w-full md:w-1/3 px-3 mb-4">
+             { (watch("product_type") == 1 && expiresStatus) && (<div className="w-full md:w-1/3 px-3 mb-4">
                 <label htmlFor="expiration" className={style.inputLabel} > Fecha de vencimiento </label>
               <input type="date" id="expiration" {...register("expiration")} className={style.input} />
               </div>) }
 
-              { prescriptionStatus && (<div className="w-full md:w-1/3 px-3 mb-4">
+              { (watch("product_type") == 1 && prescriptionStatus) && (<div className="w-full md:w-1/3 px-3 mb-4">
               <label htmlFor="prescription" className={style.inputLabel} >Solicitar Receta </label>
               <input type="checkbox" placeholder="prescription" {...register("prescription", {})} />
               </div>)}

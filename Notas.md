@@ -1,15 +1,9 @@
 Agregar debounce en las busquedas para eficiencia
 Agregar NextUi para cambiar algunos componentes bonitos
 Crear un componente para toast
+Agregar nuevos datos a la vista del producto condicionado si existen o no
 
 
-
-BOTONES NECESARIOS
-Guardar
-Cerrar
-Enviar
-Cancelar
-Salir
 ----------
 PRODUCTS NEW FORMS 
 options_active(automatic update), 

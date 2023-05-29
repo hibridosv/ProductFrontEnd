@@ -26,6 +26,7 @@ export function ProductUpdateModal(props: ProductUpdateModalProps) {
 
   const onSubmit = async (data: any) => {
     product[field] = data[field];
+    console.log(product)
     const id = toast.loading("Actualizando...");
     try {
       setIsSending(true)
@@ -33,6 +34,7 @@ export function ProductUpdateModal(props: ProductUpdateModalProps) {
       if (!response.message) {
         toast.update(id, { render: "Producto Actualizado correctamente", type: "success", isLoading: false, autoClose: 2000,
         });
+        console.log(response.data)
         onClose()
         reset();
       } else {
