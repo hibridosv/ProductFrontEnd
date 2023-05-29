@@ -8,7 +8,7 @@ import { Button, Preset } from "../../components/button/button";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ConfigContext } from "../../../contexts/config-context";
-import { style } from "@/theme/styles";
+import { style } from "../../../theme/styles";
 import { MultiPrice } from "@/app/components/products-components/multi-price";
 
 
@@ -19,9 +19,10 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
     const [selectedProduct, setSelectedProdcut] = useState<any>({});
     const [isLoading, setIsLoading] = useState(false);
     const {config } = useContext(ConfigContext);
-    const [expiresStatus, setExpiresStatus] = useState<boolean>(false)
     const [brandStatus, setBrandStatus] = useState<boolean>(false)
     const [measuresStatus, setMeasuresStatus] = useState<boolean>(false)
+    const [discountStatus, setDiscountStatus] = useState<boolean>(false)
+    const [prescriptionStatus, setPrescriptionStatus] = useState<boolean>(false)
     const [isSending, setIsSending] = useState(false);
   
   
@@ -35,9 +36,10 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
     const { register, handleSubmit, reset, watch, setValue } = useForm();
   
     useEffect(() => {
-      setExpiresStatus(getConfigStatus("product-expires"))
       setBrandStatus(getConfigStatus("product-brand"))
-      setMeasuresStatus(getConfigStatus("product-mesaures"))
+      setMeasuresStatus(getConfigStatus("product-measures"))
+      setPrescriptionStatus(getConfigStatus("product-prescription"))
+      setDiscountStatus(getConfigStatus("product-default_discount"))
       // eslint-disable-next-line
     }, [config])
   
@@ -136,6 +138,11 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
       setValue("quantity_unit_id", selectedProduct?.data?.quantity_unit_id)
       setValue("provider_id", selectedProduct?.data?.provider_id)
       setValue("brand_id", selectedProduct?.data?.brand_id)
+
+      setValue("measure", selectedProduct?.data?.measure)
+      setValue("default_discount", selectedProduct?.data?.default_discount)
+      setValue("prescription", selectedProduct?.data?.prescription)
+
       // eslint-disable-next-line
     }, [selectedProduct])
   
@@ -146,13 +153,12 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
         data.minimum_stock = 1;
       }
       if (data.expiration) data.expires = 1;
-  
+
       const id = toast.loading("Guardando...")
       try {
         setIsSending(true)
         const response = await postData(`products/${params.id}`, "PUT", data);
         setMessage(response);
-        console.log(response)
         if (!response.message) {
           setSelectedProdcut(response)
           toast.update(id, { render: "Producto actualizado correctamente", type: "success", isLoading: false, autoClose: 2000 });
@@ -167,7 +173,7 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
         setIsSending(false)
       }
     };
-  
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
         <div className="col-span-2 border-r-2">
@@ -199,7 +205,7 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
               </div>
 
 
-              <div className="w-full md:w-1/2 px-3 mb-4">
+              <div className="w-full md:w-1/3 px-3 mb-2">
                 <label htmlFor="category_id" className={style.inputLabel}>Categoria</label>
                 <select
                   id="category_id"
@@ -216,9 +222,7 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
                 </select>
               </div>
 
-
-
-              <div className="w-full md:w-1/2 px-3 mb-4">
+              <div className="w-full md:w-1/3 px-3 mb-2">
                 <label htmlFor="quantity_unit_id" className={style.inputLabel}>Unidad de Medida</label>
                 <select 
                   id="quantity_unit_id"
@@ -235,8 +239,7 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
                 </select>
               </div>
 
-
-              <div className="w-full md:w-1/2 px-3 mb-4">
+              <div className="w-full md:w-1/3 px-3 mb-2">
                 <label htmlFor="provider_id" className={style.inputLabel}>Proveedor</label>
                 <select
                   id="provider_id"
@@ -253,8 +256,7 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
                 </select>
               </div>
 
-
-              <div className="w-full md:w-1/2 px-3 mb-4">
+              { brandStatus && (<div className="w-full md:w-1/3 px-3 mb-2">
                 <label htmlFor="brand_id" className={style.inputLabel}>Marca</label>
                 <select 
                   id="brand_id"
@@ -269,7 +271,23 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
                     );
                   })}
                 </select>
-              </div>
+              </div>)}
+
+              { measuresStatus && (<div className="w-full md:w-1/3 px-3 mb-4">
+                <label htmlFor="measure" className={style.inputLabel}>Medida</label>
+                <input type="text" id="measure" {...register("measure")} className={style.input} />
+              </div>)}
+
+              { discountStatus && (<div className="w-full md:w-1/3 px-3 mb-4">
+                <label htmlFor="default_discount" className={style.inputLabel}>Descuento por Defecto %</label>
+                <input type="number" step="any" id="default_discount" {...register("default_discount")} className={style.input} />
+              </div>)}
+
+              { prescriptionStatus && (<div className="w-full md:w-1/3 px-3 mb-4">
+              <label htmlFor="prescription" className={style.inputLabel} >Solicitar Receta </label>
+              <input type="checkbox" placeholder="prescription" {...register("prescription", {})} />
+              </div>)}
+
 
               </div>
   

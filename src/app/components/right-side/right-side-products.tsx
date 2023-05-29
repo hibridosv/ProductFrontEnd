@@ -59,10 +59,6 @@ return (<div>
                 <span className="col-span-4 px-2 xl:text-xl">Compuestos: </span>
                 <span className="col-span-2 px-2 xl:text-xl text-right">{loadingSmall(statics.compound)}</span>
             </div>
-            <div className="m-2 grid grid-cols-6">
-                <span className="col-span-4 px-2 xl:text-xl">Promociones: </span>
-                <span className="col-span-2 px-2 xl:text-xl text-right">{loadingSmall(statics.promotion)}</span>
-            </div>
         </div>
     }
 

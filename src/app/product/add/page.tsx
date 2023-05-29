@@ -9,7 +9,8 @@ import { Button, Preset } from "../../components/button/button";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ConfigContext } from "../../../contexts/config-context";
-import { style } from "@/theme/styles";
+import { style } from "../../../theme";
+import { getConfigStatus } from "@/utils/functions";
 
 export default function AddProduct() {
   const [message, setMessage] = useState<any>({});
@@ -20,6 +21,8 @@ export default function AddProduct() {
   const [expiresStatus, setExpiresStatus] = useState<boolean>(false)
   const [brandStatus, setBrandStatus] = useState<boolean>(false)
   const [measuresStatus, setMeasuresStatus] = useState<boolean>(false)
+  const [discountStatus, setDiscountStatus] = useState<boolean>(false)
+  const [prescriptionStatus, setPrescriptionStatus] = useState<boolean>(false)
   const [isSending, setIsSending] = useState(false);
 
 
@@ -32,18 +35,13 @@ export default function AddProduct() {
   const { register, handleSubmit, reset, watch, setValue } = useForm();
 
   useEffect(() => {
-    setExpiresStatus(getConfigStatus("product-expires"))
-    setBrandStatus(getConfigStatus("product-brand"))
-    setMeasuresStatus(getConfigStatus("product-mesaures"))
+    setExpiresStatus(getConfigStatus("product-expires", config))
+    setBrandStatus(getConfigStatus("product-brand", config))
+    setMeasuresStatus(getConfigStatus("product-measures", config))
+    setPrescriptionStatus(getConfigStatus("product-prescription", config))
+    setDiscountStatus(getConfigStatus("product-default_discount", config))
     // eslint-disable-next-line
   }, [config])
-
-  const getConfigStatus = (feature: string)=>{
-    if (config?.configurations) {
-     return config.configurations.find((configuration: any) => configuration.feature === feature)?.active === 1
-    }
-    return false
-  }
   
   useEffect(() => {
     (async () => {
@@ -155,15 +153,25 @@ export default function AddProduct() {
     }
   };
 
+  const fieldWidth = (field: string): string => {
+      switch (field) {
+        case "full": return "w-full px-3 mb-2"
+        case "medio": return "w-full md:w-1/2 px-3 mb-2"
+        case "tercio": return "w-full md:w-1/3 px-3 mb-2"
+        default: return "w-full md:w-1/2 px-3 mb-2"
+      }
+  }
+
   const getField = (field: any): any => {
-    const styled = field.style === "full" ? "w-full px-3 mb-2" : "w-full md:w-1/2 px-3 mb-4";
+    // const styled = field.style === "full" ? "w-full px-3 mb-2" : "w-full md:w-1/2 px-3 mb-2";
     let hiddenFields = watch("product_type") == 1 ? [] : ["category_id", "brand_id", "provider_id", "quantity", "minimum_stock", "quantity_unit_id", "measure"]
     if(!brandStatus) hiddenFields.push("brand_id")
     if(!measuresStatus) hiddenFields.push("measure")
+    if(!discountStatus) hiddenFields.push("default_discount")
 
     if (!hiddenFields.includes(field.id)) {
       return (
-        <div key={field.id} className={styled}>
+        <div key={field.id} className={fieldWidth(field.style)}>
           <label
             htmlFor={field.id}
             className={style.inputLabel}
@@ -212,10 +220,15 @@ export default function AddProduct() {
             <div className="flex flex-wrap -mx-3 mb-6">
               {fieldsModified.map((field: any) => getField(field))}
 
-             { expiresStatus && (<div className="w-full md:w-1/2 px-3 mb-4">
+             { expiresStatus && (<div className="w-full md:w-1/3 px-3 mb-4">
                 <label htmlFor="expiration" className={style.inputLabel} > Fecha de vencimiento </label>
               <input type="date" id="expiration" {...register("expiration")} className={style.input} />
               </div>) }
+
+              { prescriptionStatus && (<div className="w-full md:w-1/3 px-3 mb-4">
+              <label htmlFor="prescription" className={style.inputLabel} >Solicitar Receta </label>
+              <input type="checkbox" placeholder="prescription" {...register("prescription", {})} />
+              </div>)}
 
             </div>
 

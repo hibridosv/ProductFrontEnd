@@ -10,6 +10,7 @@ import { AiFillInfoCircle } from "react-icons/ai";
 import { ProductUpdateModal } from "./product-update-modal";
 import { Alert } from "../alert/alert";
 import { ProductPrecioMultipleModal } from "./product-precio-multiple-modal";
+import Link from "next/link";
 
 export interface ProductViewModalProps {
   onClose: () => void;
@@ -38,7 +39,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
       <div className="m-2">{price.qty }</div>
       <div className="m-1">=</div>
       <div className="m-2">{ numberToMoney(price.price)}</div>
-      <div className="m-1">{price.price_type == 1 && "P"} {price.price_type == 2 && "M"} {price.price_type == 3 && "E"}</div>
+      <div className="m-1">{price.price_type == 1 && "N"} {price.price_type == 2 && "M"} {price.price_type == 3 && "P"}</div>
     </div>
   ));
 
@@ -152,7 +153,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         { editable && <Dropdown label={<FaEdit size="1.2em" />} inline={true} >
-          <Dropdown.Item>EDITAR PRODUCTO</Dropdown.Item>
+          <Dropdown.Item><Link href={`product/${product?.id}`}>EDITAR PRODUCTO</Link></Dropdown.Item>
           <Dropdown.Item icon={GrEdit} onClick={()=>getEdit("description", "text", "Cambiar Nombre")}>Cambiar Nombre</Dropdown.Item>    
           { product?.product_type === 1 && <Dropdown.Item icon={GrAction} onClick={()=>getEdit("minimum_stock", "number", "Cambiar Minimo en Stock")}>Minimo de Stock</Dropdown.Item>}
           <Dropdown.Item icon={GrAdd} onClick={()=>setShowModalPrices(true)}>Agregar Precios</Dropdown.Item>
