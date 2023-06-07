@@ -6,7 +6,7 @@ import { useSearchTerm } from "../../../hooks/useSearchTerm";
 import Link from "next/link";
 import { SearchInput } from "@/app/components/form/search";
 
-export default function EditPage() {
+export default function KardexPage() {
     const { searchTerm, handleSearchTerm } = useSearchTerm()
     const [isLoading, setIsLoading] = useState(false);
     const [products, setProducts] = useState([]);

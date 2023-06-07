@@ -41,28 +41,28 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/product/edit" />}>
             Editar Producto
           </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/" />}>
+          <MenuItem component={<Link className="text-sm" href="/product/add" />}>
             Agregar Productos
           </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/" />}>
+          <MenuItem component={<Link className="text-sm" href="/product/damage" />}>
             Descontar Averias
           </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/" />}>
+          <MenuItem component={<Link className="text-sm" href="/product/compounds" />}>
             Productos Compuestos
           </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/" />}>
+          <MenuItem component={<Link className="text-sm" href="/product/stocks" />}>
             Bajas Existencias
           </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/" />}>
+          <MenuItem component={<Link className="text-sm" href="/product/expirations" />}>
             Proximos Vencimientos
           </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/" />}>
+          <MenuItem component={<Link className="text-sm" href="/product/sales" />}>
             Productos Vendidos
           </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/product/kardex" />}>
             Kardex
           </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/" />}>
+          <MenuItem component={<Link className="text-sm" href="/product/config" />}>
             Opciones y Configuraciones
           </MenuItem>
         </SubMenu>
