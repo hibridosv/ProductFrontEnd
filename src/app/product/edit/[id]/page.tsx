@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ConfigContext } from "../../../../contexts/config-context";
 import { style } from "../../../../theme/styles";
 import { MultiPrice } from "@/app/components/products-components/multi-price";
+import { ProductCompoundModal } from "@/app/components/modals/product-add-compound-modal";
 
 
 
@@ -24,6 +25,7 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
     const [discountStatus, setDiscountStatus] = useState<boolean>(false)
     const [prescriptionStatus, setPrescriptionStatus] = useState<boolean>(false)
     const [isSending, setIsSending] = useState(false);
+    const [isShowCompoundModal, setIsShowCompoundModal] = useState(false);
   
   
     const menu = [
@@ -327,8 +329,13 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
               </div>
             )}
             { selectedProduct?.data ? <MultiPrice product={selectedProduct?.data} /> : <Loading /> }
-          </div>) : <Loading /> }
 
+            {(selectedProduct?.data?.product_type === 3) && (<div className="w-full px-4 py-2 bg-white">
+              <Button text="VER PRODUCTOS ASIGNADOS" preset={Preset.primary} onClick={()=>setIsShowCompoundModal(true)} isFull />
+            </div>)}
+
+          </div>) : <Loading /> }
+          { isShowCompoundModal && <ProductCompoundModal product={selectedProduct?.data} onClose={()=>setIsShowCompoundModal(false)} />}
           </div>
         </div>
         <ToastContainer />

@@ -19,10 +19,10 @@ export interface Product {
 	information?:      string;
 	tags?:             string;
 	minimum_stock:    number;
-	expires?:          number;
+	expires?:          boolean;
 	product_type:     number;
-	prescription?:     number;
-	ecommerce?:        number;
+	prescription?:     boolean;
+	ecommerce?:        boolean;
 	default_discount?: number;
 	measure?: 		   string;
 	extra?: 		   string | any;
