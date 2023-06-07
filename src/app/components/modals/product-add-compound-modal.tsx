@@ -82,6 +82,7 @@ useEffect(() => {
     if (productSelected) {
         focusInQuantity.current.focus();
     }
+  // eslint-disable-next-line
   },[handleQuantity])
 
   const isDeleteProduct = (product:Product) => {
