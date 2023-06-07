@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ConfigContext } from "../../../contexts/config-context";
 import { style } from "../../../theme";
 import { getConfigStatus } from "@/utils/functions";
+import { ProductCompoundModal } from "@/app/components/modals/product-add-compound-modal";
 
 export default function AddProduct() {
   const [message, setMessage] = useState<any>({});
@@ -24,6 +25,7 @@ export default function AddProduct() {
   const [discountStatus, setDiscountStatus] = useState<boolean>(false)
   const [prescriptionStatus, setPrescriptionStatus] = useState<boolean>(false)
   const [isSending, setIsSending] = useState(false);
+  const [isShowCompoundModal, setIsShowCompoundModal] = useState(false);
 
 
   const menu = [
@@ -134,17 +136,17 @@ export default function AddProduct() {
     try {
       setIsSending(true)
       const response = await postData(`products`, "POST", data);
-      setMessage(response);
-      console.log(response)
       if (!response.message) {
         let newProducts = await getData("products?sort=-created_at&perPage=10");
-        setLastProducts(newProducts)
         toast.update(id, { render: "Producto agregado correctamente", type: "success", isLoading: false, autoClose: 2000 });
+        setLastProducts(newProducts)
         reset();
         setValue("product_type", "1");
       } else {
       toast.update(id, { render: "Faltan algunos datos importantes!", type: "error", isLoading: false, autoClose: 2000 });
       }
+      setMessage(response);
+      setIsShowCompoundModal(response.data.product_type == 3 ? true : false)
     } catch (error) {
       console.error(error);
       toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000 });
@@ -208,7 +210,6 @@ export default function AddProduct() {
 
   };
 
-  
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
       <div className="col-span-2">
@@ -263,6 +264,7 @@ export default function AddProduct() {
         </div>
       </div>
       <ToastContainer />
+      { isShowCompoundModal && <ProductCompoundModal product={message.data} onClose={()=>setIsShowCompoundModal(false)} />}
     </div>
   );
 }

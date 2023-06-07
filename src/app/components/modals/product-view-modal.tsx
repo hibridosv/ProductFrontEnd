@@ -11,6 +11,7 @@ import { ProductUpdateModal } from "./product-update-modal";
 import { Alert } from "../alert/alert";
 import { ProductPrecioMultipleModal } from "./product-precio-multiple-modal";
 import Link from "next/link";
+import { ProductCompoundModal } from "./product-add-compound-modal";
 
 export interface ProductViewModalProps {
   onClose: () => void;
@@ -25,6 +26,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
   const [field, setField] = useState("")
   const [type, setType] = useState("")
   const [text, setText] = useState("")
+  const [isShowCompoundModal, setIsShowCompoundModal] = useState(false);
 
   const getEdit = (fieldAsign: string, typeAsign: string, textAsign: string): void=>{
     setField(fieldAsign)
@@ -154,7 +156,6 @@ export function ProductViewModal(props: ProductViewModalProps) {
             </div>
           </div>
 
-
           {product?.product_type != 1 && (
               <div className="mt-4">
                 <Alert
@@ -165,17 +166,24 @@ export function ProductViewModal(props: ProductViewModalProps) {
                 />
               </div>
             )}
+
+            {(product?.product_type === 3) && (<div className="w-full px-4 py-2 bg-white">
+              <Button text="VER PRODUCTOS ASIGNADOS" preset={Preset.primary} onClick={()=>setIsShowCompoundModal(true)} isFull />
+            </div>)}
+
           {/* Modales  */}
           { showModalEdit && <ProductUpdateModal product={product} field={field} type={type} text={text} onClose={()=> setShowModalEdit(false)} />}
           { showModalPrices && <ProductPrecioMultipleModal product={product} onClose={()=> setShowModalPrices(false)} />}
+          { isShowCompoundModal && <ProductCompoundModal product={product} onClose={()=>setIsShowCompoundModal(false)} />}
           
         </div>
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         { editable && <Dropdown label={<FaEdit size="1.2em" />} inline={true} >
-          <Dropdown.Item><Link href={`product/${product?.id}`}>EDITAR PRODUCTO</Link></Dropdown.Item>
+          <Dropdown.Item><Link href={`product/edit/${product?.id}`}>EDITAR PRODUCTO</Link></Dropdown.Item>
           <Dropdown.Item icon={GrEdit} onClick={()=>getEdit("description", "text", "Cambiar Nombre")}>Cambiar Nombre</Dropdown.Item>    
           { product?.product_type === 1 && <Dropdown.Item icon={GrAction} onClick={()=>getEdit("minimum_stock", "number", "Cambiar Minimo en Stock")}>Minimo de Stock</Dropdown.Item>}
+          { product?.product_type === 3 && <Dropdown.Item icon={GrAction} onClick={()=>setIsShowCompoundModal(true)}>Productos Asignados</Dropdown.Item>}
           <Dropdown.Item icon={GrAdd} onClick={()=>setShowModalPrices(true)}>Agregar Precios</Dropdown.Item>
           <Dropdown.Item icon={AiFillInfoCircle} onClick={()=>getEdit("information", "text", "Agregar información adicional")}>Información </Dropdown.Item>
         </Dropdown>}

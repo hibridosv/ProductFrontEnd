@@ -31,24 +31,45 @@ export function SideBar() {
           Inicio
         </MenuItem>
 
-        <SubMenu label="Productos" icon={<HiOutlineChartSquareBar />}>
-          <MenuItem icon={<HiCalendar />} component={<Link href="/product" />}>
+        <SubMenu label="Inventario" icon={<HiOutlineChartSquareBar />}>
+          <MenuItem component={<Link className="text-sm" href="/product" />}>
             Ver Productos
           </MenuItem>
-          <MenuItem
-            icon={<HiCalendar />}
-            component={<Link href="/product/add" />}
-          >
-            Agregar Producto
+          <MenuItem  component={<Link className="text-sm" href="/product/register" />}>
+            Registrar Producto
+          </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/product/edit" />}>
+            Editar Producto
+          </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/" />}>
+            Agregar Productos
+          </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/" />}>
+            Descontar Averias
+          </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/" />}>
+            Productos Compuestos
+          </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/" />}>
+            Bajas Existencias
+          </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/" />}>
+            Proximos Vencimientos
+          </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/" />}>
+            Productos Vendidos
+          </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/product/kardex" />}>
+            Kardex
+          </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/" />}>
+            Opciones y Configuraciones
           </MenuItem>
         </SubMenu>
 
-        <MenuItem icon={<HiGlobe />}>Dashboard</MenuItem>
+        {/* <MenuItem icon={<HiGlobe />}>Dashboard</MenuItem> */}
         <SubMenu label="Configuraciones" icon={<HiOutlineChartSquareBar />}>
-          <MenuItem
-            icon={<HiOutlineChartSquareBar />}
-            component={<Link href="/config" />}
-          >
+          <MenuItem icon={<HiOutlineChartSquareBar />} component={<Link href="/config" />}>
             Principal
           </MenuItem>
           <MenuItem icon={<HiOutlineChartSquareBar />}>invoices</MenuItem>

@@ -15,7 +15,7 @@ export default function ViewProducts() {
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const { searchTerm, handleSearchTerm } = useSearchTerm()
   const menu = [
-    {"name": "AGREGAR PRODUCTO", "link": "/product/add"}, 
+    {"name": "AGREGAR PRODUCTO", "link": "/product/register"}, 
     {"name": "IMPRIMIR", "link": "/"}
   ];
 

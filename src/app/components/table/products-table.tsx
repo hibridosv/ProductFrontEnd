@@ -63,7 +63,7 @@ export function ProductsTable(props: ProductsTableProps) {
       { !withOutRows?.includes(RowTable.options) && <td className="py-3 px-6">
         <Dropdown label={<IoMdOptions size="1.2em" />} inline={true} >
           <Dropdown.Item onClick={()=>showProduct(product)}>VER PRODUCTO</Dropdown.Item>
-          <Dropdown.Item icon={GrEdit}><Link href={`/product/${product.id}`}>Editar</Link></Dropdown.Item>
+          <Dropdown.Item icon={GrEdit}><Link href={`/product/edit/${product.id}`}>Editar</Link></Dropdown.Item>
           <Dropdown.Item icon={GrAction}><Link href={`/product/kardex/${product.id}`}>Kardex</Link></Dropdown.Item>
           <Dropdown.Item icon={GrClose} onClick={()=>isDeleteProduct(product)}><span className="text-red-700">Eliminar</span></Dropdown.Item>
         </Dropdown>

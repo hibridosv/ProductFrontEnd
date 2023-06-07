@@ -15,6 +15,7 @@ export interface Product {
 	provider:         Provider;
 	brand?:            Brand;
 	prices?:           Price[];
+	composeds?:		   Composed[];
 	information?:      string;
 	tags?:             string;
 	minimum_stock:    number;
@@ -57,6 +58,12 @@ export interface Price {
 	qty:        number;
 	price:      number;
 	price_type: number;
+}
+
+export interface Composed {
+	product:        number;
+	qty:        	number;
+	added_product:	number;
 }
 
 export interface Links {

@@ -12,10 +12,10 @@ export function ViewTitle(props: ViewTitleProps) {
   const { text, links } = props;
   return (
     <div className="grid grid-cols-12 content-between">
-      <div className="col-span-11 m-4 text-3xl text-sky-900 font-bold">
+      <div className="col-span-11 m-4 text-2xl text-sky-900 font-bold">
         {text}
       </div>
-      <div className="col-span-1 m-4 text-3xl text-sky-900 font-bold">
+      <div className="col-span-1 m-4 text-2xl text-sky-900 font-bold">
         {links && (
           <Dropdown
             label={<IoMdOptions size="1em" />}

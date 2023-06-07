@@ -1,14 +1,14 @@
 'use client'
 import { useState, useEffect, useContext } from "react";
-import { ViewTitle, Alert, Loading } from "../../components";
+import { ViewTitle, Alert, Loading } from "../../../components";
 import { useForm } from "react-hook-form";
-import { FieldsFormProduct as Fields } from "../../../constants/form-product-json";
+import { FieldsFormProduct as Fields } from "../../../../constants/form-product-json";
 import { postData, getData } from "@/services/resources";
-import { Button, Preset } from "../../components/button/button";
+import { Button, Preset } from "../../../components/button/button";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ConfigContext } from "../../../contexts/config-context";
-import { style } from "../../../theme/styles";
+import { ConfigContext } from "../../../../contexts/config-context";
+import { style } from "../../../../theme/styles";
 import { MultiPrice } from "@/app/components/products-components/multi-price";
 
 
@@ -28,7 +28,7 @@ import { MultiPrice } from "@/app/components/products-components/multi-price";
   
     const menu = [
       { name: "VER PRODUCTOS", link: "/product" },
-      { name: "AGREGAR PRODUCTO", link: "/product/add" },
+      { name: "AGREGAR PRODUCTO", link: "/product/register" },
       { name: "IMPRIMIR", link: "/" },
     ];
   
