@@ -12,6 +12,7 @@ export function KardexTable(props: KardexTableProps) {
   const { records } = props;
 
   if (!records.data) return <NothingHere widht="164" height="98" />;
+  if (records.data.length == 0) return <NothingHere text="No se encontraron datos" widht="164" height="98" />;
 
 
 
@@ -31,7 +32,9 @@ export function KardexTable(props: KardexTableProps) {
   ));
 
 
-  return (
+  return (<div>
+  <div className="text-2xl md:text-1xl text-gray-800">PRODUCTO: {records?.product?.description}</div>
+  <div className="text-2xl md:text-1xl">METODO: COSTO PROMEDIO PONDERADO</div>
   <div className="w-full overflow-auto">
     <table className="text-sm text-left text-gray-500 dark:text-gray-400">
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -58,5 +61,5 @@ export function KardexTable(props: KardexTableProps) {
       <tbody>{listItems}</tbody>
     </table>
  </div>
- );
+ </div>);
 }

@@ -33,6 +33,8 @@ export function ProductsTable(props: ProductsTableProps) {
   const [selectProduct, setSelectProduct] = useState<Product>({} as Product);
 
   if (!products.data) return <NothingHere widht="164" height="98" />;
+  if (products.data.length == 0) return <NothingHere text="No se encontraron datos" widht="164" height="98" />;
+
 
   const isDeleteProduct = (product:Product) => {
     setSelectProduct(product);
@@ -55,8 +57,8 @@ export function ProductsTable(props: ProductsTableProps) {
     <tr key={product.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
       { !withOutRows?.includes(RowTable.cod) && <td className="py-3 px-6">{product.cod}</td>}
       { !withOutRows?.includes(RowTable.description) && <th className="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer" scope="row" onClick={()=>showProduct(product)}>{product.description}</th>}
-      { !withOutRows?.includes(RowTable.quantity) && <td className="py-3 px-6">{product.quantity}</td>}
       { !withOutRows?.includes(RowTable.prices) && <td className="py-3 px-6">{product.prices[0] ? numberToMoney(product.prices[0].price) : numberToMoney(0)}</td>}
+      { !withOutRows?.includes(RowTable.quantity) && <td className="py-3 px-6">{product.quantity}</td>}
       { !withOutRows?.includes(RowTable.category) && <td className="py-3 px-6">{product.category.name}</td>}
       { !withOutRows?.includes(RowTable.brand) && <td className="py-3 px-6">{product?.brand?.name}</td>}
       { !withOutRows?.includes(RowTable.minimum_stock) && <td className="py-3 px-6">{product.minimum_stock}</td>}
@@ -80,8 +82,8 @@ export function ProductsTable(props: ProductsTableProps) {
         <tr>
           { !withOutRows?.includes(RowTable.cod) && <th scope="col" className="py-3 px-4">Cod</th>}
           { !withOutRows?.includes(RowTable.description) && <th scope="col" className="py-3 px-4">Producto</th>}
-          { !withOutRows?.includes(RowTable.quantity) && <th scope="col" className="py-3 px-4">Cantidad</th>}
           { !withOutRows?.includes(RowTable.prices) && <th scope="col" className="py-3 px-4">Precio</th>}
+          { !withOutRows?.includes(RowTable.quantity) && <th scope="col" className="py-3 px-4">Cantidad</th>}
           { !withOutRows?.includes(RowTable.category) && <th scope="col" className="py-3 px-4">Categoria</th>}
           { !withOutRows?.includes(RowTable.brand) && <th scope="col" className="py-3 px-4">Marca</th>}
           { !withOutRows?.includes(RowTable.minimum_stock) && <th scope="col" className="py-3 px-4">Minimo</th>}

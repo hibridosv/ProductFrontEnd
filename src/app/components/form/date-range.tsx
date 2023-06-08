@@ -23,22 +23,18 @@ export const DateRange: React.FC<DateRangeProps> = ({ onSubmit }) => {
     e.preventDefault();
 
     const values: DateRangeValues = {
-      option,
-      initialDate,
-      finalDate,
+      option: option,
+      initialDate: `${initialDate} 00:00:00`,
+      finalDate: `${finalDate} 23:59:59`,
     };
 
     onSubmit(values);
   };
 
-  return (
+  return (<div>
     <form onSubmit={handleSubmit}>
-
-        
     <div className="flex justify-center">
-        <div
-          className="mb-[0.125rem] mr-4 inline-block min-h-[1.5rem] pl-[1.5rem]"
-        >
+        <div className="mb-[0.125rem] mr-4 inline-block min-h-[1.5rem] pl-[1.5rem]" >
           <input
             className={style.radioButton}
             type="radio"
@@ -46,15 +42,9 @@ export const DateRange: React.FC<DateRangeProps> = ({ onSubmit }) => {
             checked={option == '1'}
             onChange={(e) => setOption(e.target.value)}
           />
-            <label
-            className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
-            htmlFor="inlineRadio1"
-          >Fechas
-          </label>
+          <label className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer" htmlFor="inlineRadio1">Fechas </label>
         </div>
-        <div
-          className="mb-[0.125rem] mr-4 inline-block min-h-[1.5rem] pl-[1.5rem]"
-        >
+        <div className="mb-[0.125rem] mr-4 inline-block min-h-[1.5rem] pl-[1.5rem]" >
           <input
             className={style.radioButton}
             type="radio"
@@ -62,11 +52,7 @@ export const DateRange: React.FC<DateRangeProps> = ({ onSubmit }) => {
             checked={option == '2'}
             onChange={(e) => setOption(e.target.value)}
           />
-        <label
-            className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer"
-            htmlFor="inlineRadio1"
-          >Rango de Fechas
-          </label>
+          <label className="mt-px inline-block pl-[0.15rem] hover:cursor-pointer" htmlFor="inlineRadio1" >Rango de Fechas </label>
       </div>
     </div>
 
@@ -103,5 +89,5 @@ export const DateRange: React.FC<DateRangeProps> = ({ onSubmit }) => {
        <Button text='Aplicar' type="submit" preset={Preset.save} />
       </div>
     </form>
-  );
+    </div>);
 };

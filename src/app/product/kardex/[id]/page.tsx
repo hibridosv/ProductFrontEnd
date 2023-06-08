@@ -33,18 +33,12 @@ export default function GetKardex({ params }: { params: { id: number } }) {
     }
   };
 
-  // return <h1>Product Number {params.id} With Kardex</h1>;
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
            <div className="col-span-3">
-             <ViewTitle text={`KARDEX`} />
-
+             <ViewTitle text="KARDEX" />
            { isSending ? <Loading /> : 
-           <>
-           <div className="text-2xl text-gray-800">PRODUCTO: {recordsOfKardex?.product?.description}</div>
-           <div className="text-2xl">METODO: COSTO PROMEDIO PONDERADO</div>
             <KardexTable records={recordsOfKardex} />
-          </>
            }
          </div>
          <div>
