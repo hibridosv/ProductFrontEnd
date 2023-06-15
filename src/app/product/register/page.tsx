@@ -10,14 +10,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ConfigContext } from "../../../contexts/config-context";
 import { style } from "../../../theme";
-import { getConfigStatus } from "@/utils/functions";
+import { getConfigStatus, fieldWidth } from "@/utils/functions";
 import { ProductCompoundModal } from "@/app/components/modals/product-add-compound-modal";
 
 export default function AddProduct() {
   const [message, setMessage] = useState<any>({});
   const [fieldsModified, setFieldsModified] = useState<any>(Fields);
   const [lastProducts, setLastProducts] = useState<any>({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const {config } = useContext(ConfigContext);
   const [expiresStatus, setExpiresStatus] = useState<boolean>(false)
   const [brandStatus, setBrandStatus] = useState<boolean>(false)
@@ -25,7 +25,7 @@ export default function AddProduct() {
   const [discountStatus, setDiscountStatus] = useState<boolean>(false)
   const [prescriptionStatus, setPrescriptionStatus] = useState<boolean>(false)
   const [isSending, setIsSending] = useState(false);
-  const [isShowCompoundModal, setIsShowCompoundModal] = useState(false);
+  const [isShowCompoundModal, setIsShowCompoundModal] = useState<boolean>(false);
 
 
   const menu = [
@@ -141,12 +141,12 @@ export default function AddProduct() {
         toast.update(id, { render: "Producto agregado correctamente", type: "success", isLoading: false, autoClose: 2000 });
         setLastProducts(newProducts)
         reset();
-        setValue("product_type", "1");
+        setValue("product_type", 1);
       } else {
       toast.update(id, { render: "Faltan algunos datos importantes!", type: "error", isLoading: false, autoClose: 2000 });
       }
       setMessage(response);
-      setIsShowCompoundModal(response.data.product_type == 3 ? true : false)
+      setIsShowCompoundModal(response?.data?.product_type == 3 ? true : false)
     } catch (error) {
       console.error(error);
       toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000 });
@@ -154,15 +154,6 @@ export default function AddProduct() {
       setIsSending(false)
     }
   };
-
-  const fieldWidth = (field: string): string => {
-      switch (field) {
-        case "full": return "w-full px-3 mb-2"
-        case "medio": return "w-full md:w-1/2 px-3 mb-2"
-        case "tercio": return "w-full md:w-1/3 px-3 mb-2"
-        default: return "w-full md:w-1/2 px-3 mb-2"
-      }
-  }
 
   const getField = (field: any): any => {
     // const styled = field.style === "full" ? "w-full px-3 mb-2" : "w-full md:w-1/2 px-3 mb-2";
@@ -201,6 +192,7 @@ export default function AddProduct() {
               {...register(field.id)}
               className={style.input}
               step="any"
+              min={0}
             />
           )}
         </div>

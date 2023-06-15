@@ -15,14 +15,14 @@ export default function RootLayout({
     <ConfigContextProvider>
       <ProSidebarProvider>
       <html lang="en">
-        <body>
-            <div className="container mx-auto px-1">
+        <body className="overflow-x-visible">
+            <div className="container mx-auto px-1 my-auto">
             <Header />
             <div>
               <div>
               <SideBar />
               </div>
-              <div className="w-full">
+              <div className="w-full h-full">
                 {children}
               </div>
             </div>  

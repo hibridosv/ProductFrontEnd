@@ -9,7 +9,7 @@ import { FaEdit } from "react-icons/fa";
 import { AiFillInfoCircle } from "react-icons/ai";
 import { ProductUpdateModal } from "./product-update-modal";
 import { Alert } from "../alert/alert";
-import { ProductPrecioMultipleModal } from "./product-precio-multiple-modal";
+import { ProductPrecioMultipleModal } from "./product-price-multiple-modal";
 import Link from "next/link";
 import { ProductCompoundModal } from "./product-add-compound-modal";
 

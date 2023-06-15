@@ -13,6 +13,8 @@ export function Pagination(props: PaginationProps) {
 
   if (!products.links) return null;
 
+  if (products.meta.total === 0) return null;
+
   const { links } = products.meta;
   const activeIndex = links.findIndex((link: any) => link.active);
 

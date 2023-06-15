@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
 import { postData, getData } from "@/services/resources";
-import { Product } from "@/services/products";
+import { Price, Product } from "@/services/products";
 import { getConfigStatus, numberToMoney } from "@/utils/functions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,6 +27,14 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
     { id: 0, name: "Todos" },
     { id: 1, name: "Precios" },
   ];
+
+  const priceTypeToText = (price: Price) =>{
+      switch (price.price_type) {
+        case 1: return "Precio"
+        case 2: return "Mayorista"
+        case 3: return "Promoción"
+      }
+  }
 
   const { config } = useContext(ConfigContext);
   const [wolesalerStatus, setWolesalerStatus] = useState<boolean>(false)
@@ -87,6 +95,7 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
         <tr key={price.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
             <td className="py-3 px-6">{price.qty}</td>
             <td className="py-3 px-6">{numberToMoney(price.price)}</td>
+            <td className="py-3 px-6">{ priceTypeToText(price) }</td>
             <td className="py-3 px-6"><Button onClick={()=> deletePrice(price.id)} noText={true} preset={Preset.smallClose} /></td>
         </tr>
       ));
@@ -105,6 +114,7 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
                 <tr>
                 <th scope="col" className="py-3 px-4">Cantidad</th>
                 <th scope="col" className="py-3 px-4">Precio</th>
+                <th scope="col" className="py-3 px-4">Tipo</th>
                 <th scope="col" className="py-3 px-4">Borrar</th>   
                 </tr>
             </thead>
