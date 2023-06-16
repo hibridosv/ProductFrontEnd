@@ -223,6 +223,11 @@ export default function AddProduct() {
               <input type="checkbox" placeholder="prescription" {...register("prescription", {})} />
               </div>)}
 
+              <div className="w-full md:w-full px-3 mb-4">
+              <label htmlFor="information" className={style.inputLabel} >Información </label>
+              <textarea {...register("information", {})} rows={2} className={`${style.input} w-full`} />
+              </div>
+
             </div>
 
             {message.errors && (

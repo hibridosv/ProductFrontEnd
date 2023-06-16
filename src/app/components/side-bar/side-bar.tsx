@@ -56,9 +56,6 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/product/expirations" />}>
             Proximos Vencimientos
           </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/product/sales" />}>
-            Productos Vendidos
-          </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/product/kardex" />}>
             Kardex
           </MenuItem>
