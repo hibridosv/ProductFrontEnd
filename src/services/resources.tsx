@@ -38,7 +38,7 @@ import { API_URL } from "../constants";
   }
 
 
-  export async function postDataWithImage(url = '', method = 'POST', data = {}) {
+  export async function postDataWithImage(url = '', method = 'POST', data: any) {
     const formData = new FormData();    
     formData.append('product_id', data?.product_id);
     formData.append('image', data?.image[0]);
