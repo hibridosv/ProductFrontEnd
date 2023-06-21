@@ -6,6 +6,14 @@ export interface Products {
 	meta?:  Meta;
 }
 
+export interface Image{
+	id?: string
+	product_id?: string
+	image: string
+	description: string
+	status: number
+  }
+
 export interface Product {
 	id:               any;
 	cod:              string;
@@ -26,6 +34,7 @@ export interface Product {
 	default_discount?: number;
 	measure?: 		   string;
 	extra?: 		   string | any;
+	images?: 		   Image[];
 
 }
 

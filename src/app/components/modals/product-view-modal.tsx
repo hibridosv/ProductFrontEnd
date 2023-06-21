@@ -12,6 +12,7 @@ import { Alert } from "../alert/alert";
 import { ProductPrecioMultipleModal } from "./product-price-multiple-modal";
 import Link from "next/link";
 import { ProductCompoundModal } from "./product-add-compound-modal";
+import { ProductImageModal } from "./product-image-modal";
 
 export interface ProductViewModalProps {
   onClose: () => void;
@@ -27,6 +28,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
   const [type, setType] = useState("")
   const [text, setText] = useState("")
   const [isShowCompoundModal, setIsShowCompoundModal] = useState(false);
+  const [isShowImagesModal, setIsShowImagesModal] = useState(false);
 
   const getEdit = (fieldAsign: string, typeAsign: string, textAsign: string): void=>{
     setField(fieldAsign)
@@ -150,6 +152,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
                     {product?.brand?.name}
                   </dd>
                 </div>)}
+
                 {(product?.product_type === 1 && product?.measure) && (<div className="w-full md:w-1/2 px-4 py-2 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">Medidas</dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -180,6 +183,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
           { showModalEdit && <ProductUpdateModal product={product} field={field} type={type} text={text} onClose={()=> setShowModalEdit(false)} />}
           { showModalPrices && <ProductPrecioMultipleModal product={product} onClose={()=> setShowModalPrices(false)} />}
           { isShowCompoundModal && <ProductCompoundModal product={product} onClose={()=>setIsShowCompoundModal(false)} />}
+          { isShowImagesModal && <ProductImageModal product={product} onClose={()=>setIsShowImagesModal(false)} />}
           
         </div>
       </Modal.Body>
@@ -190,6 +194,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
           { product?.product_type === 1 && <Dropdown.Item icon={GrAction} onClick={()=>getEdit("minimum_stock", "number", "Cambiar Minimo en Stock")}>Minimo de Stock</Dropdown.Item>}
           { product?.product_type === 3 && <Dropdown.Item icon={GrAction} onClick={()=>setIsShowCompoundModal(true)}>Productos Asignados</Dropdown.Item>}
           <Dropdown.Item icon={GrAdd} onClick={()=>setShowModalPrices(true)}>Agregar Precios</Dropdown.Item>
+          <Dropdown.Item icon={GrAdd} onClick={()=>setIsShowImagesModal(true)}>Agregar Imagenes</Dropdown.Item>
           <Dropdown.Item icon={AiFillInfoCircle} onClick={()=>getEdit("information", "text", "Agregar información adicional")}>Información </Dropdown.Item>
         </Dropdown>}
         <Button onClick={onClose} preset={Preset.close} />

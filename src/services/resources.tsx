@@ -19,7 +19,7 @@ import { API_URL } from "../constants";
 
 
   export async function postData(url = '', method = 'POST', data = {}) {
-    // console.log("URL: ",`${API_URL}${url}`);
+    console.log("URL: ",`${API_URL}${url}`);
     const response = await fetch(API_URL + url, {
       method: method, // *GET, POST, PUT, DELETE, etc.
       mode: 'cors', // no-cors, *cors, same-origin
@@ -35,4 +35,26 @@ import { API_URL } from "../constants";
       },
     });
     return await response.json(); // parses JSON response into native JavaScript objects
+  }
+
+
+  export async function postDataWithImage(url = '', method = 'POST', data = {}) {
+    const formData = new FormData();    
+    formData.append('product_id', data?.product_id);
+    formData.append('image', data?.image[0]);
+    formData.append('description', data.description);
+    const response = await fetch(API_URL + url, {
+      method: method,
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: formData, // Utiliza el objeto FormData en lugar de JSON.stringify(data)
+      headers: {
+        'Accept': 'application/json'
+      },
+    });
+  
+    return await response.json();
   }
