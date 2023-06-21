@@ -4,6 +4,8 @@ import { Product, Products as ProductsInterface } from "../../../services/produc
 import { NothingHere } from "../nothing-here/nothing-here";
 import { IoMdOptions } from "react-icons/io";
 import {  GrClose, GrEdit, GrAction } from "react-icons/gr";
+import { MdOutlineHomeRepairService } from "react-icons/md"
+import { FaLayerGroup } from "react-icons/fa"
 import { Dropdown } from "flowbite-react";
 import { DeleteModal, ProductViewModal } from "../../components/";
 import Link from "next/link";
@@ -51,12 +53,25 @@ export function ProductsTable(props: ProductsTableProps) {
     setSelectProduct({} as Product);
   }
 
+  const productTypeIcon = (type: number)=>{
+    switch (type) {
+      case 2: return <span className="mr-2"><MdOutlineHomeRepairService size={12} color="blue" /></span>
+      case 3: return <span className="mr-2"><FaLayerGroup size={10} color="green" /></span> 
+    }
+  }
 
 
   const listItems = products.data.map((product: any) => (
     <tr key={product.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
       { !withOutRows?.includes(RowTable.cod) && <td className="py-3 px-6">{product.cod}</td>}
-      { !withOutRows?.includes(RowTable.description) && <th className="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer" scope="row" onClick={()=>showProduct(product)}>{product.description}</th>}
+      { !withOutRows?.includes(RowTable.description) && <th className="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer flex justify-items-start" scope="row" onClick={()=>showProduct(product)}>
+      
+        {productTypeIcon(product.product_type)}
+             
+      <span>
+        {product.description}
+      </span>
+        </th>}
       { !withOutRows?.includes(RowTable.prices) && <td className="py-3 px-6">{product.prices[0] ? numberToMoney(product.prices[0].price) : numberToMoney(0)}</td>}
       { !withOutRows?.includes(RowTable.quantity) && <td className="py-3 px-6">{product.quantity}</td>}
       { !withOutRows?.includes(RowTable.category) && <td className="py-3 px-6">{product.category.name}</td>}

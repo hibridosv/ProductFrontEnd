@@ -11,6 +11,7 @@ import Image from "next/image";
 import { URL } from "@/constants";
 import { DeleteModal } from "../modals/delete-modal";
 import { Loading } from "../loading/loading";
+import { Alert } from "../alert/alert";
 
 
 export interface ProductUploadImageProps {
@@ -98,10 +99,10 @@ const imageLoader = ({ src, width, quality }: any) => {
   }
 
 
-
   return (<div>
     <div className="flex justify-center mt-8">
-      <form className="max-w-lg" onSubmit={handleSubmit(onSubmit)} >
+      { images?.length >= 3 ? <Alert text="El maximo de imagnes permitodo es tres por producto" isDismisible /> :
+      (<form className="max-w-lg" onSubmit={handleSubmit(onSubmit)} >
         <div className="mb-4">
           <label htmlFor="image" className="block text-lg font-medium text-gray-700">
             Imagen
@@ -122,7 +123,7 @@ const imageLoader = ({ src, width, quality }: any) => {
               <div className="flex justify-center">
                 { isSending ? <Button disabled={true} preset={Preset.saving} /> : <Button type="submit" preset={Preset.save} /> }
               </div>
-      </form>
+      </form>)}
       <ToastContainer />
     </div>
         <div className="flex justify-center mt-8 border-blue-600">

@@ -13,6 +13,7 @@ import { ProductPrecioMultipleModal } from "./product-price-multiple-modal";
 import Link from "next/link";
 import { ProductCompoundModal } from "./product-add-compound-modal";
 import { ProductImageModal } from "./product-image-modal";
+import { ListImagesOfProducts } from "../products-components/list-images";
 
 export interface ProductViewModalProps {
   onClose: () => void;
@@ -55,9 +56,9 @@ export function ProductViewModal(props: ProductViewModalProps) {
           <h3 className="text-2xl">{product?.description}</h3>
 
           <div className="flex justify-center my-4">
-            <div className="px-4 pb-4 pt-2 mx-3 border-4 rounded-lg border-cyan-700">
+            <div className="pb-4 pt-2 sm:mx-3 mx-1 rounded-lg border-cyan-700 px-2 border-2">
               Cantidad
-              <div className="text-4xl flex justify-center">
+              <div className="sm:text-4xl flex justify-center text-2xl">
                 {product?.quantity}
               </div>
             </div>
@@ -66,18 +67,18 @@ export function ProductViewModal(props: ProductViewModalProps) {
                 animation="duration-300"
                 content={listItems}
               >
-            <div className="px-4 pb-4 pt-2 mx-3 border-4 rounded-lg border-cyan-700  text-blue-700">
+            <div className="pb-4 pt-2 sm:mx-3 mx-1 rounded-lg border-cyan-700  text-blue-700 px-2 border-2">
               Precio Unidad
-              <div className="text-4xl flex justify-center">
+              <div className="sm:text-4xl flex justify-center text-2xl">
                 {product?.prices && product.prices.length > 0 ? numberToMoney(product.prices[0].price) : numberToMoney(0)}
               </div>
               </div>
               </Tooltip>
 
             
-            <div className="px-4 pb-4 pt-2 mx-3 border-4 rounded-lg border-cyan-700">
+            <div className="pb-4 pt-2 sm:mx-3 mx-1 rounded-lg border-cyan-700 px-2 border-2">
               Min Stock
-              <div className="text-4xl flex justify-center">
+              <div className="sm:text-4xl flex justify-center text-2xl">
                 {product?.minimum_stock}
               </div>
             </div>
@@ -85,20 +86,20 @@ export function ProductViewModal(props: ProductViewModalProps) {
           {/* listado de cosas  */}
 
           <div className="max-w-2xl overflow-hidden bg-white shadow sm:rounded-lg">
-            <div className="px-4 py-5 sm:px-6">
+            <div className="px-4 py-2 sm:px-6">
               <h3 className="text-lg font-medium leading-6 text-gray-900">
                 Detalles e información del producto
               </h3>
             </div>
             <div className="border-t border-gray-200">
               <dl>
-                <div className="px-4 py-3 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <div className="px-4 py-2 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">Codigo</dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {product?.cod}
                   </dd>
                 </div>
-                {product?.product_type === 1 && (<div className="px-4 py-3 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                {product?.product_type === 1 && (<div className="px-4 py-2 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">
                     Categoria
                   </dt>
@@ -161,6 +162,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
                 </div>)}
                 </div>
               </dl>
+              <ListImagesOfProducts productId={product?.id} state={isShowImagesModal} />
             </div>
           </div>
 

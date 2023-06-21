@@ -11,6 +11,9 @@ import { ConfigContext } from "../../../../contexts/config-context";
 import { style } from "../../../../theme/styles";
 import { MultiPrice } from "@/app/components/products-components/multi-price";
 import { ProductCompoundModal } from "@/app/components/modals/product-add-compound-modal";
+import { ListImagesOfProducts } from "@/app/components/products-components/list-images";
+import { ProductImageModal } from "@/app/components/modals/product-image-modal";
+import { FaEdit } from "react-icons/fa";
 
 
 
@@ -26,6 +29,7 @@ import { ProductCompoundModal } from "@/app/components/modals/product-add-compou
     const [prescriptionStatus, setPrescriptionStatus] = useState<boolean>(false)
     const [isSending, setIsSending] = useState(false);
     const [isShowCompoundModal, setIsShowCompoundModal] = useState(false);
+    const [isShowImagesModal, setIsShowImagesModal] = useState(false);
   
   
     const menu = [
@@ -336,11 +340,20 @@ import { ProductCompoundModal } from "@/app/components/modals/product-add-compou
             { selectedProduct?.data ? <MultiPrice product={selectedProduct?.data} /> : <Loading /> }
 
             {(selectedProduct?.data?.product_type === 3) && (<div className="w-full px-4 py-2 bg-white">
-              <Button text="VER PRODUCTOS ASIGNADOS" preset={Preset.primary} onClick={()=>setIsShowCompoundModal(true)} isFull />
+              <Button text="VER PRODUCTOS ASIGNADOS" preset={Preset.primary}  isFull />
             </div>)}
 
           </div>) : <Loading /> }
+
+          <div className='flex justify-center text-2xl text-cyan-600'>
+            <span className='mr-3 pb-2'>Imagenes Agregadas </span>
+            <FaEdit className='cursor-pointer' onClick={()=>setIsShowImagesModal(true)} />
+          </div>
+          <ListImagesOfProducts productId={selectedProduct?.data?.id} state={isShowImagesModal} />
+
           { isShowCompoundModal && <ProductCompoundModal product={selectedProduct?.data} onClose={()=>setIsShowCompoundModal(false)} />}
+          { isShowImagesModal && <ProductImageModal product={selectedProduct?.data} onClose={()=>setIsShowImagesModal(false)} />}
+
           </div>
         </div>
         <ToastContainer />
