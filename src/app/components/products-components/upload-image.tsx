@@ -45,7 +45,7 @@ useEffect(() => {
 }, []);
 
 const imageLoader = ({ src, width, quality }: any) => {
-  return `${URL}storage/images/${src}?w=${width}&q=${quality || 75}`
+  return `${URL}storage/public/images/${src}?w=${width}&q=${quality || 75}`
 }
  
   const listItems = images?.map((image: Imagen) => (
