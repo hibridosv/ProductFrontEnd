@@ -160,21 +160,20 @@ import { FaEdit } from "react-icons/fa";
       }
       if (data.expiration) data.expires = 1;
 
-      const id = toast.loading("Guardando...")
       try {
         setIsSending(true)
         const response = await postData(`products/${params.id}`, "PUT", data);
         setMessage(response);
         if (!response.message) {
           setSelectedProdcut(response)
-          toast.update(id, { render: "Producto actualizado correctamente", type: "success", isLoading: false, autoClose: 2000 });
+          toast.success( "Producto actualizado correctamente", { autoClose: 2000 });
         } else {
-        toast.update(id, { render: "Faltan algunos datos importantes!", type: "error", isLoading: false, autoClose: 2000 });
+          toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
         }
         
       } catch (error) {
         console.error(error);
-        toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000 });
+        toast.error("Ha ocurrido un error!", { autoClose: 2000 });
       } finally{
         setIsSending(false)
       }

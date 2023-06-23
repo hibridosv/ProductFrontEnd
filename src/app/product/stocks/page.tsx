@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from "react";
-import { Loading, NothingHere, Pagination, ProductsTable, ViewTitle } from "@/app/components";
+import { Loading, Pagination, ProductsTable, RightSideProducts, ViewTitle } from "@/app/components";
 import { getData, postData } from "@/services/resources";
 import { usePagination } from "@/app/components/pagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
@@ -67,6 +67,10 @@ const deleteProduct = async (iden: number) => {
          </div>
          <div>
          <ViewTitle text="BUSQUEDA" />
+         <RightSideProducts
+                products={productos}
+                handleSearchTerm={handleSearchTerm}
+                 />
          </div>
          <ToastContainer />
 

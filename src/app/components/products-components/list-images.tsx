@@ -18,7 +18,6 @@ export function ListImagesOfProducts(props: ListImagesOfProductsProps) {
   const [ images, setImages ] = useState([])
   const [isLoading, setIsLoading] = useState(false);
   
-
   const loadImages = async () => {
     setIsLoading(true);
     try {
@@ -36,7 +35,7 @@ useEffect(() => {
         (async () => { await loadImages() })();
     }
   // eslint-disable-next-line
-}, [state]);
+}, [state, productId]);
 
 if(!images) return <Alert text="No se encuentran imagenes agregadas" isDismisible={false} />
 

@@ -132,24 +132,23 @@ export default function AddProduct() {
     if (!data.cost_price) data.cost_price = 0;
     if (!data.sale_price) data.sale_price = 0;
 
-    const id = toast.loading("Guardando...")
     try {
       setIsSending(true)
       const response = await postData(`products`, "POST", data);
       if (!response.message) {
         let newProducts = await getData("products?sort=-created_at&perPage=10");
-        toast.update(id, { render: "Producto agregado correctamente", type: "success", isLoading: false, autoClose: 2000 });
+        toast.success( "Producto agregado correctamente", { autoClose: 2000 });
         setLastProducts(newProducts)
         reset();
         setValue("product_type", 1);
       } else {
-      toast.update(id, { render: "Faltan algunos datos importantes!", type: "error", isLoading: false, autoClose: 2000 });
+        toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
       }
       setMessage(response);
       setIsShowCompoundModal(response?.data?.product_type == 3 ? true : false)
     } catch (error) {
       console.error(error);
-      toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
     } finally{
       setIsSending(false)
     }
