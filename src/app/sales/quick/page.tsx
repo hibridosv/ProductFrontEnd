@@ -93,7 +93,7 @@ export default function ViewSales() {
       order_type: 1,
       price_type: 1,
     }
-    
+    console.log(values)
     try {
       setIsSending(true)
       const response = await postData(`sales`, "POST", values);
