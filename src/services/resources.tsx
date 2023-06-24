@@ -1,5 +1,5 @@
 'use client'
-import { API_URL, ACCESS_TOKEN } from "../constants";
+import { API_URL } from "../constants";
 
   export async function getData(url = '') {
     // console.log("URL: ",`${API_URL}${url}`);
@@ -12,7 +12,6 @@ import { API_URL, ACCESS_TOKEN } from "../constants";
       referrerPolicy: 'no-referrer',
       headers: {
         'Accept': 'application/json',
-        'Authorization': ACCESS_TOKEN as string,
       },
     });
     return await response.json(); 
@@ -32,7 +31,6 @@ import { API_URL, ACCESS_TOKEN } from "../constants";
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': ACCESS_TOKEN as string,
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
@@ -55,7 +53,6 @@ import { API_URL, ACCESS_TOKEN } from "../constants";
       body: formData, // Utiliza el objeto FormData en lugar de JSON.stringify(data)
       headers: {
         'Accept': 'application/json',
-        'Authorization': ACCESS_TOKEN as string,
       },
     });
   

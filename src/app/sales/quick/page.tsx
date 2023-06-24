@@ -103,6 +103,7 @@ export default function ViewSales() {
       } else {
         toast.error(response.message, { autoClose: 2000 });
       }
+      console.log(response)
     } catch (error) {
       console.error(error);
       toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
