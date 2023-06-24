@@ -3,6 +3,7 @@ import { Navbar, Button } from "flowbite-react";
 import { useProSidebar } from "react-pro-sidebar";
 import Image from "next/image";
 import LogoImage from "../../../../public/img/logo_small.png";
+import Link from "next/link";
 
 export function Header() {
   const { toggleSidebar } = useProSidebar();
@@ -20,7 +21,7 @@ export function Header() {
           </button>
         </Navbar.Brand>
         <div className="flex md:order-2">
-          <Button>NUEVA VENTA</Button>
+          <Link href="/sales/quick"><Button >NUEVA VENTA</Button></Link>
           {/* <Navbar.Toggle /> */}
         </div>
         {/* <Navbar.Collapse>
