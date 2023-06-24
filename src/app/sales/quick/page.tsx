@@ -88,7 +88,6 @@ export default function ViewSales() {
     let values = {
       product_id: data.product_id,
       order_id: order,
-      employee_id: "997c15c9-cf01-4942-b2dd-406574a2451a",
       request_type: 2,
       delivery_type: 1,
       order_type: 1,
