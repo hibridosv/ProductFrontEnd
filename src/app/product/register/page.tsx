@@ -227,6 +227,8 @@ export default function AddProduct() {
               <textarea {...register("information", {})} rows={2} className={`${style.input} w-full`} />
               </div>
 
+              <input type="hidden" value={13} id="taxes" name="taxes"  />
+
             </div>
 
             {message.errors && (

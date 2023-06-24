@@ -17,3 +17,16 @@ export const fieldWidth = (field: string): string => {
       default: return "w-full md:w-1/2 px-3 mb-2"
     }
 }
+
+
+export const sumarTotales = (datos: any): string => {
+  let totalSuma = 0;
+
+  datos.forEach((elemento: any) => {
+    if (elemento.hasOwnProperty('total')) {
+      totalSuma += elemento.total;
+    }
+  });
+
+  return totalSuma.toFixed(2);
+}
