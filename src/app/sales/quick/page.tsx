@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
 import { SalesQuickTable } from "@/app/components/table/sales-quick-table";
 import { SalesShowOrders } from "@/app/components/sales-components/sales-show-orders";
+import { SalesPayModal } from "@/app/components/modals/sales-pay-modal";
+import { SearchIcon } from "@/theme/svg";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +18,7 @@ export default function ViewSales() {
   const [order, setOrder] = useState(null);
   const [changeOrder, setChangeOrder] = useState(false);
   const [typeOfPay, setTypeOfPay] = useState(false);
+  const [isPayModal, setIsPayModal] = useState(false);
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -45,8 +48,7 @@ export default function ViewSales() {
     try {
       const response = await postData(`sales/${iden}`, "DELETE");
       if (response.type === "successfull") {
-        setOrder(null);
-        setProductsOfInvoice([]);
+        resetOrder()
       } else {
         setProductsOfInvoice(response?.data);
       }
@@ -64,8 +66,7 @@ export default function ViewSales() {
       const response = await postData(`sales/order/${order}`, "DELETE");
       toast.success(response.message, { autoClose: 2000 });
       if (response.type !== "error") {
-        setProductsOfInvoice([]);
-        setOrder(null);
+        resetOrder()
       }
     } catch (error) {
       console.error(error);
@@ -75,11 +76,10 @@ export default function ViewSales() {
 
   const saveOrder = async () => {
     try {
-      const response = await postData(`sales/order/${order}`, "POST");
+      const response = await postData(`sales/order/save/${order}`, "POST");
       toast.success(response.message, { autoClose: 2000 });
       if (response.type !== "error") {
-        setProductsOfInvoice([]);
-        setOrder(null);
+        resetOrder()
       }
     } catch (error) {
       console.error(error);
@@ -118,7 +118,8 @@ export default function ViewSales() {
   const handleClickOption = (option: number) => {
     switch (option) {
       case 1:
-        setTypeOfPay(true);
+        setIsPayModal(true);
+        console.log("Pagar")
         break;
       case 2:
         saveOrder();
@@ -132,9 +133,25 @@ export default function ViewSales() {
     }
   };
 
-  const handleChangeOrder = (order: any): void => {
-    setOrder(order);
-    setChangeOrder(!changeOrder);
+  const resetOrder = () =>{
+    setProductsOfInvoice([]);
+    setOrder(null);
+    setIsPayModal(false)
+  }
+
+  const handleChangeOrder = async (order: any) => {
+    try {
+      const response = await postData(`sales/order/select/${order}`, "POST");
+      if (response.type !== "error") {
+        setOrder(order);
+        setChangeOrder(!changeOrder);
+      } else {
+        toast.error(response.message, { autoClose: 2000 });
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    }
   };
 
   return (
@@ -151,21 +168,7 @@ export default function ViewSales() {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <svg
-                    aria-hidden="true"
-                    className="w-5 h-5 text-gray-500 dark:text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    ></path>
-                  </svg>
+                 { SearchIcon }
                 </div>
                 <input
                   type="text"
@@ -202,6 +205,7 @@ export default function ViewSales() {
         </div>
       </div>
       <ToastContainer />
+      { isPayModal && <SalesPayModal invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} /> }
     </div>
   );
 }

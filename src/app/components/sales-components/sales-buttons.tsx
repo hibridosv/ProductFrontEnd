@@ -16,7 +16,7 @@ export function SalesButtons(props: SalesButtonsProps) {
            <div>
             <Button.Group>
             <Dropdown
-            label={<Button color="gray" positionInGroup='start'><IoMdOptions className='mr-1' /> Opciones</Button>}
+            label={<div className='button-left-grey'><IoMdOptions className='mr-1' /> Opciones</div>}
             inline={true}
             arrowIcon={false}>
               <Dropdown.Item onClick={()=>onClick(11)}> Agregar Descuento </Dropdown.Item>

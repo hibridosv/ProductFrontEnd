@@ -4,6 +4,8 @@ import { getData } from "@/services/resources";
 import { Loading } from "../loading/loading";
 import { ListGroup } from "flowbite-react";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
+import Image from "next/image";
+import { URL } from "@/constants";
 
 export interface SalesShowOrdersProps {
     onClick: (option: any) => void;
@@ -35,6 +37,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
 
   if (isLoading) return <Loading />;
 
+  if (orders.length ===0 ) return <Image src={`${URL}/images/logo/logoGV.png`} alt="Logo" width={500} height={500}  />
   return (
     <div className="mx-3 sm:mt-3">
       <ListGroup>

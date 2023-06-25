@@ -3,10 +3,11 @@ import { sumarTotales } from "@/utils/functions";
 export interface SalesShowTotalProps {
  records?: any
  isSending?: boolean
+ showAllData?: boolean
 }
 
 export function SalesShowTotal(props: SalesShowTotalProps) {
-  const { records, isSending } = props;
+  const { records, isSending, showAllData } = props;
  
 
   if (!records) return <></>
@@ -19,9 +20,9 @@ export function SalesShowTotal(props: SalesShowTotalProps) {
       <div className="flex justify-center">TOTAL</div>
       <div className={texStyle}>$ {sumarTotales(records)}</div>
     </div>
-    <div className='flex justify-between border-2 border-sky-500'>
-      <span className='mx-2 text-sm font-semibold cursor-pointer click'>FACTURA</span> 
-      <span className='mx-2 text-sm font-semibold cursor-pointer click'>EFECTIVO</span>
-    </div>
+    { !showAllData && <div className='flex justify-between border-2 border-sky-500'>
+      <span className='mx-2 text-sm font-bold animatex'>FACTURA</span> 
+      <span className='mx-2 text-sm font-bold animatex'>EFECTIVO</span>
+    </div> }
     </>);
 }
