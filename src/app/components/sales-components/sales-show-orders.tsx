@@ -37,7 +37,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
 
   if (isLoading) return <Loading />;
 
-  if (orders.length ===0 ) return <Image src={`${URL}/images/logo/logoGV.png`} alt="Logo" width={500} height={500}  />
+  if (orders.length ===0 ) return <Image src={`${URL}/images/logo/hibrido.png`} alt="Logo" width={500} height={500}  />
   return (
     <div className="mx-3 sm:mt-3">
       <ListGroup>
