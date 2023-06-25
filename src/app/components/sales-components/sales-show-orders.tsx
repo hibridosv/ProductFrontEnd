@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { getData } from "@/services/resources";
 import { Loading } from "../loading/loading";
 import { ListGroup } from "flowbite-react";
+import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 
 export interface SalesShowOrdersProps {
     onClick: (option: any) => void;
@@ -42,7 +43,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
 
       {orders.map((order: any, index: any) => (
                 <ListGroup.Item key={index} onClick={()=>onClick(order.id)}>
-                {order.employee.name}
+                  <div className="w-full flex justify-between"><span className="uppercase">{order.employee.name}</span> <span>{ formatDateAsDMY(order.created_at)} | { formatHourAsHM(order.created_at)}</span></div>
                 </ListGroup.Item>
             ))}      
     </ListGroup>

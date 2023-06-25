@@ -41,6 +41,7 @@ export default function ViewSales() {
 
 
   const deleteProduct = async (iden: number) => {
+    setIsSending(true)
     try {
       const response = await postData(`sales/${iden}`, 'DELETE');
       if (response.type === 'successfull'){
@@ -53,7 +54,9 @@ export default function ViewSales() {
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!");
-    } 
+    } finally {
+      setIsSending(false)
+    }
   }
 
   const deleteOrder = async () => {
@@ -93,7 +96,7 @@ export default function ViewSales() {
       order_type: 1,
       price_type: 1,
     }
-    console.log(values)
+    
     try {
       setIsSending(true)
       const response = await postData(`sales`, "POST", values);
@@ -103,7 +106,7 @@ export default function ViewSales() {
       } else {
         toast.error(response.message, { autoClose: 2000 });
       }
-      console.log(response)
+
     } catch (error) {
       console.error(error);
       toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
@@ -189,7 +192,7 @@ export default function ViewSales() {
             <div className="col-span-4 flex justify-center ">
               
               <div className="w-full">
-              { order ? <SalesShowTotal records={productsOfInvoice?.invoiceproducts} /> : <SalesShowOrders onClick={handleChangeOrder} /> }
+              { order ? <SalesShowTotal isSending={isSending} records={productsOfInvoice?.invoiceproducts} /> : <SalesShowOrders onClick={handleChangeOrder} /> }
               </div>              
               <div className="absolute bottom-2">
               { order && <SalesButtons onClick={handleClickOption} />}
