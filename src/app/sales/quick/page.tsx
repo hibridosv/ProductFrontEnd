@@ -119,7 +119,6 @@ export default function ViewSales() {
     switch (option) {
       case 1:
         setIsPayModal(true);
-        console.log("Pagar")
         break;
       case 2:
         saveOrder();
