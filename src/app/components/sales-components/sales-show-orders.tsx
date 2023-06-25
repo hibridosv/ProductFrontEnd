@@ -13,7 +13,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   const { onClick } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [orders, setOrders] = useState([]) as any;
-  
+
   const loadAllOrders = async () => {
     setIsLoading(true);
     try {
@@ -25,28 +25,33 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
       setIsLoading(false);
     }
   };
-  
+
   useEffect(() => {
-    (async () => { await loadAllOrders() })();
-  // eslint-disable-next-line
+    (async () => {
+      await loadAllOrders();
+    })();
+    // eslint-disable-next-line
   }, []);
 
-  if (isLoading) return <Loading />
-
+  if (isLoading) return <Loading />;
 
   return (
-    <div className='mx-3 sm:mt-3'>
-    <ListGroup>
-      <ListGroup.Item active >
-        ORDENES PENDIENTES
-      </ListGroup.Item>
+    <div className="mx-3 sm:mt-3">
+      <ListGroup>
+        <ListGroup.Item active>ORDENES PENDIENTES</ListGroup.Item>
 
-      {orders.map((order: any, index: any) => (
-                <ListGroup.Item key={index} onClick={()=>onClick(order.id)}>
-                  <div className="w-full flex justify-between"><span className="uppercase">{order.employee.name}</span> <span>{ formatDateAsDMY(order.created_at)} | { formatHourAsHM(order.created_at)}</span></div>
-                </ListGroup.Item>
-            ))}      
-    </ListGroup>
+        {orders.map((order: any, index: any) => (
+          <ListGroup.Item key={index} onClick={() => onClick(order.id)}>
+            <div className="w-full flex justify-between">
+              <span className="uppercase">{order.employee.name}</span>{" "}
+              <span>
+                {formatDateAsDMY(order.created_at)} |{" "}
+                {formatHourAsHM(order.created_at)}
+              </span>
+            </div>
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
     </div>
-    );
+  );
 }

@@ -16,6 +16,12 @@
   }
 }
 
+.click a:active { /* Movimiento al dar clic a un enlace o boton*/
+  position: relative;
+  opacity: 0.5;
+  top: 5px;
+}
+
 /* body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(

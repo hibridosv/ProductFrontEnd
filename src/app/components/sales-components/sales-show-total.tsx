@@ -12,11 +12,16 @@ export function SalesShowTotal(props: SalesShowTotalProps) {
   if (!records) return <></>
   if (records.length == 0) return <></>
 
-  const texStyle = isSending ? "flex justify-center text-7xl mb-4 text-gray-500" : "flex justify-center text-7xl mb-4"; 
+  const texStyle = isSending ? "flex justify-center text-7xl mb-4 text-gray-500 animate-pulse" : "flex justify-center text-7xl mb-4"; 
 
-  return (
-  <div className='w-full my-4 shadow-neutral-600 border-cyan-600 border shadow-lg'>
-        <div className="flex justify-center">TOTAL</div>
-        <div className={texStyle}>$ { sumarTotales(records)}</div>
-</div>);
+  return (<>
+    <div className="w-full my-4 shadow-neutral-600 border-cyan-600 border shadow-lg">
+      <div className="flex justify-center">TOTAL</div>
+      <div className={texStyle}>$ {sumarTotales(records)}</div>
+    </div>
+    <div className='flex justify-between border-2 border-sky-500'>
+      <span className='mx-2 text-sm font-semibold cursor-pointer click'>FACTURA</span> 
+      <span className='mx-2 text-sm font-semibold cursor-pointer click'>EFECTIVO</span>
+    </div>
+    </>);
 }
