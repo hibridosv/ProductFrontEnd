@@ -191,7 +191,7 @@ export default function ViewSales() {
             </div>
             <div className="col-span-4 flex justify-center ">
               
-              <div className="w-full">
+              <div className="w-full mx-4">
               { order ? <SalesShowTotal isSending={isSending} records={productsOfInvoice?.invoiceproducts} /> : <SalesShowOrders onClick={handleChangeOrder} /> }
               </div>              
               <div className="absolute bottom-2">

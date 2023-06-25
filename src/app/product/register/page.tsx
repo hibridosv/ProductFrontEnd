@@ -113,6 +113,7 @@ export default function AddProduct() {
           })) : [];
         }
 
+        setValue("taxes", 13)
         setFieldsModified(FieldsFormProduct);
         setLastProducts(products)
         setIsLoading(false);
@@ -227,7 +228,7 @@ export default function AddProduct() {
               <textarea {...register("information", {})} rows={2} className={`${style.input} w-full`} />
               </div>
 
-              <input type="hidden" value={13} id="taxes" name="taxes"  />
+              <input type="hidden" id="taxes" {...register("taxes")}  />
 
             </div>
 
