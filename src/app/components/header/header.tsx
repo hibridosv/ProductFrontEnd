@@ -4,6 +4,7 @@ import { useProSidebar } from "react-pro-sidebar";
 import Image from "next/image";
 import LogoImage from "../../../../public/img/logo_small.png";
 import Link from "next/link";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 export function Header() {
   const { toggleSidebar } = useProSidebar();
@@ -16,9 +17,10 @@ export function Header() {
         className="border-solid border-2 border-b-sky-500"
       >
         <Navbar.Brand>
-          <button className="sb-button" onClick={() => toggleSidebar()}>
+          <GiHamburgerMenu onClick={() => toggleSidebar()} size={40} />
+          {/* <button className="sb-button" onClick={() => toggleSidebar()}>
             <Image src={LogoImage} alt="Logo" />
-          </button>
+          </button> */}
         </Navbar.Brand>
         <div className="flex md:order-2">
           <Link href="/sales/quick"><Button >NUEVA VENTA</Button></Link>
