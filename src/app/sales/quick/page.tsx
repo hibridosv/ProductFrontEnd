@@ -34,6 +34,22 @@ export default function ViewSales() {
     }
   };
 
+
+  const loadLastInvoice = async () => {
+    setIsLoading(true);
+    try {
+      const response = await getData(`sales/order/select`);
+      setProductsOfInvoice(response.data);
+      setOrder(response.data.id);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
+
   useEffect(() => {
     if (order) {
       (async () => {
@@ -42,6 +58,15 @@ export default function ViewSales() {
     }
     // eslint-disable-next-line
   }, [changeOrder]);
+
+  useEffect(() => {
+    if (!order) {
+      (async () => {
+        await loadLastInvoice();
+      })();
+    }
+    // eslint-disable-next-line
+  }, []);
 
   const deleteProduct = async (iden: number) => {
     setIsSending(true);

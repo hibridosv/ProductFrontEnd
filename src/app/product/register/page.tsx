@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ViewTitle, Alert, Loading, ProductsTable } from "../../components";
 import { RowTable } from "../../components/table/products-table";
 import { useForm } from "react-hook-form";
@@ -25,8 +25,7 @@ export default function AddProduct() {
   const [discountStatus, setDiscountStatus] = useState<boolean>(false);
   const [prescriptionStatus, setPrescriptionStatus] = useState<boolean>(false);
   const [isSending, setIsSending] = useState(false);
-  const [isShowCompoundModal, setIsShowCompoundModal] =
-    useState<boolean>(false);
+  const [isShowCompoundModal, setIsShowCompoundModal] = useState<boolean>(false);
 
   const menu = [
     { name: "VER PRODUCTOS", link: "/product" },
@@ -217,7 +216,7 @@ export default function AddProduct() {
       <div className="col-span-2">
         <ViewTitle text="NUEVO PRODUCTO" links={menu} />
         {!isLoading ? (
-          <div className="w-full p-4">
+          <div className="w-full px-4">
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
               <div className="flex flex-wrap -mx-3 mb-6">
                 {fieldsModified.map((field: any) => getField(field))}

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import React, { useState } from "react";
 import { Product, Price } from "@/services/products";
 import { Dropdown, Modal, Tooltip, Button as Boton } from "flowbite-react";
 import { Button, Preset } from "../button/button"
