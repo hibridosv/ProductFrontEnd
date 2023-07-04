@@ -37,7 +37,7 @@ export const FieldsFormProduct = [
     style: "medio",
   },
   {
-    id: "cost_price",
+    id: "unit_cost",
     type: "number",
     name: "Precio de Costo",
     style: "medio",

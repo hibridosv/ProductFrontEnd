@@ -126,11 +126,11 @@ import { FaEdit } from "react-icons/fa";
   
           setFieldsModified(FieldsFormProduct);
           setSelectedProdcut(product)
-          setIsLoading(false);
-
         } catch (error) {
           console.error(error);
-        } 
+        } finally {
+          setIsLoading(false);
+        }
       })();
       // eslint-disable-next-line
     }, []);
@@ -179,11 +179,14 @@ import { FaEdit } from "react-icons/fa";
       }
     };
 
+  if (isLoading) return (<Loading />)
+
+
     return (
       <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
         <div className="col-span-2 border-r-2">
           <ViewTitle text="ACTUALIZAR PRODUCTO" links={menu} />
-          { !isLoading ? (
+
             <div className="w-full p-4">
               <form onSubmit={handleSubmit(onSubmit)} className="w-full">
   
@@ -317,14 +320,14 @@ import { FaEdit } from "react-icons/fa";
               </div>
             </form>
             </div>
-          ) : <Loading /> }
+  
   
         </div>
         <div className="col-span-2">
 
         
           <div className="w-full p-4 border-l-2">
-          { !isLoading ? (<div>
+            <div>
             {selectedProduct?.data?.product_type != 1 && (
               <div className="w-full px-3 mb-2">
                 
@@ -342,7 +345,7 @@ import { FaEdit } from "react-icons/fa";
               <Button text="VER PRODUCTOS ASIGNADOS" preset={Preset.primary}  isFull />
             </div>)}
 
-          </div>) : <Loading /> }
+          </div>
 
           <div className='flex justify-center text-2xl text-cyan-600'>
             <span className='mr-3 pb-2'>Imagenes Agregadas </span>

@@ -21,7 +21,7 @@ export function KardexTable(props: KardexTableProps) {
     <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
       <td className="py-3 px-6">{ formatDateAsDMY(record.created_at) }</td>
       <th className="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer" scope="row">{ record.description }</th>
-      <td className="py-3 px-6">{ record.unit_price }</td>
+      <td className="py-3 px-6">{ record.unit_cost }</td>
       <td className="py-3 px-6">{ record.qty_in ? record.qty_in : 0 }</td>
       <td className="py-3 px-6">{ numberToMoney(record.total_in ? record.total_in : 0) }</td>
       <td className="py-3 px-6">{ record.qty_out ? record.qty_out : 0 }</td>

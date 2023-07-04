@@ -22,6 +22,7 @@ export const textPresets = {
   send: "Enviar",
   saving: "Guardando",
   smallClose: "",
+  smallCloseDisable: "",
 }
 
 
@@ -36,6 +37,7 @@ export const stylePresets = {
     send: `${BASE} bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200`,
     saving: `${BASE} bg-slate-600 hover:bg-slate-700 focus:ring-slate-500 focus:ring-offset-slate-200`,
     smallClose: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
+    smallCloseDisable: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
   }
 
 export const iconPresets = {
@@ -49,4 +51,5 @@ export const iconPresets = {
     send: <AiOutlineSend className="mr-3"/>,
     saving: <ImSpinner5 className="-p-4 mr-3 animate-spin" />,
     smallClose: <AiOutlineCloseCircle color="red" size={25} />,
+    smallCloseDisable: <AiOutlineCloseCircle color="grey" size={25} />,
   }

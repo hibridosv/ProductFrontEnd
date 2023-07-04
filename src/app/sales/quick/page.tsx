@@ -10,6 +10,7 @@ import { SalesQuickTable } from "@/app/components/table/sales-quick-table";
 import { SalesShowOrders } from "@/app/components/sales-components/sales-show-orders";
 import { SalesPayModal } from "@/app/components/modals/sales-pay-modal";
 import { SearchIcon } from "@/theme/svg";
+import { Loading } from "@/app/components";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -177,6 +178,8 @@ export default function ViewSales() {
       toast.error("Ha ocurrido un error!");
     }
   };
+
+  if (isLoading) return (<Loading />)
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">

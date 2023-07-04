@@ -38,7 +38,7 @@ export function ProductExpirationTable(props: ProductExpirationTableProps) {
       <td className="py-3 px-6">{ record.product.cod }</td>
       <th className="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer" scope="row" onClick={()=>showProduct(record.product)}>{ record.product.description }</th>
       <td className="py-3 px-6">{ record.actual_stock }</td>
-      <td className="py-3 px-6">{ numberToMoney(record.cost_price ? record.cost_price : 0) }</td>
+      <td className="py-3 px-6">{ numberToMoney(record.unit_cost ? record.unit_cost : 0) }</td>
       <td className="py-3 px-6 truncate">{ formatDateAsDMY(record.expiration) }</td>
       <td className="py-3 px-6 truncate">{ status(record.expiration) }</td>
     </tr>

@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from "react";
-import { ViewTitle } from "@/app/components";
+import { Loading, ViewTitle } from "@/app/components";
 import { getData } from "../../../services/resources";
 import { useSearchTerm } from "../../../hooks/useSearchTerm";
 import Link from "next/link";
@@ -33,7 +33,7 @@ export default function DamagePage() {
     }, [searchTerm]);
 
     const listItems = products?.map((product: any):any => (
-        <Link key={product.id} href={`/product/damage/${product.id}`}>
+        <Link key={product.id} href={`/product/failure/${product.id}`}>
             <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800">
             {product.cod} | {product.description}
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"

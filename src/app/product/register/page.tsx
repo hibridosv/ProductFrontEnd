@@ -116,9 +116,10 @@ export default function AddProduct() {
         setValue("taxes", 13);
         setFieldsModified(FieldsFormProduct);
         setLastProducts(products);
-        setIsLoading(false);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     })();
     // eslint-disable-next-line
@@ -130,7 +131,7 @@ export default function AddProduct() {
       data.minimum_stock = 1;
     }
     if (data.expiration) data.expires = 1;
-    if (!data.cost_price) data.cost_price = 0;
+    if (!data.unit_cost) data.unit_cost = 0;
     if (!data.sale_price) data.sale_price = 0;
 
     try {
@@ -211,11 +212,13 @@ export default function AddProduct() {
     return null;
   };
 
+  if (isLoading) return (<Loading />)
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
       <div className="col-span-2">
         <ViewTitle text="NUEVO PRODUCTO" links={menu} />
-        {!isLoading ? (
+
           <div className="w-full px-4">
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
               <div className="flex flex-wrap -mx-3 mb-6">
@@ -283,9 +286,8 @@ export default function AddProduct() {
               </div>
             </form>
           </div>
-        ) : (
-          <Loading />
-        )}
+
+
       </div>
       <div className="col-span-2">
         <ViewTitle text="ULTIMOS PRODUCTOS" />
