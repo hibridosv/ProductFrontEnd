@@ -70,7 +70,6 @@ useEffect(() => {
 }, [product]);
 
 const handleProductSelected = (product: any)=>{
-  console.log(product)
   setProductSelected(product)
   setProducts([])
 }
@@ -120,7 +119,6 @@ useEffect(() => {
     const id = toast.loading("Guardando...")
     try {
       setIsSending(true)
-      console.log("Data: ", data)
       const response = await postData(`composed`, "POST", data);
       if (!response.message) {
         toast.update(id, { render: "Producto agregado correctamente", type: "success", isLoading: false, autoClose: 2000 });

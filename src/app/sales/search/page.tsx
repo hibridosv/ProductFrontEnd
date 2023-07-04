@@ -78,7 +78,6 @@ useEffect(() => {
         if (!order) setOrder(response.data.id)
         setProductsOfInvoice(response)
         setProducts([]);
-        console.log(response)
       } else {
         toast.error(response.message, { autoClose: 2000 });
       }

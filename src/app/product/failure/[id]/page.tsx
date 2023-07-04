@@ -24,7 +24,6 @@ export default function InsertProduct({ params }: { params: { id: number } }) {
       try {
         const product = await getData(`products/${id}`);
         const failures = await getData(`failure`);
-        console.log(product);
         setSelectedProdcut(product.data);
         setFailure(failures);
       } catch (error) {
@@ -43,6 +42,8 @@ export default function InsertProduct({ params }: { params: { id: number } }) {
       const response = await postData(`failure`, "POST", data);
       if (!response.message) {
         setFailure(response);
+        const product = await getData(`products/${id}`);
+        setSelectedProdcut(product.data);
         toast.success("Producto agregado correctamente", { autoClose: 2000 });
         reset();
       } else {
@@ -65,6 +66,8 @@ export default function InsertProduct({ params }: { params: { id: number } }) {
       } else {
         toast.success("Registro Eliminado", { autoClose: 2000 });
         setFailure(response);
+        const product = await getData(`products/${id}`);
+        setSelectedProdcut(product.data);
       }
     } catch (error) {
       console.error(error);
@@ -134,40 +137,27 @@ export default function InsertProduct({ params }: { params: { id: number } }) {
 
         <h3 className="text-2xl">{selectedProduct?.description}</h3>
 <div className="border-t border-gray-200">
-  <dl>
-    <div className="px-4 py-2 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-      <dt className="text-sm font-medium text-gray-500">Codigo</dt>
-      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        {selectedProduct?.cod}
-      </dd>
+
+    <div className='flex justify-between px-4 py-2 bg-gray-50 border border-slate-200'>
+      <div className="text-lg font-medium text-gray-500">Codigo</div>
+      <div className="mt-1 text-lg text-gray-900 font-bold">{selectedProduct?.cod}</div>
     </div>
-  </dl>
-  <dl>
-    <div className="px-4 py-2 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-      <dt className="text-sm font-medium text-gray-500">Cantidad</dt>
-      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-      {selectedProduct?.quantity}
-      </dd>
+    <div className='flex justify-between px-4 py-2 bg-gray-50 border border-slate-200'>
+      <div className="text-lg font-medium text-gray-500">Cantidad</div>
+      <div className={`mt-1 text-lg font-bold ${selectedProduct?.quantity <= selectedProduct?.minimum_stock ? 'text-red-600' : 'text-gray-900'}`}>{selectedProduct?.quantity}</div>
     </div>
-  </dl>
-  <dl>
-    <div className="px-4 py-2 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-      <dt className="text-sm font-medium text-gray-500">Precio por Unidad</dt>
-      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-        {selectedProduct?.prices && selectedProduct.prices.length > 0
-        ? numberToMoney(selectedProduct.prices[0].price)
-        : numberToMoney(0)}
-      </dd>
+    <div className='flex justify-between px-4 py-2 bg-gray-50 border border-slate-200'>
+      <div className="text-lg font-medium text-gray-500">Precio por Unidad</div>
+      <div className="mt-1 text-lg text-gray-900 font-bold">
+          {selectedProduct?.prices && selectedProduct.prices.length > 0
+            ? numberToMoney(selectedProduct.prices[0].price)
+            : numberToMoney(0)}</div>
     </div>
-  </dl>
-  <dl>
-    <div className="px-4 py-2 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-      <dt className="text-sm font-medium text-gray-500">Minimo Stock</dt>
-      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-      {selectedProduct?.minimum_stock}
-      </dd>
+    <div className='flex justify-between px-4 py-2 bg-gray-50 border border-slate-200'>
+      <div className="text-lg font-medium text-gray-500">Minimo Stock</div>
+      <div className="mt-1 text-lg text-gray-900 font-bold">{selectedProduct?.minimum_stock}</div>
     </div>
-  </dl>
+
 </div>
 
       </div>

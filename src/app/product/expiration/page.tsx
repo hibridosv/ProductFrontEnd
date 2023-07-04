@@ -55,7 +55,6 @@ useEffect(() => {
   // eslint-disable-next-line
 }, []);
 
-console.log(expirations)
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
            <div className="col-span-3">

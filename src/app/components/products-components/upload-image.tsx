@@ -40,9 +40,11 @@ export function ProductUploadImage(props: ProductUploadImageProps) {
 };
 
 useEffect(() => {
-        (async () => { await loadImages() })();
+        if (product) {
+          (async () => { await loadImages() })();
+        }
   // eslint-disable-next-line
-}, []);
+}, [product]);
 
 const imageLoader = ({ src, width, quality }: any) => {
   return `${URL}storage/public/images/${src}?w=${width}&q=${quality || 75}`

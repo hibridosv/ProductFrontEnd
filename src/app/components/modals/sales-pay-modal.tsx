@@ -39,6 +39,14 @@ export function SalesPayModal(props: SalesPayModalProps) {
     setFocus('cash')
   }, [setFocus])
 
+  const handleFinish = ()=> {
+    setIsPayInvoice(false)
+    setDataInvoice({})
+    if (onFinish) {
+      onFinish()
+    }
+  }
+
   const onSubmit = async (data: any) => {
     let values = {
       order_id: invoice?.id,
@@ -58,7 +66,6 @@ export function SalesPayModal(props: SalesPayModalProps) {
           onFinish()
         }
       }
-      console.log(response)
     } catch (error) {
       console.error(error);
       toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
@@ -75,7 +82,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
       <Modal.Body>
         <div className="mx-4">
       { isPayInvoice ? 
-      <div onClick={onFinish} className='cursor-pointer'>
+      <div onClick={handleFinish} className='cursor-pointer'>
         <div className="w-full my-4">
           <div  className='flex justify-between  border-y-4'>
             <div><span className="flex justify-center">Descuentos</span> <span className="flex justify-center">{numberToMoney(dataInvoice?.discount)}</span></div>
@@ -141,7 +148,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
               </div> }
       <Modal.Footer className="flex justify-end">
         { isPayInvoice ?
-        <Button onClick={onFinish} preset={Preset.close} isFull /> :
+        <Button onClick={handleFinish} preset={Preset.close} isFull /> :
         <Button onClick={onClose} preset={Preset.close} /> }
         <ToastContainer />
       </Modal.Footer>
