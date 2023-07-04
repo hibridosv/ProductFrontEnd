@@ -16,10 +16,11 @@ import { Loading } from "../loading/loading";
 export interface ProductCompoundProps {
   onClose: () => void;
   product?: Product | any;
+  isShow?: boolean;
 }
 
 export function ProductCompoundModal(props: ProductCompoundProps) {
-  const { onClose, product } = props;
+  const { onClose, product, isShow } = props;
   const { searchTerm, handleSearchTerm } = useSearchTerm()
   const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]);
@@ -30,9 +31,8 @@ export function ProductCompoundModal(props: ProductCompoundProps) {
   const [lastProductsCompound, setLastProductsCompound] = useState<any>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectProduct, setSelectProduct] = useState<Product>({} as Product);
-
-
-const loadProductsBySearch = async () => {
+  
+  const loadProductsBySearch = async () => {
     try {
       const response = await getData(`search/forcompounds?sort=-created_at${searchTerm}`);
       setProducts(response.data);
@@ -40,7 +40,7 @@ const loadProductsBySearch = async () => {
       console.error(error);
     } finally {
     }
-};
+  };
 
 const loadProductsCompound = async () => {
     setIsLoading(true);
@@ -55,48 +55,50 @@ const loadProductsCompound = async () => {
 };
 
 useEffect(() => {
-    if (searchTerm) {
-        (async () => { await loadProductsBySearch() })();
-    }
+  if (searchTerm) {
+    (async () => { await loadProductsBySearch() })();
+  }
   // eslint-disable-next-line
 }, [searchTerm]);
 
 
 useEffect(() => {
-        (async () => { await loadProductsCompound() })();
+  if (product) {
+    (async () => { await loadProductsCompound() })();
+  }
   // eslint-disable-next-line
-}, []);
+}, [product]);
 
 const handleProductSelected = (product: any)=>{
-    console.log(product)
-    setProductSelected(product)
-    setProducts([])
+  console.log(product)
+  setProductSelected(product)
+  setProducts([])
 }
 
 const cancelSelected = ()=>{
-    setProductSelected(null)
-    setProducts([])
+  setProductSelected(null)
+  setProducts([])
 }
 
 useEffect(() => {
-    if (productSelected) {
-        focusInQuantity.current.focus();
-    }
+  if (productSelected) {
+    focusInQuantity.current.focus();
+  }
   // eslint-disable-next-line
-  },[handleQuantity])
+},[handleQuantity])
 
   const isDeleteProduct = (product:Product) => {
     setSelectProduct(product);
     setShowDeleteModal(true);
   }
-
+  
   const handleDeleteProduct = () => {
     deleteProduct(selectProduct.id);
     setShowDeleteModal(false);
     setSelectProduct({} as Product);
-
+    
   }
-
+  
   const deleteProduct = async (iden: number) => {
     const id = toast.loading("Eliminando...")
     try {
@@ -108,9 +110,9 @@ useEffect(() => {
       toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000 });
     } 
   }
-
-
-const onSubmit = async ()=>{
+  
+  
+  const onSubmit = async ()=>{
     let data:any = {};
     data.product_id = product.id
     data.quantity = handleQuantity
@@ -125,7 +127,7 @@ const onSubmit = async ()=>{
         await loadProductsCompound()
         cancelSelected()
       } else {
-      toast.update(id, { render: "Faltan algunos datos importantes!", type: "error", isLoading: false, autoClose: 2000 });
+        toast.update(id, { render: "Faltan algunos datos importantes!", type: "error", isLoading: false, autoClose: 2000 });
       }
     } catch (error) {
       console.error(error);
@@ -133,10 +135,10 @@ const onSubmit = async ()=>{
     } finally{
       setIsSending(false)
     }
-}
-
-const listItems = products?.map((product: any):any => (
-        <li onClick={()=>handleProductSelected(product)} key={product.id} className="text-ellipsis flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800">
+  }
+  
+  const listItems = products?.map((product: any):any => (
+    <li onClick={()=>handleProductSelected(product)} key={product.id} className="text-ellipsis flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800">
         {product.cod} | {product.description}
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -155,7 +157,7 @@ const listProducts = lastProductsCompound?.map((product: any):any => (
 
 
   return (
-    <Modal size="lg" show={true} position="center" onClose={onClose}>
+    <Modal size="lg" show={isShow} position="center" onClose={onClose}>
       <Modal.Header>Agregar producto compuesto</Modal.Header>
       <Modal.Body>
         { isLoading ? <Loading /> : (<>

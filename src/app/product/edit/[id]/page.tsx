@@ -342,7 +342,7 @@ import { FaEdit } from "react-icons/fa";
             { selectedProduct?.data ? <MultiPrice product={selectedProduct?.data} /> : <Loading /> }
 
             {(selectedProduct?.data?.product_type === 3) && (<div className="w-full px-4 py-2 bg-white">
-              <Button text="VER PRODUCTOS ASIGNADOS" preset={Preset.primary}  isFull />
+              <Button onClick={()=>setIsShowCompoundModal(true)} text="VER PRODUCTOS ASIGNADOS" preset={Preset.primary}  isFull />
             </div>)}
 
           </div>
@@ -353,7 +353,7 @@ import { FaEdit } from "react-icons/fa";
           </div>
           <ListImagesOfProducts productId={selectedProduct?.data?.id} state={isShowImagesModal} />
 
-          { isShowCompoundModal && <ProductCompoundModal product={selectedProduct?.data} onClose={()=>setIsShowCompoundModal(false)} />}
+          <ProductCompoundModal isShow={isShowCompoundModal} product={selectedProduct?.data} onClose={()=>setIsShowCompoundModal(false)} />
           { isShowImagesModal && <ProductImageModal product={selectedProduct?.data} onClose={()=>setIsShowImagesModal(false)} />}
 
           </div>

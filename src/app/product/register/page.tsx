@@ -306,12 +306,13 @@ export default function AddProduct() {
         </div>
       </div>
       <ToastContainer />
-      {isShowCompoundModal && (
+
         <ProductCompoundModal
+          isShow={isShowCompoundModal}
           product={message.data}
           onClose={() => setIsShowCompoundModal(false)}
         />
-      )}
+
     </div>
   );
 }

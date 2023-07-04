@@ -61,6 +61,6 @@ export function ProductExpirationTable(props: ProductExpirationTableProps) {
       <tbody>{listItems}</tbody>
     </table>
  </div>
- { showProductDetail && <ProductViewModal product={selectProduct} onClose={()=>setShowProductDetail(false)}  />}
+ <ProductViewModal isShow={showProductDetail} product={selectProduct} onClose={()=>setShowProductDetail(false)}  />
  </div>);
 }

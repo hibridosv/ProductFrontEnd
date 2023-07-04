@@ -14,6 +14,7 @@ export interface SalesPayModalProps {
   invoice?: any;
   editable?: boolean;
   onFinish?: () => void;
+  isShow?: boolean;
 }
 
 export const nameOfPaymentType = (type: number) => {
@@ -27,7 +28,7 @@ export const nameOfPaymentType = (type: number) => {
 }
 
 export function SalesPayModal(props: SalesPayModalProps) {
-  const { onClose, invoice, editable = false, onFinish } = props;
+  const { onClose, invoice, editable = false, onFinish, isShow } = props;
   const [paymentType, setPaymentType] = useState(1);
   const { register, handleSubmit, reset, setFocus } = useForm();
   const [isSending, setIsSending] = useState(false);
@@ -70,7 +71,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
 
 
   return (
-    <Modal show={true} position="center" onClose={onClose} size="md">
+    <Modal show={isShow} position="center" onClose={onClose} size="md">
       <Modal.Body>
         <div className="mx-4">
       { isPayInvoice ? 

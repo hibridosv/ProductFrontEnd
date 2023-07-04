@@ -232,7 +232,7 @@ export default function ViewSales() {
         </div>
       </div>
       <ToastContainer />
-      { isPayModal && <SalesPayModal invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} /> }
+      <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} />
     </div>
   );
 }

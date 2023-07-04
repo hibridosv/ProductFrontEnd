@@ -114,12 +114,13 @@ export function ProductsTable(props: ProductsTableProps) {
           onDelete={handleDeleteProduct} 
           onClose={()=>setShowDeleteModal(false)} /> }
 
-    { showProductDetail && 
+   
           <ProductViewModal 
           onClose={()=>setShowProductDetail(false)} 
           product={selectProduct}
           editable
-          /> }
+          isShow={showProductDetail}
+          /> 
  </div>
  );
 }

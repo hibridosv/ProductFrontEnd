@@ -19,10 +19,11 @@ export interface ProductViewModalProps {
   onClose: () => void;
   product?: Product;
   editable?: boolean;
+  isShow?: boolean;
 }
 
 export function ProductViewModal(props: ProductViewModalProps) {
-  const { onClose, product, editable = false } = props;
+  const { onClose, product, editable = false, isShow } = props;
   const [showModalEdit, setShowModalEdit] = useState(false)
   const [showModalPrices, setShowModalPrices] = useState(false)
   const [field, setField] = useState("")
@@ -49,7 +50,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
   ));
 
   return (
-    <Modal show={true} position="center" onClose={onClose}>
+    <Modal show={isShow} position="center" onClose={onClose}>
       <Modal.Header>Detalles del Producto</Modal.Header>
       <Modal.Body>
         <div className="mx-4">
@@ -184,7 +185,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
           {/* Modales  */}
           { showModalEdit && <ProductUpdateModal product={product} field={field} type={type} text={text} onClose={()=> setShowModalEdit(false)} />}
           { showModalPrices && <ProductPrecioMultipleModal product={product} onClose={()=> setShowModalPrices(false)} />}
-          { isShowCompoundModal && <ProductCompoundModal product={product} onClose={()=>setIsShowCompoundModal(false)} />}
+          <ProductCompoundModal isShow={isShowCompoundModal} product={product} onClose={()=>setIsShowCompoundModal(false)} />
           { isShowImagesModal && <ProductImageModal product={product} onClose={()=>setIsShowImagesModal(false)} />}
           
         </div>
