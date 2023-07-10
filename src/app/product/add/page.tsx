@@ -1,9 +1,8 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
-import { Alert, NothingHere, ProductsTable, ViewTitle } from "@/app/components";
+import React, { useState, useEffect } from "react";
+import { Alert, Loading, ViewTitle } from "@/app/components";
 import { useForm } from "react-hook-form";
 import { postData, getData } from "@/services/resources";
-import { RowTable } from "../../components/table/products-table";
 import { Button, Preset } from "@/app/components/button/button";
 import { style } from "@/theme";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
@@ -11,7 +10,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SearchIcon } from "@/theme/svg";
 import { Product } from "@/services/products";
-import { numberToMoney } from "@/utils/functions";
 import { Contacts } from "@/services/Contacts";
 import { ProductRegisterTable } from "@/app/components/table/product-register-table";
 
@@ -32,7 +30,6 @@ export default function ProductAdd() {
     data.product_id = productSelected.id
     data.actual_stock = data.quantity
     try {
-      setIsSending(true);
       const response = await postData(`products/add`, "POST", data);
       if (!response.message) {
         setProductSelected({} as Product)
@@ -41,12 +38,11 @@ export default function ProductAdd() {
         toast.success("Producto agregado correctamente", { autoClose: 2000 });
       } else {
         toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
+        setMessage(response);
       }
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!", { autoClose: 2000 });
-    } finally {
-      setIsSending(false);
     }
   }
 
@@ -64,15 +60,12 @@ export default function ProductAdd() {
 };
 
   const loadProductsSearch = async () => {
-    setIsLoading(true);
     try {
       const response = await getData(`sales/get-products?sort=-created_at${searchTerm}`);
       setProducts(response.data);
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    } 
 };
 
 const loadLastRegisters = async () => {
@@ -129,6 +122,10 @@ useEffect(() => {
       setIsLoading(false)
     }
   }
+
+  
+  if (isLoading) return (<Loading />)
+
   const listItems = products?.map((product: any):any => (
     <div key={product.id} onClick={()=>handleClickOnProduct(product.id)}>
         <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
@@ -140,6 +137,7 @@ useEffect(() => {
         </li>
     </div>
   ))
+
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">

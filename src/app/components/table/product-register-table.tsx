@@ -1,9 +1,8 @@
-'use client'
 import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 
 interface ProductRegisterProps {
-  records?:  any;
+  records:  any;
 }
 
 export function ProductRegisterTable(props: ProductRegisterProps) {
@@ -12,7 +11,7 @@ export function ProductRegisterTable(props: ProductRegisterProps) {
   if (!records) return <NothingHere widht="164" height="98" text="Agregue un producto" />;
   if (records.length == 0) return <NothingHere text="Agregue un producto" widht="164" height="98" />;
 
-  const listItems = records.map((record: any) => (
+  const listItems = records?.map((record: any) => (
     <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
       <td className="py-2 px-2 truncate uppercase">{ record?.product?.description }</td>
       <td className="py-2 px-2">{ record?.quantity }</td>
