@@ -106,7 +106,6 @@ useEffect(() => {
 
   const handleClickOnProduct = async (productId: string) =>{
     try {
-      setIsLoading(true)
       const response = await getData(`products/${productId}`);
       if (!response.message) {
         setProductSelected(response.data)
@@ -118,8 +117,6 @@ useEffect(() => {
     } catch (error) {
       console.error(error);
       toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
-    } finally{
-      setIsLoading(false)
     }
   }
 
@@ -246,7 +243,7 @@ useEffect(() => {
                 </div>
 
               { productSelected?.id && (<>
-                <div className='font-bold text-xl text-teal-700'>{productSelected?.description}</div>
+                <div className='w-full font-bold text-xl text-teal-700'>{productSelected?.description}</div>
                 <div className="w-full md:w-1/2 px-3 mb-2">
                     <label htmlFor="quantity" className={style.inputLabel}>
                       Cantidad
