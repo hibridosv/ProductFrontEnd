@@ -11,7 +11,7 @@ export interface ViewTitleProps {
 export function ViewTitle(props: ViewTitleProps) {
   const { text, links } = props;
   return (
-    <div className="grid grid-cols-12 content-between">
+    <div className="w-full grid grid-cols-12 content-between">
       <div className="col-span-11 m-4 text-2xl text-sky-900 font-bold">
         {text}
       </div>

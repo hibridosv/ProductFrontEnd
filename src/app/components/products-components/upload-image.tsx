@@ -30,7 +30,7 @@ export function ProductUploadImage(props: ProductUploadImageProps) {
   const loadImages = async () => {
     setIsLoading(true);
     try {
-      const response = await getData(`image/${product.id}`);
+      const response = await getData(`images/${product.id}`);
       setImages(response.data);
     } catch (error) {
       console.error(error);
@@ -63,7 +63,7 @@ const imageLoader = ({ src, width, quality }: any) => {
     const id = toast.loading("Agregando...");
     try {
       setIsSending(true)
-      const response = await postDataWithImage("image", "POST", data);
+      const response = await postDataWithImage("images", "POST", data);
       if (!response.message) {
         toast.update(id, { render: "Imagen Agregada correctamente", type: "success", isLoading: false, autoClose: 2000,});
         setImages(response.data)
@@ -89,7 +89,7 @@ const imageLoader = ({ src, width, quality }: any) => {
   const deleteImage = async (iden: any) => {
     const id = toast.loading("Eliminando...")
     try {
-      const response = await postData(`image/${imageSelect}`, 'DELETE');
+      const response = await postData(`images/${imageSelect}`, 'DELETE');
       toast.update(id, { render: response.message, type: "success", isLoading: false, autoClose: 2000 });
       await loadImages()
       setShowDeleteModal(false);

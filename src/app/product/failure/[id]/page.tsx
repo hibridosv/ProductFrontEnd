@@ -23,7 +23,7 @@ export default function InsertProduct({ params }: { params: { id: number } }) {
       setIsLoading(true);
       try {
         const product = await getData(`products/${id}`);
-        const failures = await getData(`failure`);
+        const failures = await getData(`failures`);
         setSelectedProdcut(product.data);
         setFailure(failures);
       } catch (error) {
@@ -39,7 +39,7 @@ export default function InsertProduct({ params }: { params: { id: number } }) {
     data.product_id = selectedProduct?.id
     try {
       setIsSending(true);
-      const response = await postData(`failure`, "POST", data);
+      const response = await postData(`failures`, "POST", data);
       if (!response.message) {
         setFailure(response);
         const product = await getData(`products/${id}`);
@@ -60,7 +60,7 @@ export default function InsertProduct({ params }: { params: { id: number } }) {
 
   const deleteRecord = async (iden: string) => {
     try {
-      const response = await postData(`failure/${iden}`, 'DELETE');
+      const response = await postData(`failures/${iden}`, 'DELETE');
       if(response?.type === "error"){
         toast.error(response.message, { autoClose: 2000 });
       } else {

@@ -192,7 +192,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         { editable && <Dropdown label={<FaEdit size="1.2em" />} inline={true} >
-          <Dropdown.Item><Link href={`product/edit/${product?.id}`}>EDITAR PRODUCTO</Link></Dropdown.Item>
+          <Dropdown.Item><Link href={`/product/edit/${product?.id}`}>EDITAR PRODUCTO</Link></Dropdown.Item>
           <Dropdown.Item icon={GrEdit} onClick={()=>getEdit("description", "text", "Cambiar Nombre")}>Cambiar Nombre</Dropdown.Item>    
           { product?.product_type === 1 && <Dropdown.Item icon={GrAction} onClick={()=>getEdit("minimum_stock", "number", "Cambiar Minimo en Stock")}>Minimo de Stock</Dropdown.Item>}
           { product?.product_type === 3 && <Dropdown.Item icon={GrAction} onClick={()=>setIsShowCompoundModal(true)}>Productos Asignados</Dropdown.Item>}
