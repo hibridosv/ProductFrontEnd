@@ -34,8 +34,8 @@ export function ProductsTable(props: ProductsTableProps) {
   const [showProductDetail, setShowProductDetail] = useState(false);
   const [selectProduct, setSelectProduct] = useState<Product>({} as Product);
 
-  if (!products.data) return <NothingHere widht="164" height="98" />;
-  if (products.data.length == 0) return <NothingHere text="No se encontraron datos" widht="164" height="98" />;
+  if (!products.data) return <NothingHere width="164" height="98" />;
+  if (products.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
 
   const isDeleteProduct = (product:Product) => {

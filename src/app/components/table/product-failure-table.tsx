@@ -16,8 +16,8 @@ export function ProductFailureTable(props: ProductFailureTableProps) {
   const [selectRecord, setSelectRecord] = useState("");
 
 
-  if (!records) return <NothingHere widht="164" height="98" text="No existen registros" />;
-  if (records.length == 0) return <NothingHere text="No existen registros" widht="164" height="98" />;
+  if (!records) return <NothingHere width="164" height="98" text="No existen registros" />;
+  if (records.length == 0) return <NothingHere text="No existen registros" width="164" height="98" />;
 
 
   

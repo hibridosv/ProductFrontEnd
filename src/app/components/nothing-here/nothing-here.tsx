@@ -1,16 +1,16 @@
 interface NothingHereProps{
     text?: string;
     color?: string;
-    widht?: string;
+    width?: string;
     height?: string;
 }
 export function NothingHere(props: NothingHereProps){
-    const { text = "No hay nada aquí",  widht="329", height="197" } = props;
+    const { text = "No hay nada aquí",  width="329", height="197" } = props;
 
     return (
         <div className="w-full justify-items-center align-middle mt-10">
             <div className="flex justify-center">
-            <svg width={`${widht}px`} height={`${height}px`} viewBox="0 0 329 197" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <svg width={`${width}px`} height={`${height}px`} viewBox="0 0 329 197" version="1.1" xmlns="http://www.w3.org/2000/svg">
                     <title>Group 2</title>
                     <desc>Created with Sketch.</desc>
                     <g id="Page-2" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">

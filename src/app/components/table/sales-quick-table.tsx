@@ -11,8 +11,8 @@ interface SalesQuickProps {
 export function SalesQuickTable(props: SalesQuickProps) {
   const { records, onDelete } = props;
 
-  if (!records) return <NothingHere widht="164" height="98" text="Agregue un producto" />;
-  if (records.length == 0) return <NothingHere text="Agregue un producto" widht="164" height="98" />;
+  if (!records) return <NothingHere width="164" height="98" text="Agregue un producto" />;
+  if (records.length == 0) return <NothingHere text="Agregue un producto" width="164" height="98" />;
 
   const listItems = records.map((record: any) => (
     <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >

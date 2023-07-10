@@ -17,8 +17,8 @@ export function ProductExpirationTable(props: ProductExpirationTableProps) {
   const [selectProduct, setSelectProduct] = useState<Product>({} as Product);
 
 
-  if (!records.data) return <NothingHere widht="164" height="98" />;
-  if (records.data.length == 0) return <NothingHere text="No se encontraron datos" widht="164" height="98" />;
+  if (!records.data) return <NothingHere width="164" height="98" />;
+  if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
   const showProduct = (product:Product) => {
     setSelectProduct(product);
