@@ -35,6 +35,7 @@ export default function ProductAdd() {
         setProductSelected({} as Product)
         setValue("quantity", null)
         setValue("unit_cost", null)
+        setLastProducts(response.data);
         toast.success("Producto agregado correctamente", { autoClose: 2000 });
       } else {
         toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
