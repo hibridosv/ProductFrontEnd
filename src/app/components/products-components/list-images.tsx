@@ -21,7 +21,7 @@ export function ListImagesOfProducts(props: ListImagesOfProductsProps) {
   const loadImages = async () => {
     setIsLoading(true);
     try {
-      const response = await getData(`image/${productId}`);
+      const response = await getData(`images/${productId}`);
       setImages(response.data);
     } catch (error) {
       console.error(error);
