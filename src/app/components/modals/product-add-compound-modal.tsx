@@ -38,8 +38,7 @@ export function ProductCompoundModal(props: ProductCompoundProps) {
       setProducts(response.data);
     } catch (error) {
       console.error(error);
-    } finally {
-    }
+    } 
   };
 
 const loadProductsCompound = async () => {

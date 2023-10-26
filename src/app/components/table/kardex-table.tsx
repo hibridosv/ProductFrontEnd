@@ -20,12 +20,12 @@ export function KardexTable(props: KardexTableProps) {
   const listItems = records.data.map((record: any) => (
     <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
       <td className="py-3 px-6">{ formatDateAsDMY(record.created_at) }</td>
-      <th className="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer" scope="row">{ record.description }</th>
+      <th className="py-3 px-6 font-medium text-gray-900 whitespace-nowrap" scope="row">{ record.description }</th>
       <td className="py-3 px-6">{ record.unit_cost }</td>
-      <td className="py-3 px-6">{ record.qty_in ? record.qty_in : 0 }</td>
-      <td className="py-3 px-6">{ numberToMoney(record.total_in ? record.total_in : 0) }</td>
-      <td className="py-3 px-6">{ record.qty_out ? record.qty_out : 0 }</td>
-      <td className="py-3 px-6">{ numberToMoney(record.total_out ? record.total_out : 0) }</td>
+      <td className={`py-3 px-6 ${record.qty_in && 'text-red-600'}`}>{ record.qty_in ? record.qty_in : 0 }</td>
+      <td className={`py-3 px-6 ${record.total_in && 'text-red-600'}`}>{ numberToMoney(record.total_in ? record.total_in : 0) }</td>
+      <td className={`py-3 px-6 ${record.qty_out && 'text-blue-500'}`}>{ record.qty_out ? record.qty_out : 0 }</td>
+      <td className={`py-3 px-6 ${record.total_out && 'text-blue-500'}`}>{ numberToMoney(record.total_out ? record.total_out : 0) }</td>
       <td className="py-3 px-6">{ record.qty_balance ? record.qty_balance : 0 }</td>
       <td className="py-3 px-6">{ numberToMoney(record.total_balance ? record.total_balance : 0) }</td>
     </tr>
