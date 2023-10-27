@@ -45,12 +45,9 @@ export function AddCategoriesModal(props: AddCategoriesModalProps) {
         // eslint-disable-next-line
     }, []);
 
-    useEffect(() => {
-        setFocus('name', {shouldSelect: true})
-    }, [setFocus, isShow, isCategory])
 
     
-    const PrincipalCategories = categories.filter(item => item.category_type === "1");
+  const PrincipalCategories = categories.filter(item => item.category_type === "1");
 
   const onSubmit = async (data: any) => {
     data.category_type = isCategory ? 1 : 2;
@@ -74,6 +71,11 @@ export function AddCategoriesModal(props: AddCategoriesModalProps) {
       setIsSending(false)
     }
   };
+
+  useEffect(() => {
+    setFocus('name', {shouldSelect: true})
+  }, [setFocus, isShow, isCategory, onSubmit])
+
 
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>

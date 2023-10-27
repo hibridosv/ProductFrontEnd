@@ -59,17 +59,16 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/product/kardex" />}>
             Kardex
           </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/product/config" />}>
-            Opciones y Configuraciones
-          </MenuItem>
         </SubMenu>
 
         {/* <MenuItem icon={<HiGlobe />}>Dashboard</MenuItem> */}
         <SubMenu label="Configuraciones" icon={<HiOutlineChartSquareBar />}>
-          <MenuItem icon={<HiOutlineChartSquareBar />} component={<Link href="/config" />}>
+          <MenuItem component={<Link className="text-sm" href="/config" />}>
             Principal
           </MenuItem>
-          <MenuItem icon={<HiOutlineChartSquareBar />}>invoices</MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/config/product" />}>
+            Productos
+          </MenuItem>
         </SubMenu>
       </Menu>
     </Sidebar>

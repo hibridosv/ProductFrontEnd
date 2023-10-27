@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from 'react'
 
-import { NothingHere, ViewTitle } from "@/app/components";
+import { ViewTitle } from "@/app/components";
 import { ListGroup } from "flowbite-react";
 import { BiCategoryAlt, BiCurrentLocation } from "react-icons/bi";
 import { GiWeight } from "react-icons/gi";
@@ -9,6 +9,7 @@ import { TbBrandOnlyfans } from "react-icons/tb";
 import { AiFillCrown } from "react-icons/ai";
 import { QuantityUnitList } from '@/app/components/products-components/quantity-units-list';
 import { CategoryAddList } from '@/app/components/products-components/category-add-list';
+import { BrandAddList } from '@/app/components/products-components/brand-add-list';
 
 
 export default function Config() {
@@ -59,6 +60,7 @@ export default function Config() {
              <ViewTitle text={getNameOption(screen).toUpperCase()} />
               <QuantityUnitList option={screen} />
               <CategoryAddList option={screen} />
+              <BrandAddList option={screen} />
       </div>
 
    </div>
