@@ -8,6 +8,9 @@ import { ToggleSwitch } from "flowbite-react";
 import { ViewTitle } from "../view-title/view-title";
 import { Category } from "@/services/products";
 import { Button, Preset } from "../button/button";
+import { ListCategories } from "./list-categories";
+import { AddCategoriesModal } from "../modals/add-categories-modal";
+import { DeleteModal } from "../modals/delete-modal";
 
 
 export interface CategoryAddListProps {
@@ -16,15 +19,18 @@ export interface CategoryAddListProps {
 
 export function CategoryAddList(props: CategoryAddListProps) {
   const { option } = props;
-  const [ categorys, setCategorys ] = useState<Category[]>([])
+  const [ categories, setCategories ] = useState<Category[]>([])
   const [isLoading, setIsLoading] = useState(false);
+  const [showModalCategories, setShowModalCategories] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [categorySelect, setCategorySelect] = useState("");
 
 
   const loadCategories = async () => {
     setIsLoading(true);
     try {
       const response = await getData(`categoriesfull`);
-      setCategorys(response.data);
+      setCategories(response.data);
     } catch (error) {
         console.error(error);
     } finally {
@@ -33,70 +39,52 @@ export function CategoryAddList(props: CategoryAddListProps) {
 };
 
 useEffect(() => {
-    if (option === 1) {
+    if (option === 1 && showModalCategories === false) {
         (async () => { await loadCategories() })();
     }
     // eslint-disable-next-line
-}, [option]);
+}, [option, showModalCategories]);
+
+const handleDelete = (iden: string) => {
+  setCategorySelect(iden);
+  setShowDeleteModal(true);
+}
 
 
-const PrincipalCategories = categorys.filter(item => item.category_type === "1");
-const SecondaryCategories = categorys.filter(item => item.category_type === "2");
 
-
-console.log("Categorias: ", categorys);
-
+const deleteCategory = async (iden: any) => {
+  try {
+    const response = await postData(`categories/${categorySelect}`, 'DELETE');
+    if (response.type === "successfull") {
+      toast.success( "Categoria eliminada correctamente", { autoClose: 2000 });
+      await loadCategories()
+    } else {
+      toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
+    }
+    setCategorySelect("");
+    setShowDeleteModal(false);
+  } catch (error) {
+    console.error(error);
+    toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
+  } 
+}
 
 
 if (option != 1) return null
-if(isLoading) return <Loading />
 
   return (
-<div className="grid grid-cols-1 md:grid-cols-4 pb-10">
-      <div className="col-span-2">
-        <ViewTitle text="AGREGAR CATEGORIAS"  />
-          <div className="w-full px-4">
-            Categoria
-            <form action="">
-
-            </form>
-          </div>
-      </div>
-      <div className="col-span-2">
-        <ViewTitle text="CATEGORIAS EXISTENTES" />
-        <div className="w-full p-4">
-        {categorys.map((item: any) => (
-            <div key={item.id}>
-                <div className='grid grid-cols-12 border-y-2 bg-slate-100' >
-                    <div className='col-span-10 m-1 ml-2 font-semibold'>{item.name.toUpperCase()}</div>
-                    <div className='col-span-2 m-1'>
-                        {
-                        item?.subcategories.length || item?.principal == 1? 
-                        <Button preset={Preset.smallCloseDisable} noText disabled  /> : 
-                        <Button preset={Preset.smallClose} noText onClick={() => console.log("click", item.id)}  />
-                        }
-                    </div>
+        <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
+            <div className="col-span-3">
+              <Button isFull text="Agregar nueva categoría" preset={Preset.accept} onClick={() => setShowModalCategories(true)} />
+              { isLoading ? <Loading /> : <ListCategories categories={categories} onDelete={handleDelete} /> }
                 </div>
-                {
-                item?.subcategories.map((sub: any) => (
-                    <div className='grid grid-cols-12 border-y-2' key={sub.id}>
-                        <div className='col-span-10 m-1 ml-4 font-semibold'>- {sub.name.toUpperCase()}</div>
-                        <div className='col-span-2 m-1'>
-                        {
-                        sub?.principal == 1 ? 
-                        <Button preset={Preset.smallCloseDisable} noText disabled  /> : 
-                        <Button preset={Preset.smallClose} noText onClick={() => console.log("click", sub.id)}  />
-                        }
-                        </div>
-                    </div>
-                ))
-                }
-            </div>
-            ))}
+              { !isLoading && <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} /> }
+              { showDeleteModal && 
+              <DeleteModal
+              text="¿Está seguro de eliminar esta categoría?"
+              onDelete={deleteCategory} 
+              onClose={()=>setShowDeleteModal(false)} /> }
+              <ToastContainer />
         </div>
-      </div>
-      <ToastContainer />
-
-    </div>
   );
 }

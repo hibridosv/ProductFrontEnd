@@ -1,15 +1,17 @@
 import { Dropdown } from "flowbite-react";
 import { IoMdOptions } from "react-icons/io";
 import Link from 'next/link';
+import { ReactElement } from "react";
 
 
 export interface ViewTitleProps {
   text: string;
   links?: {} | any;
+  content?: ReactElement;
 }
 
 export function ViewTitle(props: ViewTitleProps) {
-  const { text, links } = props;
+  const { text, links, content } = props;
   return (
     <div className="w-full grid grid-cols-12 content-between">
       <div className="col-span-11 m-4 text-2xl text-sky-900 font-bold">
@@ -29,6 +31,7 @@ export function ViewTitle(props: ViewTitleProps) {
             ))}
           </Dropdown>
         )}
+        { content }
       </div>
     </div>
   );

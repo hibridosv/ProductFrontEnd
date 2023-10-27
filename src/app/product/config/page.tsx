@@ -20,7 +20,7 @@ export default function Config() {
 
   const getNameOption = (type: number = 1): any =>{
       switch (type) {
-        case 1: return "Categorias"
+        case 1: return "Categorías"
         case 2: return "Unidades de Medida"
         case 3: return "Marcas"
         case 4: return "Caracteristicas"
