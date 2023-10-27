@@ -19,7 +19,7 @@ export interface AddCategoriesModalProps {
 
 export function AddCategoriesModal(props: AddCategoriesModalProps) {
   const { onClose, isShow } = props;
-  const { register, handleSubmit, resetField } = useForm();
+  const { register, handleSubmit, resetField, setFocus } = useForm();
   const [isSending, setIsSending] = useState(false);
   const [isCategory, setIsCategory] = useState(true);
   const [message, setMessage] = useState<any>({});
@@ -45,6 +45,11 @@ export function AddCategoriesModal(props: AddCategoriesModalProps) {
         // eslint-disable-next-line
     }, []);
 
+    useEffect(() => {
+        setFocus('name', {shouldSelect: true})
+    }, [setFocus, isShow, isCategory])
+
+    
     const PrincipalCategories = categories.filter(item => item.category_type === "1");
 
   const onSubmit = async (data: any) => {

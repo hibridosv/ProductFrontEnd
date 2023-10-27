@@ -37,7 +37,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
 
   useEffect(() => {
     setFocus('cash')
-  }, [setFocus])
+  }, [setFocus, isShow, paymentType])
 
   const handleFinish = ()=> {
     setIsPayInvoice(false)
