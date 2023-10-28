@@ -25,7 +25,6 @@ export function CategoryAddList(props: CategoryAddListProps) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [categorySelect, setCategorySelect] = useState("");
 
-
   const loadCategories = async () => {
     setIsLoading(true);
     try {
@@ -50,8 +49,6 @@ const handleDelete = (iden: string) => {
   setShowDeleteModal(true);
 }
 
-
-
 const deleteCategory = async (iden: any) => {
   try {
     const response = await postData(`categories/${categorySelect}`, 'DELETE');
@@ -69,7 +66,6 @@ const deleteCategory = async (iden: any) => {
   } 
 }
 
-
 if (option != 1) return null
 
   return (
@@ -77,7 +73,7 @@ if (option != 1) return null
             <div className="col-span-3">
               <Button isFull text="Agregar nueva categoría" preset={Preset.accept} onClick={() => setShowModalCategories(true)} />
               { isLoading ? <Loading /> : <ListCategories categories={categories} onDelete={handleDelete} /> }
-                </div>
+            </div>
               { !isLoading && <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} /> }
               { showDeleteModal && 
               <DeleteModal

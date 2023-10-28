@@ -30,3 +30,12 @@ export const sumarTotales = (datos: any): string => {
 
   return totalSuma.toFixed(2);
 }
+
+/**
+ * Esta funcion genera un numero random
+ * @param max numero maximo
+ * @returns numero random
+ */
+export const getRandomInt = (max: number): number => {
+  return Math.floor(Math.random() * max);
+}

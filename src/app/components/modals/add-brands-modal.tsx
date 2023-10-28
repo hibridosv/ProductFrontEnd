@@ -7,56 +7,50 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useForm } from "react-hook-form";
 import { getData, postData } from "@/services/resources";
 import { style } from "@/theme";
-import { Button as Boton } from "flowbite-react";
-import { Category } from "@/services/products";
+import { Provider } from "@/services/products";
 import { Alert } from "../alert/alert";
 import { Loading } from "../loading/loading";
 import { getRandomInt } from "@/utils/functions";
 
-export interface AddCategoriesModalProps {
+export interface AddBrandsModalProps {
   onClose: () => void;
   isShow?: boolean;
 }
 
-export function AddCategoriesModal(props: AddCategoriesModalProps) {
+export function AddBrandsModal(props: AddBrandsModalProps) {
   const { onClose, isShow } = props;
   const { register, handleSubmit, resetField, setFocus } = useForm();
   const [isSending, setIsSending] = useState(false);
-  const [isCategory, setIsCategory] = useState(true);
   const [message, setMessage] = useState<any>({});
-  const [ categories, setCategories ] = useState<Category[]>([])
+  const [providers, setProviders ] = useState<Provider[]>([])
   const [isLoading, setIsLoading] = useState(false);
   const [submited, setSubmited] = useState(getRandomInt(100));
 
-  const loadCategories = async () => {
+  const loadProviders = async () => {
         setIsLoading(true);
         try {
-        const response = await getData(`categories`);
-        setCategories(response.data);
+        const response = await getData(`contacts/providers`);
+        setProviders(response.data);
         } catch (error) {
             console.error(error);
         } finally {
             setIsLoading(false);
         }
-  };
+    };
 
-  useEffect(() => {
-        (async () => { await loadCategories() })();
+    useEffect(() => {
+        (async () => { 
+            await loadProviders()
+         })();
         // eslint-disable-next-line
-  }, []);
-
-  const PrincipalCategories = categories.filter(item => item.category_type === "1");
+    }, []);
 
   const onSubmit = async (data: any) => {
-    data.category_type = isCategory ? 1 : 2;
-    data.dependable = isCategory ? null : data.categoria
-    data.pronoun = data.name;
     try {
       setIsSending(true)
-      const response = await postData("categories", "POST", data);
+      const response = await postData("brands", "POST", data);
       if (!response.message) {
-        toast.success( "Categoría Agregada correctamente", { autoClose: 2000 });
-        if (isCategory) loadCategories()
+        toast.success( "Marca Agregada correctamente", { autoClose: 2000 });
         resetField("name")
       } else {
         toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
@@ -73,7 +67,7 @@ export function AddCategoriesModal(props: AddCategoriesModalProps) {
 
   useEffect(() => {
     setFocus('name', {shouldSelect: true})
-  }, [setFocus, isShow, isCategory, submited])
+  }, [setFocus, isShow, submited])
 
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
@@ -82,43 +76,29 @@ export function AddCategoriesModal(props: AddCategoriesModalProps) {
 
     { isLoading ? <Loading /> : <>
 
-      <Boton.Group outline className="w-full">
-        <Boton gradientDuoTone="cyanToBlue" fullSized={true} onClick={() => setIsCategory(true)} >
-          Categoría
-        </Boton>
-        <Boton gradientDuoTone="cyanToBlue" fullSized={true} onClick={() => setIsCategory(false)} >
-          Sub Categoría
-        </Boton>
-      </Boton.Group>
-
       <form className="max-w-lg mt-4" onSubmit={handleSubmit(onSubmit)} >
-
-
-      { !isCategory && 
-      <div className="w-full md:w-full px-3 mb-4">
-          <label htmlFor="categoria" className={style.inputLabel}>
-            Categoria
-          </label>
-            <select
-              defaultValue={PrincipalCategories[0]?.id}
-              id="categoria"
-              {...register("categoria")}
-              className={style.input}
-            >
-              {PrincipalCategories.map((value: any) => {
-                return (
-                  <option key={value.id} value={value.id}>
-                    {value.name}
-                  </option>
-                );
-              })}
-            </select>
-        </div> }
-
-
+        
+            <div className="w-full md:w-full px-3 mb-4">
+            <label htmlFor="provider_id" className={style.inputLabel}>
+                Proveedores
+            </label>
+                <select
+                id="provider_id"
+                {...register("provider_id")}
+                className={style.input}
+                >
+                {providers.map((value: any) => {
+                    return (
+                    <option key={value.id} value={value.id}>
+                        {value.name}
+                    </option>
+                    );
+                })}
+                </select>
+            </div>
 
             <div className="w-full md:w-full px-3 mb-4">
-              <label htmlFor="name" className={style.inputLabel} >{ isCategory ? "Nombre de la categoría" : "Nombre de la sub Categoría" } </label>
+              <label htmlFor="name" className={style.inputLabel} >Nombre de la Marca </label>
               <input {...register("name", {})} className={`${style.input} w-full`} />
             </div>
 
