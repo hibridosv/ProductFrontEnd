@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import { ViewTitle } from "@/app/components";
 import { ListGroup } from "flowbite-react";
@@ -10,10 +10,18 @@ import { AiFillCrown } from "react-icons/ai";
 import { QuantityUnitList } from '@/app/components/products-components/quantity-units-list';
 import { CategoryAddList } from '@/app/components/products-components/category-add-list';
 import { BrandAddList } from '@/app/components/products-components/brand-add-list';
+import { ConfigContext } from "../../../contexts/config-context";
+import { getConfigStatus } from "@/utils/functions";
+import { AttributeAddList } from '@/app/components/products-components/attribute-add-list';
+import { LocationAddList } from '@/app/components/products-components/location-add-list';
 
 
 export default function Config() {
   const [screen, setScreen ] = useState(1)
+  const [brandStatus, setBrandStatus] = useState<boolean>(false);
+  const [attributesStatus, setAttributesStatus] = useState<boolean>(false);
+  const [locationsStatus, setLocationsStatus] = useState<boolean>(false);
+  const { config } = useContext(ConfigContext);
 
   const selectOptionType = (type: number = 1): any =>{
     setScreen(type)
@@ -29,6 +37,13 @@ export default function Config() {
       }
   }
   
+  useEffect(() => {
+    setBrandStatus(getConfigStatus("product-brand", config));
+    setAttributesStatus(getConfigStatus("product-attribute-active", config));
+    setLocationsStatus(getConfigStatus("product-lotation-multiple", config));
+    // eslint-disable-next-line
+  }, [config]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
         <div className="col-span-1">
@@ -44,23 +59,28 @@ export default function Config() {
             <ListGroup.Item icon={GiWeight} onClick={()=>selectOptionType(2)} active={screen == 2 ? true : false}>
             {getNameOption(2)}
             </ListGroup.Item>
+            {brandStatus && 
             <ListGroup.Item icon={TbBrandOnlyfans} onClick={()=>selectOptionType(3)} active={screen == 3 ? true : false}>
             {getNameOption(3)}
-            </ListGroup.Item>
+            </ListGroup.Item> }
+            {attributesStatus && 
             <ListGroup.Item icon={AiFillCrown} onClick={()=>selectOptionType(4)} active={screen == 4 ? true : false}>
             {getNameOption(4)}
-            </ListGroup.Item>
+            </ListGroup.Item> }
+            {locationsStatus && 
             <ListGroup.Item icon={BiCurrentLocation} onClick={()=>selectOptionType(5)} active={screen == 5 ? true : false}>
             {getNameOption(5)}
-            </ListGroup.Item>
+            </ListGroup.Item> }
           </ListGroup>
           </div>
         </div>
       <div className="col-span-3">
-             <ViewTitle text={getNameOption(screen).toUpperCase()} />
-              <QuantityUnitList option={screen} />
-              <CategoryAddList option={screen} />
-              <BrandAddList option={screen} />
+          <ViewTitle text={getNameOption(screen).toUpperCase()} />
+          <QuantityUnitList option={screen} />
+          <CategoryAddList option={screen} />
+          <BrandAddList option={screen} />
+          <AttributeAddList option={screen} />
+          <LocationAddList option={screen} />
       </div>
 
    </div>

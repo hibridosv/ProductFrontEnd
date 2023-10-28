@@ -4,8 +4,6 @@ import { getData, postData } from "@/services/resources";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Loading } from "../loading/loading";
-import { ToggleSwitch } from "flowbite-react";
-import { ViewTitle } from "../view-title/view-title";
 import { Category } from "@/services/products";
 import { Button, Preset } from "../button/button";
 import { ListCategories } from "./list-categories";

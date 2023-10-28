@@ -15,6 +15,8 @@ export function QuantityUnitList(props: QuantityUnitListProps) {
   const { option } = props;
   const [ units, setUnits ] = useState([])
   const [isLoading, setIsLoading] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [selectId, setSelectId] = useState("");
 
 
   const loadQuantityUnits = async () => {
@@ -38,6 +40,8 @@ useEffect(() => {
 
 
 const updateStatus = async (key : string, status : number) => {
+  setIsSending(true)
+  setSelectId(key)
     try {
         const response = await postData(`quantityunits/${key}`, 'PUT', {"status": status});
         setUnits(response.data);
@@ -47,21 +51,26 @@ const updateStatus = async (key : string, status : number) => {
         console.error(error);
         toast.error("Error al actualizar!", { autoClose: 2000 });
         }  
+    finally {
+      setIsSending(false)
+      setSelectId("")
+    }
 }
 
 if (option != 2) return null
 if(isLoading) return <Loading />
 
   return (
-        <div className="mx-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
+            <div className="col-span-3">
              {units.map((item: any, index: any) => (
-                <div className='grid grid-cols-12 border-y-2' key={index}>
-                  <div className='col-span-10 m-3 ml-10 font-semibold'>{item.name}</div>
-                    <div className='col-span-2 m-3'>
+                <div className='grid grid-cols-10 border-y-2' key={index}>
+                  <div className='col-span-8 my-2 ml-10 font-semibold'>{item.name}</div>
+                    <div className='col-span-2 my-2'>
                         <ToggleSwitch
                         disabled={isLoading}
                         checked={item.status}
-                        label={item.status ? 'Activo' : 'Inactivo'}
+                        label={isSending && selectId == item.id ? "Actualizando" : item.status ? 'Activo' : 'Inactivo'}
                         onChange={() => updateStatus(item.id, item.status===1?0:1)}
                       />
                   </div>
@@ -69,5 +78,6 @@ if(isLoading) return <Loading />
             ))}
           <ToastContainer />
         </div>
+      </div>
   );
 }

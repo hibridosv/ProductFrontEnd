@@ -78,44 +78,44 @@ export function AddBrandsModal(props: AddBrandsModalProps) {
 
       <form className="max-w-lg mt-4" onSubmit={handleSubmit(onSubmit)} >
         
-            <div className="w-full md:w-full px-3 mb-4">
-            <label htmlFor="provider_id" className={style.inputLabel}>
-                Proveedores
-            </label>
-                <select
-                id="provider_id"
-                {...register("provider_id")}
-                className={style.input}
-                >
-                {providers.map((value: any) => {
-                    return (
-                    <option key={value.id} value={value.id}>
-                        {value.name}
-                    </option>
-                    );
-                })}
-                </select>
-            </div>
+        <div className="w-full md:w-full px-3 mb-4">
+        <label htmlFor="provider_id" className={style.inputLabel}>
+            Proveedores
+        </label>
+            <select
+            id="provider_id"
+            {...register("provider_id")}
+            className={style.input}
+            >
+            {providers.map((value: any) => {
+                return (
+                <option key={value.id} value={value.id}>
+                    {value.name}
+                </option>
+                );
+            })}
+            </select>
+        </div>
 
-            <div className="w-full md:w-full px-3 mb-4">
-              <label htmlFor="name" className={style.inputLabel} >Nombre de la Marca </label>
-              <input {...register("name", {})} className={`${style.input} w-full`} />
-            </div>
+        <div className="w-full md:w-full px-3 mb-4">
+            <label htmlFor="name" className={style.inputLabel} >Nombre de la Marca </label>
+            <input {...register("name", {})} className={`${style.input} w-full`} />
+        </div>
 
-              <div className="flex justify-center">
-                { isSending ? <Button disabled={true} preset={Preset.saving} /> : <Button type="submit" preset={Preset.save} /> }
-              </div>
+            <div className="flex justify-center">
+            { isSending ? <Button disabled={true} preset={Preset.saving} /> : <Button type="submit" preset={Preset.save} /> }
+            </div>
       </form>
-            {message.errors && (
-                <div className="mt-4">
-                  <Alert
-                    type="red"
-                    info="Error"
-                    text={JSON.stringify(message.message)}
-                    isDismisible={false}
-                  />
-                </div>
-              )}
+        {message.errors && (
+            <div className="mt-4">
+                <Alert
+                type="red"
+                info="Error"
+                text={JSON.stringify(message.message)}
+                isDismisible={false}
+                />
+            </div>
+            )}
       <ToastContainer />
     </>
     }

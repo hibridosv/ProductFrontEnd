@@ -1,5 +1,5 @@
 'use client'
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useState } from 'react'
 import { Loading } from '../components';
 import { ViewTitle } from "../components/view-title/view-title";
 import { ConfigContext } from "../../contexts/config-context";
