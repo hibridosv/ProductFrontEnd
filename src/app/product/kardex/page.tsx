@@ -1,16 +1,25 @@
 'use client'
 import { useState, useEffect } from "react";
-import { ViewTitle } from "@/app/components";
-import { getData } from "../../../services/resources";
+import { Loading, ViewTitle } from "@/app/components";
+import { getData, postData } from "../../../services/resources";
 import { useSearchTerm } from "../../../hooks/useSearchTerm";
-import Link from "next/link";
 import { SearchInput } from "@/app/components/form/search";
+import { Product } from "@/services/products";
+import { KardexTable } from "@/app/components/table/kardex-table";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { DateRange, DateRangeValues } from "@/app/components/form/date-range";
+import { Button, Preset } from "@/app/components/button/button";
+
 
 export default function KardexPage() {
     const { searchTerm, handleSearchTerm } = useSearchTerm()
     const [isLoading, setIsLoading] = useState(false);
-    const [products, setProducts] = useState([]);
-
+    const [products, setProducts] = useState<Product[]>([]);
+    const [productSelected, setProductSelected] = useState(null);
+    const [recordsOfKardex, setRecordsOfKardex] = useState([]) as any;
+    const [isSending, setIsSending] = useState(false);
+  
 
     const loadData = async () => {
         setIsLoading(true);
@@ -32,8 +41,36 @@ export default function KardexPage() {
       // eslint-disable-next-line
     }, [searchTerm]);
 
+
+    const handleFormSubmit = async (values: DateRangeValues) => {
+      values.product_id = productSelected
+      const id = toast.loading("Buscando...")
+      try {
+        setIsSending(true)
+        const response = await postData(`kardex`, "POST", values);
+        if (!response.message) {
+          setRecordsOfKardex(response)
+          toast.update(id, { render: "Petición realizada correctamente", type: "success", isLoading: false, autoClose: 2000 });
+        } else {
+        toast.update(id, { render: "Faltan algunos datos importantes!", type: "error", isLoading: false, autoClose: 2000 });
+        }
+        
+      } catch (error) {
+        console.error(error);
+        toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000 });
+      } finally{
+        setIsSending(false)
+      }
+    };
+
+    const handleNewProduct = () => {
+      setProductSelected(null)
+      setProducts([])
+    }
+
+
     const listItems = products?.map((product: any):any => (
-        <Link key={product.id} href={`/product/kardex/${product.id}`}>
+        <div key={product.id} onClick={()=>setProductSelected(product.id)}>
             <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800">
             {product.cod} | {product.description}
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
@@ -41,18 +78,37 @@ export default function KardexPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
             </li>
-        </Link>
+        </div>
     ))
 
   return (
-    <div className="m-4">
-        <ViewTitle text="KARDEX DE PRODUCTO"  />
-        <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Producto" />
-        <div className="w-full bg-white rounded-lg shadow-lg lg:w-2/3 mt-4">
-            <ul className="divide-y-2 divide-gray-400">
-            { listItems }
-            </ul>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
+        {productSelected ? <>
+        <div className="col-span-3">
+          <ViewTitle text="KARDEX" />
+        { isSending ? <Loading /> : 
+        <KardexTable records={recordsOfKardex} />
+        }
+      </div>
+      <div>
+        <ViewTitle text="BUSQUEDA" />
+        <DateRange onSubmit={handleFormSubmit} />
+        <div className="mt-4">
+        <Button text='Nueva busqueda' isFull type="submit" preset={Preset.cancel} onClick={()=>handleNewProduct()} />
         </div>
+        <ToastContainer />
+      </div> </> :
+          <div className="col-span-3 m-4">
+          <ViewTitle text="KARDEX DE PRODUCTO"  />
+          <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Producto" />
+          <div className="w-full bg-white rounded-lg shadow-lg lg:w-2/3 mt-4">
+              <ul className="divide-y-2 divide-gray-400">
+              { listItems }
+              </ul>
+          </div>
+      </div>
+      }
     </div>
   );
 }
