@@ -26,23 +26,19 @@ export function ProductUpdateModal(props: ProductUpdateModalProps) {
 
   const onSubmit = async (data: any) => {
     product[field] = data[field];
-    const id = toast.loading("Actualizando...");
     try {
       setIsSending(true)
       const response = await postData(`products/${product?.id}`, "PUT", product);
       if (!response.message) {
-        toast.update(id, { render: "Producto Actualizado correctamente", type: "success", isLoading: false, autoClose: 2000,
-        });
+        toast.success( "Producto Actualizado correctamente", { autoClose: 2000 });
         onClose()
         reset();
       } else {
-        toast.update(id, { render: "Faltan algunos datos importantes!", type: "error", isLoading: false, autoClose: 2000,
-        });
+        toast.error("Faltan algunos datos importantes", { autoClose: 2000 });
       }
     } catch (error) {
       console.error(error);
-      toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000,
-      });
+      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
     } finally {
       setIsSending(false)
     }

@@ -44,20 +44,19 @@ export default function KardexPage() {
 
     const handleFormSubmit = async (values: DateRangeValues) => {
       values.product_id = productSelected
-      const id = toast.loading("Buscando...")
       try {
         setIsSending(true)
         const response = await postData(`kardex`, "POST", values);
         if (!response.message) {
           setRecordsOfKardex(response)
-          toast.update(id, { render: "Petición realizada correctamente", type: "success", isLoading: false, autoClose: 2000 });
+          toast.success( "Petición realizada correctamente", { autoClose: 2000 });
         } else {
-        toast.update(id, { render: "Faltan algunos datos importantes!", type: "error", isLoading: false, autoClose: 2000 });
+          toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
         }
         
       } catch (error) {
         console.error(error);
-        toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000 });
+        toast.error("Ha ocurrido un error!", { autoClose: 2000 });
       } finally{
         setIsSending(false)
       }

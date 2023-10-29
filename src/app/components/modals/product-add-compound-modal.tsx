@@ -98,14 +98,13 @@ useEffect(() => {
   }
   
   const deleteProduct = async (iden: number) => {
-    const id = toast.loading("Eliminando...")
     try {
       const response = await postData(`composed/${iden}`, 'DELETE');
-      toast.update(id, { render: response.message, type: "success", isLoading: false, autoClose: 2000 });
+      toast.success( response.message, { autoClose: 2000 });
       await loadProductsCompound()
     } catch (error) {
       console.error(error);
-      toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
     } 
   }
   
@@ -115,20 +114,19 @@ useEffect(() => {
     data.product_id = product.id
     data.quantity = handleQuantity
     data.added_product_id = productSelected.id
-    const id = toast.loading("Guardando...")
     try {
       setIsSending(true)
       const response = await postData(`composed`, "POST", data);
       if (!response.message) {
-        toast.update(id, { render: "Producto agregado correctamente", type: "success", isLoading: false, autoClose: 2000 });
+        toast.success( "Producto agregado correctamente", { autoClose: 2000 });
         await loadProductsCompound()
         cancelSelected()
       } else {
-        toast.update(id, { render: "Faltan algunos datos importantes!", type: "error", isLoading: false, autoClose: 2000 });
+        toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
       }
     } catch (error) {
       console.error(error);
-      toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
     } finally{
       setIsSending(false)
     }

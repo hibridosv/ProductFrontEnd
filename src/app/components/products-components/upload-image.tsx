@@ -60,20 +60,19 @@ const imageLoader = ({ src, width, quality }: any) => {
 
   const onSubmit = async (data: any) => {
     data.product_id = product.id
-    const id = toast.loading("Agregando...");
     try {
       setIsSending(true)
       const response = await postDataWithImage("images", "POST", data);
       if (!response.message) {
-        toast.update(id, { render: "Imagen Agregada correctamente", type: "success", isLoading: false, autoClose: 2000,});
+        toast.success( "Imagen Agregada correctamente", { autoClose: 2000 });
         setImages(response.data)
         reset();
       } else {
-        toast.update(id, { render: "Ingrese ambos datos!", type: "error", isLoading: false, autoClose: 2000,});
+        toast.error("Ingrese ambos datos!", { autoClose: 2000 });
       }
     } catch (error) {
       console.error(error);
-      toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000,});
+      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
     } finally {
       setIsSending(false)
     }
@@ -87,16 +86,15 @@ const imageLoader = ({ src, width, quality }: any) => {
 
 
   const deleteImage = async (iden: any) => {
-    const id = toast.loading("Eliminando...")
     try {
       const response = await postData(`images/${imageSelect}`, 'DELETE');
-      toast.update(id, { render: response.message, type: "success", isLoading: false, autoClose: 2000 });
       await loadImages()
       setShowDeleteModal(false);
       setImageSelect("");
+      toast.success( response.message, { autoClose: 2000 });
     } catch (error) {
       console.error(error);
-      toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
     } 
   }
 

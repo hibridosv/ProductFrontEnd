@@ -54,7 +54,6 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
     data.product_id = product.id
     data.price_type = selectedOption?.id
 
-    const id = toast.loading("Agregando...");
     try {
       setIsSending(true)
       const response = await postData("prices", "POST", data);
@@ -62,14 +61,14 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
         const newProduct = await getData(`products/${product.id}`);    
         setNewProductPrices(newProduct.data.prices)   
         product.prices = newProduct.data.prices
-        toast.update(id, { render: "Precio Agregado correctamente", type: "success", isLoading: false, autoClose: 2000,});
+        toast.success( "Precio Agregado correctamente", { autoClose: 2000 });
         reset();
       } else {
-        toast.update(id, { render: "Ingrese ambos datos!", type: "error", isLoading: false, autoClose: 2000,});
+      toast.error("Ingrese ambos datos!", { autoClose: 2000 });
       }
     } catch (error) {
       console.error(error);
-      toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000,});
+      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
     } finally {
       setIsSending(false)
     }
@@ -77,16 +76,15 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
 
 
   const deletePrice = async (iden: any) => {
-    const id = toast.loading("Eliminando...")
     try {
       const response = await postData(`prices/${iden}`, 'DELETE');
       const newProduct = await getData(`products/${product.id}`);    
       setNewProductPrices(newProduct.data.prices)   
       product.prices = newProduct.data.prices
-      toast.update(id, { render: response.message, type: "success", isLoading: false, autoClose: 2000 });
+        toast.success( response.message, { autoClose: 2000 });
     } catch (error) {
       console.error(error);
-      toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
     } 
   }
 

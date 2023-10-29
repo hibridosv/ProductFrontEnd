@@ -35,15 +35,13 @@ useEffect(() => {
 }, [currentPage, searchTerm]);
 
 const deleteProduct = async (iden: number) => {
-  const id = toast.loading("Eliminando...")
   try {
     const response = await postData(`products/${iden}`, 'DELETE');
-    toast.update(id, { render: response.message, type: "success", isLoading: false, autoClose: 2000 });
-    // toast.info(response.message);
+      toast.success( response.message, { autoClose: 2000 });
     await loadData();
   } catch (error) {
     console.error(error);
-    toast.update(id, { render: "Ha ocurrido un error!", type: "error", isLoading: false, autoClose: 2000 });
+      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
   } 
 }
 
