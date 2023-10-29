@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Modal, Button as Boton, Dropdown } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";

@@ -3,8 +3,6 @@
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import {
   HiFingerPrint,
-  HiCalendar,
-  HiGlobe,
   HiOutlineChartSquareBar,
 } from "react-icons/hi";
 import Link from "next/link";

@@ -1,8 +1,8 @@
 'use client'
 import { useContext, useState } from 'react'
-import { Loading } from '../components';
-import { ViewTitle } from "../components/view-title/view-title";
-import { ConfigContext } from "../../contexts/config-context";
+import { Loading } from '@/app/components';
+import { ViewTitle } from "@/app/components/view-title/view-title";
+import { ConfigContext } from "@/contexts/config-context";
 import { ListGroup, ToggleSwitch } from 'flowbite-react';
 import { GoSettings } from "react-icons/go";
 import { MdOutlineInventory, MdPointOfSale, MdComputer } from "react-icons/md";

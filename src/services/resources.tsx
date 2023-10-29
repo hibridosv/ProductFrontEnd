@@ -1,4 +1,4 @@
-import { API_URL } from "../constants";
+import { API_URL } from "@/constants";
 
   export async function getData(url = '') {
     // console.log("URL: ",`${API_URL}${url}`);

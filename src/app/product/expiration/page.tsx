@@ -1,10 +1,9 @@
 "use client"
 import { useState, useEffect } from "react";
-import { Loading, Pagination, ProductsTable, RightSideProducts, ViewTitle } from "@/app/components";
-import { getData, postData } from "@/services/resources";
+import { Loading, Pagination, ViewTitle } from "@/app/components";
+import { getData } from "@/services/resources";
 import { usePagination } from "@/app/components/pagination";
-import { RowTable } from "@/app/components/table/products-table";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ProductExpirationTable } from "@/app/components/table/product-expiration-table";
 import { RightExpired } from "@/app/components/right-side/right-side-expired";

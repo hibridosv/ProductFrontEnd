@@ -10,7 +10,6 @@ import { AiFillInfoCircle } from "react-icons/ai";
 import { ProductUpdateModal } from "./product-update-modal";
 import { Alert } from "../alert/alert";
 import { ProductPrecioMultipleModal } from "./product-price-multiple-modal";
-import Link from "next/link";
 import { ProductCompoundModal } from "./product-add-compound-modal";
 import { ProductImageModal } from "./product-image-modal";
 import { ListImagesOfProducts } from "../products-components/list-images";

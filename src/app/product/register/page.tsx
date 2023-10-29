@@ -1,15 +1,15 @@
 "use client";
 import React, { useState, useEffect, useContext } from "react";
-import { ViewTitle, Alert, Loading, ProductsTable } from "../../components";
-import { RowTable } from "../../components/table/products-table";
+import { ViewTitle, Alert, Loading, ProductsTable } from "@/app/components";
+import { RowTable } from "@/app/components/table/products-table";
 import { useForm } from "react-hook-form";
-import { FieldsFormProduct as Fields } from "../../../constants/form-product-json";
+import { FieldsFormProduct as Fields } from "@/constants/form-product-json";
 import { postData, getData } from "@/services/resources";
-import { Button, Preset } from "../../components/button/button";
+import { Button, Preset } from "@/app/components/button/button";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ConfigContext } from "../../../contexts/config-context";
-import { style } from "../../../theme";
+import { ConfigContext } from "@/contexts/config-context";
+import { style } from "@/theme";
 import { getConfigStatus, fieldWidth } from "@/utils/functions";
 import { ProductCompoundModal } from "@/app/components/modals/product-add-compound-modal";
 

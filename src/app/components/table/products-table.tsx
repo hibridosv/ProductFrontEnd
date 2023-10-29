@@ -3,12 +3,11 @@ import React, { useState } from "react";
 import { Product, Products as ProductsInterface } from "../../../services/products";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { IoMdOptions } from "react-icons/io";
-import {  GrClose, GrEdit, GrAction } from "react-icons/gr";
+import {  GrClose } from "react-icons/gr";
 import { MdOutlineHomeRepairService } from "react-icons/md"
 import { FaLayerGroup } from "react-icons/fa"
 import { Dropdown } from "flowbite-react";
 import { DeleteModal, ProductViewModal } from "../../components/";
-import Link from "next/link";
 import { numberToMoney } from "@/utils/functions";
 
 export enum RowTable {

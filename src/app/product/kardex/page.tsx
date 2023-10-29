@@ -1,8 +1,8 @@
 'use client'
 import { useState, useEffect } from "react";
 import { Loading, ViewTitle } from "@/app/components";
-import { getData, postData } from "../../../services/resources";
-import { useSearchTerm } from "../../../hooks/useSearchTerm";
+import { getData, postData } from "@/services/resources";
+import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { SearchInput } from "@/app/components/form/search";
 import { Product } from "@/services/products";
 import { KardexTable } from "@/app/components/table/kardex-table";
