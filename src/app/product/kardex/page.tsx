@@ -10,7 +10,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { DateRange, DateRangeValues } from "@/app/components/form/date-range";
 import { Button, Preset } from "@/app/components/button/button";
-import { DateTime } from "luxon";
 
 
 export default function KardexPage() {
@@ -41,10 +40,6 @@ export default function KardexPage() {
 
     const handleFormSubmit = async (values: DateRangeValues) => {
       values.product_id = productSelected
-      const fechaActual = DateTime.now();
-      const fechaFormateada = fechaActual.toFormat('yyyy-MM-dd');
-      values.initialDate = values.initialDate == " 00:00:00" ? `${fechaFormateada} 00:00:00` : values.initialDate
-      console.log(values)
       try {
         setIsSending(true)
         const response = await postData(`kardex`, "POST", values);
@@ -54,7 +49,6 @@ export default function KardexPage() {
         } else {
           toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
         }
-        console.log(response)
       } catch (error) {
         console.error(error);
         toast.error("Ha ocurrido un error!", { autoClose: 2000 });

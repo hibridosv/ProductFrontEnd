@@ -2,11 +2,13 @@
 import { style } from '@/theme';
 import React, { useState } from 'react';
 import { Button, Preset } from '../button/button';
+import { DateTime } from 'luxon';
+import { formatDate } from '@/utils/date-formats';
 
 export type DateRangeValues = {
-  option: string;
-  initialDate: string;
-  finalDate?: string;
+  option?: string;
+  initialDate?: string | any;
+  finalDate?: string | any;
   product_id?: string | any;
 };
 
@@ -18,17 +20,24 @@ export const DateRange: React.FC<DateRangeProps> = ({ onSubmit }) => {
   const [option, setOption] = useState('1');
   const [initialDate, setInitialDate] = useState('');
   const [finalDate, setFinalDate] = useState('');
+  const [dateValues, setDateValues] = useState<DateRangeValues>({});
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    const actualDate = DateTime.now();
+    const formatedDate = actualDate.toFormat('yyyy-MM-dd');
+    const startOfMonth = actualDate.startOf('month');
+    const endOfMonth = actualDate.endOf('month');
+
     const values: DateRangeValues = {
       option: option,
-      initialDate: `${initialDate} 00:00:00`,
-      finalDate: `${finalDate} 23:59:59`,
+      initialDate: option == '1' ? initialDate ? `${initialDate} 00:00:00` : `${formatedDate} 00:00:00` : initialDate ? `${initialDate} 00:00:00` : `${startOfMonth.toISODate()} 00:00:00`,
+      finalDate: option == '2' ? finalDate ? `${finalDate} 23:59:59` : `${endOfMonth.toISODate()} 23:59:59` : "",
     };
 
-    onSubmit(values);
+    setDateValues(values)
+    onSubmit(values)
   };
 
   return (<div>
@@ -87,6 +96,12 @@ export const DateRange: React.FC<DateRangeProps> = ({ onSubmit }) => {
 
       <div className="flex justify-center">
        <Button text='Aplicar' type="submit" preset={Preset.save} />
+      </div>
+
+      <div className="mt-3 text-red-600 flex items-center justify-center h-full font-semibold">
+          {
+            Object.keys(dateValues).length != 0 ? dateValues.option == '1' ? `Fecha establecida ${formatDate(dateValues.initialDate)}` : `Fechas de ${formatDate(dateValues.initialDate)} a ${formatDate(dateValues.finalDate)}` : ""
+          }
       </div>
     </form>
     </div>);
