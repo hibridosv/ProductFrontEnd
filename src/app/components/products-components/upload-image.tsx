@@ -127,7 +127,7 @@ const imageLoader = ({ src, width, quality }: any) => {
       <ToastContainer />
     </div>
         <div className="flex justify-center mt-8 border-blue-600">
-          { isLoading? <Loading /> : listItems }
+          { isLoading ? <Loading /> : listItems }
         </div>
 
         { showDeleteModal && 
