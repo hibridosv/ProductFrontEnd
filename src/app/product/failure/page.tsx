@@ -211,7 +211,7 @@ useEffect(() => {
           </div>
       </div>
       </> : 
-        <div className="col-span-3 m-4">
+        <div className="col-span-4 m-4">
           <ViewTitle text="DESCONTAR AVERIAS"  />
           <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Producto" />
           <div className="w-full bg-white rounded-lg shadow-lg lg:w-2/3 mt-4">
