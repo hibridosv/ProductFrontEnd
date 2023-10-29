@@ -20,8 +20,8 @@ export function SideBar() {
           <Image
             src="/img/lgb.png"
             alt="Logo"
-            // width={300}
-            // height={80}
+            width={300}
+            height={80}
           />
         </div>
         <MenuItem icon={<HiFingerPrint />} component={<Link href="/" />}>

@@ -15,6 +15,9 @@ export default function RootLayout({
     <ConfigContextProvider>
       <ProSidebarProvider>
       <html lang="en">
+        <head>
+          <title>Sistema de control de ventas</title>
+        </head>
         <body className="overflow-x-visible">
             <div className="container mx-auto px-1 my-auto">
             <Header />
