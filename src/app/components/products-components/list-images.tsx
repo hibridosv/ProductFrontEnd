@@ -31,7 +31,7 @@ export function ListImagesOfProducts(props: ListImagesOfProductsProps) {
 };
 
 useEffect(() => {
-    if (!state) {
+    if (!state && productId) {
         (async () => { await loadImages() })();
     }
   // eslint-disable-next-line
