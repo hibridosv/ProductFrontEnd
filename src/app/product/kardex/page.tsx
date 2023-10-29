@@ -10,11 +10,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { DateRange, DateRangeValues } from "@/app/components/form/date-range";
 import { Button, Preset } from "@/app/components/button/button";
+import { DateTime } from "luxon";
 
 
 export default function KardexPage() {
     const { searchTerm, handleSearchTerm } = useSearchTerm()
-    const [isLoading, setIsLoading] = useState(false);
     const [products, setProducts] = useState<Product[]>([]);
     const [productSelected, setProductSelected] = useState(null);
     const [recordsOfKardex, setRecordsOfKardex] = useState([]) as any;
@@ -22,14 +22,11 @@ export default function KardexPage() {
   
 
     const loadData = async () => {
-        setIsLoading(true);
         try {
           const response = await getData(`products?sort=-created_at${searchTerm}`);
           setProducts(response.data);
         } catch (error) {
           console.error(error);
-        } finally {
-          setIsLoading(false);
         }
     };
       
@@ -44,6 +41,10 @@ export default function KardexPage() {
 
     const handleFormSubmit = async (values: DateRangeValues) => {
       values.product_id = productSelected
+      const fechaActual = DateTime.now();
+      const fechaFormateada = fechaActual.toFormat('yyyy-MM-dd');
+      values.initialDate = values.initialDate == " 00:00:00" ? `${fechaFormateada} 00:00:00` : values.initialDate
+      console.log(values)
       try {
         setIsSending(true)
         const response = await postData(`kardex`, "POST", values);
@@ -53,7 +54,7 @@ export default function KardexPage() {
         } else {
           toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
         }
-        
+        console.log(response)
       } catch (error) {
         console.error(error);
         toast.error("Ha ocurrido un error!", { autoClose: 2000 });
@@ -65,6 +66,7 @@ export default function KardexPage() {
     const handleNewProduct = () => {
       setProductSelected(null)
       setProducts([])
+      setRecordsOfKardex([])
     }
 
 
