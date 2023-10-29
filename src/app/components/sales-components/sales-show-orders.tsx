@@ -37,7 +37,11 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
 
   if (isLoading) return <Loading />;
 
-  if (orders.length ===0 ) return <Image src={`${URL}/images/logo/hibrido.jpg`} alt="Logo" width={500} height={500}  />
+  const imageLoader = ({ src, width, quality }: any) => {
+    return `${URL}images/logo/${src}?w=${width}&q=${quality || 75}`
+  }
+
+  if (orders.length ===0 ) return <Image loader={imageLoader} src="hibrido.jpg" alt="Hibrido" width={500} height={500} />
   return (
     <div className="mx-3 sm:mt-3">
       <ListGroup>

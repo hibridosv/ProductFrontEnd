@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // output: 'export',
     env: {
         REACT_APP_NAME: 'Aplicación react',
         REACT_APP_API_URL: 'http://connect.test/',

@@ -7,7 +7,6 @@ import {
 } from "react-icons/hi";
 import Link from "next/link";
 import Image from "next/image";
-import LogoImage from "../../../../public/img/lgb.png";
 
 export function SideBar() {
   return (
@@ -19,7 +18,7 @@ export function SideBar() {
       <Menu>
         <div className="w-full bg-slate-600">
           <Image
-            src={LogoImage}
+            src="/img/lgb.png"
             alt="Logo"
             // width={300}
             // height={80}
