@@ -2,7 +2,7 @@ import { AiFillSave, AiOutlineClose, AiOutlineSend } from "react-icons/ai"
 import { GiCancel } from "react-icons/gi"
 import { RiCheckDoubleFill } from "react-icons/ri"
 import { ImSpinner5 } from "react-icons/im"
-import { AiOutlineCloseCircle } from "react-icons/ai"
+import { AiOutlineCloseCircle, AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai"
 
 /**
  * All text will start off looking like this.
@@ -23,6 +23,8 @@ export const textPresets = {
   saving: "Guardando",
   smallClose: "",
   smallCloseDisable: "",
+  smallPlus: "",
+  smallMinus: "",
 }
 
 
@@ -38,6 +40,8 @@ export const stylePresets = {
     saving: `${BASE} bg-slate-600 hover:bg-slate-700 focus:ring-slate-500 focus:ring-offset-slate-200`,
     smallClose: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
     smallCloseDisable: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
+    smallPlus: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
+    smallMinus: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
   }
 
 export const iconPresets = {
@@ -52,4 +56,6 @@ export const iconPresets = {
     saving: <ImSpinner5 className="-p-4 mr-3 animate-spin" />,
     smallClose: <AiOutlineCloseCircle color="red" size={25} />,
     smallCloseDisable: <AiOutlineCloseCircle color="grey" size={25} />,
+    smallPlus: <AiOutlinePlusCircle color="green" size={25} />,
+    smallMinus: <AiOutlineMinusCircle color="green" size={25} />,
   }

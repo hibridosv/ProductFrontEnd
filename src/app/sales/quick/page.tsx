@@ -6,7 +6,7 @@ import { getData, postData } from "@/services/resources";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
-import { SalesQuickTable } from "@/app/components/table/sales-quick-table";
+import { OptionsClickSales, SalesQuickTable } from "@/app/components/table/sales-quick-table";
 import { SalesShowOrders } from "@/app/components/sales-components/sales-show-orders";
 import { SalesPayModal } from "@/app/components/modals/sales-pay-modal";
 import { SearchIcon } from "@/theme/svg";
@@ -56,18 +56,14 @@ export default function ViewSales() {
       (async () => {
         await loadDataProductsOfInvoice();
       })();
-    }
-    // eslint-disable-next-line
-  }, [changeOrder]);
-
-  useEffect(() => {
-    if (!order) {
+    } else {
       (async () => {
         await loadLastInvoice();
       })();
     }
     // eslint-disable-next-line
-  }, []);
+  }, [changeOrder]);
+
 
   const deleteProduct = async (iden: number) => {
     setIsSending(true);
@@ -121,16 +117,20 @@ export default function ViewSales() {
       delivery_type: 1,
       order_type: 1,
       price_type: 1,
+      addOrSubtract: data.addOrSubtract ? data.addOrSubtract : 1, // 1 sumar 2 restar
     };
-
+    console.log(values)
     try {
       setIsSending(true);
       const response = await postData(`sales`, "POST", values);
-      if (!response.message) {
+      if (response.type === "error") {
+        toast.error(response.message, { autoClose: 2000 });
+      } else {
         if (!order) setOrder(response.data.id);
         setProductsOfInvoice(response.data);
-      } else {
-        toast.error(response.message, { autoClose: 2000 });
+      }
+      if (response.type === "successfull") {
+        resetOrder()
       }
     } catch (error) {
       console.error(error);
@@ -141,7 +141,7 @@ export default function ViewSales() {
     }
   };
 
-  const handleClickOption = (option: number) => {
+  const handleClickOptionOrder = (option: number) => { // opciones de la orden
     switch (option) {
       case 1:
         setIsPayModal(true);
@@ -157,6 +157,27 @@ export default function ViewSales() {
         break;
     }
   };
+
+
+  const handleClickOptionProduct = (product: number, option: OptionsClickSales) => { // opciones del producto
+    switch (option) {
+      case 1:
+        deleteProduct(product)
+        break;
+      case 2:
+        console.log("Agregando producto: ", product);
+        onSubmit({product_id : product})
+        break;
+      case 3:
+        console.log("Quitando producto: ", product);
+        onSubmit({product_id : product, addOrSubtract : 2})
+        break;
+      default:
+        console.log("No se encuentra Opcion");
+        break;
+    }
+  };
+
 
   const resetOrder = () =>{
     setProductsOfInvoice([]);
@@ -212,7 +233,7 @@ export default function ViewSales() {
         <div>
           <SalesQuickTable
             records={productsOfInvoice?.invoiceproducts}
-            onDelete={deleteProduct}
+            onClick={handleClickOptionProduct}
           />
         </div>
       </div>
@@ -228,7 +249,7 @@ export default function ViewSales() {
           )}
         </div>
         <div className="absolute bottom-2">
-          {order && <SalesButtons onClick={handleClickOption} />}
+          {order && <SalesButtons onClick={handleClickOptionOrder} />}
         </div>
       </div>
       <ToastContainer />

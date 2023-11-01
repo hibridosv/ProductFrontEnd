@@ -3,8 +3,8 @@ const nextConfig = {
     // output: 'export',
     env: {
         REACT_APP_NAME: 'Aplicación react',
-        // REACT_APP_API_URL: 'http://connect.test/',
-        REACT_APP_API_URL: 'https://products.latam-pos.com/',
+        REACT_APP_API_URL: 'http://connect.test/',
+        // REACT_APP_API_URL: 'https://products.latam-pos.com/',
       },
       images: {
         remotePatterns: [

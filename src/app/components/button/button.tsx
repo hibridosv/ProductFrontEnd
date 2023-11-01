@@ -12,6 +12,8 @@ export enum Preset {
     saving = "saving",
     smallClose = "smallClose",
     smallCloseDisable = "smallCloseDisable",
+    smallPlus = "smallPlus",
+    smallMinus = "smallMinus",
   }
   
   export interface ButtonProps {
