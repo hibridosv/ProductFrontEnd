@@ -165,15 +165,10 @@ export default function ViewSales() {
         deleteProduct(product)
         break;
       case 2:
-        console.log("Agregando producto: ", product);
         onSubmit({product_id : product})
         break;
       case 3:
-        console.log("Quitando producto: ", product);
         onSubmit({product_id : product, addOrSubtract : 2})
-        break;
-      default:
-        console.log("No se encuentra Opcion");
         break;
     }
   };
