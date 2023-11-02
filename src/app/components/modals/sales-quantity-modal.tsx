@@ -42,7 +42,6 @@ export function SalesQuantityModal(props: SalesQuantityModalProps) {
        quantity = product.quantity - data.quantity;
        addOrSubtract = 2;
     }
-    console.log(quantity)
 
     let values = {
       product_id: product.cod,

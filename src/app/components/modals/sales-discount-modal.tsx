@@ -44,7 +44,6 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
           } else {
             resetField("quantity")
           } 
-          console.log(response)
       } catch (error) {
         console.error(error);
         toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });

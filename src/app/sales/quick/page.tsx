@@ -163,7 +163,6 @@ export default function ViewSales() {
 
 
   const handleClickOptionProduct = (product: Product, option: OptionsClickSales) => { // opciones del producto
-    console.log("Producto: ", product)
     switch (option) {
       case 1: deleteProduct(product.id)
         break;
