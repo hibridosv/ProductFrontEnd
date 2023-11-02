@@ -8,79 +8,71 @@ import { style } from "@/theme";
 import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
 import { Product } from "@/services/products";
+import { Button as Boton } from "flowbite-react";
 
 
-export interface SalesQuantityModalProps {
+export interface SalesDiscountProductModalProps {
   onClose: () => void;
   product: Product;
   isShow: boolean;
-  order: any;
 }
 
 
 
-export function SalesQuantityModal(props: SalesQuantityModalProps) {
-  const { onClose, product, isShow, order } = props;
-  const { register, handleSubmit, resetField, setFocus, setValue } = useForm();
+export function SalesDiscountProductModal(props: SalesDiscountProductModalProps) {
+  const { onClose, product, isShow } = props;
+  const { register, handleSubmit, resetField, setFocus } = useForm();
   const [isSending, setIsSending] = useState(false);
+  const [typeOfDiscount, setTypeOfDiscount] = useState(1);
 
   useEffect(() => {
-    setValue("quantity", product.quantity)
     setFocus('quantity', {shouldSelect: true})
-  }, [setFocus, isShow])
+  }, [setFocus, isShow, typeOfDiscount])
 
 
   const onSubmit = async (data: any) => {
-    if (product.quantity == data.quantity || data.quantity == null) onClose();
-    
-    let quantity = 0;
-    let addOrSubtract = 0;
-    if(product.quantity < data.quantity) {
-       quantity = data.quantity - product.quantity;
-       addOrSubtract = 1;
-    } else {
-       quantity = product.quantity - data.quantity;
-       addOrSubtract = 2;
-    }
-    console.log(quantity)
-
     let values = {
-      product_id: product.cod,
-      order_id: order,
-      request_type: 2,
-      delivery_type: 1,
-      order_type: 1,
-      price_type: 1,
-      addOrSubtract: addOrSubtract, // 1 sumar 2 restar
-      quantity: quantity,
-    };
-
-    try {
-      setIsSending(true);
-      const response = await postData(`sales`, "POST", values);
-      if (response.type === "error") {
-        toast.error(response.message, { autoClose: 2000 });
-      } else {
-        resetField("quantity")
-      } 
-    } catch (error) {
-      console.error(error);
-    } finally {
-     setIsSending(false);
-     onClose()
-    }
+        product_id: product.id,
+        typeOfDiscount: typeOfDiscount,
+        quantityDiscount: data.quantity,
+      };
+      try {
+        setIsSending(true);
+        const response = await postData(`sales/update-discount`, "POST", values);
+        if (response.type === "error") {
+            toast.error(response.message, { autoClose: 2000 });
+          } else {
+            resetField("quantity")
+          } 
+          console.log(response)
+      } catch (error) {
+        console.error(error);
+        toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
+      } finally {
+        setIsSending(false);
+        onClose()
+      }
   };
 
   return (
     <Modal show={isShow} position="center" onClose={onClose} size="md">
-        <Modal.Header>Cantidad de producto</Modal.Header>
+    <Modal.Header>Agregar descuento</Modal.Header>
       <Modal.Body>
+        <Boton.Group className="w-full">
+            <Boton color={ typeOfDiscount == 1 ? "dark" : "light" } fullSized={true} onClick={() => setTypeOfDiscount(1)} >
+            Cantidad
+            </Boton>
+            <Boton color={ typeOfDiscount == 2 ? "dark" : "light" } fullSized={true} onClick={() => setTypeOfDiscount(2)} >
+            Porcentaje
+            </Boton>
+        </Boton.Group>
+
         <div className="mx-4">
 
         <form className="max-w-lg mt-4" onSubmit={handleSubmit(onSubmit)} >
 
             <div className="w-full md:w-full px-3 mb-4">
-              <label htmlFor="quantity" className={style.inputLabel} >Cantidad</label>
+              <label htmlFor="quantity" className={style.inputLabel} >{ typeOfDiscount == 1 ? "Cantidad" : "Porcentaje" }</label>
               <input type="number" step="any" {...register("quantity", { required: true })} className={`${style.input} w-full`} />
             </div>
 

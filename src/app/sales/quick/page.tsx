@@ -12,6 +12,7 @@ import { SalesPayModal } from "@/app/components/modals/sales-pay-modal";
 import { SearchIcon } from "@/theme/svg";
 import { SalesQuantityModal } from "@/app/components/modals/sales-quantity-modal";
 import { Product } from "@/services/products";
+import { SalesDiscountProductModal } from "@/app/components/modals/sales-discount-modal";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,6 +23,7 @@ export default function ViewSales() {
   const [typeOfPay, setTypeOfPay] = useState(false);
   const [isPayModal, setIsPayModal] = useState(false);
   const [isQuantityModal, setIsQuantityModal] = useState(false);
+  const [isDiscountProductModal, setIsDiscountProductModal] = useState(false);
   const [productSelected, setProductSelected] = useState([]) as any;
 
 
@@ -56,7 +58,7 @@ export default function ViewSales() {
 
 
   useEffect(() => {
-    if (isQuantityModal === false) {      
+    if (isQuantityModal === false && isDiscountProductModal === false) {      
       if (order) {
         (async () => {
           await loadDataProductsOfInvoice();
@@ -68,7 +70,7 @@ export default function ViewSales() {
       }
   }
     // eslint-disable-next-line
-  }, [changeOrder, isQuantityModal]);
+  }, [changeOrder, isQuantityModal, isDiscountProductModal]);
 
 
   const deleteProduct = async (iden: number) => {
@@ -171,6 +173,8 @@ export default function ViewSales() {
         break;
       case 4: selectPorductForQuantity(product);
         break;
+      case 5: selectPorductForDiscount(product);
+        break;
     }
   };
 
@@ -179,7 +183,12 @@ export default function ViewSales() {
     setProductSelected(product);
   }
 
+  const selectPorductForDiscount  = (product: Product) => {
+    setIsDiscountProductModal(true);
+    setProductSelected(product);
+  }
 
+ 
   const resetOrder = () =>{
     setProductsOfInvoice([]);
     setOrder(null);
@@ -250,6 +259,7 @@ export default function ViewSales() {
       </div>
       <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} />
       <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} />
+      <SalesDiscountProductModal isShow={isDiscountProductModal} product={productSelected} onClose={()=>setIsDiscountProductModal(false)} />
       <ToastContainer />
     </div>
   );

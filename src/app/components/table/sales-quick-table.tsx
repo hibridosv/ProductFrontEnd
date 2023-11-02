@@ -13,6 +13,7 @@ export enum OptionsClickSales {
   plus = 2,
   minus = 3,
   quantity = 4,
+  discount = 5,
 }
 
 
@@ -30,7 +31,8 @@ export function SalesQuickTable(props: SalesQuickProps) {
       <td className="py-1 px-2 truncate uppercase">{ record.product }</td>
       <td className="py-1 px-2">{ numberToMoney(record.unit_price ? record.unit_price : 0) }</td>
       {/* <td className="py-2 px-2 truncate">{ numberToMoney(record.subtotal ? record.subtotal : 0) }</td> */}
-      <td className="py-1 px-2 truncate cursor-pointer">{ numberToMoney(record.discount ? record.discount : 0) }</td>
+      <td className="py-1 px-2 truncate cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.discount)}>
+        { numberToMoney(record.discount ? record.discount : 0) }</td>
       <td className="py-1 px-2 truncate">{ numberToMoney(record.total ? record.total : 0) }</td>
       <td className="py-1 px-2">
       <Button preset={Preset.smallMinus} noText onClick={()=> onClick(record, OptionsClickSales.minus)} />
