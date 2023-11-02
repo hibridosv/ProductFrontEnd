@@ -24,6 +24,7 @@ export default function ViewSales() {
   const [isPayModal, setIsPayModal] = useState(false);
   const [isQuantityModal, setIsQuantityModal] = useState(false);
   const [isDiscountProductModal, setIsDiscountProductModal] = useState(false);
+  const [isDiscountType, setIsDiscountType] = useState(0);
   const [productSelected, setProductSelected] = useState([]) as any;
 
 
@@ -156,6 +157,8 @@ export default function ViewSales() {
         break;
       case 3: deleteOrder();
         break;
+      case 11: setOrderForDiscount();
+        break;
       default: console.log(option);
         break;
     }
@@ -185,6 +188,20 @@ export default function ViewSales() {
   const selectPorductForDiscount  = (product: Product) => {
     setIsDiscountProductModal(true);
     setProductSelected(product);
+    setIsDiscountType(1)
+  }
+
+
+  const setOrderForDiscount  = () => {
+    setIsDiscountProductModal(true);
+    setIsDiscountType(2)
+  }
+
+
+  const closeModalDiscount  = () => {
+    setIsDiscountProductModal(false);
+    setProductSelected([]);
+    setIsDiscountType(0)
   }
 
  
@@ -258,7 +275,7 @@ export default function ViewSales() {
       </div>
       <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} />
       <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} />
-      <SalesDiscountProductModal isShow={isDiscountProductModal} product={productSelected} onClose={()=>setIsDiscountProductModal(false)} />
+      <SalesDiscountProductModal isShow={isDiscountProductModal} discountType={isDiscountType} order={order} product={productSelected} onClose={()=>closeModalDiscount()} />
       <ToastContainer />
     </div>
   );

@@ -15,12 +15,14 @@ export interface SalesDiscountProductModalProps {
   onClose: () => void;
   product: Product;
   isShow: boolean;
+  order: any;
+  discountType: number;
 }
 
 
 
 export function SalesDiscountProductModal(props: SalesDiscountProductModalProps) {
-  const { onClose, product, isShow } = props;
+  const { onClose, product, isShow, order, discountType } = props;
   const { register, handleSubmit, resetField, setFocus } = useForm();
   const [isSending, setIsSending] = useState(false);
   const [typeOfDiscount, setTypeOfDiscount] = useState(1);
@@ -33,12 +35,13 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
   const onSubmit = async (data: any) => {
     let values = {
         product_id: product.id,
+        order: order,
         typeOfDiscount: typeOfDiscount,
         quantityDiscount: data.quantity,
       };
       try {
         setIsSending(true);
-        const response = await postData(`sales/update-discount`, "POST", values);
+        const response = await postData(discountType == 1 ? `sales/update-discount` :  `sales/update-discount-all`, "POST", values);
         if (response.type === "error") {
             toast.error(response.message, { autoClose: 2000 });
           } else {
@@ -55,7 +58,7 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
 
   return (
     <Modal show={isShow} position="center" onClose={onClose} size="md">
-    <Modal.Header>Agregar descuento</Modal.Header>
+    <Modal.Header>Descuento a {discountType == 1 ? "Producto" : "Orden"}</Modal.Header>
       <Modal.Body>
         <Boton.Group className="w-full">
             <Boton color={ typeOfDiscount == 1 ? "dark" : "light" } fullSized={true} onClick={() => setTypeOfDiscount(1)} >
