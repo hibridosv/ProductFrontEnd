@@ -38,10 +38,10 @@ export const stylePresets = {
     accept: `${BASE} bg-cyan-600 hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-offset-cyan-200`,
     send: `${BASE} bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200`,
     saving: `${BASE} bg-slate-600 hover:bg-slate-700 focus:ring-slate-500 focus:ring-offset-slate-200`,
-    smallClose: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
+    smallClose: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 clickeable`,
     smallCloseDisable: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
-    smallPlus: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
-    smallMinus: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
+    smallPlus: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 clickeable`,
+    smallMinus: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 clickeable`,
   }
 
 export const iconPresets = {

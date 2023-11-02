@@ -10,7 +10,8 @@ import { OptionsClickSales, SalesQuickTable } from "@/app/components/table/sales
 import { SalesShowOrders } from "@/app/components/sales-components/sales-show-orders";
 import { SalesPayModal } from "@/app/components/modals/sales-pay-modal";
 import { SearchIcon } from "@/theme/svg";
-import { Loading } from "@/app/components";
+import { SalesQuantityModal } from "@/app/components/modals/sales-quantity-modal";
+import { Product } from "@/services/products";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +21,9 @@ export default function ViewSales() {
   const [changeOrder, setChangeOrder] = useState(false);
   const [typeOfPay, setTypeOfPay] = useState(false);
   const [isPayModal, setIsPayModal] = useState(false);
+  const [isQuantityModal, setIsQuantityModal] = useState(false);
+  const [productSelected, setProductSelected] = useState([]) as any;
+
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -52,17 +56,19 @@ export default function ViewSales() {
 
 
   useEffect(() => {
-    if (order) {
-      (async () => {
-        await loadDataProductsOfInvoice();
-      })();
-    } else {
-      (async () => {
-        await loadLastInvoice();
-      })();
-    }
+    if (isQuantityModal === false) {      
+      if (order) {
+        (async () => {
+          await loadDataProductsOfInvoice();
+        })();
+      } else {
+        (async () => {
+          await loadLastInvoice();
+        })();
+      }
+  }
     // eslint-disable-next-line
-  }, [changeOrder]);
+  }, [changeOrder, isQuantityModal]);
 
 
   const deleteProduct = async (iden: number) => {
@@ -119,7 +125,6 @@ export default function ViewSales() {
       price_type: 1,
       addOrSubtract: data.addOrSubtract ? data.addOrSubtract : 1, // 1 sumar 2 restar
     };
-    console.log(values)
     try {
       setIsSending(true);
       const response = await postData(`sales`, "POST", values);
@@ -143,35 +148,36 @@ export default function ViewSales() {
 
   const handleClickOptionOrder = (option: number) => { // opciones de la orden
     switch (option) {
-      case 1:
-        setIsPayModal(true);
+      case 1: setIsPayModal(true);
         break;
-      case 2:
-        saveOrder();
+      case 2: saveOrder();
         break;
-      case 3:
-        deleteOrder();
+      case 3: deleteOrder();
         break;
-      default:
-        console.log(option);
+      default: console.log(option);
         break;
     }
   };
 
 
-  const handleClickOptionProduct = (product: number, option: OptionsClickSales) => { // opciones del producto
+  const handleClickOptionProduct = (product: Product, option: OptionsClickSales) => { // opciones del producto
+    console.log("Producto: ", product)
     switch (option) {
-      case 1:
-        deleteProduct(product)
+      case 1: deleteProduct(product.id)
         break;
-      case 2:
-        onSubmit({product_id : product})
+      case 2: onSubmit({product_id : product.cod})
         break;
-      case 3:
-        onSubmit({product_id : product, addOrSubtract : 2})
+      case 3: onSubmit({product_id : product.cod, addOrSubtract : 2})
+        break;
+      case 4: selectPorductForQuantity(product);
         break;
     }
   };
+
+  const selectPorductForQuantity = (product: Product) => {
+    setIsQuantityModal(true);
+    setProductSelected(product);
+  }
 
 
   const resetOrder = () =>{
@@ -195,7 +201,6 @@ export default function ViewSales() {
     }
   };
 
-  if (isLoading) return (<Loading />)
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
@@ -203,12 +208,7 @@ export default function ViewSales() {
         <div className="m-2">
           <form onSubmit={handleSubmit(onSubmit)} className="w-full">
             <div>
-              <label
-                htmlFor="default-search"
-                className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-              >
-                Search
-              </label>
+
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                  { SearchIcon }
@@ -216,8 +216,9 @@ export default function ViewSales() {
                 <input
                   type="text"
                   id="product_id"
+                  readOnly ={isLoading}
                   className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Ingrese el código del Producto"
+                  placeholder={isLoading ? "Cargando Datos" : "Ingrese el código del Producto"}
                   required
                   {...register("product_id")}
                 />
@@ -247,8 +248,9 @@ export default function ViewSales() {
           {order && <SalesButtons onClick={handleClickOptionOrder} />}
         </div>
       </div>
-      <ToastContainer />
       <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} />
+      <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} />
+      <ToastContainer />
     </div>
   );
 }

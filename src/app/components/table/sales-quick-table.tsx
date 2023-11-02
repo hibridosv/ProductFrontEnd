@@ -5,13 +5,14 @@ import { Button, Preset } from "../button/button";
 
 interface SalesQuickProps {
   records?:  any;
-  onClick: (id: number, option: OptionsClickSales) => void;
+  onClick: (product: any, option: OptionsClickSales) => void;
 }
 
 export enum OptionsClickSales {
   delete = 1,
   plus = 2,
   minus = 3,
+  quantity = 4,
 }
 
 
@@ -23,7 +24,7 @@ export function SalesQuickTable(props: SalesQuickProps) {
 
   const listItems = records.map((record: any) => (
     <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
-      <td className="py-1 px-2">
+      <td className="py-1 px-2 cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.quantity)}>
         { record.quantity }
         </td>
       <td className="py-1 px-2 truncate uppercase">{ record.product }</td>
@@ -32,10 +33,10 @@ export function SalesQuickTable(props: SalesQuickProps) {
       <td className="py-1 px-2 truncate cursor-pointer">{ numberToMoney(record.discount ? record.discount : 0) }</td>
       <td className="py-1 px-2 truncate">{ numberToMoney(record.total ? record.total : 0) }</td>
       <td className="py-1 px-2">
-      <Button preset={Preset.smallMinus} noText onClick={()=> onClick(record.cod, OptionsClickSales.minus)} />
-      <Button preset={Preset.smallPlus} noText onClick={()=> onClick(record.cod, OptionsClickSales.plus)} />
+      <Button preset={Preset.smallMinus} noText onClick={()=> onClick(record, OptionsClickSales.minus)} />
+      <Button preset={Preset.smallPlus} noText onClick={()=> onClick(record, OptionsClickSales.plus)} />
       </td>
-      <td className="py-1 px-2"><Button preset={Preset.smallClose} noText onClick={()=> onClick(record.id, OptionsClickSales.delete)} /></td>
+      <td className="py-1 px-2"><Button preset={Preset.smallClose} noText onClick={()=> onClick(record, OptionsClickSales.delete)} /></td>
     </tr>
   ));
 
