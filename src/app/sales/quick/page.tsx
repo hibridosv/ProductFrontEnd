@@ -4,7 +4,6 @@ import { OptionsClickOrder, SalesButtons } from "@/app/components/sales-componen
 import { SalesShowTotal } from "@/app/components/sales-components/sales-show-total";
 import { getData, postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
-
 import { useForm } from "react-hook-form";
 import { OptionsClickSales, SalesQuickTable } from "@/app/components/table/sales-quick-table";
 import { SalesShowOrders } from "@/app/components/sales-components/sales-show-orders";
@@ -83,7 +82,7 @@ export default function ViewSales() {
       } else {
         setProductsOfInvoice(response?.data);
       }
-      toast.success(response.message);
+      toast.success("Producto Eliminado");
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!");
