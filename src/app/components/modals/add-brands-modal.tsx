@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from "react-hook-form";
 import { getData, postData } from "@/services/resources";
 import { style } from "@/theme";
@@ -50,15 +49,15 @@ export function AddBrandsModal(props: AddBrandsModalProps) {
       setIsSending(true)
       const response = await postData("brands", "POST", data);
       if (!response.message) {
-        toast.success( "Marca Agregada correctamente", { autoClose: 2000 });
+        toast.success( "Marca Agregada correctamente");
         resetField("name")
       } else {
-        toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
+        toast.error("Faltan algunos datos importantes!");
       }
       setMessage(response);
     } catch (error) {
       console.error(error);
-      toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
+      toast.error("Ha Ocurrido un Error!");
     } finally {
       setIsSending(false)
       setSubmited(getRandomInt(100))
@@ -116,9 +115,9 @@ export function AddBrandsModal(props: AddBrandsModalProps) {
                 />
             </div>
             )}
-      <ToastContainer />
     </>
     }
+      <Toaster />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         <Button onClick={onClose} preset={Preset.close} />

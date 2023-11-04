@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
+
 import { Button, Preset } from "../button/button";
 import { AddBrandsModal } from "../modals/add-brands-modal";
 import { getData, postData } from "@/services/resources";
@@ -52,16 +52,16 @@ const deleteBrand = async (iden: any) => {
   try {
     const response = await postData(`brands/${brandSelect}`, 'DELETE');
     if (response.type === "successfull") {
-      toast.success( "Marca eliminada correctamente", { autoClose: 2000 });
+      toast.success( "Marca eliminada correctamente");
       await loadBrands()
     } else {
-      toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
+      toast.error("Ha Ocurrido un Error!");
     }
     setBrandSelect("");
     setShowDeleteModal(false);
   } catch (error) {
     console.error(error);
-    toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
+    toast.error("Ha Ocurrido un Error!");
   } 
 }
 
@@ -80,7 +80,7 @@ if (option != 3) return null
               text="¿Está seguro de eliminar esta marca?"
               onDelete={deleteBrand} 
               onClose={()=>setShowDeleteModal(false)} /> }
-              <ToastContainer />
+        <Toaster />
         </div>
   );
 }

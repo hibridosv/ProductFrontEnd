@@ -6,8 +6,8 @@ import { postData, getData } from "@/services/resources";
 import { Button, Preset } from "@/app/components/button/button";
 import { style } from "@/theme";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
+
 import { SearchIcon } from "@/theme/svg";
 import { Product } from "@/services/products";
 import { Contacts } from "@/services/Contacts";
@@ -36,14 +36,14 @@ export default function ProductAdd() {
         setValue("quantity", null)
         setValue("unit_cost", null)
         setLastProducts(response.data);
-        toast.success("Producto agregado correctamente", { autoClose: 2000 });
+        toast.success("Producto agregado correctamente");
       } else {
-        toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
+        toast.error("Faltan algunos datos importantes!");
         setMessage(response);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
+      toast.error("Ha ocurrido un error!");
     }
   }
 
@@ -113,11 +113,11 @@ useEffect(() => {
         setProducts([]);
         setValue("search", null)
       } else {
-        toast.error(response.message, { autoClose: 2000 });
+        toast.error(response.message);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
+      toast.error("Ha Ocurrido un Error!");
     }
   }
 
@@ -323,7 +323,7 @@ useEffect(() => {
             <ProductRegisterTable records={lastProducts} />
           </div>
         </div>
-      <ToastContainer />
+      <Toaster />
    </div>
   )
 }

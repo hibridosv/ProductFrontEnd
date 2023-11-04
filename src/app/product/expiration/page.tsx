@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { Loading, Pagination, ViewTitle } from "@/app/components";
 import { getData } from "@/services/resources";
 import { usePagination } from "@/app/components/pagination";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
+
 import { ProductExpirationTable } from "@/app/components/table/product-expiration-table";
 import { RightExpired } from "@/app/components/right-side/right-side-expired";
 
@@ -73,8 +73,7 @@ useEffect(() => {
          <ViewTitle text="DETALLES" />
               <RightExpired statics={expired} />
          </div>
-         <ToastContainer />
-
+      <Toaster />
    </div>
   )
 }

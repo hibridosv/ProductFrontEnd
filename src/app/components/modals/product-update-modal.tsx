@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
+
 import { postData } from "@/services/resources";
 import { Product } from "@/services/products";
 import { style } from "../../../theme";
@@ -30,15 +30,15 @@ export function ProductUpdateModal(props: ProductUpdateModalProps) {
       setIsSending(true)
       const response = await postData(`products/${product?.id}`, "PUT", product);
       if (!response.message) {
-        toast.success( "Producto Actualizado correctamente", { autoClose: 2000 });
+        toast.success( "Producto Actualizado correctamente");
         onClose()
         reset();
       } else {
-        toast.error("Faltan algunos datos importantes", { autoClose: 2000 });
+        toast.error("Faltan algunos datos importantes");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
+      toast.error("Ha ocurrido un error!");
     } finally {
       setIsSending(false)
     }
@@ -71,8 +71,8 @@ export function ProductUpdateModal(props: ProductUpdateModalProps) {
               </div>
             </form>
           </div>
-          <ToastContainer />
         </div>
+      <Toaster />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         <Button onClick={onClose} preset={Preset.close} />

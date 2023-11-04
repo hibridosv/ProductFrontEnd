@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { OptionsClickOrder, SalesButtons } from "@/app/components/sales-components/sales-buttons";
 import { SalesShowTotal } from "@/app/components/sales-components/sales-show-total";
 import { getData, postData } from "@/services/resources";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
+
 import { useForm } from "react-hook-form";
 import { OptionsClickSales, SalesQuickTable } from "@/app/components/table/sales-quick-table";
 import { SalesShowOrders } from "@/app/components/sales-components/sales-show-orders";
@@ -83,7 +83,7 @@ export default function ViewSales() {
       } else {
         setProductsOfInvoice(response?.data);
       }
-      toast.success(response.message, { autoClose: 2000 });
+      toast.success(response.message);
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!");
@@ -95,7 +95,7 @@ export default function ViewSales() {
   const deleteOrder = async () => {
     try {
       const response = await postData(`sales/order/${order}`, "DELETE");
-      toast.success(response.message, { autoClose: 2000 });
+      toast.success(response.message);
       if (response.type !== "error") {
         resetOrder()
       }
@@ -108,7 +108,7 @@ export default function ViewSales() {
   const saveOrder = async () => {
     try {
       const response = await postData(`sales/order/save/${order}`, "POST");
-      toast.success(response.message, { autoClose: 2000 });
+      toast.success(response.message);
       if (response.type !== "error") {
         resetOrder()
       }
@@ -132,7 +132,7 @@ export default function ViewSales() {
       setIsSending(true);
       const response = await postData(`sales`, "POST", values);
       if (response.type === "error") {
-        toast.error(response.message, { autoClose: 2000 });
+        toast.error(response.message);
       } else {
         if (!order) setOrder(response.data.id);
         setProductsOfInvoice(response.data);
@@ -142,7 +142,7 @@ export default function ViewSales() {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
+      toast.error("Ha Ocurrido un Error!");
     } finally {
       setIsSending(false);
       reset();
@@ -218,7 +218,7 @@ export default function ViewSales() {
         setOrder(order);
         setChangeOrder(!changeOrder);
       } else {
-        toast.error(response.message, { autoClose: 2000 });
+        toast.error(response.message);
       }
     } catch (error) {
       console.error(error);
@@ -276,7 +276,7 @@ export default function ViewSales() {
       <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} />
       <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} />
       <SalesDiscountProductModal isShow={isDiscountProductModal} discountType={isDiscountType} order={order} product={productSelected} onClose={()=>closeModalDiscount()} />
-      <ToastContainer />
+      <Toaster />
     </div>
   );
 }

@@ -6,8 +6,8 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { SearchInput } from "@/app/components/form/search";
 import { Product } from "@/services/products";
 import { KardexTable } from "@/app/components/table/kardex-table";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
+
 import { DateRange, DateRangeValues } from "@/app/components/form/date-range";
 import { Button, Preset } from "@/app/components/button/button";
 
@@ -45,13 +45,13 @@ export default function KardexPage() {
         const response = await postData(`kardex`, "POST", values);
         if (!response.message) {
           setRecordsOfKardex(response)
-          toast.success( "Petición realizada correctamente", { autoClose: 2000 });
+          toast.success( "Petición realizada correctamente");
         } else {
-          toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
+          toast.error("Faltan algunos datos importantes!");
         }
       } catch (error) {
         console.error(error);
-        toast.error("Ha ocurrido un error!", { autoClose: 2000 });
+        toast.error("Ha ocurrido un error!");
       } finally{
         setIsSending(false)
       }
@@ -92,7 +92,6 @@ export default function KardexPage() {
         <div className="mt-4">
         <Button text='Nueva busqueda' isFull type="submit" preset={Preset.cancel} onClick={()=>handleNewProduct()} />
         </div>
-        <ToastContainer />
       </div> </> :
           <div className="col-span-3 m-4">
           <ViewTitle text="KARDEX DE PRODUCTO"  />
@@ -104,6 +103,7 @@ export default function KardexPage() {
           </div>
       </div>
       }
+      <Toaster />
     </div>
   );
 }

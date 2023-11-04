@@ -5,8 +5,8 @@ import { getData, postData } from "@/services/resources";
 import { usePagination } from "@/app/components/pagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { RowTable } from "@/app/components/table/products-table";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export default function Compounds() {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,11 +37,11 @@ useEffect(() => {
 const deleteProduct = async (iden: number) => {
   try {
     const response = await postData(`products/${iden}`, 'DELETE');
-      toast.success( response.message, { autoClose: 2000 });
+      toast.success( response.message);
     await loadData();
   } catch (error) {
     console.error(error);
-      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
+      toast.error("Ha ocurrido un error!");
   } 
 }
 
@@ -69,8 +69,7 @@ const deleteProduct = async (iden: number) => {
                 handleSearchTerm={handleSearchTerm}
                  />
          </div>
-         <ToastContainer />
-
+      <Toaster />
    </div>
   )
 }

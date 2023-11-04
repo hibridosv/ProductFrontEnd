@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { FieldsFormProduct as Fields } from "@/constants/form-product-json";
 import { postData, getData } from "@/services/resources";
 import { Button, Preset } from "@/app/components/button/button";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
+
 import { ConfigContext } from "@/contexts/config-context";
 import { style } from "@/theme/styles";
 import { MultiPrice } from "@/app/components/products-components/multi-price";
@@ -192,14 +192,14 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
         setMessage(response);
         if (!response.message) {
           setSelectedProdcut(response)
-          toast.success( "Producto actualizado correctamente", { autoClose: 2000 });
+          toast.success( "Producto actualizado correctamente");
         } else {
-          toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
+          toast.error("Faltan algunos datos importantes!");
         }
         
       } catch (error) {
         console.error(error);
-        toast.error("Ha ocurrido un error!", { autoClose: 2000 });
+        toast.error("Ha ocurrido un error!");
       } finally{
         setIsSending(false)
       }
@@ -406,7 +406,6 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
             </div>
           </div>
         </div>
-        <ToastContainer />
         </> :
           <div className="col-span-3 m-4">
             <ViewTitle text="EDITAR PRODUCTO"  />
@@ -418,6 +417,7 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
             </div>
           </div>
             }
+      <Toaster />
       </div>
     );
   }

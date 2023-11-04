@@ -7,8 +7,8 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { getData, postData } from "@/services/resources";
 import { SearchInput } from "../form/search";
 import { style } from "@/theme";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
+
 import { DeleteModal } from "./delete-modal";
 import { Loading } from "../loading/loading";
 
@@ -100,11 +100,11 @@ useEffect(() => {
   const deleteProduct = async (iden: number) => {
     try {
       const response = await postData(`composed/${iden}`, 'DELETE');
-      toast.success( response.message, { autoClose: 2000 });
+      toast.success( response.message);
       await loadProductsCompound()
     } catch (error) {
       console.error(error);
-      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
+      toast.error("Ha ocurrido un error!");
     } 
   }
   
@@ -118,15 +118,15 @@ useEffect(() => {
       setIsSending(true)
       const response = await postData(`composed`, "POST", data);
       if (!response.message) {
-        toast.success( "Producto agregado correctamente", { autoClose: 2000 });
+        toast.success( "Producto agregado correctamente");
         await loadProductsCompound()
         cancelSelected()
       } else {
-        toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
+        toast.error("Faltan algunos datos importantes!");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
+      toast.error("Ha ocurrido un error!");
     } finally{
       setIsSending(false)
     }
@@ -201,12 +201,12 @@ const listProducts = lastProductsCompound?.map((product: any):any => (
 
         </>)}
 
-      <ToastContainer />
       { showDeleteModal && 
           <DeleteModal 
           text="¿Estas seguro de eliminar este elemento?"
           onDelete={handleDeleteProduct} 
           onClose={()=>setShowDeleteModal(false)} /> }
+      <Toaster />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         <Button onClick={onClose} preset={Preset.close} />

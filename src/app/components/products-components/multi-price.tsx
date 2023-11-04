@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { postData, getData } from "@/services/resources";
 import { Price, Product } from "@/services/products";
 import { getConfigStatus, numberToMoney } from "@/utils/functions";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
+
 import { RadioButton, Option} from "../radio-button/radio-button";
 import { style } from "../../../theme";
 import { ConfigContext } from "../../../contexts/config-context";
@@ -61,14 +61,14 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
         const newProduct = await getData(`products/${product.id}`);    
         setNewProductPrices(newProduct.data.prices)   
         product.prices = newProduct.data.prices
-        toast.success( "Precio Agregado correctamente", { autoClose: 2000 });
+        toast.success( "Precio Agregado correctamente");
         reset();
       } else {
-      toast.error("Ingrese ambos datos!", { autoClose: 2000 });
+      toast.error("Ingrese ambos datos!");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
+      toast.error("Ha ocurrido un error!");
     } finally {
       setIsSending(false)
     }
@@ -81,10 +81,10 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
       const newProduct = await getData(`products/${product.id}`);    
       setNewProductPrices(newProduct.data.prices)   
       product.prices = newProduct.data.prices
-        toast.success( response.message, { autoClose: 2000 });
+        toast.success( response.message);
     } catch (error) {
       console.error(error);
-      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
+      toast.error("Ha ocurrido un error!");
     } 
   }
 
@@ -183,9 +183,9 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
           }
 
           </div>
-          <ToastContainer />
 
           </div>
+      <Toaster />
           </div>
   );
 }

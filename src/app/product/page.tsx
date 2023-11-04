@@ -4,8 +4,8 @@ import { getData, postData } from "@/services/resources";
 import { ProductsTable, RightSideProducts, Loading, Pagination, ViewTitle } from "@/app/components";
 import { usePagination } from "@/app/components/pagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
+
 import { RowTable } from "@/app/components/table/products-table";
 
 export default function ViewProducts() {
@@ -55,7 +55,7 @@ export default function ViewProducts() {
   const deleteProduct = async (iden: number) => {
     try {
       const response = await postData(`products/${iden}`, 'DELETE');
-      toast.success(response.message, { autoClose: 2000 });
+      toast.success(response.message);
       await loadData();
     } catch (error) {
       console.error(error);
@@ -88,7 +88,7 @@ export default function ViewProducts() {
                 statics={statics}
                  />
             </div>
-            <ToastContainer />
+      <Toaster />
       </div>
       );
 }
