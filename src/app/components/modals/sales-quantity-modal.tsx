@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
+
 import { style } from "@/theme";
 import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
@@ -58,7 +58,7 @@ export function SalesQuantityModal(props: SalesQuantityModalProps) {
       setIsSending(true);
       const response = await postData(`sales`, "POST", values);
       if (response.type === "error") {
-        toast.error(response.message, { autoClose: 2000 });
+        toast.error(response.message);
       } else {
         resetField("quantity")
       } 
@@ -89,11 +89,11 @@ export function SalesQuantityModal(props: SalesQuantityModalProps) {
         </form>
 
         </div>
+      <Toaster />
       </Modal.Body>
       <Modal.Footer className="flex justify-end">
         <Button onClick={onClose} preset={Preset.close} isFull /> 
       </Modal.Footer>
-      <ToastContainer />
     </Modal>
   );
 }

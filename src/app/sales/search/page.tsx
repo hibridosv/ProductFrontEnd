@@ -5,8 +5,8 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { SalesButtons } from "@/app/components/sales-components/sales-buttons";
 import { SalesShowTotal } from "@/app/components/sales-components/sales-show-total";
 import { getData, postData } from "@/services/resources";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export default function ViewSales() {
   const { searchTerm, handleSearchTerm } = useSearchTerm()
@@ -79,11 +79,11 @@ useEffect(() => {
         setProductsOfInvoice(response)
         setProducts([]);
       } else {
-        toast.error(response.message, { autoClose: 2000 });
+        toast.error(response.message);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
+      toast.error("Ha Ocurrido un Error!");
     } finally{
       setIsSending(false)
     }
@@ -131,7 +131,7 @@ useEffect(() => {
               <SalesButtons onClick={handleClickOption} />
               </div>
             </div>
-      <ToastContainer />
+      <Toaster />
       </div>
       );
 }

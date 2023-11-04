@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
+
 import { style } from "@/theme";
 import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
@@ -43,13 +43,13 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
         setIsSending(true);
         const response = await postData(discountType == 1 ? `sales/update-discount` :  `sales/update-discount-all`, "POST", values);
         if (response.type === "error") {
-            toast.error(response.message, { autoClose: 2000 });
+            toast.error(response.message);
           } else {
             resetField("quantity")
           } 
       } catch (error) {
         console.error(error);
-        toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
+        toast.error("Ha Ocurrido un Error!");
       } finally {
         setIsSending(false);
         onClose()
@@ -84,11 +84,11 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
         </form>
 
         </div>
+      <Toaster />
       </Modal.Body>
       <Modal.Footer className="flex justify-end">
         <Button onClick={onClose} preset={Preset.close} isFull /> 
       </Modal.Footer>
-      <ToastContainer />
     </Modal>
   );
 }

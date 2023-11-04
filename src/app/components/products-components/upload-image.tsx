@@ -4,8 +4,8 @@ import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
 import { postData, getData, postDataWithImage } from "@/services/resources";
 import { Product, Image as Imagen } from "@/services/products";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
+
 import { style } from "../../../theme";
 import Image from "next/image";
 import { URL } from "@/constants";
@@ -64,15 +64,15 @@ const imageLoader = ({ src, width, quality }: any) => {
       setIsSending(true)
       const response = await postDataWithImage("images", "POST", data);
       if (!response.message) {
-        toast.success( "Imagen Agregada correctamente", { autoClose: 2000 });
+        toast.success( "Imagen Agregada correctamente");
         setImages(response.data)
         reset();
       } else {
-        toast.error("Ingrese ambos datos!", { autoClose: 2000 });
+        toast.error("Ingrese ambos datos!");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
+      toast.error("Ha ocurrido un error!");
     } finally {
       setIsSending(false)
     }
@@ -91,10 +91,10 @@ const imageLoader = ({ src, width, quality }: any) => {
       await loadImages()
       setShowDeleteModal(false);
       setImageSelect("");
-      toast.success( response.message, { autoClose: 2000 });
+      toast.success( response.message);
     } catch (error) {
       console.error(error);
-      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
+      toast.error("Ha ocurrido un error!");
     } 
   }
 
@@ -124,7 +124,6 @@ const imageLoader = ({ src, width, quality }: any) => {
                 { isSending ? <Button disabled={true} preset={Preset.saving} /> : <Button type="submit" preset={Preset.save} /> }
               </div>
       </form>)}
-      <ToastContainer />
     </div>
         <div className="flex justify-center mt-8 border-blue-600">
           { isLoading ? <Loading /> : listItems }
@@ -135,5 +134,6 @@ const imageLoader = ({ src, width, quality }: any) => {
           text="¿Estas seguro de eliminar esta imagen?"
           onDelete={deleteImage} 
           onClose={()=>setShowDeleteModal(false)} /> }
+      <Toaster />
   </div>);
 }

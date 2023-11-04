@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { getData, postData } from "@/services/resources";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
+
 import { Loading } from "../loading/loading";
 import { ToggleSwitch } from "flowbite-react";
 
@@ -45,11 +45,11 @@ const updateStatus = async (key : string, status : number) => {
     try {
         const response = await postData(`quantityunits/${key}`, 'PUT', {"status": status});
         setUnits(response.data);
-        toast.success("Actualizado correctamente", { autoClose: 2000 });
+        toast.success("Actualizado correctamente");
     } 
     catch (error) {
         console.error(error);
-        toast.error("Error al actualizar!", { autoClose: 2000 });
+        toast.error("Error al actualizar!");
         }  
     finally {
       setIsSending(false)
@@ -76,8 +76,8 @@ if(isLoading) return <Loading />
                   </div>
                 </div>
             ))}
-          <ToastContainer />
         </div>
+      <Toaster />
       </div>
   );
 }

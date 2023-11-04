@@ -4,8 +4,8 @@ import { Loading, ViewTitle } from "@/app/components";
 import { getData, postData } from "@/services/resources";
 import { numberToMoney } from "@/utils/functions";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
+
 import { Button, Preset } from "@/app/components/button/button";
 import { style } from "@/theme";
 import { ProductFailureTable } from "@/app/components/table/product-failure-table";
@@ -69,14 +69,14 @@ useEffect(() => {
         setFailure(response);
         const product = await getData(`products/${productSelected}`);
         setSelectedProdcut(product.data);
-        toast.success("Producto agregado correctamente", { autoClose: 2000 });
+        toast.success("Producto agregado correctamente");
         reset();
       } else {
-        toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
+        toast.error("Faltan algunos datos importantes!");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
+      toast.error("Ha ocurrido un error!");
     } finally {
       setIsSending(false);
     }
@@ -87,16 +87,16 @@ useEffect(() => {
     try {
       const response = await postData(`failures/${iden}`, 'DELETE');
       if(response?.type === "error"){
-        toast.error(response.message, { autoClose: 2000 });
+        toast.error(response.message);
       } else {
-        toast.success("Registro Eliminado", { autoClose: 2000 });
+        toast.success("Registro Eliminado");
         setFailure(response);
         const product = await getData(`products/${productSelected}`);
         setSelectedProdcut(product.data);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
+      toast.error("Ha ocurrido un error!");
     } 
     
   }
@@ -205,7 +205,6 @@ useEffect(() => {
                 </div>
 
             </div>
-          <ToastContainer />
           <div className="mt-4">
               <Button text='Nueva busqueda' isFull type="submit" preset={Preset.cancel} onClick={()=>handleNewProduct()} />
           </div>
@@ -221,6 +220,7 @@ useEffect(() => {
           </div>
         </div>
       }
+      <Toaster />
     </div>
   );
 }

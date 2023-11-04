@@ -6,8 +6,8 @@ import { useForm } from "react-hook-form";
 import { FieldsFormProduct as Fields } from "@/constants/form-product-json";
 import { postData, getData } from "@/services/resources";
 import { Button, Preset } from "@/app/components/button/button";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
+
 import { ConfigContext } from "@/contexts/config-context";
 import { style } from "@/theme";
 import { getConfigStatus, fieldWidth } from "@/utils/functions";
@@ -139,18 +139,18 @@ export default function AddProduct() {
       const response = await postData(`products`, "POST", data);
       if (!response.message) {
         let newProducts = await getData("products?sort=-created_at&perPage=10");
-        toast.success("Producto agregado correctamente", { autoClose: 2000 });
+        toast.success("Producto agregado correctamente");
         setLastProducts(newProducts);
         reset();
         setValue("product_type", 1);
       } else {
-        toast.error("Faltan algunos datos importantes!", { autoClose: 2000 });
+        toast.error("Faltan algunos datos importantes!");
       }
       setMessage(response);
       setIsShowCompoundModal(response?.data?.product_type == 3 ? true : false);
     } catch (error) {
       console.error(error);
-      toast.error("Ha ocurrido un error!", { autoClose: 2000 });
+      toast.error("Ha ocurrido un error!");
     } finally {
       setIsSending(false);
     }
@@ -305,14 +305,13 @@ export default function AddProduct() {
           />
         </div>
       </div>
-      <ToastContainer />
 
         <ProductCompoundModal
           isShow={isShowCompoundModal}
           product={message.data}
           onClose={() => setIsShowCompoundModal(false)}
         />
-
+      <Toaster />
     </div>
   );
 }

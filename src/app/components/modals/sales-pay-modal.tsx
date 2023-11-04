@@ -4,8 +4,8 @@ import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
+
 import { SalesShowTotal } from "../sales-components/sales-show-total";
 import { numberToMoney } from "@/utils/functions";
 
@@ -61,14 +61,14 @@ export function SalesPayModal(props: SalesPayModalProps) {
         setIsPayInvoice(true)
         setDataInvoice(response.data)
       } else {
-        toast.error(response.message, { autoClose: 2000 });
+        toast.error(response.message);
         if (onFinish) {
           onFinish()
         }
       }
     } catch (error) {
       console.error(error);
-      toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
+      toast.error("Ha Ocurrido un Error!");
     } finally {
       setIsSending(false);
       reset();
@@ -138,6 +138,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
             </div>
             </div>) }
         </div>
+      <Toaster />
       </Modal.Body>
              { !isPayInvoice && <div className='flex justify-between border-2 border-sky-500 mt-4 mx-1'>
                 <span className='mx-1 text-sm font-bold animatex' onClick={()=>setPaymentType(1)}>Efectivo</span> 
@@ -150,7 +151,6 @@ export function SalesPayModal(props: SalesPayModalProps) {
         { isPayInvoice ?
         <Button onClick={handleFinish} preset={Preset.close} isFull /> :
         <Button onClick={onClose} preset={Preset.close} /> }
-        <ToastContainer />
       </Modal.Footer>
     </Modal>
   );

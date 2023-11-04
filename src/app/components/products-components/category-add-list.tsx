@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { getData, postData } from "@/services/resources";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from 'react-hot-toast';
+
 import { Loading } from "../loading/loading";
 import { Category } from "@/services/products";
 import { Button, Preset } from "../button/button";
@@ -51,16 +51,16 @@ const deleteCategory = async (iden: any) => {
   try {
     const response = await postData(`categories/${categorySelect}`, 'DELETE');
     if (response.type === "successfull") {
-      toast.success( "Categoria eliminada correctamente", { autoClose: 2000 });
+      toast.success( "Categoria eliminada correctamente");
       await loadCategories()
     } else {
-      toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
+      toast.error("Ha Ocurrido un Error!");
     }
     setCategorySelect("");
     setShowDeleteModal(false);
   } catch (error) {
     console.error(error);
-    toast.error("Ha Ocurrido un Error!", { autoClose: 2000 });
+    toast.error("Ha Ocurrido un Error!");
   } 
 }
 
@@ -78,7 +78,7 @@ if (option != 1) return null
               text="¿Está seguro de eliminar esta categoría?"
               onDelete={deleteCategory} 
               onClose={()=>setShowDeleteModal(false)} /> }
-              <ToastContainer />
+        <Toaster />
         </div>
   );
 }
