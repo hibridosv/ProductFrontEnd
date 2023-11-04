@@ -9,6 +9,19 @@ export interface SalesButtonsProps {
   onClick: (option: number) => void;
 }
 
+export enum OptionsClickOrder {
+  pay = 1,
+  save = 2,
+  delete = 3,
+  discount = 11,
+  client = 12,
+  seller = 13,
+  referred = 14,
+  delivery = 15,
+  special = 16,
+}
+
+
 export function SalesButtons(props: SalesButtonsProps) {
   const {onClick } = props
 
@@ -19,13 +32,12 @@ export function SalesButtons(props: SalesButtonsProps) {
             label={<div className='button-left-grey'><IoMdOptions className='mr-1' /> Opciones</div>}
             inline={true}
             arrowIcon={false}>
-              <Dropdown.Item onClick={()=>onClick(11)}> Agregar Descuento </Dropdown.Item>
-              <Dropdown.Item onClick={()=>onClick(12)}> Asignar Credito </Dropdown.Item>
-              <Dropdown.Item onClick={()=>onClick(13)}> Asignar Cliente </Dropdown.Item>
-              <Dropdown.Item onClick={()=>onClick(14)}> Asignar Vendedor </Dropdown.Item>
-              <Dropdown.Item onClick={()=>onClick(15)}> Asignar Referido </Dropdown.Item>
-              <Dropdown.Item onClick={()=>onClick(15)}> Asignar Repartidor </Dropdown.Item>
-              <Dropdown.Item onClick={()=>onClick(17)}> Venta Especial </Dropdown.Item>
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.discount)}> Agregar Descuento </Dropdown.Item>
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.client)}> Asignar Cliente </Dropdown.Item>
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.seller)}> Asignar Vendedor </Dropdown.Item>
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.referred)}> Asignar Referido </Dropdown.Item>
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.delivery)}> Asignar Repartidor </Dropdown.Item>
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.special)}> Venta Especial </Dropdown.Item>
             </Dropdown>
             
             <Button color="blue" gradientMonochrome="info" onClick={()=>onClick(2)}>

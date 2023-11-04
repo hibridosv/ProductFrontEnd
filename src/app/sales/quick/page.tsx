@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { SalesButtons } from "@/app/components/sales-components/sales-buttons";
+import { OptionsClickOrder, SalesButtons } from "@/app/components/sales-components/sales-buttons";
 import { SalesShowTotal } from "@/app/components/sales-components/sales-show-total";
 import { getData, postData } from "@/services/resources";
 import { ToastContainer, toast } from "react-toastify";
@@ -149,7 +149,7 @@ export default function ViewSales() {
     }
   };
 
-  const handleClickOptionOrder = (option: number) => { // opciones de la orden
+  const handleClickOptionOrder = (option: OptionsClickOrder) => { // opciones de la orden
     switch (option) {
       case 1: setIsPayModal(true);
         break;
