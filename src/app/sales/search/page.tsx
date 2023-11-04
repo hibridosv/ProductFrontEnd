@@ -131,7 +131,7 @@ useEffect(() => {
               <SalesButtons onClick={handleClickOption} />
               </div>
             </div>
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false} />
       </div>
       );
 }

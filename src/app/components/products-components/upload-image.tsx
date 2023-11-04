@@ -134,6 +134,6 @@ const imageLoader = ({ src, width, quality }: any) => {
           text="¿Estas seguro de eliminar esta imagen?"
           onDelete={deleteImage} 
           onClose={()=>setShowDeleteModal(false)} /> }
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false} />
   </div>);
 }

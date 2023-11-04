@@ -78,7 +78,7 @@ if (option != 1) return null
               text="¿Está seguro de eliminar esta categoría?"
               onDelete={deleteCategory} 
               onClose={()=>setShowDeleteModal(false)} /> }
-        <Toaster />
+        <Toaster position="top-right" reverseOrder={false} />
         </div>
   );
 }

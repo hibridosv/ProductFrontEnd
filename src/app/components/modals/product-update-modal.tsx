@@ -72,7 +72,7 @@ export function ProductUpdateModal(props: ProductUpdateModalProps) {
             </form>
           </div>
         </div>
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         <Button onClick={onClose} preset={Preset.close} />

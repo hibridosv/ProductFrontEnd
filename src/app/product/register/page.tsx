@@ -311,7 +311,7 @@ export default function AddProduct() {
           product={message.data}
           onClose={() => setIsShowCompoundModal(false)}
         />
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 }

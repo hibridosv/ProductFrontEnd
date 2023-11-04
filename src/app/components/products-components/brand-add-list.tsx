@@ -80,7 +80,7 @@ if (option != 3) return null
               text="¿Está seguro de eliminar esta marca?"
               onDelete={deleteBrand} 
               onClose={()=>setShowDeleteModal(false)} /> }
-        <Toaster />
+        <Toaster position="top-right" reverseOrder={false} />
         </div>
   );
 }

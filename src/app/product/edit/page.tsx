@@ -417,7 +417,7 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
             </div>
           </div>
             }
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false} />
       </div>
     );
   }

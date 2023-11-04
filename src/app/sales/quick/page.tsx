@@ -276,7 +276,7 @@ export default function ViewSales() {
       <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} />
       <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} />
       <SalesDiscountProductModal isShow={isDiscountProductModal} discountType={isDiscountType} order={order} product={productSelected} onClose={()=>closeModalDiscount()} />
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 }

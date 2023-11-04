@@ -73,7 +73,7 @@ useEffect(() => {
          <ViewTitle text="DETALLES" />
               <RightExpired statics={expired} />
          </div>
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false} />
    </div>
   )
 }

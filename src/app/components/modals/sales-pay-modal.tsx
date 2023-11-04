@@ -138,7 +138,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
             </div>
             </div>) }
         </div>
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
              { !isPayInvoice && <div className='flex justify-between border-2 border-sky-500 mt-4 mx-1'>
                 <span className='mx-1 text-sm font-bold animatex' onClick={()=>setPaymentType(1)}>Efectivo</span> 

@@ -69,7 +69,7 @@ const deleteProduct = async (iden: number) => {
                 handleSearchTerm={handleSearchTerm}
                  />
          </div>
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false} />
    </div>
   )
 }
