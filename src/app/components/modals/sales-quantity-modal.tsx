@@ -29,8 +29,6 @@ export function SalesQuantityModal(props: SalesQuantityModalProps) {
     setFocus('quantity', {shouldSelect: true})
   }, [setFocus, isShow])
 
-  if (!isShow) return <></>
-
   const onSubmit = async (data: any) => {
     if (product.quantity == data.quantity || data.quantity == null) onClose();
     

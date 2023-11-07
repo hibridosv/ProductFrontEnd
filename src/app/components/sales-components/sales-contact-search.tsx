@@ -45,7 +45,6 @@ useEffect(() => {
   // eslint-disable-next-line
 }, [searchTerm]);
 
-if (!isShow) return <></>
 
 const handleContactSelected = async(contact: Contact) => {
 
@@ -62,6 +61,7 @@ const handleContactSelected = async(contact: Contact) => {
     if (!response.message) {
       toast.error(response.message);
     } else {
+      toast.success(response.message);
       onClose()
     }
   } catch (error) {

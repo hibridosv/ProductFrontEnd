@@ -7,13 +7,13 @@ import { Product } from "@/services/products";
 import { NameIcon, SearchIcon } from "@/theme/svg";
 import { getRandomInt } from "@/utils/functions";
 
-export interface SalesListItemsOfSearchProps {
+export interface SalesSearchByNameProps {
     typeOfSearch?: boolean; // tipo de busqueda
     setTypeOfSearch: (type: boolean)=>void;
     onSubmit: (product : Product) => void;
 }
 
-export function SalesListItemsOfSearch(props: SalesListItemsOfSearchProps){
+export function SalesSearchByName(props: SalesSearchByNameProps){
 const {  setTypeOfSearch, typeOfSearch, onSubmit } = props;
 const [products, setProducts] = useState([]) as any;
 const [randNumber, setrandNumber] = useState(0) as any;
@@ -57,34 +57,30 @@ const cancelClick = () => {
 
 
 const listItems = products?.map((product: any):any => (
-    <div key={product.id} onClick={()=>handleContactSelected(product)}>
-        <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
+        <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer" key={product.id} onClick={()=>handleContactSelected(product)}>
               {product.cod} | {product.description}
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
         </li>
-    </div>
 ))
 
 
 return (
         <div className="m-2 flex justify-between">
-        
-            <div className="w-full bg-white rounded-lg shadow-lg z-0">
+            <div className="w-full bg-white rounded-lg shadow-lg">
             <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Ingrese el nombre del producto" randNumber={randNumber} />
-                <ul className="divide-y-2 divide-gray-400">
+                <ul className="divide-y-2 divide-gray-400 absolute z-50 bg-white">
                 { listItems }
-                { products && products.length > 0 && <div onClick={()=>cancelClick()}>
-                    <li className="flex justify-between p-3 hover:bg-red-200 hover:text-red-800 cursor-pointer">
+                { products && products.length > 0 && 
+                    <li className="flex justify-between p-3 hover:bg-red-200 hover:text-red-800 cursor-pointer" onClick={()=>cancelClick()}>
                         CANCELAR
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
-                    </li>
-                </div> }
+                    </li> }
                 </ul>
             </div>
 

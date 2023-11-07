@@ -18,10 +18,11 @@ export function SideBar() {
       <Menu>
         <div className="w-full bg-slate-600">
           <Image
-            src="/img/lgb.png"
+            src="/img/logo.png"
             alt="Logo"
             width={300}
             height={80}
+            priority={false}
           />
         </div>
         <MenuItem icon={<HiFingerPrint />} component={<Link href="/" />}>

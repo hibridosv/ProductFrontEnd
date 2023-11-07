@@ -1,6 +1,6 @@
 'use client'
 import { NameIcon, SearchIcon } from '@/theme/svg';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface SalesSearchByCodeProps {
@@ -19,7 +19,14 @@ interface SalesSearchByCodeProps {
 export function SalesSearchByCode(props: SalesSearchByCodeProps){
 const { setTypeOfSearch, typeOfSearch, onFormSubmit, isLoading } = props;
 
-const { register, handleSubmit, reset } = useForm<FormData>();
+const { register, handleSubmit, reset, setFocus } = useForm<FormData>();
+
+useEffect(() => {
+  if (typeOfSearch) {
+    setFocus('cod')
+  }
+}, [setFocus, typeOfSearch])
+
 
 const onSubmit = (data: FormData) => {
     onFormSubmit(data);

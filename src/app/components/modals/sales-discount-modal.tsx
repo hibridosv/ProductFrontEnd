@@ -31,7 +31,6 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
     setFocus('quantity', {shouldSelect: true})
   }, [setFocus, isShow, typeOfDiscount])
 
-  if (!isShow) return <></>
   const onSubmit = async (data: any) => {
     let values = {
         product_id: product.id,

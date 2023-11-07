@@ -12,7 +12,7 @@ import { Product } from "@/services/products";
 import { SalesDiscountProductModal } from "@/app/components/modals/sales-discount-modal";
 import { SalesContactSearchModal } from "@/app/components/sales-components/sales-contact-search";
 import { ContactNameOfOrder, ContactTypeToGet } from "@/services/enums";
-import { SalesListItemsOfSearch } from "@/app/components/sales-components/sales-list-items-of-search";
+import { SalesSearchByName } from "@/app/components/sales-components/sales-search-by-name"
 import { SalesSearchByCode } from "@/app/components/sales-components/sales-search-by-cod";
 
 export default function ViewSales() {
@@ -244,9 +244,9 @@ export default function ViewSales() {
       <div className="col-span-6 border-r md:border-sky-600">
           { typeOfSearch ? 
             <SalesSearchByCode setTypeOfSearch={setTypeOfSearch} typeOfSearch={typeOfSearch} onFormSubmit={onSubmit} isLoading={isLoading} /> : 
-            <SalesListItemsOfSearch setTypeOfSearch={setTypeOfSearch} typeOfSearch={typeOfSearch} onSubmit={onSubmit}  /> 
+            <SalesSearchByName setTypeOfSearch={setTypeOfSearch} typeOfSearch={typeOfSearch} onSubmit={onSubmit}  /> 
           }
-        <div>
+        <div className="relative z-0">
           <SalesQuickTable records={productsOfInvoice?.invoiceproducts} onClick={handleClickOptionProduct} />
         </div>
       </div>
