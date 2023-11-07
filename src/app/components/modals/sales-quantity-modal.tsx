@@ -25,9 +25,11 @@ export function SalesQuantityModal(props: SalesQuantityModalProps) {
   const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
-    setValue("quantity", product.quantity)
-    setFocus('quantity', {shouldSelect: true})
-  }, [setFocus, isShow])
+    if (product) {
+      setValue("quantity", product?.quantity)
+      setFocus('quantity', {shouldSelect: true})      
+    }
+  }, [setFocus, isShow, product, setValue])
 
   const onSubmit = async (data: any) => {
     if (product.quantity == data.quantity || data.quantity == null) onClose();
