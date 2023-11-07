@@ -4,16 +4,16 @@ import { OptionsClickOrder, SalesButtons } from "@/app/components/sales-componen
 import { SalesShowTotal } from "@/app/components/sales-components/sales-show-total";
 import { getData, postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
-import { useForm } from "react-hook-form";
 import { OptionsClickSales, SalesQuickTable } from "@/app/components/table/sales-quick-table";
 import { SalesShowOrders } from "@/app/components/sales-components/sales-show-orders";
 import { SalesPayModal } from "@/app/components/modals/sales-pay-modal";
-import { SearchIcon } from "@/theme/svg";
 import { SalesQuantityModal } from "@/app/components/modals/sales-quantity-modal";
 import { Product } from "@/services/products";
 import { SalesDiscountProductModal } from "@/app/components/modals/sales-discount-modal";
 import { SalesContactSearchModal } from "@/app/components/sales-components/sales-contact-search";
 import { ContactNameOfOrder, ContactTypeToGet } from "@/services/enums";
+import { SalesListItemsOfSearch } from "@/app/components/sales-components/sales-list-items-of-search";
+import { SalesSearchByCode } from "@/app/components/sales-components/sales-search-by-cod";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,13 +26,12 @@ export default function ViewSales() {
   const [isQuantityModal, setIsQuantityModal] = useState(false);
   const [isDiscountProductModal, setIsDiscountProductModal] = useState(false);
   const [isContactSearchModal, setIsContactSearchModal] = useState(false);
-  const [typeOfClient, setTypeOfClient] = useState<ContactTypeToGet>(); // tipo de cliente a buscar en el endpoint
-  const [clientNametoUpdate, setClientNametoUpdate] = useState<ContactNameOfOrder>(); // tipo de cliente a buscar en el endpoint
+  const [typeOfClient, setTypeOfClient] = useState<ContactTypeToGet>(ContactTypeToGet.clients); // tipo de cliente a buscar en el endpoint
+  const [clientNametoUpdate, setClientNametoUpdate] = useState<ContactNameOfOrder>(ContactNameOfOrder.client); // tipo de cliente a buscar en el endpoint
   const [isDiscountType, setIsDiscountType] = useState(0);
   const [productSelected, setProductSelected] = useState([]) as any;
+  const [typeOfSearch, setTypeOfSearch] = useState(true); // true: codigo, false: busqueda tipo de busqueda
 
-
-  const { register, handleSubmit, reset } = useForm();
 
   const loadDataProductsOfInvoice = async () => {
     setIsLoading(true);
@@ -125,15 +124,21 @@ export default function ViewSales() {
   };
 
   const onSubmit = async (data: any) => {
+    
+    if (!data.cod){
+      toast.error("Error en el codigo!");
+      return
+    }
     let values = {
-      product_id: data.product_id,
+      product_id: data.cod,
       order_id: order,
-      request_type: 2,
+      request_type: 2, // 1: id, 2: cod
       delivery_type: 1,
       order_type: 1,
       price_type: 1,
       addOrSubtract: data.addOrSubtract ? data.addOrSubtract : 1, // 1 sumar 2 restar
     };
+
     try {
       setIsSending(true);
       const response = await postData(`sales`, "POST", values);
@@ -151,7 +156,6 @@ export default function ViewSales() {
       toast.error("Ha Ocurrido un Error!");
     } finally {
       setIsSending(false);
-      reset();
     }
   };
 
@@ -183,9 +187,9 @@ export default function ViewSales() {
     switch (option) {
       case 1: deleteProduct(product.id)
         break;
-      case 2: onSubmit({product_id : product.cod})
+      case 2: onSubmit({cod : product.cod})
         break;
-      case 3: onSubmit({product_id : product.cod, addOrSubtract : 2})
+      case 3: onSubmit({cod : product.cod, addOrSubtract : 2})
         break;
       case 4: selectPorductForQuantity(product);
         break;
@@ -238,44 +242,20 @@ export default function ViewSales() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
       <div className="col-span-6 border-r md:border-sky-600">
-        <div className="m-2">
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-            <div>
-
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                 { SearchIcon }
-                </div>
-                <input
-                  type="text"
-                  id="product_id"
-                  readOnly ={isLoading}
-                  className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder={isLoading ? "Cargando Datos" : "Ingrese el código del Producto"}
-                  required
-                  {...register("product_id")}
-                />
-              </div>
-            </div>
-          </form>
-        </div>
+          { typeOfSearch ? 
+            <SalesSearchByCode setTypeOfSearch={setTypeOfSearch} typeOfSearch={typeOfSearch} onFormSubmit={onSubmit} isLoading={isLoading} /> : 
+            <SalesListItemsOfSearch setTypeOfSearch={setTypeOfSearch} typeOfSearch={typeOfSearch} onSubmit={onSubmit}  /> 
+          }
         <div>
-          <SalesQuickTable
-            records={productsOfInvoice?.invoiceproducts}
-            onClick={handleClickOptionProduct}
-          />
+          <SalesQuickTable records={productsOfInvoice?.invoiceproducts} onClick={handleClickOptionProduct} />
         </div>
       </div>
       <div className="col-span-4 flex justify-center ">
         <div className="w-full mx-4">
-          {order ? (
-            <SalesShowTotal
-              isSending={isSending}
-              records={productsOfInvoice?.invoiceproducts}
-            />
-          ) : (
+          {order ? 
+            <SalesShowTotal isSending={isSending} records={productsOfInvoice?.invoiceproducts} /> :
             <SalesShowOrders onClick={handleChangeOrder} />
-          )}
+          }
         </div>
         <div className="absolute bottom-2">
           {order && <SalesButtons onClick={handleClickOptionOrder} />}

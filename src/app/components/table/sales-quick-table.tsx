@@ -28,7 +28,7 @@ export function SalesQuickTable(props: SalesQuickProps) {
       <td className="py-1 px-2 cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.quantity)}>
         { record.quantity }
         </td>
-      <td className="py-1 px-2 truncate uppercase">{ record.product }</td>
+      <td className="py-1 px-2 truncate uppercase">{ record.product.slice(0, 50) }</td>
       <td className="py-1 px-2">{ numberToMoney(record.unit_price ? record.unit_price : 0) }</td>
       {/* <td className="py-2 px-2 truncate">{ numberToMoney(record.subtotal ? record.subtotal : 0) }</td> */}
       <td className="py-1 px-2 truncate cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.discount)}>

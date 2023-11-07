@@ -3,15 +3,20 @@ import { useEffect, useRef } from "react";
 export interface SearchInputProps {
     handleSearchTerm: (term: string) => void;
     placeholder?: string;
+    randNumber?: number; // para resetear el componente
 }
 
 export function SearchInput(props: SearchInputProps) {
-  const { handleSearchTerm, placeholder = "Buscar..." } = props;
+  const { handleSearchTerm, placeholder = "Buscar...", randNumber } = props;
   const focusInputSearch = useRef<any>();
 
   useEffect(() => {
     focusInputSearch.current.focus();
   },[handleSearchTerm])
+
+  useEffect(() => {
+    focusInputSearch.current.value = "";
+  },[randNumber])
 
   return (
     <div>

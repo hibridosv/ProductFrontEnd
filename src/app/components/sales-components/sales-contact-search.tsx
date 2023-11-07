@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
 import { Modal } from "flowbite-react";
-import { ViewTitle } from "../view-title/view-title";
 import { SearchInput } from "../form/search";
 import { Button, Preset } from "../button/button";
 import { Contact } from "@/services/Contacts";
@@ -12,11 +11,11 @@ import { Loading } from "../loading/loading";
 import { ContactNameOfOrder, ContactTypeToGet } from "@/services/enums";
 
 export interface SalesContactSearchModalProps {
-  ContactTypeToGet?: ContactTypeToGet; // ayuda a saber en que endpoint buscar
+    ContactTypeToGet?: ContactTypeToGet; // ayuda a saber en que endpoint buscar
     onClose: () => void;
     isShow?: boolean;
     order: any; // numero de orden
-    clientToUpdate?: ContactNameOfOrder;
+    clientToUpdate: ContactNameOfOrder;
 }
 
 export function SalesContactSearchModal(props: SalesContactSearchModalProps){
@@ -46,6 +45,8 @@ useEffect(() => {
   // eslint-disable-next-line
 }, [searchTerm]);
 
+if (!isShow) return <></>
+
 const handleContactSelected = async(contact: Contact) => {
 
   const data = {
@@ -63,7 +64,6 @@ const handleContactSelected = async(contact: Contact) => {
     } else {
       onClose()
     }
-    console.log(response)
   } catch (error) {
     console.error(error)
   } finally{
@@ -86,18 +86,27 @@ const listItems = contacts?.map((contact: any):any => (
     </div>
 ))
 
+const contactName = (contact: ContactNameOfOrder) => {
+  switch (contact) {
+    case ContactNameOfOrder.employee: return "Vendedor";
+    case ContactNameOfOrder.delivery: return "Repartidor";
+    case ContactNameOfOrder.client: return "Cliente";
+    case ContactNameOfOrder.referred: return "Referido";
+    default: return "Contacto";
+  }
+}
+
 
 
 return (
-
 <Modal show={isShow} position="center" onClose={onClose} size="md">
-<Modal.Header>Buscar contacto</Modal.Header>
+<Modal.Header>Buscar { contactName(clientToUpdate)}</Modal.Header>
   <Modal.Body>
 
     <div className="mx-4">
 
         <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Contacto" />
-        <div className="w-full bg-white rounded-lg shadow-lg lg:w-2/3 mt-4">
+        <div className="w-full bg-white rounded-lg shadow-lg mt-4">
             <ul className="divide-y-2 divide-gray-400">
             { listItems }
             </ul>
