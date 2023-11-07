@@ -7,13 +7,13 @@ import toast, { Toaster } from 'react-hot-toast';
 import { style } from "@/theme";
 import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
-import { Product } from "@/services/products";
 import { Button as Boton } from "flowbite-react";
+import { sumarDiscount, sumarTotales, sumarTotalesWithoutDIscount } from "@/utils/functions";
 
 
 export interface SalesDiscountProductModalProps {
   onClose: () => void;
-  product: Product;
+  product: any;
   isShow: boolean;
   order: any;
   discountType: number;
@@ -34,7 +34,7 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
   const onSubmit = async (data: any) => {
     let values = {
         product_id: product.id,
-        order: order,
+        order: order.id,
         typeOfDiscount: typeOfDiscount,
         quantityDiscount: data.quantity,
       };
@@ -82,6 +82,15 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
               </div>
         </form>
 
+        <div className="mt-4  border-b-2 flex justify-between">
+          <span>Precio sin descuento:</span> $ {discountType == 1 ? (parseFloat(product?.discount ? product?.discount : 0) + parseFloat(product?.total ? product.total : 0)).toFixed(2) : sumarTotalesWithoutDIscount(order?.invoiceproducts)}
+        </div>
+        <div className="mt-1 border-b-2 flex justify-between">
+          <span>Descuento aplicado:</span> $ {discountType == 1 ? product?.discount.toFixed(2)  : sumarDiscount(order?.invoiceproducts)}
+        </div>
+        <div className="mt-1 border-b-2 flex justify-between">
+          <span>Total con descuento:</span> $ {discountType == 1 ? (product?.total ? product?.total : 0).toFixed(2)  : sumarTotales(order?.invoiceproducts)}
+        </div>
         </div>
       <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>

@@ -26,7 +26,7 @@ export function SideBar() {
           />
         </div>
         <MenuItem icon={<HiFingerPrint />} component={<Link href="/" />}>
-          Inicio
+          Panel Principal
         </MenuItem>
 
         <SubMenu label="Inventario" icon={<HiOutlineChartSquareBar />}>

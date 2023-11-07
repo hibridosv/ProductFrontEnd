@@ -22,7 +22,7 @@ export const fieldWidth = (field: string): string => {
 export const sumarTotales = (datos: any): string => {
   let totalSuma = 0;
 
-  datos.forEach((elemento: any) => {
+  datos?.forEach((elemento: any) => {
     if (elemento.hasOwnProperty('total')) {
       totalSuma += elemento.total;
     }
@@ -30,6 +30,38 @@ export const sumarTotales = (datos: any): string => {
 
   return totalSuma.toFixed(2);
 }
+
+
+export const sumarDiscount = (datos: any): string => {
+  let totalSuma = 0;
+
+  datos?.forEach((elemento: any) => {
+    if (elemento.hasOwnProperty('discount')) {
+      totalSuma += elemento.discount;
+    }
+  });
+
+  return totalSuma.toFixed(2);
+}
+
+export const sumarTotalesWithoutDIscount = (datos: any): string => {
+  let totalSuma = 0;
+  let totalDiscount = 0;
+  let total = 0;
+
+  datos?.forEach((elemento: any) => {
+    if (elemento.hasOwnProperty('total')) {
+      totalSuma += elemento.total;
+    }
+    if (elemento.hasOwnProperty('discount')) {
+      totalDiscount += elemento.discount;
+    }
+  });
+  total = totalDiscount + totalSuma;
+
+  return total.toFixed(2);
+}
+
 
 /**
  * Esta funcion genera un numero random

@@ -133,9 +133,9 @@ export default function ViewSales() {
       product_id: data.cod,
       order_id: order,
       request_type: 2, // 1: id, 2: cod
-      delivery_type: 1,
-      order_type: 1,
-      price_type: 1,
+      delivery_type: 1, // delivery, recoger en tienda, ecommerce
+      order_type: 1, // venta, consignacion, ecommerce
+      price_type: 1, // tipo de precio del producto
       addOrSubtract: data.addOrSubtract ? data.addOrSubtract : 1, // 1 sumar 2 restar
     };
 
@@ -253,7 +253,7 @@ export default function ViewSales() {
       <div className="col-span-4 flex justify-center ">
         <div className="w-full mx-4">
           {order ? 
-            <SalesShowTotal isSending={isSending} records={productsOfInvoice?.invoiceproducts} /> :
+            <SalesShowTotal isSending={isSending} records={productsOfInvoice} showClient={true} /> :
             <SalesShowOrders onClick={handleChangeOrder} />
           }
         </div>
@@ -263,8 +263,8 @@ export default function ViewSales() {
       </div>
       <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} />
       <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} />
-      <SalesDiscountProductModal isShow={isDiscountProductModal} discountType={isDiscountType} order={order} product={productSelected} onClose={()=>closeModalDiscount()} />
-      <SalesContactSearchModal  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={order} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />
+      <SalesDiscountProductModal isShow={isDiscountProductModal} discountType={isDiscountType} order={productsOfInvoice} product={productSelected} onClose={()=>closeModalDiscount()} />
+      <SalesContactSearchModal  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={productsOfInvoice} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );

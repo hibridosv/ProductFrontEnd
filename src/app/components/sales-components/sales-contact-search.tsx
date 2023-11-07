@@ -9,6 +9,7 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
 import toast, { Toaster } from "react-hot-toast";
 import { Loading } from "../loading/loading";
 import { ContactNameOfOrder, ContactTypeToGet } from "@/services/enums";
+import { getRandomInt } from "@/utils/functions";
 
 export interface SalesContactSearchModalProps {
     ContactTypeToGet?: ContactTypeToGet; // ayuda a saber en que endpoint buscar
@@ -21,7 +22,7 @@ export interface SalesContactSearchModalProps {
 export function SalesContactSearchModal(props: SalesContactSearchModalProps){
 const { ContactTypeToGet, onClose, isShow, order, clientToUpdate } = props;
 const [contacts, setContacts] = useState([]) as any;
-
+const [randNumber, setrandNumber] = useState(0) as any;
 const { searchTerm, handleSearchTerm } = useSearchTerm()
 const [isSending, setIsSending] = useState(false);
 
@@ -49,9 +50,9 @@ useEffect(() => {
 const handleContactSelected = async(contact: Contact) => {
 
   const data = {
-    order_id : order,
-    col_id : clientToUpdate,
-    contact_id : contact.id
+    order_id : order.id, // orden a actualiar
+    col_id : clientToUpdate, // columna a actualizar
+    contact_id : contact.id // id del contacto
   }
 
   try {
@@ -68,10 +69,10 @@ const handleContactSelected = async(contact: Contact) => {
     console.error(error)
   } finally{
     setIsSending(false)
+    setrandNumber(getRandomInt(100));
   }
 
 }
-
 
 
 const listItems = contacts?.map((contact: any):any => (
@@ -86,12 +87,23 @@ const listItems = contacts?.map((contact: any):any => (
     </div>
 ))
 
+
 const contactName = (contact: ContactNameOfOrder) => {
   switch (contact) {
     case ContactNameOfOrder.employee: return "Vendedor";
     case ContactNameOfOrder.delivery: return "Repartidor";
     case ContactNameOfOrder.client: return "Cliente";
     case ContactNameOfOrder.referred: return "Referido";
+    default: return "Contacto";
+  }
+}
+
+const contactNameOfData = (contact: ContactNameOfOrder, order: any) => {
+  switch (contact) {
+    case ContactNameOfOrder.employee: return order?.employee?.name;
+    case ContactNameOfOrder.delivery: return order?.delivery?.name;
+    case ContactNameOfOrder.client: return order?.client?.name;
+    case ContactNameOfOrder.referred: return order?.referred?.name;
     default: return "Contacto";
   }
 }
@@ -105,7 +117,7 @@ return (
 
     <div className="mx-4">
 
-        <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Contacto" />
+        <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Contacto" randNumber={randNumber} />
         <div className="w-full bg-white rounded-lg shadow-lg mt-4">
             <ul className="divide-y-2 divide-gray-400">
             { listItems }
@@ -113,6 +125,22 @@ return (
         </div>
 
       { isSending && <Loading text="Enviando..." /> }
+
+    { clientToUpdate == ContactNameOfOrder.client && order?.client?.name ||
+      clientToUpdate == ContactNameOfOrder.delivery && order?.delivery?.name ||
+      clientToUpdate == ContactNameOfOrder.employee && order?.employee?.name ||
+      clientToUpdate == ContactNameOfOrder.referred && order?.referred?.name ?
+      <div>
+        <div className="font-extralight ">{ contactName(clientToUpdate)}:</div>
+        <div className="font-bold border-y-2 flex justify-between ">
+          <span>{contactNameOfData(clientToUpdate, order)}</span>
+          <span>
+            {clientToUpdate == ContactNameOfOrder.employee ? <Button preset={Preset.smallCloseDisable} noText /> : 
+            <Button preset={Preset.smallClose} noText onClick={()=>handleContactSelected({id: "", name: ""})} />}
+            </span>
+        </div>
+      </div> : <></> }
+
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   </Modal.Body>
