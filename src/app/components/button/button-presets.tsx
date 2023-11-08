@@ -24,7 +24,9 @@ export const textPresets = {
   smallClose: "",
   smallCloseDisable: "",
   smallPlus: "",
+  smallPlusDisable: "",
   smallMinus: "",
+  smallMinusDisable: "",
 }
 
 
@@ -41,7 +43,10 @@ export const stylePresets = {
     smallClose: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 clickeable`,
     smallCloseDisable: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
     smallPlus: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 clickeable`,
+    smallPlusDisable: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
     smallMinus: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 clickeable`,
+    smallMinusDisable: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
+
   }
 
 export const iconPresets = {
@@ -57,5 +62,7 @@ export const iconPresets = {
     smallClose: <AiOutlineCloseCircle color="red" size={25} />,
     smallCloseDisable: <AiOutlineCloseCircle color="grey" size={25} />,
     smallPlus: <AiOutlinePlusCircle color="green" size={25} />,
+    smallPlusDisable: <AiOutlinePlusCircle color="grey" size={25} />,
     smallMinus: <AiOutlineMinusCircle color="green" size={25} />,
+    smallMinusDisable: <AiOutlineMinusCircle color="grey" size={25} />,
   }

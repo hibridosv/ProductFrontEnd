@@ -8,5 +8,5 @@ export interface Contact {
     email?:        string;
     phone?:        string;
     document?:     string;
-    contact_type:  number;
+    contact_type?:  number;
 }

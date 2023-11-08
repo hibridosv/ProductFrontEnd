@@ -93,7 +93,7 @@ useEffect(() => {
     console.log(option)
   }
 
-  // console.log(productsOfInvoice)
+
 
   const listItems = products?.map((product: any):any => (
     <div key={product.id} onClick={()=>handleClickOnProduct(product.id)}>

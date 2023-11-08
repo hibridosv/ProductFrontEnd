@@ -106,7 +106,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
       </div> :
         (<div><SalesShowTotal
               isSending={isSending}
-              records={invoice?.invoiceproducts}
+              records={invoice}
               showAllData
             />
             <div>
