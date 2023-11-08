@@ -86,7 +86,7 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
           <span>Precio sin descuento:</span> $ {discountType == 1 ? (parseFloat(product?.discount ? product?.discount : 0) + parseFloat(product?.total ? product.total : 0)).toFixed(2) : sumarTotalesWithoutDIscount(order?.invoiceproducts)}
         </div>
         <div className="mt-1 border-b-2 flex justify-between">
-          <span>Descuento aplicado:</span> $ {discountType == 1 ? product?.discount.toFixed(2)  : sumarDiscount(order?.invoiceproducts)}
+          <span>Descuento aplicado:</span> $ {discountType == 1 ? (product?.discount ? product?.discount : 0).toFixed(2)  : sumarDiscount(order?.invoiceproducts)}
         </div>
         <div className="mt-1 border-b-2 flex justify-between">
           <span>Total con descuento:</span> $ {discountType == 1 ? (product?.total ? product?.total : 0).toFixed(2)  : sumarTotales(order?.invoiceproducts)}

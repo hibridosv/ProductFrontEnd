@@ -25,9 +25,9 @@ export function SalesQuickTable(props: SalesQuickProps) {
 
   const listItems = records.map((record: any) => (
     <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
-      <td className="py-1 px-2 cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.quantity)}>
-        { record.quantity }
-        </td>
+       { record.cod == 9999999999 ?
+      <td className="py-1 px-2"> { record.quantity } </td> :
+      <td className="py-1 px-2 cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.quantity)}> { record.quantity } </td> }
       <td className="py-1 px-2 truncate uppercase">{ record.product.slice(0, 50) }</td>
       <td className="py-1 px-2">{ numberToMoney(record.unit_price ? record.unit_price : 0) }</td>
       {/* <td className="py-2 px-2 truncate">{ numberToMoney(record.subtotal ? record.subtotal : 0) }</td> */}
@@ -35,8 +35,8 @@ export function SalesQuickTable(props: SalesQuickProps) {
         { numberToMoney(record.discount ? record.discount : 0) }</td>
       <td className="py-1 px-2 truncate">{ numberToMoney(record.total ? record.total : 0) }</td>
       <td className="py-1 px-2">
-      <Button preset={Preset.smallMinus} noText onClick={()=> onClick(record, OptionsClickSales.minus)} />
-      <Button preset={Preset.smallPlus} noText onClick={()=> onClick(record, OptionsClickSales.plus)} />
+      { record.cod == 9999999999 ? <Button preset={Preset.smallMinusDisable} noText /> : <Button preset={Preset.smallMinus} noText onClick={()=> onClick(record, OptionsClickSales.minus)} /> }
+      { record.cod == 9999999999 ? <Button preset={Preset.smallPlusDisable} noText /> : <Button preset={Preset.smallPlus} noText onClick={()=> onClick(record, OptionsClickSales.plus)} /> }
       </td>
       <td className="py-1 px-2"><Button preset={Preset.smallClose} noText onClick={()=> onClick(record, OptionsClickSales.delete)} /></td>
     </tr>

@@ -14,6 +14,7 @@ import { SalesContactSearchModal } from "@/app/components/sales-components/sales
 import { ContactNameOfOrder, ContactTypeToGet } from "@/services/enums";
 import { SalesSearchByName } from "@/app/components/sales-components/sales-search-by-name"
 import { SalesSearchByCode } from "@/app/components/sales-components/sales-search-by-cod";
+import { SalesOthers } from "@/app/components/sales-components/sales-others";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +27,7 @@ export default function ViewSales() {
   const [isQuantityModal, setIsQuantityModal] = useState(false);
   const [isDiscountProductModal, setIsDiscountProductModal] = useState(false);
   const [isContactSearchModal, setIsContactSearchModal] = useState(false);
+  const [isSalesOtherModal, setIsSalesOtherModal] = useState(false);
   const [typeOfClient, setTypeOfClient] = useState<ContactTypeToGet>(ContactTypeToGet.clients); // tipo de cliente a buscar en el endpoint
   const [clientNametoUpdate, setClientNametoUpdate] = useState<ContactNameOfOrder>(ContactNameOfOrder.client); // tipo de cliente a buscar en el endpoint
   const [isDiscountType, setIsDiscountType] = useState(0);
@@ -62,9 +64,10 @@ export default function ViewSales() {
 
 
   useEffect(() => {
-    if (isQuantityModal === false 
-      && isDiscountProductModal === false 
-      && isContactSearchModal === false) {      
+     if (!isQuantityModal
+      && !isDiscountProductModal
+      && !isContactSearchModal
+      && !isSalesOtherModal) {      
       if (order) {
         (async () => {
           await loadDataProductsOfInvoice();
@@ -76,7 +79,7 @@ export default function ViewSales() {
       }
   }
     // eslint-disable-next-line
-  }, [changeOrder, isQuantityModal, isDiscountProductModal, isContactSearchModal]);
+  }, [changeOrder, isQuantityModal, isDiscountProductModal, isContactSearchModal, isSalesOtherModal]);
 
 
   const deleteProduct = async (iden: number) => {
@@ -177,6 +180,8 @@ export default function ViewSales() {
         break;
       case 15: (() => { setIsContactSearchModal(true); setTypeOfClient(ContactTypeToGet.employees); setClientNametoUpdate(ContactNameOfOrder.delivery) })();
         break;
+      case 16: (() => { setIsSalesOtherModal(true); })();
+        break;
       default: console.log(option);
         break;
     }
@@ -265,6 +270,7 @@ export default function ViewSales() {
       <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} />
       <SalesDiscountProductModal isShow={isDiscountProductModal} discountType={isDiscountType} order={productsOfInvoice} product={productSelected} onClose={()=>closeModalDiscount()} />
       <SalesContactSearchModal  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={productsOfInvoice} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />
+      <SalesOthers isShow={isSalesOtherModal} order={productsOfInvoice} onClose={()=>setIsSalesOtherModal(false)} />
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
