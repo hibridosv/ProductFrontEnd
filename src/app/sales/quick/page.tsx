@@ -68,16 +68,9 @@ export default function ViewSales() {
       && !isDiscountProductModal
       && !isContactSearchModal
       && !isSalesOtherModal) {      
-      if (order) {
-        (async () => {
-          await loadDataProductsOfInvoice();
-        })();
-      } else {
-        (async () => {
-          await loadLastInvoice();
-        })();
+        if (order) { (async () => {await loadDataProductsOfInvoice(); })() } 
+        else { (async () => {await loadLastInvoice(); })() }
       }
-  }
     // eslint-disable-next-line
   }, [changeOrder, isQuantityModal, isDiscountProductModal, isContactSearchModal, isSalesOtherModal]);
 
