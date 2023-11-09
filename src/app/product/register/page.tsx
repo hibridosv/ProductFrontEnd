@@ -12,6 +12,7 @@ import { ConfigContext } from "@/contexts/config-context";
 import { style } from "@/theme";
 import { getConfigStatus, fieldWidth } from "@/utils/functions";
 import { ProductCompoundModal } from "@/app/components/modals/product-add-compound-modal";
+import { PresetTheme } from "@/services/enums";
 
 export default function AddProduct() {
   const [message, setMessage] = useState<any>({});
@@ -269,7 +270,7 @@ export default function AddProduct() {
               {message.errors && (
                 <div className="mb-4">
                   <Alert
-                    type="red"
+                    theme={PresetTheme.danger}
                     info="Error"
                     text={JSON.stringify(message.message)}
                     isDismisible={false}

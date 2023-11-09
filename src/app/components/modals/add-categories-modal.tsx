@@ -12,6 +12,7 @@ import { Category } from "@/services/products";
 import { Alert } from "../alert/alert";
 import { Loading } from "../loading/loading";
 import { getRandomInt } from "@/utils/functions";
+import { PresetTheme } from "@/services/enums";
 
 export interface AddCategoriesModalProps {
   onClose: () => void;
@@ -129,7 +130,7 @@ export function AddCategoriesModal(props: AddCategoriesModalProps) {
             {message.errors && (
                 <div className="mt-4">
                   <Alert
-                    type="red"
+                    theme={PresetTheme.danger}
                     info="Error"
                     text={JSON.stringify(message.message)}
                     isDismisible={false}

@@ -13,6 +13,7 @@ import { ProductPrecioMultipleModal } from "./product-price-multiple-modal";
 import { ProductCompoundModal } from "./product-add-compound-modal";
 import { ProductImageModal } from "./product-image-modal";
 import { ListImagesOfProducts } from "../products-components/list-images";
+import { PresetTheme } from "@/services/enums";
 
 export interface ProductViewModalProps {
   onClose: () => void;
@@ -169,7 +170,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
           {product?.product_type != 1 && (
               <div className="mt-4">
                 <Alert
-                  type={product?.product_type === 2 ? "green" : "red"}
+                  theme={product?.product_type === 2 ? PresetTheme.success : PresetTheme.info}
                   info="Información:"
                   text={`Este elemento se ha registrado como un ${product?.product_type === 2 ? "servicio": "producto compuesto"}`  }
                   isDismisible={false}

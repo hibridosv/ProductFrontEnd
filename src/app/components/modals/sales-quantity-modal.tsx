@@ -15,12 +15,13 @@ export interface SalesQuantityModalProps {
   product: Product;
   isShow: boolean;
   order: any;
+  priceType: number;
 }
 
 
 
 export function SalesQuantityModal(props: SalesQuantityModalProps) {
-  const { onClose, product, isShow, order } = props;
+  const { onClose, product, isShow, order, priceType } = props;
   const { register, handleSubmit, resetField, setFocus, setValue } = useForm();
   const [isSending, setIsSending] = useState(false);
 
@@ -50,7 +51,7 @@ export function SalesQuantityModal(props: SalesQuantityModalProps) {
       request_type: 2,
       delivery_type: 1,
       order_type: 1,
-      price_type: 1,
+      price_type: priceType,
       addOrSubtract: addOrSubtract, // 1 sumar 2 restar
       quantity: quantity,
     };

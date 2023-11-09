@@ -5,9 +5,10 @@ import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
-
-import { SalesShowTotal } from "../sales-components/sales-show-total";
 import { numberToMoney } from "@/utils/functions";
+import { ShowTotal } from "../sales-components/show-total";
+import { Alert } from "../alert/alert";
+import { PresetTheme } from "@/services/enums";
 
 export interface SalesPayModalProps {
   onClose: () => void;
@@ -52,6 +53,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
       order_id: invoice?.id,
       payment_type: paymentType,
       cash: data.cash,
+      invoice_type_id: invoice?.invoice_type_id,
     };
 
     try {
@@ -74,7 +76,6 @@ export function SalesPayModal(props: SalesPayModalProps) {
       reset();
     }
   };
-
 
 
   return (
@@ -104,10 +105,9 @@ export function SalesPayModal(props: SalesPayModalProps) {
         
         </div>
       </div> :
-        (<div><SalesShowTotal
+        (<div><ShowTotal
               isSending={isSending}
               records={invoice}
-              showAllData
             />
             <div>
               <form onSubmit={handleSubmit(onSubmit)} className="w-full">
@@ -128,10 +128,11 @@ export function SalesPayModal(props: SalesPayModalProps) {
                 ) :
                 (
                   <div className="flex justify-center">
-                    <Button type="submit" preset={Preset.primary} text={
-                      paymentType === 5  ? `Asignar Credito` :
-                      `Pagar con ${nameOfPaymentType(paymentType)}`
-                      } />
+                    { paymentType === 5 && !invoice?.client_id ?
+                     <Alert text="Debe agregar un cliente para continuar con el credito" theme={PresetTheme.danger} isDismisible={false} /> :
+                    <Button type="submit" preset={Preset.primary} 
+                    text={ paymentType === 5  ? `Asignar Credito` : `Pagar con ${nameOfPaymentType(paymentType)}`} />
+                    }
                   </div>
                 )}
               </form>
@@ -149,8 +150,8 @@ export function SalesPayModal(props: SalesPayModalProps) {
               </div> }
       <Modal.Footer className="flex justify-end">
         { isPayInvoice ?
-        <Button onClick={handleFinish} preset={Preset.close} isFull /> :
-        <Button onClick={onClose} preset={Preset.close} /> }
+        <Button onClick={handleFinish} text="Terminar" preset={Preset.close} isFull /> :
+        <Button onClick={onClose} preset={Preset.close} isFull /> }
       </Modal.Footer>
     </Modal>
   );

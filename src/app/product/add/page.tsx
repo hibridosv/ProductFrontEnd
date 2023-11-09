@@ -12,6 +12,7 @@ import { SearchIcon } from "@/theme/svg";
 import { Product } from "@/services/products";
 import { Contacts } from "@/services/Contacts";
 import { ProductRegisterTable } from "@/app/components/table/product-register-table";
+import { PresetTheme } from "@/services/enums";
 
 export default function ProductAdd() {
   const [lastProducts, setLastProducts] = useState<any>({});
@@ -295,7 +296,7 @@ useEffect(() => {
               {message.errors && (
                 <div className="mb-4">
                   <Alert
-                    type="red"
+                    theme={PresetTheme.danger}
                     info="Error"
                     text={JSON.stringify(message.message)}
                     isDismisible={false}

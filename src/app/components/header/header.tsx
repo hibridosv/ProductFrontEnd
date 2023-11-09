@@ -3,6 +3,7 @@ import { Button } from "flowbite-react";
 import { useProSidebar } from "react-pro-sidebar";
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { AiFillHome } from "react-icons/ai"
 
 export function Header() {
   const { toggleSidebar } = useProSidebar();
@@ -16,7 +17,7 @@ export function Header() {
       </div>
 
       <div className="justify-end clickeable">
-          <Link href="/sales/quick"><Button >NUEVA VENTA</Button></Link>
+          <Link href="/sales/quick"><span className=" text-white font-black text-xl"><span>&#9750;</span> Inicio</span></Link>
       </div>
     </nav>
   </header>

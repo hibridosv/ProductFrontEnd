@@ -9,8 +9,9 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import { RadioButton, Option} from "../radio-button/radio-button";
 import { style } from "../../../theme";
-import { ConfigContext } from "../../../contexts/config-context";
 import { Alert } from "../alert/alert";
+import { ConfigContext } from "@/contexts/config-context";
+import { PresetTheme } from "@/services/enums";
 
 
 export interface ProductPrecioMultipleProps {
@@ -30,7 +31,7 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
 
   const priceTypeToText = (price: Price) =>{
       switch (price.price_type) {
-        case 1: return "Precio"
+        case 1: return "Normal"
         case 2: return "Mayorista"
         case 3: return "Promoción"
       }
@@ -166,7 +167,7 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
           newProductPrices.length === 0 ? 
               (<div className="mt-4">
                 <Alert
-                  type="red"
+                  theme={PresetTheme.danger}
                   info="Error:"
                   text="No existe ningun precio! Seleccione el tipo de precio a agregar"
                   isDismisible={false}
@@ -174,7 +175,7 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
               </div>) :
               (<div className="mt-4">
               <Alert
-                type="green"
+                theme={PresetTheme.info}
                 info="Información:"
                 text="Seleccione el tipo de precio a agregar"
                 isDismisible={false}

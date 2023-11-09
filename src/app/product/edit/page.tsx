@@ -16,6 +16,7 @@ import { ProductImageModal } from "@/app/components/modals/product-image-modal";
 import { FaEdit } from "react-icons/fa";
 import { SearchInput } from "@/app/components/form/search";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
+import { PresetTheme } from "@/services/enums";
 
 
   export default function GetProduct() {
@@ -352,7 +353,7 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
               {message.errors && (
                 <div className="mb-4">
                   <Alert
-                    type="red"
+                    theme={PresetTheme.danger}
                     info="Error"
                     text={JSON.stringify(message.message)}
                     isDismisible={false}
@@ -377,7 +378,7 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
               <div className="w-full px-3 mb-2">
                 
                 <Alert
-                  type={selectedProduct?.data?.product_type === 2 ? "green" : "red"}
+                  theme={selectedProduct?.data?.product_type === 2 ? PresetTheme.success : PresetTheme.info}
                   info="Información:"
                   text={`Este elemento se ha registrado como un ${selectedProduct?.data?.product_type === 2 ? "servicio": "producto compuesto"}`  }
                   isDismisible={false}

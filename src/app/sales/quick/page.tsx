@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { OptionsClickOrder, SalesButtons } from "@/app/components/sales-components/sales-buttons";
+import { SalesButtons } from "@/app/components/sales-components/sales-buttons";
 import { SalesShowTotal } from "@/app/components/sales-components/sales-show-total";
 import { getData, postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
@@ -11,10 +11,11 @@ import { SalesQuantityModal } from "@/app/components/modals/sales-quantity-modal
 import { Product } from "@/services/products";
 import { SalesDiscountProductModal } from "@/app/components/modals/sales-discount-modal";
 import { SalesContactSearchModal } from "@/app/components/sales-components/sales-contact-search";
-import { ContactNameOfOrder, ContactTypeToGet } from "@/services/enums";
+import { ContactNameOfOrder, ContactTypeToGet, OptionsClickOrder } from "@/services/enums";
 import { SalesSearchByName } from "@/app/components/sales-components/sales-search-by-name"
 import { SalesSearchByCode } from "@/app/components/sales-components/sales-search-by-cod";
 import { SalesOthers } from "@/app/components/sales-components/sales-others";
+import { SalesSelectInvoiceTypeModal } from "@/app/components/sales-components/sales-select-invoice-type";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +23,6 @@ export default function ViewSales() {
   const [isSending, setIsSending] = useState(false);
   const [order, setOrder] = useState(null);
   const [changeOrder, setChangeOrder] = useState(false);
-  const [typeOfPay, setTypeOfPay] = useState(false);
   const [isPayModal, setIsPayModal] = useState(false);
   const [isQuantityModal, setIsQuantityModal] = useState(false);
   const [isDiscountProductModal, setIsDiscountProductModal] = useState(false);
@@ -33,6 +33,8 @@ export default function ViewSales() {
   const [isDiscountType, setIsDiscountType] = useState(0);
   const [productSelected, setProductSelected] = useState([]) as any;
   const [typeOfSearch, setTypeOfSearch] = useState(true); // true: codigo, false: busqueda tipo de busqueda
+  const [typeOfPrice, setTypeOfPrice] = useState(1); // 1 normal
+  const [isSalesSelectInvoiceType, setIsSalesSelectInvoiceType] = useState(false);
 
 
   const loadDataProductsOfInvoice = async () => {
@@ -67,12 +69,18 @@ export default function ViewSales() {
      if (!isQuantityModal
       && !isDiscountProductModal
       && !isContactSearchModal
-      && !isSalesOtherModal) {      
+      && !isSalesOtherModal
+      && !isSalesSelectInvoiceType) {      
         if (order) { (async () => {await loadDataProductsOfInvoice(); })() } 
         else { (async () => {await loadLastInvoice(); })() }
       }
     // eslint-disable-next-line
-  }, [changeOrder, isQuantityModal, isDiscountProductModal, isContactSearchModal, isSalesOtherModal]);
+  }, [changeOrder, 
+    isQuantityModal, 
+    isDiscountProductModal, 
+    isContactSearchModal, 
+    isSalesOtherModal, 
+    isSalesSelectInvoiceType]);
 
 
   const deleteProduct = async (iden: number) => {
@@ -131,7 +139,7 @@ export default function ViewSales() {
       request_type: 2, // 1: id, 2: cod
       delivery_type: 1, // delivery, recoger en tienda, ecommerce
       order_type: 1, // venta, consignacion, ecommerce
-      price_type: 1, // tipo de precio del producto
+      price_type: typeOfPrice, // tipo de precio del producto
       addOrSubtract: data.addOrSubtract ? data.addOrSubtract : 1, // 1 sumar 2 restar
     };
 
@@ -157,23 +165,31 @@ export default function ViewSales() {
 
   const handleClickOptionOrder = (option: OptionsClickOrder) => { // opciones de la orden
     switch (option) {
-      case 1: setIsPayModal(true);
+      case OptionsClickOrder.pay: setIsPayModal(true);
         break;
-      case 2: saveOrder();
+      case OptionsClickOrder.save: saveOrder();
         break;
-      case 3: deleteOrder();
+      case OptionsClickOrder.delete: deleteOrder();
         break;
-      case 11: (() => { setIsDiscountProductModal(true); setIsDiscountType(2) })();
+      case OptionsClickOrder.discount: (() => { setIsDiscountProductModal(true); setIsDiscountType(2) })();
         break;
-      case 12: (() => { setIsContactSearchModal(true); setTypeOfClient(ContactTypeToGet.clients); setClientNametoUpdate(ContactNameOfOrder.client) })();
+      case OptionsClickOrder.client: (() => { setIsContactSearchModal(true); setTypeOfClient(ContactTypeToGet.clients); setClientNametoUpdate(ContactNameOfOrder.client) })();
         break;
-      case 13: (() => { setIsContactSearchModal(true); setTypeOfClient(ContactTypeToGet.employees); setClientNametoUpdate(ContactNameOfOrder.employee) })();
+      case OptionsClickOrder.seller: (() => { setIsContactSearchModal(true); setTypeOfClient(ContactTypeToGet.employees); setClientNametoUpdate(ContactNameOfOrder.employee) })();
         break;
-      case 14: (() => { setIsContactSearchModal(true); setTypeOfClient(ContactTypeToGet.referrals); setClientNametoUpdate(ContactNameOfOrder.referred) })();
+      case OptionsClickOrder.referred: (() => { setIsContactSearchModal(true); setTypeOfClient(ContactTypeToGet.referrals); setClientNametoUpdate(ContactNameOfOrder.referred) })();
         break;
-      case 15: (() => { setIsContactSearchModal(true); setTypeOfClient(ContactTypeToGet.employees); setClientNametoUpdate(ContactNameOfOrder.delivery) })();
+      case OptionsClickOrder.delivery: (() => { setIsContactSearchModal(true); setTypeOfClient(ContactTypeToGet.employees); setClientNametoUpdate(ContactNameOfOrder.delivery) })();
         break;
-      case 16: (() => { setIsSalesOtherModal(true); })();
+      case OptionsClickOrder.special: (() => { setIsSalesOtherModal(true); })();
+        break;
+      case OptionsClickOrder.documentType: (() => { setIsSalesSelectInvoiceType(true); })();
+        break;
+      case OptionsClickOrder.normalPrice: (() => { setTypeOfPrice(1); })();
+        break;
+      case OptionsClickOrder.wholesalerPrice : (() => { setTypeOfPrice(2); })();
+        break;
+      case OptionsClickOrder.promotionPrice: (() => { setTypeOfPrice(3); })();
         break;
       default: console.log(option);
         break;
@@ -183,15 +199,15 @@ export default function ViewSales() {
 
   const handleClickOptionProduct = (product: Product, option: OptionsClickSales) => { // opciones del producto
     switch (option) {
-      case 1: deleteProduct(product.id)
+      case OptionsClickSales.delete: deleteProduct(product.id)
         break;
-      case 2: onSubmit({cod : product.cod})
+      case OptionsClickSales.plus: onSubmit({cod : product.cod})
         break;
-      case 3: onSubmit({cod : product.cod, addOrSubtract : 2})
+      case OptionsClickSales.minus: onSubmit({cod : product.cod, addOrSubtract : 2})
         break;
-      case 4: selectPorductForQuantity(product);
+      case OptionsClickSales.quantity: selectPorductForQuantity(product);
         break;
-      case 5: selectPorductForDiscount(product);
+      case OptionsClickSales.discount: selectPorductForDiscount(product);
         break;
     }
   };
@@ -236,7 +252,6 @@ export default function ViewSales() {
     }
   };
 
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
       <div className="col-span-6 border-r md:border-sky-600">
@@ -251,8 +266,8 @@ export default function ViewSales() {
       <div className="col-span-4 flex justify-center ">
         <div className="w-full mx-4">
           {order ? 
-            <SalesShowTotal isSending={isSending} records={productsOfInvoice} showClient={true} /> :
-            <SalesShowOrders onClick={handleChangeOrder} />
+            <SalesShowTotal isSending={isSending} records={productsOfInvoice} invoiceType={()=>setIsSalesSelectInvoiceType(true)} setPrice={handleClickOptionOrder} priceType={typeOfPrice} /> :
+            <SalesShowOrders order={order} onClick={handleChangeOrder} setPrice={handleClickOptionOrder} priceType={typeOfPrice} />
           }
         </div>
         <div className="absolute bottom-2">
@@ -260,10 +275,11 @@ export default function ViewSales() {
         </div>
       </div>
       <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} />
-      <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} />
+      <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} priceType={typeOfPrice} />
       <SalesDiscountProductModal isShow={isDiscountProductModal} discountType={isDiscountType} order={productsOfInvoice} product={productSelected} onClose={()=>closeModalDiscount()} />
       <SalesContactSearchModal  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={productsOfInvoice} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />
       <SalesOthers isShow={isSalesOtherModal} order={productsOfInvoice} onClose={()=>setIsSalesOtherModal(false)} />
+      <SalesSelectInvoiceTypeModal isShow={isSalesSelectInvoiceType} onClose={()=>setIsSalesSelectInvoiceType(false)} order={productsOfInvoice} />
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );

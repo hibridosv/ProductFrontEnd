@@ -1,4 +1,5 @@
 'use client';
+import { OptionsClickOrder } from '@/services/enums';
 import { Button, Dropdown } from 'flowbite-react';
 import { AiFillSave } from 'react-icons/ai';
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
@@ -8,19 +9,6 @@ import { IoMdOptions } from 'react-icons/io';
 export interface SalesButtonsProps {
   onClick: (option: number) => void;
 }
-
-export enum OptionsClickOrder {
-  pay = 1,
-  save = 2,
-  delete = 3,
-  discount = 11,
-  client = 12,
-  seller = 13,
-  referred = 14,
-  delivery = 15,
-  special = 16,
-}
-
 
 export function SalesButtons(props: SalesButtonsProps) {
   const {onClick } = props
@@ -38,6 +26,7 @@ export function SalesButtons(props: SalesButtonsProps) {
               <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.referred)}> Asignar Referido </Dropdown.Item>
               <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.delivery)}> Asignar Repartidor </Dropdown.Item>
               <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.special)}> Venta Especial </Dropdown.Item>
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.documentType)}> Tipo de Documento </Dropdown.Item>
             </Dropdown>
             
             <Button color="blue" gradientMonochrome="info" onClick={()=>onClick(2)}>
