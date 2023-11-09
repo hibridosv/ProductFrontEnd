@@ -13,14 +13,17 @@ import { Product } from "@/services/products";
 import { Contacts } from "@/services/Contacts";
 import { ProductRegisterTable } from "@/app/components/table/product-register-table";
 import { PresetTheme } from "@/services/enums";
+import { ProductRegisterPrincipalTable } from "@/app/components/table/product-register-principal-table";
+import { documentType } from "@/utils/functions";
 
 export default function ProductAdd() {
-  const [lastProducts, setLastProducts] = useState<any>({});
+  const [lastProductsPrincipal, setLastProductsPrincipal] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<any>({});
   const [isSending, setIsSending] = useState(false);
   const { searchTerm, handleSearchTerm } = useSearchTerm()
   const [products, setProducts] = useState([]);
+  const [productPrincipal, setProductPrincipal] = useState([]) as any;
   const [productSelected, setProductSelected] = useState<Product>({} as Product);
   const [providers, setProviders] = useState<Contacts>([] as Contacts);
 
@@ -30,14 +33,21 @@ export default function ProductAdd() {
   const onSubmit = async (data: any) => {
     data.product_id = productSelected.id
     data.actual_stock = data.quantity
+    data.provider_id = productPrincipal.provider_id
+    data.employee_id = productPrincipal.employee_id
+    data.document_type = productPrincipal.document_type
+    data.lot = productPrincipal.lot
+    data.comment = productPrincipal.comment
+    data.product_register_principal = productPrincipal.id
+
     try {
       const response = await postData(`products/add`, "POST", data);
       if (!response.message) {
         setProductSelected({} as Product)
         setValue("quantity", null)
         setValue("unit_cost", null)
-        setLastProducts(response.data);
         toast.success("Producto agregado correctamente");
+        await loadLastRegistersPrincipal();
       } else {
         toast.error("Faltan algunos datos importantes!");
         setMessage(response);
@@ -47,6 +57,26 @@ export default function ProductAdd() {
       toast.error("Ha ocurrido un error!");
     }
   }
+
+
+  const addRegisterPrincipal = async (data: any) => {
+    try {
+      const response = await postData(`products/add/principal`, "POST", data);
+      if (!response.message) {
+        setProductPrincipal(response.data);
+        toast.success("Producto agregado correctamente");
+      } else {
+        toast.error("Faltan algunos datos importantes!");
+        setMessage(response);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } finally {
+      await loadLastRegistersPrincipal();
+    }
+  }
+
 
 
   const loadProviders = async () => {
@@ -61,25 +91,42 @@ export default function ProductAdd() {
     }
 };
 
-  const loadProductsSearch = async () => {
-    try {
-      const response = await getData(`sales/get-products?sort=-created_at${searchTerm}`);
-      setProducts(response.data);
-    } catch (error) {
-      console.error(error);
-    } 
-};
 
-const loadLastRegisters = async () => {
+
+const loadLastRegistersPrincipal = async () => {
   setIsLoading(true);
   try {
-    const response = await getData(`registers`);
-    setLastProducts(response.data);
+    const response = await getData(`registers/principal`);
+    setLastProductsPrincipal(response.data);
   } catch (error) {
     console.error(error);
   } finally {
     setIsLoading(false);
   }
+};
+
+
+const loadLastRegistersPrincipalOpen = async () => {
+  setIsLoading(true);
+  try {
+    const response = await getData(`registers/principal/last`);
+    setProductPrincipal(response.data);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
+
+const loadProductsSearch = async () => {
+  try {
+    const response = await getData(`sales/get-products?sort=-created_at${searchTerm}`);
+    setProducts(response.data);
+  } catch (error) {
+    console.error(error);
+  } 
 };
 
 useEffect(() => {
@@ -94,8 +141,9 @@ useEffect(() => {
 
 useEffect(() => {
       (async () => { 
-        await loadProviders() 
-        await loadLastRegisters()
+        await loadProviders(); 
+        await loadLastRegistersPrincipal();
+        await loadLastRegistersPrincipalOpen();
       })();
 // eslint-disable-next-line
 }, []);
@@ -122,6 +170,23 @@ useEffect(() => {
     }
   }
 
+
+
+  const finishRegister = async () => {
+    try {
+      const response = await postData(`registers/principal/${productPrincipal.id}`, "PUT");
+      if (!response.message) {
+        setProductPrincipal([]);
+        reset();
+        setLastProductsPrincipal(response.data);
+        toast.success("Actualizado correctamente!");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    }
+  }
+
   
   if (isLoading) return (<Loading />)
 
@@ -142,16 +207,14 @@ useEffect(() => {
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
            <div className="col-span-5 border-r md:border-sky-600">
              <ViewTitle text="AGREGAR PRODUCTOS" />
+            <div className="w-full px-4">
 
-
-             <div className="w-full px-4">
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          { !productPrincipal?.id ? (
+            <form onSubmit={handleSubmit(addRegisterPrincipal)} className="w-full">
               <div className="flex flex-wrap -mx-3 mb-6">
 
                 <div className="w-full md:w-1/2 px-3 mb-2">
-                    <label htmlFor="document_number" className={style.inputLabel}>
-                      Numero de Documento
-                    </label>
+                    <label htmlFor="document_number" className={style.inputLabel}>Numero de Documento</label>
                     <input
                           type="number"
                           id="document_number"
@@ -161,10 +224,9 @@ useEffect(() => {
                           min={0}
                         />
                 </div>
+
                 <div className="w-full md:w-1/2 px-3 mb-2">
-                    <label htmlFor="document_type" className={style.inputLabel}>
-                      Tipo de Documento
-                    </label>
+                    <label htmlFor="document_type" className={style.inputLabel}> Tipo de Documento </label>
                     <select
                           id="document_type"
                           {...register("document_type")}
@@ -178,9 +240,7 @@ useEffect(() => {
                 </div>
 
                 <div className="w-full md:w-1/2 px-3 mb-2">
-                    <label htmlFor="provider_id" className={style.inputLabel}>
-                      Proveedor
-                    </label>
+                    <label htmlFor="provider_id" className={style.inputLabel}> Proveedor </label>
                     <select
                           defaultValue={providers && providers.data && providers.data.length > 0 ? providers.data[0].id : 0}
                           id="provider_id"
@@ -196,9 +256,7 @@ useEffect(() => {
                 </div>
 
                 <div className="w-full md:w-1/2 px-3 mb-2">
-                    <label htmlFor="lot" className={style.inputLabel}>
-                      Lote
-                    </label>
+                    <label htmlFor="lot" className={style.inputLabel}> Lote </label>
                     <input
                           type="number"
                           id="lot"
@@ -210,9 +268,7 @@ useEffect(() => {
                 </div>
 
                 <div className="w-full md:w-full px-3 mb-4">
-                  <label htmlFor="comment" className={style.inputLabel}>
-                    Información{" "}
-                  </label>
+                  <label htmlFor="comment" className={style.inputLabel}> Comentario{" "} </label>
                   <textarea
                     {...register("comment", {})}
                     rows={2}
@@ -220,9 +276,59 @@ useEffect(() => {
                   />
                 </div>
                 
+              </div>
+
+              {message.errors && (
+                <div className="mb-4">
+                  <Alert
+                    theme={PresetTheme.danger}
+                    info="Error"
+                    text={JSON.stringify(message.message)}
+                    isDismisible={false}
+                  />
+                </div>
+              )}
+
+              <div className="flex justify-center">
+                {isSending ? (
+                  <Button disabled={true} preset={Preset.saving} />
+                ) : (
+                  <Button type="submit" preset={Preset.save} />
+                )}
+              </div>
+
+            </form>
+
+          ) : (
+
+
+            <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+
+              <div className=" font-semibold ">
+                <div className="flex justify-between border-b-2">
+                  <div>Numero de documento</div>
+                  <div>{ productPrincipal.document_number }</div>
+                </div>
+                <div className="flex justify-between border-b-2">
+                  <div>Tipo de Documento</div>
+                  <div>{ documentType(productPrincipal.document_type) }</div>
+                </div>
+                <div className="flex justify-between border-b-2">
+                  <div>Proveedor</div>
+                  <div>{ productPrincipal?.provider?.name }</div>
+                </div>
+                <div className="flex justify-between border-b-2">
+                  <div>Lote</div>
+                  <div>{ productPrincipal.lot }</div>
+                </div>
+                <div className="flex justify-between border-b-2">
+                  <div>{ productPrincipal.comment }</div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap -mx-3 mb-6">
+
                 <div className="w-full m-2">
-
-
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                           { SearchIcon }
@@ -245,11 +351,9 @@ useEffect(() => {
                 </div>
 
               { productSelected?.id && (<>
-                <div className='w-full font-bold text-xl text-teal-700'>{productSelected?.description}</div>
+                <div className='w-full font-bold text-lg text-teal-900 border-b-2 mb-2'>{productSelected?.description}</div>
                 <div className="w-full md:w-1/2 px-3 mb-2">
-                    <label htmlFor="quantity" className={style.inputLabel}>
-                      Cantidad
-                    </label>
+                    <label htmlFor="quantity" className={style.inputLabel}> Cantidad </label>
                     <input
                           type="number"
                           id="quantity"
@@ -261,9 +365,7 @@ useEffect(() => {
                 </div>
 
                 <div className="w-full md:w-1/2 px-3 mb-2">
-                    <label htmlFor="unit_cost" className={style.inputLabel}>
-                      Precio Costo
-                    </label>
+                    <label htmlFor="unit_cost" className={style.inputLabel}> Precio Costo </label>
                     <input
                           type="number"
                           id="unit_cost"
@@ -273,7 +375,6 @@ useEffect(() => {
                           min={0}
                         />
                 </div>
-
 
                 {productSelected?.expires ?
                   <div className="w-full md:w-1/2 px-3 mb-2">
@@ -313,16 +414,23 @@ useEffect(() => {
               </div>
 
             </form>
+          ) }
+
           </div>
 
 
          </div>
-         <div className="col-span-5 border-r md:border-sky-600">
-         <ViewTitle text="ULTIMOS INGRESOS" />
 
+         <div className="col-span-5 border-r md:border-sky-600">
+         <ViewTitle text="ULTIMAS ENTRADAS" />
          <div className="w-full p-4">
-            <ProductRegisterTable records={lastProducts} />
+            <ProductRegisterPrincipalTable records={lastProductsPrincipal} />
           </div>
+         <ViewTitle text="PRODUCTOS INGRESADOS" />
+          <div className="w-full p-4">
+            <ProductRegisterTable records={lastProductsPrincipal ? lastProductsPrincipal[0]?.registers : []} />
+          </div>
+          { productPrincipal?.id && <Button preset={Preset.cancel} text="Terminar ingreso" onClick={()=>finishRegister()} isFull /> }
         </div>
       <Toaster position="top-right" reverseOrder={false} />
    </div>

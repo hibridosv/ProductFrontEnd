@@ -1,4 +1,4 @@
-import { OptionsClickOrder, TypeOfPrice } from "@/services/enums"
+import { DocumentTypes, DocumentTypesNames, OptionsClickOrder, TypeOfPrice } from "@/services/enums"
 
 export const numberToMoney = (number: number): string => {
     return `$${number.toFixed(2)}`
@@ -91,4 +91,13 @@ export const setPriceName = (priceType: number): string => {
   if (priceType === TypeOfPrice.wholesaler) return "PRECIO MAYORISTA";
   if (priceType === TypeOfPrice.promotion) return "PRECIO PROMOCION";
   return "PRECIO NORMAL";
+}
+
+
+export const documentType = (document: DocumentTypes): string => {
+  if (document == DocumentTypes.ninguno) return DocumentTypesNames.ninguno;
+  if (document == DocumentTypes.ticket) return DocumentTypesNames.ticket;
+  if (document == DocumentTypes.factura) return DocumentTypesNames.factura;
+  if (document == DocumentTypes.creditoFiscal) return DocumentTypesNames.creditoFiscal;
+  return DocumentTypesNames.ninguno;
 }

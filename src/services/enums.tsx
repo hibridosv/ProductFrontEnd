@@ -55,3 +55,19 @@ export enum PresetTheme {
   info = "info",
   warning = "warning",
 }
+
+
+export enum DocumentTypes {
+  ninguno = 0,
+  ticket = 1,
+  factura = 2,
+  creditoFiscal = 3,
+}
+
+
+export enum DocumentTypesNames {
+  ninguno = "Ninguno",
+  ticket = 'Ticket',
+  factura = "Factura",
+  creditoFiscal = "Credito Fiscal",
+}
