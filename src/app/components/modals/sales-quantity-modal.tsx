@@ -86,7 +86,7 @@ export function SalesQuantityModal(props: SalesQuantityModalProps) {
             </div>
 
               <div className="flex justify-center">
-                { isSending ? <Button disabled={true} preset={Preset.saving} /> : <Button type="submit" preset={Preset.save} /> }
+              <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
               </div>
         </form>
 

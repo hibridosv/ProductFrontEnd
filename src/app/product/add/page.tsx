@@ -41,6 +41,7 @@ export default function ProductAdd() {
     data.product_register_principal = productPrincipal.id
 
     try {
+      setIsSending(true)
       const response = await postData(`products/add`, "POST", data);
       if (!response.message) {
         setProductSelected({} as Product)
@@ -48,23 +49,7 @@ export default function ProductAdd() {
         setValue("unit_cost", null)
         toast.success("Producto agregado correctamente");
         await loadLastRegistersPrincipal();
-      } else {
-        toast.error("Faltan algunos datos importantes!");
-        setMessage(response);
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Ha ocurrido un error!");
-    }
-  }
-
-
-  const addRegisterPrincipal = async (data: any) => {
-    try {
-      const response = await postData(`products/add/principal`, "POST", data);
-      if (!response.message) {
-        setProductPrincipal(response.data);
-        toast.success("Producto agregado correctamente");
+        setMessage({});
       } else {
         toast.error("Faltan algunos datos importantes!");
         setMessage(response);
@@ -73,6 +58,28 @@ export default function ProductAdd() {
       console.error(error);
       toast.error("Ha ocurrido un error!");
     } finally {
+      setIsSending(false)
+    }
+  }
+
+
+  const addRegisterPrincipal = async (data: any) => {
+    try {
+      setIsSending(true)
+      const response = await postData(`products/add/principal`, "POST", data);
+      if (!response.message) {
+        setProductPrincipal(response.data);
+        toast.success("Producto agregado correctamente");
+        setMessage({});
+      } else {
+        toast.error("Faltan algunos datos importantes!");
+        setMessage(response);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } finally {
+      setIsSending(false)
       await loadLastRegistersPrincipal();
     }
   }
@@ -80,41 +87,35 @@ export default function ProductAdd() {
 
 
   const loadProviders = async () => {
-    setIsLoading(true);
     try {
       const response = await getData(`contacts/providers`);
       setProviders(response);
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    } 
 };
 
 
 
 const loadLastRegistersPrincipal = async () => {
-  setIsLoading(true);
   try {
+    setIsLoading(true);
     const response = await getData(`registers/principal`);
     setLastProductsPrincipal(response.data);
   } catch (error) {
     console.error(error);
-  } finally {
+  }  finally {
     setIsLoading(false);
   }
 };
 
 
 const loadLastRegistersPrincipalOpen = async () => {
-  setIsLoading(true);
   try {
     const response = await getData(`registers/principal/last`);
     setProductPrincipal(response.data);
   } catch (error) {
     console.error(error);
-  } finally {
-    setIsLoading(false);
   }
 };
 
@@ -174,6 +175,8 @@ useEffect(() => {
 
   const finishRegister = async () => {
     try {
+      setIsSending(true)
+      setMessage({});
       const response = await postData(`registers/principal/${productPrincipal.id}`, "PUT");
       if (!response.message) {
         setProductPrincipal([]);
@@ -184,12 +187,13 @@ useEffect(() => {
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!");
+    } finally {
+      setIsSending(false)
     }
   }
 
   
-  if (isLoading) return (<Loading />)
-
+ 
   const listItems = products?.map((product: any):any => (
     <div key={product.id} onClick={()=>handleClickOnProduct(product.id)}>
         <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
@@ -290,11 +294,7 @@ useEffect(() => {
               )}
 
               <div className="flex justify-center">
-                {isSending ? (
-                  <Button disabled={true} preset={Preset.saving} />
-                ) : (
-                  <Button type="submit" preset={Preset.save} />
-                )}
+              <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
               </div>
 
             </form>
@@ -389,9 +389,7 @@ useEffect(() => {
                     />
                   </div> : null
                 }
-
               </>)}
-
               </div>
 
               {message.errors && (
@@ -404,33 +402,24 @@ useEffect(() => {
                   />
                 </div>
               )}
-
               <div className="flex justify-center">
-                {isSending ? (
-                  <Button disabled={true} preset={Preset.saving} />
-                ) : (
-                  <Button type="submit" preset={Preset.save} />
-                )}
+                  <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
               </div>
-
             </form>
           ) }
-
           </div>
-
-
          </div>
 
          <div className="col-span-5 border-r md:border-sky-600">
          <ViewTitle text="ULTIMAS ENTRADAS" />
          <div className="w-full p-4">
-            <ProductRegisterPrincipalTable records={lastProductsPrincipal} />
+            <ProductRegisterPrincipalTable records={lastProductsPrincipal} isLoading={isLoading} />
           </div>
          <ViewTitle text="PRODUCTOS INGRESADOS" />
           <div className="w-full p-4">
-            <ProductRegisterTable records={lastProductsPrincipal ? lastProductsPrincipal[0]?.registers : []} />
+            <ProductRegisterTable records={lastProductsPrincipal ? lastProductsPrincipal[0]?.registers : []} isLoading={isLoading} />
           </div>
-          { productPrincipal?.id && <Button preset={Preset.cancel} text="Terminar ingreso" onClick={()=>finishRegister()} isFull /> }
+          { productPrincipal?.id && <Button preset={isSending ? Preset.saving : Preset.cancel} text="Terminar ingreso" onClick={()=>finishRegister()} isFull /> }
         </div>
       <Toaster position="top-right" reverseOrder={false} />
    </div>

@@ -1,13 +1,17 @@
 import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { formatDateAsDMY } from "@/utils/date-formats";
+import { Loading } from "../loading/loading";
 
 interface ProductRegisterProps {
   records: any[];
+  isLoading?: boolean;
 }
 
 export function ProductRegisterTable(props: ProductRegisterProps) {
-  const { records } = props;
+  const { records, isLoading } = props;
+
+  if (isLoading) return (<Loading />)
 
   if (!records) return <NothingHere width="164" height="98" text="No se encuentran productos" />;
   if (!Array.isArray(records) || records.length === 0) return <NothingHere text="No se encuentran productos" width="164" height="98" />;

@@ -1,12 +1,16 @@
 import { documentType } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
+import { Loading } from "../loading/loading";
 
 interface ProductRegisterPrincipalProps {
   records: any[];
+  isLoading?: boolean;
 }
 
 export function ProductRegisterPrincipalTable(props: ProductRegisterPrincipalProps) {
-  const { records } = props;
+  const { records, isLoading } = props;
+
+  if (isLoading) return (<Loading />)
 
   if (!records) return <NothingHere width="164" height="98" text="Agregue un producto" />;
   if (!Array.isArray(records) || records.length === 0) return <NothingHere text="Agregue un producto" width="164" height="98" />;

@@ -158,11 +158,7 @@ useEffect(() => {
 
                 <div className='w-full'>
                 <span className="float-right">
-                  {isSending ? (
-                    <Button disabled={true} preset={Preset.saving} />
-                  ) : (
-                    <Button type="submit" preset={Preset.save} />
-                  )}
+                <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
                 </span>
               </div>
 

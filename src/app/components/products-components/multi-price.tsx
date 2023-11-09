@@ -157,7 +157,7 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
                   />
                 </div>
                 <div className="w-full md:w-1/3 px-3 mb-4 mt-5">
-                { isSending ? <Button disabled={true} preset={Preset.saving} /> : <Button type="submit" preset={Preset.save} /> }
+                <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
                 </div>
 
               </div >
