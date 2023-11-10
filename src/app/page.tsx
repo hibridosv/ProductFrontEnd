@@ -1,8 +1,8 @@
 'use client'
 import { API_URL } from '@/constants/index'
-import { ViewTitle } from './components'
-import { PrincipalInfo } from './components/dashboard/principal-info';
-import { CharBarWeek } from './components/dashboard/char-bar-week';
+import { ViewTitle } from '../components'
+import { PrincipalInfo } from '../components/dashboard/principal-info';
+import { CharBarWeek } from '../components/dashboard/char-bar-week';
 // import { CharPiePayment } from './components/dashboard/char-pie-payment';
 
 

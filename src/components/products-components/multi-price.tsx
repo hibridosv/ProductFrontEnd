@@ -8,7 +8,7 @@ import { getConfigStatus, numberToMoney } from "@/utils/functions";
 import toast, { Toaster } from 'react-hot-toast';
 
 import { RadioButton, Option} from "../radio-button/radio-button";
-import { style } from "../../../theme";
+import { style } from "../../theme";
 import { Alert } from "../alert/alert";
 import { ConfigContext } from "@/contexts/config-context";
 import { PresetTheme } from "@/services/enums";

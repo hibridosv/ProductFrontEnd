@@ -1,9 +1,7 @@
 "use client";
-import { Button } from "flowbite-react";
 import { useProSidebar } from "react-pro-sidebar";
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { AiFillHome } from "react-icons/ai"
 
 export function Header() {
   const { toggleSidebar } = useProSidebar();

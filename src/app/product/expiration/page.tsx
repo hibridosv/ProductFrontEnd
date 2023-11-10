@@ -1,12 +1,12 @@
 "use client"
 import { useState, useEffect } from "react";
-import { Loading, Pagination, ViewTitle } from "@/app/components";
+import { Loading, Pagination, ViewTitle } from "@/components";
 import { getData } from "@/services/resources";
-import { usePagination } from "@/app/components/pagination";
+import { usePagination } from "@/components/pagination";
 import toast, { Toaster } from 'react-hot-toast';
 
-import { ProductExpirationTable } from "@/app/components/table/product-expiration-table";
-import { RightExpired } from "@/app/components/right-side/right-side-expired";
+import { ProductExpirationTable } from "@/components/table/product-expiration-table";
+import { RightExpired } from "@/components/right-side/right-side-expired";
 
 
 export default function Expirations() {

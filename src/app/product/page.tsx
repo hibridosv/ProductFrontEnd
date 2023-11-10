@@ -1,12 +1,12 @@
 'use client'
 import { useState, useEffect } from "react";
 import { getData, postData } from "@/services/resources";
-import { ProductsTable, RightSideProducts, Loading, Pagination, ViewTitle } from "@/app/components";
-import { usePagination } from "@/app/components/pagination";
+import { ProductsTable, RightSideProducts, Loading, Pagination, ViewTitle } from "@/components";
+import { usePagination } from "@/components/pagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import toast, { Toaster } from 'react-hot-toast';
 
-import { RowTable } from "@/app/components/table/products-table";
+import { RowTable } from "@/components/table/products-table";
 
 export default function ViewProducts() {
   const [isLoading, setIsLoading] = useState(false);

@@ -1,10 +1,10 @@
 "use client"
 import { useState, useEffect } from "react";
-import { Loading, Pagination, ProductsTable, RightSideProducts, ViewTitle } from "@/app/components";
+import { Loading, Pagination, ProductsTable, RightSideProducts, ViewTitle } from "@/components";
 import { getData, postData } from "@/services/resources";
-import { usePagination } from "@/app/components/pagination";
+import { usePagination } from "@/components/pagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
-import { RowTable } from "@/app/components/table/products-table";
+import { RowTable } from "@/components/table/products-table";
 import toast, { Toaster } from 'react-hot-toast';
 
 

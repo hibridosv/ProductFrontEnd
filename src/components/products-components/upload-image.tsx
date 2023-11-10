@@ -6,7 +6,7 @@ import { postData, getData, postDataWithImage } from "@/services/resources";
 import { Product, Image as Imagen } from "@/services/products";
 import toast, { Toaster } from 'react-hot-toast';
 
-import { style } from "../../../theme";
+import { style } from "../../theme";
 import Image from "next/image";
 import { URL } from "@/constants";
 import { DeleteModal } from "../modals/delete-modal";

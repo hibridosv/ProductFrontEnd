@@ -1,20 +1,20 @@
 'use client'
 import { useState, useEffect, useContext } from "react";
-import { ViewTitle, Alert, Loading } from "@/app/components";
+import { ViewTitle, Alert, Loading } from "@/components";
 import { useForm } from "react-hook-form";
 import { FieldsFormProduct as Fields } from "@/constants/form-product-json";
 import { postData, getData } from "@/services/resources";
-import { Button, Preset } from "@/app/components/button/button";
+import { Button, Preset } from "@/components/button/button";
 import toast, { Toaster } from 'react-hot-toast';
 
 import { ConfigContext } from "@/contexts/config-context";
 import { style } from "@/theme/styles";
-import { MultiPrice } from "@/app/components/products-components/multi-price";
-import { ProductCompoundModal } from "@/app/components/modals/product-add-compound-modal";
-import { ListImagesOfProducts } from "@/app/components/products-components/list-images";
-import { ProductImageModal } from "@/app/components/modals/product-image-modal";
+import { MultiPrice } from "@/components/products-components/multi-price";
+import { ProductCompoundModal } from "@/components/modals/product-add-compound-modal";
+import { ListImagesOfProducts } from "@/components/products-components/list-images";
+import { ProductImageModal } from "@/components/modals/product-image-modal";
 import { FaEdit } from "react-icons/fa";
-import { SearchInput } from "@/app/components/form/search";
+import { SearchInput } from "@/components/form/search";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { PresetTheme } from "@/services/enums";
 

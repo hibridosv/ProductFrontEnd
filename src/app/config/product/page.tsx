@@ -1,19 +1,19 @@
 "use client"
 import { useState, useEffect, useContext } from 'react'
 
-import { ViewTitle } from "@/app/components";
+import { ViewTitle } from "@/components";
 import { ListGroup } from "flowbite-react";
 import { BiCategoryAlt, BiCurrentLocation } from "react-icons/bi";
 import { GiWeight } from "react-icons/gi";
 import { TbBrandOnlyfans } from "react-icons/tb";
 import { AiFillCrown } from "react-icons/ai";
-import { QuantityUnitList } from '@/app/components/products-components/quantity-units-list';
-import { CategoryAddList } from '@/app/components/products-components/category-add-list';
-import { BrandAddList } from '@/app/components/products-components/brand-add-list';
+import { QuantityUnitList } from '@/components/products-components/quantity-units-list';
+import { CategoryAddList } from '@/components/products-components/category-add-list';
+import { BrandAddList } from '@/components/products-components/brand-add-list';
 import { ConfigContext } from "@/contexts/config-context";
 import { getConfigStatus } from "@/utils/functions";
-import { AttributeAddList } from '@/app/components/products-components/attribute-add-list';
-import { LocationAddList } from '@/app/components/products-components/location-add-list';
+import { AttributeAddList } from '@/components/products-components/attribute-add-list';
+import { LocationAddList } from '@/components/products-components/location-add-list';
 
 
 export default function Config() {

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Products as ProductsInterface } from "../../../services/products";
+import { Products as ProductsInterface } from "../../services/products";
 // import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io"
 
 export interface PaginationProps {

@@ -2,7 +2,7 @@
 
 import './globals.css'
 import { ProSidebarProvider } from "react-pro-sidebar";
-import {Header, SideBar} from "@/app/components";
+import {Header, SideBar} from "@/components";
 import { ConfigContextProvider } from "@/contexts/config-context";
 
 

@@ -1,4 +1,4 @@
-import { Products as ProductsInterface } from "../../../services/products";
+import { Products as ProductsInterface } from "../../services/products";
 import { TextInput, Label } from "flowbite-react";
 import { HiSearch } from "react-icons/hi";
 import { Loading } from "../loading/loading";

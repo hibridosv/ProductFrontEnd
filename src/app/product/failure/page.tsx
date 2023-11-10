@@ -1,16 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Loading, ViewTitle } from "@/app/components";
+import { Loading, ViewTitle } from "@/components";
 import { getData, postData } from "@/services/resources";
 import { numberToMoney } from "@/utils/functions";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast';
 
-import { Button, Preset } from "@/app/components/button/button";
+import { Button, Preset } from "@/components/button/button";
 import { style } from "@/theme";
-import { ProductFailureTable } from "@/app/components/table/product-failure-table";
+import { ProductFailureTable } from "@/components/table/product-failure-table";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
-import { SearchInput } from "@/app/components/form/search";
+import { SearchInput } from "@/components/form/search";
 
 export default function InsertProduct() {
   const [selectedProduct, setSelectedProdcut] = useState<any>({});

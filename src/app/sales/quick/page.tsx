@@ -1,21 +1,21 @@
 "use client";
 import { useState, useEffect } from "react";
-import { SalesButtons } from "@/app/components/sales-components/sales-buttons";
-import { SalesShowTotal } from "@/app/components/sales-components/sales-show-total";
+import { SalesButtons } from "@/components/sales-components/sales-buttons";
+import { SalesShowTotal } from "@/components/sales-components/sales-show-total";
 import { getData, postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
-import { OptionsClickSales, SalesQuickTable } from "@/app/components/table/sales-quick-table";
-import { SalesShowOrders } from "@/app/components/sales-components/sales-show-orders";
-import { SalesPayModal } from "@/app/components/modals/sales-pay-modal";
-import { SalesQuantityModal } from "@/app/components/modals/sales-quantity-modal";
+import { OptionsClickSales, SalesQuickTable } from "@/components/table/sales-quick-table";
+import { SalesShowOrders } from "@/components/sales-components/sales-show-orders";
+import { SalesPayModal } from "@/components/modals/sales-pay-modal";
+import { SalesQuantityModal } from "@/components/modals/sales-quantity-modal";
 import { Product } from "@/services/products";
-import { SalesDiscountProductModal } from "@/app/components/modals/sales-discount-modal";
-import { SalesContactSearchModal } from "@/app/components/sales-components/sales-contact-search";
+import { SalesDiscountProductModal } from "@/components/modals/sales-discount-modal";
+import { SalesContactSearchModal } from "@/components/sales-components/sales-contact-search";
 import { ContactNameOfOrder, ContactTypeToGet, OptionsClickOrder } from "@/services/enums";
-import { SalesSearchByName } from "@/app/components/sales-components/sales-search-by-name"
-import { SalesSearchByCode } from "@/app/components/sales-components/sales-search-by-cod";
-import { SalesOthers } from "@/app/components/sales-components/sales-others";
-import { SalesSelectInvoiceTypeModal } from "@/app/components/sales-components/sales-select-invoice-type";
+import { SalesSearchByName } from "@/components/sales-components/sales-search-by-name"
+import { SalesSearchByCode } from "@/components/sales-components/sales-search-by-cod";
+import { SalesOthers } from "@/components/sales-components/sales-others";
+import { SalesSelectInvoiceTypeModal } from "@/components/sales-components/sales-select-invoice-type";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);

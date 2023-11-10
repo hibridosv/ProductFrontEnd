@@ -7,7 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import { postData } from "@/services/resources";
 import { Product } from "@/services/products";
-import { style } from "../../../theme";
+import { style } from "../../theme";
 
 export interface ProductUpdateModalProps {
   onClose: () => void;
