@@ -19,7 +19,7 @@ export default function RootLayout({
           <title>Sistema de control de ventas</title>
         </head>
         <body className="overflow-x-visible">
-            <div className="container mx-auto px-1 my-auto">
+            <div className="mx-auto px-1 my-auto ">
             <Header />
             <div>
               <div>
