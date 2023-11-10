@@ -31,7 +31,7 @@ export function CardDashBoardInfo(props: CardDashBoardInfoProps){
         <div className="text-base text-gray-700 ">{records.title}</div>
         <div className="flex items-center pt-1">
         <div className="text-2xl font-bold text-gray-900 ">
-         {records.isMoney ? numberToMoney(records.value) : records.value}
+         {records.isMoney ? `$ ${records.value}` : records.value}
         </div>
         {records.percent > 0 && (
         <span
