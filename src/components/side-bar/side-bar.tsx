@@ -4,6 +4,8 @@ import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import {
   HiFingerPrint,
   HiOutlineChartSquareBar,
+  HiLogout,
+  HiCash
 } from "react-icons/hi";
 import Link from "next/link";
 import Image from "next/image";
@@ -26,7 +28,7 @@ export function SideBar() {
           />
         </div>
         <MenuItem icon={<HiFingerPrint />} component={<Link href="/" />}>Panel Principal</MenuItem>
-        <MenuItem icon={<HiFingerPrint />} component={<Link href="/cash" />}>Control de cajas</MenuItem>
+        <MenuItem icon={<HiCash />} component={<Link href="/cash" />}>Control de cajas</MenuItem>
 
         <SubMenu label="Inventario" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/product" />}>Ver Productos</MenuItem>
@@ -48,7 +50,7 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Ventas con descuento  </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Listado de ventas  </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Ventas por usuario  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Ordenes Eliminadas  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash" />}>Ordenes eliminadas  </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte mensual  </MenuItem>
         </SubMenu>
         <SubMenu label="Efectivo" icon={<HiOutlineChartSquareBar />}>
@@ -69,18 +71,13 @@ export function SideBar() {
         </SubMenu>
         <SubMenu label="Cotizaciones" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Crear Cotizaciones </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Sonsultar Cotizaciones </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash" />}>Consultar Cotizaciones </MenuItem>
         </SubMenu>
         <SubMenu label="Cuentas" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Cuentas por cobrar </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Creditos pendientes </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Agregar abonos </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash" />}>Cuentas por pagar </MenuItem>
         </SubMenu>
-        <SubMenu label="Cuentas" icon={<HiOutlineChartSquareBar />}>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Cuentas por Pagar </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Cuentas pendientes </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Agregar abonos </MenuItem>
-        </SubMenu>
+
         <SubMenu label="Directorio" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Clientes </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Proveedores </MenuItem>
@@ -96,10 +93,9 @@ export function SideBar() {
         </SubMenu>
         <SubMenu label="Facturación" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Facturas Emitidas </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Remprimir Facturas </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash" />}>Reemprimir Facturas </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Eliminar Facturas </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte de Ventas </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Imprimir rango de facturas </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte contable </MenuItem>
         </SubMenu>
         <SubMenu label="Planillas" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Consultar Planillas </MenuItem>
@@ -112,8 +108,8 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/config/product" />}>Productos</MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Perfiles de usuario </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Administración Principal </MenuItem>
-
         </SubMenu>
+        <MenuItem icon={<HiLogout />} component={<Link href="/cash" />}>Control de cajas</MenuItem>
       </Menu>
     </Sidebar>
   );
