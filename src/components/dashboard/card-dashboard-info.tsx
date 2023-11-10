@@ -2,6 +2,7 @@
 'use client'
 import {  DownArrow, UpArrow } from "@/theme/svg";
 import { Loading } from "../loading/loading";
+import { numberToMoney } from "@/utils/functions";
 
 
 interface CardDashBoardInfoProps {
@@ -30,7 +31,7 @@ export function CardDashBoardInfo(props: CardDashBoardInfoProps){
         <div className="text-base text-gray-700 ">{records.title}</div>
         <div className="flex items-center pt-1">
         <div className="text-2xl font-bold text-gray-900 ">
-         {records.isMoney && "$"}{" "}{records.value}
+         {records.isMoney ? numberToMoney(records.value) : records.value}
         </div>
         {records.percent > 0 && (
         <span
