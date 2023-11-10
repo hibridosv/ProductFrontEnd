@@ -109,7 +109,7 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Perfiles de usuario </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Administración Principal </MenuItem>
         </SubMenu>
-        <MenuItem icon={<HiLogout />} component={<Link href="/cash" />}>Control de cajas</MenuItem>
+        <MenuItem icon={<HiLogout />} component={<Link href="/cash" />}>Salir</MenuItem>
       </Menu>
     </Sidebar>
   );
