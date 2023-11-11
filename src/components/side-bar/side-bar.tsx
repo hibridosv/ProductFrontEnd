@@ -41,6 +41,16 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/product/expiration" />}>Proximos Vencimientos</MenuItem>
           <MenuItem component={<Link className="text-sm" href="/product/kardex" />}>Kardex</MenuItem>
         </SubMenu>
+
+        <SubMenu label="Efectivo" icon={<HiOutlineChartSquareBar />}>
+          <MenuItem component={<Link className="text-sm" href="/cash/bills" />}>Registro de gastos </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash" />}>Agregar o retirar efectivo </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash" />}>Cuentas Bancarias </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash" />}>Flujo de Efectivo </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash" />}>Transferencias entre cuentas </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash" />}>Tipos de gastos </MenuItem>
+        </SubMenu>
+
         <SubMenu label="Historiales" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Consolidado diario </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Ventas  </MenuItem>
@@ -53,22 +63,14 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Ordenes eliminadas  </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte mensual  </MenuItem>
         </SubMenu>
-        <SubMenu label="Efectivo" icon={<HiOutlineChartSquareBar />}>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Flujo de Efectivo </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Registro de gastos </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Registro de remesas </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Cuentas Bancarias </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Agregar o retirar efectivo </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Transferencias entre cuentas </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Tipos de gastos </MenuItem>
 
-        </SubMenu>
         <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Ingreso rápido de productos </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Ajustar inventario </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Importar desde Excel </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Restablecer precios </MenuItem>
         </SubMenu>
+
         <SubMenu label="Cotizaciones" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Crear Cotizaciones </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Consultar Cotizaciones </MenuItem>
@@ -84,6 +86,7 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Repartidores </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Referidos </MenuItem>
         </SubMenu>
+
         <SubMenu label="Reportes" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Detalles de ventas </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Productos averiados </MenuItem>
@@ -91,12 +94,14 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Detalles de gastos </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Productos ingresados </MenuItem>
         </SubMenu>
+
         <SubMenu label="Facturación" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Facturas Emitidas </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Reemprimir Facturas </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Eliminar Facturas </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte contable </MenuItem>
         </SubMenu>
+        
         <SubMenu label="Planillas" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Consultar Planillas </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Crear Planillas </MenuItem>

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Alert, Loading, ViewTitle } from "@/components";
+import { Alert, ViewTitle } from "@/components";
 import { useForm } from "react-hook-form";
 import { postData, getData } from "@/services/resources";
 import { Button, Preset } from "@/components/button/button";

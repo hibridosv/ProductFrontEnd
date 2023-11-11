@@ -1,4 +1,4 @@
-import { DocumentTypes, DocumentTypesNames, OptionsClickOrder, TypeOfPrice } from "@/services/enums"
+import { DocumentTypes, DocumentTypesNames, OptionsClickOrder, PaymentType, PaymentTypeNames, TypeOfPrice } from "@/services/enums"
 
 export const numberToMoney = (number: number): string => {
     return `$${number.toFixed(2)}`
@@ -101,3 +101,14 @@ export const documentType = (document: DocumentTypes): string => {
   if (document == DocumentTypes.creditoFiscal) return DocumentTypesNames.creditoFiscal;
   return DocumentTypesNames.ninguno;
 }
+
+
+/// obtengo el nombre del tipo de pago 
+export const getPaymentTypeName = (type: PaymentType): string | undefined => {
+  const typeName = Object.entries(PaymentType)
+    .filter(([key, value]) => typeof value === 'number' && value === type)
+    .map(([key]) => key)
+    .pop();
+
+  return typeName ? (PaymentTypeNames as Record<string, string>)[typeName] : undefined;
+};
