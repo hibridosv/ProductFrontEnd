@@ -40,7 +40,6 @@ export default function BillsPage() {
           if (!response.message) {
             toast.success("Gasto agregado correctamente");
             setMessage({});
-            console.log(response)
             setBills(response)
             reset()
             setValue("payment_type", 1)
