@@ -44,11 +44,10 @@ export function SideBar() {
 
         <SubMenu label="Efectivo" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/cash/bills" />}>Registro de gastos </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Agregar o retirar efectivo </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Cuentas Bancarias </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Flujo de Efectivo </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Transferencias entre cuentas </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Tipos de gastos </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash/remittance" />}>Remesas de efectivo </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash/accounts" />}>Cuentas Bancarias </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash/inout" />}>Flujo de Efectivo </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash/history" />}>Historial de transferencias </MenuItem>
         </SubMenu>
 
         <SubMenu label="Historiales" icon={<HiOutlineChartSquareBar />}>

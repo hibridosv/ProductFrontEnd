@@ -3,8 +3,9 @@ import { Alert, Loading, ViewTitle } from "@/components";
 import { Button, Preset } from "@/components/button/button";
 import { CashBillsTable } from "@/components/table/cash-bills-table";
 import { PresetTheme } from "@/services/enums";
-import { getData, postData } from "@/services/resources";
+import { postData } from "@/services/resources";
 import { style } from "@/theme";
+import { loadData } from "@/utils/functions";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast';
@@ -19,55 +20,20 @@ export default function BillsPage() {
     const [accounts, setAccounts] = useState([] as any);
 
 
-    const loadCategories = async () => {
-        try {
-          const response = await getData(`cash/categories`);
-          setCategories(response);
-        } catch (error) {
-          console.error(error);
-        } 
-    };
-
-    const loadAccounts = async () => {
-        try {
-          const response = await getData(`cash/accounts`);
-          setAccounts(response);
-        } catch (error) {
-          console.error(error);
-        } 
-    };
-    
-    const loadBills = async () => {
-        try {
-          const response = await getData(`cash/bills`);
-          setBills(response);
-        } catch (error) {
-          console.error(error);
-        } 
-    };
-
     useEffect(() => {
         (async () => { 
-          await loadCategories(); 
-          await loadAccounts();
-          await loadBills();
+          setCategories(await loadData(`cash/categories`));
+          setBills(await loadData(`cash/bills`));
+          setAccounts(await loadData(`cash/accounts`));
         })();
-  // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    if (watch("payment_type") == 1) {
-        setValue("cash_accounts_id", null)
-    } 
-    if (watch("type") == 1) {
-        setValue("invoice", 0)
-        setValue("invoice_number", null)
-    } 
-    // eslint-disable-next-line
-  }, [watch("payment_type"), watch("type")])
 
     const onSubmit = async (data: any) => {
-        data.status = 1
+        data.status = 1;
+        data.cash_accounts_id = data.payment_type == 1 ? null : data.cash_accounts_id;
+        data.invoice = data.type == 0 ? 0 : data.invoice;
+        data.invoice_number = data.type == 0 ? null : data.invoice_number;
         try {
           setIsSending(true)
           const response = await postData(`cash/bills`, "POST", data);
@@ -77,6 +43,7 @@ export default function BillsPage() {
             console.log(response)
             setBills(response)
             reset()
+            setValue("payment_type", 1)
           } else {
             toast.error("Faltan algunos datos importantes!");
             setMessage(response);
@@ -89,7 +56,16 @@ export default function BillsPage() {
         }
       }
 
-      console.log(bills)
+      const handleDeleteBill = async (iden: string) => {
+        try {
+          const response = await postData(`cash/bills/${iden}`, 'DELETE');
+          toast.success(response.message);
+          setBills(await loadData(`cash/bills`));
+        } catch (error) {
+          console.error(error);
+          toast.error("Ha ocurrido un error!");
+        } 
+      }
 
   return (
        <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
@@ -250,7 +226,7 @@ export default function BillsPage() {
             </div>
             <div className="col-span-6">
                 <ViewTitle text="LISTADO DE GASTOS" />
-                    <CashBillsTable records={bills} />
+                    <CashBillsTable records={bills} onDelete={handleDeleteBill} />
             </div>
         <Toaster position="top-right" reverseOrder={false} />
       </div>
