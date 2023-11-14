@@ -51,7 +51,7 @@ const handleDelete = (iden: string) => {
 const deleteBrand = async (iden: any) => {
   try {
     const response = await postData(`brands/${brandSelect}`, 'DELETE');
-    if (response.type === "successfull") {
+    if (response.type === "successful") {
       toast.success( "Marca eliminada correctamente");
       await loadBrands()
     } else {

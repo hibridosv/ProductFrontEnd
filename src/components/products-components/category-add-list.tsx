@@ -50,7 +50,7 @@ const handleDelete = (iden: string) => {
 const deleteCategory = async (iden: any) => {
   try {
     const response = await postData(`categories/${categorySelect}`, 'DELETE');
-    if (response.type === "successfull") {
+    if (response.type === "successful") {
       toast.success( "Categoria eliminada correctamente");
       await loadCategories()
     } else {

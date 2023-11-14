@@ -2,6 +2,7 @@
 import { useProSidebar } from "react-pro-sidebar";
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { AiFillHome } from "react-icons/ai"
 
 export function Header() {
   const { toggleSidebar } = useProSidebar();
@@ -14,8 +15,8 @@ export function Header() {
       <GiHamburgerMenu className='clickeable' color="white" onClick={() => toggleSidebar()} size={40} />
       </div>
 
-      <div className="justify-end clickeable">
-          <Link href="/sales/quick"><span className=" text-white font-black text-xl"><span>&#9750;</span> Inicio</span></Link>
+      <div className="justify-end">
+          <Link href="/sales/quick"><span className="clickeable text-white"><span><AiFillHome size={24} /></span></span></Link>
       </div>
     </nav>
   </header>

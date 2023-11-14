@@ -4,7 +4,6 @@ import { ViewTitle } from '../components'
 import { PrincipalInfo } from '../components/dashboard/principal-info';
 import { CharBarWeek } from '../components/dashboard/char-bar-week';
 import { useState } from 'react';
-import { AiOutlineCheck } from "react-icons/ai"
 // import { CharPiePayment } from './components/dashboard/char-pie-payment';
 
 
@@ -29,8 +28,8 @@ export default function Home() {
           <CharPiePayment />
         </div> */}
 
-        <div className='m-4 border-2 flex justify-center font-light text-sm'>Servidor Local: http://connect.test/ {urlStorage == "http://connect.test/api/" && <AiOutlineCheck  color='green' size="20" className='ml-3' />}</div>
-        <div className='m-4 border-2 flex justify-center font-light text-sm'>Servidor Remoto: https://products.latam-pos.com/ {urlStorage == "https://products.latam-pos.com/api/" && <AiOutlineCheck color='green' size="20" className='ml-3' />}</div>
+        <div className='m-4 border-2 flex justify-center font-light text-sm'>Servidor Local: http://connect.test/ {urlStorage == "http://connect.test/api/" && " *"}</div>
+        <div className='m-4 border-2 flex justify-center font-light text-sm'>Servidor Remoto: https://products.latam-pos.com/ {urlStorage == "https://products.latam-pos.com/api/" && " *"}</div>
         {/* { urlStorage } */}
       </div>
     </div>
