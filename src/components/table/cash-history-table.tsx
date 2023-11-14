@@ -27,19 +27,21 @@ export function CashhistoryTable(props: CashhistoryTableProps) {
   const listItems = records.data.map((record: any) => (
 
     <tr key={record.id} className={`border-b  ${record.status == 1 ? 'bg-white' : 'bg-red-200'}`} >
-      <td className="py-3 px-6 whitespace-nowrap cursor-pointer">
+      <td className="py-3 px-6 whitespace-nowrap cursor-pointer font-semibold text-black">
       <Tooltip animation="duration-300" 
       content={`Fecha: ${formatDateAsDMY(record.created_at)}`} >{ record?.name }</Tooltip>
       </td>
       
       
       <td className="py-3 px-6 whitespace-nowrap cursor-pointer">
-      <Tooltip animation="duration-300" 
-      content={viewTooltip(record?.from_previous_balance, record?.from_current_balance)} >{ record?.account_from?.bank }</Tooltip>
-      </td>
+      {record?.from_cash_accounts_id ? <Tooltip animation="duration-300" 
+      content={viewTooltip(record?.from_previous_balance, record?.from_current_balance)} >{ record?.account_from?.bank }</Tooltip> :
+      <span className="ml-4 text-red-500 font-semibold text-center">N/A</span> }
+      </td> 
       <td className="py-3 px-6 truncate cursor-pointer">
-    <Tooltip animation="duration-300" 
-      content={viewTooltip(record?.to_previous_balance,record?.to_current_balance)} >{ record?.account_to?.bank }</Tooltip>
+      { record?.to_cash_accounts_id ?  <Tooltip animation="duration-300" 
+      content={viewTooltip(record?.to_previous_balance,record?.to_current_balance)} >{ record?.account_to?.bank }</Tooltip> :
+      <span className="ml-4 text-red-500 font-semibold text-center">N/A</span> }
       </td>
       <td className="py-3 px-6 truncate">{ numberToMoney(record?.quantity ? record?.quantity : 0) }</td>
       <td className="py-2 px-6">{ record?.employee?.name }</td>
