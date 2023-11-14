@@ -1,6 +1,7 @@
 'use client'
 import { Alert, ViewTitle } from "@/components";
 import { Button, Preset } from "@/components/button/button";
+import { CashTransferModal } from "@/components/modals/cash-trasfers-modal";
 import { CashAccountsTable } from "@/components/table/cash-accounts-table";
 import { PresetTheme } from "@/services/enums";
 import { postData } from "@/services/resources";
@@ -9,20 +10,21 @@ import { loadData } from "@/utils/functions";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast';
-
+import { RiRefreshFill } from 'react-icons/ri'
 
 export default function AccountsPage() {
   const { register, handleSubmit, reset, watch, setValue } = useForm();
   const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState<any>({});
   const [accounts, setAccounts] = useState([] as any);
+  const [isCashTranferModal, setIsCashTranferModal] = useState(false);
 
 
   useEffect(() => {
-    (async () => { 
-      setAccounts(await loadData(`cash/accounts/all`));
-    })();
-}, []);
+    if (!isCashTranferModal) {
+        (async () => setAccounts(await loadData(`cash/accounts`)))();
+    }
+}, [isCashTranferModal]);
 
 
 const onSubmit = async (data: any) => {
@@ -35,11 +37,10 @@ const onSubmit = async (data: any) => {
       setMessage({});
       setAccounts(response)
       reset()
-  } else {
-      toast.error("Faltan algunos datos importantes!");
-      setMessage(response);
-  }
-  console.log(response)
+    } else {
+        toast.error("Faltan algunos datos importantes!");
+        setMessage(response);
+    }
   } catch (error) {
     console.error(error);
     toast.error("Ha ocurrido un error!");
@@ -52,7 +53,7 @@ const handleDeleteAccount = async (iden: string) => {
   try {
     const response = await postData(`cash/accounts/${iden}`, 'DELETE');
     toast.success(response.message);
-    setAccounts(await loadData(`cash/accounts/all`));
+    setAccounts(await loadData(`cash/accounts`));
   } catch (error) {
     console.error(error);
     toast.error("Ha ocurrido un error!");
@@ -63,7 +64,10 @@ const handleDeleteAccount = async (iden: string) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-4 border-r md:border-sky-600">
-            <ViewTitle text="INGRESAR CUENTA" />
+            <div className="flex justify-between">
+            <ViewTitle text="NUEVA CUENTA" />
+            <RiRefreshFill size={32} className="col-span-11 m-4 text-2xl text-sky-900 clickeable" onClick={()=>setIsCashTranferModal(true)} />
+            </div>
 
             <div className="mx-4"> 
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
@@ -142,6 +146,7 @@ const handleDeleteAccount = async (iden: string) => {
             <ViewTitle text="LISTADO DE CUENTAS" />
             <CashAccountsTable records={accounts} onDelete={handleDeleteAccount} />
         </div>
+        <CashTransferModal isShow={isCashTranferModal} accounts={accounts} onClose={()=>setIsCashTranferModal(false)} />
         <Toaster position="top-right" reverseOrder={false} />
     </div>
       );

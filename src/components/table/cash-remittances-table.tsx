@@ -35,11 +35,8 @@ export function CashRemittancesTable(props: CashRemittancesTableProps) {
 
   const listItems = records.data.map((record: Remittance) => (
     <tr key={record.id} className={`border-b  ${record.status == 1 ? 'bg-white' : 'bg-red-200'}`} >
-      {/* <td className="py-3 px-6 whitespace-nowrap">{ record.name }</td> */}
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row"><div className={`${record?.description && "text-xs font-light"}`}>{ record.name }</div><div>{ record.description }</div></th>
       <td className="py-2 px-6">{ numberToMoney(record.quantity ? record.quantity : 0) }</td>
-      {/* <td className="py-3 px-6 whitespace-nowrap">{ formatDateAsDMY(record.created_at) }</td> */}
-      {/* <td className="py-2 px-6 truncate">{ getPaymentTypeName(record.payment_type) }</td> */}
       <td className="py-3 px-6 truncate">{ record?.account?.account }</td>
       <td className="py-2 px-6 truncate"><Button preset={record.status == 1 ? Preset.smallClose : Preset.smallCloseDisable} disabled={record.status == 0 && true} noText onClick={()=>isDelete(record)} /> </td>
     </tr>
@@ -51,12 +48,9 @@ export function CashRemittancesTable(props: CashRemittancesTableProps) {
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          {/* <th scope="col" className="py-3 px-4 border">Nombre</th> */}
           <th scope="col" className="py-3 px-4 border">Descripción</th>
           <th scope="col" className="py-3 px-4 border">Cantidad</th>
-          {/* <th scope="col" className="py-3 px-4 border">Fecha</th> */}
           <th scope="col" className="py-3 px-4 border">Cuenta</th>
-          {/* <th scope="col" className="py-3 px-4 border">Cuenta</th> */}
           <th scope="col" className="py-3 px-4 border">Del</th>
         </tr>
       </thead>

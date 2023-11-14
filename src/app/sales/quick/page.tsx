@@ -87,7 +87,7 @@ export default function ViewSales() {
     setIsSending(true);
     try {
       const response = await postData(`sales/${iden}`, "DELETE");
-      if (response.type === "successfull") {
+      if (response.type === "successful") {
         resetOrder()
       } else {
         setProductsOfInvoice(response?.data);
@@ -152,7 +152,7 @@ export default function ViewSales() {
         if (!order) setOrder(response.data.id);
         setProductsOfInvoice(response.data);
       }
-      if (response.type === "successfull") {
+      if (response.type === "successful") {
         resetOrder()
       }
     } catch (error) {

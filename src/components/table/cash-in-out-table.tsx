@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react";
-import { getPaymentTypeName, numberToMoney } from "@/utils/functions";
+import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Button, Preset } from "../button/button";
 import { DeleteModal } from "../modals/delete-modal";

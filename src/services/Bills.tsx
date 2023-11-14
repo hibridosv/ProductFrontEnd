@@ -24,7 +24,7 @@ export interface Bill {
 }
 
 export interface Account {
-    id?:           string;
+    id:           string;
     account?:      string;
     type?:         number;
     bank?:         string;

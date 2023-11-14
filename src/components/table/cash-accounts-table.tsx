@@ -1,10 +1,10 @@
 'use client'
 import { useState } from "react";
-import { getPaymentTypeName, numberToMoney } from "@/utils/functions";
+import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Button, Preset } from "../button/button";
 import { DeleteModal } from "../modals/delete-modal";
-import { Account } from "@/services/Account";
+import { Account } from "@/services/Bills";
 
 interface CashAccountsTableProps {
   records?:  any;
@@ -33,11 +33,21 @@ export function CashAccountsTable(props: CashAccountsTableProps) {
   }
 
 
+  const typeOfAccount = (type: number): string =>{
+    switch (type) {
+      case 1: return "Caja Chica"
+      case 2: return "Cuenta"
+      case 3: return "Chequera"
+      case 4: return "Tarjeta"
+    }
+    return "Caja Chica"
+  }
+
   const listItems = records.data.map((record: any) => (
     <tr key={record.id} className={`border-b  ${record.status == 1 ? 'bg-white' : 'bg-red-200'}`} >
       <td className="py-3 px-6 whitespace-nowrap">{ record?.account }</td>
       <td className="py-3 px-6 whitespace-nowrap">{ record?.bank }</td>
-      <td className="py-3 px-6 truncate">{ record?.type }</td>
+      <td className="py-3 px-6 truncate">{ typeOfAccount(record?.type) }</td>
       <td className="py-2 px-6">{ numberToMoney(record.balance ? record.balance : 0) }</td>
       <td className="py-2 px-6 truncate"><Button 
       preset={(record.status == 1 && record.is_principal == 0) ? Preset.smallClose : Preset.smallCloseDisable} 
@@ -66,7 +76,6 @@ export function CashAccountsTable(props: CashAccountsTableProps) {
           text="¿Estas seguro de eliminar este elemento?"
           onDelete={handleDelete} 
           onClose={()=>setShowDeleteModal(false)} /> }
-
 
  </div>
  </div>);
