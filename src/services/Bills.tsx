@@ -1,3 +1,5 @@
+import { Employee } from "./Employee";
+
 export interface Bills {
     data: Bill[];
 }
@@ -8,7 +10,7 @@ export interface Bill {
     description?:              string;
     type:                     number;
     quantity:                 number;
-    employee_id:              null;
+    employee_id?:              Employee;
     invoice?:                  number;
     invoice_number?:           string;
     payment_type:             number;

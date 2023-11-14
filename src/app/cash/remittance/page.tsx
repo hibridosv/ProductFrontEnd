@@ -12,7 +12,7 @@ import { CashRemittancesTable } from "@/components/table/cash-remittances-table"
 
 
 export default function RemittancePage() {
-    const { register, handleSubmit, reset, watch, setValue } = useForm();
+    const { register, handleSubmit, reset } = useForm();
     const [isSending, setIsSending] = useState(false);
     const [message, setMessage] = useState<any>({});
     const [remittances, setRemittances] = useState([]);
