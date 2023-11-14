@@ -57,7 +57,7 @@ const deleteProduct = async (iden: number) => {
                 withOutRows={[RowTable.brand, RowTable.category]}
                  />
                 <Pagination 
-                products={productos}
+                records={productos}
                 handlePageNumber={handlePageNumber } 
                 />
                 </>

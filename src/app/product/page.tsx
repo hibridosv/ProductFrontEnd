@@ -75,7 +75,7 @@ export default function ViewProducts() {
                 withOutRows={[RowTable.brand]}
                  />
                 <Pagination 
-                products={productos}
+                records={productos}
                 handlePageNumber={handlePageNumber } 
                 />
                 </>

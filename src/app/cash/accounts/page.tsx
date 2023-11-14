@@ -20,11 +20,11 @@ export default function AccountsPage() {
   const [isCashTranferModal, setIsCashTranferModal] = useState(false);
 
 
-  useEffect(() => {
-    if (!isCashTranferModal) {
-        (async () => setAccounts(await loadData(`cash/accounts`)))();
-    }
-}, [isCashTranferModal]);
+    useEffect(() => {
+      if (!isCashTranferModal) {
+          (async () => setAccounts(await loadData(`cash/accounts`)))();
+      }
+  }, [isCashTranferModal]);
 
 
 const onSubmit = async (data: any) => {

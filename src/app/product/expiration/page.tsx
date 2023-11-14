@@ -63,7 +63,7 @@ useEffect(() => {
                 records={expirations}
                  />
                 <Pagination 
-                products={expirations}
+                records={expirations}
                 handlePageNumber={handlePageNumber } 
                 />
                 </>

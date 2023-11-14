@@ -1,21 +1,19 @@
 "use client";
 import React from "react";
-import { Products as ProductsInterface } from "../../services/products";
-// import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io"
 
 export interface PaginationProps {
-  products?: ProductsInterface | any;
+  records?: any;
   handlePageNumber?: (url: string) => any;
 }
 
 export function Pagination(props: PaginationProps) {
-  const { products, handlePageNumber } = props;
+  const { records, handlePageNumber } = props;
 
-  if (!products.links) return null;
+  if (!records.links) return <></>;
 
-  if (products.meta.total === 0) return null;
+  if (records.meta.total === 0) return <></>;
 
-  const { links } = products.meta;
+  const { links } = records.meta;
   const activeIndex = links.findIndex((link: any) => link.active);
 
   const startIndex = Math.max(activeIndex - 2, 0);
@@ -33,40 +31,43 @@ export function Pagination(props: PaginationProps) {
     <button
       key={link.url}
       onClick={() => handlePageNumber?.(link.url)}
-      className="inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-gray-800  hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white mx-0.5"
+      className={`inline-flex items-center py-2 px-4 text-sm font-medium text-white  mx-0.5  
+      ${link.active ? "bg-cyan-500" : "bg-cyan-800 hover:bg-cyan-900"}`}
     >
       {link.label}
     </button>
   ));
 
+
   return (
     <div className="flex flex-col items-center">
-      <span className="text-sm text-gray-700 dark:text-gray-400">
+      <span className="text-sm text-cyan-700">
         Mostrando{" "}
-        <span className="font-semibold text-gray-900 dark:text-white">
-          {products.meta.from}
+        <span className="font-semibold text-cyan-900">
+          {records.meta.from}
         </span>{" "}
         a{" "}
-        <span className="font-semibold text-gray-900 dark:text-white">
-          {products.meta.to}
+        <span className="font-semibold text-cyan-900">
+          {records.meta.to}
         </span>{" "}
         de{" "}
-        <span className="font-semibold text-gray-900 dark:text-white">
-          {products.meta.total}
+        <span className="font-semibold text-cyan-900">
+          {records.meta.total}
         </span>{" "}
         Registros
       </span>
+      { records.meta.total > records.meta.per_page && (
       <div className="inline-flex mt-2 xs:mt-0">
-        {products.links.prev ? (
+        {records.links.prev ? (
           <button
-            onClick={() => handlePageNumber?.(products.links.prev)}
-            className="inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            onClick={() => handlePageNumber?.(records.links.prev)}
+            className="inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-cyan-800 rounded-l hover:bg-cyan-900 "
           >
             Prev
           </button>
         ) : (
           <button
-            className="inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-gray-500 rounded-l hover:bg-gray-600 dark:bg-gray-500 dark:border-gray-400 dark:text-gray-100 dark:hover:bg-gray-400 dark:hover:text-white"
+            className="inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-cyan-500 rounded-l hover:bg-cyan-600"
             disabled
           >
             Prev
@@ -75,19 +76,20 @@ export function Pagination(props: PaginationProps) {
 
         {listItems}
 
-        {products.links.next ? (
+        {records.links.next ? (
           <button
-            onClick={() => handlePageNumber?.(products.links.next)}
-            className="inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-gray-800 rounded-r border-0 border-l border-gray-700 hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            onClick={() => handlePageNumber?.(records.links.next)}
+            className="inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-cyan-800 rounded-r border-0 border-l border-cyan-700 hover:bg-cyan-900"
           >
             Next
           </button>
         ) : (
-          <button className="inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-gray-500 rounded-r border-0 border-l border-gray-400 hover:bg-gray-600 dark:bg-gray-500 dark:border-gray-400 dark:text-gray-100 dark:hover:bg-gray-400 dark:hover:text-white">
+          <button className="inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-cyan-500 rounded-r border-0 border-l border-cyan-400 hover:bg-cyan-600">
             Next
           </button>
         )}
       </div>
+      )}
     </div>
   );
 }

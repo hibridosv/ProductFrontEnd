@@ -4,8 +4,6 @@ import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast';
-
-import { Account } from "@/services/Bills";
 import { style } from "@/theme";
 import { PresetTheme } from "@/services/enums";
 import { Alert } from "../alert/alert";
@@ -21,7 +19,7 @@ export interface CashTransferModalProps {
 
 export function CashTransferModal(props: CashTransferModalProps) {
   const { onClose, accounts, isShow } = props;
-  const { register, handleSubmit, reset, setFocus } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState<any>({});
 
@@ -49,7 +47,6 @@ export function CashTransferModal(props: CashTransferModalProps) {
           toast.error("Faltan algunos datos importantes!");
           setMessage(response);
       }
-      console.log(response)
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!");
@@ -100,7 +97,7 @@ export function CashTransferModal(props: CashTransferModalProps) {
 
 
                 <div className="w-full md:w-full px-3 mb-2">
-                    <label htmlFor="quantity" className={style.inputLabel}> Cantidad Inicial *</label>
+                    <label htmlFor="quantity" className={style.inputLabel}> Cantidad a transferir *</label>
                     <input
                           type="number"
                           id="quantity"

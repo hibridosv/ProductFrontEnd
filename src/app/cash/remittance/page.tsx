@@ -31,16 +31,15 @@ export default function RemittancePage() {
         try {
           setIsSending(true)
           const response = await postData(`cash/remittances`, "POST", data);
-          if (!response.message) {
-            toast.success("Remesa agregada correctamente");
-            setMessage({});
-            setRemittances(response)
-            reset()
-        } else {
-            toast.error("Faltan algunos datos importantes!");
-            setMessage(response);
-        }
-        console.log(response)
+            if (!response.message) {
+              toast.success("Remesa agregada correctamente");
+              setMessage({});
+              setRemittances(response)
+              reset()
+            } else {
+                toast.error("Faltan algunos datos importantes!");
+                setMessage(response);
+            }
         } catch (error) {
           console.error(error);
           toast.error("Ha ocurrido un error!");
