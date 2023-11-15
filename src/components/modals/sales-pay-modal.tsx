@@ -150,8 +150,8 @@ export function SalesPayModal(props: SalesPayModalProps) {
               </div> }
       <Modal.Footer className="flex justify-end">
         { isPayInvoice ?
-        <Button onClick={handleFinish} text="Terminar" preset={Preset.close} isFull /> :
-        <Button onClick={onClose} preset={Preset.close} isFull /> }
+        <Button onClick={handleFinish} text="Terminar" preset={Preset.close} isFull disabled={isSending} /> :
+        <Button onClick={onClose} preset={Preset.close} isFull disabled={isSending} /> }
       </Modal.Footer>
     </Modal>
   );

@@ -94,7 +94,7 @@ export function SalesQuantityModal(props: SalesQuantityModalProps) {
       <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end">
-        <Button onClick={onClose} preset={Preset.close} isFull /> 
+        <Button onClick={onClose} preset={Preset.close} isFull disabled={isSending} /> 
       </Modal.Footer>
     </Modal>
   );

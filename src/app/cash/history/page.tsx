@@ -27,10 +27,10 @@ export default function HistoryPage() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600">
-        <div className="flex justify-between">
+          <div className="flex justify-between">
             <ViewTitle text="HISTORIAL TRANSACCIONES" />
             <RiRefreshFill size={32} className="col-span-11 m-4 text-2xl text-sky-900 clickeable" onClick={()=>setIsCashTranferModal(true)} />
-            </div>
+          </div>
 
             <CashhistoryTable records={histories} />
             <Pagination 

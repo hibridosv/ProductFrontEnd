@@ -50,6 +50,11 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/cash/history" />}>Historial de transferencias </MenuItem>
         </SubMenu>
 
+        <SubMenu label="Cuentas" icon={<HiOutlineChartSquareBar />}>
+          <MenuItem component={<Link className="text-sm" href="/credits/receivable" />}>Cuentas por cobrar </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/credits/payable" />}>Cuentas por pagar </MenuItem>
+        </SubMenu>
+
         <SubMenu label="Historiales" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Consolidado diario </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Ventas  </MenuItem>
@@ -73,10 +78,6 @@ export function SideBar() {
         <SubMenu label="Cotizaciones" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Crear Cotizaciones </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Consultar Cotizaciones </MenuItem>
-        </SubMenu>
-        <SubMenu label="Cuentas" icon={<HiOutlineChartSquareBar />}>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Cuentas por cobrar </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Cuentas por pagar </MenuItem>
         </SubMenu>
 
         <SubMenu label="Directorio" icon={<HiOutlineChartSquareBar />}>

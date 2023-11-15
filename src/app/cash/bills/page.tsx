@@ -12,7 +12,6 @@ import toast, { Toaster } from 'react-hot-toast';
 
 export default function BillsPage() {
     const { register, handleSubmit, reset, watch, setValue } = useForm();
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSending, setIsSending] = useState(false);
     const [message, setMessage] = useState<any>({});
     const [bills, setBills] = useState([]);
@@ -181,7 +180,7 @@ export default function BillsPage() {
                         >
                         {accounts?.data?.map((value: any) => {
                           return (
-                            <option key={value.id} value={value.id}> {value.account}{" | "}{value.bank}</option>
+                            <option key={value.id} value={value.id}> {value.account}{" | "}{value.bank}{" | $"}{value.balance}</option>
                           );
                         })}
                     </select>

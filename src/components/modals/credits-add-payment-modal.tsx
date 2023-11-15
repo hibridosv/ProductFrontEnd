@@ -1,0 +1,233 @@
+"use client";
+import { useEffect, useState } from "react";
+import { Modal } from "flowbite-react";
+import { Button, Preset } from "../button/button";
+import { useForm } from "react-hook-form";
+import toast, { Toaster } from 'react-hot-toast';
+import { postData } from "@/services/resources";
+import { style } from "../../theme";
+import { documentType, loadData, numberToMoney } from "@/utils/functions";
+import { Alert } from "../alert/alert";
+import { PresetTheme } from "@/services/enums";
+import { formatDateAsDMY } from "@/utils/date-formats";
+import { DeleteModal } from "./delete-modal";
+import { CredistPaymentsTable } from "../table/credits-payments-table";
+
+export enum Type {
+    receivable = 1,
+    payable = 2,
+  }
+
+export interface CreditAddPaymentModalProps {
+  onClose: () => void;
+  isShow: boolean;
+  accountType: Type;
+  creditSelected?: any; 
+}
+
+export function CreditAddPaymentModal(props: CreditAddPaymentModalProps) {
+  const { onClose, isShow, accountType, creditSelected} = props;
+  const { register, handleSubmit, reset, watch, setValue } = useForm();
+  const [isSending, setIsSending] = useState(false);
+  const [message, setMessage] = useState<any>({});
+  const [accounts, setAccounts] = useState([] as any);
+  const [payments, setPayments] = useState([] as any);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+
+  useEffect(() => {
+    if (isShow) {
+        (async () => setAccounts(await loadData(`cash/accounts`)))();
+        (async () => setPayments(await loadData(`credits/payment/${creditSelected?.id}/${accountType}`)))(); 
+    }  
+    }, [creditSelected, isShow]);
+
+
+  const onSubmit = async (data: any) => {
+    if (payments?.balance < data.quantity) {
+        toast.error("No puede ingresar una cantidad mayor al saldo pendiente");
+        return null;
+    }
+    data.status = 1;
+    data.account_type = accountType;
+    data.creditSelected = creditSelected.id;
+    try {
+        setIsSending(true)
+        const response = await postData(`credits/payment`, "POST", data);
+        if (response.type == "error") {
+            toast.error("Faltan algunos datos importantes!");
+            setMessage(response);
+        } 
+        if (response.data) {
+            toast.success("Abonos registrado correctamente");
+            setPayments(response)
+            setMessage({});
+            reset()
+            setValue('payment_type', 1)
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Ha ocurrido un error!");
+      } finally {
+        setIsSending(false)
+      }
+  };
+
+
+  const handleDeleteCredit = () => {
+    onDeleteCredit(creditSelected.id);
+    setShowDeleteModal(false);
+  }
+
+  const onDeleteCredit = async(creditId: any)=>{
+    try {
+        const response = await postData(`credits/payable/${creditId}`, 'DELETE');
+        if (response.type == "successful") {
+            onClose();
+        }
+        toast.error(response.message);
+      } catch (error) {
+        console.error(error);
+        toast.error("Ha ocurrido un error!");
+      } 
+  }
+
+  const onDeletePayment = async(paymentId: any)=>{
+    try {
+        const response = await postData(`credits/payment/${paymentId.id}`, 'DELETE');
+        if (!response.message) {
+            setPayments(response)
+        } else {
+            toast.error(response.message);
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Ha ocurrido un error!");
+      } 
+  }
+
+
+  return (
+    <Modal size="4xl" show={isShow} position="center" onClose={onClose}>
+      <Modal.Header>AGREGAR ABONO</Modal.Header>
+      <Modal.Body>
+        <div className="grid grid-cols-1 md:grid-cols-10 mx-4">
+            <div className="col-span-5">
+                <div className="flex justify-between mb-6">
+                    <div className="mx-4 border-2 border-slate-600 shadow-lg shadow-teal-500 rounded-md w-full">
+                        <div className="w-full text-center">Abonos</div>
+                        <div className="w-full text-center text-2xl">{ numberToMoney(payments?.total ? payments?.total :0) }</div>
+                    </div>
+                    <div className="mx-4 border-2 border-slate-600 shadow-lg shadow-red-500 rounded-md w-full">
+                        <div className="w-full text-center">Saldo</div>
+                        <div className="w-full text-center text-2xl">{numberToMoney(payments?.balance ? payments?.balance : 0)}</div>
+                    </div>
+                </div>
+                <div>
+                    {/* Aqui va el formulario */}
+                    <form onSubmit={handleSubmit(onSubmit)} className="pb-4 mx-3 border-2 shadow-lg rounded-md">
+              <div className="flex flex-wrap mx-3 mb-2 ">
+
+              <div className="w-full md:w-full px-3 mb-2">
+                    <label htmlFor="payment_type" className={style.inputLabel}> Tipo de pago </label>
+                    <select
+                          defaultValue={1}
+                          id="payment_type"
+                          {...register("payment_type", {disabled: payments?.balance == 0 ? true : false})}
+                          className={style.input}
+                        >
+                        <option value="1">Efectivo</option>
+                        <option value="2">Tarjeta</option>
+                        <option value="3">Transferencia</option>
+                        <option value="4">Cheque</option>
+                        <option value="6">BTC</option>
+                        <option value="0">Otro</option>
+                    </select>
+                </div>
+
+
+                { watch("payment_type") != 1 && payments?.balance != 0 && <div className="w-full md:w-full px-3 mb-2">
+                    <label htmlFor="cash_accounts_id" className={style.inputLabel}> Cuenta de tranferencia </label>
+                    <select
+                          defaultValue={accounts && accounts.data && accounts.data.length > 0 ? accounts.data[0].id : 0}
+                          id="cash_accounts_id"
+                          {...register("cash_accounts_id", {disabled: payments?.balance == 0 ? true : false})}
+                          className={style.input}
+                        >
+                        {accounts?.data?.map((value: any) => {
+                          return (
+                            <option key={value.id} value={value.id}> {value.account}{" | "}{value.bank}{" | $"}{value.balance}</option>
+                          );
+                        })}
+                    </select>
+                </div> }
+
+
+                <div className="w-full md:w-full px-3 mb-2">
+                    <label htmlFor="quantity" className={style.inputLabel}> Cantidad *</label>
+                    <input
+                          type="number"
+                          id="quantity"
+                          {...register("quantity", {disabled: payments?.balance == 0 ? true : false})}
+                          className={style.input}
+                          step="any"
+                          min={0}
+                        />
+                </div>
+               
+              </div>
+
+              {message.errors && (
+                <div className="mb-3">
+                  <Alert theme={PresetTheme.danger} info="Error" text={JSON.stringify(message.message)} isDismisible={false} />
+                </div>
+              )}
+
+              <div className="flex justify-center">
+              <Button type="submit" disabled={isSending || payments?.balance == 0} preset={isSending ? Preset.saving : Preset.save} />
+              </div>
+
+            </form>
+                    {/* Termina formulario  */}
+                </div>
+            </div>
+            <div className="col-span-5 ">
+
+                    <div className="w-full flex justify-center  mb-6">
+                        <div className="w-1/2 mx-4 border-2 border-slate-600 shadow-lg shadow-lime-500 rounded-md">
+                            <div className="text-center">Total</div>
+                            <div className="text-center text-2xl">{ numberToMoney(creditSelected?.quantity ? creditSelected?.quantity : 0) }</div>
+                        </div>
+                    </div>
+               <div className="pb-4 mx-3 border-2 shadow-lg rounded-md"> 
+
+                    <div className="ml-3 text-xl mt-2 font-semibold ">{ creditSelected?.name }</div>
+                    <div className="ml-3 text-sm">{ creditSelected?.description }</div>
+                    <div className="ml-3 text-lg mt-1">Expira: { formatDateAsDMY(creditSelected?.expiration) }</div>
+                    <div className="ml-3 text-lg mt-1">{documentType(creditSelected?.invoice)}: { creditSelected?.invoice_number}</div>
+                    <div className="ml-3 text-lg mt-1">Usuario: { creditSelected?.employee?.name}</div>
+                    <div className="ml-3 text-lg mt-1">Proveedor: { creditSelected?.provider?.name}</div>
+               </div>
+            </div>
+        </div>
+        {payments?.data &&
+        <div className="mt-3">
+                { payments?.data.length == 0 && 
+                    <div>
+                        <Alert info="Importante!: " theme={PresetTheme.danger} text="No se encuentran abonos registrados" isDismisible={false} />
+                        <Button preset={Preset.cancel} text="Eliminar cuenta" style="mt-5" isFull onClick={()=>setShowDeleteModal(true)} />
+                    </div>}
+                    <CredistPaymentsTable records={payments} onDelete={onDeletePayment} />
+        </div>}
+
+        { showDeleteModal && 
+          <DeleteModal text="¿Estas seguro de eliminar este elemento?" onDelete={handleDeleteCredit}  onClose={()=>setShowDeleteModal(false)} /> }
+
+      <Toaster position="top-right" reverseOrder={false} />
+      </Modal.Body>
+      <Modal.Footer className="flex justify-end gap-4">
+        <Button onClick={onClose} preset={Preset.close} disabled={isSending} />
+      </Modal.Footer>
+    </Modal>
+  );
+}
