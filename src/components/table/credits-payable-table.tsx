@@ -19,8 +19,8 @@ export function CredistPayableTable(props: CredistPayableTableProps) {
 
   const status = (expiration: number) => {
     return (expiration == 1) ? 
-    <span className=" text-lime-500 font-bold ">ACTIVO</span> : 
-    <span className=" text-sky-500 font-bold ">PAGADO</span>;
+    <span className=" status-success ">ACTIVO</span> : 
+    <span className=" status-info ">PAGADO</span>;
   }
 
   const handleClick = (credit: any)=>{

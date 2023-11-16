@@ -26,6 +26,18 @@
   .clickeable {
     @apply cursor-pointer active:relative active:top-1
   }
+
+  .status-success {
+    @apply text-lime-500 font-bold
+  }
+
+  .status-danger {
+    @apply text-red-500 font-bold
+  }
+
+  .status-info {
+    @apply text-sky-500 font-bold
+  }
 }
 
 /* body {

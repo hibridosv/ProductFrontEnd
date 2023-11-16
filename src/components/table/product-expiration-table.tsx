@@ -27,9 +27,9 @@ export function ProductExpirationTable(props: ProductExpirationTableProps) {
 
   const status = (expiration: string) => {
     if (new Date(expiration) <= new Date()) {
-        return <Badge color="failure">Expirado</Badge>
+        return <div className="status-danger">Expirado</div>
     }
-    return <Badge color="success">Por Expirar</Badge>
+    return <div className="status-success">Por Expirar</div>
   }
 
 

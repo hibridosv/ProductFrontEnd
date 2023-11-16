@@ -128,7 +128,7 @@ export const getPaymentTypeName = (type: PaymentType): string | undefined => {
 
 
 /// suma una item de un arreglo
-export const getTotalOfItem = (datos: any, item: string): string => {
+export const getTotalOfItem = (datos: any, item: string): any => {
   let totalSuma = 0;
 
   datos?.forEach((elemento: any) => {
@@ -137,7 +137,7 @@ export const getTotalOfItem = (datos: any, item: string): string => {
     }
   });
 
-  return totalSuma.toFixed(2);
+  return totalSuma;
 }
 
 

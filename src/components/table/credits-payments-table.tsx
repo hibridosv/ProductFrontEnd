@@ -25,8 +25,8 @@ export function CredistPaymentsTable(props: CredistPaymentsTableProps) {
   
   const status = (expiration: number) => {
     return (expiration == 1) ? 
-    <span className=" text-lime-500 font-bold ">Activo</span> : 
-    <span className=" text-red-500 font-bold cursor-pointer">Eliminado</span>;
+    <span className=" status-success ">Activo</span> : 
+    <span className=" status-danger cursor-pointer">Eliminado</span>;
   }
 
   const deleted = (record: any) => {

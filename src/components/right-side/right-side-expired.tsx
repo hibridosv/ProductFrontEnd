@@ -16,7 +16,7 @@ const loadingSmall = (value: any)=>{
 
 return (<div>
     { statics && 
-        <div className="mx-5 border border-sky-600 rounded-lg">
+        <div className="mx-5 border-2 shadow-xl rounded-md">
             <div className="m-2 grid grid-cols-6">
                 <span className="col-span-4 px-2 xl:text-xl">Total Mostrados: </span>
                 <span className="col-span-2 px-2 xl:text-xl text-right">{ loadingSmall(statics.total)}</span>
