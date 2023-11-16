@@ -19,8 +19,8 @@ export function CredistPaymentsTable(props: CredistPaymentsTableProps) {
   useEffect(() => setIsLasElement(getFirstElement(records?.data)), [records]);
 
 
-  if (!records.data) return <NothingHere width="164" height="98" />;
-  if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
+  if (!records.data) return <NothingHere width="100" height="65" />;
+  if (records.data.length == 0) return <NothingHere text="No se encontraron abonos" width="100" height="65" />;
 
   
   const status = (expiration: number) => {

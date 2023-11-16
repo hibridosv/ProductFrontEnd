@@ -58,7 +58,7 @@ export function CreditAddPayableModal(props: CreditAddPayableModalProps) {
 
   useEffect(() => {
     (watch("invoice") == 0) ? setIsDisabled(true) : setIsDisabled(false)
-}, [watch('invoice')]);
+}, [watch]);
 
 
   return (

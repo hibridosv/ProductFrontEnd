@@ -18,14 +18,14 @@ export enum Type {
     payable = 2,
   }
 
-export interface CreditAddPaymentModalProps {
+export interface CreditAddPaymentReceivableModalProps {
   onClose: () => void;
   isShow: boolean;
   accountType: Type;
   creditSelected?: any; 
 }
 
-export function CreditAddPaymentModal(props: CreditAddPaymentModalProps) {
+export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivableModalProps) {
   const { onClose, isShow, accountType, creditSelected} = props;
   const { register, handleSubmit, reset, watch, setValue } = useForm();
   const [isSending, setIsSending] = useState(false);
@@ -196,29 +196,24 @@ export function CreditAddPaymentModal(props: CreditAddPaymentModalProps) {
                     <div className="w-full flex justify-center  mb-6">
                         <div className="w-1/2 mx-4 border-2 border-slate-600 shadow-lg shadow-lime-500 rounded-md">
                             <div className="text-center">Total</div>
-                            <div className="text-center text-2xl">{ numberToMoney(creditSelected?.quantity ? creditSelected?.quantity : 0) }</div>
+                            <div className="text-center text-2xl">{ numberToMoney(creditSelected?.order?.total ? creditSelected?.order?.total : 0) }</div>
                         </div>
                     </div>
                <div className="pb-4 mx-3 border-2 shadow-lg rounded-md"> 
 
-                    <div className="ml-3 text-xl mt-2 font-semibold ">{ creditSelected?.name }</div>
-                    <div className="ml-3 text-sm">{ creditSelected?.description }</div>
-                    <div className="ml-3 text-lg mt-1">Expira: { formatDateAsDMY(creditSelected?.expiration) }</div>
-                    <div className="ml-3 text-lg mt-1">{documentType(creditSelected?.invoice)}: { creditSelected?.invoice_number}</div>
+                    <div className="ml-3 text-xl mt-2 font-semibold ">Cliente { creditSelected?.client?.name }</div>
+                    <div className="ml-3 text-sm">Documento: { creditSelected?.order?.invoice_assigned?.name } | Numero: { creditSelected?.order?.invoice }</div>
+                    <div className="ml-3 text-lg mt-1">Total Productos: { creditSelected?.order?.products.length }</div>
                     <div className="ml-3 text-lg mt-1">Usuario: { creditSelected?.employee?.name}</div>
-                    <div className="ml-3 text-lg mt-1">Proveedor: { creditSelected?.provider?.name}</div>
+                    <div className="ml-3 text-lg mt-1">Asignado: { formatDateAsDMY(creditSelected?.created_at) }</div>
+                    <div className="ml-3 text-lg mt-1">Expira: { formatDateAsDMY(creditSelected?.expiration) }</div>
                </div>
             </div>
         </div>
-        {payments?.data &&
-        <div className="mt-3">
-                { payments?.data.length == 0 && 
-                    <div>
-                        <Alert info="Importante!: " theme={PresetTheme.danger} text="No se encuentran abonos registrados" isDismisible={false} />
-                        <Button preset={Preset.cancel} text="Eliminar cuenta" style="mt-5" isFull onClick={()=>setShowDeleteModal(true)} />
-                    </div>}
-                    <CredistPaymentsTable records={payments} onDelete={onDeletePayment} />
-        </div>}
+            {payments?.data &&
+            <div className="mt-3">
+                <CredistPaymentsTable records={payments} onDelete={onDeletePayment} />
+            </div>}
 
         { showDeleteModal && 
           <DeleteModal text="¿Estas seguro de eliminar este elemento?" onDelete={handleDeleteCredit}  onClose={()=>setShowDeleteModal(false)} /> }

@@ -30,10 +30,7 @@ export default function CreditPayablePage() {
               <span className=" m-4 text-2xl "><Button preset={Preset.add} text="AGREGAR" onClick={()=>setIsAddPayableModal(true)} /></span>
             </div>
             <CredistPayableTable records={credits} onClick={()=>setIsAddPaymentModal(true)} creditSelect={setIsCreditSelect} />
-            <Pagination 
-                records={credits}
-                handlePageNumber={handlePageNumber } 
-                />
+            <Pagination  records={credits} handlePageNumber={handlePageNumber } />
         </div>
         <div className="col-span-3">
             <ViewTitle text="RESUMEN" />
