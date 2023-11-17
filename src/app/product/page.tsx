@@ -6,7 +6,7 @@ import { usePagination } from "@/components/pagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import toast, { Toaster } from 'react-hot-toast';
 
-import { RowTable } from "@/components/table/products-table";
+import { RowTable } from "@/components/products-components/products-table";
 
 export default function ViewProducts() {
   const [isLoading, setIsLoading] = useState(false);

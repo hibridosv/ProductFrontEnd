@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { numberToMoney } from "@/utils/functions";
-import { ShowTotal } from "../sales-components/show-total";
+import { ShowTotal } from "./show-total";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 
@@ -150,8 +150,8 @@ export function SalesPayModal(props: SalesPayModalProps) {
               </div> }
       <Modal.Footer className="flex justify-end">
         { isPayInvoice ?
-        <Button onClick={handleFinish} text="Terminar" preset={Preset.close} isFull /> :
-        <Button onClick={onClose} preset={Preset.close} isFull /> }
+        <Button onClick={handleFinish} text="Terminar" preset={Preset.close} isFull disabled={isSending} /> :
+        <Button onClick={onClose} preset={Preset.close} isFull disabled={isSending} /> }
       </Modal.Footer>
     </Modal>
   );

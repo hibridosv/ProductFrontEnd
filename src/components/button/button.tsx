@@ -8,6 +8,7 @@ export enum Preset {
     cancel = "cancel",
     save = "save",
     accept = "accept",
+    add = "add",
     send = "send",
     saving = "saving",
     smallClose = "smallClose",
@@ -16,7 +17,7 @@ export enum Preset {
     smallPlusDisable = "smallPlusDisable",
     smallMinus = "smallMinus",
     smallMinusDisable = "smallMinusDisable",
-
+    smallInfo = "smallInfo",
   }
   
   export interface ButtonProps {

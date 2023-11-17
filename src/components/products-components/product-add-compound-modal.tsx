@@ -9,7 +9,7 @@ import { SearchInput } from "../form/search";
 import { style } from "@/theme";
 import toast, { Toaster } from 'react-hot-toast';
 
-import { DeleteModal } from "./delete-modal";
+import { DeleteModal } from "../modals/delete-modal";
 import { Loading } from "../loading/loading";
 
 

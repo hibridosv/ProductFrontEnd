@@ -11,9 +11,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import { SearchIcon } from "@/theme/svg";
 import { Product } from "@/services/products";
 import { Contacts } from "@/services/Contacts";
-import { ProductRegisterTable } from "@/components/table/product-register-table";
+import { ProductRegisterTable } from "@/components/products-components/product-register-table";
 import { PresetTheme } from "@/services/enums";
-import { ProductRegisterPrincipalTable } from "@/components/table/product-register-principal-table";
+import { ProductRegisterPrincipalTable } from "@/components/products-components/product-register-principal-table";
 import { documentType } from "@/utils/functions";
 
 export default function ProductAdd() {

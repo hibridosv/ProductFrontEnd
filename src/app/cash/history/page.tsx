@@ -1,9 +1,9 @@
 'use client'
 import { Pagination, ViewTitle } from "@/components";
 import { Button, Preset } from "@/components/button/button";
-import { CashShowTotal } from "@/components/cash/cash-show-total";
-import { CashTransferModal } from "@/components/modals/cash-trasfers-modal";
-import { CashhistoryTable } from "@/components/table/cash-history-table";
+import { CashShowTotal } from "@/components/cash-components/cash-show-total";
+import { CashTransferModal } from "@/components/cash-components/cash-trasfers-modal";
+import { CashhistoryTable } from "@/components/cash-components/cash-history-table";
 import { usePagination } from "@/hooks/usePagination";
 import { loadData } from "@/utils/functions";
 import { useEffect, useState } from "react";
@@ -27,10 +27,10 @@ export default function HistoryPage() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600">
-        <div className="flex justify-between">
+          <div className="flex justify-between">
             <ViewTitle text="HISTORIAL TRANSACCIONES" />
             <RiRefreshFill size={32} className="col-span-11 m-4 text-2xl text-sky-900 clickeable" onClick={()=>setIsCashTranferModal(true)} />
-            </div>
+          </div>
 
             <CashhistoryTable records={histories} />
             <Pagination 

@@ -1,7 +1,7 @@
 'use client'
 import { Alert, Loading, ViewTitle } from "@/components";
 import { Button, Preset } from "@/components/button/button";
-import { CashBillsTable } from "@/components/table/cash-bills-table";
+import { CashBillsTable } from "@/components/cash-components/cash-bills-table";
 import { PresetTheme } from "@/services/enums";
 import { postData } from "@/services/resources";
 import { style } from "@/theme";
@@ -12,7 +12,6 @@ import toast, { Toaster } from 'react-hot-toast';
 
 export default function BillsPage() {
     const { register, handleSubmit, reset, watch, setValue } = useForm();
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSending, setIsSending] = useState(false);
     const [message, setMessage] = useState<any>({});
     const [bills, setBills] = useState([]);
@@ -41,6 +40,7 @@ export default function BillsPage() {
             toast.success("Gasto agregado correctamente");
             setMessage({});
             setBills(response)
+            setAccounts(await loadData(`cash/accounts`));
             reset()
             setValue("payment_type", 1)
           } else {
@@ -60,6 +60,7 @@ export default function BillsPage() {
           const response = await postData(`cash/bills/${iden}`, 'DELETE');
           toast.success(response.message);
           setBills(await loadData(`cash/bills`));
+          setAccounts(await loadData(`cash/accounts`));
         } catch (error) {
           console.error(error);
           toast.error("Ha ocurrido un error!");
@@ -181,7 +182,7 @@ export default function BillsPage() {
                         >
                         {accounts?.data?.map((value: any) => {
                           return (
-                            <option key={value.id} value={value.id}> {value.account}{" | "}{value.bank}</option>
+                            <option key={value.id} value={value.id}> {value.account}{" | "}{value.bank}{" | $"}{value.balance}</option>
                           );
                         })}
                     </select>

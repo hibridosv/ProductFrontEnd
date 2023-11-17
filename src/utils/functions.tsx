@@ -13,7 +13,8 @@ export const loadData = async (url: string) => {
 
 
 export const numberToMoney = (number: number): string => {
-    return `$${number.toFixed(2)}`
+    let num = number ? number : 0;
+    return `$${num.toFixed(2)}`
 }
 
 export const getConfigStatus = (feature: string, config: any)=>{
@@ -124,3 +125,43 @@ export const getPaymentTypeName = (type: PaymentType): string | undefined => {
 
   return typeName ? (PaymentTypeNames as Record<string, string>)[typeName] : undefined;
 };
+
+
+/// suma una item de un arreglo
+export const getTotalOfItem = (datos: any, item: string): any => {
+  let totalSuma = 0;
+
+  datos?.forEach((elemento: any) => {
+    if (elemento.hasOwnProperty(item)) {
+      totalSuma += elemento[item];
+    }
+  });
+
+  return totalSuma;
+}
+
+
+
+// obtiene el ultimo elemento de un arreglo
+export const getLastElement = (items: any)=> {
+  const elementsWithStatus1 = items.filter((element:any) => element.status === 1);
+
+  if (elementsWithStatus1 && elementsWithStatus1.length > 0) {
+      const lastElementWithStatus1 = elementsWithStatus1[elementsWithStatus1.length - 1];
+      return lastElementWithStatus1;
+  } else {
+      return null;
+  }
+}
+
+// obtiene el ultimo elemento de un arreglo
+export const getFirstElement = (items: any)=> {
+  const elementsWithStatus1 = items.filter((element: any) => element.status === 1);
+
+  if (elementsWithStatus1 && elementsWithStatus1.length > 0) {
+      const firstElementWithStatus1 = elementsWithStatus1[0];
+      return firstElementWithStatus1;
+  } else {
+      return null;
+  }
+}

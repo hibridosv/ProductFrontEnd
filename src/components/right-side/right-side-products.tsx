@@ -2,6 +2,7 @@ import { Products as ProductsInterface } from "../../services/products";
 import { TextInput, Label } from "flowbite-react";
 import { HiSearch } from "react-icons/hi";
 import { Loading } from "../loading/loading";
+import { CreditsShowTotal } from "../credits-components/credits-show-total";
 
 export interface RightSideProductsProps {
     products?: ProductsInterface | any;
@@ -36,13 +37,10 @@ return (<div>
     />
     </div>
     { !products.data ? <Loading text="" /> : 
-        <div className="m-5 border border-sky-600 rounded-lg grid grid-cols-2">
-            <span className="p-2 xl:text-3xl">PRODUCTOS: </span>
-            <span className="p-2 xl:text-3xl text-right">{products.meta.total}</span>
-        </div>
+        <CreditsShowTotal quantity={products?.meta?.total} text="PRODUCTOS" number />
     }
     { statics && 
-        <div className="m-5 border border-sky-600 rounded-lg">
+        <div className="m-5 border-2 shadow-xl rounded-md">
             <div className="m-2 grid grid-cols-6">
                 <span className="col-span-4 px-2 xl:text-xl">Total Productos: </span>
                 <span className="col-span-2 px-2 xl:text-xl text-right">{ loadingSmall(statics.totalProducts)}</span>

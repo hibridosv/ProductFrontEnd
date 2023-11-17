@@ -8,7 +8,7 @@ import { style } from "@/theme";
 import { PresetTheme } from "@/services/enums";
 import { Button, Preset } from "@/components/button/button";
 import { loadData } from "@/utils/functions";
-import { CashRemittancesTable } from "@/components/table/cash-remittances-table";
+import { CashRemittancesTable } from "@/components/cash-components/cash-remittances-table";
 
 
 export default function RemittancePage() {
@@ -35,6 +35,7 @@ export default function RemittancePage() {
               toast.success("Remesa agregada correctamente");
               setMessage({});
               setRemittances(response)
+              setAccounts(await loadData(`cash/accounts`));
               reset()
             } else {
                 toast.error("Faltan algunos datos importantes!");
@@ -103,7 +104,7 @@ export default function RemittancePage() {
                         >
                         {accounts?.data?.map((value: any) => {
                           return (
-                            <option key={value.id} value={value.id}> {value.account}{" | "}{value.bank}</option>
+                            <option key={value.id} value={value.id}> {value.account}{" | "}{value.bank}{" | $"}{value.balance}</option>
                           );
                         })}
                     </select>

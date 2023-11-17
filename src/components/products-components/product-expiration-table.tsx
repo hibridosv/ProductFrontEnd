@@ -5,7 +5,7 @@ import { Badge } from 'flowbite-react';
 import { NothingHere } from "../nothing-here/nothing-here";
 import { formatDateAsDMY } from "@/utils/date-formats";
 import { Product } from "@/services/products";
-import { ProductViewModal } from "../modals/product-view-modal";
+import { ProductViewModal } from "./product-view-modal";
 
 interface ProductExpirationTableProps {
   records?:  any;
@@ -27,9 +27,9 @@ export function ProductExpirationTable(props: ProductExpirationTableProps) {
 
   const status = (expiration: string) => {
     if (new Date(expiration) <= new Date()) {
-        return <Badge color="failure">Expirado</Badge>
+        return <div className="status-danger">Expirado</div>
     }
-    return <Badge color="success">Por Expirar</Badge>
+    return <div className="status-success">Por Expirar</div>
   }
 
 

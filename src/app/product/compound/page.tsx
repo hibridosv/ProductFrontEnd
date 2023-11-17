@@ -4,7 +4,7 @@ import { Loading, Pagination, ProductsTable, RightSideProducts, ViewTitle } from
 import { getData, postData } from "@/services/resources";
 import { usePagination } from "@/components/pagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
-import { RowTable } from "@/components/table/products-table";
+import { RowTable } from "@/components/products-components/products-table";
 import toast, { Toaster } from 'react-hot-toast';
 
 
