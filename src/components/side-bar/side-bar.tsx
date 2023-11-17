@@ -28,7 +28,7 @@ export function SideBar() {
           />
         </div>
         <MenuItem icon={<HiFingerPrint />} component={<Link href="/" />}>Panel Principal</MenuItem>
-        <MenuItem icon={<HiCash />} component={<Link href="/cash" />}>Control de cajas</MenuItem>
+        <MenuItem icon={<HiCash />} component={<Link href="/cashdrawers" />}>Control de cajas</MenuItem>
 
         <SubMenu label="Inventario" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/product" />}>Ver Productos</MenuItem>

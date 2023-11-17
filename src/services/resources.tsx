@@ -1,4 +1,4 @@
-import { API_URL } from "@/constants";
+import { API_URL, Authorization } from "@/constants";
 
   export async function getData(url = '') {
     // console.log("URL: ",`${API_URL}${url}`);
@@ -11,6 +11,7 @@ import { API_URL } from "@/constants";
       referrerPolicy: 'no-referrer',
       headers: {
         'Accept': 'application/json',
+        // 'Authorization': Authorization,
       },
     });
     return await response.json(); 
@@ -30,6 +31,7 @@ import { API_URL } from "@/constants";
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        // 'Authorization': Authorization,
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
@@ -52,6 +54,7 @@ import { API_URL } from "@/constants";
       body: formData, // Utiliza el objeto FormData en lugar de JSON.stringify(data)
       headers: {
         'Accept': 'application/json',
+        // 'Authorization': Authorization,
       },
     });
   

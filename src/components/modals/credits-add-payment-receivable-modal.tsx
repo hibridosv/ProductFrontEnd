@@ -146,23 +146,6 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
                 </div>
 
 
-                { watch("payment_type") != 1 && payments?.balance != 0 && <div className="w-full md:w-full px-3 mb-2">
-                    <label htmlFor="cash_accounts_id" className={style.inputLabel}> Cuenta de tranferencia </label>
-                    <select
-                          defaultValue={accounts && accounts.data && accounts.data.length > 0 ? accounts.data[0].id : 0}
-                          id="cash_accounts_id"
-                          {...register("cash_accounts_id", {disabled: payments?.balance == 0 ? true : false})}
-                          className={style.input}
-                        >
-                        {accounts?.data?.map((value: any) => {
-                          return (
-                            <option key={value.id} value={value.id}> {value.account}{" | "}{value.bank}{" | $"}{value.balance}</option>
-                          );
-                        })}
-                    </select>
-                </div> }
-
-
                 <div className="w-full md:w-full px-3 mb-2">
                     <label htmlFor="quantity" className={style.inputLabel}> Cantidad *</label>
                     <input

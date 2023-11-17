@@ -61,6 +61,7 @@ export function CreditAddPaymentModal(props: CreditAddPaymentModalProps) {
         if (response.data) {
             toast.success("Abonos registrado correctamente");
             setPayments(response)
+            setAccounts(await loadData(`cash/accounts`))
             setMessage({});
             reset()
             setValue('payment_type', 1)
@@ -97,6 +98,7 @@ export function CreditAddPaymentModal(props: CreditAddPaymentModalProps) {
         const response = await postData(`credits/payment/${paymentId.id}`, 'DELETE');
         if (!response.message) {
             setPayments(response)
+            setAccounts(await loadData(`cash/accounts`))
         } else {
             toast.error(response.message);
         }

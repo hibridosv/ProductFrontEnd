@@ -40,6 +40,7 @@ export default function BillsPage() {
             toast.success("Gasto agregado correctamente");
             setMessage({});
             setBills(response)
+            setAccounts(await loadData(`cash/accounts`));
             reset()
             setValue("payment_type", 1)
           } else {
@@ -59,6 +60,7 @@ export default function BillsPage() {
           const response = await postData(`cash/bills/${iden}`, 'DELETE');
           toast.success(response.message);
           setBills(await loadData(`cash/bills`));
+          setAccounts(await loadData(`cash/accounts`));
         } catch (error) {
           console.error(error);
           toast.error("Ha ocurrido un error!");

@@ -1,0 +1,61 @@
+'use client'
+import { ViewTitle } from "@/components";
+import { CashdrawerCloseModal } from "@/components/modals/cashdrawer-close-modal";
+import { CashdrawerOpenModal } from "@/components/modals/cashdrawer-open-modal";
+import { ConfigContext } from "@/contexts/config-context";
+import { loadData } from "@/utils/functions";
+import Image from "next/image";
+import { useContext, useEffect, useState } from "react";
+
+export default function CashDrawerPage() {
+  const [cashDrawers, setCashDrawers] = useState([] as any);
+  const [cashDrawerSelected, setCashDrawerSelected] = useState("");
+  const [cashDrawerOpenModal, setCashDrawerOpenModal] = useState(false);
+  const [cashDrawerCloseModal, setCashDrawerCloseModal] = useState(false);
+  const { cashDrawer } = useContext(ConfigContext);
+
+
+  useEffect(() => {
+    if (!cashDrawerOpenModal && !cashDrawerCloseModal) {
+      (async () => setCashDrawers(await loadData(`cashdrawers`)))();
+    }
+  }, [cashDrawerOpenModal, cashDrawerCloseModal]);
+
+const handleOpenCashDrawer = (id: string) => {
+  setCashDrawerSelected(id);
+  setCashDrawerOpenModal(true);
+}
+
+console.log(cashDrawer);
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
+    <div className="col-span-7 border-r md:border-sky-600">
+        <ViewTitle text="CAJAS DISPONIBLES" />
+        <div  className="flex justify-center py-4 px-4">
+        {
+          cashDrawers?.data && cashDrawers?.data.map((cash: any) => (
+            <div key={cash.id} className="md:mx-6 mx-2 shadow-2xl shadow-slate-900 rounded-t-full clickeable" 
+            onClick={!cashDrawer ? ()=>handleOpenCashDrawer(cash.id) : cashDrawer == cash.id ? ()=>setCashDrawerCloseModal(true) : ()=>console.log() }>
+              <Image
+                  src={!cashDrawer ? "/img/cashdrawer.png" : cashDrawer == cash.id ? "/img/cashdrawer.png" : "/img/cashdrawer_block.png" }
+                  alt="CashDrawer"
+                  width={168}
+                  height={168}
+                  priority={false}
+                />
+                <div className="flex justify-center uppercase font-bold text-lg text-cyan-600">{ cash.name }</div>
+                <div className="flex justify-center text-sm text-blue-600 mb-2">{ cash?.employee ? cash?.employee?.name : cash.status == 1 ? "Disponible" : "Aperturada" }</div>
+            </div>
+                ))
+              }
+      </div>
+    </div>
+    <div className="col-span-3">
+        <ViewTitle text="SUS ULTIMOS CORTES" />
+        {cashDrawer}
+    </div>
+    <CashdrawerOpenModal isShow={cashDrawerOpenModal} drawer={cashDrawerSelected} onClose={()=>setCashDrawerOpenModal(false)} />
+    <CashdrawerCloseModal isShow={cashDrawerCloseModal} onClose={()=>setCashDrawerCloseModal(false)} />
+</div>
+  )
+}

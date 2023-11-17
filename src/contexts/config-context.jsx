@@ -1,25 +1,22 @@
 'use client'
 import { createContext, useEffect, useState } from 'react';
-import { getData, postData } from '../services/resources';
+import { postData } from '../services/resources';
+import { loadData } from '@/utils/functions';
 
 export const ConfigContext = createContext();
 
 export function ConfigContextProvider(props){
 
     const [config, setConfig] = useState({});
+    const [cashDrawer, setCashDrawer] = useState("");
 
    
     useEffect(() => {
-        const getConfig = async () => {
-        try {
-            const response = await getData("config");
-            setConfig(response);
-            } 
-        catch (error) {
-            console.error(error);
-            }
-        }
-        getConfig();
+        (async () => setConfig(await loadData(`config`)))();
+        (async () => {
+            const cash = await loadData(`cashdrawers/active`)
+            setCashDrawer(cash?.type == "error" ? "" : cash?.data?.id);
+        })();
     }, []);
 
     
@@ -35,7 +32,7 @@ export function ConfigContextProvider(props){
 
 
     return (
-        <ConfigContext.Provider value={{config, updateConfig}}>
+        <ConfigContext.Provider value={{config, updateConfig, cashDrawer, setCashDrawer }}>
             {props.children}
         </ConfigContext.Provider>
     )
