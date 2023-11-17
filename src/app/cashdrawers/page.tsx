@@ -29,15 +29,14 @@ export default function CashDrawerPage() {
     }
   }, [cashDrawerOpenModal, cashDrawerCloseModal, currentPage]);
 
-const handleOpenCashDrawer = (id: string) => {
-  setCashDrawerSelected(id);
-  setCashDrawerOpenModal(true);
-}
+  const handleOpenCashDrawer = (id: string) => {
+    setCashDrawerSelected(id);
+    setCashDrawerOpenModal(true);
+  }
 
 
 
 const onDeleteCut = async(cutId: any)=>{
-  console.log(cutId);
   try {
       const response = await postData(`cashdrawers/${cutId.id}`, 'DELETE');
       if (response.type == "successful") {
@@ -52,7 +51,6 @@ const onDeleteCut = async(cutId: any)=>{
     } 
 }
 
-// console.log(cutsUser?.data.length);
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
     <div className="col-span-7 border-r md:border-sky-600">
@@ -83,7 +81,7 @@ const onDeleteCut = async(cutId: any)=>{
     </div>
     <CashdrawerOpenModal isShow={cashDrawerOpenModal} drawer={cashDrawerSelected} onClose={()=>setCashDrawerOpenModal(false)} />
     <CashdrawerCloseModal isShow={cashDrawerCloseModal} onClose={()=>setCashDrawerCloseModal(false)} />
-      <Toaster position="top-right" reverseOrder={false} />
+    <Toaster position="top-right" reverseOrder={false} />
 
 </div>
   )
