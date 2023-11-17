@@ -12,7 +12,7 @@ import { Alert } from "../alert/alert";
 import { ProductPrecioMultipleModal } from "./product-price-multiple-modal";
 import { ProductCompoundModal } from "./product-add-compound-modal";
 import { ProductImageModal } from "./product-image-modal";
-import { ListImagesOfProducts } from "../products-components/list-images";
+import { ListImagesOfProducts } from "./list-images";
 import { PresetTheme } from "@/services/enums";
 
 export interface ProductViewModalProps {

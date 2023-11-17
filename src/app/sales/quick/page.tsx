@@ -4,12 +4,12 @@ import { SalesButtons } from "@/components/sales-components/sales-buttons";
 import { SalesShowTotal } from "@/components/sales-components/sales-show-total";
 import { getData, postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
-import { OptionsClickSales, SalesQuickTable } from "@/components/table/sales-quick-table";
+import { OptionsClickSales, SalesQuickTable } from "@/components/sales-components/sales-quick-table";
 import { SalesShowOrders } from "@/components/sales-components/sales-show-orders";
-import { SalesPayModal } from "@/components/modals/sales-pay-modal";
-import { SalesQuantityModal } from "@/components/modals/sales-quantity-modal";
+import { SalesPayModal } from "@/components/sales-components/sales-pay-modal";
+import { SalesQuantityModal } from "@/components/sales-components/sales-quantity-modal";
 import { Product } from "@/services/products";
-import { SalesDiscountProductModal } from "@/components/modals/sales-discount-modal";
+import { SalesDiscountProductModal } from "@/components/sales-components/sales-discount-modal";
 import { SalesContactSearchModal } from "@/components/sales-components/sales-contact-search";
 import { ContactNameOfOrder, ContactTypeToGet, OptionsClickOrder } from "@/services/enums";
 import { SalesSearchByName } from "@/components/sales-components/sales-search-by-name"

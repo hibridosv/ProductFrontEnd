@@ -1,6 +1,6 @@
 export { Header } from "./header/header";
 export { SideBar } from "./side-bar/side-bar";
-export { ProductsTable } from "./table/products-table";
+export { ProductsTable } from "./products-components/products-table";
 export { RightSideProducts } from "./right-side/right-side-products";
 export { Loading } from "./loading/loading";
 export { NothingHere } from "./nothing-here/nothing-here";
@@ -8,5 +8,5 @@ export { Pagination } from "./pagination/pagination";
 export { Paginator } from "./pagination/paginator"
 export { ViewTitle } from './view-title/view-title'
 export { DeleteModal } from './modals/delete-modal'
-export { ProductViewModal } from './modals/product-view-modal'
+export { ProductViewModal } from './products-components/product-view-modal'
 export { Alert } from './alert/alert'

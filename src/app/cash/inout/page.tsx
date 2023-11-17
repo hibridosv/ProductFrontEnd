@@ -1,7 +1,7 @@
 'use client'
 import { Alert, ViewTitle } from "@/components";
 import { Button, Preset } from "@/components/button/button";
-import { CashInOutTable } from "@/components/table/cash-in-out-table";
+import { CashInOutTable } from "@/components/cash-components/cash-in-out-table";
 import { PresetTheme } from "@/services/enums";
 import { postData } from "@/services/resources";
 import { style } from "@/theme";

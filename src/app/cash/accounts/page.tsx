@@ -1,8 +1,8 @@
 'use client'
 import { Alert, ViewTitle } from "@/components";
 import { Button, Preset } from "@/components/button/button";
-import { CashTransferModal } from "@/components/modals/cash-trasfers-modal";
-import { CashAccountsTable } from "@/components/table/cash-accounts-table";
+import { CashTransferModal } from "@/components/cash-components/cash-trasfers-modal";
+import { CashAccountsTable } from "@/components/cash-components/cash-accounts-table";
 import { PresetTheme } from "@/services/enums";
 import { postData } from "@/services/resources";
 import { style } from "@/theme";

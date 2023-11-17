@@ -1,8 +1,8 @@
 'use client'
 import { Pagination, ViewTitle } from "@/components";
 import { CutShowCuts } from "@/components/cut-components/cut-show-cuts";
-import { CashdrawerCloseModal } from "@/components/modals/cashdrawer-close-modal";
-import { CashdrawerOpenModal } from "@/components/modals/cashdrawer-open-modal";
+import { CashdrawerCloseModal } from "@/components/cashdrawer-components/cashdrawer-close-modal";
+import { CashdrawerOpenModal } from "@/components/cashdrawer-components/cashdrawer-open-modal";
 import { ConfigContext } from "@/contexts/config-context";
 import { usePagination } from "@/hooks/usePagination";
 import { postData } from "@/services/resources";

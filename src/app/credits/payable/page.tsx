@@ -2,9 +2,9 @@
 import { Pagination, ViewTitle } from "@/components";
 import { Button, Preset } from "@/components/button/button";
 import { CreditsShowTotal } from "@/components/credits-components/credits-show-total";
-import { CreditAddPayableModal } from "@/components/modals/credits-add-payable-modal";
-import { CreditAddPaymentModal, Type } from "@/components/modals/credits-add-payment-modal";
-import { CredistPayableTable } from "@/components/table/credits-payable-table";
+import { CreditAddPayableModal } from "@/components/credits-components/credits-add-payable-modal";
+import { CreditAddPaymentModal, Type } from "@/components/credits-components/credits-add-payment-modal";
+import { CredistPayableTable } from "@/components/credits-components/credits-payable-table";
 import { usePagination } from "@/hooks/usePagination";
 import { getTotalOfItem, loadData } from "@/utils/functions";
 import { useEffect, useState } from "react";

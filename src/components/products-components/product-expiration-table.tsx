@@ -5,7 +5,7 @@ import { Badge } from 'flowbite-react';
 import { NothingHere } from "../nothing-here/nothing-here";
 import { formatDateAsDMY } from "@/utils/date-formats";
 import { Product } from "@/services/products";
-import { ProductViewModal } from "../modals/product-view-modal";
+import { ProductViewModal } from "./product-view-modal";
 
 interface ProductExpirationTableProps {
   records?:  any;

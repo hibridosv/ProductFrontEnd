@@ -8,7 +8,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import { Button, Preset } from "@/components/button/button";
 import { style } from "@/theme";
-import { ProductFailureTable } from "@/components/table/product-failure-table";
+import { ProductFailureTable } from "@/components/products-components/product-failure-table";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { SearchInput } from "@/components/form/search";
 

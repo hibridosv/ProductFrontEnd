@@ -2,7 +2,7 @@
 import { Product } from "@/services/products";
 import { Modal} from "flowbite-react";
 import { Button, Preset } from "../button/button"
-import { ProductUploadImage } from "../products-components/upload-image";
+import { ProductUploadImage } from "./upload-image";
 
 
 export interface ProductImageModalProps {

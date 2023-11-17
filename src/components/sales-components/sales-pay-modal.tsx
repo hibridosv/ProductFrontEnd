@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { numberToMoney } from "@/utils/functions";
-import { ShowTotal } from "../sales-components/show-total";
+import { ShowTotal } from "./show-total";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 

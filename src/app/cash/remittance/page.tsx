@@ -8,7 +8,7 @@ import { style } from "@/theme";
 import { PresetTheme } from "@/services/enums";
 import { Button, Preset } from "@/components/button/button";
 import { loadData } from "@/utils/functions";
-import { CashRemittancesTable } from "@/components/table/cash-remittances-table";
+import { CashRemittancesTable } from "@/components/cash-components/cash-remittances-table";
 
 
 export default function RemittancePage() {

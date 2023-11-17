@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useContext } from "react";
 import { ViewTitle, Alert, Loading, ProductsTable } from "@/components";
-import { RowTable } from "@/components/table/products-table";
+import { RowTable } from "@/components/products-components/products-table";
 import { useForm } from "react-hook-form";
 import { FieldsFormProduct as Fields } from "@/constants/form-product-json";
 import { postData, getData } from "@/services/resources";
@@ -11,7 +11,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { ConfigContext } from "@/contexts/config-context";
 import { style } from "@/theme";
 import { getConfigStatus, fieldWidth } from "@/utils/functions";
-import { ProductCompoundModal } from "@/components/modals/product-add-compound-modal";
+import { ProductCompoundModal } from "@/components/products-components/product-add-compound-modal";
 import { PresetTheme } from "@/services/enums";
 
 export default function AddProduct() {

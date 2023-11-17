@@ -2,8 +2,8 @@
 import { Pagination, ViewTitle } from "@/components";
 import { Button, Preset } from "@/components/button/button";
 import { CashShowTotal } from "@/components/cash-components/cash-show-total";
-import { CashTransferModal } from "@/components/modals/cash-trasfers-modal";
-import { CashhistoryTable } from "@/components/table/cash-history-table";
+import { CashTransferModal } from "@/components/cash-components/cash-trasfers-modal";
+import { CashhistoryTable } from "@/components/cash-components/cash-history-table";
 import { usePagination } from "@/hooks/usePagination";
 import { loadData } from "@/utils/functions";
 import { useEffect, useState } from "react";

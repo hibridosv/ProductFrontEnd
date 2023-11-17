@@ -10,8 +10,8 @@ import { documentType, loadData, numberToMoney } from "@/utils/functions";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 import { formatDateAsDMY } from "@/utils/date-formats";
-import { DeleteModal } from "./delete-modal";
-import { CredistPaymentsTable } from "../table/credits-payments-table";
+import { DeleteModal } from "../modals/delete-modal";
+import { CredistPaymentsTable } from "./credits-payments-table";
 
 export enum Type {
     receivable = 1,

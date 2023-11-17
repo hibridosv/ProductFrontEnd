@@ -1,9 +1,9 @@
 'use client'
 import { Pagination, ViewTitle } from "@/components";
 import { CreditsShowTotal } from "@/components/credits-components/credits-show-total";
-import {  Type } from "@/components/modals/credits-add-payment-modal";
-import { CreditAddPaymentReceivableModal } from "@/components/modals/credits-add-payment-receivable-modal";
-import { CredistReceivableTable } from "@/components/table/credits-receivable-table";
+import {  Type } from "@/components/credits-components/credits-add-payment-modal";
+import { CreditAddPaymentReceivableModal } from "@/components/credits-components/credits-add-payment-receivable-modal";
+import { CredistReceivableTable } from "@/components/credits-components/credits-receivable-table";
 import { usePagination } from "@/hooks/usePagination";
 import { getTotalOfItem, loadData } from "@/utils/functions";
 import { useEffect, useState } from "react";

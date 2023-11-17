@@ -2,7 +2,7 @@
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { Product } from "@/services/products";
-import { MultiPrice } from "../products-components/multi-price";
+import { MultiPrice } from "./multi-price";
 
 
 export interface ProductPrecioMultipleProps {

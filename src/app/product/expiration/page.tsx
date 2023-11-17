@@ -5,7 +5,7 @@ import { getData } from "@/services/resources";
 import { usePagination } from "@/components/pagination";
 import toast, { Toaster } from 'react-hot-toast';
 
-import { ProductExpirationTable } from "@/components/table/product-expiration-table";
+import { ProductExpirationTable } from "@/components/products-components/product-expiration-table";
 import { RightExpired } from "@/components/right-side/right-side-expired";
 
 
