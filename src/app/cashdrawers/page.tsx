@@ -1,32 +1,58 @@
 'use client'
-import { ViewTitle } from "@/components";
+import { Pagination, ViewTitle } from "@/components";
+import { CutShowCuts } from "@/components/cut-components/cut-show-cuts";
 import { CashdrawerCloseModal } from "@/components/modals/cashdrawer-close-modal";
 import { CashdrawerOpenModal } from "@/components/modals/cashdrawer-open-modal";
 import { ConfigContext } from "@/contexts/config-context";
+import { usePagination } from "@/hooks/usePagination";
+import { postData } from "@/services/resources";
 import { loadData } from "@/utils/functions";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export default function CashDrawerPage() {
   const [cashDrawers, setCashDrawers] = useState([] as any);
+  const [cutsUser, setCutsUser] = useState([] as any);
   const [cashDrawerSelected, setCashDrawerSelected] = useState("");
   const [cashDrawerOpenModal, setCashDrawerOpenModal] = useState(false);
   const [cashDrawerCloseModal, setCashDrawerCloseModal] = useState(false);
-  const { cashDrawer } = useContext(ConfigContext);
+  const { cashDrawer, setCashDrawer } = useContext(ConfigContext);
+  const {currentPage, handlePageNumber} = usePagination("&page=1");
 
 
   useEffect(() => {
     if (!cashDrawerOpenModal && !cashDrawerCloseModal) {
       (async () => setCashDrawers(await loadData(`cashdrawers`)))();
+      (async () => setCutsUser(await loadData(`cut/all?perPage=8${currentPage}`)))();
     }
-  }, [cashDrawerOpenModal, cashDrawerCloseModal]);
+  }, [cashDrawerOpenModal, cashDrawerCloseModal, currentPage]);
 
 const handleOpenCashDrawer = (id: string) => {
   setCashDrawerSelected(id);
   setCashDrawerOpenModal(true);
 }
 
-console.log(cashDrawer);
+
+
+const onDeleteCut = async(cutId: any)=>{
+  console.log(cutId);
+  try {
+      const response = await postData(`cashdrawers/${cutId.id}`, 'DELETE');
+      if (response.type == "successful") {
+        setCutsUser(await loadData(`cut/all`));
+        setCashDrawer(cutId.cashdrawers_id);
+      }
+      toast.error(response.message);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } 
+}
+
+// console.log(cutsUser?.data.length);
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
     <div className="col-span-7 border-r md:border-sky-600">
@@ -52,10 +78,13 @@ console.log(cashDrawer);
     </div>
     <div className="col-span-3">
         <ViewTitle text="SUS ULTIMOS CORTES" />
-        {cashDrawer}
+        <CutShowCuts records={cutsUser} onDelete={onDeleteCut} />
+        <Pagination records={cutsUser} handlePageNumber={handlePageNumber } />
     </div>
     <CashdrawerOpenModal isShow={cashDrawerOpenModal} drawer={cashDrawerSelected} onClose={()=>setCashDrawerOpenModal(false)} />
     <CashdrawerCloseModal isShow={cashDrawerCloseModal} onClose={()=>setCashDrawerCloseModal(false)} />
+      <Toaster position="top-right" reverseOrder={false} />
+
 </div>
   )
 }

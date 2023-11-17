@@ -1,7 +1,7 @@
 'use client'
 import { Pagination, ViewTitle } from "@/components";
 import { Button, Preset } from "@/components/button/button";
-import { CashShowTotal } from "@/components/cash/cash-show-total";
+import { CashShowTotal } from "@/components/cash-components/cash-show-total";
 import { CashTransferModal } from "@/components/modals/cash-trasfers-modal";
 import { CashhistoryTable } from "@/components/table/cash-history-table";
 import { usePagination } from "@/hooks/usePagination";

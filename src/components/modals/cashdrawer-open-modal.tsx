@@ -59,7 +59,7 @@ export function CashdrawerOpenModal(props: CashdrawerOpenModalProps) {
         
             <div className="w-full md:w-full px-3 mb-4">
                 <label htmlFor="quantity" className={style.inputLabel} >Ingrese la cantidad de apertura </label>
-                <input {...register("quantity")} className={`${style.input} w-full`} />
+                <input type="number" step="any" {...register("quantity", { min: 0 })} className={`${style.input} w-full`} />
             </div>
 
             <div className="flex justify-center">
