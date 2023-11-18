@@ -21,7 +21,7 @@ export interface ProductCompoundProps {
 
 export function ProductCompoundModal(props: ProductCompoundProps) {
   const { onClose, product, isShow } = props;
-  const { searchTerm, handleSearchTerm } = useSearchTerm()
+  const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
   const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [productSelected, setProductSelected] = useState<any>()

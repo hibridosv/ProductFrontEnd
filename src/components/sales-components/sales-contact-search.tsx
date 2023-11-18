@@ -23,7 +23,7 @@ export function SalesContactSearchModal(props: SalesContactSearchModalProps){
 const { ContactTypeToGet, onClose, isShow, order, clientToUpdate } = props;
 const [contacts, setContacts] = useState([]) as any;
 const [randNumber, setrandNumber] = useState(0) as any;
-const { searchTerm, handleSearchTerm } = useSearchTerm()
+const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
 const [isSending, setIsSending] = useState(false);
 
 

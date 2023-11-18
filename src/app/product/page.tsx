@@ -7,56 +7,35 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
 import toast, { Toaster } from 'react-hot-toast';
 
 import { RowTable } from "@/components/products-components/products-table";
+import { loadData } from "@/utils/functions";
 
 export default function ViewProducts() {
   const [isLoading, setIsLoading] = useState(false);
   const [productos, setProductos] = useState([]);
   const [ statics, setStatics ] = useState([])
   const {currentPage, handlePageNumber} = usePagination("&page=1");
-  const { searchTerm, handleSearchTerm } = useSearchTerm()
+  const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
   const menu = [
     {"name": "AGREGAR PRODUCTO", "link": "/product/register"}, 
     {"name": "IMPRIMIR", "link": "/"}
   ];
 
-  const loadData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await getData(`products?sort=-created_at&perPage=10${currentPage}${searchTerm}`);
-        setProductos(response);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-  };
-    
+   
 
   useEffect(() => {
     (async () => {
-      await loadData();
+      setProductos(await loadData(`products?sort=-created_at&perPage=10${currentPage}${searchTerm}`));
+      setStatics(await loadData(`special/products`));
     })();
     // eslint-disable-next-line
-  }, [currentPage, searchTerm]);
-
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const data = await getData("special/products");
-        setStatics(data);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, [productos]);
+  }, [currentPage, searchTerm, productos]);
 
 
   const deleteProduct = async (iden: number) => {
     try {
       const response = await postData(`products/${iden}`, 'DELETE');
       toast.success(response.message);
-      await loadData();
+        setProductos(await loadData(`products?sort=-created_at&perPage=10${currentPage}${searchTerm}`));
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!");
