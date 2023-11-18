@@ -5,7 +5,6 @@ import { ProductsTable, RightSideProducts, Loading, Pagination, ViewTitle } from
 import { usePagination } from "@/components/pagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import toast, { Toaster } from 'react-hot-toast';
-
 import { RowTable } from "@/components/products-components/products-table";
 
 export default function ViewProducts() {
@@ -13,7 +12,7 @@ export default function ViewProducts() {
   const [productos, setProductos] = useState([]);
   const [ statics, setStatics ] = useState([])
   const {currentPage, handlePageNumber} = usePagination("&page=1");
-  const { searchTerm, handleSearchTerm } = useSearchTerm()
+  const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
   const menu = [
     {"name": "AGREGAR PRODUCTO", "link": "/product/register"}, 
     {"name": "IMPRIMIR", "link": "/"}

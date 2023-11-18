@@ -32,7 +32,7 @@ import { PresetTheme } from "@/services/enums";
     const [isSending, setIsSending] = useState(false);
     const [isShowCompoundModal, setIsShowCompoundModal] = useState(false);
     const [isShowImagesModal, setIsShowImagesModal] = useState(false);
-    const { searchTerm, handleSearchTerm } = useSearchTerm()
+    const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
     const [products, setProducts] = useState([]);
     const [productSelected, setProductSelected] = useState(null);
 

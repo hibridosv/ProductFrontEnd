@@ -5,8 +5,11 @@ import {
   HiFingerPrint,
   HiOutlineChartSquareBar,
   HiLogout,
-  HiCash
 } from "react-icons/hi";
+import { IoMdCash } from "react-icons/io";
+import { FaCashRegister, FaAddressBook, FaHistory  } from "react-icons/fa";
+import { TbBrandCashapp } from "react-icons/tb";
+
 import Link from "next/link";
 import Image from "next/image";
 
@@ -28,7 +31,7 @@ export function SideBar() {
           />
         </div>
         <MenuItem icon={<HiFingerPrint />} component={<Link href="/" />}>Panel Principal</MenuItem>
-        <MenuItem icon={<HiCash />} component={<Link href="/cashdrawers" />}>Control de cajas</MenuItem>
+        <MenuItem icon={<FaCashRegister />} component={<Link href="/cashdrawers" />}>Control de cajas</MenuItem>
 
         <SubMenu label="Inventario" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/product" />}>Ver Productos</MenuItem>
@@ -42,7 +45,7 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/product/kardex" />}>Kardex</MenuItem>
         </SubMenu>
 
-        <SubMenu label="Efectivo" icon={<HiOutlineChartSquareBar />}>
+        <SubMenu label="Efectivo" icon={<IoMdCash />}>
           <MenuItem component={<Link className="text-sm" href="/cash/bills" />}>Registro de gastos </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash/remittance" />}>Remesas de efectivo </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash/accounts" />}>Cuentas Bancarias </MenuItem>
@@ -50,12 +53,17 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/cash/history" />}>Historial de transferencias </MenuItem>
         </SubMenu>
 
-        <SubMenu label="Cuentas" icon={<HiOutlineChartSquareBar />}>
+        <SubMenu label="Cuentas" icon={<TbBrandCashapp />}>
           <MenuItem component={<Link className="text-sm" href="/credits/receivable" />}>Cuentas por cobrar </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/credits/payable" />}>Cuentas por pagar </MenuItem>
         </SubMenu>
 
-        <SubMenu label="Historiales" icon={<HiOutlineChartSquareBar color="red"  />}>
+
+        <SubMenu label="Directorio" icon={<FaAddressBook />}>
+          <MenuItem component={<Link className="text-sm" href="/directory" />}>Contactos </MenuItem>
+        </SubMenu>
+
+        <SubMenu label="Historiales" icon={<FaHistory color="blue"  />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Consolidado diario </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Ventas  </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Gastos  </MenuItem>
@@ -78,13 +86,6 @@ export function SideBar() {
         <SubMenu label="Cotizaciones" icon={<HiOutlineChartSquareBar color="red" />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Crear Cotizaciones </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Consultar Cotizaciones </MenuItem>
-        </SubMenu>
-
-        <SubMenu label="Directorio" icon={<HiOutlineChartSquareBar color="red" />}>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Clientes </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Proveedores </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Repartidores </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Referidos </MenuItem>
         </SubMenu>
 
         <SubMenu label="Reportes" icon={<HiOutlineChartSquareBar color="red" />}>

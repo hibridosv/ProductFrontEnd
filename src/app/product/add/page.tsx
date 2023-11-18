@@ -21,7 +21,7 @@ export default function ProductAdd() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<any>({});
   const [isSending, setIsSending] = useState(false);
-  const { searchTerm, handleSearchTerm } = useSearchTerm()
+  const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
   const [products, setProducts] = useState([]);
   const [productPrincipal, setProductPrincipal] = useState([]) as any;
   const [productSelected, setProductSelected] = useState<Product>({} as Product);

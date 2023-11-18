@@ -13,7 +13,7 @@ import { Button, Preset } from "@/components/button/button";
 
 
 export default function KardexPage() {
-    const { searchTerm, handleSearchTerm } = useSearchTerm()
+  const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
     const [products, setProducts] = useState<Product[]>([]);
     const [productSelected, setProductSelected] = useState(null);
     const [recordsOfKardex, setRecordsOfKardex] = useState([]) as any;

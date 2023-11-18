@@ -13,7 +13,7 @@ export default function LowStocks() {
   const [isLoading, setIsLoading] = useState(false);
   const [productos, setProductos] = useState([]);
   const {currentPage, handlePageNumber} = usePagination("&page=1");
-  const { searchTerm, handleSearchTerm } = useSearchTerm()
+  const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
 
   const loadData = async () => {
     setIsLoading(true);
