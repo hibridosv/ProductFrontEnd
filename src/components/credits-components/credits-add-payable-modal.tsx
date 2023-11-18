@@ -21,7 +21,6 @@ export function CreditAddPayableModal(props: CreditAddPayableModalProps) {
   const { onClose, isShow} = props;
   const { register, handleSubmit, reset, watch } = useForm();
   const [isSending, setIsSending] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
   const [message, setMessage] = useState<any>({});
   const [providers, setProviders] = useState<Contacts>([] as Contacts);
 
@@ -54,11 +53,6 @@ export function CreditAddPayableModal(props: CreditAddPayableModalProps) {
       setIsSending(false)
     }
   };
-
-
-  useEffect(() => {
-    (watch("invoice") == 0) ? setIsDisabled(true) : setIsDisabled(false)
-}, [watch]);
 
 
   return (
@@ -129,8 +123,8 @@ export function CreditAddPayableModal(props: CreditAddPayableModalProps) {
                     <input
                           type="number"
                           id="invoice_number"
-                          {...register("invoice_number", {disabled: isDisabled})}
-                          className={`${style.input} ${isDisabled && "bg-white"}`}
+                          {...register("invoice_number", {disabled: watch("invoice") == 0})}
+                          className={`${style.input} ${watch("invoice") == 0 && "bg-red-200"}`}
                           step="any"
                           min={0}
                         />

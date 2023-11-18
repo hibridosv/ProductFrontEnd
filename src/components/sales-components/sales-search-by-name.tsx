@@ -18,7 +18,7 @@ const {  setTypeOfSearch, typeOfSearch, onSubmit } = props;
 const [products, setProducts] = useState([]) as any;
 const [randNumber, setrandNumber] = useState(0) as any;
 
-const { searchTerm, handleSearchTerm } = useSearchTerm()
+const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
 
 
 const loadDataProducts = async () => {

@@ -18,7 +18,7 @@ export default function InsertProduct() {
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, reset, watch, setValue } = useForm();
   const [isSending, setIsSending] = useState(false);
-  const { searchTerm, handleSearchTerm } = useSearchTerm()
+  const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
   const [products, setProducts] = useState([]);
   const [productSelected, setProductSelected] = useState(null);
 
