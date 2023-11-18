@@ -1,15 +1,15 @@
 import { useState } from 'react';
 
-export function useSearchTerm(searchRows: any, delay = 300) {
+export function useSearchTerm(searchRows: string[], delay = 300) {
     const [searchTerm, setSearchTerm] = useState("");
     let searchTimeout: any = null;
 
-    const handleSearchTerm = (term: any) => {
+    const handleSearchTerm = (term: string) => {
         clearTimeout(searchTimeout);
 
         searchTimeout = setTimeout(() => {
             if (term !== "") {
-                const filters = searchRows.map((field: any) => `filter[${field}]=${term}`).join('&');
+                const filters = searchRows.map((field: string) => `filter[${field}]=${term}`).join('&');
                 setSearchTerm(`&${filters}`);
             } else {
                 setSearchTerm("");
