@@ -1,0 +1,122 @@
+"use client";
+import { BiCheckCircle } from "react-icons/bi";
+import { style } from "../../theme";
+import { formatDateAsDMY } from "@/utils/date-formats";
+
+export interface ContactDetailsProps {
+  record?: any;
+}
+
+export function ContactDetails(props: ContactDetailsProps) {
+  const { record } = props;
+
+
+  return (
+
+        <div className="mx-4">
+
+              <div className="flex flex-wrap -mx-3">
+
+            <div className="w-full md:w-full px-3 mb-2 flex justify-between">
+                <div className="flex justify-between">
+                    <span className="mt-1">{record?.is_client ? <BiCheckCircle color="green" /> : null} </span>
+                    <span className="ml-2 font-medium">Cliente</span>
+                </div>
+
+                <div className="flex justify-between">
+                    <span className="mt-1">{record?.is_provider ? <BiCheckCircle color="green" /> : null} </span>
+                    <span className="ml-2 font-medium">Proveedor</span>
+                </div>
+
+                <div className="flex justify-between">
+                    <span className="mt-1">{record?.is_employee ? <BiCheckCircle color="green" /> : null} </span>
+                    <span className="ml-2 font-medium">Repartidor</span>
+                </div>
+
+                <div className="flex justify-between">
+                    <span className="mt-1">{record?.is_referred ? <BiCheckCircle color="green" /> : null} </span>
+                    <span className="ml-2 font-medium">Referido</span>
+                </div>
+            </div>
+
+            <div className="w-full md:w-full px-3 mb-2 shadow-lg border-2">
+                <div className={style.inputLabel}>Nombre completo *</div>
+                <div> {record?.name} </div>
+            </div>
+
+
+            <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
+                <div  className={style.inputLabel}>Numero de documento</div>
+                <div> {record?.id_number} </div>
+            </div> 
+
+            {record?.phone && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
+                <div  className={style.inputLabel}>Tel&eacute;fono</div>
+                <div> {record?.phone} </div>
+            </div> }
+
+            {record?.address && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">
+                <div className={style.inputLabel}>Dirección</div>
+                <div> {record?.address} </div>
+            </div> }
+
+            {record?.email && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">
+                <div  className={style.inputLabel}>Email</div>
+                <div> {record?.email} </div>
+            </div> }
+
+                            
+            {record?.birthday && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">
+                <div className={style.inputLabel}> Fecha de nacimiento </div>
+                <div> {formatDateAsDMY(record?.birthday)} </div>
+            </div> }
+
+
+           </div>
+
+            <div className="mt-2">
+                <div className="flex flex-wrap -mx-3">
+
+                    {record?.taxpayer && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">
+                        <div  className={style.inputLabel}>Nombre del contribuyente</div>
+                        <div> {record?.taxpayer} </div>
+                    </div> }
+                
+                    {record?.document && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
+                        <div className={style.inputLabel}>Documento</div>
+                        <div> {record?.document}  </div>
+                    </div> }
+
+                    {record?.register && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
+                        <div className={style.inputLabel}>Registro</div>
+                        <div> {record?.register}  </div>
+                    </div> }
+
+                    {record?.roar && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">
+                        <div className={style.inputLabel}>Giro</div>
+                        <div> {record?.roar} </div>
+                    </div> }
+
+                    {record?.address_doc && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">
+                        <div className={style.inputLabel}>Dirección</div>
+                        <div> {record?.address_doc} </div>
+                    </div> }
+
+                    {record?.departament_doc && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
+                        <div className={style.inputLabel}>Departamento</div>
+                        <div> {record?.departament_doc} </div>
+                    </div> }
+
+                    {record?.taxpayer_type && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
+                    <div className={style.inputLabel}>Tipo de contribuyente</div>
+                        <div> {record?.taxpayer_type == 1 ? "Contribuyente" : "Gran contribuyente"} </div>
+                    </div> }
+
+
+                </div>
+            </div>
+
+
+        </div>
+  );
+}
