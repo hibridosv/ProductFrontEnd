@@ -63,7 +63,7 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/directory" />}>Contactos </MenuItem>
         </SubMenu>
 
-        <SubMenu label="Historiales" icon={<FaHistory color="blue"  />}>
+        <SubMenu label="Historiales" icon={<FaHistory />}>
           <MenuItem component={<Link className="text-sm" href="/histories/sales" />}>Ventas  </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/histories/bills" />}>Gastos  </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/histories/remittance" />}>Remesas  </MenuItem>
@@ -86,7 +86,7 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Consultar Cotizaciones </MenuItem>
         </SubMenu>
 
-        <SubMenu label="Reportes" icon={<HiOutlineChartSquareBar color="red" />}>
+        <SubMenu label="Reportes" icon={<HiOutlineChartSquareBar color="blue" />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Detalles de ventas </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Productos averiados </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Ventas Agrupadas </MenuItem>
