@@ -25,7 +25,6 @@ useEffect(() => {
   }
 }, [currentPage, searchTerm, isAdContactModal, randomNumber]);
 
-console.log(searchTerm);
 const deleteContact = async (recordSelect: any) => {
   try {
     const response = await postData(`contacts/${recordSelect.id}`, 'DELETE');
