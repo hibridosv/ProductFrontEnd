@@ -5,7 +5,6 @@ import { ViewTitle } from "@/components"
 import { DateRange, DateRangeValues } from "@/components/form/date-range"
 import { postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
-import { HistoriesSalesTable } from "@/components/histories-components/histories-sales-table";
 import { DateTime } from 'luxon';
 import { HistoriesListTable } from "@/components/histories-components/histories-list-table";
 

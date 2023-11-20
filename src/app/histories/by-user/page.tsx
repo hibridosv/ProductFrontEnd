@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ViewTitle } from "@/components"
-import { DateRange, DateRangeValues } from "@/components/form/date-range"
+import { DateRange } from "@/components/form/date-range"
 import { postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { DateTime } from 'luxon';
