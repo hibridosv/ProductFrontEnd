@@ -6,17 +6,17 @@ import { ContactAddModal } from "./contact-add-modal";
 import {  TbListDetails } from "react-icons/tb";
 import { ContactViewModal } from "./contact-view-modal";
 import { DeleteModal } from "../modals/delete-modal";
-import { postData } from "@/services/resources";
 import { IoIosCloseCircle } from "react-icons/io";
-import { toast, Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 interface ContactListTableProps {
   records?:  any;
   random: (value: number) => void;
+  onDelete: (id: string) => void;
 }
 
 export function ContactListTable(props: ContactListTableProps) {
-  const { records, random } = props;
+  const { records, random, onDelete } = props;
   const [isAdContactModal, setIsAdContactModal] = useState(false);
   const [isAdContactViewModal, setIsAdContactViewModal] = useState(false);
   const [recordSelect, setRecordSelect] = useState<any>(null);
@@ -43,22 +43,11 @@ export function ContactListTable(props: ContactListTableProps) {
     setShowDeleteModal(true);
   }
 
-  const deleteContact = async () => {
-    try {
-      const response = await postData(`contacts/${recordSelect.id}`, 'DELETE');
-      if (response.type === "successful") {
-        toast.success( "Marca eliminada correctamente");
-        random(Math.random());
-      } else {
-        toast.error("Ha Ocurrido un Error!");
-      }
-      setShowDeleteModal(false);
-    } catch (error) {
-      console.error(error);
-      toast.error("Ha Ocurrido un Error!");
-    } 
 
-
+  const handleRecordDelete = (recordSelect: any)=> {
+    onDelete(recordSelect);
+    setShowDeleteModal(false);
+    setRecordSelect(null);
   }
 
 
@@ -99,8 +88,8 @@ export function ContactListTable(props: ContactListTableProps) {
     <ContactAddModal isShow={isAdContactModal} onClose={()=>setIsAdContactModal(false)} record={recordSelect} random={random} />
     <ContactViewModal isShow={isAdContactViewModal} onClose={()=>setIsAdContactViewModal(false)} record={recordSelect} />
     <DeleteModal isShow={showDeleteModal}
-              text="¿Está seguro de eliminar esta cntacto?"
-              onDelete={deleteContact} 
+              text="¿Está seguro de eliminar este contacto?"
+              onDelete={()=>handleRecordDelete(recordSelect)}
               onClose={()=>setShowDeleteModal(false)} /> 
 
  </div>

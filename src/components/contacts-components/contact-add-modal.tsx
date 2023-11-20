@@ -79,7 +79,6 @@ export function ContactAddModal(props: ContactAddModalProps) {
           setMessage(response);
           toast.error("Faltan algunos datos importantes!");
       }
-      console.log(response);
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!");

@@ -63,17 +63,15 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/directory" />}>Contactos </MenuItem>
         </SubMenu>
 
-        <SubMenu label="Historiales" icon={<FaHistory color="blue"  />}>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Consolidado diario </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Ventas  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Gastos  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Remesas  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Cortes de caja  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Ventas con descuento  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Listado de ventas  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Ventas por usuario  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Ordenes eliminadas  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte mensual  </MenuItem>
+        <SubMenu label="Historiales" icon={<FaHistory />}>
+          <MenuItem component={<Link className="text-sm" href="/histories/sales" />}>Ventas  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/histories/bills" />}>Gastos  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/histories/remittance" />}>Remesas  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/histories/cut" />}>Cortes de caja  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/histories/discount" />}>Ventas con descuento  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/histories/list" />}>Listado de ventas  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/histories/by-user" />}>Ventas por usuario  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/histories/deleted" />}>Ordenes eliminadas  </MenuItem>
         </SubMenu>
 
         <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar color="red" />}>
@@ -88,7 +86,7 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Consultar Cotizaciones </MenuItem>
         </SubMenu>
 
-        <SubMenu label="Reportes" icon={<HiOutlineChartSquareBar color="red" />}>
+        <SubMenu label="Reportes" icon={<HiOutlineChartSquareBar color="blue" />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Detalles de ventas </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Productos averiados </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Ventas Agrupadas </MenuItem>

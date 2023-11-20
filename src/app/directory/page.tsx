@@ -7,8 +7,10 @@ import { ContactListTable } from "@/components/contacts-components/contact-list-
 import { MinimalSearch } from "@/components/form/minimal-search";
 import { usePagination } from "@/hooks/usePagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
+import { postData } from "@/services/resources";
 import { loadData } from "@/utils/functions";
 import { useEffect, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function Page() {
 const [isAdContactModal, setIsAdContactModal] = useState(false);
@@ -23,15 +25,31 @@ useEffect(() => {
   }
 }, [currentPage, searchTerm, isAdContactModal, randomNumber]);
 
+const deleteContact = async (recordSelect: any) => {
+  try {
+    const response = await postData(`contacts/${recordSelect.id}`, 'DELETE');
+    if (response.type === "successful") {
+      toast.success( "Contacto eliminado correctamente");
+      setRandomNumber(Math.random());
+    } else {
+      toast.error("Ha Ocurrido un Error!");
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error("Ha Ocurrido un Error!");
+  } 
+}
+
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
     <div className="col-span-7 border-r md:border-sky-600">
         <div className="flex justify-between">
-          <ViewTitle text="LISTADO DE CLIENTES" />
+          <ViewTitle text="LISTA DE CONTACTOS" />
           <span className=" m-4 text-2xl "><Button preset={Preset.add} text="AGREGAR" onClick={()=>setIsAdContactModal(true)} /></span>
         </div>
 
-      <ContactListTable records={contacts} random={setRandomNumber} />
+      <ContactListTable records={contacts} random={setRandomNumber} onDelete={deleteContact} />
       <Pagination records={contacts} handlePageNumber={handlePageNumber} />
     </div>
     <div className="col-span-3">
@@ -39,6 +57,7 @@ useEffect(() => {
       <MinimalSearch records={contacts} handleSearchTerm={handleSearchTerm} placeholder="Buscar Contacto" />
     </div>
     <ContactAddModal isShow={isAdContactModal} onClose={()=>setIsAdContactModal(false)} />
+    <Toaster position="top-right" reverseOrder={false} />
 </div>
   )
 }
