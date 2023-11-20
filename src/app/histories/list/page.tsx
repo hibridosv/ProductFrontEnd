@@ -38,7 +38,7 @@ export default function Page() {
           setIsSending(false);
         }
       };
-console.log(sales)
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600">

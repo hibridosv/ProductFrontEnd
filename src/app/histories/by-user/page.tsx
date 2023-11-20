@@ -1,30 +1,82 @@
 'use client'
 
+import { useEffect, useState } from "react";
 import { ViewTitle } from "@/components"
-import { Button, Preset } from "@/components/button/button"
 import { DateRange, DateRangeValues } from "@/components/form/date-range"
+import { postData } from "@/services/resources";
+import toast, { Toaster } from 'react-hot-toast';
+import { DateTime } from 'luxon';
+import { HistoriesByUserTable } from "@/components/histories-components/histories-by-user-table";
+import { loadData } from "@/utils/functions";
+import { style } from "@/theme";
+import { useForm } from "react-hook-form";
 
 export default function Page() {
+  const [sales, setSales] = useState([]);
+  const [users, setUsers] = useState([] as any);
+  const [isSending, setIsSending] = useState(false);
+  const { register, watch } = useForm();
+
+  useEffect(() => {
+      (async () => setUsers(await loadData(`users`)))();
+  }, []);
+
+  useEffect(() => {
+      (async () => { 
+        const actualDate = DateTime.now();
+        const formatedDate = actualDate.toFormat('yyyy-MM-dd');
+        await handlegetSales({option: "1", initialDate: `${formatedDate} 00:00:00`})
+      })();
+  }, []);
 
 
-    const handleFormSubmit = async (values: DateRangeValues) => {
-        console.log(values)
+    const handlegetSales = async (data: any) => {
+      data.userId = watch("userId")
+        try {
+          setIsSending(true);
+          const response = await postData(`histories/by-user`, "POST", data);
+          if (!response.message) {
+            toast.success("Datos obtenidos correctamente");
+            setSales(response);
+          } else {
+            toast.error("Faltan algunos datos importantes!");
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error("Ha ocurrido un error!");
+        } finally {
+          setIsSending(false);
+        }
       };
 
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600">
-        <ViewTitle text="HISTORIAL DE VENTAS" />
+        <ViewTitle text="LISTADO DE VENTAS POR USUARIO" />
 
-
+        <HistoriesByUserTable records={sales} isLoading={isSending} />
 
         </div>
         <div className="col-span-3">
         <ViewTitle text="SELECCIONAR FECHA" />
+          <div className="flex flex-wrap m-4 shadow-lg border-2 rounded-md mb-8">
+              <div className="w-full md:w-full px-3 mb-2">
+                    <label htmlFor="userId" className={style.inputLabel}> Seleccione el usuario </label>
+                    <select defaultValue={1} id="userId" {...register("userId")} className={style.input}
+                        >
+                        {users?.data?.map((value: any) => {
+                          return (
+                            <option key={value.id} value={value.id}> {value.name}</option>
+                          );
+                        })}
+                    </select>
+                </div>
+            </div>
 
-        <DateRange onSubmit={handleFormSubmit} />
+        <DateRange onSubmit={handlegetSales} />
         </div>
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   )
 }
