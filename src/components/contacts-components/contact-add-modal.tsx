@@ -27,6 +27,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
   const [newRecord, setNewRecord] = useState<any>({});
   const [isOtherRegisters, setIsOtherRegisters] = useState(false);
   const [isChangedRecord, setIsChangedRecord] = useState(false);
+  console.log(record);
 
 
   useEffect(() => {
@@ -215,8 +216,8 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
             </form>
 
-          <Toaster position="top-right" reverseOrder={false} />
         </div>) : (<ContactDetails record={newRecord} /> )}
+      <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         <Button onClick={onClose} preset={Preset.close} disabled={isSending} />

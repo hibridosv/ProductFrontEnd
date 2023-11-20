@@ -3,12 +3,16 @@ import { NothingHere } from "../nothing-here/nothing-here";
 import { FaEdit } from "react-icons/fa";
 import { useState } from "react";
 import { ContactAddModal } from "./contact-add-modal";
-import { TbListDetails } from "react-icons/tb";
+import {  TbListDetails } from "react-icons/tb";
 import { ContactViewModal } from "./contact-view-modal";
+import { DeleteModal } from "../modals/delete-modal";
+import { postData } from "@/services/resources";
+import { IoIosCloseCircle } from "react-icons/io";
+import { toast, Toaster } from "react-hot-toast";
 
 interface ContactListTableProps {
   records?:  any;
-  random?: (value: number) => void;
+  random: (value: number) => void;
 }
 
 export function ContactListTable(props: ContactListTableProps) {
@@ -16,7 +20,9 @@ export function ContactListTable(props: ContactListTableProps) {
   const [isAdContactModal, setIsAdContactModal] = useState(false);
   const [isAdContactViewModal, setIsAdContactViewModal] = useState(false);
   const [recordSelect, setRecordSelect] = useState<any>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  console.log(records);
 
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
@@ -31,6 +37,31 @@ export function ContactListTable(props: ContactListTableProps) {
     setIsAdContactViewModal(true);
   }
 
+
+  const handleRecordSelectDelete = (record: any) => {
+    setRecordSelect(record);
+    setShowDeleteModal(true);
+  }
+
+  const deleteContact = async () => {
+    try {
+      const response = await postData(`contacts/${recordSelect.id}`, 'DELETE');
+      if (response.type === "successful") {
+        toast.success( "Marca eliminada correctamente");
+        random(Math.random());
+      } else {
+        toast.error("Ha Ocurrido un Error!");
+      }
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha Ocurrido un Error!");
+    } 
+
+
+  }
+
+
   const listItems = records.data.map((record: any) => (
     <tr key={record.id} className="border-b bg-white" >
       <td className="py-3 px-6 whitespace-nowrap cursor-pointer font-semibold text-black" onClick={()=>handleRecordSelectView(record)}>{ record?.name }</td>
@@ -42,6 +73,7 @@ export function ContactListTable(props: ContactListTableProps) {
         <span className="flex justify-between">
         <FaEdit size={20} title="Editar" className="text-lime-600 clickeable" onClick={()=>handleRecordSelect(record)} />
         <TbListDetails size={20} title="Ver detalles" className="text-cyan-600 clickeable" onClick={()=>handleRecordSelectView(record)} />
+        <IoIosCloseCircle size={20} title="Ver detalles" className="text-red-600 clickeable" onClick={()=>handleRecordSelectDelete(record)} />
         </span>
         </td>
     </tr>
@@ -63,8 +95,14 @@ export function ContactListTable(props: ContactListTableProps) {
       </thead>
       <tbody>{listItems}</tbody>
     </table>
+    <Toaster position="top-right" reverseOrder={false} />
     <ContactAddModal isShow={isAdContactModal} onClose={()=>setIsAdContactModal(false)} record={recordSelect} random={random} />
     <ContactViewModal isShow={isAdContactViewModal} onClose={()=>setIsAdContactViewModal(false)} record={recordSelect} />
+    <DeleteModal isShow={showDeleteModal}
+              text="¿Está seguro de eliminar esta cntacto?"
+              onDelete={deleteContact} 
+              onClose={()=>setShowDeleteModal(false)} /> 
+
  </div>
  </div>);
 }

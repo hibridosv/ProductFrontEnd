@@ -61,11 +61,11 @@ export function ProductFailureTable(props: ProductFailureTableProps) {
       <tbody>{listItems}</tbody>
     </table>
 
-    { showDeleteModal && 
-          <DeleteModal 
+
+          <DeleteModal isShow={showDeleteModal}
           text="¿Estas seguro de eliminar este Elemento?"
           onDelete={handleDeleteProduct} 
-          onClose={()=>setShowDeleteModal(false)} /> }
+          onClose={()=>setShowDeleteModal(false)} /> 
  </div>
  </div>);
 }

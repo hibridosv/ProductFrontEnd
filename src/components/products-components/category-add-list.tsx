@@ -73,11 +73,11 @@ if (option != 1) return null
               { isLoading ? <Loading /> : <ListCategories categories={categories} onDelete={handleDelete} /> }
             </div>
               { !isLoading && <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} /> }
-              { showDeleteModal && 
-              <DeleteModal
+
+              <DeleteModal isShow={showDeleteModal}
               text="¿Está seguro de eliminar esta categoría?"
               onDelete={deleteCategory} 
-              onClose={()=>setShowDeleteModal(false)} /> }
+              onClose={()=>setShowDeleteModal(false)} />
         <Toaster position="top-right" reverseOrder={false} />
         </div>
   );

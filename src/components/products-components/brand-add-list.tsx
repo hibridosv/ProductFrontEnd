@@ -75,11 +75,11 @@ if (option != 3) return null
             </div>
 
               { !isLoading && <AddBrandsModal isShow={showModalBrands} onClose={() => setShowModalBrands(false)} /> }
-              { showDeleteModal && 
-              <DeleteModal
+
+              <DeleteModal isShow={showDeleteModal}
               text="¿Está seguro de eliminar esta marca?"
               onDelete={deleteBrand} 
-              onClose={()=>setShowDeleteModal(false)} /> }
+              onClose={()=>setShowDeleteModal(false)} /> 
         <Toaster position="top-right" reverseOrder={false} />
         </div>
   );

@@ -201,11 +201,11 @@ const listProducts = lastProductsCompound?.map((product: any):any => (
 
         </>)}
 
-      { showDeleteModal && 
-          <DeleteModal 
+
+          <DeleteModal isShow={showDeleteModal}
           text="¿Estas seguro de eliminar este elemento?"
           onDelete={handleDeleteProduct} 
-          onClose={()=>setShowDeleteModal(false)} /> }
+          onClose={()=>setShowDeleteModal(false)} /> 
       <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">

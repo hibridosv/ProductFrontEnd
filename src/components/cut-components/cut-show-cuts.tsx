@@ -55,8 +55,8 @@ const isDeleteCut = (record: string) => {
         </div> ))}
 
     </div>
-    { showDeleteModal && 
-          <DeleteModal text="¿Estas seguro de eliminar este elemento?" onDelete={handleDeleteCut}  onClose={()=>setShowDeleteModal(false)} /> }
+   
+    <DeleteModal isShow={showDeleteModal} text="¿Estas seguro de eliminar este elemento?" onDelete={handleDeleteCut}  onClose={()=>setShowDeleteModal(false)} />
     <CutDetailsModal record={selectRecord} isShow={showCutDetailsModal} onClose={()=>setShowCutDetailsModal(false)} />
    </div>);
 }

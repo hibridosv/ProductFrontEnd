@@ -2,15 +2,14 @@ export interface DeleteModalProps {
   text?: string;
   onDelete: (id: any) => void;
   onClose: () => void;
+  isShow: boolean;
 }
 
 export function DeleteModal(props: DeleteModalProps) {
-  const {
-    onDelete,
-    onClose,
-    text = "Esta seguro que desea eliminar este elemento?",
-  } = props;
+  const { onDelete,  onClose, text = "Esta seguro que desea eliminar este elemento?", isShow } = props;
 
+  if (!isShow) return null;
+  
   return (
     <div
       className="relative z-10"
@@ -43,12 +42,7 @@ export function DeleteModal(props: DeleteModalProps) {
                   </svg>
                 </div>
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                  <h3
-                    className="text-lg font-medium leading-6 text-gray-900"
-                    id="modal-title"
-                  >
-                    Eliminar Elemento
-                  </h3>
+                  <h3 className="text-lg font-medium leading-6 text-gray-900" id="modal-title" > Eliminar Elemento </h3>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">{text}</p>
                   </div>
@@ -59,16 +53,12 @@ export function DeleteModal(props: DeleteModalProps) {
               <button
                 type="button"
                 className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                onClick={onClose}
-              >
-                No, Cancelar
+                onClick={onClose} > No, Cancelar
               </button>
 
-              <button
-                type="button"
+              <button type="button"
                 className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                onClick={onDelete}
-              >
+                onClick={onDelete} >
                 Si, Eliminar
               </button>
             </div>
