@@ -107,11 +107,11 @@ export function ProductsTable(props: ProductsTableProps) {
       </thead>
       <tbody>{listItems}</tbody>
     </table>
-    { showDeleteModal && 
-          <DeleteModal 
+
+          <DeleteModal isShow={showDeleteModal}
           text="¿Estas seguro de eliminar este producto?"
           onDelete={handleDeleteProduct} 
-          onClose={()=>setShowDeleteModal(false)} /> }
+          onClose={()=>setShowDeleteModal(false)} /> 
 
    
           <ProductViewModal 

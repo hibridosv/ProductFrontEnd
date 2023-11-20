@@ -198,9 +198,7 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
                 <CredistPaymentsTable records={payments} onDelete={onDeletePayment} />
             </div>}
 
-        { showDeleteModal && 
-          <DeleteModal text="¿Estas seguro de eliminar este elemento?" onDelete={handleDeleteCredit}  onClose={()=>setShowDeleteModal(false)} /> }
-
+          <DeleteModal isShow={showDeleteModal} text="¿Estas seguro de eliminar este elemento?" onDelete={handleDeleteCredit}  onClose={()=>setShowDeleteModal(false)} /> 
       <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">

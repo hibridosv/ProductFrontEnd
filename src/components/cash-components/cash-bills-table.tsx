@@ -63,11 +63,10 @@ export function CashBillsTable(props: CashBillsTableProps) {
       <tbody>{listItems}</tbody>
     </table>
 
-    { showDeleteModal && 
-          <DeleteModal 
+          <DeleteModal isShow={showDeleteModal}
           text="¿Estas seguro de eliminar este elemento?"
           onDelete={handleDelete} 
-          onClose={()=>setShowDeleteModal(false)} /> }
+          onClose={()=>setShowDeleteModal(false)} /> 
 
 
  </div>

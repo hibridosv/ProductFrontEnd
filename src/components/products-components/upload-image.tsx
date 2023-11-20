@@ -129,11 +129,10 @@ const imageLoader = ({ src, width, quality }: any) => {
           { isLoading ? <Loading /> : listItems }
         </div>
 
-        { showDeleteModal && 
-          <DeleteModal
+          <DeleteModal isShow={showDeleteModal}
           text="¿Estas seguro de eliminar esta imagen?"
           onDelete={deleteImage} 
-          onClose={()=>setShowDeleteModal(false)} /> }
+          onClose={()=>setShowDeleteModal(false)} /> 
       <Toaster position="top-right" reverseOrder={false} />
   </div>);
 }
