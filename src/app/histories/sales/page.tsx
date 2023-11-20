@@ -17,7 +17,6 @@ export default function Page() {
         const actualDate = DateTime.now();
         const formatedDate = actualDate.toFormat('yyyy-MM-dd');
         await handlegetSales({option: "1", initialDate: `${formatedDate} 00:00:00`})
-        // setSales(await postData(`histories/sales`, "POST", {option: 1, initialDate: `${formatedDate} 00:00:00`}));
       })();
   }, []);
 
