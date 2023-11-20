@@ -23,7 +23,7 @@ export default function Page() {
     const handlegetSales = async (data: DateRangeValues) => {
         try {
           setIsSending(true);
-          const response = await postData(`histories/cut`, "POST", data);
+          const response = await postData(`histories/cuts`, "POST", data);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setSales(response);
