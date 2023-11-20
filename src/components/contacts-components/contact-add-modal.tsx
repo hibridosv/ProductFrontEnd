@@ -27,7 +27,6 @@ export function ContactAddModal(props: ContactAddModalProps) {
   const [newRecord, setNewRecord] = useState<any>({});
   const [isOtherRegisters, setIsOtherRegisters] = useState(false);
   const [isChangedRecord, setIsChangedRecord] = useState(false);
-  console.log(record);
 
 
   useEffect(() => {
@@ -79,7 +78,6 @@ export function ContactAddModal(props: ContactAddModalProps) {
           setMessage(response);
           toast.error("Faltan algunos datos importantes!");
       }
-      console.log(response);
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!");
