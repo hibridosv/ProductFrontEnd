@@ -49,7 +49,10 @@ const loadDataOFBar = async () => {
         (async () => await loadDataOFBar() )()
     // eslint-disable-next-line
   }, []);
-
+  
+  if (isLoading) return <Loading />
+  if (!dataOfBar) return null;
+  
   const data = {
     labels: dataOfBar.map(item => item.label),
     datasets: [
@@ -60,9 +63,6 @@ const loadDataOFBar = async () => {
       }
     ],
   };
-
-
-  if (isLoading) return <Loading />
 
   return (
             <Bar options={options} data={data}  />

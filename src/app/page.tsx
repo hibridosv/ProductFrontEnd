@@ -1,16 +1,10 @@
 'use client'
-import { API_URL } from '@/constants/index'
 import { ViewTitle } from '../components'
 import { PrincipalInfo } from '../components/dashboard-components/principal-info';
 import { CharBarWeek } from '../components/dashboard-components/char-bar-week';
-import { useState } from 'react';
-// import { CharPiePayment } from './components/dashboard/char-pie-payment';
-
 
 
 export default function Home() {
-  const [urlStorage, setUrlStorage] = useState(API_URL);
-
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
@@ -28,9 +22,8 @@ export default function Home() {
           <CharPiePayment />
         </div> */}
 
-        <div className='m-4 border-2 flex justify-center font-light text-sm'>Servidor Local: http://connect.test/ {urlStorage == "http://connect.test/api/" && " *"}</div>
-        <div className='m-4 border-2 flex justify-center font-light text-sm'>Servidor Remoto: https://products.latam-pos.com/ {urlStorage == "https://products.latam-pos.com/api/" && " *"}</div>
-        {/* { urlStorage } */}
+        <div className='m-4 border-2 flex justify-center font-light text-sm'> Servidor Local: http://connect.test </div>
+        <div className='m-4 border-2 flex justify-center font-light text-sm'> Servidor Remoto: https://products.latam-pos.com </div>
       </div>
     </div>
   
