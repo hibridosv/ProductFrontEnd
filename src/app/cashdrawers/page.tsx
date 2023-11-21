@@ -1,5 +1,5 @@
 'use client'
-import { Pagination, ViewTitle } from "@/components";
+import { Loading, Pagination, ViewTitle } from "@/components";
 import { CutShowCuts } from "@/components/cut-components/cut-show-cuts";
 import { CashdrawerCloseModal } from "@/components/cashdrawer-components/cashdrawer-close-modal";
 import { CashdrawerOpenModal } from "@/components/cashdrawer-components/cashdrawer-open-modal";
@@ -20,12 +20,20 @@ export default function CashDrawerPage() {
   const [cashDrawerCloseModal, setCashDrawerCloseModal] = useState(false);
   const { cashDrawer, setCashDrawer } = useContext(ConfigContext);
   const {currentPage, handlePageNumber} = usePagination("&page=1");
+  const [isLoading, setIsLoading] = useState(false);
 
 
   useEffect(() => {
     if (!cashDrawerOpenModal && !cashDrawerCloseModal) {
-      (async () => setCashDrawers(await loadData(`cashdrawers`)))();
-      (async () => setCutsUser(await loadData(`cut/all?perPage=8${currentPage}`)))();
+      setIsLoading(true);
+      try {
+        (async () => setCashDrawers(await loadData(`cashdrawers`)))();
+        (async () => setCutsUser(await loadData(`cut/all?perPage=8${currentPage}`)))();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
   }, [cashDrawerOpenModal, cashDrawerCloseModal, currentPage]);
 
@@ -50,6 +58,8 @@ const onDeleteCut = async(cutId: any)=>{
       toast.error("Ha ocurrido un error!");
     } 
 }
+
+  if (isLoading) return <Loading />
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
