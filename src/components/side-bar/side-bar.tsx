@@ -12,6 +12,12 @@ import { TbBrandCashapp } from "react-icons/tb";
 
 import Link from "next/link";
 import Image from "next/image";
+import { destroyAuthCookie } from "@/services/oauth";
+
+const handleLogout = () => {
+  destroyAuthCookie();
+  window.location.href = "/";
+}
 
 export function SideBar() {
   return (
@@ -106,14 +112,14 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Crear Planillas </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Administrar empleados </MenuItem>
         </SubMenu>
-        {/* <MenuItem icon={<HiGlobe />}>Dashboard</MenuItem> */}
+
         <SubMenu label="Configuraciones" icon={<HiOutlineChartSquareBar color="red" />}>
           <MenuItem component={<Link className="text-sm" href="/config" />}>Principal</MenuItem>
           <MenuItem component={<Link className="text-sm" href="/config/product" />}>Productos</MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Perfiles de usuario </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Administración Principal </MenuItem>
         </SubMenu>
-        <MenuItem icon={<HiLogout />} component={<Link href="/cash" />}>Salir</MenuItem>
+        <MenuItem icon={<HiLogout />} onClick={()=>handleLogout()}>Salir</MenuItem>
       </Menu>
     </Sidebar>
   );

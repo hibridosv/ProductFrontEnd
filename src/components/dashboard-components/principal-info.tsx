@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { CardDashBoardInfo } from "./card-dashboard-info";
 import { getData } from "@/services/resources";
 import { Loading } from "../loading/loading";
+import { NothingHere } from "../nothing-here/nothing-here";
 
 interface PrincipalInfoProps {
     records?: any;
@@ -36,8 +37,9 @@ const loadDataOFCards = async () => {
     // eslint-disable-next-line
   }, []);
 
-  if (!dataOfCards) return <Loading />
-
+  if (isLoading) return <Loading />
+  if (!dataOfCards) return <NothingHere width="164" height="98" />;
+  if (dataOfCards.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
     return(
         <div className="flex justify-center bg-white dark:bg-gray-900">

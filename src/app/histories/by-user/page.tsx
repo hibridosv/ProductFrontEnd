@@ -21,13 +21,6 @@ export default function Page() {
       (async () => setUsers(await loadData(`users`)))();
   }, []);
 
-  useEffect(() => {
-      (async () => { 
-        const actualDate = DateTime.now();
-        const formatedDate = actualDate.toFormat('yyyy-MM-dd');
-        await handlegetSales({option: "1", initialDate: `${formatedDate} 00:00:00`})
-      })();
-  }, []);
 
 
     const handlegetSales = async (data: any) => {
@@ -49,6 +42,15 @@ export default function Page() {
         }
       };
 
+      useEffect(() => {
+        (async () => { 
+          const actualDate = DateTime.now();
+          const formatedDate = actualDate.toFormat('yyyy-MM-dd');
+          await handlegetSales({option: "1", initialDate: `${formatedDate} 00:00:00`})
+        })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+  
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
