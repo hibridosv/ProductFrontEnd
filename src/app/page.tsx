@@ -20,14 +20,17 @@ export default function Home() {
 
 
   useEffect(() => {
-    setIsLoading(true);
     if (!isSending) {
-      (async () => {
+      setIsLoading(true);
+      try {
         const token = getAuthTokenFromCookie();
         if (token) setIsRegister(true);
-      })(); 
+      } catch (error) {
+        console.error(error);
+      }finally{
+        setIsLoading(false);
+      }       
     }
-    setIsLoading(false);
   }, [isSending]);
   
 
