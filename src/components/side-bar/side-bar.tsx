@@ -106,7 +106,7 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Crear Planillas </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Administrar empleados </MenuItem>
         </SubMenu>
-        {/* <MenuItem icon={<HiGlobe />}>Dashboard</MenuItem> */}
+
         <SubMenu label="Configuraciones" icon={<HiOutlineChartSquareBar color="red" />}>
           <MenuItem component={<Link className="text-sm" href="/config" />}>Principal</MenuItem>
           <MenuItem component={<Link className="text-sm" href="/config/product" />}>Productos</MenuItem>

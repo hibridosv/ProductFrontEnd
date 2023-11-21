@@ -27,7 +27,6 @@ export default function RootLayout({
               </div>
               <div className="w-full h-full">
                 {children}
-                ,
               </div>
             </div>  
           </div>

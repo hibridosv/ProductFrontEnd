@@ -1,4 +1,4 @@
-import { API_URL, Authorization } from "@/constants";
+import { API_URL, Authorization, URL } from "@/constants";
 
   export async function getData(url = '') {
     // console.log("URL: ",`${API_URL}${url}`);
@@ -58,5 +58,23 @@ import { API_URL, Authorization } from "@/constants";
       },
     });
   
+    return await response.json();
+  }
+
+
+  export async function postWithOutApi(url = '', method = 'POST', data = {}) {
+    const response = await fetch(`${URL}${url}`, {
+      method: method,
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    });
     return await response.json();
   }
