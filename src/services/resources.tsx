@@ -1,10 +1,10 @@
 import { API_URL, URL } from "@/constants";
-import { getAuthTokenFromLocalStorage } from "./oauth";
+import { getAuthTokenFromCookie } from "./oauth";
 
 
 
   export async function getData(url = '') {
-    const token = await getAuthTokenFromLocalStorage();
+    const token = await getAuthTokenFromCookie();
     const Authorization = `Bearer ${token}`;
 
     // console.log("URL: ",`${API_URL}${url}`);
@@ -30,7 +30,7 @@ import { getAuthTokenFromLocalStorage } from "./oauth";
 
 
   export async function postData(url = '', method = 'POST', data = {}) {
-    const token = await getAuthTokenFromLocalStorage();
+    const token = await getAuthTokenFromCookie();
     const Authorization = `Bearer ${token}`;
 
     try {
@@ -60,7 +60,7 @@ import { getAuthTokenFromLocalStorage } from "./oauth";
 
   export async function postDataWithImage(url = '', method = 'POST', data: any) {
 
-    const token = await getAuthTokenFromLocalStorage();
+    const token = await getAuthTokenFromCookie();
     const Authorization = `Bearer ${token}`;
      try {
       const formData = new FormData();    

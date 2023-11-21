@@ -12,11 +12,11 @@ import { TbBrandCashapp } from "react-icons/tb";
 
 import Link from "next/link";
 import Image from "next/image";
-import { destroyAuthLocalStorage } from "@/services/oauth";
+import { destroyAuthCookie } from "@/services/oauth";
 
 const handleLogout = () => {
-  destroyAuthLocalStorage();
-  window.location.href = "/login";
+  destroyAuthCookie();
+  window.location.href = "/";
 }
 
 export function SideBar() {

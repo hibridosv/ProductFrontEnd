@@ -19,17 +19,7 @@ export default function RootLayout({
           <title>Sistema de control de ventas</title>
         </head>
         <body className="overflow-x-visible">
-            <div className="mx-auto px-1 my-auto ">
-            <Header />
-            <div>
-              <div>
-              <SideBar />
-              </div>
-              <div className="w-full h-full">
-                {children}
-              </div>
-            </div>  
-          </div>
+            { children }
         </body>
       </html>
     </ProSidebarProvider>

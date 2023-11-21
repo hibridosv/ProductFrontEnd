@@ -3,12 +3,22 @@ import type { NextRequest } from 'next/server'
  
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-    console.log('middleware', request.url)
-  // return NextResponse.redirect(new URL('/', request.url))
-  return NextResponse.next();
+  let cookie = request.cookies.get('authToken')
+  if (cookie) {
+      return NextResponse.next()
+  }
+return NextResponse.redirect(new URL('/', request.url))
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: ['/sales/:path*'],
+    matcher: [
+    '/cash/:path*', 
+    '/cashdrawers/:path*', 
+    '/config/:path*', 
+    '/credits/:path*',
+    '/directory/:path*',
+    '/histories/:path*',
+    '/product/:path*', 
+    '/sales/:path*',],
 };
