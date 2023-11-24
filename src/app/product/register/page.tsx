@@ -11,7 +11,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { ConfigContext } from "@/contexts/config-context";
 import { style } from "@/theme";
 import { getConfigStatus, fieldWidth } from "@/utils/functions";
-import { ProductCompoundModal } from "@/components/products-components/product-add-compound-modal";
+import { ProductLinkedModal } from "@/components/products-components/product-add-linked-modal";
 import { PresetTheme } from "@/services/enums";
 
 export default function AddProduct() {
@@ -26,11 +26,12 @@ export default function AddProduct() {
   const [discountStatus, setDiscountStatus] = useState<boolean>(false);
   const [prescriptionStatus, setPrescriptionStatus] = useState<boolean>(false);
   const [isSending, setIsSending] = useState(false);
-  const [isShowCompoundModal, setIsShowCompoundModal] = useState<boolean>(false);
+  const [isShowLinkedModal, setIsShowLinkedModal] = useState<boolean>(false);
 
   const menu = [
-    { name: "VER PRODUCTOS", link: "/product" },
-    { name: "IMPRIMIR", link: "/" },
+    {"name": "AGREGAR PRODUCTO", "link": "/product/register"}, 
+    {"name": "BAJAS EXISTENCIAS", "link": "/product/stock"}, 
+    {"name": "PROXIMOS VENCIMIENTOS", "link": "/product/expiration"}, 
   ];
 
   const { register, handleSubmit, reset, watch, setValue } = useForm();
@@ -148,7 +149,7 @@ export default function AddProduct() {
         toast.error("Faltan algunos datos importantes!");
       }
       setMessage(response);
-      setIsShowCompoundModal(response?.data?.product_type == 3 ? true : false);
+      setIsShowLinkedModal(response?.data?.product_type == 3 ? true : false);
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!");
@@ -303,10 +304,10 @@ export default function AddProduct() {
         </div>
       </div>
 
-        <ProductCompoundModal
-          isShow={isShowCompoundModal}
+        <ProductLinkedModal
+          isShow={isShowLinkedModal}
           product={message.data}
-          onClose={() => setIsShowCompoundModal(false)}
+          onClose={() => setIsShowLinkedModal(false)}
         />
       <Toaster position="top-right" reverseOrder={false} />
     </div>

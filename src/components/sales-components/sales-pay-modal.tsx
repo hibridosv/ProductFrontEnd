@@ -77,7 +77,6 @@ export function SalesPayModal(props: SalesPayModalProps) {
     }
   };
 
-
   return (
     <Modal show={isShow} position="center" onClose={onClose} size="md">
       <Modal.Body>
@@ -124,6 +123,9 @@ export function SalesPayModal(props: SalesPayModalProps) {
                       {...register("cash")}
                     />
                   </div>
+                    <div className="flex justify-center mt-2">
+                      <Button type="submit" text="Cobrar" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} isFull />
+                    </div>
                 </div>
                 ) :
                 (

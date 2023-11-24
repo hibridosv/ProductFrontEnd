@@ -1,10 +1,13 @@
 'use client';
-import { OptionsClickOrder } from '@/services/enums';
+import { ConfigContext } from '@/contexts/config-context';
+import { OptionsClickOrder, PresetTheme } from '@/services/enums';
 import { Button, Dropdown } from 'flowbite-react';
+import { useContext } from 'react';
 import { AiFillSave } from 'react-icons/ai';
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 import { GiCancel } from 'react-icons/gi';
 import { IoMdOptions } from 'react-icons/io';
+import { Alert } from '../alert/alert';
 
 export interface SalesButtonsProps {
   onClick: (option: number) => void;
@@ -12,8 +15,15 @@ export interface SalesButtonsProps {
 
 export function SalesButtons(props: SalesButtonsProps) {
   const {onClick } = props
+  const { cashDrawer } = useContext(ConfigContext);
 
   return (<div>
+          { !cashDrawer && <Alert
+          theme={PresetTheme.danger}
+          info="Error"
+          text="Debe seleccionar una caja para poder cobrar"
+          isDismisible={false}
+          /> }
            <div>
             <Button.Group>
             <Dropdown
@@ -32,7 +42,7 @@ export function SalesButtons(props: SalesButtonsProps) {
             <Button color="blue" gradientMonochrome="info" onClick={()=>onClick(2)}>
               <AiFillSave className='mr-1' /> Guardar
             </Button>
-            <Button color="green" gradientMonochrome="success" onClick={()=>onClick(1)}>
+            <Button color="green" gradientMonochrome="success" disabled={!cashDrawer} onClick={()=>onClick(1)}>
                <FaRegMoneyBillAlt className='mr-1' /> Cobrar
             </Button>
             <Button color="red" gradientMonochrome="failure" onClick={()=>onClick(3)}>

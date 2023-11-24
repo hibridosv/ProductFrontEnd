@@ -9,10 +9,11 @@ import { Remittance } from "@/services/Remittances";
 interface CashRemittancesTableProps {
   records?:  any;
   onDelete: (id: string) => void;
+  isDisabled?: boolean;
 }
 
 export function CashRemittancesTable(props: CashRemittancesTableProps) {
-  const { records, onDelete } = props;
+  const { records, onDelete, isDisabled } = props;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectBill, setSelectBill] = useState<Remittance>({} as Remittance);
 
@@ -38,7 +39,7 @@ export function CashRemittancesTable(props: CashRemittancesTableProps) {
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row"><div className={`${record?.description && "text-xs font-light"}`}>{ record.name }</div><div>{ record.description }</div></th>
       <td className="py-2 px-6">{ numberToMoney(record.quantity ? record.quantity : 0) }</td>
       <td className="py-3 px-6 truncate">{ record?.account?.account }</td>
-      <td className="py-2 px-6 truncate"><Button preset={record.status == 1 ? Preset.smallClose : Preset.smallCloseDisable} disabled={record.status == 0 && true} noText onClick={()=>isDelete(record)} /> </td>
+      <td className="py-2 px-6 truncate"><Button preset={record.status == 1 && !isDisabled  ? Preset.smallClose : Preset.smallCloseDisable} disabled={record.status == 0 || isDisabled && true} noText onClick={()=>isDelete(record)} /> </td>
     </tr>
   ));
 

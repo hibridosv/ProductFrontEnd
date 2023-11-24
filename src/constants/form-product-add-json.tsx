@@ -7,7 +7,7 @@ export const FieldsFormProduct = [
     values: [
       { id: 1, name: "Producto", isSelected: true },
       { id: 2, name: "Servicio", isSelected: false },
-      { id: 3, name: "Compuesto", isSelected: false },
+      { id: 3, name: "Relacionado", isSelected: false },
     ],
   },
   {

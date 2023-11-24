@@ -9,13 +9,13 @@ import { Bill } from "@/services/Bills";
 interface CashBillsTableProps {
   records?:  any;
   onDelete: (id: string) => void;
+  isDisabled?: boolean;
 }
 
 export function CashBillsTable(props: CashBillsTableProps) {
-  const { records, onDelete } = props;
+  const { records, onDelete, isDisabled } = props;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectBill, setSelectBill] = useState<Bill>({} as Bill);
-
 
 
   if (!records.data) return <NothingHere width="164" height="98" />;
@@ -41,7 +41,7 @@ export function CashBillsTable(props: CashBillsTableProps) {
       {/* <td className="py-3 px-6 whitespace-nowrap">{ formatDateAsDMY(record.created_at) }</td> */}
       <td className="py-2 px-6 truncate">{ getPaymentTypeName(record.payment_type) }</td>
       {/* <td className="py-3 px-6 truncate">{ record.cash_accounts_id }</td> */}
-      <td className="py-2 px-6 truncate"><Button preset={record.status == 1 ? Preset.smallClose : Preset.smallCloseDisable} disabled={record.status == 0 && true} noText onClick={()=>isDelete(record)} /> </td>
+      <td className="py-2 px-6 truncate"><Button preset={record.status == 1 && !isDisabled ? Preset.smallClose : Preset.smallCloseDisable} disabled={record.status == 0 || isDisabled && true} noText onClick={()=>isDelete(record)} /> </td>
     </tr>
   ));
 

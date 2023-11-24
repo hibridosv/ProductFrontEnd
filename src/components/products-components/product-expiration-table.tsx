@@ -1,7 +1,6 @@
 'use client'
 import { useState } from "react";
 import { numberToMoney } from "@/utils/functions";
-import { Badge } from 'flowbite-react';
 import { NothingHere } from "../nothing-here/nothing-here";
 import { formatDateAsDMY } from "@/utils/date-formats";
 import { Product } from "@/services/products";
@@ -37,9 +36,11 @@ export function ProductExpirationTable(props: ProductExpirationTableProps) {
     <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
       <td className="py-3 px-6">{ record.product.cod }</td>
       <th className="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer" scope="row" onClick={()=>showProduct(record.product)}>{ record.product.description }</th>
+      <td className="py-3 px-6">{ record.lot ? record.lot : "N/A" }</td>
+      <td className="py-3 px-6">{ record?.provider?.name }</td>
       <td className="py-3 px-6">{ record.actual_stock }</td>
       <td className="py-3 px-6">{ numberToMoney(record.unit_cost ? record.unit_cost : 0) }</td>
-      <td className="py-3 px-6 truncate">{ formatDateAsDMY(record.expiration) }</td>
+      <td className="py-3 px-6 truncate font-medium">{ formatDateAsDMY(record.expiration) }</td>
       <td className="py-3 px-6 truncate">{ status(record.expiration) }</td>
     </tr>
   ));
@@ -52,6 +53,8 @@ export function ProductExpirationTable(props: ProductExpirationTableProps) {
         <tr>
           <th scope="col" className="py-3 px-4 border">Código</th>
           <th scope="col" className="py-3 px-4 border">Producto</th>
+          <th scope="col" className="py-3 px-4 border">Lote</th>
+          <th scope="col" className="py-3 px-4 border">Proveedor</th>
           <th scope="col" className="py-3 px-4 border">Cantidad</th>
           <th scope="col" className="py-3 px-4 border">Precio Costo</th>
           <th scope="col" className="py-3 px-4 border">Expiración</th>

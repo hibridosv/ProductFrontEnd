@@ -13,13 +13,13 @@ import { DeleteModal } from "../modals/delete-modal";
 import { Loading } from "../loading/loading";
 
 
-export interface ProductCompoundProps {
+export interface ProductLinkedProps {
   onClose: () => void;
   product?: Product | any;
   isShow?: boolean;
 }
 
-export function ProductCompoundModal(props: ProductCompoundProps) {
+export function ProductLinkedModal(props: ProductLinkedProps) {
   const { onClose, product, isShow } = props;
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +34,7 @@ export function ProductCompoundModal(props: ProductCompoundProps) {
   
   const loadProductsBySearch = async () => {
     try {
-      const response = await getData(`search/forcompounds?sort=-created_at${searchTerm}`);
+      const response = await getData(`search/forlinkeds?sort=-created_at${searchTerm}`);
       setProducts(response.data);
     } catch (error) {
       console.error(error);
@@ -44,7 +44,7 @@ export function ProductCompoundModal(props: ProductCompoundProps) {
 const loadProductsCompound = async () => {
     setIsLoading(true);
     try {
-      const response = await getData(`composed/${product.id}`);
+      const response = await getData(`linked/${product.id}`);
       setLastProductsCompound(response.data);
     } catch (error) {
       console.error(error);
@@ -99,7 +99,7 @@ useEffect(() => {
   
   const deleteProduct = async (iden: number) => {
     try {
-      const response = await postData(`composed/${iden}`, 'DELETE');
+      const response = await postData(`linked/${iden}`, 'DELETE');
       toast.success( response.message);
       await loadProductsCompound()
     } catch (error) {
@@ -116,7 +116,7 @@ useEffect(() => {
     data.added_product_id = productSelected.id
     try {
       setIsSending(true)
-      const response = await postData(`composed`, "POST", data);
+      const response = await postData(`linked`, "POST", data);
       if (!response.message) {
         toast.success( "Producto agregado correctamente");
         await loadProductsCompound()
@@ -153,7 +153,7 @@ const listProducts = lastProductsCompound?.map((product: any):any => (
 
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
-      <Modal.Header>Agregar producto compuesto</Modal.Header>
+      <Modal.Header>Agregar producto relacionado</Modal.Header>
       <Modal.Body>
         { isLoading ? <Loading /> : (<>
 

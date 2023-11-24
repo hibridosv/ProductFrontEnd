@@ -1,6 +1,6 @@
 'use client'
-import { useEffect, useState } from "react";
-import { Alert, ViewTitle } from "@/components";
+import { useContext, useEffect, useState } from "react";
+import { Alert, NothingHere, ViewTitle } from "@/components";
 import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
@@ -9,6 +9,7 @@ import { PresetTheme } from "@/services/enums";
 import { Button, Preset } from "@/components/button/button";
 import { loadData } from "@/utils/functions";
 import { CashRemittancesTable } from "@/components/cash-components/cash-remittances-table";
+import { ConfigContext } from "@/contexts/config-context";
 
 
 export default function RemittancePage() {
@@ -17,6 +18,7 @@ export default function RemittancePage() {
     const [message, setMessage] = useState<any>({});
     const [remittances, setRemittances] = useState([]);
     const [accounts, setAccounts] = useState([] as any);
+    const { cashDrawer } = useContext(ConfigContext);
 
     useEffect(() => {
         (async () => { 
@@ -68,84 +70,94 @@ export default function RemittancePage() {
             <div className="col-span-4 border-r md:border-sky-600">
                 <ViewTitle text="INGRESAR REMESA" />
                 <div className="mx-4"> 
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-              <div className="flex flex-wrap -mx-3 mb-6">
+          { cashDrawer ? (      
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+            <div className="flex flex-wrap -mx-3 mb-6">
 
               <div className="w-full md:w-full px-3 mb-2">
-                    <label htmlFor="name" className={style.inputLabel}>Nombre de la remesa *</label>
-                    <input
-                          type="text"
-                          id="name"
-                          {...register("name")}
-                          className={style.input}
-                          step="any"
-                          min={0}
-                        />
-                </div>
-
-                <div className="w-full md:w-full px-3 mb-2">
-                  <label htmlFor="description" className={style.inputLabel}> Descripción{" "} </label>
-                  <textarea
-                    {...register("description", {})}
-                    rows={2}
-                    className={`${style.input} w-full`}
-                  />
-                </div>
-
-
-
-               <div className="w-full md:w-full px-3 mb-2">
-                    <label htmlFor="cash_accounts_id" className={style.inputLabel}> Cuenta a transferir </label>
-                    <select
-                          defaultValue={accounts && accounts.data && accounts.data.length > 0 ? accounts.data[0].id : 0}
-                          id="cash_accounts_id"
-                          {...register("cash_accounts_id")}
-                          className={style.input}
-                        >
-                        {accounts?.data?.map((value: any) => {
-                          return (
-                            <option key={value.id} value={value.id}> {value.account}{" | "}{value.bank}{" | $"}{value.balance}</option>
-                          );
-                        })}
-                    </select>
-                </div> 
-
-
-                <div className="w-full md:w-full px-3 mb-2">
-                    <label htmlFor="quantity" className={style.inputLabel}> Cantidad *</label>
-                    <input
-                          type="number"
-                          id="quantity"
-                          {...register("quantity")}
-                          className={style.input}
-                          step="any"
-                          min={0}
-                        />
-                </div>
-               
+                <label htmlFor="name" className={style.inputLabel}>Nombre de la remesa *</label>
+                <input
+                  type="text"
+                  id="name"
+                  {...register("name")}
+                  className={style.input}
+                  step="any"
+                  min={0}
+                />
               </div>
 
-              {message.errors && (
-                <div className="mb-4">
-                  <Alert
-                    theme={PresetTheme.danger}
-                    info="Error"
-                    text={JSON.stringify(message.message)}
-                    isDismisible={false}
-                  />
-                </div>
-              )}
+              <div className="w-full md:w-full px-3 mb-2">
+                <label htmlFor="description" className={style.inputLabel}> Descripción{" "} </label>
+                <textarea
+                  {...register("description", {})}
+                  rows={2}
+                  className={`${style.input} w-full`}
+                />
+              </div>
 
-              <div className="flex justify-center">
+
+
+              <div className="w-full md:w-full px-3 mb-2">
+                <label htmlFor="cash_accounts_id" className={style.inputLabel}> Cuenta a transferir </label>
+                <select
+                  defaultValue={accounts && accounts.data && accounts.data.length > 0 ? accounts.data[0].id : 0}
+                  id="cash_accounts_id"
+                  {...register("cash_accounts_id")}
+                  className={style.input}
+                >
+                  {accounts?.data?.map((value: any) => {
+                    return (
+                      <option key={value.id} value={value.id}> {value.account}{" | "}{value.bank}{" | $"}{value.balance}</option>
+                    );
+                  })}
+                </select>
+              </div>
+
+
+              <div className="w-full md:w-full px-3 mb-2">
+                <label htmlFor="quantity" className={style.inputLabel}> Cantidad *</label>
+                <input
+                  type="number"
+                  id="quantity"
+                  {...register("quantity")}
+                  className={style.input}
+                  step="any"
+                  min={0}
+                />
+              </div>
+
+            </div>
+
+            {message.errors && (
+              <div className="mb-4">
+                <Alert
+                  theme={PresetTheme.danger}
+                  info="Error"
+                  text={JSON.stringify(message.message)}
+                  isDismisible={false}
+                />
+              </div>
+            )}
+
+            <div className="flex justify-center">
               <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
-              </div>
+            </div>
 
-            </form>
+          </form>) : 
+          <>
+          <Alert
+          theme={PresetTheme.danger}
+          info="Error"
+          text="Debe seleccionar una caja para poder realizar esta acción"
+          isDismisible={false}
+          />
+          <NothingHere text="" />
+          </>}
                 </div>
             </div>
             <div className="col-span-6">
                 <ViewTitle text="LISTADO DE REMESAS" />
-                <CashRemittancesTable records={remittances} onDelete={handleDeleteRemittance} />
+                <CashRemittancesTable records={remittances} onDelete={handleDeleteRemittance} isDisabled={!cashDrawer} />
             </div>
         <Toaster position="top-right" reverseOrder={false} />
       </div>

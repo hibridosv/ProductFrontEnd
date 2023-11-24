@@ -10,7 +10,7 @@ import { AiFillInfoCircle } from "react-icons/ai";
 import { ProductUpdateModal } from "./product-update-modal";
 import { Alert } from "../alert/alert";
 import { ProductPrecioMultipleModal } from "./product-price-multiple-modal";
-import { ProductCompoundModal } from "./product-add-compound-modal";
+import { ProductLinkedModal } from "./product-add-linked-modal";
 import { ProductImageModal } from "./product-image-modal";
 import { ListImagesOfProducts } from "./list-images";
 import { PresetTheme } from "@/services/enums";
@@ -29,7 +29,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
   const [field, setField] = useState("")
   const [type, setType] = useState("")
   const [text, setText] = useState("")
-  const [isShowCompoundModal, setIsShowCompoundModal] = useState(false);
+  const [isShowLinkedModal, setIsShowLinkedModal] = useState(false);
   const [isShowImagesModal, setIsShowImagesModal] = useState(false);
 
   const getEdit = (fieldAsign: string, typeAsign: string, textAsign: string): void=>{
@@ -172,20 +172,20 @@ export function ProductViewModal(props: ProductViewModalProps) {
                 <Alert
                   theme={product?.product_type === 2 ? PresetTheme.success : PresetTheme.info}
                   info="Información:"
-                  text={`Este elemento se ha registrado como un ${product?.product_type === 2 ? "servicio": "producto compuesto"}`  }
+                  text={`Este elemento se ha registrado como un ${product?.product_type === 2 ? "servicio": "producto relacionando"}`  }
                   isDismisible={false}
                 />
               </div>
             )}
 
             {(product?.product_type === 3) && (<div className="w-full px-4 py-2 bg-white">
-              <Button text="VER PRODUCTOS ASIGNADOS" preset={Preset.primary} onClick={()=>setIsShowCompoundModal(true)} isFull />
+              <Button text="VER PRODUCTOS ASIGNADOS" preset={Preset.primary} onClick={()=>setIsShowLinkedModal(true)} isFull />
             </div>)}
 
           {/* Modales  */}
           { showModalEdit && <ProductUpdateModal product={product} field={field} type={type} text={text} onClose={()=> setShowModalEdit(false)} />}
           { showModalPrices && <ProductPrecioMultipleModal product={product} onClose={()=> setShowModalPrices(false)} />}
-          <ProductCompoundModal isShow={isShowCompoundModal} product={product} onClose={()=>setIsShowCompoundModal(false)} />
+          <ProductLinkedModal isShow={isShowLinkedModal} product={product} onClose={()=>setIsShowLinkedModal(false)} />
           { isShowImagesModal && <ProductImageModal product={product} onClose={()=>setIsShowImagesModal(false)} />}
           
         </div>
@@ -195,7 +195,7 @@ export function ProductViewModal(props: ProductViewModalProps) {
           {/* <Dropdown.Item><Link href={`/product/edit/${product?.id}`}>EDITAR PRODUCTO</Link></Dropdown.Item> */}
           <Dropdown.Item icon={GrEdit} onClick={()=>getEdit("description", "text", "Cambiar Nombre")}>Cambiar Nombre</Dropdown.Item>    
           { product?.product_type === 1 && <Dropdown.Item icon={GrAction} onClick={()=>getEdit("minimum_stock", "number", "Cambiar Minimo en Stock")}>Minimo de Stock</Dropdown.Item>}
-          { product?.product_type === 3 && <Dropdown.Item icon={GrAction} onClick={()=>setIsShowCompoundModal(true)}>Productos Asignados</Dropdown.Item>}
+          { product?.product_type === 3 && <Dropdown.Item icon={GrAction} onClick={()=>setIsShowLinkedModal(true)}>Productos Asignados</Dropdown.Item>}
           <Dropdown.Item icon={GrAdd} onClick={()=>setShowModalPrices(true)}>Agregar Precios</Dropdown.Item>
           <Dropdown.Item icon={GrAdd} onClick={()=>setIsShowImagesModal(true)}>Agregar Imagenes</Dropdown.Item>
           <Dropdown.Item icon={AiFillInfoCircle} onClick={()=>getEdit("information", "text", "Agregar información adicional")}>Información </Dropdown.Item>

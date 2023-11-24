@@ -10,7 +10,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { ConfigContext } from "@/contexts/config-context";
 import { style } from "@/theme/styles";
 import { MultiPrice } from "@/components/products-components/multi-price";
-import { ProductCompoundModal } from "@/components/products-components/product-add-compound-modal";
+import { ProductLinkedModal } from "@/components/products-components/product-add-linked-modal";
 import { ListImagesOfProducts } from "@/components/products-components/list-images";
 import { ProductImageModal } from "@/components/products-components/product-image-modal";
 import { FaEdit } from "react-icons/fa";
@@ -30,7 +30,7 @@ import { PresetTheme } from "@/services/enums";
     const [discountStatus, setDiscountStatus] = useState<boolean>(false)
     const [prescriptionStatus, setPrescriptionStatus] = useState<boolean>(false)
     const [isSending, setIsSending] = useState(false);
-    const [isShowCompoundModal, setIsShowCompoundModal] = useState(false);
+    const [isShowLinkedModal, setIsShowLinkedModal] = useState(false);
     const [isShowImagesModal, setIsShowImagesModal] = useState(false);
     const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
     const [products, setProducts] = useState([]);
@@ -380,7 +380,7 @@ import { PresetTheme } from "@/services/enums";
                 <Alert
                   theme={selectedProduct?.data?.product_type === 2 ? PresetTheme.success : PresetTheme.info}
                   info="Información:"
-                  text={`Este elemento se ha registrado como un ${selectedProduct?.data?.product_type === 2 ? "servicio": "producto compuesto"}`  }
+                  text={`Este elemento se ha registrado como un ${selectedProduct?.data?.product_type === 2 ? "servicio": "producto relacionando"}`  }
                   isDismisible={false}
                 />
               </div>
@@ -388,7 +388,7 @@ import { PresetTheme } from "@/services/enums";
             { selectedProduct?.data ? <MultiPrice product={selectedProduct?.data} /> : <Loading /> }
 
             {(selectedProduct?.data?.product_type === 3) && (<div className="w-full px-4 py-2 bg-white">
-              <Button onClick={()=>setIsShowCompoundModal(true)} text="VER PRODUCTOS ASIGNADOS" preset={Preset.primary}  isFull />
+              <Button onClick={()=>setIsShowLinkedModal(true)} text="VER PRODUCTOS ASIGNADOS" preset={Preset.primary}  isFull />
             </div>)}
 
           </div>
@@ -399,7 +399,7 @@ import { PresetTheme } from "@/services/enums";
           </div>
           <ListImagesOfProducts productId={selectedProduct?.data?.id} state={isShowImagesModal} />
 
-          <ProductCompoundModal isShow={isShowCompoundModal} product={selectedProduct?.data} onClose={()=>setIsShowCompoundModal(false)} />
+          <ProductLinkedModal isShow={isShowLinkedModal} product={selectedProduct?.data} onClose={()=>setIsShowLinkedModal(false)} />
           { isShowImagesModal && <ProductImageModal product={selectedProduct?.data} onClose={()=>setIsShowImagesModal(false)} />}
 
             <div className="mt-4">

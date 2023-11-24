@@ -265,10 +265,10 @@ export default function ViewSales() {
       </div>
       <div className="col-span-4 flex justify-center ">
         <div className="w-full mx-4">
-          {order ? 
-            <SalesShowTotal isSending={isSending} records={productsOfInvoice} invoiceType={()=>setIsSalesSelectInvoiceType(true)} setPrice={handleClickOptionOrder} priceType={typeOfPrice} /> :
+            {/* Carga solo si hay orden  */}
+            <SalesShowTotal isSending={isSending} records={productsOfInvoice} invoiceType={()=>setIsSalesSelectInvoiceType(true)} setPrice={handleClickOptionOrder} priceType={typeOfPrice} /> 
+            {/* Carga si no hay una orden  */}
             <SalesShowOrders order={order} onClick={handleChangeOrder} setPrice={handleClickOptionOrder} priceType={typeOfPrice} />
-          }
         </div>
         <div className="absolute bottom-2">
           {order && <SalesButtons onClick={handleClickOptionOrder} />}

@@ -17,7 +17,7 @@ export default function Compounds() {
   const loadData = async () => {
     setIsLoading(true);
     try {
-      const response = await getData(`composed?sort=-created_at&perPage=10${currentPage}${searchTerm}`);
+      const response = await getData(`linked?sort=-created_at&perPage=10${currentPage}${searchTerm}`);
       setProductos(response);
     } catch (error) {
       console.error(error);

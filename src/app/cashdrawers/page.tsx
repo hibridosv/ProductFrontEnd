@@ -59,7 +59,7 @@ const onDeleteCut = async(cutId: any)=>{
     } 
 }
 
-  if (isLoading) return <Loading />
+  if (isLoading && !cashDrawers.data) return <Loading />
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
@@ -72,11 +72,7 @@ const onDeleteCut = async(cutId: any)=>{
             onClick={!cashDrawer && cash.status == 1 ? ()=>handleOpenCashDrawer(cash.id) : cashDrawer == cash.id ? ()=>setCashDrawerCloseModal(true) : ()=>console.log() }>
               <Image
                   src={!cashDrawer && cash.status == 1 ? "/img/cashdrawer.png" : cashDrawer == cash.id ? "/img/cashdrawer.png" : "/img/cashdrawer_block.png" }
-                  alt="CashDrawer"
-                  width={168}
-                  height={168}
-                  priority={false}
-                />
+                  alt="CashDrawer"  width={168} height={168} priority={false} />
                 <div className="flex justify-center uppercase font-bold text-lg text-cyan-600">{ cash.name }</div>
                 <div className="flex justify-center text-sm text-blue-600 mb-2">{ cash?.employee ? cash?.employee?.name : cash.status == 1 ? "Disponible" : "Aperturada" }</div>
             </div>
