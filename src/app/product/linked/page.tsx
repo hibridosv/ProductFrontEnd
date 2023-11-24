@@ -8,7 +8,7 @@ import { RowTable } from "@/components/products-components/products-table";
 import toast, { Toaster } from 'react-hot-toast';
 
 
-export default function Compounds() {
+export default function Linkeds() {
   const [isLoading, setIsLoading] = useState(false);
   const [productos, setProductos] = useState([]);
   const {currentPage, handlePageNumber} = usePagination("&page=1");

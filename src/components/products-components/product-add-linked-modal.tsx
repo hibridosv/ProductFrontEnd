@@ -28,7 +28,7 @@ export function ProductLinkedModal(props: ProductLinkedProps) {
   const [ handleQuantity, setHandleQuantity] = useState<any>()
   const focusInQuantity = useRef<any>();
   const [isSending, setIsSending] = useState(false);
-  const [lastProductsCompound, setLastProductsCompound] = useState<any>([]);
+  const [lastProductsLinked, setLastProductsLinked] = useState<any>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectProduct, setSelectProduct] = useState<Product>({} as Product);
   
@@ -41,11 +41,11 @@ export function ProductLinkedModal(props: ProductLinkedProps) {
     } 
   };
 
-const loadProductsCompound = async () => {
+const loadProductsLinked = async () => {
     setIsLoading(true);
     try {
       const response = await getData(`linked/${product.id}`);
-      setLastProductsCompound(response.data);
+      setLastProductsLinked(response.data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -63,7 +63,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (product) {
-    (async () => { await loadProductsCompound() })();
+    (async () => { await loadProductsLinked() })();
   }
   // eslint-disable-next-line
 }, [product]);
@@ -101,7 +101,7 @@ useEffect(() => {
     try {
       const response = await postData(`linked/${iden}`, 'DELETE');
       toast.success( response.message);
-      await loadProductsCompound()
+      await loadProductsLinked()
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!");
@@ -119,7 +119,7 @@ useEffect(() => {
       const response = await postData(`linked`, "POST", data);
       if (!response.message) {
         toast.success( "Producto agregado correctamente");
-        await loadProductsCompound()
+        await loadProductsLinked()
         cancelSelected()
       } else {
         toast.error("Faltan algunos datos importantes!");
@@ -142,7 +142,7 @@ useEffect(() => {
         </li>
 ))
 
-const listProducts = lastProductsCompound?.map((product: any):any => (
+const listProducts = lastProductsLinked?.map((product: any):any => (
     <li  key={product.id} className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800">
     {product.qty} | {product.composed}
     <Button onClick={()=>isDeleteProduct(product)} preset={Preset.smallClose} noText />
@@ -157,7 +157,7 @@ const listProducts = lastProductsCompound?.map((product: any):any => (
       <Modal.Body>
         { isLoading ? <Loading /> : (<>
 
-        { (!productSelected && lastProductsCompound.length > 0) ? 
+        { (!productSelected && lastProductsLinked.length > 0) ? 
             (<div>
                 <div className="text-2xl justify-self-center">PRODUCTOS AGREGADOS</div>
                     <ul className="divide-y-2 divide-gray-400 mb-4">
