@@ -9,10 +9,11 @@ import { Tooltip } from "flowbite-react";
 interface CredistPaymentsTableProps {
   records?:  any;
   onDelete: (record: any)=> void;
+  isDisabled?: boolean;
 }
 
 export function CredistPaymentsTable(props: CredistPaymentsTableProps) {
-  const { records, onDelete } = props;
+  const { records, onDelete, isDisabled } = props;
   const [isLasElement, setIsLasElement] = useState([] as any);
 
 
@@ -45,9 +46,10 @@ export function CredistPaymentsTable(props: CredistPaymentsTableProps) {
       content={deleted(record)} >{ status(record?.status) }</Tooltip> : status(record?.status) }
       </td>
       <td className="py-1 px-6"><Button preset={record?.status == 0 ? Preset.smallInfo : 
-      isLasElement?.id == record?.id ? Preset.smallClose : Preset.smallCloseDisable} 
+      isLasElement?.id == record?.id && !isDisabled ? Preset.smallClose : Preset.smallCloseDisable} 
                                     disabled={
                                         record?.status == 0 || 
+                                        isDisabled || 
                                         isLasElement?.id != record?.id || 
                                         formatDateAsDMY(isLasElement?.created_at) != formatDateAsDMY(new Date()) ? true : false} 
                                         noText onClick={()=>onDelete(record)} /></td>

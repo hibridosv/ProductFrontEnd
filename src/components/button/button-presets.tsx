@@ -72,5 +72,5 @@ export const iconPresets = {
     smallPlusDisable: <AiOutlinePlusCircle color="grey" size={25} />,
     smallMinus: <AiOutlineMinusCircle color="green" size={25} />,
     smallMinusDisable: <AiOutlineMinusCircle color="grey" size={25} />,
-    smallInfo: <FaInfoCircle color="indigo" size={23} />,
+    smallInfo: <FaInfoCircle color="#5DADE2" size={23} />,
   }

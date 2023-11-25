@@ -60,7 +60,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
 
 
-  if (order) return null
+  
   if (isLoading) return <Loading />;
 
   const imageLoader = ({ src, width, quality }: any) => {

@@ -38,24 +38,24 @@ export default function KardexPage() {
     }, [searchTerm]);
 
 
-    const handleFormSubmit = async (values: DateRangeValues) => {
-      values.product_id = productSelected
-      try {
-        setIsSending(true)
-        const response = await postData(`kardex`, "POST", values);
-        if (!response.message) {
-          setRecordsOfKardex(response)
-          toast.success( "Petición realizada correctamente");
-        } else {
-          toast.error("Faltan algunos datos importantes!");
-        }
-      } catch (error) {
-        console.error(error);
-        toast.error("Ha ocurrido un error!");
-      } finally{
-        setIsSending(false)
+  const handleFormSubmit = async (values: DateRangeValues) => {
+    values.product_id = productSelected
+    try {
+      setIsSending(true)
+      const response = await postData(`kardex`, "POST", values);
+      if (!response.message) {
+        setRecordsOfKardex(response)
+        toast.success("Petición realizada correctamente");
+      } else {
+        toast.error("Faltan algunos datos importantes!");
       }
-    };
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } finally {
+      setIsSending(false)
+    }
+  };
 
     const handleNewProduct = () => {
       setProductSelected(null)
@@ -78,30 +78,30 @@ export default function KardexPage() {
 
   return (
 
-      <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
-        {productSelected ? <>
+    <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
+      {productSelected ? <>
         <div className="col-span-3">
           <ViewTitle text="KARDEX" />
-        { isSending ? <Loading /> : 
-        <KardexTable records={recordsOfKardex} />
-        }
-      </div>
-      <div>
-        <ViewTitle text="BUSQUEDA" />
-        <DateRange onSubmit={handleFormSubmit} />
-        <div className="mt-4">
-        <Button text='Nueva busqueda' isFull type="submit" preset={Preset.cancel} onClick={()=>handleNewProduct()} />
+          {isSending ? <Loading /> :
+            <KardexTable records={recordsOfKardex} />
+          }
         </div>
-      </div> </> :
-          <div className="col-span-3 m-4">
-          <ViewTitle text="KARDEX DE PRODUCTO"  />
+        <div>
+          <ViewTitle text="BUSQUEDA" />
+          <DateRange onSubmit={handleFormSubmit} />
+          <div className="mt-4">
+            <Button text='Nueva busqueda' isFull type="submit" preset={Preset.cancel} onClick={() => handleNewProduct()} />
+          </div>
+        </div> </> :
+        <div className="col-span-3 m-4">
+          <ViewTitle text="KARDEX DE PRODUCTO" />
           <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Producto" />
           <div className="w-full bg-white rounded-lg shadow-lg lg:w-2/3 mt-4">
-              <ul className="divide-y-2 divide-gray-400">
-              { listItems }
-              </ul>
+            <ul className="divide-y-2 divide-gray-400">
+              {listItems}
+            </ul>
           </div>
-      </div>
+        </div>
       }
       <Toaster position="top-right" reverseOrder={false} />
     </div>

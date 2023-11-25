@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
@@ -12,6 +12,8 @@ import { PresetTheme } from "@/services/enums";
 import { formatDateAsDMY } from "@/utils/date-formats";
 import { DeleteModal } from "../modals/delete-modal";
 import { CredistPaymentsTable } from "./credits-payments-table";
+import { ConfigContext } from "@/contexts/config-context";
+import { NothingHere } from "../nothing-here/nothing-here";
 
 export enum Type {
     receivable = 1,
@@ -30,14 +32,13 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
   const { register, handleSubmit, reset, watch, setValue } = useForm();
   const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState<any>({});
-  const [accounts, setAccounts] = useState([] as any);
   const [payments, setPayments] = useState([] as any);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { cashDrawer } = useContext(ConfigContext);
 
 
   useEffect(() => {
     if (isShow) {
-        (async () => setAccounts(await loadData(`cash/accounts`)))();
         (async () => setPayments(await loadData(`credits/payment/${creditSelected?.id}/${accountType}`)))(); 
     }  
     }, [creditSelected, isShow, accountType]);
@@ -125,7 +126,8 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
                 </div>
                 <div>
                     {/* Aqui va el formulario */}
-                    <form onSubmit={handleSubmit(onSubmit)} className="pb-4 mx-3 border-2 shadow-lg rounded-md">
+              { cashDrawer ? (
+              <form onSubmit={handleSubmit(onSubmit)} className="pb-4 mx-3 border-2 shadow-lg rounded-md">
               <div className="flex flex-wrap mx-3 mb-2 ">
 
               <div className="w-full md:w-full px-3 mb-2">
@@ -170,7 +172,16 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
               <Button type="submit" disabled={isSending || payments?.balance == 0} preset={isSending ? Preset.saving : Preset.save} />
               </div>
 
-            </form>
+            </form>) : 
+                <>
+                <Alert
+                theme={PresetTheme.danger}
+                info="Error"
+                text="Debe seleccionar una caja para este proceso"
+                isDismisible={false}
+                />
+                <NothingHere text="" width="110" height="110" />
+                </>}
                     {/* Termina formulario  */}
                 </div>
             </div>
@@ -195,7 +206,7 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
         </div>
             {payments?.data &&
             <div className="mt-3">
-                <CredistPaymentsTable records={payments} onDelete={onDeletePayment} />
+                <CredistPaymentsTable records={payments} onDelete={onDeletePayment}  isDisabled={!cashDrawer} />
             </div>}
 
           <DeleteModal isShow={showDeleteModal} text="¿Estas seguro de eliminar este elemento?" onDelete={handleDeleteCredit}  onClose={()=>setShowDeleteModal(false)} /> 
