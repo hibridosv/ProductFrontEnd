@@ -17,6 +17,8 @@ import { FaEdit } from "react-icons/fa";
 import { SearchInput } from "@/components/form/search";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { PresetTheme } from "@/services/enums";
+import { transformFields } from "@/utils/functions";
+import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
 
 
   export default function GetProduct() {
@@ -35,6 +37,7 @@ import { PresetTheme } from "@/services/enums";
     const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
     const [products, setProducts] = useState([]);
     const [productSelected, setProductSelected] = useState(null);
+    const [showModalCategories, setShowModalCategories] = useState(false);
 
     
     const loadData = async () => {
@@ -81,77 +84,14 @@ import { PresetTheme } from "@/services/enums";
     }
     
     useEffect(() => {
-      if (productSelected) {
+      if (productSelected && showModalCategories === false) {
         
       (async () => {
         setIsLoading(true);
         try {
           const specialData = await getData("special/initial-add");
-          const product = await getData(`products/${productSelected}`);       
-  
-  
-          const FieldsFormProduct = [...Fields];
-          const categorys = specialData.categories
-          const quantityUnits = specialData.quantityUnits
-          const providers = specialData.providers
-          const brands = specialData.brands
-  
-          
-          const categoriesData = Array.isArray(categorys) ? categorys : [];
-          const categoryValues = categoriesData.map((category) => ({
-            id: category.id,
-            name: category.name,
-            isSelected: category.name === "Principal",
-          }));
-          
-          const categoryField = Array.isArray(FieldsFormProduct) ? FieldsFormProduct.find(
-            (field) => field.id === "category_id"
-          ) : null;
-          
-          if (categoryField) {
-            categoryField.values = categoryValues;
-          }
-          
-          
-          const quantityUnitField = Array.isArray(FieldsFormProduct) ? FieldsFormProduct.find(
-            (field) => field.id === "quantity_unit_id"
-          ) : null;
-          
-          if (quantityUnitField) {
-            quantityUnitField.values = Array.isArray(quantityUnits) ? quantityUnits.map((unit) => ({
-              id: unit.id,
-              name: unit.name,
-              isSelected: false,
-            })) : [];
-          }
-          
-          
-          const providerField = Array.isArray(FieldsFormProduct) ? FieldsFormProduct.find(
-            (field) => field.id === "provider_id"
-          ) : null;
-          
-          if (providerField) {
-            providerField.values = Array.isArray(providers) ? providers.map((provider) => ({
-              id: provider.id,
-              name: provider.name,
-              isSelected: false,
-            })) : [];
-          }
-  
-          const BrandField = Array.isArray(FieldsFormProduct) ? FieldsFormProduct.find(
-            (field) => field.id === "brand_id"
-          ) : null;
-          
-          if (BrandField) {
-            BrandField.values = Array.isArray(brands) ? brands.map((brand) => ({
-              id: brand.id,
-              name: brand.name,
-              isSelected: false,
-            })) : [];
-          }
-  
+          const FieldsFormProduct = transformFields(Fields, specialData);    
           setFieldsModified(FieldsFormProduct);
-          setSelectedProdcut(product)
         } catch (error) {
           console.error(error);
         } finally {
@@ -160,7 +100,19 @@ import { PresetTheme } from "@/services/enums";
       })();
     }
       // eslint-disable-next-line
+    }, [productSelected, showModalCategories]);
+
+
+    useEffect(() => {
+      if (productSelected) {
+      (async () => {
+          const product = await getData(`products/${productSelected}`);       
+          setSelectedProdcut(product)
+      })();
+    }
+      // eslint-disable-next-line
     }, [productSelected]);
+
 
     useEffect(() => {
       setValue("cod", selectedProduct?.data?.cod)
@@ -206,8 +158,6 @@ import { PresetTheme } from "@/services/enums";
       }
     };
 
-  if (isLoading) return (<Loading />)
-
   const handleNewProduct = () => {
     setProductSelected(null)
     setProducts([])
@@ -234,6 +184,7 @@ import { PresetTheme } from "@/services/enums";
           <ViewTitle text="ACTUALIZAR PRODUCTO" links={menu} />
 
             <div className="w-full p-4">
+            { isLoading ? <Loading text="Transformando" /> :
               <form onSubmit={handleSubmit(onSubmit)} className="w-full">
   
               <div className="flex flex-wrap -mx-3 mb-6">
@@ -260,7 +211,7 @@ import { PresetTheme } from "@/services/enums";
 
 
               <div className="w-full md:w-1/3 px-3 mb-2">
-                <label htmlFor="category_id" className={style.inputLabel}>Categoria</label>
+                <label htmlFor="category_id" className={`${style.inputLabel} clickeable`} onClick={() => setShowModalCategories(true)}>Categoria (Click para agregar)</label>
                 <select
                   id="category_id"
                   {...register("category_id")}
@@ -364,7 +315,7 @@ import { PresetTheme } from "@/services/enums";
               <div className="flex justify-center">
               <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
               </div>
-            </form>
+            </form> }
             </div>
   
   
@@ -418,6 +369,7 @@ import { PresetTheme } from "@/services/enums";
             </div>
           </div>
             }
+        <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} />
       <Toaster position="top-right" reverseOrder={false} />
       </div>
     );

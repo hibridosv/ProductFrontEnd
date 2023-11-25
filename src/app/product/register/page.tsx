@@ -10,9 +10,10 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import { ConfigContext } from "@/contexts/config-context";
 import { style } from "@/theme";
-import { getConfigStatus, fieldWidth } from "@/utils/functions";
+import { getConfigStatus, fieldWidth, transformFields } from "@/utils/functions";
 import { ProductLinkedModal } from "@/components/products-components/product-add-linked-modal";
 import { PresetTheme } from "@/services/enums";
+import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
 
 export default function AddProduct() {
   const [message, setMessage] = useState<any>({});
@@ -27,6 +28,7 @@ export default function AddProduct() {
   const [prescriptionStatus, setPrescriptionStatus] = useState<boolean>(false);
   const [isSending, setIsSending] = useState(false);
   const [isShowLinkedModal, setIsShowLinkedModal] = useState<boolean>(false);
+  const [showModalCategories, setShowModalCategories] = useState(false);
 
   const menu = [
     {"name": "AGREGAR PRODUCTO", "link": "/product/register"}, 
@@ -45,85 +47,31 @@ export default function AddProduct() {
     // eslint-disable-next-line
   }, [config]);
 
+  
   useEffect(() => {
+    if (showModalCategories == false) {
     (async () => {
       setIsLoading(true);
       try {
         const specialData = await getData("special/initial-add");
-        const products = await getData("products?sort=-created_at&perPage=10");
-
-        const FieldsFormProduct = [...Fields];
-        const categorys = specialData.categories;
-        const quantityUnits = specialData.quantityUnits;
-        const providers = specialData.providers;
-        const brands = specialData.brands;
-
-        const categoriesData = Array.isArray(categorys) ? categorys : [];
-        const categoryValues = categoriesData.map((category) => ({
-          id: category.id,
-          name: category.name,
-          isSelected: category.name === "Principal",
-        }));
-
-        const categoryField = Array.isArray(FieldsFormProduct)
-          ? FieldsFormProduct.find((field) => field.id === "category_id")
-          : null;
-
-        if (categoryField) {
-          categoryField.values = categoryValues;
-        }
-
-        const quantityUnitField = Array.isArray(FieldsFormProduct)
-          ? FieldsFormProduct.find((field) => field.id === "quantity_unit_id")
-          : null;
-
-        if (quantityUnitField) {
-          quantityUnitField.values = Array.isArray(quantityUnits)
-            ? quantityUnits.map((unit) => ({
-                id: unit.id,
-                name: unit.name,
-                isSelected: false,
-              }))
-            : [];
-        }
-
-        const providerField = Array.isArray(FieldsFormProduct)
-          ? FieldsFormProduct.find((field) => field.id === "provider_id")
-          : null;
-
-        if (providerField) {
-          providerField.values = Array.isArray(providers)
-            ? providers.map((provider) => ({
-                id: provider.id,
-                name: provider.name,
-                isSelected: false,
-              }))
-            : [];
-        }
-
-        const BrandField = Array.isArray(FieldsFormProduct)
-          ? FieldsFormProduct.find((field) => field.id === "brand_id")
-          : null;
-
-        if (BrandField) {
-          BrandField.values = Array.isArray(brands)
-            ? brands.map((brand) => ({
-                id: brand.id,
-                name: brand.name,
-                isSelected: false,
-              }))
-            : [];
-        }
-
-        setValue("taxes", 13);
+        const FieldsFormProduct = transformFields(Fields, specialData);    
         setFieldsModified(FieldsFormProduct);
-        setLastProducts(products);
       } catch (error) {
         console.error(error);
       } finally {
         setIsLoading(false);
       }
     })();
+  }
+    // eslint-disable-next-line
+  }, [showModalCategories]);
+
+  useEffect(() => {
+    (async () => {
+        const products = await getData("products?sort=-created_at&perPage=10");
+        setValue("taxes", 13);
+        setLastProducts(products);
+      })();
     // eslint-disable-next-line
   }, []);
 
@@ -180,8 +128,8 @@ export default function AddProduct() {
     if (!hiddenFields.includes(field.id)) {
       return (
         <div key={field.id} className={fieldWidth(field.style)}>
-          <label htmlFor={field.id} className={style.inputLabel}>
-            {field.name}
+          <label htmlFor={field.id} className={`${style.inputLabel} ${field.isClickeable && " clickeable"}`} onClick={field.id == "category_id" ? () => setShowModalCategories(true) : ()=> {}}>
+            {field.name} {field.isClickeable && " (Click para agregar)"}
           </label>
           {field.type === "select" ? (
             <select
@@ -214,7 +162,6 @@ export default function AddProduct() {
     return null;
   };
 
-  if (isLoading) return (<Loading />)
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
@@ -222,6 +169,7 @@ export default function AddProduct() {
         <ViewTitle text="NUEVO PRODUCTO" links={menu} />
 
           <div className="w-full px-4">
+          { isLoading ? <Loading text="Transforming" /> :
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
               <div className="flex flex-wrap -mx-3 mb-6">
                 {fieldsModified.map((field: any) => getField(field))}
@@ -282,7 +230,7 @@ export default function AddProduct() {
               <div className="flex justify-center">
                 <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
               </div>
-            </form>
+            </form> }
           </div>
 
 
@@ -304,11 +252,8 @@ export default function AddProduct() {
         </div>
       </div>
 
-        <ProductLinkedModal
-          isShow={isShowLinkedModal}
-          product={message.data}
-          onClose={() => setIsShowLinkedModal(false)}
-        />
+        <ProductLinkedModal isShow={isShowLinkedModal} product={message.data} onClose={() => setIsShowLinkedModal(false)} />
+        <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} />
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );

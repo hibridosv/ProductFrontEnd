@@ -29,53 +29,56 @@ export function AddCategoriesModal(props: AddCategoriesModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [submited, setSubmited] = useState(getRandomInt(100));
 
-  const loadCategories = async () => {
-        setIsLoading(true);
-        try {
-        const response = await getData(`categories`);
-        setCategories(response.data);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setIsLoading(false);
-        }
-  };
 
-  useEffect(() => {
+  
+  const loadCategories = async () => {
+    setIsLoading(true);
+    try {
+      const response = await getData(`categories`);
+      setCategories(response.data);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      useEffect(() => {
         (async () => { await loadCategories() })();
         // eslint-disable-next-line
-  }, []);
-
-  const PrincipalCategories = categories.filter(item => item.category_type === "1");
-
-  const onSubmit = async (data: any) => {
-    data.category_type = isCategory ? 1 : 2;
-    data.dependable = isCategory ? null : data.categoria
-    data.pronoun = data.name;
-    try {
-      setIsSending(true)
-      const response = await postData("categories", "POST", data);
-      if (!response.message) {
-        toast.success( "Categoría Agregada correctamente");
-        if (isCategory) loadCategories()
-        resetField("name")
-      } else {
-        toast.error("Faltan algunos datos importantes!");
+      }, []);
+      
+      const PrincipalCategories = categories.filter(item => item.category_type === "1");
+      
+      const onSubmit = async (data: any) => {
+        data.category_type = isCategory ? 1 : 2;
+        data.dependable = isCategory ? null : data.categoria
+        data.pronoun = data.name;
+        try {
+          setIsSending(true)
+          const response = await postData("categories", "POST", data);
+          if (!response.message) {
+            toast.success( "Categoría Agregada correctamente");
+            if (isCategory) loadCategories()
+            resetField("name")
+        } else {
+          toast.error("Faltan algunos datos importantes!");
+        }
+        setMessage(response);
+      } catch (error) {
+        console.error(error);
+        toast.error("Ha Ocurrido un Error!");
+      } finally {
+        setIsSending(false)
+        setSubmited(getRandomInt(100))
       }
-      setMessage(response);
-    } catch (error) {
-      console.error(error);
-      toast.error("Ha Ocurrido un Error!");
-    } finally {
-      setIsSending(false)
-      setSubmited(getRandomInt(100))
-    }
-  };
-
-  useEffect(() => {
-    setFocus('name', {shouldSelect: true})
-  }, [setFocus, isShow, isCategory, submited])
-
+    };
+    
+    useEffect(() => {
+      setFocus('name', {shouldSelect: true})
+    }, [setFocus, isShow, isCategory, submited])
+    
+  if (!isShow) return null;
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
       <Modal.Header>Agregar nueva categoria</Modal.Header>

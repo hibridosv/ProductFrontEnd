@@ -72,7 +72,7 @@ if (option != 1) return null
               <Button isFull text="Agregar nueva categoría" preset={Preset.accept} onClick={() => setShowModalCategories(true)} />
               { isLoading ? <Loading /> : <ListCategories categories={categories} onDelete={handleDelete} /> }
             </div>
-              { !isLoading && <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} /> }
+             <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} />
 
               <DeleteModal isShow={showDeleteModal}
               text="¿Está seguro de eliminar esta categoría?"

@@ -33,6 +33,74 @@ export const fieldWidth = (field: string): string => {
     }
 }
 
+// Transforma los campos del formulario de producto agregando los valores de las categorias, unidades de medida, proveedores y marcas
+export const transformFields = (Fields: any, specialData: any): any => {
+  const FieldsFormProduct = [...Fields];
+  const categorys = specialData.categories;
+  const quantityUnits = specialData.quantityUnits;
+  const providers = specialData.providers;
+  const brands = specialData.brands;
+
+  const categoriesData = Array.isArray(categorys) ? categorys : [];
+  const categoryValues = categoriesData.map((category) => ({
+    id: category.id,
+    name: category.name,
+    isSelected: category.name === "Principal",
+  }));
+
+  const categoryField = Array.isArray(FieldsFormProduct)
+    ? FieldsFormProduct.find((field) => field.id === "category_id")
+    : null;
+
+  if (categoryField) {
+    categoryField.values = categoryValues;
+  }
+
+  const quantityUnitField = Array.isArray(FieldsFormProduct)
+    ? FieldsFormProduct.find((field) => field.id === "quantity_unit_id")
+    : null;
+
+  if (quantityUnitField) {
+    quantityUnitField.values = Array.isArray(quantityUnits)
+      ? quantityUnits.map((unit) => ({
+          id: unit.id,
+          name: unit.name,
+          isSelected: false,
+        }))
+      : [];
+  }
+
+  const providerField = Array.isArray(FieldsFormProduct)
+    ? FieldsFormProduct.find((field) => field.id === "provider_id")
+    : null;
+
+  if (providerField) {
+    providerField.values = Array.isArray(providers)
+      ? providers.map((provider) => ({
+          id: provider.id,
+          name: provider.name,
+          isSelected: false,
+        }))
+      : [];
+  }
+
+  const BrandField = Array.isArray(FieldsFormProduct)
+    ? FieldsFormProduct.find((field) => field.id === "brand_id")
+    : null;
+
+  if (BrandField) {
+    BrandField.values = Array.isArray(brands)
+      ? brands.map((brand) => ({
+          id: brand.id,
+          name: brand.name,
+          isSelected: false,
+        }))
+      : [];
+  }
+  return FieldsFormProduct;
+}
+
+
 
 export const sumarTotales = (datos: any): string => {
   let totalSuma = 0;

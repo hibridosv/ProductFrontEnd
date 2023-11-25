@@ -4,6 +4,7 @@ export const FieldsFormProduct = [
     type: "select",
     name: "Tipo de Registro",
     style: "full",
+    isClickeable: false,
     values: [
       { id: 1, name: "Producto", isSelected: true },
       { id: 2, name: "Servicio", isSelected: false },
@@ -15,36 +16,42 @@ export const FieldsFormProduct = [
     type: "text",
     name: "Código",
     style: "full",
+    isClickeable: false,
   },
   {
     id: "description",
     type: "text",
     name: "Descripción",
     style: "full",
+    isClickeable: false,
   },
   {
     id: "quantity",
     type: "number",
     name: "Cantidad",
     style: "medio",
+    isClickeable: false,
   },
   {
     id: "minimum_stock",
     type: "number",
     name: "Stock Minimo",
     style: "medio",
+    isClickeable: false,
   },
   {
     id: "unit_cost",
     type: "number",
     name: "Precio de Costo",
     style: "medio",
+    isClickeable: false,
   },
   {
     id: "sale_price",
     type: "number",
     name: "Precio de Venta",
     style: "medio",
+    isClickeable: false,
   },
   {
     id: "category_id",
@@ -52,6 +59,7 @@ export const FieldsFormProduct = [
     name: "Categoria",
     style: "tercio",
     values: [],
+    isClickeable: true,
   },
   {
     id: "quantity_unit_id",
@@ -59,6 +67,7 @@ export const FieldsFormProduct = [
     name: "Unidad de Medida",
     style: "tercio",
     values: [],
+    isClickeable: false,
   },
   {
     id: "provider_id",
@@ -66,6 +75,7 @@ export const FieldsFormProduct = [
     name: "Proveedor",
     style: "tercio",
     values: [],
+    isClickeable: false,
   },
   {
     id: "brand_id",
@@ -73,17 +83,20 @@ export const FieldsFormProduct = [
     name: "Marca",
     style: "tercio",
     values: [],
+    isClickeable: false,
   },
   {
     id: "measure",
     type: "text",
     name: "Medida",
     style: "tercio",
+    isClickeable: false,
   },
   {
     id: "default_discount",
     type: "number",
     name: "Descuento por Defecto %",
     style: "tercio",
+    isClickeable: false,
   },
 ];
