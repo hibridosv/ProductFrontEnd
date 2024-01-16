@@ -233,3 +233,7 @@ export const getFirstElement = (items: any)=> {
       return null;
   }
 }
+
+export const percentage = (totalCost: number, totalPrice: number): number =>{
+  return ((totalPrice - totalCost) / totalCost) * 100;
+}
