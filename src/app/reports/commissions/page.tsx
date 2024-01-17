@@ -6,7 +6,7 @@ import { DateRange, DateRangeValues } from "@/components/form/date-range"
 import { postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { DateTime } from 'luxon';
-import { ReportsBillsTable } from "@/components/reports-components/reports-bills-table";
+import { ReportsProductsTable } from "@/components/reports-components/reports-products-table";
 
 export default function Page() {
   const [products, setProducts] = useState([]);
@@ -23,7 +23,7 @@ export default function Page() {
     const handlegetSales = async (data: DateRangeValues) => {
         try {
           setIsSending(true);
-          const response = await postData(`reports/bills`, "POST", data);
+          const response = await postData(`reports/products-in`, "POST", data);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setProducts(response);
@@ -43,9 +43,9 @@ export default function Page() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600">
-        <ViewTitle text="PRODUCTOS AVERIADOS" />
+        <ViewTitle text="DETALLE DE COMISIONES" />
 
-        <ReportsBillsTable records={products} isLoading={isSending} />
+        <ReportsProductsTable records={products} isLoading={isSending} />
 
         </div>
         <div className="col-span-3">

@@ -80,7 +80,7 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/histories/deleted" />}>Ordenes eliminadas  </MenuItem>
         </SubMenu>
 
-        <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar color="red" />}>
+        <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar color="blue" />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Ingreso rápido de productos </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Ajustar inventario </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Importar desde Excel </MenuItem>
@@ -94,12 +94,12 @@ export function SideBar() {
 
         <SubMenu label="Reportes" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/reports/sales" />}>Detalles de ventas </MenuItem>
-          {/* <MenuItem component={<Link className="text-sm" href="/reports/failure" />}>Productos averiados </MenuItem> */}
           <MenuItem component={<Link className="text-sm" href="/reports/bills" />}>Detalles de gastos </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/reports/products" />}>Productos ingresados </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/reports/commissions" />}>Detalle Comisiones </MenuItem>
         </SubMenu>
 
-        <SubMenu label="Facturación" icon={<HiOutlineChartSquareBar color="blue" />}>
+        <SubMenu label="Facturación" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/invoices/documents" />}>Documentos Emitidos </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/invoices/search" />}>Buscar Documentos </MenuItem>
           {/* <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte contable </MenuItem> */}
