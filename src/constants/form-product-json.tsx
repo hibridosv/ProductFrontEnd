@@ -99,4 +99,11 @@ export const FieldsFormProduct = [
     style: "tercio",
     isClickeable: false,
   },
+  {
+    id: "default_commission",
+    type: "number",
+    name: "Comisión por Defecto %",
+    style: "tercio",
+    isClickeable: false,
+  },
 ];

@@ -12,14 +12,12 @@ import { CategoryAddList } from '@/components/products-components/category-add-l
 import { BrandAddList } from '@/components/products-components/brand-add-list';
 import { ConfigContext } from "@/contexts/config-context";
 import { getConfigStatus } from "@/utils/functions";
-import { AttributeAddList } from '@/components/products-components/attribute-add-list';
 import { LocationAddList } from '@/components/products-components/location-add-list';
 
 
 export default function Config() {
   const [screen, setScreen ] = useState(1)
   const [brandStatus, setBrandStatus] = useState<boolean>(false);
-  const [attributesStatus, setAttributesStatus] = useState<boolean>(false);
   const [locationsStatus, setLocationsStatus] = useState<boolean>(false);
   const { config } = useContext(ConfigContext);
 
@@ -32,15 +30,13 @@ export default function Config() {
         case 1: return "Categorías"
         case 2: return "Unidades de Medida"
         case 3: return "Marcas"
-        case 4: return "Caracteristicas"
-        case 5: return "Ubicaciones"
+        case 4: return "Ubicaciones"
       }
   }
   
   useEffect(() => {
     setBrandStatus(getConfigStatus("product-brand", config));
-    setAttributesStatus(getConfigStatus("product-attribute-active", config));
-    setLocationsStatus(getConfigStatus("product-lotation-multiple", config));
+    setLocationsStatus(getConfigStatus("product-locations", config));
     // eslint-disable-next-line
   }, [config]);
 
@@ -63,13 +59,9 @@ export default function Config() {
             <ListGroup.Item icon={TbBrandOnlyfans} onClick={()=>selectOptionType(3)} active={screen == 3 ? true : false}>
             {getNameOption(3)}
             </ListGroup.Item> }
-            {attributesStatus && 
-            <ListGroup.Item icon={AiFillCrown} onClick={()=>selectOptionType(4)} active={screen == 4 ? true : false}>
-            {getNameOption(4)}
-            </ListGroup.Item> }
             {locationsStatus && 
-            <ListGroup.Item icon={BiCurrentLocation} onClick={()=>selectOptionType(5)} active={screen == 5 ? true : false}>
-            {getNameOption(5)}
+            <ListGroup.Item icon={BiCurrentLocation} onClick={()=>selectOptionType(4)} active={screen == 4 ? true : false}>
+            {getNameOption(4)}
             </ListGroup.Item> }
           </ListGroup>
           </div>
@@ -79,7 +71,6 @@ export default function Config() {
           <QuantityUnitList option={screen} />
           <CategoryAddList option={screen} />
           <BrandAddList option={screen} />
-          <AttributeAddList option={screen} />
           <LocationAddList option={screen} />
       </div>
 

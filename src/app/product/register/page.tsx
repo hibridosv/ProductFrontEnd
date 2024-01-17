@@ -25,6 +25,7 @@ export default function AddProduct() {
   const [brandStatus, setBrandStatus] = useState<boolean>(false);
   const [measuresStatus, setMeasuresStatus] = useState<boolean>(false);
   const [discountStatus, setDiscountStatus] = useState<boolean>(false);
+  const [commissionStatus, setCommissionStatus] = useState<boolean>(false);
   const [prescriptionStatus, setPrescriptionStatus] = useState<boolean>(false);
   const [isSending, setIsSending] = useState(false);
   const [isShowLinkedModal, setIsShowLinkedModal] = useState<boolean>(false);
@@ -43,7 +44,8 @@ export default function AddProduct() {
     setBrandStatus(getConfigStatus("product-brand", config));
     setMeasuresStatus(getConfigStatus("product-measures", config));
     setPrescriptionStatus(getConfigStatus("product-prescription", config));
-    setDiscountStatus(getConfigStatus("product-default_discount", config));
+    setDiscountStatus(getConfigStatus("product-default-discount", config));
+    setCommissionStatus(getConfigStatus("product-default-commission", config));
     // eslint-disable-next-line
   }, [config]);
 
@@ -120,10 +122,12 @@ export default function AddProduct() {
             "quantity_unit_id",
             "measure",
             "default_discount",
+            "default_commission",
           ];
     if (!brandStatus) hiddenFields.push("brand_id");
     if (!measuresStatus) hiddenFields.push("measure");
     if (!discountStatus) hiddenFields.push("default_discount");
+    if (!commissionStatus) hiddenFields.push("default_commission");
 
     if (!hiddenFields.includes(field.id)) {
       return (

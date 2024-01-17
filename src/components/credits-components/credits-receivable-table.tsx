@@ -35,13 +35,17 @@ export function CredistReceivableTable(props: CredistReceivableTableProps) {
       <Tooltip animation="duration-300" 
       content={`Fecha: ${formatDateAsDMY(record.created_at)}`} >{ record?.client?.name }</Tooltip>
       </td>
-      <td className="py-3 px-6 truncate">{ record?.order?.invoice }</td>
+      <td className="py-3 px-6 truncate">{ record?.order?.invoice == 5 ? "N/A" : record?.order?.invoice }</td>
       <td className="py-3 px-6 whitespace-nowrap cursor-pointer">{formatDateAsDMY(record?.expiration)}</td> 
       {/* <td className="py-2 px-6">{ record?.description }</td> */}
       <td className="py-3 px-6 truncate">{ numberToMoney(record?.order?.total ? record?.order?.total : 0) }</td>
       <td className="py-3 px-6 truncate">{ numberToMoney(record?.balance ? record?.balance : 0) }</td>
       <td className="py-2 px-6">{ status(record?.status) }</td>
-      <td className="py-2 px-6"><MdAddchart size={28} className="text-lime-600 clickeable" onClick={()=>handleClick(record)} /></td>
+      <td className="py-2 px-6">
+        <MdAddchart size={28} 
+        className={` ${record?.balance == 0 && record?.order?.status == 5 ? 'text-red-500' : 'text-lime-600'} clickeable`} 
+        onClick={()=>handleClick(record)} />
+        </td>
     </tr>
   ));
 

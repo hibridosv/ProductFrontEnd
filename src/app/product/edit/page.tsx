@@ -30,6 +30,7 @@ import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
     const [brandStatus, setBrandStatus] = useState<boolean>(false)
     const [measuresStatus, setMeasuresStatus] = useState<boolean>(false)
     const [discountStatus, setDiscountStatus] = useState<boolean>(false)
+    const [commissionStatus, setCommissionStatus] = useState<boolean>(false);
     const [prescriptionStatus, setPrescriptionStatus] = useState<boolean>(false)
     const [isSending, setIsSending] = useState(false);
     const [isShowLinkedModal, setIsShowLinkedModal] = useState(false);
@@ -72,8 +73,9 @@ import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
       setBrandStatus(getConfigStatus("product-brand"))
       setMeasuresStatus(getConfigStatus("product-measures"))
       setPrescriptionStatus(getConfigStatus("product-prescription"))
-      setDiscountStatus(getConfigStatus("product-default_discount"))
-      // eslint-disable-next-line
+      setDiscountStatus(getConfigStatus("product-default-discount"))
+      setCommissionStatus(getConfigStatus("product-default-commission"));
+    // eslint-disable-next-line
     }, [config])
   
     const getConfigStatus = (feature: string)=>{
@@ -126,6 +128,7 @@ import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
 
       setValue("measure", selectedProduct?.data?.measure)
       setValue("default_discount", selectedProduct?.data?.default_discount)
+      setValue("default_commission", selectedProduct?.data?.default_commission)
       setValue("prescription", selectedProduct?.data?.prescription)
 
       // eslint-disable-next-line
@@ -174,8 +177,6 @@ import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
     </li>
 </div>
   ))
-
-
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
@@ -286,6 +287,11 @@ import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
               { (selectedProduct?.data?.product_type == 1 && discountStatus) && (<div className="w-full md:w-1/3 px-3 mb-4">
                 <label htmlFor="default_discount" className={style.inputLabel}>Descuento por Defecto %</label>
                 <input type="number" step="any" id="default_discount" {...register("default_discount")} className={style.input} />
+              </div>)}
+
+              { (selectedProduct?.data?.product_type == 1 && commissionStatus) && (<div className="w-full md:w-1/3 px-3 mb-4">
+                <label htmlFor="default_commission" className={style.inputLabel}>Comisión por Defecto %</label>
+                <input type="number" step="any" id="default_commission" {...register("default_commission")} className={style.input} />
               </div>)}
 
               { (selectedProduct?.data?.product_type == 1 && prescriptionStatus) && (<div className="w-full md:w-1/3 px-3 mb-4">

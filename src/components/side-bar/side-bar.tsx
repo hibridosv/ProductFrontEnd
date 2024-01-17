@@ -100,9 +100,9 @@ export function SideBar() {
         </SubMenu>
 
         <SubMenu label="Facturación" icon={<HiOutlineChartSquareBar color="blue" />}>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Facturas Emitidas </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Reemprimir Facturas </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte contable </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/invoices/documents" />}>Documentos Emitidos </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/invoices/search" />}>Buscar Documentos </MenuItem>
+          {/* <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte contable </MenuItem> */}
         </SubMenu>
         
         <SubMenu label="Planillas" icon={<HiOutlineChartSquareBar color="red" />}>

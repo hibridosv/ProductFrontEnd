@@ -107,6 +107,25 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
       } 
   }
 
+  const handleCheckIn = async() => {
+    try {
+      setIsSending(true)
+      const response = await postData(`credits/checkin`, "POST", creditSelected);
+      if (response.type == "error") {
+          toast.error("Error al facturar!");
+      } 
+      if (response.type == "successful") {
+        toast.success("Abonos registrado correctamente");
+        onClose();
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } finally {
+      setIsSending(false)
+    }
+  }
+
 
   return (
     <Modal size="4xl" show={isShow} position="center" onClose={onClose}>
@@ -213,6 +232,10 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
       <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
+        {
+          payments?.balance == 0 && creditSelected?.order?.status == 5 && 
+          <Button onClick={handleCheckIn} preset={isSending ? Preset.saving : Preset.save} text="Facturar Credito" disabled={isSending} />
+        }
         <Button onClick={onClose} preset={Preset.close} disabled={isSending} />
       </Modal.Footer>
     </Modal>
