@@ -144,7 +144,7 @@ export default function KardexPage() {
           }
         </div>
         <div>
-          <ViewTitle text="BUSQUEDA" />
+          <ViewTitle text="OPCIONES" />
           <div className="mt-4">
             <div className="m-3 flex justify-between mb-8">
               <div><FaPrint className="clickeable" size={45} color="blue" onClick={()=>console.log()} /></div>

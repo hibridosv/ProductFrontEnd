@@ -81,10 +81,8 @@ export function SideBar() {
         </SubMenu>
 
         <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar color="blue" />}>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Ingreso rápido de productos </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash" />}>Opciones de taller </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Ajustar inventario </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Importar desde Excel </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Restablecer precios </MenuItem>
         </SubMenu>
 
         <SubMenu label="Cotizaciones" icon={<HiOutlineChartSquareBar color="red" />}>
