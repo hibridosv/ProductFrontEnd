@@ -30,7 +30,6 @@ export default function KardexPage() {
         }
     };
       
-    console.log(documents)
   
     useEffect(() => {
         if (searchTerm) {
@@ -103,7 +102,8 @@ export default function KardexPage() {
               <div className="flex justify-between font-bold text-lg">
                 <div>Cajero: <span>{records?.data?.employee?.name}</span></div>
                 <div>Fecha: <span>{ formatDateAsDMY(records?.data?.charged_at) }</span></div>
-                <div>Tipo Pago: <span>{ getPaymentTypeName(records?.data?.payment_type) }</span></div>
+                <div>Tipo: <span>{ records?.data?.invoice_assigned?.name }</span></div>
+                <div>Pago: <span>{ getPaymentTypeName(records?.data?.payment_type) }</span></div>
               </div>
 
               <div className="w-full overflow-auto mt-4">
@@ -143,7 +143,7 @@ export default function KardexPage() {
           }
         </div>
         <div>
-          <ViewTitle text="BUSQUEDA" />
+          <ViewTitle text="OPCIONES" />
           <div className="mt-4">
             <div className="m-3 flex justify-between mb-8">
               <div><FaPrint className="clickeable" size={45} color="blue" onClick={()=>console.log()} /></div>

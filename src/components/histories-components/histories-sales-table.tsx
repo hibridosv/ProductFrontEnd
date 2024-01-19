@@ -53,7 +53,6 @@ export function HistoriesSalesTable(props: HistoriesSalesTableProps) {
             <div>Total descuentos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "discount_sum")) }</span></div>
             <div>Total de ventas: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "total_sum")) }</span></div>
         </div>
-
  </div>
  </div>);
 }

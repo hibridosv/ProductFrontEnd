@@ -80,11 +80,10 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/histories/deleted" />}>Ordenes eliminadas  </MenuItem>
         </SubMenu>
 
-        <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar color="red" />}>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Ingreso rápido de productos </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Ajustar inventario </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Importar desde Excel </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Restablecer precios </MenuItem>
+        <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar color="blue" />}>
+          <MenuItem component={<Link className="text-sm" href="/tools/commissions" />}>Detalle Comisiones </MenuItem>
+          <MenuItem component={<Link className="text-sm" color="red" href="/cash" />}>Opciones de taller </MenuItem>
+          <MenuItem component={<Link className="text-sm" color="red" href="/cash" />}>Ajustar inventario </MenuItem>
         </SubMenu>
 
         <SubMenu label="Cotizaciones" icon={<HiOutlineChartSquareBar color="red" />}>
@@ -94,12 +93,11 @@ export function SideBar() {
 
         <SubMenu label="Reportes" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/reports/sales" />}>Detalles de ventas </MenuItem>
-          {/* <MenuItem component={<Link className="text-sm" href="/reports/failure" />}>Productos averiados </MenuItem> */}
           <MenuItem component={<Link className="text-sm" href="/reports/bills" />}>Detalles de gastos </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/reports/products" />}>Productos ingresados </MenuItem>
         </SubMenu>
 
-        <SubMenu label="Facturación" icon={<HiOutlineChartSquareBar color="blue" />}>
+        <SubMenu label="Facturación" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/invoices/documents" />}>Documentos Emitidos </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/invoices/search" />}>Buscar Documentos </MenuItem>
           {/* <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte contable </MenuItem> */}
