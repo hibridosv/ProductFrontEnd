@@ -57,7 +57,7 @@ export default function Home() {
     }
   };
 
- console.log(isLoading);
+
   if (isLoading) return <Loading />
 
   const imageLoader = ({ src, width, quality }: any) => {

@@ -9,9 +9,9 @@ export interface PaginationProps {
 export function Pagination(props: PaginationProps) {
   const { records, handlePageNumber } = props;
 
-  if (!records.links) return <></>;
+  if (!records?.links) return <></>;
 
-  if (records.meta.total === 0) return <></>;
+  if (records?.meta?.total === 0) return <></>;
 
   const { links } = records.meta;
   const activeIndex = links.findIndex((link: any) => link.active);

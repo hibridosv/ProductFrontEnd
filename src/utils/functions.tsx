@@ -234,6 +234,13 @@ export const getFirstElement = (items: any)=> {
   }
 }
 
+
+// porcentaje de ganancias segun el precio costo y precio de venta de un producto
 export const percentage = (totalCost: number, totalPrice: number): number =>{
   return ((totalPrice - totalCost) / totalCost) * 100;
+}
+
+// calcula el valor segun porcentaje
+export const getTotalPercentage = (porcentaje: number, total: number ) :number => {
+  return (porcentaje / 100) * total;
 }
