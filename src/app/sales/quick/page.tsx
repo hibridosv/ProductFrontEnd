@@ -16,6 +16,7 @@ import { SalesSearchByName } from "@/components/sales-components/sales-search-by
 import { SalesSearchByCode } from "@/components/sales-components/sales-search-by-cod";
 import { SalesOthers } from "@/components/sales-components/sales-others";
 import { SalesSelectInvoiceTypeModal } from "@/components/sales-components/sales-select-invoice-type";
+import { errorSound, successSound } from "@/utils/functions";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -148,9 +149,11 @@ export default function ViewSales() {
       const response = await postData(`sales`, "POST", values);
       if (response.type === "error") {
         toast.error(response.message);
+        errorSound()
       } else {
         if (!order) setOrder(response.data.id);
         setProductsOfInvoice(response.data);
+        successSound()
       }
       if (response.type === "successful") {
         resetOrder()

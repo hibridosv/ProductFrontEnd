@@ -236,4 +236,23 @@ export const getFirstElement = (items: any)=> {
 
 export const percentage = (totalCost: number, totalPrice: number): number =>{
   return ((totalPrice - totalCost) / totalCost) * 100;
+<<<<<<< Updated upstream
+=======
+}
+
+// calcula el valor segun porcentaje
+export const getTotalPercentage = (porcentaje: number, total: number ) :number => {
+  return (porcentaje / 100) * total;
+}
+
+
+export const  successSound = () => {
+  const audio = new Audio('/sounds/success.mp3');
+  audio.play();
+}
+
+export const  errorSound = () => {
+  const audio = new Audio('/sounds/error.mp3');
+  audio.play();
+>>>>>>> Stashed changes
 }
