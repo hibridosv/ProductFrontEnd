@@ -9,14 +9,16 @@ import { Brand } from "@/services/products";
 import { Loading } from "../loading/loading";
 import { ListBrands } from "./list-brands";
 import { DeleteModal } from "../modals/delete-modal";
+import { ViewTitle } from "../view-title/view-title";
 
 
 export interface BrandAddListProps {
   option: number;
+  name: string;
 }
 
 export function BrandAddList(props: BrandAddListProps) {
-  const { option } = props;
+  const { option, name } = props;
   const [showModalBrands, setShowModalBrands] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [ brands, setBrands ] = useState<Brand[]>([])
@@ -67,7 +69,8 @@ const deleteBrand = async (iden: any) => {
 
 if (option != 3) return null
 
-  return (
+  return (<>
+        <ViewTitle text={name} />
         <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
             <div className="col-span-3">
               <Button isFull text="Agregar nueva marca" preset={Preset.accept} onClick={() => setShowModalBrands(true)} />
@@ -82,5 +85,5 @@ if (option != 3) return null
               onClose={()=>setShowDeleteModal(false)} /> 
         <Toaster position="top-right" reverseOrder={false} />
         </div>
-  );
+  </>);
 }

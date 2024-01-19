@@ -29,8 +29,8 @@ export default function Page() {
           setIsSending(true);
           const response = await postData(`tools/commissions`, "POST", {userId});
           if (!response.message) {
-            toast.success("Datos obtenidos correctamente");
             setCommissions(response);
+            toast.success("Datos obtenidos correctamente");
           } else {
             toast.error("Faltan algunos datos importantes!");
           }

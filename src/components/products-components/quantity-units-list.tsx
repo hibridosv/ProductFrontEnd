@@ -5,14 +5,16 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import { Loading } from "../loading/loading";
 import { ToggleSwitch } from "flowbite-react";
+import { ViewTitle } from "../view-title/view-title";
 
 
 export interface QuantityUnitListProps {
   option: number;
+  name: string;
 }
 
 export function QuantityUnitList(props: QuantityUnitListProps) {
-  const { option } = props;
+  const { option, name } = props;
   const [ units, setUnits ] = useState([])
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
@@ -60,7 +62,8 @@ const updateStatus = async (key : string, status : number) => {
 if (option != 2) return null
 if(isLoading) return <Loading />
 
-  return (
+  return (<>
+        <ViewTitle text={name} />
         <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
             <div className="col-span-3">
              {units.map((item: any, index: any) => (
@@ -79,5 +82,5 @@ if(isLoading) return <Loading />
         </div>
       <Toaster position="top-right" reverseOrder={false} />
       </div>
-  );
+  </>);
 }

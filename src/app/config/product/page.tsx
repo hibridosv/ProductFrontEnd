@@ -67,11 +67,10 @@ export default function Config() {
           </div>
         </div>
       <div className="col-span-3">
-          <ViewTitle text={getNameOption(screen).toUpperCase()} />
-          <QuantityUnitList option={screen} />
-          <CategoryAddList option={screen} />
-          <BrandAddList option={screen} />
-          <LocationAddList option={screen} />
+          <QuantityUnitList option={screen} name={getNameOption(screen).toUpperCase()} />
+          <CategoryAddList option={screen} name={getNameOption(screen).toUpperCase()} />
+          <BrandAddList option={screen} name={getNameOption(screen).toUpperCase()} />
+          <LocationAddList option={screen} name={getNameOption(screen).toUpperCase()} />
       </div>
 
    </div>
