@@ -1,17 +1,22 @@
 'use client'
-import { documentType, getPaymentTypeName, getTotalOfItem, numberToMoney } from "@/utils/functions";
+import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
-import { formatDate, formatHourAsHM } from "@/utils/date-formats";
+import { formatDate } from "@/utils/date-formats";
+import { CommissionViewModal } from "./commission-view-modal";
+import { useState } from "react";
 
 
 interface CommissionsListTableProps {
   records?:  any;
   isLoading?: boolean;
+  random: (value: number) => void;
 }
 
 export function CommissionsListTable(props: CommissionsListTableProps) {
-  const { records, isLoading } = props;
+  const { records, isLoading, random } = props;
+  const [isViewCommissionModal, setIsViewCommissionModal] = useState(false);
+  const [isCommissionSelected, setIsCommissionSelected] = useState({} as any);
 
 
 
@@ -21,10 +26,15 @@ export function CommissionsListTable(props: CommissionsListTableProps) {
 
   const setStatus = (status: number): any =>{
       switch (status) {
-        case 0: return <span className="status-danger">Eliminado</span>
+        case 0: return <span className="status-danger clickeable">Eliminado</span>
         case 1: return <span className="status-info clickeable">Activo</span>
-        case 2: return <span className="status-success">Pagado</span>
+        case 2: return <span className="status-success clickeable">Pagado</span>
       }
+  }
+
+  const setModal = (record: any)=> {
+    setIsCommissionSelected(record)
+    setIsViewCommissionModal(true)
   }
 
 
@@ -36,7 +46,7 @@ export function CommissionsListTable(props: CommissionsListTableProps) {
       <td className="py-2 px-6">{ record?.invoices }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0) }</td>
       <th className="py-2 px-6">{ numberToMoney(record?.commissions ? record?.commissions : 0) }</th>
-      <th className="py-2 px-6">{ setStatus(record?.status) }</th>
+      <th className="py-2 px-6" onClick={()=>setModal(record)}>{ setStatus(record?.status) }</th>
     </tr>
   ));
 
@@ -58,5 +68,6 @@ export function CommissionsListTable(props: CommissionsListTableProps) {
       <tbody>{listItems}</tbody>
     </table>
  </div>
+ <CommissionViewModal random={random} isShow={isViewCommissionModal} record={isCommissionSelected} onClose={()=>setIsViewCommissionModal(false)} />
  </div>);
 }

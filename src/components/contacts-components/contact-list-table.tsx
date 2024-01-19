@@ -22,8 +22,6 @@ export function ContactListTable(props: ContactListTableProps) {
   const [recordSelect, setRecordSelect] = useState<any>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  console.log(records);
-
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 

@@ -52,7 +52,6 @@ const onDeleteCut = async(cutId: any)=>{
         setCashDrawer(cutId.cashdrawers_id);
       }
       toast.error(response.message);
-      console.log(response);
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!");

@@ -30,7 +30,6 @@ export default function KardexPage() {
         }
     };
       
-    console.log(documents)
   
     useEffect(() => {
         if (searchTerm) {

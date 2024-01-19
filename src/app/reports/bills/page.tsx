@@ -38,7 +38,6 @@ export default function Page() {
         }
       };
 
- console.log(products);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">

@@ -17,6 +17,7 @@ export default function Page() {
   const [isAddCommissionModal, setIsAddCommissionModal] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const { register, watch } = useForm();
+  const [randomNumber, setRandomNumber] = useState(0);
 
   useEffect(() => {
       (async () => setUsers(await loadData(`contacts/referrals`)))();
@@ -45,9 +46,9 @@ export default function Page() {
       if (!isAddCommissionModal) {
         (async () => await handlegetSales())();
       }
-    }, [isAddCommissionModal, watch("userId")]);
+    // eslint-disable-next-line
+    }, [isAddCommissionModal, watch("userId"), randomNumber]);
   
- console.log("Comisiones: ", commissions)
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600">
@@ -55,7 +56,7 @@ export default function Page() {
             <ViewTitle text="REPORTE DE COMISIONES POR CLIENTE" />
               <span className=" m-4 text-2xl "><Button preset={Preset.add} text="AGREGAR" onClick={()=>setIsAddCommissionModal(true)} /></span>
             </div>
-            <CommissionsListTable records={commissions} isLoading={isSending} />
+            <CommissionsListTable records={commissions} isLoading={isSending} random={setRandomNumber}/>
         </div>
         <div className="col-span-3">
         <ViewTitle text="SELECCIONAR CLIENTE" />

@@ -27,7 +27,6 @@ export function ContactAddModal(props: ContactAddModalProps) {
   const [newRecord, setNewRecord] = useState<any>({});
   const [isOtherRegisters, setIsOtherRegisters] = useState(false);
   const [isChangedRecord, setIsChangedRecord] = useState(false);
-  console.log(record);
 
 
   useEffect(() => {
