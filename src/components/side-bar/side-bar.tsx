@@ -12,12 +12,7 @@ import { TbBrandCashapp } from "react-icons/tb";
 
 import Link from "next/link";
 import Image from "next/image";
-import { destroyAuthCookie } from "@/services/oauth";
 
-const handleLogout = () => {
-  destroyAuthCookie();
-  window.location.href = "/";
-}
 
 export function SideBar() {
   return (
@@ -115,7 +110,7 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Perfiles de usuario </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Administración Principal </MenuItem>
         </SubMenu>
-        <MenuItem icon={<HiLogout />} onClick={()=>handleLogout()}>Salir</MenuItem>
+        <MenuItem icon={<HiLogout />} href="/logout">Salir</MenuItem>
       </Menu>
     </Sidebar>
   );

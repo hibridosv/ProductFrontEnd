@@ -2,8 +2,8 @@
 
 import './globals.css'
 import { ProSidebarProvider } from "react-pro-sidebar";
-import {Header, SideBar} from "@/components";
 import { ConfigContextProvider } from "@/contexts/config-context";
+import AuthContextProvider from '@/contexts/authContext';
 
 
 export default function RootLayout({
@@ -12,18 +12,21 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ConfigContextProvider>
-      <ProSidebarProvider>
+
       <html lang="en">
         <head>
           <title>Sistema de control de ventas</title>
         </head>
         <body className="overflow-x-visible">
-            { children }
+        <ConfigContextProvider>
+          <AuthContextProvider>
+            <ProSidebarProvider>
+              {children}
+            </ProSidebarProvider>
+          </AuthContextProvider>
+        </ConfigContextProvider>
         </body>
       </html>
-    </ProSidebarProvider>
-  </ConfigContextProvider>
 
   )
 }
