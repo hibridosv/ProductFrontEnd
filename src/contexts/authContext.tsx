@@ -9,15 +9,9 @@ import {
 } from "react";
 import Cookies from "js-cookie";
 
-type AuthTokens = {
-  token: string;
-  refresh_token: string;
-};
-
-const AUTH_TOKENS_KEY = "NEXT_JS_AUTH";
 
 export const AuthContext = createContext({
-  login: (authTokens: AuthTokens) => {},
+  login: (authToken: string) => {},
   logout: () => {},
 });
 
@@ -26,14 +20,14 @@ export default function AuthContextProvider({
 }: {
   children: ReactNode;
 }) {
-  const authTokensInLocalStorage = Cookies.get("authTokens");
 
-  const login = useCallback(function (authTokens: AuthTokens) {
-    Cookies.set("authTokens", JSON.stringify(authTokens));
+
+  const login = useCallback(function (authToken: string) {
+    Cookies.set("authToken", authToken);
   }, []);
 
   const logout = useCallback(function () {
-    Cookies.remove("authTokens");
+    Cookies.remove("authToken");
   }, []);
 
   const value = useMemo(

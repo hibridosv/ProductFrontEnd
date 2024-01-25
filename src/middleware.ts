@@ -2,16 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  const authTokens = request.cookies.get("authTokens")?.value;
-
-  console.log(authTokens)
-  // Verificar si la ruta es "/"
-  if (request.nextUrl.pathname === "/") {
-    // Redirigir a dashboard si está autenticado, de lo contrario a login
-    const redirectPath = authTokens ? "/dashboard" : "/login";
-    const response = NextResponse.redirect(new URL(redirectPath, request.url));
-    return response;
-  }
+  const authTokens = request.cookies.get("authToken")?.value;
 
   // Verificar otras rutas
   const protectedRoutes = [
@@ -19,21 +10,25 @@ export function middleware(request: NextRequest) {
     '/cashdrawers',
     '/config',
     '/credits',
+    '/dashboard',
     '/directory',
     '/histories',
+    '/invoices',
     '/product',
+    '/reports',
     '/sales',
+    '/tools',
   ];
 
   // Comprobar si la ruta actual está en las rutas protegidas
   for (const route of protectedRoutes) {
     if (request.nextUrl.pathname.startsWith(route) && !authTokens) {
       const response = NextResponse.redirect(new URL("/login", request.url));
-      response.cookies.delete("authTokens");
+      response.cookies.delete("authToken");
       return response;
     }
-    if (authTokens && request.nextUrl.pathname.startsWith(route + "/login")) {
-      const response = NextResponse.redirect(new URL(route + "/dashboard", request.url));
+    if (authTokens && request.nextUrl.pathname.startsWith("/login")) {
+      const response = NextResponse.redirect(new URL("/dashboard", request.url));
       return response;
     }
   }
@@ -48,13 +43,17 @@ export const config = {
   matcher: [
     '/cash/:path*', 
     '/cashdrawers/:path*', 
-    '/login/:path*', 
-    '/dashboard/:path*', 
     '/config/:path*', 
     '/credits/:path*',
+    '/dashboard/:path*', 
     '/directory/:path*',
     '/histories/:path*',
+    '/invoices/:path*',
+    '/login/:path*', 
+    '/logout/:path*', 
     '/product/:path*', 
+    '/reports/:path*', 
     '/sales/:path*',
+    '/tools/:path*',
   ],
 };

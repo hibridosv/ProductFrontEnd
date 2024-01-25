@@ -6,7 +6,6 @@ import { getAuthTokenFromCookie } from "./oauth";
   export async function getData(url = '') {
     const token = await getAuthTokenFromCookie();
     const Authorization = `Bearer ${token}`;
-
     // console.log("URL: ",`${API_URL}${url}`);
     try {
       const response = await fetch(`${API_URL}${url}`, {

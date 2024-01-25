@@ -13,7 +13,7 @@ import { useAuthContext } from "@/contexts/authContext";
 export default function Home() {
   const [isSending, setIsSending] = useState(false);
   const [isMessage, setIsMessage] = useState("");
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const router = useRouter();
   const { login } = useAuthContext();
 

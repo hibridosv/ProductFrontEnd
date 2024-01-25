@@ -31,7 +31,7 @@ export function SideBar() {
             priority={false}
           />
         </div>
-        <MenuItem icon={<HiFingerPrint />} component={<Link href="/" />}>Panel Principal</MenuItem>
+        <MenuItem icon={<HiFingerPrint />} component={<Link href="/dashboard" />}>Panel Principal</MenuItem>
         <MenuItem icon={<FaCashRegister />} component={<Link href="/cashdrawers" />}>Control de cajas</MenuItem>
 
         <SubMenu label="Inventario" icon={<HiOutlineChartSquareBar />}>
@@ -75,10 +75,10 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/histories/deleted" />}>Ordenes eliminadas  </MenuItem>
         </SubMenu>
 
-        <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar color="blue" />}>
+        <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/tools/commissions" />}>Detalle Comisiones </MenuItem>
           {/* <MenuItem component={<Link className="text-sm" color="red" href="/cash" />}>Opciones de taller </MenuItem> */}
-          <MenuItem component={<Link className="text-sm" color="red" href="/cash" />}>Ajustar inventario </MenuItem>
+          <MenuItem component={<Link className="text-sm" color="red" href="/tools/adjustment" />}>Ajustar inventario </MenuItem>
         </SubMenu>
 
         <SubMenu label="Cotizaciones" icon={<HiOutlineChartSquareBar color="red" />}>
@@ -104,11 +104,11 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Administrar empleados </MenuItem>
         </SubMenu>
 
-        <SubMenu label="Configuraciones" icon={<HiOutlineChartSquareBar color="red" />}>
+        <SubMenu label="Configuraciones" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/config" />}>Principal</MenuItem>
           <MenuItem component={<Link className="text-sm" href="/config/product" />}>Productos</MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Perfiles de usuario </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Administración Principal </MenuItem>
+          {/* <MenuItem component={<Link className="text-sm" href="/cash" />}>Perfiles de usuario </MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/cash" />}>Administración Principal </MenuItem> */}
         </SubMenu>
         <MenuItem icon={<HiLogout />} href="/logout">Salir</MenuItem>
       </Menu>
