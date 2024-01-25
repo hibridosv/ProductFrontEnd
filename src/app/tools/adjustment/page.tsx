@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { Alert, RightSideProducts, ViewTitle } from "@/components"
+import { Alert, Pagination, RightSideProducts, ViewTitle } from "@/components"
 import { getData, postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { loadData } from "@/utils/functions";
@@ -22,6 +22,8 @@ export default function Page() {
   const [ adjustment, setAdjustment ] = useState([] as any)
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "name"], 500);
+  const [randomNumber, setRandomNumber] = useState(0);
+
 
   const startAdjustment = async() =>{
     try {
@@ -68,19 +70,17 @@ useEffect(() => {
     (async () => setProducts(await loadData(`adjustment/products?sort=-created_at&perPage=25${currentPage}${searchTerm}`)))();
   }
   // eslint-disable-next-line
-}, [currentPage, searchTerm, adjustment]);
-
-console.log("adjustment: ", adjustment)
-console.log("products: ", products)
-
+}, [currentPage, searchTerm, adjustment, randomNumber]);
+console.log(products)
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600">
           <ViewTitle text="AJUSTE DE INVENTARIO" />
           { 
-          products?.data && products?.data.length > 0 ? 
+          products?.data && products?.meta?.total > 0 ? 
           <div>
-            <AdjustmentProductsTable records={products} isLoading={isSending} />
+            <AdjustmentProductsTable records={products} isLoading={isSending} random={setRandomNumber} />
+            <Pagination records={products} handlePageNumber={handlePageNumber } />
           </div> :
           <div className="my-4">
             <div className="flex justify-center m-8">
@@ -99,8 +99,10 @@ console.log("products: ", products)
           <RightSideSearch handleSearchTerm={handleSearchTerm} />
           </div>
           {
-          products?.data &&
-          <Button onClick={finishAdjustment} isFull={true} preset={isSending? Preset.saving : Preset.save} text="Finalizar ajuste de inventario" />
+          products?.meta?.total &&
+          <div className="m-2">
+            <Button onClick={finishAdjustment} isFull={true} preset={isSending? Preset.saving : Preset.save} text="Finalizar ajuste de inventario" />
+          </div>
           }
         </div>
       <Toaster position="top-right" reverseOrder={false} />

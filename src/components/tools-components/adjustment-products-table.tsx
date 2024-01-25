@@ -5,15 +5,22 @@ import { Loading } from "../loading/loading";
 import { formatDate, formatHourAsHM } from "@/utils/date-formats";
 import { useState } from "react";
 import { Button, Preset } from "../button/button";
+import toast, { Toaster } from 'react-hot-toast';
+import { postData } from "@/services/resources";
+import { AdjustmentUpdateModal } from "./adjustment-update-modal";
 
 
 interface AdjustmentProductsTableProps {
   records?:  any;
   isLoading?: boolean;
+  random?: (value: number) => void;
 }
 
 export function AdjustmentProductsTable(props: AdjustmentProductsTableProps) {
-  const { records, isLoading } = props;
+  const { records, isLoading, random } = props;
+  const [isSending, setIsSending] = useState(false);
+  const [isModalUpdate, setIsModalUpdate] = useState(false);
+  const [recordSelected, setRecordSelected] = useState({} as any);
 
 
   if (isLoading) return <Loading />;
@@ -21,16 +28,39 @@ export function AdjustmentProductsTable(props: AdjustmentProductsTableProps) {
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
 
+  const sendAdjustment = async(product: any) =>{
+    product.stablished = product.quantity
+    try {
+      setIsSending(true);
+      const response = await postData(`adjustment/update`, "POST", product);
+        if (response.type == "successful") {
+            random && random(Math.random());
+          toast.success("Ajuste completado correctamente");  
+        } else {
+          toast.error("Error al finalizar!");
+        }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } finally {
+      setIsSending(false);
+    }
+  }
+
   const listItems = records.data.map((record: any, key: any) => (
     <tr key={record.id} className={`border-b ${record?.status == 0 && 'bg-red-200'}`}>
       <td className="py-2 px-6">{ record?.cod } </td>
       <td className="py-2 px-6">{ record?.name } </td>
       <td className="py-2 px-6">{ record?.quantity } </td>
-      <td className="py-2 px-6"><Button text="Cambiar" /> </td>
-      <td className="py-2 px-6"><Button preset={Preset.save} text="Aceptar" /> </td>
+      <td className="py-2 px-6"><Button text="Cambiar" onClick={()=>setModal(record)} /> </td>
+      <td className="py-2 px-6"><Button preset={Preset.save} text="Aceptar" onClick={()=>sendAdjustment(record)} /> </td>
     </tr>
   ));
 
+  const setModal = (record: any)=> {
+    setRecordSelected(record)
+    setIsModalUpdate(true)
+  }
 
   return (<div>
   <div className="w-full overflow-auto">
@@ -47,5 +77,8 @@ export function AdjustmentProductsTable(props: AdjustmentProductsTableProps) {
       <tbody>{listItems}</tbody>
     </table>
  </div>
+ <AdjustmentUpdateModal random={random} isShow={isModalUpdate} record={recordSelected} onClose={()=>setIsModalUpdate(false)} />
+
+ <Toaster position="top-right" reverseOrder={false} />
  </div>);
 }
