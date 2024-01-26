@@ -25,8 +25,8 @@ export default function CashDrawerPage() {
 
   useEffect(() => {
     if (!cashDrawerOpenModal && !cashDrawerCloseModal) {
-      setIsLoading(true);
       try {
+        setIsLoading(true);
         (async () => setCashDrawers(await loadData(`cashdrawers`)))();
         (async () => setCutsUser(await loadData(`cut/all?perPage=8${currentPage}`)))();
       } catch (error) {
@@ -58,7 +58,7 @@ const onDeleteCut = async(cutId: any)=>{
     } 
 }
 
-  if (isLoading && !cashDrawers.data) return <Loading />
+  if (isLoading) return <Loading />
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">

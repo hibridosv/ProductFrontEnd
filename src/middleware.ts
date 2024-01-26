@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const authTokens = request.cookies.get("authToken")?.value;
+  const remoteUrl = request.cookies.get("remoteUrl")?.value;
 
   // Verificar otras rutas
   const protectedRoutes = [
@@ -22,9 +23,10 @@ export function middleware(request: NextRequest) {
 
   // Comprobar si la ruta actual está en las rutas protegidas
   for (const route of protectedRoutes) {
-    if (request.nextUrl.pathname.startsWith(route) && !authTokens) {
+    if (request.nextUrl.pathname.startsWith(route) && (!authTokens || !remoteUrl)) {
       const response = NextResponse.redirect(new URL("/login", request.url));
       response.cookies.delete("authToken");
+      response.cookies.delete("remoteUrl");
       return response;
     }
     if (authTokens && request.nextUrl.pathname.startsWith("/login")) {

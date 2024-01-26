@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 
 export const AuthContext = createContext({
   login: (authToken: string) => {},
+  remoteUrl: (url: string) => {},
   logout: () => {},
 });
 
@@ -26,16 +27,22 @@ export default function AuthContextProvider({
     Cookies.set("authToken", authToken);
   }, []);
 
+  const remoteUrl = useCallback(function (url: string) {
+    Cookies.set("remoteUrl", url);
+  }, []);
+
   const logout = useCallback(function () {
     Cookies.remove("authToken");
+    Cookies.remove("remoteUrl");
   }, []);
 
   const value = useMemo(
     () => ({
       login,
+      remoteUrl,
       logout,
     }),
-    [login, logout]
+    [login, remoteUrl, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -3,7 +3,7 @@ const nextConfig = {
     // output: 'export',
     env: {
         REACT_APP_NAME: 'Aplicación react',
-        REACT_APP_API_URL: 'http://connect.test/',
+        REACT_APP_API_URL: 'http://billing.test/',
         CLIENT_ID: '9b21e9e5-1a36-42f1-811f-4bc71b1b548e',
         CLIENT_SECRET: 'kkUuzbaQCYKfjao9dugEVvl20PE6Rhp0QLLzMtJv',
         // REACT_APP_API_URL: 'https://products.latam-pos.com/',

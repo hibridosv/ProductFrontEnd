@@ -1,15 +1,11 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { Alert, Pagination, RightSideProducts, ViewTitle } from "@/components"
-import { getData, postData } from "@/services/resources";
+import { Alert, Pagination, ViewTitle } from "@/components"
+import { postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { loadData } from "@/utils/functions";
-import { style } from "@/theme";
-import { useForm } from "react-hook-form";
-import { CommissionsListTable } from "@/components/tools-components/commissions-list-table";
 import { Button, Preset } from "@/components/button/button";
-import { CommissionAddModal } from "@/components/tools-components/commission-add-modal";
 import { usePagination } from "@/hooks/usePagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { RightSideSearch } from "@/components/right-side/right-side-search";
@@ -45,7 +41,7 @@ export default function Page() {
       setIsSending(true);
       const response = await postData(`adjustment/finish`, "POST", {status: 2});
         if (response.type == "successful") {
-          setAdjustment(response);
+          setAdjustment([]);
           setProducts([])
           toast.success("Ajuste completado correctamente");  
         } else {
@@ -99,7 +95,7 @@ console.log(products)
           <RightSideSearch handleSearchTerm={handleSearchTerm} />
           </div>
           {
-          products?.meta?.total &&
+          products?.meta && products?.meta?.total >= 0 &&
           <div className="m-2">
             <Button onClick={finishAdjustment} isFull={true} preset={isSending? Preset.saving : Preset.save} text="Finalizar ajuste de inventario" />
           </div>

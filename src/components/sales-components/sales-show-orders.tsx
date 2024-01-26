@@ -64,7 +64,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   if (isLoading) return <Loading />;
 
   const imageLoader = ({ src, width, quality }: any) => {
-    return `${URL}images/logo/${src}?w=${width}&q=${quality || 75}`
+    return `${URL}images/common/${src}?w=${width}&q=${quality || 75}`
   }
 
   return (

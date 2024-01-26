@@ -2,21 +2,41 @@
 import { Button, Preset } from '@/components/button/button';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { postWithOutApi } from '@/services/resources';
+import { postWithOutToken } from '@/services/resources';
 import Image from 'next/image';
-import { URL } from '@/constants';
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/authContext";
+import { API_URL, URL } from "@/constants";
 
 
 
 export default function Home() {
   const [isSending, setIsSending] = useState(false);
   const [isMessage, setIsMessage] = useState("");
-  const { register, handleSubmit } = useForm();
+  const [isRemoteUrl, setIsRemoteUrl] = useState<string>("");
+  const { register, handleSubmit, setValue } = useForm();
   const router = useRouter();
-  const { login } = useAuthContext();
+  const { login, remoteUrl } = useAuthContext();
 
+
+  const getRemoteUrl = async (data: any) => {
+    try {
+      setIsSending(true);
+      const response = await postWithOutToken(`${API_URL}remote`, "POST", data);
+      if (response.type == "error") {
+        setIsMessage("Usuario no registrado"); 
+      } else {
+        remoteUrl(response?.data?.url);
+        setIsRemoteUrl(response?.data?.url)
+        setValue("username", data.email);
+      }
+      console.log(response)
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSending(false);  
+    }
+  };
 
   const handleSubmitLogin = async (data: any) => {
     data.grant_type = 'password';
@@ -25,7 +45,7 @@ export default function Home() {
     data.scope = "*"
     try {
       setIsSending(true);
-      const response = await postWithOutApi(`oauth/token`, "POST", data);
+      const response = await postWithOutToken(`${isRemoteUrl}/oauth/token`, "POST", data);
       if (!response.error) {
           login(response.access_token);
           router.push("/dashboard");
@@ -41,7 +61,7 @@ export default function Home() {
 
 
   const imageLoader = ({ src, width, quality }: any) => {
-    return `${URL}images/logo/${src}?w=${width}&q=${quality || 75}`
+    return `${URL}images/common/${src}?w=${width}&q=${quality || 75}`
   }
 
   return (
@@ -55,7 +75,33 @@ export default function Home() {
                 </div>
 
                 <div className='md:w-1/2 flex justify-center items-center my-2 mx-5'>
+                  {
+                    isRemoteUrl === "" ? 
+                    <>
+                    <form onSubmit={handleSubmit(getRemoteUrl)} className="w-full">
+                    <div className="md:w-full max-w-sm">
+                      <input type="email" {...register("email")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
+                         <div className="text-center md:text-left mt-4">
+                        <Button type="submit" text='Siguiente' disabled={isSending} preset={isSending ? Preset.saving : Preset.send} isFull />
+                      </div>
+                      {isMessage && <div className="text-red-500 text-center mt-4">{isMessage}</div>}
+                    </div>
+                  </form>
+                  </> :
+                  <>
                   <form onSubmit={handleSubmit(handleSubmitLogin)} className="w-full">
+                    <div className="md:w-full max-w-sm">
+                      <input type="hidden" {...register("username")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
+                      <input type="password" {...register("password")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4" />
+                      <div className="text-center md:text-left mt-4">
+                        <Button type="submit" text='Ingresar' disabled={isSending} preset={isSending ? Preset.saving : Preset.send} isFull />
+                      </div>
+                      {isMessage && <div className="text-red-500 text-center mt-4">{isMessage}</div>}
+                    </div>
+                  </form>
+                  </>
+                  }
+                  {/* <form onSubmit={handleSubmit(handleSubmitLogin)} className="w-full">
                     <div className="md:w-full max-w-sm">
                       <input type="text" {...register("username")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
                       <input type="password" {...register("password")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4" />
@@ -65,7 +111,7 @@ export default function Home() {
                       </div>
                       {isMessage && <div className="text-red-500 text-center mt-4">{isMessage}</div>}
                     </div>
-                  </form>
+                  </form> */}
                 </div>
 
               </div>

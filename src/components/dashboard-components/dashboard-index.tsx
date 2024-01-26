@@ -20,8 +20,6 @@ export function DashBoardIndex(){
           <CharBarWeek />
         </div>
 
-        <div className='m-4 border-2 flex justify-center font-light text-sm'> Servidor Local: http://connect.test </div>
-        <div className='m-4 border-2 flex justify-center font-light text-sm'> Servidor Remoto: https://products.latam-pos.com </div>
       </div>
     </div>
     );
