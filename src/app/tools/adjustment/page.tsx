@@ -16,6 +16,7 @@ export default function Page() {
   const [isSending, setIsSending] = useState(false);
   const [products, setProducts] = useState([] as any);
   const [ adjustment, setAdjustment ] = useState([] as any)
+  const [ adjustmentRecord, setAdjustmentRecord ] = useState([] as any)
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "name"], 500);
   const [randomNumber, setRandomNumber] = useState(0);
