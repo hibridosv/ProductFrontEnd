@@ -9,6 +9,7 @@ export function ConfigContextProvider(props){
 
     const [config, setConfig] = useState({});
     const [cashDrawer, setCashDrawer] = useState("");
+    const [randomInit, setRandomInit] = useState(0);
 
    
     useEffect(() => {
@@ -17,7 +18,7 @@ export function ConfigContextProvider(props){
             const cash = await loadData(`cashdrawers/active`)
             setCashDrawer(cash?.type == "error" ? "" : cash?.data?.id);
         })();
-    }, []);
+    }, [randomInit]);
 
     
     const updateConfig = async (key, value) => {
@@ -32,7 +33,7 @@ export function ConfigContextProvider(props){
 
 
     return (
-        <ConfigContext.Provider value={{config, updateConfig, cashDrawer, setCashDrawer }}>
+        <ConfigContext.Provider value={{config, updateConfig, cashDrawer, setCashDrawer, setRandomInit }}>
             {props.children}
         </ConfigContext.Provider>
     )

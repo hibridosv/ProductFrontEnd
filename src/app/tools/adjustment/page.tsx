@@ -10,7 +10,8 @@ import { usePagination } from "@/hooks/usePagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { RightSideSearch } from "@/components/right-side/right-side-search";
 import { PresetTheme } from "@/services/enums";
-import { AdjustmentProductsTable } from "@/components/tools-components/adjustment-products-table";
+import { AdjustmentTable } from "@/components/tools-components/adjustment-table";
+import { AdjustmentListTable } from "@/components/tools-components/adjustments-list-table";
 
 export default function Page() {
   const [isSending, setIsSending] = useState(false);
@@ -65,20 +66,40 @@ useEffect(() => {
 useEffect(() => {
   if (adjustment?.type == "successful") {
     (async () => setProducts(await loadData(`adjustment/products?sort=-created_at&perPage=25${currentPage}${searchTerm}`)))();
+  } else {
+    (async () => setAdjustmentRecord(await loadData(`adjustment/all?perPage=25${currentPage}`)))();
   }
   // eslint-disable-next-line
 }, [currentPage, searchTerm, adjustment, randomNumber]);
-console.log(products)
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
-        <div className="col-span-7 border-r md:border-sky-600">
-          <ViewTitle text="AJUSTE DE INVENTARIO" />
+        <div className={`${products?.meta && products?.meta?.total ? "col-span-7" : "col-span-6"} border-r md:border-sky-600`}>
+          <ViewTitle text={`${products?.meta && products?.meta?.total ? "AJUSTAR PRODUCTOS" : "ULTIMOS AJUSTE DE INVENTARIO" }`} />
           { 
-          products?.data && products?.meta?.total > 0 ? 
+          products?.data && products?.meta?.total >= 0 ? 
           <div>
-            <AdjustmentProductsTable records={products} isLoading={isSending} random={setRandomNumber} />
+            <AdjustmentTable records={products} isLoading={isSending} random={setRandomNumber} />
             <Pagination records={products} handlePageNumber={handlePageNumber } />
           </div> :
+          <div>
+            <AdjustmentListTable records={adjustmentRecord} isLoading={isSending} random={setRandomNumber} />
+            <Pagination records={adjustmentRecord} handlePageNumber={handlePageNumber } />
+          </div>
+          }
+
+        </div>
+        <div className={`${products?.meta && products?.meta?.total ? "col-span-3" : "col-span-4"}`}>
+        <ViewTitle text={`${products?.meta && products?.meta?.total ? "BUSCAR PRODUCTOS" : "INICIAR AJUSTE" }`} />
+          
+          {
+          products?.meta && products?.meta?.total >= 0 ? <>
+          <div className="m-4 shadow-lg border-2 rounded-md mb-8">
+            <RightSideSearch handleSearchTerm={handleSearchTerm} />
+          </div>
+          <div className="m-2">
+            <Button onClick={finishAdjustment} isFull={true} preset={isSending? Preset.saving : Preset.save} text="Finalizar ajuste de inventario" />
+          </div> </>:
           <div className="my-4">
             <div className="flex justify-center m-8">
               <Alert info="Nota importante:" isDismisible={false} theme={PresetTheme.info} text="No se ha iniciado el ajuste de inventario. Con esta herramienta podrá ajustar su inventario con los datos reales" />
@@ -86,19 +107,6 @@ console.log(products)
             <div className="m-8">
               <Button onClick={startAdjustment} isFull={true} preset={isSending? Preset.saving : Preset.save} text="Iniciar ajuste de inventario" />
             </div>
-          </div>
-          }
-
-        </div>
-        <div className="col-span-3">
-        <ViewTitle text="ULTIMOS REGISTROS" />
-          <div className="flex flex-wrap m-4 shadow-lg border-2 rounded-md mb-8">
-          <RightSideSearch handleSearchTerm={handleSearchTerm} />
-          </div>
-          {
-          products?.meta && products?.meta?.total >= 0 &&
-          <div className="m-2">
-            <Button onClick={finishAdjustment} isFull={true} preset={isSending? Preset.saving : Preset.save} text="Finalizar ajuste de inventario" />
           </div>
           }
         </div>

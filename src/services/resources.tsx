@@ -4,9 +4,9 @@ import { getAuthTokenFromCookie, getUrlFromCookie } from "./oauth";
 
   export async function getData(url = '') {
     const token = await getAuthTokenFromCookie();
+    if (!token) return 
     const Authorization = `Bearer ${token}`;
     const remoteUrl = await getUrlFromCookie();
-    // console.log("URL: ",`${API_URL}${url}`);
     try {
       const response = await fetch(`${remoteUrl}/api/${url}`, {
         method: 'GET',
@@ -30,9 +30,9 @@ import { getAuthTokenFromCookie, getUrlFromCookie } from "./oauth";
 
   export async function postData(url = '', method = 'POST', data = {}) {
     const token = await getAuthTokenFromCookie();
+    if (!token) return 
     const Authorization = `Bearer ${token}`;
     const remoteUrl = await getUrlFromCookie();
-
     try {
     const response = await fetch(`${remoteUrl}/api/${url}`, {
         method: method, // *GET, POST, PUT, DELETE, etc.
@@ -58,8 +58,8 @@ import { getAuthTokenFromCookie, getUrlFromCookie } from "./oauth";
 
 
   export async function postDataWithImage(url = '', method = 'POST', data: any) {
-
     const token = await getAuthTokenFromCookie();
+    if (!token) return 
     const Authorization = `Bearer ${token}`;
     const remoteUrl = await getUrlFromCookie();
      try {
