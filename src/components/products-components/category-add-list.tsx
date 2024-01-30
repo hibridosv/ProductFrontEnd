@@ -71,7 +71,7 @@ if (option != 1) return null
   return (<>
         <div className="flex justify-between">
           <ViewTitle text={name} />
-          <span className=" m-4 text-2xl "><Button preset={Preset.add} text="AGREGAR NUEVA CATEGORIA" onClick={()=>setShowModalCategories(true)} /></span>
+          <span className=" m-4 text-2xl "><Button preset={Preset.add} text="AGREGAR" onClick={()=>setShowModalCategories(true)} /></span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
             <div className="col-span-3">

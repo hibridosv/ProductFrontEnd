@@ -71,7 +71,7 @@ return (
         <div className="m-2 flex justify-between">
             <div className="w-full bg-white rounded-lg shadow-lg">
             <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Ingrese el nombre del producto" randNumber={randNumber} />
-                <ul className="divide-y-2 divide-gray-400 absolute z-50 bg-white">
+                <ul className="divide-y-2 divide-gray-400 absolute z-50 bg-white border border-slate-700">
                 { listItems }
                 { products && products.length > 0 && 
                     <li className="flex justify-between p-3 hover:bg-red-200 hover:text-red-800 cursor-pointer" onClick={()=>cancelClick()}>
