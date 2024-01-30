@@ -1,3 +1,4 @@
+import { Configuration } from "@/services/config";
 import { DocumentTypes, DocumentTypesNames, OptionsClickOrder, PaymentType, PaymentTypeNames, TypeOfPrice } from "@/services/enums"
 import { getData } from "@/services/resources";
 
@@ -255,3 +256,21 @@ export const  errorSound = () => {
   const audio = new Audio('/sounds/error.mp3');
   audio.play();
 }
+
+
+
+/**
+ * Extrae de config las carateristicas activadas
+ * @param configurations 
+ * @returns 
+ */
+
+export const extractActiveFeature = (configurations: Configuration[]): string[] => {
+  const activeFeatures: string[] = [];
+  configurations.forEach(config => {
+    if (config.active === 1) {
+      activeFeatures.push(config.feature);
+    }
+  });
+  return activeFeatures;
+};

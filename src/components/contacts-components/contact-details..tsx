@@ -107,9 +107,14 @@ export function ContactDetails(props: ContactDetailsProps) {
                         <div> {record?.departament_doc} </div>
                     </div> }
 
-                    {record?.taxpayer_type && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
+                    {record?.town_doc && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
+                        <div className={style.inputLabel}>Municipio</div>
+                        <div> {record?.town_doc} </div>
+                    </div> }
+
+                    {record?.taxpayer_type && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">
                     <div className={style.inputLabel}>Tipo de contribuyente</div>
-                        <div> {record?.taxpayer_type == 1 ? "Contribuyente" : "Gran contribuyente"} </div>
+                        <div> {record?.taxpayer_type == 1 ? "CONTRIBUYENTE" : "GRAN CONTRIBUYENTE"} </div>
                     </div> }
 
 

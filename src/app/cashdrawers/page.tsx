@@ -1,5 +1,5 @@
 'use client'
-import { Loading, Pagination, ViewTitle } from "@/components";
+import { Loading, NothingHere, Pagination, ViewTitle } from "@/components";
 import { CutShowCuts } from "@/components/cut-components/cut-show-cuts";
 import { CashdrawerCloseModal } from "@/components/cashdrawer-components/cashdrawer-close-modal";
 import { CashdrawerOpenModal } from "@/components/cashdrawer-components/cashdrawer-open-modal";
@@ -57,8 +57,9 @@ const onDeleteCut = async(cutId: any)=>{
       toast.error("Ha ocurrido un error!");
     } 
 }
-
-  if (isLoading) return <Loading />
+  if (isLoading) return <Loading />;
+  if (!cashDrawers?.data) return <NothingHere width="164" height="98" />;
+  if (cashDrawers?.data?.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">

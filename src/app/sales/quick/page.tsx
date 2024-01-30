@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { SalesButtons } from "@/components/sales-components/sales-buttons";
 import { SalesShowTotal } from "@/components/sales-components/sales-show-total";
 import { getData, postData } from "@/services/resources";
@@ -16,7 +16,8 @@ import { SalesSearchByName } from "@/components/sales-components/sales-search-by
 import { SalesSearchByCode } from "@/components/sales-components/sales-search-by-cod";
 import { SalesOthers } from "@/components/sales-components/sales-others";
 import { SalesSelectInvoiceTypeModal } from "@/components/sales-components/sales-select-invoice-type";
-import { errorSound, successSound } from "@/utils/functions";
+import { errorSound, extractActiveFeature, getConfigStatus, successSound } from "@/utils/functions";
+import { ConfigContext } from "@/contexts/config-context";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,10 +34,20 @@ export default function ViewSales() {
   const [clientNametoUpdate, setClientNametoUpdate] = useState<ContactNameOfOrder>(ContactNameOfOrder.client); // tipo de cliente a buscar en el endpoint
   const [isDiscountType, setIsDiscountType] = useState(0);
   const [productSelected, setProductSelected] = useState([]) as any;
-  const [typeOfSearch, setTypeOfSearch] = useState(true); // true: codigo, false: busqueda tipo de busqueda
   const [typeOfPrice, setTypeOfPrice] = useState(1); // 1 normal
   const [isSalesSelectInvoiceType, setIsSalesSelectInvoiceType] = useState(false);
+  const [typeOfSearch, setTypeOfSearch] = useState(false); // false: codigo, true: busqueda por nombre
+  const { config, cashDrawer } = useContext(ConfigContext);
+  const [configuration, setConfiguration] = useState([] as any); // configuraciones que vienen de config
 
+
+  useEffect(() => {
+    if (config?.configurations) {
+      setConfiguration(extractActiveFeature(config.configurations))
+      setTypeOfSearch(getConfigStatus("sales-by-name", config));
+    }
+    // eslint-disable-next-line
+  }, [config]);
 
   const loadDataProductsOfInvoice = async () => {
     setIsLoading(true);
@@ -149,11 +160,12 @@ export default function ViewSales() {
       const response = await postData(`sales`, "POST", values);
       if (response.type === "error") {
         toast.error(response.message);
-        errorSound()
+        if(configuration?.includes("sales-sound")) errorSound()
       } else {
         if (!order) setOrder(response.data.id);
         setProductsOfInvoice(response.data);
-        successSound()
+
+        if(configuration?.includes("sales-sound")) successSound()
       }
       if (response.type === "successful") {
         resetOrder()
@@ -259,11 +271,12 @@ export default function ViewSales() {
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
       <div className="col-span-6 border-r md:border-sky-600">
           { typeOfSearch ? 
-            <SalesSearchByCode setTypeOfSearch={setTypeOfSearch} typeOfSearch={typeOfSearch} onFormSubmit={onSubmit} isLoading={isLoading} /> : 
             <SalesSearchByName setTypeOfSearch={setTypeOfSearch} typeOfSearch={typeOfSearch} onSubmit={onSubmit}  /> 
+            : 
+            <SalesSearchByCode setTypeOfSearch={setTypeOfSearch} typeOfSearch={typeOfSearch} onFormSubmit={onSubmit} isLoading={isLoading} /> 
           }
         <div className="relative z-0">
-          <SalesQuickTable records={productsOfInvoice?.invoiceproducts} onClick={handleClickOptionProduct} />
+          <SalesQuickTable records={productsOfInvoice?.invoiceproducts} onClick={handleClickOptionProduct} config={configuration} />
         </div>
       </div>
       <div className="col-span-4 flex justify-center ">
@@ -274,10 +287,10 @@ export default function ViewSales() {
           }
         </div>
         <div className="absolute bottom-2">
-          {order && <SalesButtons onClick={handleClickOptionOrder} />}
+          {order && <SalesButtons onClick={handleClickOptionOrder} cashDrawer={cashDrawer} config={configuration} />}
         </div>
       </div>
-      <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} />
+      <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} config={configuration} />
       <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} priceType={typeOfPrice} />
       <SalesDiscountProductModal isShow={isDiscountProductModal} discountType={isDiscountType} order={productsOfInvoice} product={productSelected} onClose={()=>closeModalDiscount()} />
       <SalesContactSearchModal  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={productsOfInvoice} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />

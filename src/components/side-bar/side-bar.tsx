@@ -81,10 +81,10 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" color="red" href="/tools/adjustment" />}>Ajustar inventario </MenuItem>
         </SubMenu>
 
-        <SubMenu label="Cotizaciones" icon={<HiOutlineChartSquareBar color="red" />}>
+        {/* <SubMenu label="Cotizaciones" icon={<HiOutlineChartSquareBar color="red" />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Crear Cotizaciones </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Consultar Cotizaciones </MenuItem>
-        </SubMenu>
+        </SubMenu> */}
 
         <SubMenu label="Reportes" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/reports/sales" />}>Detalles de ventas </MenuItem>
@@ -97,12 +97,12 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/invoices/search" />}>Buscar Documentos </MenuItem>
           {/* <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte contable </MenuItem> */}
         </SubMenu>
-        
+{/*         
         <SubMenu label="Planillas" icon={<HiOutlineChartSquareBar color="red" />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Consultar Planillas </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Crear Planillas </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Administrar empleados </MenuItem>
-        </SubMenu>
+        </SubMenu> */}
 
         <SubMenu label="Configuraciones" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/config" />}>Principal</MenuItem>

@@ -49,6 +49,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
         setValue("roar", record.roar);
         setValue("address_doc", record.address_doc);
         setValue("departament_doc", record.departament_doc);
+        setValue("town_doc", record.town_doc);
         setValue("taxpayer_type", record.taxpayer_type);
     }
     setIsChangedRecord(false);
@@ -184,11 +185,16 @@ export function ContactAddModal(props: ContactAddModalProps) {
                     </div>
 
                     <div className="w-full md:w-1/2 px-3 mb-2">
+                        <label htmlFor="town_doc" className={style.inputLabel}>Municipio</label>
+                        <input type="text" id="town_doc" {...register("town_doc")} className={style.input} />
+                    </div>
+
+                    <div className="w-full md:w-full px-3 mb-2">
                     <label htmlFor="taxpayer_type" className={style.inputLabel}> Tipo de contribuyente </label>
                     <select defaultValue={1} id="taxpayer_type" {...register("taxpayer_type")} className={style.input}
                         >
-                        <option value="1">Contribuyente</option>
-                        <option value="2">Gran contribuyente</option>
+                        <option value="1">CONTRIBUYENTE</option>
+                        <option value="2">GRAN CONTRIBUYENTE</option>
                     </select>
                 </div>
 

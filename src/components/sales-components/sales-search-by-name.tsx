@@ -31,7 +31,7 @@ const loadDataProducts = async () => {
 };
 
 useEffect(() => {
-  if (searchTerm && !typeOfSearch) {
+  if (searchTerm && typeOfSearch) {
     (async () => { await loadDataProducts();})();   
   }
   if (searchTerm == "") {

@@ -13,9 +13,9 @@ import { PresetTheme } from "@/services/enums";
 export interface SalesPayModalProps {
   onClose: () => void;
   invoice?: any;
-  editable?: boolean;
   onFinish?: () => void;
   isShow?: boolean;
+  config: string[];
 }
 
 export const nameOfPaymentType = (type: number) => {
@@ -29,7 +29,7 @@ export const nameOfPaymentType = (type: number) => {
 }
 
 export function SalesPayModal(props: SalesPayModalProps) {
-  const { onClose, invoice, editable = false, onFinish, isShow } = props;
+  const { onClose, invoice, onFinish, isShow, config } = props;
   const [paymentType, setPaymentType] = useState(1);
   const { register, handleSubmit, reset, setFocus } = useForm();
   const [isSending, setIsSending] = useState(false);
@@ -148,7 +148,10 @@ export function SalesPayModal(props: SalesPayModalProps) {
                 <span className='mx-1 text-sm font-bold animatex' onClick={()=>setPaymentType(2)}>Tarjeta</span>
                 <span className='mx-1 text-sm font-bold animatex' onClick={()=>setPaymentType(3)}>Transferencia</span>
                 <span className='mx-1 text-sm font-bold animatex' onClick={()=>setPaymentType(4)}>Cheque</span>
-                <span className='mx-1 text-sm font-bold animatex' onClick={()=>setPaymentType(5)}>Credito</span>
+                {
+                  config.includes("sales-credit") && 
+                  <span className='mx-1 text-sm font-bold animatex' onClick={()=>setPaymentType(5)}>Credito</span>
+                }
               </div> }
       <Modal.Footer className="flex justify-end">
         { isPayInvoice ?
