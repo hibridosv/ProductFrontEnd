@@ -31,7 +31,8 @@ export interface Product {
 	product_type:     number;
 	prescription?:     boolean;
 	ecommerce?:        boolean;
-	default_discount?: number;
+	default_discount: number;
+	default_commission: number;
 	measure?: 		   string;
 	extra?: 		   string | any;
 	images?: 		   Image[];

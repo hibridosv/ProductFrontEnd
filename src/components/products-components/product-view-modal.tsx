@@ -54,8 +54,6 @@ export function ProductViewModal(props: ProductViewModalProps) {
       <Modal.Header>Detalles del Producto</Modal.Header>
       <Modal.Body>
         <div className="mx-4">
-          <h3 className="text-2xl">{product?.description}</h3>
-
           <div className="flex justify-center my-4">
             <div className="pb-4 pt-2 sm:mx-3 mx-1 rounded-lg border-cyan-700 px-2 border-2">
               Cantidad
@@ -88,8 +86,8 @@ export function ProductViewModal(props: ProductViewModalProps) {
 
           <div className="max-w-2xl overflow-hidden bg-white shadow sm:rounded-lg">
             <div className="px-4 py-2 sm:px-6">
-              <h3 className="text-lg font-medium leading-6 text-gray-900">
-                Detalles e información del producto
+              <h3 className="text-2xl font-bold leading-6 text-gray-900">
+                  {product?.description}
               </h3>
             </div>
             <div className="border-t border-gray-200">
@@ -116,10 +114,17 @@ export function ProductViewModal(props: ProductViewModalProps) {
                     {product?.provider?.name}
                   </dd>
                 </div>) }
-                {(product?.product_type === 1 && product?.default_discount) && (<div className="px-4 py-2 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                {(product?.product_type === 1 && product?.default_discount > 0) && (<div className="px-4 py-2 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">Descuento establecido</dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {product?.default_discount} %
+                  </dd>
+                </div>)}
+
+                {(product?.product_type === 1 && product?.default_commission > 0) && (<div className="px-4 py-2 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">Comisión establecida</dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {product?.default_commission} %
                   </dd>
                 </div>)}
 
