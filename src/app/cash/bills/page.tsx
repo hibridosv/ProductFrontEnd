@@ -2,6 +2,7 @@
 import { Alert, Loading, NothingHere, ViewTitle } from "@/components";
 import { Button, Preset } from "@/components/button/button";
 import { CashBillsTable } from "@/components/cash-components/cash-bills-table";
+import { BillsCategoriesModal } from "@/components/modals/bills-categories-modal";
 import { ConfigContext } from "@/contexts/config-context";
 import { PresetTheme } from "@/services/enums";
 import { postData } from "@/services/resources";
@@ -19,15 +20,22 @@ export default function BillsPage() {
     const [categories, setCategories] = useState([] as any);
     const [accounts, setAccounts] = useState([] as any);
     const { cashDrawer } = useContext(ConfigContext);
+    const [isCategoriesAddModal, setIsCategoriesAddModal] = useState(false);
 
 
     useEffect(() => {
         (async () => { 
-          setCategories(await loadData(`cash/categories`));
           setBills(await loadData(`cash/bills`));
           setAccounts(await loadData(`cash/accounts`));
         })();
-  }, []);
+    }, []);
+
+    useEffect(() => {
+      if (!isCategoriesAddModal) {
+        (async () => setCategories(await loadData(`cash/categories`)))();
+      }
+    }, [isCategoriesAddModal]);
+
 
 
     const onSubmit = async (data: any) => {
@@ -160,7 +168,7 @@ export default function BillsPage() {
 
 
               <div className="w-full md:w-1/2 px-3 mb-2">
-                <label htmlFor="cash_bills_categories_id" className={style.inputLabel}> Categoria de gasto </label>
+                <label onClick={()=>setIsCategoriesAddModal(true)} htmlFor="cash_bills_categories_id" className={`${style.inputLabel} clickeable`}> Categoria de gasto + </label>
                 <select
                   defaultValue={categories && categories.data && categories.data.length > 0 ? categories.data[0].id : 0}
                   id="cash_bills_categories_id"
@@ -240,6 +248,7 @@ export default function BillsPage() {
                 <ViewTitle text="LISTADO DE GASTOS" />
                     <CashBillsTable records={bills} onDelete={handleDeleteBill} isDisabled={!cashDrawer} />
             </div>
+            <BillsCategoriesModal isShow={isCategoriesAddModal} onClose={()=>setIsCategoriesAddModal(false)} />
         <Toaster position="top-right" reverseOrder={false} />
       </div>
       );
