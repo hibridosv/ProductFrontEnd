@@ -46,7 +46,7 @@ export default function CashDrawerPage() {
 
 const onDeleteCut = async(cutId: any)=>{
   try {
-      const response = await postData(`cashdrawers/${cutId.id}`, 'DELETE');
+      const response =  await postData(`cashdrawers/${cutId.id}`, 'DELETE');
       if (response.type == "successful") {
         setCutsUser(await loadData(`cut/all`));
         setCashDrawer(cutId.cashdrawers_id);
