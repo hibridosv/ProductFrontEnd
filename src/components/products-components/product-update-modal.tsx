@@ -15,10 +15,11 @@ export interface ProductUpdateModalProps {
   type?: string;
   text?: string;
   product?: Product | any;
+  isShow?: boolean;
 }
 
 export function ProductUpdateModal(props: ProductUpdateModalProps) {
-  const { onClose, text, field, type, product } = props;
+  const { onClose, text, field, type, product, isShow } = props;
   const { register, handleSubmit, reset } = useForm();
   const [isSending, setIsSending] = useState(false);
 
@@ -43,9 +44,12 @@ export function ProductUpdateModal(props: ProductUpdateModalProps) {
       setIsSending(false)
     }
   };
+  if (!text && !field && !type) {
+    return <div></div>
+  }
 
   return (
-    <Modal size="lg" show={true} position="center" onClose={onClose}>
+    <Modal size="lg" show={isShow} position="center" onClose={onClose}>
       <Modal.Header>{text}</Modal.Header>
       <Modal.Body>
         <div className="mx-4">

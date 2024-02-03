@@ -12,6 +12,7 @@ import { URL } from "@/constants";
 import { DeleteModal } from "../modals/delete-modal";
 import { Loading } from "../loading/loading";
 import { Alert } from "../alert/alert";
+import { getUrlFromCookie } from "@/services/oauth";
 
 
 export interface ProductUploadImageProps {
@@ -26,6 +27,7 @@ export function ProductUploadImage(props: ProductUploadImageProps) {
   const [imageSelect, setImageSelect] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const remoteUrl = getUrlFromCookie();
 
   const loadImages = async () => {
     setIsLoading(true);
@@ -39,15 +41,15 @@ export function ProductUploadImage(props: ProductUploadImageProps) {
     }
 };
 
-useEffect(() => {
-        if (product) {
-          (async () => { await loadImages() })();
-        }
-  // eslint-disable-next-line
-}, [product]);
+  useEffect(() => {
+    if (product) {
+      (async () => { await loadImages() })();
+    }
+    // eslint-disable-next-line
+  }, [product]);
 
 const imageLoader = ({ src, width, quality }: any) => {
-  return `${URL}storage/public/images/${src}?w=${width}&q=${quality || 75}`
+  return `${remoteUrl}/storage/public/images/${src}?w=${width}&q=${quality || 75}`
 }
  
   const listItems = images?.map((image: Imagen) => (

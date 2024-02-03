@@ -24,15 +24,14 @@ export default function Home() {
   const getRemoteUrl = async (data: any) => {
     try {
       setIsSending(true);
-      const response = await postWithOutToken(`${API_URL}remote`, "POST", data);
+      const response = await postWithOutToken(`${API_URL}oauth`, "POST", data);
       if (response.type == "error") {
         setIsMessage("Usuario no registrado"); 
       } else {
-        remoteUrl(response?.data?.url);
-        setIsRemoteUrl(response?.data)
+        remoteUrl(response?.url);
+        setIsRemoteUrl(response)
         setValue("username", data.email);
       }
-      console.log(response)
     } catch (error) {
       console.error(error);
     } finally {
@@ -42,8 +41,8 @@ export default function Home() {
   
   const handleSubmitLogin = async (data: any) => {
     data.grant_type = 'password';
-    data.client_id = isRemoteUrl?.client_id;
-    data.client_secret = isRemoteUrl?.client_secret;
+    data.client_id = isRemoteUrl?.id;
+    data.client_secret = isRemoteUrl?.hash;
     data.scope = "*"
     try {
       setIsSending(true);
@@ -79,7 +78,7 @@ export default function Home() {
               <div className='flex flex-col md:flex-row justify-center border-2 border-teal-500 w-full pt-8 px-4 rounded-3xl shadow-xl shadow-teal-500'>
 
                 <div className='md:w-1/2 flex justify-center items-center my-2 mx-5'>
-                  <Image loader={imageLoader} src="hibrido.jpg" alt="Hibrido" width={200} height={200} />
+                  <Image loader={imageLoader} src="login.png" alt="Hibrido" width={250} height={250} />
                 </div>
 
                 <div className='md:w-1/2 flex justify-center items-center my-2 mx-5'>

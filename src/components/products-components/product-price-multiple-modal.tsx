@@ -8,12 +8,17 @@ import { MultiPrice } from "./multi-price";
 export interface ProductPrecioMultipleProps {
   onClose: () => void;
   product?: Product | any;
+  isShow?: boolean;
 }
 
 export function ProductPrecioMultipleModal(props: ProductPrecioMultipleProps) {
-  const { onClose, product } = props;
+  const { onClose, product, isShow } = props;
+
+  if (!product) {
+    return <div></div>
+  }
   return (
-    <Modal size="lg" show={true} position="center" onClose={onClose}>
+    <Modal size="lg" show={isShow} position="center" onClose={onClose}>
       <Modal.Header>Agregar nuevos precios</Modal.Header>
       <Modal.Body>
         <MultiPrice product={product} />

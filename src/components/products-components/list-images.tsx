@@ -1,11 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { URL } from "@/constants";
 import { Image as Imagen } from "@/services/products";
 import { getData } from "@/services/resources";
 import { Loading } from "../loading/loading";
-import { Alert } from "../alert/alert";
+import { getUrlFromCookie } from "@/services/oauth";
 
 
 export interface ListImagesOfProductsProps {
@@ -17,6 +16,7 @@ export function ListImagesOfProducts(props: ListImagesOfProductsProps) {
   const { productId, state } = props;
   const [ images, setImages ] = useState([])
   const [isLoading, setIsLoading] = useState(false);
+  const remoteUrl = getUrlFromCookie();
   
   const loadImages = async () => {
     setIsLoading(true);
@@ -37,10 +37,10 @@ useEffect(() => {
   // eslint-disable-next-line
 }, [state, productId]);
 
-if(!images) return <Alert text="No se encuentran imagenes agregadas" isDismisible={false} />
+if(!images) return <div></div>
 
 const imageLoader = ({ src, width, quality }: any) => {
-  return `${URL}storage/public/images/${src}?w=${width}&q=${quality || 75}`
+  return `${remoteUrl}/storage/public/images/${src}?w=${width}&q=${quality || 75}`
 }
  
   const listItems = images?.map((image: Imagen) => (

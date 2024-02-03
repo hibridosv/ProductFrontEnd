@@ -8,13 +8,14 @@ import { ProductUploadImage } from "./upload-image";
 export interface ProductImageModalProps {
   onClose: () => void;
   product?: Product;
+  isShow?: boolean;
 }
 
 export function ProductImageModal(props: ProductImageModalProps) {
-  const { product, onClose } = props;
+  const { product, onClose, isShow } = props;
 
   return (
-    <Modal show={true} position="center" onClose={onClose}>
+    <Modal show={isShow} position="center" onClose={onClose}>
       <Modal.Header>Imagenes del producto</Modal.Header>
       <Modal.Body>
         <div className="mx-4">

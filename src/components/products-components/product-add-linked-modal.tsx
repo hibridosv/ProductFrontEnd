@@ -54,7 +54,7 @@ const loadProductsLinked = async () => {
 };
 
 useEffect(() => {
-  if (searchTerm) {
+  if (searchTerm && isShow) {
     (async () => { await loadProductsBySearch() })();
   }
   // eslint-disable-next-line
@@ -62,7 +62,7 @@ useEffect(() => {
 
 
 useEffect(() => {
-  if (product) {
+  if (product && isShow) {
     (async () => { await loadProductsLinked() })();
   }
   // eslint-disable-next-line
@@ -79,7 +79,7 @@ const cancelSelected = ()=>{
 }
 
 useEffect(() => {
-  if (productSelected) {
+  if (productSelected && isShow) {
     focusInQuantity.current.focus();
   }
   // eslint-disable-next-line

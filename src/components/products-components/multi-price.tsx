@@ -23,7 +23,9 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
   const { register, handleSubmit, reset } = useForm();
   const [isSending, setIsSending] = useState(false);
   const [newProductPrices, setNewProductPrices] = useState(product?.prices);
+  const [newFilterPrices, setNewFilterPrices] = useState([]);
   
+
   let optionsRadioButton: Option[] = [
     { id: 0, name: "Todos" },
     { id: 1, name: "Precios" },
@@ -89,8 +91,15 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
     } 
   }
 
-    const filteredPrices = selectedOption?.id == 0 ? newProductPrices : newProductPrices.filter((price: any) => (price.price_type === selectedOption?.id));
-    const listItems = filteredPrices.map((price: any) => (
+  useEffect(() => {
+    const filteredPrices = selectedOption?.id == 0 ? newProductPrices : 
+    newProductPrices?.filter((price: any) => (price.price_type === selectedOption?.id));
+    setNewFilterPrices(filteredPrices)
+  }, [selectedOption, newProductPrices])
+
+
+
+    const listItems = newFilterPrices?.map((price: any) => (
         <tr key={price.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
             <td className="py-3 px-6">{price.qty}</td>
             <td className="py-3 px-6">{numberToMoney(price.price)}</td>
@@ -164,7 +173,7 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
 
             </form>
           </div>) : 
-          newProductPrices.length === 0 ? 
+          newProductPrices?.length === 0 ? 
               (<div className="mt-4">
                 <Alert
                   theme={PresetTheme.danger}

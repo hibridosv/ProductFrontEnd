@@ -2,10 +2,15 @@
 import { useProSidebar } from "react-pro-sidebar";
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { AiFillHome } from "react-icons/ai"
+import { AiFillHome, AiOutlineSearch } from "react-icons/ai"
+import { useState } from "react";
+import { ProductSearchModal } from "../modals/product-search-modal";
 
 export function Header() {
   const { toggleSidebar } = useProSidebar();
+  const [showProductSearchModal, setShowProductSearchModal] = useState(false);
+
+
 
   return (
 
@@ -15,10 +20,22 @@ export function Header() {
       <GiHamburgerMenu className='clickeable' color="white" onClick={() => toggleSidebar()} size={40} />
       </div>
 
+
       <div className="justify-end">
-          <Link href="/sales/quick"><span className="clickeable text-white"><span><AiFillHome size={24} /></span></span></Link>
+        <div className="flex justify-between">
+
+          <div className="mr-2">
+            <span className="clickeable text-white" onClick={()=>setShowProductSearchModal(true)}><span><AiOutlineSearch size={24} /></span></span>
+          </div>
+
+          <div className="ml-2">
+            <Link href="/sales/quick"><span className="clickeable text-white"><span><AiFillHome size={24} /></span></span></Link>
+          </div>
+          
+        </div>
       </div>
     </nav>
+    <ProductSearchModal onClose={()=>setShowProductSearchModal(false)} isShow={showProductSearchModal}  />
   </header>
   );
 }

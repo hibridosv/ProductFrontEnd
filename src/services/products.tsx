@@ -27,10 +27,10 @@ export interface Product {
 	information?:      string;
 	tags?:             string;
 	minimum_stock:    number;
-	expires?:          boolean;
+	expires:          boolean;
 	product_type:     number;
-	prescription?:     boolean;
-	ecommerce?:        boolean;
+	prescription:     boolean;
+	ecommerce:        boolean;
 	default_discount: number;
 	default_commission: number;
 	measure?: 		   string;
