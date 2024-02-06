@@ -12,3 +12,9 @@ export const getUrlFromCookie = () => {
   return cookies.remoteUrl || null;
 };
 
+
+export const getTenant = () => {
+  const cookies = parseCookies();
+  return cookies.tenant || null;
+};
+

@@ -4,19 +4,21 @@ import Image from "next/image";
 import { Image as Imagen } from "@/services/products";
 import { getData } from "@/services/resources";
 import { Loading } from "../loading/loading";
-import { getUrlFromCookie } from "@/services/oauth";
+import { getTenant, getUrlFromCookie } from "@/services/oauth";
 
 
 export interface ListImagesOfProductsProps {
   productId?: string;
   state?: any;
+  visible?: boolean;
 }
 
 export function ListImagesOfProducts(props: ListImagesOfProductsProps) {
-  const { productId, state } = props;
+  const { productId, state, visible } = props;
   const [ images, setImages ] = useState([])
   const [isLoading, setIsLoading] = useState(false);
   const remoteUrl = getUrlFromCookie();
+  const tenant = getTenant();
   
   const loadImages = async () => {
     setIsLoading(true);
@@ -31,16 +33,16 @@ export function ListImagesOfProducts(props: ListImagesOfProductsProps) {
 };
 
 useEffect(() => {
-    if (!state && productId) {
-        (async () => { await loadImages() })();
+    if (!state && productId && visible) {
+        (async () => await loadImages())();
     }
   // eslint-disable-next-line
-}, [state, productId]);
+}, [state, productId, visible]);
 
 if(!images) return <div></div>
 
 const imageLoader = ({ src, width, quality }: any) => {
-  return `${remoteUrl}/storage/public/images/${src}?w=${width}&q=${quality || 75}`
+  return `${remoteUrl}/storage/public/${tenant}/products/${src}?w=${width}&q=${quality || 75}`
 }
  
   const listItems = images?.map((image: Imagen) => (

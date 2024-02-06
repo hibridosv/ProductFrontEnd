@@ -18,6 +18,8 @@ import { SalesOthers } from "@/components/sales-components/sales-others";
 import { SalesSelectInvoiceTypeModal } from "@/components/sales-components/sales-select-invoice-type";
 import { errorSound, extractActiveFeature, getConfigStatus, successSound } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
+import { SalesCommissionModal } from "@/components/sales-components/sales-commission-modal";
+import { SalesProductViewModal } from "@/components/sales-components/sales-product-view-modal";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +29,8 @@ export default function ViewSales() {
   const [changeOrder, setChangeOrder] = useState(false);
   const [isPayModal, setIsPayModal] = useState(false);
   const [isQuantityModal, setIsQuantityModal] = useState(false);
+  const [isCommissionModal, setIsCommissionModal] = useState(false);
+  const [isProductViewModal, setIsProductViewModal] = useState(false);
   const [isDiscountProductModal, setIsDiscountProductModal] = useState(false);
   const [isContactSearchModal, setIsContactSearchModal] = useState(false);
   const [isSalesOtherModal, setIsSalesOtherModal] = useState(false);
@@ -79,6 +83,7 @@ export default function ViewSales() {
 
   useEffect(() => {
      if (!isQuantityModal
+      && !isCommissionModal 
       && !isDiscountProductModal
       && !isContactSearchModal
       && !isSalesOtherModal
@@ -88,7 +93,8 @@ export default function ViewSales() {
       }
     // eslint-disable-next-line
   }, [changeOrder, 
-    isQuantityModal, 
+    isQuantityModal,
+    isCommissionModal, 
     isDiscountProductModal, 
     isContactSearchModal, 
     isSalesOtherModal, 
@@ -220,23 +226,17 @@ export default function ViewSales() {
         break;
       case OptionsClickSales.minus: onSubmit({cod : product.cod, addOrSubtract : 2})
         break;
-      case OptionsClickSales.quantity: selectPorductForQuantity(product);
+      case OptionsClickSales.quantity: (() => { setProductSelected(product); setIsQuantityModal(true); })();
         break;
-      case OptionsClickSales.discount: selectPorductForDiscount(product);
+      case OptionsClickSales.discount: (() => { setProductSelected(product); setIsDiscountProductModal(true); setIsDiscountType(1); })();
+        break;
+      case OptionsClickSales.commisssion: (() => { setProductSelected(product); setIsCommissionModal(true); })();
+        break;
+      case OptionsClickSales.productView: (() => { setProductSelected(product); setIsProductViewModal(true); })();
         break;
     }
   };
 
-  const selectPorductForQuantity = (product: Product) => {
-    setIsQuantityModal(true);
-    setProductSelected(product);
-  }
-
-  const selectPorductForDiscount  = (product: Product) => {
-    setIsDiscountProductModal(true);
-    setProductSelected(product);
-    setIsDiscountType(1)
-  }
 
 
   const closeModalDiscount  = () => {
@@ -296,6 +296,8 @@ export default function ViewSales() {
       <SalesContactSearchModal  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={productsOfInvoice} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />
       <SalesOthers isShow={isSalesOtherModal} order={productsOfInvoice} onClose={()=>setIsSalesOtherModal(false)} />
       <SalesSelectInvoiceTypeModal isShow={isSalesSelectInvoiceType} onClose={()=>setIsSalesSelectInvoiceType(false)} order={productsOfInvoice} />
+      <SalesCommissionModal isShow={isCommissionModal} product={productSelected} onClose={()=>setIsCommissionModal(false)} />
+      <SalesProductViewModal isShow={isProductViewModal} product={productSelected} onClose={()=>setIsProductViewModal(false)} />
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );

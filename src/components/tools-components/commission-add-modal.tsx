@@ -123,10 +123,12 @@ export function CommissionAddModal(props: CommissionAddModalProps) {
                     </table>
                     { sales?.length > 0 ?
                     <div className="uppercase shadow-lg border-x-2 ml-4 mt-4 ">
-                        <div>Cantidad de productos: <span className=" font-semibold">{ getTotalOfItem(sales, "quantity") }</span></div>
-                        <div>Total descuentos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(sales, "discount")) }</span></div>
-                        <div>Total de ventas: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(sales, "total")) }</span></div>
-                        <div>Total de Comisión: <span className=" font-semibold">{ numberToMoney(getTotalCommission(sales)) }</span></div>
+                        <div>Cantidad de productos: <span className="font-semibold">{ getTotalOfItem(sales, "quantity") }</span></div>
+                        <div>Total descuentos: <span className="font-semibold">{ numberToMoney(getTotalOfItem(sales, "discount")) }</span></div>
+                        <div>Total de ventas: <span className="font-semibold">{ numberToMoney(getTotalOfItem(sales, "total")) }</span></div>
+                        <div>Total de Comisión: <span className="font-semibold">{ numberToMoney(getTotalCommission(sales)) }</span></div>
+                        <div>Total de Retenciones: <span className="font-semibold">{ numberToMoney(getTotalCommission(sales)  * 0.10)}</span></div>
+                        <div>Total a Pagar: <span className="font-semibold">{ numberToMoney(getTotalCommission(sales)  * 0.90)}</span></div>
                     </div> : 
                     <div className="flex justify-center">
                       <Alert text="No se encuentran registros" isDismisible={false} />

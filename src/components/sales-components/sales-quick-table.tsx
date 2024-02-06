@@ -15,6 +15,8 @@ export enum OptionsClickSales {
   minus = 3,
   quantity = 4,
   discount = 5,
+  commisssion = 6,
+  productView = 7,
 }
 
 
@@ -29,7 +31,7 @@ export function SalesQuickTable(props: SalesQuickProps) {
        { record.cod == 9999999999 ?
       <td className="py-1 px-2"> { record.quantity } </td> :
       <td className="py-1 px-2 cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.quantity)}> { record.quantity } </td> }
-      <td className="py-1 px-2 truncate uppercase">{ record.product.slice(0, 50) }</td>
+      <td className="py-1 px-2 truncate uppercase clickeable" onClick={()=> onClick(record, OptionsClickSales.productView)}>{ record.product.slice(0, 50) }</td>
       <td className="py-1 px-2">{ numberToMoney(record.unit_price ? record.unit_price : 0) }</td>
       {
         config.includes("sales-discount") ?
@@ -39,7 +41,9 @@ export function SalesQuickTable(props: SalesQuickProps) {
         <td className="py-1 px-2 truncate" >
         { numberToMoney(record.discount ? record.discount : 0) }</td>
       }
-      
+      {config.includes("product-default-commission") &&
+      <td className="py-1 px-2 clickeable" onClick={()=> onClick(record, OptionsClickSales.commisssion)}>{ record.commission ? record.commission : 0 } %</td>
+      }
       <td className="py-1 px-2 truncate">{ numberToMoney(record.total ? record.total : 0) }</td>
       <td className="py-1 px-2">
       { record.cod == 9999999999 ? <Button preset={Preset.smallMinusDisable} noText /> : <Button preset={Preset.smallMinus} noText onClick={()=> onClick(record, OptionsClickSales.minus)} /> }
@@ -59,6 +63,9 @@ export function SalesQuickTable(props: SalesQuickProps) {
           <th scope="col" className="py-2 px-2 border">Producto</th>
           <th scope="col" className="py-2 px-2 border">Precio</th>
           <th scope="col" className="py-2 px-2 border">Descuento</th>
+          {config.includes("product-default-commission") &&
+          <th scope="col" className="py-2 px-2 border">Comisión</th>
+          }
           <th scope="col" className="py-2 px-2 border">Total</th>
           <th scope="col" className="py-2 px-2 border">OP</th>
           <th scope="col" className="py-2 px-2 border">Del</th>

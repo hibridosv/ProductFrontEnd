@@ -128,6 +128,8 @@ export function CommissionViewModal(props: CommissionViewModalProps) {
                         <div>Total descuentos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(sales, "discount")) }</span></div>
                         <div>Total de ventas: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(sales, "total")) }</span></div>
                         <div>Total de Comisión: <span className=" font-semibold">{ numberToMoney(getTotalCommission(sales)) }</span></div>
+                        <div>Total de Retenciones: <span className=" font-semibold">{ numberToMoney(getTotalCommission(sales)  * 0.10)}</span></div>
+                        <div>Total a Pagar: <span className=" font-semibold">{ numberToMoney(getTotalCommission(sales)  * 0.90)}</span></div>
                     </div> : 
                     <div className="flex justify-center">
                       <Alert text="No se encuentran registros" isDismisible={false} />

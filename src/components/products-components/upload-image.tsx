@@ -5,14 +5,12 @@ import { useForm } from "react-hook-form";
 import { postData, getData, postDataWithImage } from "@/services/resources";
 import { Product, Image as Imagen } from "@/services/products";
 import toast, { Toaster } from 'react-hot-toast';
-
 import { style } from "../../theme";
 import Image from "next/image";
-import { URL } from "@/constants";
 import { DeleteModal } from "../modals/delete-modal";
 import { Loading } from "../loading/loading";
 import { Alert } from "../alert/alert";
-import { getUrlFromCookie } from "@/services/oauth";
+import { getTenant, getUrlFromCookie } from "@/services/oauth";
 
 
 export interface ProductUploadImageProps {
@@ -28,6 +26,7 @@ export function ProductUploadImage(props: ProductUploadImageProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const remoteUrl = getUrlFromCookie();
+  const tenant = getTenant();
 
   const loadImages = async () => {
     setIsLoading(true);
@@ -49,7 +48,7 @@ export function ProductUploadImage(props: ProductUploadImageProps) {
   }, [product]);
 
 const imageLoader = ({ src, width, quality }: any) => {
-  return `${remoteUrl}/storage/public/images/${src}?w=${width}&q=${quality || 75}`
+  return `${remoteUrl}/storage/public/${tenant}/products/${src}?w=${width}&q=${quality || 75}`
 }
  
   const listItems = images?.map((image: Imagen) => (

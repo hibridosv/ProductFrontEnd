@@ -55,7 +55,6 @@ const cancelClick = () => {
     setrandNumber(getRandomInt(100));
 }
 
-
 const listItems = products?.map((product: any):any => (
         <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer" key={product.id} onClick={()=>handleContactSelected(product)}>
               {product.cod} | {product.description}
@@ -71,7 +70,8 @@ return (
         <div className="m-2 flex justify-between">
             <div className="w-full bg-white rounded-lg shadow-lg">
             <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Ingrese el nombre del producto" randNumber={randNumber} />
-                <ul className="divide-y-2 divide-gray-400 absolute z-50 bg-white border border-slate-700">
+              { products.length > 0 &&
+                <ul className="md:w-7/12 w-10/12 divide-y-2 mt-2 rounded-md divide-gray-400 absolute z-50 bg-white border border-cyan-700">
                 { listItems }
                 { products && products.length > 0 && 
                     <li className="flex justify-between p-3 hover:bg-red-200 hover:text-red-800 cursor-pointer" onClick={()=>cancelClick()}>
@@ -82,6 +82,7 @@ return (
                         </svg>
                     </li> }
                 </ul>
+              }
             </div>
 
         <div className="mx-2 grid content-center cursor-pointer" onClick={()=>setTypeOfSearch(!typeOfSearch)}>{  typeOfSearch ? NameIcon : SearchIcon  }</div>

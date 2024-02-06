@@ -18,7 +18,7 @@ export default function Home() {
   const [isRemoteUrl, setIsRemoteUrl] = useState<any>("");
   const { register, handleSubmit, setValue, watch } = useForm();
   const router = useRouter();
-  const { login, logout, remoteUrl } = useAuthContext();
+  const { login, logout, remoteUrl, tenant } = useAuthContext();
   const { setRandomInit } = useContext(ConfigContext);
 
   const getRemoteUrl = async (data: any) => {
@@ -29,6 +29,7 @@ export default function Home() {
         setIsMessage("Usuario no registrado"); 
       } else {
         remoteUrl(response?.url);
+        tenant(response?.system);
         setIsRemoteUrl(response)
         setValue("username", data.email);
       }

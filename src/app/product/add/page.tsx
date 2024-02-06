@@ -15,12 +15,14 @@ import { ProductRegisterTable } from "@/components/products-components/product-r
 import { PresetTheme } from "@/services/enums";
 import { ProductRegisterPrincipalTable } from "@/components/products-components/product-register-principal-table";
 import { documentType } from "@/utils/functions";
+import { ToggleSwitch } from "flowbite-react";
 
 export default function ProductAdd() {
   const [lastProductsPrincipal, setLastProductsPrincipal] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<any>({});
   const [isSending, setIsSending] = useState(false);
+  const [isTaxesActive, setIsTaxesActive] = useState(true);
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
   const [products, setProducts] = useState([]);
   const [productPrincipal, setProductPrincipal] = useState([]) as any;
@@ -39,6 +41,7 @@ export default function ProductAdd() {
     data.lot = productPrincipal.lot
     data.comment = productPrincipal.comment
     data.product_register_principal = productPrincipal.id
+    data.unit_cost = isTaxesActive ? data.unit_cost : data.unit_cost * 1.13;
 
     try {
       setIsSending(true)
@@ -61,7 +64,7 @@ export default function ProductAdd() {
       setIsSending(false)
     }
   }
-
+console.log("Taxes: ", productPrincipal && productPrincipal.taxes)
 
   const addRegisterPrincipal = async (data: any) => {
     try {
@@ -279,6 +282,17 @@ useEffect(() => {
                     className={`${style.input} w-full`}
                   />
                 </div>
+
+                    <div className="w-full md:w-full px-2 mb-3 flex justify-center">
+                      <div className='col-span-10 m-3 ml-10 font-semibold'>Productos con impuestos incluidos</div>
+                        <div className='col-span-2 m-3'>
+                            <ToggleSwitch
+                            checked={isTaxesActive}
+                            label={isTaxesActive ? 'Activo' : 'Inactivo'}
+                            onChange={() => setIsTaxesActive(!isTaxesActive)}
+                          />
+                      </div>
+                </div>
                 
               </div>
 
@@ -323,6 +337,9 @@ useEffect(() => {
                 </div>
                 <div className="flex justify-between border-b-2">
                   <div>{ productPrincipal.comment }</div>
+                </div>
+                <div className="flex justify-between border-b-2">
+                  <div>{ isTaxesActive ? "Productos con impuestos incluidos" : "Productos sin impuestos" }</div>
                 </div>
               </div>
 
