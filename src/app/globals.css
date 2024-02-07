@@ -38,6 +38,10 @@
   .status-info {
     @apply text-sky-500 font-bold
   }
+
+  .status-warning {
+    @apply text-orange-500 font-bold
+  }
 }
 
 /* body {
