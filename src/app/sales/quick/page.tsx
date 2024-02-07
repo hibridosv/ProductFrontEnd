@@ -287,7 +287,7 @@ export default function ViewSales() {
           }
         </div>
         <div className="absolute bottom-2">
-          {order && <SalesButtons onClick={handleClickOptionOrder} cashDrawer={cashDrawer} config={configuration} />}
+          {order && <SalesButtons invoice={productsOfInvoice} onClick={handleClickOptionOrder} cashDrawer={cashDrawer} config={configuration} />}
         </div>
       </div>
       <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} config={configuration} />

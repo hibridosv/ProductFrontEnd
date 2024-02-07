@@ -11,10 +11,12 @@ export interface SalesButtonsProps {
   onClick: (option: number) => void;
   cashDrawer?: boolean;
   config: string[];
+  invoice?: any;
 }
 
 export function SalesButtons(props: SalesButtonsProps) {
-  const {onClick, cashDrawer, config } = props
+  const {onClick, cashDrawer, config, invoice } = props
+
 
 
   return (<div>
@@ -22,6 +24,13 @@ export function SalesButtons(props: SalesButtonsProps) {
           theme={PresetTheme.danger}
           info="Error"
           text="Debe seleccionar una caja para poder cobrar"
+          isDismisible={false}
+          /> }
+
+        { (!invoice?.client_id && invoice?.invoice_assigned?.type == 3) && <Alert
+          theme={PresetTheme.danger}
+          info="Error"
+          text="Seleccione un cliente para el CCF"
           isDismisible={false}
           /> }
            <div>
@@ -44,14 +53,13 @@ export function SalesButtons(props: SalesButtonsProps) {
               <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.documentType)}> Tipo de Documento </Dropdown.Item>
             </Dropdown>
             <Button color="blue" gradientMonochrome="info" onClick={()=>onClick(2)}>
-              <AiFillSave className='mr-1' /> Guardar
-            </Button>
-            <Button color="green" gradientMonochrome="success" disabled={!cashDrawer} onClick={()=>onClick(1)}>
-               <FaRegMoneyBillAlt className='mr-1' /> Cobrar
-            </Button>
+              <AiFillSave className='mr-1' /> Guardar </Button>
+            <Button color="green" gradientMonochrome="success" 
+                              disabled={!cashDrawer || (!invoice?.client_id && invoice?.invoice_assigned?.type == 3)} 
+                              onClick={()=>onClick(1)}>
+               <FaRegMoneyBillAlt className='mr-1' /> Cobrar </Button>
             <Button color="red" gradientMonochrome="failure" onClick={()=>onClick(3)}>
-               <GiCancel className='mr-1' /> Cancelar
-            </Button>
+               <GiCancel className='mr-1' /> Cancelar </Button>
             </Button.Group>
            </div>
             
