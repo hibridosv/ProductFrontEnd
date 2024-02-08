@@ -63,7 +63,8 @@ export function ContactAddModal(props: ContactAddModalProps) {
           toast.error("Debe elegir el tipo de contacto");
           return false; }
     if (record) { data.id = record.id; }
-    data.town_doc = data.town_doc.substring(data.town_doc.length - 2)
+    data.departament_doc = data.departament_doc ? data.departament_doc : "06";
+    data.town_doc = data.town_doc ? data.town_doc.substring(data.town_doc.length - 2) : "01";
     try {
       setIsSending(true)
       const response = await postData(`contacts`, "POST", data);
@@ -102,7 +103,8 @@ export function ContactAddModal(props: ContactAddModalProps) {
     const selectedDepartamentId = watch("departament_doc");
     const selectedDepartament = locations?.departamentos?.find((element: any) => element?.id === selectedDepartamentId);
     setTown(selectedDepartament);
-  }, [watch, locations?.departamentos, setTown]);
+      // eslint-disable-next-line
+  }, [watch("departament_doc"), watch, locations, setTown]);
 
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
@@ -197,7 +199,8 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
                     <div className="w-full md:w-full px-3 mb-2">
                     <label htmlFor="departament_doc" className={style.inputLabel}> Departamento </label>
-                    <select defaultValue="06" id="departament_doc" {...register("departament_doc")} className={style.input}>
+                    <select id="departament_doc" {...register("departament_doc")} className={style.input}>
+                    <option value="">Seleccione...</option>
                       {  locations?.departamentos?.map((departament: any)=>{
                           return (<option key={departament.id} value={departament.id}>{departament.nombre}</option>)
                       })}
@@ -206,7 +209,8 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
                     <div className="w-full md:w-full px-3 mb-2">
                     <label htmlFor="town_doc" className={style.inputLabel}> Municipio </label>
-                    <select defaultValue={watch("departament_doc") ? watch("departament_doc")+'01' : "0614"} id="town_doc" {...register("town_doc")} className={style.input}>
+                    <select id="town_doc" {...register("town_doc")} className={style.input}>
+                    <option value="">Seleccione...</option>
                     {  town?.municipios?.map((minucipio: any)=>{
                           return (<option key={minucipio.id_mun} value={minucipio.id_mun}>{minucipio.nombre}</option>)
                       })}
