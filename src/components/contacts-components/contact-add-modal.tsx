@@ -90,12 +90,19 @@ export function ContactAddModal(props: ContactAddModalProps) {
   };
   
   useEffect(() => {
-    (async () => setLocaltions(await loadData(`electronic/getlocations`)))();
-  }, []);
+    const fetchData = async () => {
+      const data = await loadData(`electronic/getlocations`);
+      setLocaltions(data);
+    };
+  
+    fetchData();
+  }, [setLocaltions]);
 
   useEffect(() => {
-    setTown(locations?.departamentos?.find((element:any) => element?.id === watch("departament_doc")));
-  }, [watch("departament_doc")]);
+    const selectedDepartamentId = watch("departament_doc");
+    const selectedDepartament = locations?.departamentos?.find((element: any) => element?.id === selectedDepartamentId);
+    setTown(selectedDepartament);
+  }, [watch, locations?.departamentos, setTown]);
 
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
