@@ -64,7 +64,6 @@ export default function ProductAdd() {
       setIsSending(false)
     }
   }
-console.log("Taxes: ", productPrincipal && productPrincipal.taxes)
 
   const addRegisterPrincipal = async (data: any) => {
     try {
