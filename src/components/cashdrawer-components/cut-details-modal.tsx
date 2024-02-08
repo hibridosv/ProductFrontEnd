@@ -69,6 +69,12 @@ export function CutDetailsModal(props: CutDetailsModalProps) {
             <div className="mx-3 flex justify-between  border-t-2 border-cyan-500">
               <span>Total Cuentas por cobrar </span><span>{ numberToMoney(record?.payments_receivable_total ? record?.payments_receivable_total : 0) }</span>
             </div>
+            <div className="mx-3 flex justify-between  border-y-2 border-cyan-500">
+              <span>Retenciones Efectivo</span><span>{ numberToMoney(record?.sales_cash_retention ? record?.sales_cash_retention : 0) }</span>
+            </div>
+            <div className="mx-3 flex justify-between  border-t-2 border-cyan-500">
+              <span>Total Retenciones </span><span>{ numberToMoney(record?.sales_total_retention ? record?.sales_total_retention : 0) }</span>
+            </div>
           </div>
           <div className="flex justify-between mt-3 rounded-md border-2 border-cyan-600 font-semibold text-xl text-center text-cyan-600 uppercase">
             <span className="mx-3">Efectivo de cierre</span><span className="mx-3">{ numberToMoney(record?.final_cash ? record?.final_cash : 0)}</span>

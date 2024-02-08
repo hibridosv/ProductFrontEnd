@@ -101,8 +101,28 @@ export const transformFields = (Fields: any, specialData: any): any => {
   return FieldsFormProduct;
 }
 
+/**
+ * Lo mismo que sumar totales pero retorna un numero
+ * @param datos 
+ * @returns 
+ */
+export const sumarCantidad = (datos: any): number => {
+  let totalSuma = 0;
 
+  datos?.forEach((elemento: any) => {
+    if (elemento.hasOwnProperty('total')) {
+      totalSuma += elemento.total;
+    }
+  });
 
+  return totalSuma;
+}
+
+/**
+ * suma las cantidades del campo
+ * @param datos 
+ * @returns 
+ */
 export const sumarTotales = (datos: any): string => {
   let totalSuma = 0;
 

@@ -9,6 +9,7 @@ interface AlertProps {
     info?: string;
     text: string;
     isDismisible?: boolean;
+    className?: string;
   }
 
 
@@ -21,12 +22,12 @@ export const stylePresets = {
   }
 
 export function Alert(props: AlertProps){
-  const { theme = PresetTheme.danger, info, text, isDismisible = true } = props;
+  const { theme = PresetTheme.danger, info, text, isDismisible = true, className } = props;
   const [isOpen, setIsOpen] = useState(true);
 
   const textStyle = stylePresets[theme];
     return(
-        <div>
+        <div className={className}>
         { isOpen && 
         <div className={textStyle}>
            <div className="flex justify-between">

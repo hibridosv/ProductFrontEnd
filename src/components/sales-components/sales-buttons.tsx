@@ -25,6 +25,7 @@ export function SalesButtons(props: SalesButtonsProps) {
           info="Error"
           text="Debe seleccionar una caja para poder cobrar"
           isDismisible={false}
+          className='my-1'
           /> }
 
         { (!invoice?.client_id && invoice?.invoice_assigned?.type == 3) && <Alert
@@ -32,6 +33,7 @@ export function SalesButtons(props: SalesButtonsProps) {
           info="Error"
           text="Seleccione un cliente para el CCF"
           isDismisible={false}
+          className='my-1'
           /> }
            <div>
             <Button.Group>

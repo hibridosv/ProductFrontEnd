@@ -1,13 +1,15 @@
 import { useContext, useEffect, useState } from "react";
-import { OptionsClickOrder, TypeOfPrice } from "@/services/enums";
+import { OptionsClickOrder, PresetTheme, TypeOfPrice } from "@/services/enums";
 import { Order } from "@/services/order";
-import { getConfigStatus, setPriceName, setPriceOptions, sumarTotales } from "@/utils/functions";
+import { getConfigStatus, setPriceName, setPriceOptions, sumarCantidad, sumarTotales } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
+import { Alert } from "../alert/alert";
+import { ShowTotal } from "./show-total";
 
 
 export interface SalesShowTotalProps {
  records?: Order
- isSending?: boolean
+ isSending: boolean
  invoiceType?: ()=>void;
  setPrice:  (option: OptionsClickOrder) => void;
  priceType: number;
@@ -36,13 +38,9 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
   if (!records?.invoiceproducts) return <></>
   if (records?.invoiceproducts.length == 0) return <></>
 
-  const texStyle = isSending ? "flex justify-center text-7xl mb-4 text-gray-500 animate-pulse" : "flex justify-center text-7xl mb-4"; 
-
+  const total = sumarCantidad(records?.invoiceproducts);
   return (<>
-    <div className="w-full my-4 shadow-neutral-600 shadow-lg rounded-md">
-      <div className="flex justify-center pt-2">TOTAL</div>
-      <div className={`${texStyle} pb-4`}>$ {sumarTotales(records?.invoiceproducts)}</div>
-    </div>
+    <ShowTotal isSending={isSending} records={records} />
     <div className='flex justify-between border-2 border-sky-500 rounded mb-2'>
       <span className='mx-2 text-sm font-bold animatex' onClick={invoiceType} >{ records?.invoice_assigned?.name.toUpperCase() }</span> 
       { multiPriceStatus ? 
@@ -63,6 +61,14 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
         {records?.delivery?.name && <div className="flex justify-between border-b-2"> 
         <span className=" text-blue-500 ">Repartidor: {records?.delivery?.name}</span></div>}
     </div>
+
+        { (records?.client?.taxpayer_type == 2 && total >= 100) && <Alert
+          theme={PresetTheme.info}
+          info="Información"
+          text="Factura con retención del 1%"
+          isDismisible={false}
+          className='my-2'
+          /> }
 
     </>);
 }
