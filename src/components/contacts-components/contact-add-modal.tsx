@@ -10,7 +10,7 @@ import { style } from "../../theme";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 import { ContactDetails } from "./contact-details.";
-
+import { loadData } from "@/utils/functions";
 
 export interface ContactAddModalProps {
   onClose: () => void;
@@ -21,12 +21,14 @@ export interface ContactAddModalProps {
 
 export function ContactAddModal(props: ContactAddModalProps) {
   const { onClose, isShow, record, random } = props;
-  const { register, handleSubmit, reset, setValue } = useForm();
+  const { register, handleSubmit, reset, setValue, watch, formState: { errors } } = useForm();
   const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState<any>({});
   const [newRecord, setNewRecord] = useState<any>({});
   const [isOtherRegisters, setIsOtherRegisters] = useState(false);
   const [isChangedRecord, setIsChangedRecord] = useState(false);
+  const [locations, setLocaltions] = useState({} as any);
+  const [town, setTown] = useState({} as any);
 
 
   useEffect(() => {
@@ -61,7 +63,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
           toast.error("Debe elegir el tipo de contacto");
           return false; }
     if (record) { data.id = record.id; }
-    
+    data.town_doc = data.town_doc.substring(data.town_doc.length - 2)
     try {
       setIsSending(true)
       const response = await postData(`contacts`, "POST", data);
@@ -86,7 +88,14 @@ export function ContactAddModal(props: ContactAddModalProps) {
       setIsSending(false)
     }
   };
+  
+  useEffect(() => {
+    (async () => setLocaltions(await loadData(`electronic/getlocations`)))();
+  }, []);
 
+  useEffect(() => {
+    setTown(locations?.departamentos?.find((element:any) => element?.id === watch("departament_doc")));
+  }, [watch("departament_doc")]);
 
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
@@ -117,7 +126,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
             <div className="w-full md:w-1/2 px-3 mb-2">
                 <label htmlFor="id_number" className={style.inputLabel}>Numero de documento</label>
-                <input type="text" id="id_number" {...register("id_number")} className={`${style.input}`} />
+                <input type="number" id="id_number" {...register("id_number", {required: true, pattern: /^([0-9]{14}|[0-9]{9})$/i})} className={`${style.input}`} />
             </div> 
 
             <div className="w-full md:w-1/2 px-3 mb-2">
@@ -161,12 +170,12 @@ export function ContactAddModal(props: ContactAddModalProps) {
                 
                     <div className="w-full md:w-1/2 px-3 mb-2">
                         <label htmlFor="document" className={style.inputLabel}>Documento</label>
-                        <input type="text" id="document" {...register("document")} className={style.input} />
+                        <input type="number" id="document" {...register("document", {pattern: /^([0-9]{14}|[0-9]{9})$/i})} className={style.input} />
                     </div>
 
                     <div className="w-full md:w-1/2 px-3 mb-2">
                         <label htmlFor="register" className={style.inputLabel}>Registro</label>
-                        <input type="text" id="register" {...register("register")} className={style.input} />
+                        <input type="number" id="register" {...register("register", {pattern: /^[0-9]{1,8}$/i})} className={style.input} />
                     </div>
 
                     <div className="w-full md:w-full px-3 mb-2">
@@ -179,30 +188,36 @@ export function ContactAddModal(props: ContactAddModalProps) {
                         <input type="text" id="address_doc" {...register("address_doc")} className={style.input} />
                     </div>
 
-                    <div className="w-full md:w-1/2 px-3 mb-2">
-                        <label htmlFor="departament_doc" className={style.inputLabel}>Departamento</label>
-                        <input type="text" id="departament_doc" {...register("departament_doc")} className={style.input} />
+                    <div className="w-full md:w-full px-3 mb-2">
+                    <label htmlFor="departament_doc" className={style.inputLabel}> Departamento </label>
+                    <select defaultValue="06" id="departament_doc" {...register("departament_doc")} className={style.input}>
+                      {  locations?.departamentos?.map((departament: any)=>{
+                          return (<option key={departament.id} value={departament.id}>{departament.nombre}</option>)
+                      })}
+                    </select>
                     </div>
 
-                    <div className="w-full md:w-1/2 px-3 mb-2">
-                        <label htmlFor="town_doc" className={style.inputLabel}>Municipio</label>
-                        <input type="text" id="town_doc" {...register("town_doc")} className={style.input} />
+                    <div className="w-full md:w-full px-3 mb-2">
+                    <label htmlFor="town_doc" className={style.inputLabel}> Municipio </label>
+                    <select defaultValue={watch("departament_doc") ? watch("departament_doc")+'01' : "0614"} id="town_doc" {...register("town_doc")} className={style.input}>
+                    {  town?.municipios?.map((minucipio: any)=>{
+                          return (<option key={minucipio.id_mun} value={minucipio.id_mun}>{minucipio.nombre}</option>)
+                      })}
+                    </select>
                     </div>
 
                     <div className="w-full md:w-full px-3 mb-2">
                     <label htmlFor="taxpayer_type" className={style.inputLabel}> Tipo de contribuyente </label>
-                    <select defaultValue={1} id="taxpayer_type" {...register("taxpayer_type")} className={style.input}
-                        >
+                    <select defaultValue={1} id="taxpayer_type" {...register("taxpayer_type")} className={style.input}>
                         <option value="1">CONTRIBUYENTE</option>
                         <option value="2">GRAN CONTRIBUYENTE</option>
                     </select>
-                </div>
+                    </div>
 
 
                 </div>
             </div>
             )}
-
               {message.errors && (
                 <div className="">
                   <Alert
