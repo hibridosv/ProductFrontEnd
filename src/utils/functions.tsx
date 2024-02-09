@@ -294,3 +294,23 @@ export const extractActiveFeature = (configurations: Configuration[]): string[] 
   });
   return activeFeatures;
 };
+
+
+
+export const getDepartmentNameById = (id: string, data: any): any => {
+  if(!data?.departamentos) return; 
+  const department = data?.departamentos.find((dept: any) => dept.id === id);
+  if (department) {
+    return department?.nombre;
+  }
+};
+
+export const getMunicipioNameById = (id_mun: string, data: any): any => {
+  if(!data?.departamentos) return; 
+  for (const departamento of data?.departamentos) {
+    const municipio = departamento?.municipios.find((mun: any) => mun.id_mun === id_mun);
+    if (municipio) {
+      return municipio?.nombre;
+    }
+  }
+};

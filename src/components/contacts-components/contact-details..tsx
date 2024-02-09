@@ -2,6 +2,9 @@
 import { BiCheckCircle } from "react-icons/bi";
 import { style } from "../../theme";
 import { formatDateAsDMY } from "@/utils/date-formats";
+import { getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
+import { useEffect, useState } from "react";
+import { Loading } from "../loading/loading";
 
 export interface ContactDetailsProps {
   record?: any;
@@ -9,7 +12,20 @@ export interface ContactDetailsProps {
 
 export function ContactDetails(props: ContactDetailsProps) {
   const { record } = props;
+  const [locations, setLocaltions] = useState({} as any);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await loadData(`electronic/getlocations`);
+      setLocaltions(data);
+    };
+  
+    fetchData();
+  }, [setLocaltions, record]);
+
+if (!locations || !record) {
+    return <Loading />
+}
 
   return (
 
@@ -104,12 +120,12 @@ export function ContactDetails(props: ContactDetailsProps) {
 
                     {record?.departament_doc && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
                         <div className={style.inputLabel}>Departamento</div>
-                        <div> {record?.departament_doc} </div>
+                        <div> {getDepartmentNameById(record?.departament_doc, locations)} </div>
                     </div> }
 
                     {record?.town_doc && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
                         <div className={style.inputLabel}>Municipio</div>
-                        <div> {record?.town_doc} </div>
+                        <div> {getMunicipioNameById(`${record?.departament_doc}${record?.town_doc}`, locations)} </div>
                     </div> }
 
                     {record?.taxpayer_type && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">

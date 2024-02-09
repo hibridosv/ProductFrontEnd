@@ -104,7 +104,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
     const selectedDepartament = locations?.departamentos?.find((element: any) => element?.id === selectedDepartamentId);
     setTown(selectedDepartament);
       // eslint-disable-next-line
-  }, [watch("departament_doc"), watch, locations, setTown]);
+  }, [watch("departament_doc"), watch, locations, setTown, random]);
 
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
@@ -135,7 +135,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
             <div className="w-full md:w-1/2 px-3 mb-2">
                 <label htmlFor="id_number" className={style.inputLabel}>Numero de documento</label>
-                <input type="number" id="id_number" {...register("id_number", {required: true, pattern: /^([0-9]{14}|[0-9]{9})$/i})} className={`${style.input}`} />
+                <input type="text" id="id_number" {...register("id_number", {required: true})} className={`${style.input}`} />
             </div> 
 
             <div className="w-full md:w-1/2 px-3 mb-2">
@@ -179,12 +179,12 @@ export function ContactAddModal(props: ContactAddModalProps) {
                 
                     <div className="w-full md:w-1/2 px-3 mb-2">
                         <label htmlFor="document" className={style.inputLabel}>Documento</label>
-                        <input type="number" id="document" {...register("document", {pattern: /^([0-9]{14}|[0-9]{9})$/i})} className={style.input} />
+                        <input type="text" id="document" {...register("document")} className={style.input} />
                     </div>
 
                     <div className="w-full md:w-1/2 px-3 mb-2">
                         <label htmlFor="register" className={style.inputLabel}>Registro</label>
-                        <input type="number" id="register" {...register("register", {pattern: /^[0-9]{1,8}$/i})} className={style.input} />
+                        <input type="text" id="register" {...register("register")} className={style.input} />
                     </div>
 
                     <div className="w-full md:w-full px-3 mb-2">
@@ -199,7 +199,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
                     <div className="w-full md:w-full px-3 mb-2">
                     <label htmlFor="departament_doc" className={style.inputLabel}> Departamento </label>
-                    <select id="departament_doc" {...register("departament_doc")} className={style.input}>
+                    <select defaultValue={ record && record.departament_doc } id="departament_doc" {...register("departament_doc")} className={style.input}>
                     <option value="">Seleccione...</option>
                       {  locations?.departamentos?.map((departament: any)=>{
                           return (<option key={departament.id} value={departament.id}>{departament.nombre}</option>)
@@ -209,7 +209,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
                     <div className="w-full md:w-full px-3 mb-2">
                     <label htmlFor="town_doc" className={style.inputLabel}> Municipio </label>
-                    <select id="town_doc" {...register("town_doc")} className={style.input}>
+                    <select defaultValue={ record && record.town_doc } id="town_doc" {...register("town_doc")} className={style.input}>
                     <option value="">Seleccione...</option>
                     {  town?.municipios?.map((minucipio: any)=>{
                           return (<option key={minucipio.id_mun} value={minucipio.id_mun}>{minucipio.nombre}</option>)
