@@ -91,7 +91,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
           </div>
 
           <div className="flex justify-center mt-4">TOTAL</div>
-          <div className="flex justify-center text-7xl mb-4 font-bold">{numberToMoney(dataInvoice?.total)}</div>
+          <div className="flex justify-center text-7xl mb-4 font-bold">{numberToMoney(dataInvoice?.total - dataInvoice?.retention)}</div>
           { paymentType === 1 ? <>
           <div className="flex justify-center">CAMBIO</div>
           <div className="flex justify-center text-7xl mb-4 text-red-600 font-bold">{numberToMoney(dataInvoice?.change)}

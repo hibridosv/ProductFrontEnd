@@ -10,7 +10,9 @@ import { style } from "../../theme";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 import { ContactDetails } from "./contact-details.";
-import { loadData } from "@/utils/functions";
+import { getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
+import { ContactDepartamentModal } from "./contact-departament-modal";
+import { ContactTownModal } from "./contact-tow-modal";
 
 export interface ContactAddModalProps {
   onClose: () => void;
@@ -28,7 +30,10 @@ export function ContactAddModal(props: ContactAddModalProps) {
   const [isOtherRegisters, setIsOtherRegisters] = useState(false);
   const [isChangedRecord, setIsChangedRecord] = useState(false);
   const [locations, setLocaltions] = useState({} as any);
-  const [town, setTown] = useState({} as any);
+  const [departament, setDepartament] = useState("06");
+  const [town, setTown] = useState("14");
+  const [isContactDepartamentModal, setIsContactDepartamentModal] = useState(false);
+  const [isContactTowModal, setIsContactTowModal] = useState(false);
 
 
   useEffect(() => {
@@ -50,9 +55,9 @@ export function ContactAddModal(props: ContactAddModalProps) {
         setValue("register", record.register);
         setValue("roar", record.roar);
         setValue("address_doc", record.address_doc);
-        setValue("departament_doc", record.departament_doc);
-        setValue("town_doc", record.town_doc);
         setValue("taxpayer_type", record.taxpayer_type);
+        setDepartament(record.departament_doc)
+        setTown(record.town_doc)
     }
     setIsChangedRecord(false);
   }, [record, setValue, setIsChangedRecord]);
@@ -63,8 +68,8 @@ export function ContactAddModal(props: ContactAddModalProps) {
           toast.error("Debe elegir el tipo de contacto");
           return false; }
     if (record) { data.id = record.id; }
-    data.departament_doc = data.departament_doc ? data.departament_doc : "06";
-    data.town_doc = data.town_doc ? data.town_doc.substring(data.town_doc.length - 2) : "01";
+    data.departament_doc = departament
+    data.town_doc = town
     try {
       setIsSending(true)
       const response = await postData(`contacts`, "POST", data);
@@ -99,12 +104,6 @@ export function ContactAddModal(props: ContactAddModalProps) {
     fetchData();
   }, [setLocaltions]);
 
-  useEffect(() => {
-    const selectedDepartamentId = watch("departament_doc");
-    const selectedDepartament = locations?.departamentos?.find((element: any) => element?.id === selectedDepartamentId);
-    setTown(selectedDepartament);
-      // eslint-disable-next-line
-  }, [watch("departament_doc"), watch, locations, setTown, random]);
 
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
@@ -159,12 +158,6 @@ export function ContactAddModal(props: ContactAddModalProps) {
                 <input type="date" id="birthday" {...register("birthday")} className={style.input} />
             </div>
 
-
-            {/* <div className="w-full md:w-full px-3 mb-2">
-                <label htmlFor="description" className={style.inputLabel}> Comentarios{" "} </label>
-                <textarea {...register("description")} rows={2} className={`${style.input} w-full`} />
-            </div> */}
-
            </div>
 
             <div onClick={()=>setIsOtherRegisters(!isOtherRegisters)} className="w-full uppercase px-2 border-2 rounded-lg text-base font-bold text-center clickeable">Datos de contribuyente</div>
@@ -199,22 +192,16 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
                     <div className="w-full md:w-full px-3 mb-2">
                     <label htmlFor="departament_doc" className={style.inputLabel}> Departamento </label>
-                    <select defaultValue={ record && record.departament_doc } id="departament_doc" {...register("departament_doc")} className={style.input}>
-                    <option value="">Seleccione...</option>
-                      {  locations?.departamentos?.map((departament: any)=>{
-                          return (<option key={departament.id} value={departament.id}>{departament.nombre}</option>)
-                      })}
-                    </select>
+                    <div className={style.input} onClick={()=>setIsContactDepartamentModal(true)}>
+                    {getDepartmentNameById(departament, locations)}
+                    </div>
                     </div>
 
                     <div className="w-full md:w-full px-3 mb-2">
                     <label htmlFor="town_doc" className={style.inputLabel}> Municipio </label>
-                    <select defaultValue={ record && record.town_doc } id="town_doc" {...register("town_doc")} className={style.input}>
-                    <option value="">Seleccione...</option>
-                    {  town?.municipios?.map((minucipio: any)=>{
-                          return (<option key={minucipio.id_mun} value={minucipio.id_mun}>{minucipio.nombre}</option>)
-                      })}
-                    </select>
+                    <div className={style.input} onClick={()=>setIsContactTowModal(true)}>
+                        {getMunicipioNameById(`${departament}${town}`, locations)}
+                    </div>
                     </div>
 
                     <div className="w-full md:w-full px-3 mb-2">
@@ -247,6 +234,8 @@ export function ContactAddModal(props: ContactAddModalProps) {
             </form>
 
         </div>) : (<ContactDetails record={newRecord} /> )}
+        <ContactDepartamentModal setDepartament={setDepartament} setTown={setTown} isShow={isContactDepartamentModal} onClose={()=>setIsContactDepartamentModal(false)} record={locations} />
+        <ContactTownModal setTown={setTown} departament={departament} isShow={isContactTowModal} onClose={()=>setIsContactTowModal(false)} record={locations} />
       <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
