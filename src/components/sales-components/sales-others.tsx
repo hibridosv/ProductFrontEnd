@@ -62,7 +62,7 @@ return (
     <div className="mx-4">
         <form className="max-w-lg mt-4" onSubmit={handleSubmit(onSubmit)} >
             <div className="w-full md:w-full px-3 mb-4">
-                <label htmlFor="quantity" className={style.inputLabel} >Precio</label>
+                <label htmlFor="quantity" className={style.inputLabel} >Cantidad</label>
                 <input type="number" step="any" {...register("quantity", { required: true })} className={`${style.input} w-full`} />
             </div>
             <div className="w-full md:w-full px-3 mb-4">
