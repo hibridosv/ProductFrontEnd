@@ -66,6 +66,8 @@ export default function ProductAdd() {
   }
 
   const addRegisterPrincipal = async (data: any) => {
+    data.provider_id = data.provider_id ? data.provider_id : providers.data ? providers.data[0].id : 0;
+    data.comment = data.comment ? data.comment : "Ingreso de productos";
     try {
       setIsSending(true)
       const response = await postData(`products/add/principal`, "POST", data);

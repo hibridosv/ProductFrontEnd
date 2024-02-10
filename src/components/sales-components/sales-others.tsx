@@ -1,5 +1,5 @@
 'use client'
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { postData } from "@/services/resources";
@@ -16,19 +16,20 @@ export interface SalesOthersProps {
 export function SalesOthers(props: SalesOthersProps){
 const { onClose, isShow, order } = props;
 const [isSending, setIsSending] = useState(false);
-const { register, handleSubmit, reset } = useForm();
+const { register, handleSubmit, reset, setValue } = useForm();
 
 
 
 const onSubmit = async (data: any) => {
     
-    if (!data.quantity || !data.description){
-        toast.error("Ingrese ambos datos");
+    if (!data.quantity || !data.description|| !data.total){
+        toast.error("Faltan datos importantes");
         return
     }
     let values = {
         description: data.description,
         quantity: data.quantity,
+        total: data.total,
         order_id: order.id,
     };
     try {
@@ -47,6 +48,11 @@ const onSubmit = async (data: any) => {
     }
   };
 
+  useEffect(() => {
+    if (isShow) {
+      setValue('quantity', 1);
+    }
+  }, [isShow, setValue]);
 
 
 return (
@@ -56,12 +62,16 @@ return (
     <div className="mx-4">
         <form className="max-w-lg mt-4" onSubmit={handleSubmit(onSubmit)} >
             <div className="w-full md:w-full px-3 mb-4">
+                <label htmlFor="quantity" className={style.inputLabel} >Precio</label>
+                <input type="number" step="any" {...register("quantity", { required: true })} className={`${style.input} w-full`} />
+            </div>
+            <div className="w-full md:w-full px-3 mb-4">
                 <label htmlFor="description" className={style.inputLabel} >Descripción</label>
                 <input type="text" {...register("description", { required: true })} className={`${style.input} w-full`} />
             </div>
             <div className="w-full md:w-full px-3 mb-4">
-                <label htmlFor="quantity" className={style.inputLabel} >Precio</label>
-                <input type="number" step="any" {...register("quantity", { required: true })} className={`${style.input} w-full`} />
+                <label htmlFor="total" className={style.inputLabel} >Precio</label>
+                <input type="number" step="any" {...register("total", { required: true })} className={`${style.input} w-full`} />
             </div>
             <div className="flex justify-center">
             <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
