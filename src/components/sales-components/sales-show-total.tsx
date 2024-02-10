@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { OptionsClickOrder, PresetTheme, TypeOfPrice } from "@/services/enums";
 import { Order } from "@/services/order";
-import { getConfigStatus, setPriceName, setPriceOptions, sumarCantidad, sumarTotales } from "@/utils/functions";
+import { formatDuiWithAll, getConfigStatus, setPriceName, setPriceOptions, sumarCantidad, sumarTotales } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
 import { Alert } from "../alert/alert";
 import { ShowTotal } from "./show-total";
@@ -52,11 +52,11 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
     <div>
         {records?.client?.name && <div className="flex justify-between border-b-2"> 
         <span className=" text-red-500 ">Cliente: {records?.client?.name}</span>
-        <span className=" text-red-500 ">{records?.client?.document ? records?.client?.document : records?.client?.id_number}</span></div>}
+        <span className=" text-red-500 ">{records?.client?.document ? formatDuiWithAll(records?.client?.document) : formatDuiWithAll(records?.client?.id_number)}</span></div>}
 
         {records?.referred?.name && <div className="flex justify-between border-b-2"> 
         <span className=" text-red-500 ">Referido: {records?.referred?.name}</span>
-        <span className=" text-red-500 ">{records?.referred?.document ? records?.referred?.document : records?.referred?.id_number}</span></div>}
+        <span className=" text-red-500 ">{records?.referred?.document ? formatDuiWithAll(records?.referred?.document) : formatDuiWithAll(records?.referred?.id_number)}</span></div>}
 
         {records?.delivery?.name && <div className="flex justify-between border-b-2"> 
         <span className=" text-blue-500 ">Repartidor: {records?.delivery?.name}</span></div>}

@@ -10,7 +10,7 @@ import { style } from "../../theme";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 import { ContactDetails } from "./contact-details.";
-import { getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
+import { formatDocument, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
 import { ContactDepartamentModal } from "./contact-departament-modal";
 import { ContactTownModal } from "./contact-tow-modal";
 
@@ -34,7 +34,6 @@ export function ContactAddModal(props: ContactAddModalProps) {
   const [town, setTown] = useState("14");
   const [isContactDepartamentModal, setIsContactDepartamentModal] = useState(false);
   const [isContactTowModal, setIsContactTowModal] = useState(false);
-
 
   useEffect(() => {
     if (record) {
@@ -70,6 +69,9 @@ export function ContactAddModal(props: ContactAddModalProps) {
     if (record) { data.id = record.id; }
     data.departament_doc = departament
     data.town_doc = town
+    data.id_number = formatDocument(data.id_number) // se registr sin guiones
+    data.document = formatDocument(data.document) // se registr sin guiones
+    data.register = formatDocument(data.register) // se registr sin guiones
     try {
       setIsSending(true)
       const response = await postData(`contacts`, "POST", data);
@@ -128,13 +130,15 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
             <div className="w-full md:w-full px-3 mb-2">
                 <label htmlFor="name" className={style.inputLabel}>Nombre completo *</label>
-                <input type="text" id="name" {...register("name")} className={style.input} />
+                <input type="text" id="name" {...register("name")} 
+                onBlur={(e) => setValue('taxpayer', e.target.value)} className={style.input} />
             </div>
 
 
             <div className="w-full md:w-1/2 px-3 mb-2">
                 <label htmlFor="id_number" className={style.inputLabel}>Numero de documento</label>
-                <input type="text" id="id_number" {...register("id_number", {required: true})} className={`${style.input}`} />
+                <input type="text" id="id_number" {...register("id_number", {required: true})} 
+                 onBlur={(e) => setValue('document', e.target.value)} className={`${style.input}`} />
             </div> 
 
             <div className="w-full md:w-1/2 px-3 mb-2">
@@ -144,7 +148,8 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
             <div className="w-full md:w-full px-3 mb-2">
                 <label htmlFor="address" className={style.inputLabel}>Dirección</label>
-                <input type="text" id="address" {...register("address")} className={style.input} />
+                <input type="text" id="address" {...register("address")} 
+                onBlur={(e) => setValue('address_doc', e.target.value)} className={style.input} />
             </div>
 
             <div className="w-full md:w-full px-3 mb-2">

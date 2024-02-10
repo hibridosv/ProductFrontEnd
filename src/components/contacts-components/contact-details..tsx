@@ -2,7 +2,7 @@
 import { BiCheckCircle } from "react-icons/bi";
 import { style } from "../../theme";
 import { formatDateAsDMY } from "@/utils/date-formats";
-import { getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
+import { formatDuiWithAll, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
 import { useEffect, useState } from "react";
 import { Loading } from "../loading/loading";
 
@@ -63,7 +63,7 @@ if (!locations || !record) {
 
             <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
                 <div  className={style.inputLabel}>Numero de documento</div>
-                <div> {record?.id_number} </div>
+                <div> {formatDuiWithAll(record?.id_number)} </div>
             </div> 
 
             {record?.phone && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
@@ -100,12 +100,12 @@ if (!locations || !record) {
                 
                     {record?.document && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
                         <div className={style.inputLabel}>Documento</div>
-                        <div> {record?.document}  </div>
+                        <div> {formatDuiWithAll(record?.document)}  </div>
                     </div> }
 
                     {record?.register && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
                         <div className={style.inputLabel}>Registro</div>
-                        <div> {record?.register}  </div>
+                        <div> {formatDuiWithAll(record?.register)}  </div>
                     </div> }
 
                     {record?.roar && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">

@@ -326,3 +326,26 @@ export const getMunicipioNameById = (id_mun: string, data: any): any => {
     }
   }
 };
+
+
+export function formatDocument(cadena: string) {
+  return cadena.replace(/-/g, '');
+}
+
+export function formatDuiWithAll(cadena: string) {
+  if(!cadena) return; 
+  var doc = cadena.replace(/-/g, '');
+  if (doc.length == 14) {
+        var partes = [
+          doc.slice(0, 4),   // Primer grupo de 4 dígitos
+          doc.slice(4, 10),  // Segundo grupo de 6 dígitos
+          doc.slice(10, 13), // Tercer grupo de 3 dígitos
+          doc.slice(13)      // Último dígito
+      ];
+    return partes.join('-');
+  } else {
+    var posicion = doc.length - 1;
+    return doc.slice(0, posicion) + '-' + doc.slice(posicion);
+  }
+
+}
