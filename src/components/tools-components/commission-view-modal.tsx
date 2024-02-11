@@ -1,16 +1,15 @@
 "use client";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
-import { DateRange } from "../form/date-range";
-import { style } from "@/theme";
-import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { postData } from "@/services/resources";
-import { getTotalOfItem, getTotalPercentage, loadData, numberToMoney } from "@/utils/functions";
+import { getTotalOfItem, getTotalPercentage, numberToMoney } from "@/utils/functions";
 import { Loading } from "../loading/loading";
 import { Alert } from "../alert/alert";
 import { formatDateAsDMY } from "@/utils/date-formats";
+import Link from "next/link";
+import { getUrlFromCookie } from "@/services/oauth";
 
 
 export interface CommissionViewModalProps {
@@ -25,13 +24,14 @@ export function CommissionViewModal(props: CommissionViewModalProps) {
     const [sales, setSales] = useState(null as any);
     const [isSending, setIsSending] = useState(false);
     const [isPaying, setIsPaying] = useState(false);
+    const remoteUrl = getUrlFromCookie();
 
 
 
 
     const handleGetCommission = async (data: any)=>{
         let datos = {} as any
-        datos.option = (formatDateAsDMY(data.initial_date) == formatDateAsDMY(data.final_date)) ? "1" : "2";
+        datos.option = (formatDateAsDMY(data.initial_date) == formatDateAsDMY(data.final_date)) ? 1 : 2;
         datos.initialDate = data.initial_date
         datos.finalDate = data.final_date
         datos.userId = data.referred_id
@@ -140,11 +140,11 @@ export function CommissionViewModal(props: CommissionViewModalProps) {
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         {
-           record && record.status == 2 && <Button preset={Preset.primary} text="REPORTE PDF" />
+           record && record.status == 2 && <a href={`${remoteUrl}/api/pdf/commission/${record.id}`} className="py-2 px-4 flex justify-center items-center text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 clickeable">DESCARGAR PDF</a>
         }
         <Button onClick={onClose} preset={Preset.close} />
         {
-           record && record.status == 1 && <Button onClick={()=>PayReport()} preset={isPaying ? Preset.saving : Preset.save} text="PAGAR REPORTE" />
+          record && record.status == 1 && <Button onClick={()=>PayReport()} preset={isPaying ? Preset.saving : Preset.save} text="PAGAR REPORTE" />
         }
       </Modal.Footer>
     </Modal>
