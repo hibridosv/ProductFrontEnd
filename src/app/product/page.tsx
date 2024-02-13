@@ -6,6 +6,7 @@ import { usePagination } from "@/components/pagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import toast, { Toaster } from 'react-hot-toast';
 import { RowTable } from "@/components/products-components/products-table";
+import { LinkUrls } from "@/components/view-title/view-title";
 
 export default function ViewProducts() {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +14,7 @@ export default function ViewProducts() {
   const [ statics, setStatics ] = useState([])
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
-  const menu = [
+  const menu: LinkUrls[] = [
     {"name": "AGREGAR PRODUCTO", "link": "/product/register"}, 
     {"name": "BAJAS EXISTENCIAS", "link": "/product/stock"}, 
     {"name": "PROXIMOS VENCIMIENTOS", "link": "/product/expiration"}, 

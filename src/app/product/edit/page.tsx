@@ -19,6 +19,7 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { PresetTheme } from "@/services/enums";
 import { transformFields } from "@/utils/functions";
 import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
+import { LinkUrls } from "@/components/view-title/view-title";
 
 
   export default function GetProduct() {
@@ -60,7 +61,7 @@ import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
 
 
   
-    const menu = [
+    const menu: LinkUrls[] = [
       { name: "VER PRODUCTOS", link: "/product" },
       { name: "AGREGAR PRODUCTO", link: "/product/register" },
       { name: "IMPRIMIR", link: "/" },

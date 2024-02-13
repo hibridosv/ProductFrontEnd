@@ -10,12 +10,17 @@ import { HistoriesByUserTable } from "@/components/histories-components/historie
 import { loadData } from "@/utils/functions";
 import { style } from "@/theme";
 import { useForm } from "react-hook-form";
+import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
+import { LinksList } from "@/components/common/links-list";
+
 
 export default function Page() {
   const [sales, setSales] = useState([]);
   const [users, setUsers] = useState([] as any);
   const [isSending, setIsSending] = useState(false);
   const { register, watch } = useForm();
+  const { links, addLink} = AddNewDownloadLink()
+
 
   useEffect(() => {
       (async () => setUsers(await loadData(`users`)))();
@@ -31,6 +36,7 @@ export default function Page() {
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setSales(response);
+            if(response.data.length > 0) addLink(links, data, 'excel/by-user/', data.userId);
           } else {
             toast.error("Faltan algunos datos importantes!");
           }
@@ -77,6 +83,7 @@ export default function Page() {
             </div>
 
         <DateRange onSubmit={handlegetSales} />
+        <LinksList links={links} />
         </div>
       <Toaster position="top-right" reverseOrder={false} />
     </div>

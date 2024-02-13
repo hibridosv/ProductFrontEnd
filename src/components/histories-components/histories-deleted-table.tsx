@@ -24,7 +24,7 @@ export function HistoriesDeletedTable(props: HistoriesDeletedTableProps) {
   const listItems = records.data.map((record: any, key: any) => (
     <tr key={record.id} className="border-b">
       <td className="py-2 px-6 truncate">{ formatDate(record?.charged_at) } | { formatHourAsHM(record?.charged_at)} </td>
-      <td className="py-2 px-6 truncate">{ formatDate(record?.charged_at) } | { formatHourAsHM(record?.canceled_at)} </td>
+      <td className="py-2 px-6 truncate">{ formatDate(record?.canceled_at) } | { formatHourAsHM(record?.canceled_at)} </td>
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.casheir?.name } </th>
       <td className="py-2 px-6">
         <span>{ record?.invoice_assigned?.name }:</span>

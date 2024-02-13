@@ -3,10 +3,15 @@ import { IoMdOptions } from "react-icons/io";
 import Link from 'next/link';
 import { ReactElement } from "react";
 
+export interface LinkUrls {
+  name: string;
+  link: string;
+  isUrl?: boolean;
+}
 
 export interface ViewTitleProps {
   text: string;
-  links?: {} | any;
+  links?: LinkUrls[];
   content?: ReactElement;
 }
 
@@ -24,11 +29,19 @@ export function ViewTitle(props: ViewTitleProps) {
             inline={true}
             arrowIcon={false}
           >
-            {links.map((item: any, index: any) => (
-              <Dropdown.Item key={index}>
-                <Link href={item.link}>{item.name}</Link>
-              </Dropdown.Item>
-            ))}
+            {links.map((item: LinkUrls, index: any) => {
+              if (item.name && item.link) {
+                return (
+                  <Dropdown.Item key={index}>
+                    {
+                    item.isUrl ? 
+                      <a href={item.link}>{item.name}</a> :
+                      <Link href={item.link}>{item.name}</Link>
+                    }
+                  </Dropdown.Item>
+                )
+              }
+            })}
           </Dropdown>
         )}
         { content }
