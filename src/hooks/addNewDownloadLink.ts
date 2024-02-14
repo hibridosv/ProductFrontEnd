@@ -12,7 +12,7 @@ export function AddNewDownloadLink() {
     const addLink = (listLinks: LinkUrls[], data: DateRangeValues, url: string, userId?:any )=>{
         if (listLinks.length >= 3) listLinks.shift()
         
-        var url = `${remoteUrl}/api/${url}?${data.option ? `option=${data.option}` : ``}${data.initialDate ? `&initialDate=${data.initialDate}` : ``}${data.finalDate ? `&finalDate=${data.finalDate}` : ``}${userId ? `&userId=${userId}` : ``}` 
+        var url = `${remoteUrl}/download/${url}?${data.option ? `option=${data.option}` : ``}${data.initialDate ? `&initialDate=${data.initialDate}` : ``}${data.finalDate ? `&finalDate=${data.finalDate}` : ``}${userId ? `&userId=${userId}` : ``}` 
         
         links.push({"name": `${data.option == '1' ? 
                             `Fecha establecida ${formatDate(data.initialDate)}` : 

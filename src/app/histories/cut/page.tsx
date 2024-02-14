@@ -21,6 +21,7 @@ export default function Page() {
         const formatedDate = actualDate.toFormat('yyyy-MM-dd');
         await handlegetSales({option: "1", initialDate: `${formatedDate} 00:00:00`})
       })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
     const handlegetSales = async (data: DateRangeValues) => {
