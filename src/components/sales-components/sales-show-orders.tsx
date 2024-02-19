@@ -10,6 +10,7 @@ import { getConfigStatus, setPriceName, setPriceOptions } from "@/utils/function
 import { OptionsClickOrder, PresetTheme, TypeOfPrice } from "@/services/enums";
 import { Alert } from "../alert/alert";
 import { ConfigContext } from "@/contexts/config-context";
+import { getUrlFromCookie } from "@/services/oauth";
 
 
 
@@ -24,11 +25,12 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   const { onClick, setPrice, priceType, order  } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [orders, setOrders] = useState([]) as any;
-  const { config } = useContext(ConfigContext);
+  const { config, systemInformation } = useContext(ConfigContext);
   const [multiPriceStatus, setMultiPriceStatus] = useState<boolean>(false)
   const [wholesalerStatus, setWholesalerStatus] = useState<boolean>(false)
   const [promotionStatus, setPromotionStatus] = useState<boolean>(false)
   let pricesActive = [TypeOfPrice.normal];
+  const remoteUrl = getUrlFromCookie();
   
   const loadAllOrders = async () => {
     setIsLoading(true);
@@ -64,13 +66,13 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   if (isLoading) return <Loading />;
 
   const imageLoader = ({ src, width, quality }: any) => {
-    return `${URL}images/common/${src}?w=${width}&q=${quality || 75}`
+    return `${remoteUrl}/images/logo/${src}?w=${width}&q=${quality || 75}`
   }
 
   return (
     <div className="mx-3 sm:mt-3">
       { orders.length === 0 ? 
-        <Image loader={imageLoader} src="hibrido.jpg" alt="Hibrido" width={500} height={500} /> : 
+        <Image loader={imageLoader} src={systemInformation && systemInformation?.system?.logo} alt="Hibrido" width={500} height={500} /> : 
       <ListGroup>
         <ListGroup.Item active>ORDENES PENDIENTES</ListGroup.Item>
 
