@@ -6,7 +6,7 @@ import { postWithOutToken } from '@/services/resources';
 import Image from 'next/image';
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/authContext";
-import { API_URL, URL } from "@/constants";
+import { API_URL } from "@/constants";
 import { style } from '@/theme';
 import { ConfigContext } from '@/contexts/config-context';
 
@@ -67,11 +67,6 @@ export default function Home() {
     setIsRemoteUrl("")
   }
 
-
-  const imageLoader = ({ src, width, quality }: any) => {
-    return `${URL}images/common/${src}?w=${width}&q=${quality || 75}`
-  }
-
   return (
     <div className="mx-auto px-1 my-auto ">
           <div className="flex justify-center">
@@ -79,7 +74,13 @@ export default function Home() {
               <div className='flex flex-col md:flex-row justify-center border-2 border-teal-500 w-full pt-8 px-4 rounded-3xl shadow-xl shadow-teal-500'>
 
                 <div className='md:w-1/2 flex justify-center items-center my-2 mx-5'>
-                  <Image loader={imageLoader} src="login.png" alt="Hibrido" width={250} height={250} />
+                  <Image
+                        src="/img/login.png"
+                        alt="Login"
+                        width={250}
+                        height={250}
+                        priority={false}
+                      />
                 </div>
 
                 <div className='md:w-1/2 flex justify-center items-center my-2 mx-5'>

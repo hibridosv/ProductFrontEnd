@@ -7,7 +7,7 @@ export function AccessDeniedPage(){
         <div className="w-full">
                 <div className="flex justify-center">
                 <Image
-                    src="/img/denied.png"
+                    src="/img/denied.gif"
                     alt="Logo"
                     width={500}
                     height={500}

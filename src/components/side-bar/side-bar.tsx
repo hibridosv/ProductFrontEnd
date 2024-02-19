@@ -9,22 +9,25 @@ import {
 import { IoMdCash } from "react-icons/io";
 import { FaCashRegister, FaAddressBook, FaHistory  } from "react-icons/fa";
 import { TbBrandCashapp } from "react-icons/tb";
-
 import Link from "next/link";
 import Image from "next/image";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
 
 
 export function SideBar() {
+const { systemInformation } = useContext(ConfigContext);
+
   return (
     <Sidebar
       breakPoint="always"
       backgroundColor="rgb(249, 249, 249, 1)"
-      // image="https://sistema.hibridosv.com/assets/img/Photos/Others/sidenav4.jpg"
+      image="/img/sidenav.jpg"
     >
       <Menu>
-        <div className="w-full bg-slate-600">
+        <div className={`w-full ${systemInformation ? systemInformation?.system?.theme === 1 ? "bg-slate-600" : "bg-lime-100 px-2" : "bg-slate-600"}`}>
           <Image
-            src="/img/logo.png"
+            src={systemInformation ? systemInformation?.system?.theme === 1 ? "/img/logo_hibrido_s.png" : "/img/logo_latam_s.png" : "/img/logo_hibrido_s.png"}
             alt="Logo"
             width={300}
             height={80}
@@ -98,7 +101,7 @@ export function SideBar() {
           <MenuItem component={<Link className="text-sm" href="/invoices/search" />}>Buscar Documentos </MenuItem>
           {/* <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte contable </MenuItem> */}
         </SubMenu>
-{/*         
+        {/*         
         <SubMenu label="Planillas" icon={<HiOutlineChartSquareBar color="red" />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Consultar Planillas </MenuItem>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Crear Planillas </MenuItem>
@@ -108,8 +111,9 @@ export function SideBar() {
         <SubMenu label="Configuraciones" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href="/config" />}>Principal</MenuItem>
           <MenuItem component={<Link className="text-sm" href="/config/product" />}>Productos</MenuItem>
-          {/* <MenuItem component={<Link className="text-sm" href="/cash" />}>Perfiles de usuario </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Administración Principal </MenuItem> */}
+          <MenuItem component={<Link className="text-sm" href="/config/user" />}>Usuarios</MenuItem>
+          <MenuItem component={<Link className="text-sm" href="/error/403" />}>Error</MenuItem>
+
         </SubMenu>
         <MenuItem icon={<HiLogout />} href="/logout">Salir</MenuItem>
       </Menu>

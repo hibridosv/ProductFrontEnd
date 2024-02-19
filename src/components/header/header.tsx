@@ -3,19 +3,20 @@ import { useProSidebar } from "react-pro-sidebar";
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiFillHome, AiOutlineSearch } from "react-icons/ai"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ProductSearchModal } from "../modals/product-search-modal";
+import { ConfigContext } from "@/contexts/config-context";
 
 export function Header() {
   const { toggleSidebar } = useProSidebar();
   const [showProductSearchModal, setShowProductSearchModal] = useState(false);
-
+  const { systemInformation } = useContext(ConfigContext);
 
 
   return (
 
     <header className="bg-white">
-    <nav className="w-full mx-auto flex items-center justify-between p-2 bg-mdb" aria-label="Global">
+    <nav className={`w-full mx-auto flex items-center justify-between p-2  ${systemInformation ? systemInformation?.system?.theme === 1 ? "bg-mdb" : "bg-lime-600" : "bg-mdb"}`} aria-label="Global">
       <div className="flex">
       <GiHamburgerMenu className='clickeable' color="white" onClick={() => toggleSidebar()} size={40} />
       </div>
