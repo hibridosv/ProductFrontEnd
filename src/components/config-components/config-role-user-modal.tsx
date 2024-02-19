@@ -26,7 +26,7 @@ export function ConfigRoleUserModal(props: ConfigRoleUserModalProps) {
     if (isShow) {
         (async () => setRoles(await loadData(`register/roles`)))(); 
     }  
-    }, []);
+    }, [isShow]);
 
 
     const handleRoleUpdate = async (role: any) =>{
