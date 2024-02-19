@@ -19,7 +19,6 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { PresetTheme } from "@/services/enums";
 import { transformFields } from "@/utils/functions";
 import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
-import { LinkUrls } from "@/components/view-title/view-title";
 
 
   export default function GetProduct() {
@@ -58,14 +57,6 @@ import { LinkUrls } from "@/components/view-title/view-title";
       }
     // eslint-disable-next-line
   }, [searchTerm]);
-
-
-  
-    const menu: LinkUrls[] = [
-      { name: "VER PRODUCTOS", link: "/product" },
-      { name: "AGREGAR PRODUCTO", link: "/product/register" },
-      { name: "IMPRIMIR", link: "/" },
-    ];
   
   
     const { register, handleSubmit, reset, watch, setValue } = useForm();
@@ -183,7 +174,7 @@ import { LinkUrls } from "@/components/view-title/view-title";
       <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
         {productSelected ? <>
         <div className="col-span-2 border-r-2">
-          <ViewTitle text="ACTUALIZAR PRODUCTO" links={menu} />
+          <ViewTitle text="ACTUALIZAR PRODUCTO" />
 
             <div className="w-full p-4">
             { isLoading ? <Loading text="Transformando" /> :

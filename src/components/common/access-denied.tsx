@@ -14,7 +14,7 @@ export function AccessDeniedPage(){
                     priority={false}
                 />
                 </div>
-                <div className="m-4 shadow-lg border-2 text-center">SIN ACCESO EN ESTE MOMENTO</div>
+                <div className="m-4 shadow-lg border-2 text-center">SIN ACCESO A ESTA CARACTERISTICA</div>
         </div>
         );
 

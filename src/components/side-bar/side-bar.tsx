@@ -13,10 +13,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { ConfigContext } from "@/contexts/config-context";
 import { useContext } from "react";
+import { permissionExists } from "@/utils/functions";
 
 
 export function SideBar() {
 const { systemInformation } = useContext(ConfigContext);
+
+const handlePermission = (permission: string, redirect: string): string => {
+    if (permissionExists(systemInformation?.permission, permission)) {
+      return redirect;
+    }
+    return "/error/403";
+}
 
   return (
     <Sidebar
@@ -34,54 +42,53 @@ const { systemInformation } = useContext(ConfigContext);
             priority={false}
           />
         </div>
-        <MenuItem icon={<HiFingerPrint />} component={<Link href="/dashboard" />}>Panel Principal</MenuItem>
-        <MenuItem icon={<FaCashRegister />} component={<Link href="/cashdrawers" />}>Control de cajas</MenuItem>
+        <MenuItem icon={<HiFingerPrint />} component={<Link href={handlePermission("dashboard", "/dashboard")} />}>Panel Principal</MenuItem>
+        <MenuItem icon={<FaCashRegister />} component={<Link href={handlePermission("cashdrawer", "/cashdrawers")} />}>Control de cajas</MenuItem>
 
         <SubMenu label="Inventario" icon={<HiOutlineChartSquareBar />}>
-          <MenuItem component={<Link className="text-sm" href="/product" />}>Ver Productos</MenuItem>
-          <MenuItem  component={<Link className="text-sm" href="/product/register" />}>Registrar Producto</MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/product/edit" />}>Editar Producto</MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/product/add" />}>Agregar Productos</MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/product/failure" />}>Descontar Averias</MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/product/linked" />}>Productos Relacionados</MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/product/stock" />}>Bajas Existencias</MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/product/expiration" />}>Proximos Vencimientos</MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/product/kardex" />}>Kardex</MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("inventory", "/product")} />}>Ver Productos</MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-register", "/product/register")} />}>Registrar Producto</MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-edit", "/product/edit")} />}>Editar Producto</MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-add", "/product/add")} />}>Agregar Productos</MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-failure", "/product/failure")} />}>Descontar Averias</MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-linked", "/product/linked")} />}>Productos Relacionados</MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-stock", "/product/stock")} />}>Bajas Existencias</MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-expiration", "/product/expiration")} />}>Proximos Vencimientos</MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-karex", "/product/kardex")} />}>Kardex</MenuItem>
         </SubMenu>
 
         <SubMenu label="Efectivo" icon={<IoMdCash />}>
-          <MenuItem component={<Link className="text-sm" href="/cash/bills" />}>Registro de gastos </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash/remittance" />}>Remesas de efectivo </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash/accounts" />}>Cuentas Bancarias </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash/inout" />}>Flujo de Efectivo </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash/history" />}>Historial de transferencias </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("cash-bills", "/cash/bills")} />}>Registro de gastos </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("cash-remittance", "/cash/remittance")} />}>Remesas de efectivo </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("cash-accounts", "/cash/accounts")} />}>Cuentas Bancarias </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("cash-inout", "/cash/inout")} />}>Flujo de Efectivo </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("cash-history", "/cash/history")} />}>Historial de transferencias </MenuItem>
         </SubMenu>
 
         <SubMenu label="Cuentas" icon={<TbBrandCashapp />}>
-          <MenuItem component={<Link className="text-sm" href="/credits/receivable" />}>Cuentas por cobrar </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/credits/payable" />}>Cuentas por pagar </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("credits-receivable", "/credits/receivable")} />}>Cuentas por cobrar </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("credits-payable", "/credits/payable")} />}>Cuentas por pagar </MenuItem>
         </SubMenu>
 
 
         <SubMenu label="Directorio" icon={<FaAddressBook />}>
-          <MenuItem component={<Link className="text-sm" href="/directory" />}>Contactos </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("directory", "/directory")} />}>Contactos </MenuItem>
         </SubMenu>
 
         <SubMenu label="Historiales" icon={<FaHistory />}>
-          <MenuItem component={<Link className="text-sm" href="/histories/sales" />}>Ventas  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/histories/bills" />}>Gastos  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/histories/remittance" />}>Remesas  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/histories/cut" />}>Cortes de caja  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/histories/discount" />}>Ventas con descuento  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/histories/list" />}>Listado de ventas  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/histories/by-user" />}>Ventas por usuario  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/histories/deleted" />}>Ordenes eliminadas  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("histories-sales", "/histories/sales")} />}>Ventas  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("histories-bills", "/histories/bills")} />}>Gastos  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("histories-remittance", "/histories/remittance")} />}>Remesas  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("histories-cut", "/histories/cut")} />}>Cortes de caja  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("histories-discount", "/histories/discount")} />}>Ventas con descuento  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("histories-list", "/histories/list")} />}>Listado de ventas  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("histories-by-user", "/histories/by-user")} />}>Ventas por usuario  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("histories-deleted", "/histories/deleted")} />}>Ordenes eliminadas  </MenuItem>
         </SubMenu>
 
         <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar />}>
-          <MenuItem component={<Link className="text-sm" href="/tools/commissions" />}>Detalle Comisiones </MenuItem>
-          {/* <MenuItem component={<Link className="text-sm" color="red" href="/cash" />}>Opciones de taller </MenuItem> */}
-          <MenuItem component={<Link className="text-sm" color="red" href="/tools/adjustment" />}>Ajustar inventario </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("tools-commissions", "/tools/commissions")} />}>Detalle Comisiones </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("tools-adjustment", "/tools/adjustment")} />}>Ajustar inventario </MenuItem>
         </SubMenu>
 
         {/* <SubMenu label="Cotizaciones" icon={<HiOutlineChartSquareBar color="red" />}>
@@ -90,15 +97,15 @@ const { systemInformation } = useContext(ConfigContext);
         </SubMenu> */}
 
         <SubMenu label="Reportes" icon={<HiOutlineChartSquareBar />}>
-          <MenuItem component={<Link className="text-sm" href="/reports/sales" />}>Detalles de ventas </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/reports/bills" />}>Detalles de gastos </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/reports/products" />}>Productos ingresados </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("reports-sales", "/reports/sales")} />}>Detalles de ventas </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("reports-bills", "/reports/bills")} />}>Detalles de gastos </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("reports-products", "/reports/products")} />}>Productos ingresados </MenuItem>
         </SubMenu>
 
         <SubMenu label="Facturación" icon={<HiOutlineChartSquareBar />}>
-          <MenuItem component={<Link className="text-sm" href="/invoices/documents" />}>Documentos Emitidos </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/invoices/electronic" />}>Documentos Electrónicos </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/invoices/search" />}>Buscar Documentos </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("invoices-documents", "/invoices/documents")} />}>Documentos Emitidos </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("invoices-electronic", "/invoices/electronic")} />}>Documentos Electrónicos </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("invoices-search", "/invoices/search")} />}>Buscar Documentos </MenuItem>
           {/* <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte contable </MenuItem> */}
         </SubMenu>
         {/*         
@@ -109,10 +116,10 @@ const { systemInformation } = useContext(ConfigContext);
         </SubMenu> */}
 
         <SubMenu label="Configuraciones" icon={<HiOutlineChartSquareBar />}>
-          <MenuItem component={<Link className="text-sm" href="/config" />}>Principal</MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/config/product" />}>Productos</MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/config/user" />}>Usuarios</MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/error/403" />}>Error</MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("config", "/config")} />}>Principal</MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("config-products", "/config/product")} />}>Productos</MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("config-user", "/config/user")} />}>Usuarios</MenuItem>
+          {/* <MenuItem component={<Link className="text-sm" href="/error/403" />}>Error</MenuItem> */}
 
         </SubMenu>
         <MenuItem icon={<HiLogout />} href="/logout">Salir</MenuItem>

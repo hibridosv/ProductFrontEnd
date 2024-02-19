@@ -14,7 +14,6 @@ import { getConfigStatus, fieldWidth, transformFields } from "@/utils/functions"
 import { ProductLinkedModal } from "@/components/products-components/product-add-linked-modal";
 import { PresetTheme } from "@/services/enums";
 import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
-import { LinkUrls } from "@/components/view-title/view-title";
 
 export default function AddProduct() {
   const [message, setMessage] = useState<any>({});
@@ -32,11 +31,6 @@ export default function AddProduct() {
   const [isShowLinkedModal, setIsShowLinkedModal] = useState<boolean>(false);
   const [showModalCategories, setShowModalCategories] = useState(false);
 
-  const menu: LinkUrls[] = [
-    {"name": "AGREGAR PRODUCTO", "link": "/product/register"}, 
-    {"name": "BAJAS EXISTENCIAS", "link": "/product/stock"}, 
-    {"name": "PROXIMOS VENCIMIENTOS", "link": "/product/expiration"}, 
-  ];
 
   const { register, handleSubmit, reset, watch, setValue } = useForm();
 
@@ -171,7 +165,7 @@ export default function AddProduct() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
       <div className="col-span-2">
-        <ViewTitle text="NUEVO PRODUCTO" links={menu} />
+        <ViewTitle text="NUEVO PRODUCTO" />
 
           <div className="w-full px-4">
           { isLoading ? <Loading text="Transforming" /> :
