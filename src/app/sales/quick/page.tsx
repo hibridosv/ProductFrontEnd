@@ -20,6 +20,7 @@ import { errorSound, extractActiveFeature, getConfigStatus, successSound } from 
 import { ConfigContext } from "@/contexts/config-context";
 import { SalesCommissionModal } from "@/components/sales-components/sales-commission-modal";
 import { SalesProductViewModal } from "@/components/sales-components/sales-product-view-modal";
+import { SalesCommentModal } from "@/components/sales-components/sales-comment";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,6 +35,7 @@ export default function ViewSales() {
   const [isDiscountProductModal, setIsDiscountProductModal] = useState(false);
   const [isContactSearchModal, setIsContactSearchModal] = useState(false);
   const [isSalesOtherModal, setIsSalesOtherModal] = useState(false);
+  const [isSalesCommentModal, setIsSalesCommentModal] = useState(false);
   const [typeOfClient, setTypeOfClient] = useState<ContactTypeToGet>(ContactTypeToGet.clients); // tipo de cliente a buscar en el endpoint
   const [clientNametoUpdate, setClientNametoUpdate] = useState<ContactNameOfOrder>(ContactNameOfOrder.client); // tipo de cliente a buscar en el endpoint
   const [isDiscountType, setIsDiscountType] = useState(0);
@@ -206,6 +208,8 @@ export default function ViewSales() {
         break;
       case OptionsClickOrder.documentType: (() => { setIsSalesSelectInvoiceType(true); })();
         break;
+      case OptionsClickOrder.comment: (() => { setIsSalesCommentModal(true); })();
+        break;
       case OptionsClickOrder.normalPrice: (() => { setTypeOfPrice(1); })();
         break;
       case OptionsClickOrder.wholesalerPrice : (() => { setTypeOfPrice(2); })();
@@ -295,6 +299,7 @@ export default function ViewSales() {
       <SalesDiscountProductModal isShow={isDiscountProductModal} discountType={isDiscountType} order={productsOfInvoice} product={productSelected} onClose={()=>closeModalDiscount()} />
       <SalesContactSearchModal  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={productsOfInvoice} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />
       <SalesOthers isShow={isSalesOtherModal} order={productsOfInvoice} onClose={()=>setIsSalesOtherModal(false)} />
+      <SalesCommentModal isShow={isSalesCommentModal} order={productsOfInvoice} onClose={()=>setIsSalesCommentModal(false)} />
       <SalesSelectInvoiceTypeModal isShow={isSalesSelectInvoiceType} onClose={()=>setIsSalesSelectInvoiceType(false)} order={productsOfInvoice} />
       <SalesCommissionModal isShow={isCommissionModal} product={productSelected} onClose={()=>setIsCommissionModal(false)} />
       <SalesProductViewModal isShow={isProductViewModal} product={productSelected} onClose={()=>setIsProductViewModal(false)} />

@@ -11,6 +11,7 @@ import { OptionsClickOrder, PresetTheme, TypeOfPrice } from "@/services/enums";
 import { Alert } from "../alert/alert";
 import { ConfigContext } from "@/contexts/config-context";
 import { getUrlFromCookie } from "@/services/oauth";
+import { FaDownload } from "react-icons/fa";
 
 
 
@@ -29,6 +30,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   const [multiPriceStatus, setMultiPriceStatus] = useState<boolean>(false)
   const [wholesalerStatus, setWholesalerStatus] = useState<boolean>(false)
   const [promotionStatus, setPromotionStatus] = useState<boolean>(false)
+  const [downloadStatus, setDownloadStatus] = useState<boolean>(false)
   let pricesActive = [TypeOfPrice.normal];
   const remoteUrl = getUrlFromCookie();
   
@@ -55,6 +57,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
       setMultiPriceStatus(getConfigStatus("is-multi-price", config))
       setWholesalerStatus(getConfigStatus("product-price-wolesaler", config))
       setPromotionStatus(getConfigStatus("product-price-promotion", config))
+      setDownloadStatus(getConfigStatus("sales-download", config))
     // eslint-disable-next-line
   }, [config])
 
@@ -77,13 +80,13 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
         <ListGroup.Item active>ORDENES PENDIENTES</ListGroup.Item>
 
         {orders.map((order: any, index: any) => (
-          <ListGroup.Item key={index} onClick={() => onClick(order.id)}>
+          <ListGroup.Item key={index}>
             <div className="w-full flex justify-between">
-              <span className="uppercase">{order.employee.name}</span>{" "}
-              <span>
-                {formatDateAsDMY(order.created_at)} |{" "}
-                {formatHourAsHM(order.created_at)}
+              <span className="uppercase" onClick={() => onClick(order.id)}>{order?.client?.name ? `Cliente: ${order?.client?.name}` : `Usuario: ${order.employee.name}`}</span>
+              <span className="ml-3" onClick={() => onClick(order.id)}>
+                {formatDateAsDMY(order.created_at)} | {formatHourAsHM(order.created_at)}
               </span>
+              { downloadStatus && <a href={`${remoteUrl}/download/pdf/order/${order.id}`}><FaDownload /></a> }
             </div>
           </ListGroup.Item>
         ))}

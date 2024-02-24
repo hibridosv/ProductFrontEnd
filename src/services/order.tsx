@@ -28,6 +28,7 @@ export interface Order {
     delivery?:        User;
     client?:          Contact;
     referred?:        Contact;
+    comment:  string;
     invoice_assigned?: InvoiceAssigned;
 }
 

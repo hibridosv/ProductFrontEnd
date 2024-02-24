@@ -62,6 +62,12 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
         <span className=" text-blue-500 ">Repartidor: {records?.delivery?.name}</span></div>}
     </div>
 
+    <div>
+        {records?.comment && <div className="flex justify-between border-b-2"> 
+        <span className="text-teal-500 font-semibold">Nota: {records?.comment}</span></div>}
+    </div>
+
+
         { (records?.client?.taxpayer_type == 2 && total >= 100) && <Alert
           theme={PresetTheme.info}
           info="Información"

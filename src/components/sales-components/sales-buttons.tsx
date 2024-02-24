@@ -52,6 +52,8 @@ export function SalesButtons(props: SalesButtonsProps) {
               <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.delivery)}> Asignar Repartidor </Dropdown.Item>}
               { config.includes("sales-other-sales") && 
               <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.special)}> Venta Especial </Dropdown.Item>}
+              { config.includes("sales-comment") && 
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.comment)}> Agregar comentario </Dropdown.Item>}
               <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.documentType)}> Tipo de Documento </Dropdown.Item>
             </Dropdown>
             <Button color="blue" gradientMonochrome="info" onClick={()=>onClick(2)}>

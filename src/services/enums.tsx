@@ -37,6 +37,7 @@ export enum OptionsClickOrder {
     promotionPrice = 18,
     wholesalerPrice = 19,
     documentType = 20,
+    comment = 21,
   }
   
 

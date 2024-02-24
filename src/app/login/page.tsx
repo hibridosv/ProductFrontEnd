@@ -70,15 +70,15 @@ export default function Home() {
   return (
     <div className="mx-auto px-1 my-auto ">
           <div className="flex justify-center">
-            <div className="h-screen flex justify-center items-center my-2 mx-5">
-              <div className='flex flex-col md:flex-row justify-center border-2 border-teal-500 w-full pt-8 px-4 rounded-3xl shadow-xl shadow-teal-500'>
+            <div className="h-screen flex justify-center items-center">
+              <div className='flex flex-col md:flex-row justify-center border-2 border-teal-500 w-full px-4 rounded-3xl shadow-xl shadow-teal-500'>
 
                 <div className='md:w-1/2 flex justify-center items-center my-2 mx-5'>
                   <Image
                         src="/img/login.png"
                         alt="Login"
-                        width={250}
-                        height={250}
+                        width={400}
+                        height={400}
                         priority={false}
                       />
                 </div>
@@ -115,17 +115,6 @@ export default function Home() {
                   </form>
                   </>
                   }
-                  {/* <form onSubmit={handleSubmit(handleSubmitLogin)} className="w-full">
-                    <div className="md:w-full max-w-sm">
-                      <input type="text" {...register("username")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
-                      <input type="password" {...register("password")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4" />
-
-                      <div className="text-center md:text-left mt-4">
-                        <Button type="submit" text='Ingresar' disabled={isSending} preset={isSending ? Preset.saving : Preset.send} isFull />
-                      </div>
-                      {isMessage && <div className="text-red-500 text-center mt-4">{isMessage}</div>}
-                    </div>
-                  </form> */}
                 </div>
 
               </div>
