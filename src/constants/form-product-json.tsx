@@ -75,7 +75,7 @@ export const FieldsFormProduct = [
     name: "Proveedor",
     style: "tercio",
     values: [],
-    isClickeable: false,
+    isClickeable: true,
   },
   {
     id: "brand_id",

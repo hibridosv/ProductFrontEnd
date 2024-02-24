@@ -14,6 +14,7 @@ import { getConfigStatus, fieldWidth, transformFields } from "@/utils/functions"
 import { ProductLinkedModal } from "@/components/products-components/product-add-linked-modal";
 import { PresetTheme } from "@/services/enums";
 import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
+import { ContactAddModal } from "@/components/contacts-components/contact-add-modal";
 
 export default function AddProduct() {
   const [message, setMessage] = useState<any>({});
@@ -30,6 +31,7 @@ export default function AddProduct() {
   const [isSending, setIsSending] = useState(false);
   const [isShowLinkedModal, setIsShowLinkedModal] = useState<boolean>(false);
   const [showModalCategories, setShowModalCategories] = useState(false);
+  const [showModalProvider, setShowModalProvider] = useState(false);
 
 
   const { register, handleSubmit, reset, watch, setValue } = useForm();
@@ -46,7 +48,7 @@ export default function AddProduct() {
 
   
   useEffect(() => {
-    if (showModalCategories == false) {
+    if (!showModalCategories && !showModalProvider) {
     (async () => {
       setIsLoading(true);
       try {
@@ -61,7 +63,7 @@ export default function AddProduct() {
     })();
   }
     // eslint-disable-next-line
-  }, [showModalCategories]);
+  }, [showModalCategories, showModalProvider]);
 
   useEffect(() => {
     (async () => {
@@ -103,6 +105,17 @@ export default function AddProduct() {
     }
   };
 
+  const getModal = (field: any)=>{
+    switch (field) {
+      case "category_id": setShowModalCategories(true)
+        break;
+      case "provider_id": setShowModalProvider(true)
+        break;
+      default: console.log()
+        break;
+    }
+  }
+
   const getField = (field: any): any => {
     // const styled = field.style === "full" ? "w-full px-3 mb-2" : "w-full md:w-1/2 px-3 mb-2";
     let hiddenFields =
@@ -127,7 +140,8 @@ export default function AddProduct() {
     if (!hiddenFields.includes(field.id)) {
       return (
         <div key={field.id} className={fieldWidth(field.style)}>
-          <label htmlFor={field.id} className={`${style.inputLabel} ${field.isClickeable && " clickeable"}`} onClick={field.id == "category_id" ? () => setShowModalCategories(true) : ()=> {}}>
+          <label htmlFor={field.id} className={`${style.inputLabel} ${field.isClickeable && " clickeable"}`} 
+          onClick={()=>getModal(field.id)}>
             {field.name} {field.isClickeable && " (Click para agregar)"}
           </label>
           {field.type === "select" ? (
@@ -253,6 +267,7 @@ export default function AddProduct() {
 
         <ProductLinkedModal isShow={isShowLinkedModal} product={message.data} onClose={() => setIsShowLinkedModal(false)} />
         <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} />
+        <ContactAddModal isShow={showModalProvider} onClose={()=>setShowModalProvider(false)} />
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
