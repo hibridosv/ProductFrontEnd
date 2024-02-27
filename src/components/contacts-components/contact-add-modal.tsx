@@ -12,7 +12,7 @@ import { PresetTheme } from "@/services/enums";
 import { ContactDetails } from "./contact-details.";
 import { formatDocument, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
 import { ContactDepartamentModal } from "./contact-departament-modal";
-import { ContactTownModal } from "./contact-tow-modal";
+import { ContactTownModal } from "./contact-town-modal";
 
 export interface ContactAddModalProps {
   onClose: () => void;
@@ -98,7 +98,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
   };
   
   useEffect(() => {
-    if (record) {
+    if (isShow) {
       const fetchData = async () => {
         const data = await loadData(`electronic/getlocations`);
         setLocaltions(data);
@@ -107,7 +107,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
       fetchData();
     }
 
-  }, [setLocaltions, record]);
+  }, [setLocaltions, isShow]);
 
 
   return (

@@ -1,7 +1,7 @@
 'use client'
 import { getTotalOfItem, numberToMoney, percentage } from "@/utils/functions";
-import { NothingHere } from "./nothing-here/nothing-here";
-import { Loading } from "./loading/loading";
+import { NothingHere } from "../nothing-here/nothing-here";
+import { Loading } from "../loading/loading";
 import { formatDateAsDMY } from "@/utils/date-formats";
 
 

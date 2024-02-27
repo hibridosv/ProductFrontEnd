@@ -6,7 +6,7 @@ import { DateRange, DateRangeValues } from "@/components/form/date-range"
 import { postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { DateTime } from 'luxon';
-import { ReportsFailuresTable } from "@/components/reports-failures-table";
+import { ReportsFailuresTable } from "@/components/reports-components/reports-failures-table";
 
 export default function Page() {
   const [sales, setSales] = useState([]);

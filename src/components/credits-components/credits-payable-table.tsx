@@ -36,7 +36,7 @@ export function CredistPayableTable(props: CredistPayableTableProps) {
       content={`Fecha: ${formatDateAsDMY(record.created_at)}`} >{ record?.name }</Tooltip>
       </td>
       <td className="py-3 px-6 truncate">{ record?.provider?.name }</td>
-      <td className="py-3 px-6 whitespace-nowrap cursor-pointer">{formatDateAsDMY(record?.expiration)}</td> 
+      <td className="py-3 px-6 whitespace-nowrap">{ record?.expiration ? formatDateAsDMY(record?.expiration) : "N/A"}</td> 
       {/* <td className="py-2 px-6">{ record?.description }</td> */}
       <td className="py-3 px-6 truncate">{ numberToMoney(record?.quantity ? record?.quantity : 0) }</td>
       <td className="py-3 px-6 truncate">{ numberToMoney(record?.balance ? record?.balance : 0) }</td>

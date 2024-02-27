@@ -21,9 +21,16 @@ export function ContactDepartamentModal(props: ContactDepartamentModalProps) {
       <Modal.Body>
         {
           record?.departamentos?.map((departament: any)=>{
-              return (<div key={departament.id} className=" border border-teal-600 clickeable" 
+              return (<div key={departament.id} className="divide-y-2 mt-1 rounded-md divide-gray-400 bg-white border border-cyan-700" 
               onClick={()=>{setDepartament(departament.id); setTown("01"); onClose()}}>
-                <div className="px-4 py-2 font-semibold bg-slate-300 uppercase">{departament.nombre}</div>
+                
+                <div className="flex justify-between hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
+                  <div className="p-1">{departament.nombre}</div>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </div>
+
               </div>)
           })
         }
