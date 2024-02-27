@@ -41,7 +41,7 @@ useEffect(() => {
 }, [searchTerm]);
 
 
-const handleContactSelected = (product: Product) => {
+const handleProductSelected = (product: Product) => {
   if (product) {
     onSubmit(product)
     setProducts([]);
@@ -56,7 +56,7 @@ const cancelClick = () => {
 }
 
 const listItems = products?.map((product: any):any => (
-        <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer" key={product.id} onClick={()=>handleContactSelected(product)}>
+        <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer" key={product.id} onClick={()=>handleProductSelected(product)}>
               {product.cod} | {product.description}
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
@@ -74,7 +74,7 @@ return (
                 <ul className="md:w-7/12 w-10/12 divide-y-2 mt-2 rounded-md divide-gray-400 absolute z-50 bg-white border border-cyan-700">
                 { listItems }
                 { products && products.length > 0 && 
-                    <li className="flex justify-between p-3 hover:bg-red-200 hover:text-red-800 cursor-pointer" onClick={()=>cancelClick()}>
+                    <li className="flex justify-between p-3 hover:bg-red-200 hover:text-red-800 cursor-pointer" onClick={cancelClick}>
                         CANCELAR
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">

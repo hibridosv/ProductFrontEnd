@@ -27,7 +27,6 @@ export function ContactAddModal(props: ContactAddModalProps) {
   const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState<any>({});
   const [newRecord, setNewRecord] = useState<any>({});
-  const [isOtherRegisters, setIsOtherRegisters] = useState(false);
   const [isChangedRecord, setIsChangedRecord] = useState(false);
   const [locations, setLocaltions] = useState({} as any);
   const [departament, setDepartament] = useState("06");
@@ -168,8 +167,8 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
            </div>
 
-            <div onClick={()=>setIsOtherRegisters(!isOtherRegisters)} className="w-full uppercase px-2 border-2 rounded-lg text-base font-bold text-center clickeable">Datos de contribuyente</div>
-            {isOtherRegisters && (
+            <div className="w-full uppercase px-2 border-2 rounded-lg text-base font-bold text-center">Datos de contribuyente</div>
+    
             <div className="mt-2">
                 <div className="flex flex-wrap -mx-3">
 
@@ -223,7 +222,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
                 </div>
             </div>
-            )}
+
               {message.errors && (
                 <div className="">
                   <Alert
