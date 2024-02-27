@@ -15,12 +15,14 @@ export function ContactDetails(props: ContactDetailsProps) {
   const [locations, setLocaltions] = useState({} as any);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await loadData(`electronic/getlocations`);
-      setLocaltions(data);
-    };
-  
-    fetchData();
+    if (record) {
+        const fetchData = async () => {
+            const data = await loadData(`electronic/getlocations`);
+            setLocaltions(data);
+          };
+        
+          fetchData();
+    }
   }, [setLocaltions, record]);
 
 if (!locations || !record) {
@@ -28,11 +30,8 @@ if (!locations || !record) {
 }
 
   return (
-
         <div className="mx-4">
-
               <div className="flex flex-wrap -mx-3">
-
             <div className="w-full md:w-full px-3 mb-2 flex justify-between">
                 <div className="flex justify-between">
                     <span className="mt-1">{record?.is_client ? <BiCheckCircle color="green" /> : null} </span>
@@ -132,12 +131,8 @@ if (!locations || !record) {
                     <div className={style.inputLabel}>Tipo de contribuyente</div>
                         <div> {record?.taxpayer_type == 1 ? "CONTRIBUYENTE" : "GRAN CONTRIBUYENTE"} </div>
                     </div> }
-
-
                 </div>
             </div>
-
-
         </div>
   );
 }

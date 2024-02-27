@@ -49,12 +49,12 @@ const onSubmit = async (data: any) => {
 
 return (
 <Modal show={isShow} position="center" onClose={onClose} size="md">
-  <Modal.Header>Otras ventas</Modal.Header>
+  <Modal.Header>Agregar Comentario</Modal.Header>
   <Modal.Body>
     <div className="mx-4">
         <form className="max-w-lg mt-4" onSubmit={handleSubmit(onSubmit)} >
             <div className="w-full md:w-full px-3 mb-4">
-                <label htmlFor="comment" className={style.inputLabel} >Cantidad</label>
+                <label htmlFor="comment" className={style.inputLabel} >Comentario</label>
                 <textarea rows={5} {...register("comment", { required: true })} className={`${style.input} w-full`} />
             </div>
             <div className="flex justify-center">

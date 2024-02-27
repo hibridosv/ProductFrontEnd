@@ -98,13 +98,16 @@ export function ContactAddModal(props: ContactAddModalProps) {
   };
   
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await loadData(`electronic/getlocations`);
-      setLocaltions(data);
-    };
-  
-    fetchData();
-  }, [setLocaltions]);
+    if (record) {
+      const fetchData = async () => {
+        const data = await loadData(`electronic/getlocations`);
+        setLocaltions(data);
+      };
+    
+      fetchData();
+    }
+
+  }, [setLocaltions, record]);
 
 
   return (

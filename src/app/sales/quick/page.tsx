@@ -81,22 +81,24 @@ export default function ViewSales() {
     }
   };
 
-
+  
 
   useEffect(() => {
      if (!isQuantityModal
       && !isCommissionModal 
+      && !isSalesCommentModal 
       && !isDiscountProductModal
       && !isContactSearchModal
       && !isSalesOtherModal
       && !isSalesSelectInvoiceType) {      
-        if (order) { (async () => {await loadDataProductsOfInvoice(); })() } 
-        else { (async () => {await loadLastInvoice(); })() }
+        if (order) { (async () => await loadDataProductsOfInvoice())() } 
+        else { (async () => await loadLastInvoice())() }
       }
     // eslint-disable-next-line
   }, [changeOrder, 
     isQuantityModal,
     isCommissionModal, 
+    isSalesCommentModal, 
     isDiscountProductModal, 
     isContactSearchModal, 
     isSalesOtherModal, 

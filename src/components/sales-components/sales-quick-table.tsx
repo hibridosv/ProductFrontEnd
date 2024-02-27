@@ -1,5 +1,5 @@
 'use client'
-import { numberToMoney } from "@/utils/functions";
+import { getTotalPercentage, numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Button, Preset } from "../button/button";
 
@@ -31,6 +31,9 @@ export function SalesQuickTable(props: SalesQuickProps) {
        { record.cod == 9999999999 ?
       <td className="py-1 px-2"> { record.quantity } </td> :
       <td className="py-1 px-2 cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.quantity)}> { record.quantity } </td> }
+      {config.includes("sales-show-code") &&
+      <td className="py-1 px-2">{ record.cod }</td>
+      }
       <td className="py-1 px-2 truncate uppercase clickeable" onClick={()=> onClick(record, OptionsClickSales.productView)}>{ record.product.slice(0, 50) }</td>
       <td className="py-1 px-2">{ numberToMoney(record.unit_price ? record.unit_price : 0) }</td>
       {
@@ -42,7 +45,7 @@ export function SalesQuickTable(props: SalesQuickProps) {
         { numberToMoney(record.discount ? record.discount : 0) }</td>
       }
       {config.includes("product-default-commission") &&
-      <td className="py-1 px-2 clickeable" onClick={()=> onClick(record, OptionsClickSales.commisssion)}>{ record.commission ? record.commission : 0 } %</td>
+      <td className="py-1 px-2 clickeable" onClick={()=> onClick(record, OptionsClickSales.commisssion)}>{ record.commission ? record.commission : 0 } % -  { numberToMoney(getTotalPercentage(record?.total, record?.commission)) }</td>
       }
       <td className="py-1 px-2 truncate">{ numberToMoney(record.total ? record.total : 0) }</td>
       <td className="py-1 px-2">
@@ -60,6 +63,9 @@ export function SalesQuickTable(props: SalesQuickProps) {
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
           <th scope="col" className="py-2 px-2 border">Cant</th>
+          {config.includes("sales-show-code") &&
+          <th scope="col" className="py-2 px-2 border">Cod</th>
+          }
           <th scope="col" className="py-2 px-2 border">Producto</th>
           <th scope="col" className="py-2 px-2 border">Precio</th>
           <th scope="col" className="py-2 px-2 border">Descuento</th>
