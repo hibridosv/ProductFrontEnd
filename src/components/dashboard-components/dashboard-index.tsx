@@ -3,6 +3,7 @@
 import { CharBarWeek } from "./char-bar-week";
 import { PrincipalInfo } from "./principal-info";
 import { ViewTitle } from "../view-title/view-title";
+import { CharPiePayment } from "./char-pie-payment";
 
 
 
@@ -19,7 +20,6 @@ export function DashBoardIndex(){
         <div className='w-full px-4'>
           <CharBarWeek />
         </div>
-
       </div>
     </div>
     );

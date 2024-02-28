@@ -55,25 +55,15 @@ export default function ViewSales() {
     // eslint-disable-next-line
   }, [config]);
 
-  const loadDataProductsOfInvoice = async () => {
-    setIsLoading(true);
-    try {
-      const response = await getData(`sales/${order}`);
-      setProductsOfInvoice(response.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
-
-  const loadLastInvoice = async () => {
+  const selectLastOrder = async () => {
     setIsLoading(true);
     try {
       const response = await getData(`sales/order/select`);
-      setProductsOfInvoice(response.data);
-      setOrder(response.data.id);
+      if (response?.data) {
+        setProductsOfInvoice(response.data);
+        setOrder(response.data.id);    
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -91,8 +81,7 @@ export default function ViewSales() {
       && !isContactSearchModal
       && !isSalesOtherModal
       && !isSalesSelectInvoiceType) {      
-        if (order) { (async () => await loadDataProductsOfInvoice())() } 
-        else { (async () => await loadLastInvoice())() }
+        (async () => await selectLastOrder())()
       }
     // eslint-disable-next-line
   }, [changeOrder, 

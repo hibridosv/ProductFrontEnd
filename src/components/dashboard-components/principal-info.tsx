@@ -2,10 +2,10 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { CardDashBoardInfo } from "./card-dashboard-info";
 import { getData } from "@/services/resources";
 import { Loading } from "../loading/loading";
 import { NothingHere } from "../nothing-here/nothing-here";
+import { CardDashBoard } from "./card-dashboard";
 
 interface PrincipalInfoProps {
     records?: any;
@@ -30,8 +30,6 @@ const loadDataOFCards = async () => {
     }
   };
 
-
-
   useEffect(() => {
         (async () => await loadDataOFCards() )()
     // eslint-disable-next-line
@@ -47,7 +45,7 @@ const loadDataOFCards = async () => {
             <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
                 {dataOfCards.map((record: any, index: any) => (
                     <div key={index}>
-                        <CardDashBoardInfo records={record} isLoading={isLoading} />
+                        <CardDashBoard records={record} isLoading={isLoading} />
                     </div>
                 ))}
             </div>
