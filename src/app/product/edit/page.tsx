@@ -19,6 +19,7 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { PresetTheme } from "@/services/enums";
 import { transformFields } from "@/utils/functions";
 import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
+import { ContactAddModal } from "@/components/contacts-components/contact-add-modal";
 
 
   export default function GetProduct() {
@@ -39,7 +40,7 @@ import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
     const [products, setProducts] = useState([]);
     const [productSelected, setProductSelected] = useState(null);
     const [showModalCategories, setShowModalCategories] = useState(false);
-
+    const [showModalProvider, setShowModalProvider] = useState(false);
     
     const loadData = async () => {
       try {
@@ -59,7 +60,7 @@ import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
   }, [searchTerm]);
   
   
-    const { register, handleSubmit, reset, watch, setValue } = useForm();
+    const { register, handleSubmit, setValue } = useForm();
   
     useEffect(() => {
       setBrandStatus(getConfigStatus("product-brand"))
@@ -78,7 +79,7 @@ import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
     }
     
     useEffect(() => {
-      if (productSelected && showModalCategories === false) {
+      if (productSelected && !showModalCategories && !showModalProvider) {
         
       (async () => {
         setIsLoading(true);
@@ -94,7 +95,7 @@ import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
       })();
     }
       // eslint-disable-next-line
-    }, [productSelected, showModalCategories]);
+    }, [productSelected, showModalCategories, showModalProvider]);
 
 
     useEffect(() => {
@@ -238,7 +239,7 @@ import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
               </div>
 
               <div className="w-full md:w-1/3 px-3 mb-2">
-                <label htmlFor="provider_id" className={style.inputLabel}>Proveedor</label>
+                <label htmlFor="provider_id" className={style.inputLabel} onClick={()=>setShowModalProvider(true)}>Proveedor (Click para agregar)</label>
                 <select
                   id="provider_id"
                   {...register("provider_id")}
@@ -368,6 +369,7 @@ import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
           </div>
             }
         <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} />
+        <ContactAddModal isShow={showModalProvider} onClose={()=>setShowModalProvider(false)} />
       <Toaster position="top-right" reverseOrder={false} />
       </div>
     );

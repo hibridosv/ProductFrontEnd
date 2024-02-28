@@ -26,6 +26,8 @@ const handlePermission = (permission: string, redirect: string): string => {
     return "/error/403";
 }
 
+  if (!systemInformation?.system?.theme) { return <></> }
+
   return (
     <Sidebar
       breakPoint="always"

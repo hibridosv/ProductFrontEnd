@@ -6,12 +6,14 @@ import { AiFillHome, AiOutlineSearch } from "react-icons/ai"
 import { useContext, useState } from "react";
 import { ProductSearchModal } from "../modals/product-search-modal";
 import { ConfigContext } from "@/contexts/config-context";
+import { HeaderSkeleton } from "./header-skeleton";
 
 export function Header() {
   const { toggleSidebar } = useProSidebar();
   const [showProductSearchModal, setShowProductSearchModal] = useState(false);
   const { systemInformation } = useContext(ConfigContext);
 
+  if (!systemInformation?.system?.theme) { return <HeaderSkeleton />}
 
   return (
 
