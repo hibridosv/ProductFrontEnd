@@ -5,7 +5,6 @@ import { Loading } from "../loading/loading";
 import { ListGroup } from "flowbite-react";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import Image from "next/image";
-import { URL } from "@/constants";
 import { getConfigStatus, setPriceName, setPriceOptions } from "@/utils/functions";
 import { OptionsClickOrder, PresetTheme, TypeOfPrice } from "@/services/enums";
 import { Alert } from "../alert/alert";
