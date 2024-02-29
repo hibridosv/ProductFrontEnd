@@ -2,7 +2,7 @@
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
-import { getUrlFromCookie } from "@/services/oauth";
+import { API_URL } from "@/constants";
 
 
 interface InvoiceDocumentsElectronicTableProps {
@@ -12,8 +12,6 @@ interface InvoiceDocumentsElectronicTableProps {
 
 export function InvoiceDocumentsElectronicTable(props: InvoiceDocumentsElectronicTableProps) {
   const { records, isLoading } = props;
-  const remoteUrl = getUrlFromCookie();
-
 
   if (isLoading) return <Loading />;
   if (!records.data) return <NothingHere width="164" height="98" />;
@@ -42,7 +40,7 @@ const tipoDTE = (dte: string)=>{
         { record?.fecha_procesamiento ? formatDateAsDMY(record?.fecha_procesamiento) : formatDateAsDMY(record?.created_at) } | 
         { record?.fecha_procesamiento ? formatHourAsHM(record?.fecha_procesamiento) :  formatHourAsHM(record?.created_at)} 
       </td>
-      <td className="py-2 px-6 clickeable font-semibold"><a href={`${remoteUrl}/api/documents/download/${record?.codigo_generacion}/${record?.client_id}`}>{ tipoDTE(record?.tipo_dte) }</a> </td>
+      <td className="py-2 px-6 clickeable font-semibold"><a href={`${API_URL}documents/download/${record?.codigo_generacion}/${record?.client_id}`}>{ tipoDTE(record?.tipo_dte) }</a> </td>
       <td className="py-2 px-6">{ record?.numero_control }</td>
       <td className="py-2 px-6">{ status(record?.status) }</td>
       <td className="py-2 px-6">{ record?.email == 1 ? "Enviado" : "Sin Enviar" }</td>
