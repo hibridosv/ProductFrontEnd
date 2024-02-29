@@ -46,7 +46,7 @@ const tipoDTE = (dte: string)=>{
       <td className="py-2 px-6">{ record?.numero_control }</td>
       <td className="py-2 px-6">{ status(record?.status) }</td>
       <td className="py-2 px-6">{ record?.email == 1 ? "Enviado" : "Sin Enviar" }</td>
-      <td className="py-2 px-6">{ record?.descripcion_msg }</td>
+      <td className="py-2 px-6 text-sm">{ record?.descripcion_msg }</td>
     </tr>
   ));
 
