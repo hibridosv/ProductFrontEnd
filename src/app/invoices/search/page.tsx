@@ -99,12 +99,26 @@ export default function KardexPage() {
           {isSending ? <Loading /> :
             // <KardexTable records={records} />
             <div className="mx-3 my-8 ">
-              <div className="flex justify-between font-bold text-lg">
-                <div>Cajero: <span>{records?.data?.employee?.name}</span></div>
-                <div>Fecha: <span>{ formatDateAsDMY(records?.data?.charged_at) }</span></div>
-                <div>Tipo: <span>{ records?.data?.invoice_assigned?.name }</span></div>
-                <div>Pago: <span>{ getPaymentTypeName(records?.data?.payment_type) }</span></div>
+
+              <div className="grid grid-cols-4 md:grid-cols-8 gap-3 bg-white dark:bg-gray-900">
+                        <div className={`col-span-2 border-2 border-slate-600 shadow-md shadow-cyan-500 rounded-md w-full`}>
+                          <div className="w-full text-center">Cajero</div>
+                          <div className="w-full text-center text-xl my-2 font-bold">{records?.data?.employee?.name}</div>
+                        </div>
+                        <div className={`col-span-2 border-2 border-slate-600 shadow-md shadow-cyan-500 rounded-md w-full`}>
+                          <div className="w-full text-center">Fecha</div>
+                          <div className="w-full text-center text-xl my-2 font-bold">{ formatDateAsDMY(records?.data?.charged_at) }</div>
+                        </div>
+                        <div className={`col-span-2 border-2 border-slate-600 shadow-md shadow-cyan-500 rounded-md w-full`}>
+                          <div className="w-full text-center">Tipo</div>
+                          <div className="w-full text-center text-xl my-2 font-bold">{ records?.data?.invoice_assigned?.name }</div>
+                        </div>
+                        <div className={`col-span-2 border-2 border-slate-600 shadow-md shadow-cyan-500 rounded-md w-full`}>
+                          <div className="w-full text-center">Pago</div>
+                          <div className="w-full text-center text-xl my-2 font-bold">{ getPaymentTypeName(records?.data?.payment_type) }</div>
+                        </div>
               </div>
+
 
               <div className="w-full overflow-auto mt-4">
                   <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
