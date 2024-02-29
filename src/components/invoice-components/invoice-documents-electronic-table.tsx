@@ -40,13 +40,12 @@ const tipoDTE = (dte: string)=>{
       <td className={`py-2 px-6 ${record?.status == 4 ? 'clickeable font-semibold' : 'text-red-500'}`}>
         { record?.status == 4 ?
         <a href={`${API_URL}documents/download/${record?.codigo_generacion}/${record?.client_id}`}>{ tipoDTE(record?.tipo_dte) }</a>  :
-        <div>{ tipoDTE(record?.tipo_dte) }</div>
+        <div title={record?.observaciones}>{ tipoDTE(record?.tipo_dte) }</div>
         }
       </td>
       <td className="py-2 px-6">{ record?.numero_control }</td>
-      <td className="py-2 px-6">{ status(record?.status) }</td>
+      <td className="py-2 px-6" title={record?.descripcion_msg}>{ status(record?.status) }</td>
       <td className="py-2 px-6">{ record?.email == 1 ? "Enviado" : "Sin Enviar" }</td>
-      <td className="py-2 px-6 text-sm">{ record?.descripcion_msg }</td>
     </tr>
   ));
 
@@ -60,7 +59,6 @@ const tipoDTE = (dte: string)=>{
           <th scope="col" className="py-3 px-4 border">Numero de control</th>
           <th scope="col" className="py-3 px-4 border">Estado</th>
           <th scope="col" className="py-3 px-4 border">Email</th>
-          <th scope="col" className="py-3 px-4 border">Observaciones</th>
         </tr>
       </thead>
       <tbody>{listItems}</tbody>
