@@ -38,7 +38,10 @@ const tipoDTE = (dte: string)=>{
 
   const listItems = records.data.map((record: any, key: any) => (
     <tr key={record.id} className="border-b">
-      <td className="py-2 px-6 truncate">{ formatDateAsDMY(record?.fecha_procesamiento) } | { formatHourAsHM(record?.fecha_procesamiento)} </td>
+      <td className="py-2 px-6 truncate">
+        { record?.fecha_procesamiento ? formatDateAsDMY(record?.fecha_procesamiento) : formatDateAsDMY(record?.created_at) } | 
+        { record?.fecha_procesamiento ? formatHourAsHM(record?.fecha_procesamiento) :  formatHourAsHM(record?.created_at)} 
+      </td>
       <td className="py-2 px-6">{ tipoDTE(record?.tipo_dte) } </td>
       <td className="py-2 px-6">{ record?.numero_control }</td>
       <td className="py-2 px-6">{ status(record?.status) }</td>
