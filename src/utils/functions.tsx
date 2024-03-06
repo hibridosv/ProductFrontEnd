@@ -255,7 +255,7 @@ export const getLastElement = (items: any)=> {
   }
 }
 
-// obtiene el ultimo elemento de un arreglo
+// obtiene el primer elemento de un arreglo
 export const getFirstElement = (items: any)=> {
   const elementsWithStatus1 = items.filter((element: any) => element.status === 1);
 
