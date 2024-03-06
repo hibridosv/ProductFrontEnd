@@ -12,7 +12,6 @@ import { getData, postData } from "@/services/resources";
 import { style } from "@/theme";
 import { SearchIcon } from "@/theme/svg";
 import { getFirstElement } from "@/utils/functions";
-import { data } from "autoprefixer";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast, Toaster } from "react-hot-toast";
