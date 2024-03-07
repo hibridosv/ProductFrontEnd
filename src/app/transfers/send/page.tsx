@@ -7,6 +7,7 @@ import { SelectGuest } from "@/components/transfers-components/select-guest";
 import { TransfersListTable } from "@/components/transfers-components/transfers-list-table";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { PresetTheme } from "@/services/enums";
+import { getTenant } from "@/services/oauth";
 import { Product } from "@/services/products";
 import { getData, postData } from "@/services/resources";
 import { style } from "@/theme";
@@ -29,12 +30,13 @@ const [isloading, setIsloading] = useState(false);
 const [message, setMessage] = useState<any>({});
 const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
 const [randomNumber, setRandomNumber] = useState(0);
+const tenant = getTenant();
 
 
 const initialData = async () =>{
   try {
     setIsloading(true)
-    const response = await getData(`transfers`);
+    const response = await getData(`transfers?sort=-created_at&filter[to_tenant_id]=-${tenant}&included=products,to,from`);
     if (!response.message) {
       let first = getFirstElement(response.data);
       if (first?.status == 1) {
@@ -57,12 +59,9 @@ const initialData = async () =>{
 
 
 useEffect(() => {
-    (async () => {
-      await initialData();
-    })();
+    (async () => await initialData())();
 }, [randomNumber]);
 
-console.log("allTransfers", allTransfers)
 
 
 const handleIsGuestSelected = async (record: any)=>{
