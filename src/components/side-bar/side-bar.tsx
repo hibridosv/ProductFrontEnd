@@ -111,6 +111,11 @@ const handlePermission = (permission: string, redirect: string): string => {
           <MenuItem component={<Link className="text-sm" href={handlePermission("invoices-search", "/invoices/search")} />}>Buscar Documentos </MenuItem>
           {/* <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte contable </MenuItem> */}
         </SubMenu>
+
+        <SubMenu label="Transferencias" icon={<HiOutlineChartSquareBar />}>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("transfers", "/transfers/send")} />}>Crear Transferencia </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("transfers", "/transfers/receive")} />}>Aceptar Transferencia </MenuItem>
+        </SubMenu>
         {/*         
         <SubMenu label="Planillas" icon={<HiOutlineChartSquareBar color="red" />}>
           <MenuItem component={<Link className="text-sm" href="/cash" />}>Consultar Planillas </MenuItem>
