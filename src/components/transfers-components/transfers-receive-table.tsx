@@ -14,6 +14,16 @@ export function TransfersReceiveTable(props: TransfersReceiveTableProps) {
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
+  const status = (status: number)=>{
+    switch (status) {
+      case 1: return <span className="status-info uppercase">En Progreso</span>
+      case 2: return <span className="status-info uppercase">Activo</span>
+      case 3: return <span className="status-warning uppercase">* Aceptado</span>
+      case 4: return <span className="status-success uppercase">Aceptado</span>
+      case 5: return <span className="status-danger uppercase">Rechazado</span>
+      default: return <span>Eliminado</span>
+    }
+}
 
   const listItems = records.data.map((record: any) => (
     <tr key={record.id} className={`border-b bg-white ${record.status == 2 && 'bg-lime-100'}`} >
@@ -21,9 +31,10 @@ export function TransfersReceiveTable(props: TransfersReceiveTableProps) {
       <td className="py-3 px-6 whitespace-nowrap">{ record?.to?.name }</td> 
       <td className="py-3 px-6 whitespace-nowrap">{ record?.from?.name }</td> 
       <td className="py-3 px-6 truncate">{ record?.send }</td>
-      <td className="py-3 px-6 truncate">{ record?.receive ? record?.receive : "PENDIENTE" }</td>
-      <td className="py-3 px-6 truncate">{ record?.products ? record?.products?.length : "N/A" }</td>
-      <td className="py-3 px-6 truncate">{ record?.received_at ? formatDate(record?.received_at) : "PENDIENTE" }</td>
+      <td className="py-3 px-6 truncate">{ record?.receive ? record?.receive : "N/A" }</td>
+      <td className="py-3 px-6 truncate font-extrabold">{ record?.products ? record?.products?.length : "N/A" }</td>
+      <td className="py-3 px-6 truncate">{ record?.received_at ? formatDate(record?.received_at) : "N/A" }</td>
+      <td className="py-3 px-6 truncate clickeable" onClick={()=>showTransfer(record)}>{ status(record?.status) }</td>
       <td className="py-3 px-6 truncate">
         <span className="flex justify-between">
           <AiOutlineFundView size={20} title="Ver detalles" className="text-red-600 clickeable" onClick={()=>showTransfer(record)} />
@@ -45,6 +56,7 @@ export function TransfersReceiveTable(props: TransfersReceiveTableProps) {
           <th scope="col" className="py-3 px-4 border">Recibe</th>
           <th scope="col" className="py-3 px-4 border">Productos</th>
           <th scope="col" className="py-3 px-4 border">Recibido</th>
+          <th scope="col" className="py-3 px-4 border">Estado</th>
           <th scope="col" className="py-3 px-4 border">OP</th>
         </tr>
       </thead>

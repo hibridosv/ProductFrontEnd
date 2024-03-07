@@ -12,6 +12,16 @@ export function TransfersListTable(props: TransfersListTableProps) {
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
+  const status = (status: number)=>{
+    switch (status) {
+      case 1: return <span className="status-info uppercase">En Progreso</span>
+      case 2: return <span className="status-info uppercase">Activo</span>
+      case 3: return <span className="status-warning uppercase">* Aceptado</span>
+      case 4: return <span className="status-success uppercase">Aceptado</span>
+      case 5: return <span className="status-danger uppercase">Rechazado</span>
+      default: return <span>Eliminado</span>
+    }
+}
 
   const listItems = records.data.map((record: any) => (
     <tr key={record.id} className="border-b bg-white" >
@@ -21,6 +31,7 @@ export function TransfersListTable(props: TransfersListTableProps) {
       <td className="py-3 px-6 whitespace-nowrap">{ record?.to?.name }</td> 
       <td className="py-3 px-6 truncate">{ record?.send }</td>
       <td className="py-3 px-6 truncate">{ record?.receive ? record?.receive : "PENDIENTE" }</td>
+      <td className="py-3 px-6 truncate">{ status(record?.status) }</td>
     </tr>
   ));
 
@@ -34,6 +45,7 @@ export function TransfersListTable(props: TransfersListTableProps) {
           <th scope="col" className="py-3 px-4 border">Destino</th>
           <th scope="col" className="py-3 px-4 border">Envia</th>
           <th scope="col" className="py-3 px-4 border">Recibe</th>
+          <th scope="col" className="py-3 px-4 border">Estado</th>
         </tr>
       </thead>
       <tbody>{listItems}</tbody>

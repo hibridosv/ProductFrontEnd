@@ -35,8 +35,10 @@ export default function Page() {
   
   
   useEffect(() => {
+    if (!isShowTransfer) {
       (async () => await initialData())();
-  }, []);
+    }
+  }, [isShowTransfer]);
 
 
   const showTransfer = (transfer: any)=>{
@@ -48,15 +50,15 @@ if(isloading) return <Loading />
   
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
-    <div className="col-span-7 border-r md:border-sky-600">
-          <ViewTitle text={isShowTransfer ? "DETALLES DE LA TRANFERENCIA" : "ULTIMAS TRANSFERENCIAS"} />
+    <div className="col-span-8 border-r md:border-sky-600">
+          <ViewTitle text={isShowTransfer ? "DETALLES DE LA TRANSFERENCIA" : "ULTIMAS TRANSFERENCIAS"} />
           {isShowTransfer ? 
             <TransfersReceiveDetailsTable records={isSelectTransfer} onClose={()=>setIsShowTransfer(false)} /> :
             <TransfersReceiveTable records={allTransfers} showTransfer={showTransfer} />
           }
     </div>
-    <div className="col-span-3">
-      <ViewTitle text="ULTIMAS TRANSFERENCIAS" />
+    <div className="col-span-2">
+      <ViewTitle text="TRANSFERENCIAS" />
 
     </div>
     <Toaster position="top-right" reverseOrder={false} />
