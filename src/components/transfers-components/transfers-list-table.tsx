@@ -1,27 +1,32 @@
 'use client'
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import { NothingHere } from "../nothing-here/nothing-here";
+import { IoMdAlert } from "react-icons/io";
+import { MdCheck, MdOutlineDownloading } from "react-icons/md";
 
 interface TransfersListTableProps {
   records?:  any;
+  getProductsOnline: (transfer: number)=>void;
+  isSending: boolean;
 }
 
 export function TransfersListTable(props: TransfersListTableProps) {
-  const { records } = props;
+  const { records, getProductsOnline, isSending } = props;
 
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
   const status = (status: number)=>{
-    switch (status) {
-      case 1: return <span className="status-info uppercase">En Progreso</span>
-      case 2: return <span className="status-info uppercase">Activo</span>
-      case 3: return <span className="status-warning uppercase">* Aceptado</span>
-      case 4: return <span className="status-success uppercase">Aceptado</span>
-      case 5: return <span className="status-danger uppercase">Rechazado</span>
-      default: return <span>Eliminado</span>
-    }
-}
+      switch (status) {
+        case 1: return <span className="status-info uppercase">En Progreso</span>
+        case 2: return <span className="status-info uppercase">Activo</span>
+        case 3: return <span className="status-warning uppercase">* Aceptado</span>
+        case 4: return <span className="status-success uppercase">Aceptado</span>
+        case 5: return <span className="status-danger uppercase">Rechazado</span>
+        default: return <span>Eliminado</span>
+      }
+  }
+
 
   const listItems = records.data.map((record: any) => (
     <tr key={record.id} className="border-b bg-white" >
@@ -31,7 +36,13 @@ export function TransfersListTable(props: TransfersListTableProps) {
       <td className="py-3 px-6 whitespace-nowrap">{ record?.to?.name }</td> 
       <td className="py-3 px-6 truncate">{ record?.send }</td>
       <td className="py-3 px-6 truncate">{ record?.receive ? record?.receive : "PENDIENTE" }</td>
-      <td className="py-3 px-6 truncate">{ status(record?.status) }</td>
+      <td className="py-3 px-6">{ status(record?.status) }</td>
+      <td className="py-3 px-6">
+        { isSending ? <MdOutlineDownloading size={20} className="text-teal-500 animate-spin" /> : 
+        (record?.status == 3 || record?.status == 5) && record?.is_online == 1 ? 
+        <IoMdAlert size={24}  className="clickleable text-orange-400" onClick={()=>getProductsOnline(record)}/> : 
+        <MdCheck size={20} className="text-lime-600" /> }
+        </td>
     </tr>
   ));
 
@@ -46,6 +57,7 @@ export function TransfersListTable(props: TransfersListTableProps) {
           <th scope="col" className="py-3 px-4 border">Envia</th>
           <th scope="col" className="py-3 px-4 border">Recibe</th>
           <th scope="col" className="py-3 px-4 border">Estado</th>
+          <th scope="col" className="py-3 px-4 border"></th>
         </tr>
       </thead>
       <tbody>{listItems}</tbody>

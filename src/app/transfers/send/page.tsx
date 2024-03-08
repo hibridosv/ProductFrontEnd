@@ -36,7 +36,7 @@ const tenant = getTenant();
 const initialData = async () =>{
   try {
     setIsloading(true)
-    const response = await getData(`transfers?sort=-created_at&filter[to_tenant_id]=-${tenant}&included=products,to,from`);
+    const response = await getData(`transfers?sort=-created_at&filter[from_tenant_id]=-${tenant}&included=products,to,from`);
     if (!response.message) {
       let first = getFirstElement(response.data);
       if (first?.status == 1) {
@@ -203,6 +203,25 @@ const handleSaveAll = async () =>{
 }
 
 
+const getProductsOnline = async (transfer: any) => {
+  try {
+    setIsSending(true);
+    const response = await postData(`transfers/online/${transfer.id}`, "PUT", { is_online: 0 });
+    if (!response.message) {
+      await initialData()
+      toast.success("Productos devueltos correctamente");
+    } else {
+      toast.error("Faltan algunos datos importantes!");
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error("Ha ocurrido un error!");
+  } finally {
+    setIsSending(false);
+  }
+}
+
+
 
 const listItems = products?.map((product: any):any => (
   <div key={product.id} onClick={()=>handleClickOnProduct(product.id)}>
@@ -216,7 +235,7 @@ const listItems = products?.map((product: any):any => (
   </div>
 ))
 
-if(isloading) return <Loading />
+// if(isloading) return <Loading />
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
@@ -298,7 +317,7 @@ if(isloading) return <Loading />
                 }</div>
             </div>
           </div>: 
-          <TransfersListTable records={allTransfers} />
+          <TransfersListTable isSending={isSending} getProductsOnline={getProductsOnline} records={allTransfers} />
         }
     </div>
     <Toaster position="top-right" reverseOrder={false} />

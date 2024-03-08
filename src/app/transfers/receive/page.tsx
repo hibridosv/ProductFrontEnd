@@ -19,7 +19,7 @@ export default function Page() {
   const initialData = async () =>{
     try {
       setIsloading(true)
-      const response = await getData(`transfers?sort=-created_at&filter[from_tenant_id]=-${tenant}&included=products,to,from`);
+      const response = await getData(`transfers?sort=-created_at&filter[to_tenant_id]=-${tenant}&included=products,to,from`);
       if (!response.message) {
         setAllTransfers(response)
       } else {

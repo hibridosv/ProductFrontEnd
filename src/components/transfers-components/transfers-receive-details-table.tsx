@@ -10,7 +10,7 @@ import { DeleteModal } from "../modals/delete-modal";
 
 const checkCodReceive = (data: any) => {
   for (let i = 0; i < data.length; i++) {
-    if (data[i].cod_receive == "") {
+    if (data[i].status == 1 && data[i].cod_receive == "") {
       return true;
     }
   }
@@ -50,7 +50,9 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
   }
   
   useEffect(() => {
-      (async () => await initialData())();
+      if (checkCodReceive(transfer.products)) {
+        (async () => await initialData())();
+      }
   }, []);
 
 
@@ -120,7 +122,7 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
   const handleAceptAll = async ()=>{
     try {
       setIsSending(true);
-      const response = await postData(`transfers/accept/${transfer.id}`, "PUT", { status: 4 });
+      const response = await postData(`transfers/accept/${transfer.id}`, "PUT", { is_online: 0, status: 4 });
       if (!response.message) {
         await initialData();
         toast.success("Producto eliminado correctamente");
@@ -135,7 +137,7 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
     }
   }
 
-  console.log("Is Received", checkCodReceive(transfer))
+
 
   if (!transfer.products) return <NothingHere width="164" height="98" />;
   if (transfer.products.length == 0) return <NothingHere text="No se encontraron productos" width="164" height="98" />;

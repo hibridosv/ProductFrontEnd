@@ -77,7 +77,7 @@ export function ProductsTable(props: ProductsTableProps) {
       { !withOutRows?.includes(RowTable.brand) && <td className="py-3 px-6">{product?.brand?.name}</td>}
       { !withOutRows?.includes(RowTable.minimum_stock) && <td className="py-3 px-6">{product.minimum_stock}</td>}
       { !withOutRows?.includes(RowTable.options) && <td className="py-3 px-6">
-        <Dropdown label={<IoMdOptions size="1.2em" />} inline={true} >
+        <Dropdown label={<IoMdOptions size="1.2em" />} inline={true} dismissOnClick={true}>
           <Dropdown.Item onClick={()=>showProduct(product)}>VER PRODUCTO</Dropdown.Item>
           {/* <Dropdown.Item icon={GrEdit}><Link href={`/product/edit/${product.id}`}>Editar</Link></Dropdown.Item>
           <Dropdown.Item icon={GrAction}><Link href={`/product/kardex/${product.id}`}>Kardex</Link></Dropdown.Item> */}

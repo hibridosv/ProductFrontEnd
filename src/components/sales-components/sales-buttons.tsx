@@ -38,6 +38,7 @@ export function SalesButtons(props: SalesButtonsProps) {
            <div>
             <Button.Group>
             <Dropdown
+            dismissOnClick={true}
             label={<div className='button-left-grey'><IoMdOptions className='mr-1' /> Opciones</div>}
             inline={true}
             arrowIcon={false}>

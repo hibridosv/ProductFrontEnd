@@ -28,6 +28,7 @@ export function ViewTitle(props: ViewTitleProps) {
             label={<IoMdOptions size="1em" />}
             inline={true}
             arrowIcon={false}
+            dismissOnClick={true}
           >
             {links.map((item: LinkUrls, index: any) => {
               if (item.name && item.link) {
