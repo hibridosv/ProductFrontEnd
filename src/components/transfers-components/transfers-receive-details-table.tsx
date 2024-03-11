@@ -107,7 +107,7 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
       const response = await postData(`transfers/cancel/${transfer.id}`, "PUT", { status: 5 });
       if (!response.message) {
         await initialData();
-        toast.success("Producto eliminado correctamente");
+        toast.success("Transferencia finalizada correctamente");
       } else {
         toast.error("Faltan algunos datos importantes!");
       }
