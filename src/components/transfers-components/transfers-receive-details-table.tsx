@@ -60,7 +60,7 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
     console.log("Data: ", data)
     try {
       setIsSending(true);
-      const response = await postData(`transfers/products/create`, "POST", data);
+      const response = await postData(`transfers/products/create/${data.id}`, "PUT", { create: 1 });
       if (!response.message) {
         await initialData();
         toast.success("Producto agregado correctamente");
@@ -165,7 +165,7 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
             {
               record?.cod_receive ? <MdCheck size={20} className="text-lime-600" /> :
               isSending ? <MdOutlineDownloading size={20} className="text-teal-500 animate-spin" /> : 
-              <AiOutlineFundView size={20} title="Agregar registro nuevo de este producto" className="text-red-600 clickeable" onClick={record.status == 1 ? ()=>createNewRegister(JSON.parse(record.product_json)) : ()=>console.log()} />
+              <AiOutlineFundView size={20} title="Agregar registro nuevo de este producto" className="text-red-600 clickeable" onClick={record.status == 1 ? ()=>createNewRegister(record) : ()=>console.log()} />
             }
             <Button preset={record.status != 1 ? Preset.smallCloseDisable : Preset.smallClose} disabled={record.status != 1} noText onClick={()=>isDeleteProduct(record)} />
             </span>
@@ -190,12 +190,12 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
       <tbody>{listItems}</tbody>
     </table>
     <div className="flex justify-end m-8">
-        <Button onClick={onClose} text="REGRESAR" preset={Preset.add} style="m-3" />
+        <Button onClick={onClose} disabled={isSending} text="REGRESAR" preset={Preset.add} style="m-3" />
         { transfer.status == 2 ? <>
-        <Button text="RECHAZAR" onClick={()=>setShowDeleteModalTransfer(true)} preset={Preset.cancel} style="m-3" />
-        <Button text="ACEPTAR TODO" onClick={handleAceptAll} preset={Preset.save} disabled={checkCodReceive(transfer.products)} style="m-3" />
+        <Button text="RECHAZAR" onClick={()=>setShowDeleteModalTransfer(true)} disabled={isSending} preset={Preset.cancel} style="m-3" />
+        <Button text="ACEPTAR TODO" onClick={handleAceptAll} preset={isSending ? Preset.saving : Preset.save} disabled={checkCodReceive(transfer.products)} style="m-3" />
         </> :
-        <Button text="DESCARGAR REPORTE" preset={Preset.save} style="m-3" />
+        <Button disabled={isSending} text="DESCARGAR REPORTE" preset={Preset.save} style="m-3" />
         }
     </div>
  </div>
