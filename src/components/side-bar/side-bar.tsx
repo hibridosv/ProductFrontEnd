@@ -89,6 +89,7 @@ const handlePermission = (permission: string, redirect: string): string => {
         </SubMenu>
 
         <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar />}>
+          <MenuItem component={<Link className="text-sm" href="/tools/quotes" />}>Cotizaciones </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("tools-commissions", "/tools/commissions")} />}>Detalle Comisiones </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("tools-adjustment", "/tools/adjustment")} />}>Ajustar inventario </MenuItem>
         </SubMenu>

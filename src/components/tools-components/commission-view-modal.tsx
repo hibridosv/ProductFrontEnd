@@ -139,7 +139,7 @@ export function CommissionViewModal(props: CommissionViewModalProps) {
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         {
-           record && record.status == 2 && <a href={`${remoteUrl}/download/pdf/commission/${record.id}`} className="py-2 px-4 flex justify-center items-center text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 clickeable">DESCARGAR PDF</a>
+           record && record.status == 2 && <a target="_blank" href={`${remoteUrl}/download/pdf/commission/${record.id}`} className="py-2 px-4 flex justify-center items-center text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 clickeable">DESCARGAR PDF</a>
         }
         <Button onClick={onClose} preset={Preset.close} />
         {
