@@ -1,8 +1,8 @@
 'use client'
-import { getPaymentTypeName, getTotalOfItem, numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
-import { formatDate, formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
+import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
+import { API_URL } from "@/constants";
 
 
 interface InvoiceDocumentsElectronicTableProps {
@@ -12,8 +12,6 @@ interface InvoiceDocumentsElectronicTableProps {
 
 export function InvoiceDocumentsElectronicTable(props: InvoiceDocumentsElectronicTableProps) {
   const { records, isLoading } = props;
-
-
 
   if (isLoading) return <Loading />;
   if (!records.data) return <NothingHere width="164" height="98" />;
@@ -38,12 +36,16 @@ const tipoDTE = (dte: string)=>{
 
   const listItems = records.data.map((record: any, key: any) => (
     <tr key={record.id} className="border-b">
-      <td className="py-2 px-6 truncate">{ formatDateAsDMY(record?.fecha_procesamiento) } | { formatHourAsHM(record?.fecha_procesamiento)} </td>
-      <td className="py-2 px-6">{ tipoDTE(record?.tipo_dte) } </td>
+      <td className="py-2 px-6 truncate">{ record?.fecha_procesamiento ? record?.fecha_procesamiento : "N/A" } </td>
+      <td className={`py-2 px-6 ${record?.status == 4 ? 'clickeable font-semibold' : 'text-red-500'}`}>
+        { record?.status == 4 ?
+        <a href={`${API_URL}documents/download/${record?.codigo_generacion}/${record?.client_id}`}>{ tipoDTE(record?.tipo_dte) }</a>  :
+        <div title={record?.observaciones}>{ tipoDTE(record?.tipo_dte) }</div>
+        }
+      </td>
       <td className="py-2 px-6">{ record?.numero_control }</td>
-      <td className="py-2 px-6">{ status(record?.status) }</td>
+      <td className="py-2 px-6" title={record?.descripcion_msg}>{ status(record?.status) }</td>
       <td className="py-2 px-6">{ record?.email == 1 ? "Enviado" : "Sin Enviar" }</td>
-      <td className="py-2 px-6">{ record?.observaciones }</td>
     </tr>
   ));
 
@@ -57,7 +59,6 @@ const tipoDTE = (dte: string)=>{
           <th scope="col" className="py-3 px-4 border">Numero de control</th>
           <th scope="col" className="py-3 px-4 border">Estado</th>
           <th scope="col" className="py-3 px-4 border">Email</th>
-          <th scope="col" className="py-3 px-4 border">Observaciones</th>
         </tr>
       </thead>
       <tbody>{listItems}</tbody>
