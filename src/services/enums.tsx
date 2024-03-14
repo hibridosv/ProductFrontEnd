@@ -38,6 +38,7 @@ export enum OptionsClickOrder {
     wholesalerPrice = 19,
     documentType = 20,
     comment = 21,
+    quotes = 22,
   }
   
 

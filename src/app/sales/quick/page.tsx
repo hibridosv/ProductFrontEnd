@@ -138,6 +138,25 @@ export default function ViewSales() {
     }
   };
 
+
+  
+  const saveAsQuote = async () => {
+    if (!productsOfInvoice?.client) {
+      toast.error("Debe seleccionar un cliente para usar esta función!");
+      return
+    }
+    try {
+      const response = await postData(`quotes/${order}`, "PUT");
+      toast.success(response.message);
+      if (response.type !== "error") {
+        resetOrder()
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    }
+  };
+
   const onSubmit = async (data: any) => {
     
     if (!data.cod){
@@ -206,6 +225,8 @@ export default function ViewSales() {
       case OptionsClickOrder.wholesalerPrice : (() => { setTypeOfPrice(2); })();
         break;
       case OptionsClickOrder.promotionPrice: (() => { setTypeOfPrice(3); })();
+        break;
+      case OptionsClickOrder.quotes: saveAsQuote();
         break;
       default: console.log(option);
         break;

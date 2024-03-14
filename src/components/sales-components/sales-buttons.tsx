@@ -56,6 +56,7 @@ export function SalesButtons(props: SalesButtonsProps) {
               { config.includes("sales-comment") && 
               <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.comment)}> Agregar comentario </Dropdown.Item>}
               <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.documentType)}> Tipo de Documento </Dropdown.Item>
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.quotes)}> Guardar como Cotización </Dropdown.Item>
             </Dropdown>
             <Button color="blue" gradientMonochrome="info" onClick={()=>onClick(2)}>
               <AiFillSave className='mr-1' /> Guardar </Button>

@@ -1,0 +1,61 @@
+'use client'
+
+import { Pagination, ViewTitle } from "@/components"
+import { Button, Preset } from "@/components/button/button"
+import { MinimalSearch } from "@/components/form/minimal-search";
+import { QuotesListTable } from "@/components/tools-components/quotes-list-table";
+import { usePagination } from "@/hooks/usePagination";
+import { useSearchTerm } from "@/hooks/useSearchTerm";
+import { postData } from "@/services/resources";
+import { loadData } from "@/utils/functions";
+import { useEffect, useState } from "react";
+import { toast, Toaster } from "react-hot-toast";
+
+export default function Page() {
+const [isAddQuotesModal, setIsAddQuotesModal] = useState(false);
+const [quotes, setQuotes] = useState(false);
+const {currentPage, handlePageNumber} = usePagination("&page=1");
+const [randomNumber, setRandomNumber] = useState(0);
+const { searchTerm, handleSearchTerm } = useSearchTerm(["client_name", "quote_number"], 500);
+
+useEffect(() => {
+  if (!setIsAddQuotesModal) {
+    (async () => setQuotes(await loadData(`quotes?sort=-created_at&perPage=10${currentPage}${searchTerm}`)))();
+  }
+}, [currentPage, searchTerm, setIsAddQuotesModal, randomNumber]);
+
+const deleteQuotes = async (recordSelect: any) => {
+  try {
+    const response = await postData(`quotes/${recordSelect.id}`, 'DELETE');
+    if (response.type === "successful") {
+      toast.success( "Contacto eliminado correctamente");
+      setRandomNumber(Math.random());
+    } else {
+      toast.error("Ha Ocurrido un Error!");
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error("Ha Ocurrido un Error!");
+  } 
+}
+
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
+    <div className="col-span-7 border-r md:border-sky-600">
+        <div className="flex justify-between">
+          <ViewTitle text="LISTA DE COTIZACIONES" />
+          <span className=" m-4 text-2xl "><Button preset={Preset.add} text="AGREGAR" onClick={()=>setIsAddQuotesModal(true)} /></span>
+        </div>
+
+      <QuotesListTable records={quotes} onDelete={deleteQuotes} />
+      <Pagination records={quotes} handlePageNumber={handlePageNumber} />
+    </div>
+    <div className="col-span-3">
+      <ViewTitle text="DETALLES" />
+      <MinimalSearch records={quotes} handleSearchTerm={handleSearchTerm} placeholder="Buscar Cotización" />
+    </div>
+    <Toaster position="top-right" reverseOrder={false} />
+</div>
+  )
+}
