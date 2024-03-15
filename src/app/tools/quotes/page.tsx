@@ -9,12 +9,17 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { postData } from "@/services/resources";
 import { loadData } from "@/utils/functions";
 import { toast, Toaster } from "react-hot-toast";
-import { addElementToData, removeElementById } from "@/utils/functions-elements";
+import { removeElementById } from "@/utils/functions-elements";
+import { useRouter } from "next/navigation";
+
 
 export default function Page() {
 const [quotes, setQuotes] = useState({} as any);
 const {currentPage, handlePageNumber} = usePagination("&page=1");
 const { searchTerm, handleSearchTerm } = useSearchTerm(["client_name", "quote_number"], 500);
+const [isSending, setIsSending] = useState(false);
+const router = useRouter();
+
 
 useEffect(() => {
     (async () => setQuotes(await loadData(`quotes?sort=-created_at&included=products,client&perPage=10${currentPage}${searchTerm}`)))();
@@ -22,6 +27,7 @@ useEffect(() => {
 
 
 const deleteQuotes = async (recordSelect: any) => {
+  setIsSending(true)
   try {
     const response = await postData(`quotes/${recordSelect.id}`, 'DELETE');
     if (response.type === "error") {
@@ -35,15 +41,38 @@ const deleteQuotes = async (recordSelect: any) => {
   } catch (error) {
     console.error(error);
     toast.error("Ha Ocurrido un Error!");
-  } 
+  } finally {
+    setIsSending(false)
+  }
 }
+
+
+const sendQuotes = async (recordSelect: any) => {
+  setIsSending(true)
+  try {
+    const response = await postData(`quotes/charge/${recordSelect.id}`, 'PUT');
+    if (response.type === "error") {
+      toast.error("Ha Ocurrido un Error!");
+    } else {
+      toast.success( "Cotización enviada a facturar");
+      router.push("/sales/quick");
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error("Ha Ocurrido un Error!");
+  } finally {
+    setIsSending(false)
+  }
+}
+
+
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
     <div className="col-span-7 border-r md:border-sky-600">
       <ViewTitle text="LISTA DE COTIZACIONES" />
 
-      <QuotesListTable records={quotes} onDelete={deleteQuotes} />
+      <QuotesListTable records={quotes} onDelete={deleteQuotes} sendQuotes={sendQuotes} isSending={isSending} />
       <Pagination records={quotes} handlePageNumber={handlePageNumber} />
     </div>
     <div className="col-span-3">

@@ -11,10 +11,12 @@ import { QuotesViewModal } from "./quotes-view-modal";
 interface QuotesListTableProps {
   records?:  any;
   onDelete: (id: string) => void;
+  sendQuotes: (quote: any) => void;
+  isSending: boolean;
 }
 
 export function QuotesListTable(props: QuotesListTableProps) {
-  const { records, onDelete } = props;
+  const { records, onDelete, sendQuotes, isSending } = props;
   const [recordSelect, setRecordSelect] = useState<any>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showQuotesModal, setShowQuotesModal] = useState(false);
@@ -78,6 +80,6 @@ export function QuotesListTable(props: QuotesListTableProps) {
               onClose={()=>setShowDeleteModal(false)} /> 
 
  </div>
- <QuotesViewModal isShow={showQuotesModal} record={recordSelect} onClose={()=>setShowQuotesModal(false)} />
+ <QuotesViewModal isShow={showQuotesModal} record={recordSelect} onClose={()=>setShowQuotesModal(false)} sendQuotes={sendQuotes} isSending={isSending} />
  </div>);
 }
