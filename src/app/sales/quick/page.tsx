@@ -71,6 +71,7 @@ export default function ViewSales() {
     }
   };
 
+  console.log("Factura: ", productsOfInvoice)
   
 
   useEffect(() => {
