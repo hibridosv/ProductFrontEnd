@@ -41,17 +41,6 @@ export function ProductViewModal(props: ProductViewModalProps) {
   }
 
 
-  const listItems = product?.prices?.map((price: Price):any => (
-    <div key={price.id} className="w-full flex justify-center border-2">
-      <div className="border border-teal-300">
-          <span className="mx-2">{price.qty }</span>
-          <span className="mx-2">=</span>
-          <span className="mx-2">{ numberToMoney(price.price)}</span>
-          <span className="mx-2">{price.price_type == 1 && "N"} {price.price_type == 2 && "M"} {price.price_type == 3 && "P"}</span>
-      </div>
-    </div>
-  ));
-
   return (
     <Modal show={isShow} position="center" onClose={onClose}>
       <Modal.Header>Detalles del Producto</Modal.Header>

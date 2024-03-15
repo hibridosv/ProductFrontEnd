@@ -2,10 +2,10 @@
 import { useState, useEffect, useContext } from "react";
 import { getData } from "@/services/resources";
 import { Loading } from "../loading/loading";
-import { ListGroup } from "flowbite-react";
+import { ListGroup, Tooltip } from "flowbite-react";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import Image from "next/image";
-import { getConfigStatus, setPriceName, setPriceOptions } from "@/utils/functions";
+import { getConfigStatus, numberToMoney, setPriceName, setPriceOptions } from "@/utils/functions";
 import { OptionsClickOrder, PresetTheme, TypeOfPrice } from "@/services/enums";
 import { Alert } from "../alert/alert";
 import { ConfigContext } from "@/contexts/config-context";
@@ -71,6 +71,19 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
     return `${remoteUrl}/images/logo/${src}?w=${width}&q=${quality || 75}`
   }
 
+  const showProducts = (products: any) =>{
+    return  products?.map((product: any):any => (
+      <div key={product.id} className="w-full flex justify-center border-2">
+        <div className="border border-teal-300">
+            <span className="mx-2">{product.cod }</span>
+            <span className="mx-2">{product.product }</span>
+            <span className="mx-2">{ product.quantity}</span>
+            <span className="mx-2">{ numberToMoney(product.total)}</span>
+        </div>
+      </div>
+    ));
+  }
+
   return (
     <div className="mx-3 sm:mt-3">
       { orders.length === 0 ? 
@@ -80,6 +93,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
 
         {orders.map((order: any, index: any) => (
           <ListGroup.Item key={index}>
+          <Tooltip animation="duration-300" content={showProducts(order.invoiceproducts)} placement="right-end" style="light" >
             <div className="w-full flex justify-between">
               <span className="uppercase" onClick={() => onClick(order.id)}>{order?.client?.name ? `Cliente: ${order?.client?.name}` : `Usuario: ${order.employee.name}`}</span>
               <span className="ml-3" onClick={() => onClick(order.id)}>
@@ -87,6 +101,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
               </span>
               { downloadStatus && <a href={`${remoteUrl}/download/pdf/order/${order.id}`}><FaDownload /></a> }
             </div>
+          </Tooltip>
           </ListGroup.Item>
         ))}
       </ListGroup> }
