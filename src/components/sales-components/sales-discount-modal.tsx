@@ -8,7 +8,7 @@ import { style } from "@/theme";
 import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
 import { Button as Boton } from "flowbite-react";
-import { sumarDiscount, sumarTotales, sumarTotalesWithoutDIscount } from "@/utils/functions";
+import { numberToMoney, sumarDiscount, sumarTotales, sumarTotalesWithoutDIscount } from "@/utils/functions";
 
 
 export interface SalesDiscountProductModalProps {
@@ -86,10 +86,10 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
           <span>Precio sin descuento:</span> $ {discountType == 1 ? (parseFloat(product?.discount ? product?.discount : 0) + parseFloat(product?.total ? product.total : 0)).toFixed(2) : sumarTotalesWithoutDIscount(order?.invoiceproducts)}
         </div>
         <div className="mt-1 border-b-2 flex justify-between">
-          <span>Descuento aplicado:</span> $ {discountType == 1 ? (product?.discount ? product?.discount : 0).toFixed(2)  : sumarDiscount(order?.invoiceproducts)}
+          <span>Descuento aplicado:</span> $ {discountType == 1 ? (product?.discount ? product?.discount : 0).toFixed(2)  : numberToMoney(sumarDiscount(order?.invoiceproducts))}
         </div>
         <div className="mt-1 border-b-2 flex justify-between">
-          <span>Total con descuento:</span> $ {discountType == 1 ? (product?.total ? product?.total : 0).toFixed(2)  : sumarTotales(order?.invoiceproducts)}
+          <span>Total con descuento:</span> $ {discountType == 1 ? (product?.total ? product?.total : 0).toFixed(2)  : numberToMoney(sumarTotales(order?.invoiceproducts))}
         </div>
         </div>
       <Toaster position="top-right" reverseOrder={false} />

@@ -69,7 +69,7 @@ export function QuotesViewModal(props: QuotesViewModalProps) {
                             <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col" className="py-3 px-4 border">Total: </th>
-                            <th scope="col" className="py-3 px-4 border">{ sumarTotales(record?.products) }</th>
+                            <th scope="col" className="py-3 px-4 border">{ numberToMoney(sumarTotales(record?.products)) }</th>
                         </tr>
                     </tfoot>
                     </table>

@@ -135,7 +135,7 @@ export const sumarCantidad = (datos: any): number => {
  * @param datos 
  * @returns 
  */
-export const sumarTotales = (datos: any): string => {
+export const sumarTotales = (datos: any): number => {
   let totalSuma = 0;
 
   datos?.forEach((elemento: any) => {
@@ -144,11 +144,11 @@ export const sumarTotales = (datos: any): string => {
     }
   });
 
-  return totalSuma.toFixed(2);
+  return totalSuma;
 }
 
 
-export const sumarDiscount = (datos: any): string => {
+export const sumarDiscount = (datos: any): number => {
   let totalSuma = 0;
 
   datos?.forEach((elemento: any) => {
@@ -157,7 +157,7 @@ export const sumarDiscount = (datos: any): string => {
     }
   });
 
-  return totalSuma.toFixed(2);
+  return totalSuma;
 }
 
 export const sumarTotalesWithoutDIscount = (datos: any): string => {

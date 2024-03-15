@@ -1,5 +1,5 @@
 'use client'
-import { getTotalPercentage, numberToMoney } from "@/utils/functions";
+import { getTotalPercentage, numberToMoney, sumarDiscount, sumarTotales } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Button, Preset } from "../button/button";
 
@@ -56,6 +56,15 @@ export function SalesQuickTable(props: SalesQuickProps) {
     </tr>
   ));
 
+  const commissionTotal = (records: any)=>{
+    let commission = 0;
+        records.forEach((element: any) => {
+          let comissionPercentage = getTotalPercentage(element?.total, element?.commission)
+        commission = commission + comissionPercentage;
+      });
+    return commission;
+  }
+
 
   return (<div>
   <div className="w-full overflow-auto">
@@ -78,6 +87,23 @@ export function SalesQuickTable(props: SalesQuickProps) {
         </tr>
       </thead>
       <tbody>{listItems}</tbody>
+      <tfoot>
+      <tr>
+          <th scope="col"></th>
+          {config.includes("sales-show-code") &&
+          <th scope="col"></th>
+          }
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col" className="py-2 px-2 border">{ numberToMoney(sumarDiscount(records))}</th>
+          {config.includes("product-default-commission") &&
+          <th scope="col" className="py-2 px-2 border">{ numberToMoney(commissionTotal(records)) }</th>
+          }
+          <th scope="col" className="py-2 px-2 border">{ numberToMoney(sumarTotales(records)) }</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </tfoot>
     </table>
  </div>
  </div>);
