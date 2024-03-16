@@ -89,15 +89,10 @@ const handlePermission = (permission: string, redirect: string): string => {
         </SubMenu>
 
         <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar />}>
-          <MenuItem component={<Link className="text-sm" href="/tools/quotes" />}>Cotizaciones </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("tools-quotes", "/tools/quotes")} />}>Cotizaciones </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("tools-commissions", "/tools/commissions")} />}>Detalle Comisiones </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("tools-adjustment", "/tools/adjustment")} />}>Ajustar inventario </MenuItem>
         </SubMenu>
-
-        {/* <SubMenu label="Cotizaciones" icon={<HiOutlineChartSquareBar color="red" />}>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Crear Cotizaciones </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="/cash" />}>Consultar Cotizaciones </MenuItem>
-        </SubMenu> */}
 
         <SubMenu label="Reportes" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href={handlePermission("reports-sales", "/reports/sales")} />}>Detalles de ventas </MenuItem>
@@ -114,8 +109,8 @@ const handlePermission = (permission: string, redirect: string): string => {
         </SubMenu>
 
         <SubMenu label="Transferencias" icon={<HiOutlineChartSquareBar />}>
-          <MenuItem component={<Link className="text-sm" href={handlePermission("transfers", "/transfers/send")} />}>Crear Transferencia </MenuItem>
-          <MenuItem component={<Link className="text-sm" href={handlePermission("transfers", "/transfers/receive")} />}>Aceptar Transferencia </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("transfers-send", "/transfers/send")} />}>Crear Transferencia </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("transfers-receive", "/transfers/receive")} />}>Aceptar Transferencia </MenuItem>
         </SubMenu>
         {/*         
         <SubMenu label="Planillas" icon={<HiOutlineChartSquareBar color="red" />}>
