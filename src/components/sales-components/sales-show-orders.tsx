@@ -99,7 +99,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
               <span className="ml-3" onClick={() => onClick(order.id)}>
                 {formatDateAsDMY(order.created_at)} | {formatHourAsHM(order.created_at)}
               </span>
-              { downloadStatus && <span className="justify-end"><a href={`${remoteUrl}/download/pdf/order/${order.id}`}><FaDownload /></a></span> }
+              { downloadStatus && <span className="justify-end"><a target="_blank" href={`${remoteUrl}/download/pdf/order/${order.id}`}><FaDownload /></a></span> }
             </div>
           </Tooltip>
           </ListGroup.Item>
