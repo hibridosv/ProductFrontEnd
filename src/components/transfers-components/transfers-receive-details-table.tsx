@@ -53,6 +53,7 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
       if (checkCodReceive(transfer.products)) {
         (async () => await initialData())();
       }
+        // eslint-disable-next-line
   }, []);
 
 

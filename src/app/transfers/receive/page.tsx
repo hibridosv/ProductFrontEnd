@@ -38,6 +38,7 @@ export default function Page() {
     if (!isShowTransfer) {
       (async () => await initialData())();
     }
+    // eslint-disable-next-line
   }, [isShowTransfer]);
 
 

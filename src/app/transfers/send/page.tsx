@@ -60,6 +60,7 @@ const initialData = async () =>{
 
 useEffect(() => {
     (async () => await initialData())();
+      // eslint-disable-next-line
 }, [randomNumber]);
 
 

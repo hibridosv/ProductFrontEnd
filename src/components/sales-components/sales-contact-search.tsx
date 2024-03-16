@@ -10,6 +10,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { Loading } from "../loading/loading";
 import { ContactNameOfOrder, ContactTypeToGet } from "@/services/enums";
 import { getRandomInt } from "@/utils/functions";
+import { IoIosPersonAdd } from "react-icons/io";
+import { ContactAddModal } from "../contacts-components/contact-add-modal";
 
 export interface SalesContactSearchModalProps {
     ContactTypeToGet?: ContactTypeToGet; // ayuda a saber en que endpoint buscar
@@ -25,6 +27,7 @@ const [contacts, setContacts] = useState([]) as any;
 const [randNumber, setrandNumber] = useState(0) as any;
 const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number"], 500);
 const [isSending, setIsSending] = useState(false);
+const [isAdContactModal, setIsAdContactModal] = useState(false);
 
 
 const loadDataContacts = async () => {
@@ -112,7 +115,7 @@ const contactNameOfData = (contact: ContactNameOfOrder, order: any) => {
 
 return (
 <Modal show={isShow} position="center" onClose={onClose} size="md">
-<Modal.Header>Buscar { contactName(clientToUpdate)}</Modal.Header>
+<Modal.Header> <span>Buscar { contactName(clientToUpdate)}</span> <span><IoIosPersonAdd onClick={()=>setIsAdContactModal(true)} size={24} color="green" /></span> </Modal.Header>
   <Modal.Body>
 
     <div className="mx-4">
@@ -147,6 +150,7 @@ return (
   <Modal.Footer className="flex justify-end">
     <Button onClick={onClose} preset={Preset.close} isFull disabled={isSending} /> 
   </Modal.Footer>
+  <ContactAddModal isShow={isAdContactModal} onClose={()=>setIsAdContactModal(false)} />
 </Modal>
 
     )
