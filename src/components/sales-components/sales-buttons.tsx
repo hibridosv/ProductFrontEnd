@@ -6,6 +6,7 @@ import { FaRegMoneyBillAlt } from 'react-icons/fa';
 import { GiCancel } from 'react-icons/gi';
 import { IoMdOptions } from 'react-icons/io';
 import { Alert } from '../alert/alert';
+import { requiredFieldsCCF, requiredFieldsFactura, validateInvoiceFields } from '@/utils/validator-functions';
 
 export interface SalesButtonsProps {
   onClick: (option: number) => void;
@@ -35,6 +36,12 @@ export function SalesButtons(props: SalesButtonsProps) {
           isDismisible={false}
           className='my-1'
           /> }
+
+        { (invoice?.client_id && (invoice?.invoice_assigned?.type == 2 || invoice?.invoice_assigned?.type == 3)) && 
+          validateInvoiceFields(
+            invoice?.client, 
+            invoice?.invoice_assigned?.type == 2 ? requiredFieldsFactura : requiredFieldsCCF) 
+        }
            <div>
             <Button.Group>
             <Dropdown
