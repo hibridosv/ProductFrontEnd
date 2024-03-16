@@ -4,8 +4,6 @@ import './globals.css'
 import { ProSidebarProvider } from "react-pro-sidebar";
 import { ConfigContextProvider } from "@/contexts/config-context";
 import AuthContextProvider from '@/contexts/authContext';
-import { NotificationsPush } from '@/components/alert/nofications-push';
-
 
 export default function RootLayout({
   children,
@@ -23,7 +21,6 @@ export default function RootLayout({
           <AuthContextProvider>
             <ProSidebarProvider>
               {children}
-              <NotificationsPush />
             </ProSidebarProvider>
           </AuthContextProvider>
         </ConfigContextProvider>

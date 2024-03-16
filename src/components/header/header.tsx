@@ -7,16 +7,17 @@ import { useContext, useState } from "react";
 import { ProductSearchModal } from "../modals/product-search-modal";
 import { ConfigContext } from "@/contexts/config-context";
 import { HeaderSkeleton } from "./header-skeleton";
+import { NotificationsPush } from "../alert/nofications-push";
+import { getConfigStatus } from "@/utils/functions";
 
 export function Header() {
   const { toggleSidebar } = useProSidebar();
   const [showProductSearchModal, setShowProductSearchModal] = useState(false);
-  const { systemInformation } = useContext(ConfigContext);
+  const { config, systemInformation } = useContext(ConfigContext);
 
   if (!systemInformation?.system?.theme) { return <HeaderSkeleton />}
 
   return (
-
     <header className="bg-white">
     <nav className={`w-full mx-auto flex items-center justify-between p-2  ${systemInformation ? systemInformation?.system?.theme === 1 ? "bg-mdb" : "bg-lime-600" : "bg-mdb"}`} aria-label="Global">
       <div className="flex">
@@ -41,6 +42,7 @@ export function Header() {
       </div>
     </nav>
     <ProductSearchModal onClose={()=>setShowProductSearchModal(false)} isShow={showProductSearchModal}  />
+    { getConfigStatus("notifications", config) && <NotificationsPush /> }
   </header>
   );
 }
