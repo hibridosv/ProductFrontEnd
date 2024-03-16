@@ -30,7 +30,8 @@ const nameOfField: any = {
     taxpayer : "Nombre Contribuyente",
     departament_doc : "Departamento",
     town_doc : "Municipio",
-    address_doc : "Dirreción",
+    address : "Dirreción",
+    address_doc : "Dirreción contribuyente",
     phone : "Telefono",
     email : "Email",
   }
