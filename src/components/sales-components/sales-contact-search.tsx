@@ -114,8 +114,8 @@ const contactNameOfData = (contact: ContactNameOfOrder, order: any) => {
 
 
 return (
-<Modal show={isShow} position="center" onClose={onClose} size="md">
-<Modal.Header> <span>Buscar { contactName(clientToUpdate)}</span> <span><IoIosPersonAdd onClick={()=>setIsAdContactModal(true)} size={24} color="green" /></span> </Modal.Header>
+<Modal show={isShow} position="center" onClose={onClose} size="lg">
+<Modal.Header>Buscar { contactName(clientToUpdate)} </Modal.Header>
   <Modal.Body>
 
     <div className="mx-4">
@@ -148,7 +148,8 @@ return (
     </div>
   </Modal.Body>
   <Modal.Footer className="flex justify-end">
-    <Button onClick={onClose} preset={Preset.close} isFull disabled={isSending} /> 
+    <Button onClick={()=>setIsAdContactModal(true)} text="Agregar Cliente" preset={Preset.add} disabled={isSending} /> 
+    <Button onClick={onClose} preset={Preset.close} disabled={isSending} /> 
   </Modal.Footer>
   <ContactAddModal isShow={isAdContactModal} onClose={()=>setIsAdContactModal(false)} />
 </Modal>
