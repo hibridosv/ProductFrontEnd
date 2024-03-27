@@ -6,6 +6,8 @@ import { usePagination } from "@/components/pagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import toast, { Toaster } from 'react-hot-toast';
 import { RowTable } from "@/components/products-components/products-table";
+import { LinksList } from "@/components/common/links-list";
+import { getUrlFromCookie } from "@/services/oauth";
 
 export default function ViewProducts() {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +15,9 @@ export default function ViewProducts() {
   const [ statics, setStatics ] = useState([])
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
+  const remoteUrl = getUrlFromCookie();
 
+  const links = [{"name": `DESCARGAR INVENTARIO`, "link": encodeURI(`${remoteUrl}/download/excel/inventory/`), "isUrl": true}]
 
   const loadData = async () => {
       setIsLoading(true);
@@ -83,6 +87,8 @@ export default function ViewProducts() {
                 handleSearchTerm={handleSearchTerm}
                 statics={statics}
                  />
+
+              <LinksList links={links} />
             </div>
       <Toaster position="top-right" reverseOrder={false} />
       </div>
