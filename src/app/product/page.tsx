@@ -13,17 +13,17 @@ export default function ViewProducts() {
   const [isLoading, setIsLoading] = useState(false);
   const [productos, setProductos] = useState([]);
   const [ statics, setStatics ] = useState([])
+  const [ links, setLinks ] = useState([] as any)
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
   const remoteUrl = getUrlFromCookie();
-
-  const links = [{"name": `DESCARGAR INVENTARIO`, "link": encodeURI(`${remoteUrl}/download/excel/inventory/`), "isUrl": true}]
 
   const loadData = async () => {
       setIsLoading(true);
       try {
         const response = await getData(`products?sort=-created_at&perPage=10${currentPage}${searchTerm}`);
         setProductos(response);
+        setLinks([{"name": `DESCARGAR INVENTARIO`, "link": encodeURI(`${remoteUrl}/download/excel/inventory/`), "isUrl": true}])
       } catch (error) {
         console.error(error);
       } finally {
