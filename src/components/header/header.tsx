@@ -13,7 +13,7 @@ import { getConfigStatus } from "@/utils/functions";
 export function Header() {
   const { toggleSidebar } = useProSidebar();
   const [showProductSearchModal, setShowProductSearchModal] = useState(false);
-  const { config, systemInformation } = useContext(ConfigContext);
+  const { config, systemInformation, userName } = useContext(ConfigContext);
 
   if (!systemInformation?.system?.theme) { return <HeaderSkeleton />}
 
@@ -24,7 +24,7 @@ export function Header() {
       <GiHamburgerMenu className='clickeable' color="white" onClick={() => toggleSidebar()} size={40} />
       </div>
       <div className="text-white uppercase font-thin">
-      {systemInformation?.system?.name}
+      {userName?.name} | {systemInformation?.system?.name}
       </div>
 
       <div className="justify-end">

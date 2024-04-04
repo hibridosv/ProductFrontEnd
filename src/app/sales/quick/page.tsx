@@ -197,7 +197,7 @@ export default function ViewSales() {
 
   const handleClickOptionOrder = (option: OptionsClickOrder) => { // opciones de la orden
     switch (option) {
-      case OptionsClickOrder.pay: setIsPayModal(true);
+      case OptionsClickOrder.pay: (() => { setIsPayModal(true) })();
         break;
       case OptionsClickOrder.save: saveOrder();
         break;
@@ -305,7 +305,6 @@ export default function ViewSales() {
           {order && <SalesButtons invoice={productsOfInvoice} onClick={handleClickOptionOrder} cashDrawer={cashDrawer} config={configuration} />}
         </div>
       </div>
-      <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} config={configuration} />
       <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} priceType={typeOfPrice} />
       <SalesDiscountProductModal isShow={isDiscountProductModal} discountType={isDiscountType} order={productsOfInvoice} product={productSelected} onClose={()=>closeModalDiscount()} />
       <SalesContactSearchModal  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={productsOfInvoice} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />
@@ -314,6 +313,7 @@ export default function ViewSales() {
       <SalesSelectInvoiceTypeModal isShow={isSalesSelectInvoiceType} onClose={()=>setIsSalesSelectInvoiceType(false)} order={productsOfInvoice} />
       <SalesCommissionModal isShow={isCommissionModal} product={productSelected} onClose={()=>setIsCommissionModal(false)} />
       <SalesProductViewModal isShow={isProductViewModal} product={productSelected} onClose={()=>setIsProductViewModal(false)} />
+      <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} config={configuration} />
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
