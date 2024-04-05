@@ -143,7 +143,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
         </div>
       <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
-             { !isPayInvoice && <div className='flex justify-between border-2 border-sky-500 mt-4 mx-1'>
+             { !isPayInvoice && !isSending && <div className='flex justify-between border-2 border-sky-500 mt-4 mx-1'>
                 <span className='mx-1 text-sm font-bold animatex' onClick={()=>setPaymentType(1)}>Efectivo</span> 
                 <span className='mx-1 text-sm font-bold animatex' onClick={()=>setPaymentType(2)}>Tarjeta</span>
                 <span className='mx-1 text-sm font-bold animatex' onClick={()=>setPaymentType(3)}>Transferencia</span>
