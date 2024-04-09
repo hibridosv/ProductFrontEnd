@@ -87,7 +87,7 @@ export default function Config() {
             {
             newRegister &&
             <>
-                <ViewTitle text="NUEVO SISTEMA" />
+                <ViewTitle text="VINCULAR SISTEMA" />
                 <span className='ml-4 text-xs text-slate-600 text-center font-thin'>* Opción disponible solo para usuario root</span>
                 <ListGroup>
                     { isSending ? <Loading text='Agregando Dirección' /> : listItems }
