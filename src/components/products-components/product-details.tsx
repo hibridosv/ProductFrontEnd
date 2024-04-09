@@ -26,6 +26,7 @@ export function ProductDetails(props: ProductDetailsProps) {
 
 
 useEffect(() => {
+  if (isShow) {
     const loadData = async () =>{
         try {
             setIsLoading(true)
@@ -36,13 +37,13 @@ useEffect(() => {
             setIsLoading(false)
         }
       }
-      
-    if (product && isShow) {
+      if (product && isShow) {
         (async () => {
-            await loadData()
+          await loadData()
         })();
-    }
-}, [product, isShow]);
+      }
+    }    
+    }, [product, isShow]);
 
 const listPrices = product?.prices?.map((price: Price):any => (
   <div key={price.id} className="w-full flex justify-center border-2">

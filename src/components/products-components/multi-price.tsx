@@ -6,7 +6,6 @@ import { postData, getData } from "@/services/resources";
 import { Price, Product } from "@/services/products";
 import { getConfigStatus, numberToMoney } from "@/utils/functions";
 import toast, { Toaster } from 'react-hot-toast';
-
 import { RadioButton, Option} from "../radio-button/radio-button";
 import { style } from "../../theme";
 import { Alert } from "../alert/alert";
@@ -24,7 +23,6 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
   const [isSending, setIsSending] = useState(false);
   const [newProductPrices, setNewProductPrices] = useState(product?.prices);
   const [newFilterPrices, setNewFilterPrices] = useState([]);
-  
 
   let optionsRadioButton: Option[] = [
     { id: 0, name: "Todos" },
@@ -47,8 +45,9 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
   useEffect(() => {
     setWolesalerStatus(getConfigStatus("product-price-wolesaler", config))
     setPromotionStatus(getConfigStatus("product-price-promotion", config))
+    setNewProductPrices(product?.prices)
     // eslint-disable-next-line
-  }, [config])
+  }, [config, product])
 
   if(wolesalerStatus) optionsRadioButton.push({id: 2, name: "Mayoristas"})
   if(promotionStatus) optionsRadioButton.push({id: 3, name: "Promoción"})

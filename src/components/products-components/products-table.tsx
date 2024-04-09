@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Product, Products as ProductsInterface } from "../../services/products";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { IoMdOptions } from "react-icons/io";
@@ -8,7 +8,8 @@ import { MdOutlineHomeRepairService } from "react-icons/md"
 import { FaLayerGroup } from "react-icons/fa"
 import { Dropdown } from "flowbite-react";
 import { DeleteModal, ProductViewModal } from "..";
-import { numberToMoney } from "@/utils/functions";
+import { numberToMoney, permissionExists } from "@/utils/functions";
+import { ConfigContext } from "@/contexts/config-context";
 
 export enum RowTable {
   cod = "cod",
@@ -31,7 +32,16 @@ export function ProductsTable(props: ProductsTableProps) {
   const { products, onDelete, withOutRows } = props;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showProductDetail, setShowProductDetail] = useState(false);
+  const [canDelete, setCanDelete] = useState(false);
+  const [canEdit, setCanEdit] = useState(false);
   const [selectProduct, setSelectProduct] = useState<Product>({} as Product);
+  const { systemInformation } = useContext(ConfigContext);
+
+  useEffect(() => {
+    setCanDelete( permissionExists(systemInformation?.permission, 'product-delete'));
+    setCanEdit( permissionExists(systemInformation?.permission, 'product-edit'));
+    // eslint-disable-next-line
+  }, [systemInformation]);
 
   if (!products.data) return <NothingHere width="164" height="98" />;
   if (products.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
@@ -81,7 +91,7 @@ export function ProductsTable(props: ProductsTableProps) {
           <Dropdown.Item onClick={()=>showProduct(product)}>VER PRODUCTO</Dropdown.Item>
           {/* <Dropdown.Item icon={GrEdit}><Link href={`/product/edit/${product.id}`}>Editar</Link></Dropdown.Item>
           <Dropdown.Item icon={GrAction}><Link href={`/product/kardex/${product.id}`}>Kardex</Link></Dropdown.Item> */}
-          <Dropdown.Item icon={GrClose} onClick={()=>isDeleteProduct(product)}><span className="text-red-700">Eliminar</span></Dropdown.Item>
+          { canDelete && <Dropdown.Item icon={GrClose} onClick={()=>isDeleteProduct(product)}><span className="text-red-700">Eliminar</span></Dropdown.Item> }
         </Dropdown>
       </td>}
 
@@ -117,7 +127,7 @@ export function ProductsTable(props: ProductsTableProps) {
           <ProductViewModal 
           onClose={()=>setShowProductDetail(false)} 
           product={selectProduct}
-          editable
+          editable={canEdit}
           isShow={showProductDetail}
           /> 
  </div>

@@ -15,10 +15,11 @@ import { getTenant, getUrlFromCookie } from "@/services/oauth";
 
 export interface ProductUploadImageProps {
   product?: Product | any;
+  isShow?: boolean;
 }
 
 export function ProductUploadImage(props: ProductUploadImageProps) {
-  const { product } = props;
+  const { product, isShow } = props;
   const { register, handleSubmit, reset } = useForm();
   const [isSending, setIsSending] = useState(false);
   const [images, setImages] = useState([]);
@@ -41,11 +42,11 @@ export function ProductUploadImage(props: ProductUploadImageProps) {
 };
 
   useEffect(() => {
-    if (product) {
+    if (product.id, isShow) {
       (async () => { await loadImages() })();
     }
     // eslint-disable-next-line
-  }, [product]);
+  }, [product, isShow]);
 
 const imageLoader = ({ src, width, quality }: any) => {
   return `${remoteUrl}/storage/public/${tenant}/products/${src}?w=${width}&q=${quality || 75}`

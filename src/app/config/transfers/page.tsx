@@ -28,9 +28,6 @@ export default function Config() {
     // eslint-disable-next-line
   }, [systemInformation]);
 
-  console.log("tenantsRemoteUrl", tenantsRemoteUrl)
-  console.log("systemInformation", systemInformation)
-
 
   const sendTenant = async(tenant: number)=>{
     try {

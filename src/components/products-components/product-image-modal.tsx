@@ -20,7 +20,7 @@ export function ProductImageModal(props: ProductImageModalProps) {
       <Modal.Body>
         <div className="mx-4">
 
-        <ProductUploadImage product={product} />
+        <ProductUploadImage product={product} isShow={isShow} />
           
         </div>
       </Modal.Body>
