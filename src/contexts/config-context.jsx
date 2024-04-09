@@ -11,7 +11,6 @@ export function ConfigContextProvider(props){
     const [systemInformation, setSystemInformation] = useState({});
     const [cashDrawer, setCashDrawer] = useState("");
     const [randomInit, setRandomInit] = useState(0);
-    const [userName, setUserName] = useState("");
 
    
     useEffect(() => {
@@ -20,8 +19,6 @@ export function ConfigContextProvider(props){
             setSystemInformation(await loadData(`configuration/information`))
             const cash = await loadData(`cashdrawers/active`)
             setCashDrawer(cash?.type == "error" ? "" : cash?.data?.id);
-            const user = await loadData(`user`)
-            setUserName(user?.data)
         })();
     }, [randomInit]);
 
@@ -38,7 +35,7 @@ export function ConfigContextProvider(props){
 
 
     return (
-        <ConfigContext.Provider value={{config, updateConfig, cashDrawer, setCashDrawer, setRandomInit, systemInformation, userName }}>
+        <ConfigContext.Provider value={{config, updateConfig, cashDrawer, setCashDrawer, setRandomInit, systemInformation }}>
             {props.children}
         </ConfigContext.Provider>
     )

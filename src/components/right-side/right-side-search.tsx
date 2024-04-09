@@ -20,7 +20,7 @@ return (<div>
         />
     </div>
     <TextInput
-        id="username3"
+        id="username"
         placeholder="Buscar Producto"
         required={true}
         addon={<HiSearch />}
