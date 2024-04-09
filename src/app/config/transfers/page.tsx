@@ -3,17 +3,20 @@ import { useState, useEffect, useContext } from 'react'
 
 import { Loading, ViewTitle } from "@/components";
 import { ListGroup } from "flowbite-react";
-import { AiOutlineArrowRight } from "react-icons/ai";
+import { AiFillCalculator, AiOutlineArrowRight } from "react-icons/ai";
 import { ConfigContext } from "@/contexts/config-context";
 import { loadData, permissionExists } from "@/utils/functions";
 import toast, { Toaster } from 'react-hot-toast';
 import { postData } from '@/services/resources';
 import { ConfigChangeTenantModal } from '@/components/config-components/config-change-tenant-modal';
 import { getUrlFromCookie } from '@/services/oauth';
+import { GrInstallOption, GrView } from 'react-icons/gr';
 
 export default function Config() {
   const [tenants, setTenants] = useState<any>([]);
   const [tenantsRemoteUrl, setTenantsRemoteUrl] = useState<any>([]);
+  const [invoiceTypes, setInvoiceTypes] = useState<any>([]);
+
   const [newRegister, setNewRegister] = useState<boolean>(false);
   const { systemInformation } = useContext(ConfigContext);
   const [isSending, setIsSending] = useState(false);
@@ -22,12 +25,14 @@ export default function Config() {
   const remoteUrl = getUrlFromCookie();
 
   useEffect(() => {
-    (async () => setTenantsRemoteUrl(await loadData(`remoteurl/${systemInformation?.user?.email}`)) )();
-    (async () => setTenants(await loadData(`tenants`)) )();
-    setNewRegister( permissionExists(systemInformation?.permission, 'config-transfers-add-transfer'));
+    if (systemInformation && systemInformation?.user?.email) { 
+      (async () => setTenantsRemoteUrl(await loadData(`remoteurl/${systemInformation?.user?.email}`)) )();
+      (async () => setTenants(await loadData(`tenants`)) )();
+      (async () => setInvoiceTypes(await loadData(`invoice/type`)) )();
+      setNewRegister( permissionExists(systemInformation?.permission, 'config-transfers-add-transfer'));
+    }
     // eslint-disable-next-line
   }, [systemInformation]);
-
 
   const sendTenant = async(tenant: number)=>{
     try {
@@ -63,14 +68,22 @@ export default function Config() {
         </ListGroup.Item>
       ))
 
+
+      const listItemsinvoiceTypes = invoiceTypes?.data?.map((record: any, key: any) => (
+          <div className=' flex justify-between p-2 border border-spacing-y-1' key={key}>
+            <span className='text-lg font-semibold uppercase'>{record.name}</span>
+            <span className='clickeable justify-end'><GrView color='green' size={24} /></span>
+          </div>
+      ))
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-6 pb-10">
        <div className="col-span-2">
         <ViewTitle text="CAMBIAR SISTEMA" />
+        <div className='mr-3 sm:mt-3'>
             <ListGroup>
                 { listItemsRemote }
             </ListGroup>
-        <div className='mr-3 sm:mt-3'>
             {
             newRegister &&
             <>
@@ -84,9 +97,11 @@ export default function Config() {
         </div>
       </div>
       <div className="col-span-2">
-        <ViewTitle text="OPCIONES" />
-        <div className='mr-3 sm:mt-3'>
-
+        <ViewTitle text="DOCUMENTOS ACTIVOS" />
+        <div className='mx-3 sm:mt-3'>
+              <div className='rounded-md border border-zinc-600'>
+                  { listItemsinvoiceTypes }
+              </div>
         </div>
       </div>
       <div className="col-span-2">
