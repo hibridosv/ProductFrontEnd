@@ -4,6 +4,7 @@ import './globals.css'
 import { ProSidebarProvider } from "react-pro-sidebar";
 import { ConfigContextProvider } from "@/contexts/config-context";
 import AuthContextProvider from '@/contexts/authContext';
+import { NAME } from '@/constants';
 
 export default function RootLayout({
   children,
@@ -14,7 +15,7 @@ export default function RootLayout({
 
       <html lang="en">
         <head>
-          <title>Sistema de control de ventas</title>
+          <title>{ NAME }</title>
         </head>
         <body className="overflow-x-visible">
         <ConfigContextProvider>
