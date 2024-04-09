@@ -31,7 +31,7 @@ export default function ProductAdd() {
 
 
   const { register, handleSubmit, reset, watch, setValue } = useForm();
-  
+
   const onSubmit = async (data: any) => {
     data.product_id = productSelected.id
     data.actual_stock = data.quantity
@@ -42,6 +42,7 @@ export default function ProductAdd() {
     data.comment = productPrincipal.comment
     data.product_register_principal = productPrincipal.id
     data.unit_cost = isTaxesActive ? data.unit_cost : data.unit_cost * 1.13;
+    data.sale_price = productSelected?.prices[0]?.price;
 
     try {
       setIsSending(true)

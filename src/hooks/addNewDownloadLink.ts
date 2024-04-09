@@ -9,10 +9,10 @@ export function AddNewDownloadLink() {
     const remoteUrl = getUrlFromCookie();
     const [links, setLinks] = useState<LinkUrls[]>([]);
 
-    const addLink = (listLinks: LinkUrls[], data: DateRangeValues, url: string, userId?:any )=>{
+    const addLink = (listLinks: LinkUrls[], data: DateRangeValues, url: string, params?:any )=>{
         if (listLinks.length >= 3) listLinks.shift()
         
-        var url = `${remoteUrl}/download/${url}?${data.option ? `option=${data.option}` : ``}${data.initialDate ? `&initialDate=${data.initialDate}` : ``}${data.finalDate ? `&finalDate=${data.finalDate}` : ``}${userId ? `&userId=${userId}` : ``}` 
+        var url = `${remoteUrl}/download/${url}?${data.option ? `option=${data.option}` : ``}${data.initialDate ? `&initialDate=${data.initialDate}` : ``}${data.finalDate ? `&finalDate=${data.finalDate}` : ``}${params ? `&${params.name}=${params.value}` : ``}` 
         
         links.push({"name": `${data.option == '1' ? 
                             `Fecha establecida ${formatDate(data.initialDate)}` : 

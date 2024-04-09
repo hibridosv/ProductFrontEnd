@@ -22,7 +22,7 @@ export interface Product {
 	category:         Category;
 	provider:         Provider;
 	brand?:            Brand;
-	prices?:           Price[];
+	prices:           Price[];
 	composeds?:		   Composed[];
 	information?:      string;
 	tags?:             string;

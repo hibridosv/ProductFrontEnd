@@ -23,7 +23,7 @@ export default function Page() {
 
 
   useEffect(() => {
-      (async () => setUsers(await loadData(`users`)))();
+      (async () => setUsers(await loadData(`register`)))();
   }, []);
 
 
@@ -36,7 +36,7 @@ export default function Page() {
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setSales(response);
-            if(response.data.length > 0) addLink(links, data, 'excel/by-user/', data.userId);
+            if(response.data.length > 0) addLink(links, data, 'excel/by-user/', {name: "userId", value: data.userId});
           } else {
             toast.error("Faltan algunos datos importantes!");
           }

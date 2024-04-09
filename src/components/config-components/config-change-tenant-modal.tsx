@@ -78,6 +78,7 @@ const getRemoteUrl = async () => {
     if (isShow) {
         (async () => getRemoteUrl())(); 
     }  
+      // eslint-disable-next-line
     }, [isShow]);
 
 
