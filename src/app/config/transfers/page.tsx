@@ -89,9 +89,7 @@ export default function Config() {
       <div className="col-span-2">
         <ViewTitle text="OPCIONES" />
         <div className='mr-3 sm:mt-3'>
-             {
-                JSON.stringify(tenants)
-             }
+
         </div>
       </div>
       <div className="col-span-2">

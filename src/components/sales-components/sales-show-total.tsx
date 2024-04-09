@@ -76,5 +76,13 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
           className='my-2'
           /> }
 
+        { (records?.invoice_assigned?.type == 8) && <Alert
+          theme={PresetTheme.danger}
+          info="Importante"
+          text="Las notas de envío no afectan el efectivo"
+          isDismisible={false}
+          className='my-2'
+          /> }
+
     </>);
 }

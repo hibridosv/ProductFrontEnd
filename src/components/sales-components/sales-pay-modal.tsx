@@ -64,9 +64,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
         setDataInvoice(response.data)
       } else {
         toast.error(response.message);
-        if (onFinish) {
-          onFinish()
-        }
+          handleFinish()
       }
     } catch (error) {
       console.error(error);
@@ -84,21 +82,23 @@ export function SalesPayModal(props: SalesPayModalProps) {
       { isPayInvoice ? 
       <div onClick={handleFinish} className='cursor-pointer'>
         <div className="w-full my-4">
+          { invoice?.invoice_assigned?.type != 8 &&
           <div  className='flex justify-between  border-y-4'>
             <div><span className="flex justify-center">Descuentos</span> <span className="flex justify-center">{numberToMoney(dataInvoice?.discount)}</span></div>
             <div><span className="flex justify-center">Impuestos</span> <span className="flex justify-center">{numberToMoney(dataInvoice?.taxes)}</span></div>
             <div><span className="flex justify-center">Sub Total</span> <span className="flex justify-center">{numberToMoney(dataInvoice?.subtotal)}</span></div>
           </div>
+          }
 
           <div className="flex justify-center mt-4">TOTAL</div>
           <div className="flex justify-center text-7xl mb-4 font-bold">{numberToMoney(dataInvoice?.total - dataInvoice?.retention)}</div>
-          { paymentType === 1 ? <>
+          { paymentType === 1 && invoice?.invoice_assigned?.type != 8 ? <>
           <div className="flex justify-center">CAMBIO</div>
           <div className="flex justify-center text-7xl mb-4 text-red-600 font-bold">{numberToMoney(dataInvoice?.change)}
           </div></> : 
           <div className='flex justify-center text-lg font-semibold uppercase text-blue-600'>
             { paymentType === 5 ? 
-            <span>Credito Otorgado correctamente</span> :
+            <span>Credito Otorgado correctamente</span> : invoice?.invoice_assigned?.type == 8 ? <span>Nota de envío realizada</span> :
             <span>Pago realizado con {nameOfPaymentType(paymentType)}</span> }
           </div>}
         
@@ -115,7 +115,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
                   <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white" >Search</label>
                   <div className="relative">
                     <input
-                      type="number"
+                      type={`${invoice?.invoice_assigned?.type == 8 ? "hidden" : "number"}`}
                       step="any"
                       id="cash"
                       className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -124,7 +124,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
                     />
                   </div>
                     <div className="flex justify-center mt-2">
-                      <Button type="submit" text="Cobrar" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} isFull />
+                      <Button type="submit" text={`${invoice?.invoice_assigned?.type == 8 ? "Crear nota de Envío" : "Cobrar"}`} disabled={isSending} preset={isSending ? Preset.saving : Preset.save} isFull />
                     </div>
                 </div>
                 ) :
@@ -143,7 +143,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
         </div>
       <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
-             { !isPayInvoice && !isSending && <div className='flex justify-between border-2 border-sky-500 mt-4 mx-1'>
+             { !isPayInvoice && !isSending && invoice?.invoice_assigned?.type != 8 &&<div className='flex justify-between border-2 border-sky-500 mt-4 mx-1'>
                 <span className='mx-1 text-sm font-bold animatex' onClick={()=>setPaymentType(1)}>Efectivo</span> 
                 <span className='mx-1 text-sm font-bold animatex' onClick={()=>setPaymentType(2)}>Tarjeta</span>
                 <span className='mx-1 text-sm font-bold animatex' onClick={()=>setPaymentType(3)}>Transferencia</span>

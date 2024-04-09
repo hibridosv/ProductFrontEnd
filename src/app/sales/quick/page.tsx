@@ -265,6 +265,7 @@ export default function ViewSales() {
     setProductsOfInvoice([]);
     setOrder(null);
     setIsPayModal(false)
+    setChangeOrder(!changeOrder);
   }
 
   const handleChangeOrder = async (order: any) => {
