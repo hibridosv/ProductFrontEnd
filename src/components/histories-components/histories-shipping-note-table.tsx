@@ -27,6 +27,7 @@ console.log(records)
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.casheir?.name } </th>
       <td className="py-2 px-6">{ record?.invoice_assigned?.name }</td>
       <td className="py-2 px-6">{ record?.invoice }</td>
+      <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.client ? record?.client?.name : "N/A" } </th>
       <td className="py-2 px-6">{ record?.products.length }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0) }</td>
     </tr>
@@ -42,6 +43,7 @@ console.log(records)
           <th scope="col" className="py-3 px-4 border">Cajero</th>
           <th scope="col" className="py-3 px-4 border">Tipo</th>
           <th scope="col" className="py-3 px-4 border">Correlativo</th>
+          <th scope="col" className="py-3 px-4 border">Cliente</th>
           <th scope="col" className="py-3 px-4 border">Productos</th>
           <th scope="col" className="py-3 px-4 border">Total</th>
         </tr>
