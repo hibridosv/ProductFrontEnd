@@ -23,7 +23,9 @@ export default function ViewProducts() {
       try {
         const response = await getData(`products?sort=-created_at&perPage=10${currentPage}${searchTerm}`);
         setProductos(response);
-        setLinks([{"name": `DESCARGAR INVENTARIO`, "link": encodeURI(`${remoteUrl}/download/excel/inventory/`), "isUrl": true}])
+        setLinks([
+          {"name": `DESCARGAR EN EXCEL`, "link": encodeURI(`${remoteUrl}/download/excel/inventory/`), "isUrl": true}, 
+          {"name": `DESCARGAR EN PDF`, "link": encodeURI(`${remoteUrl}/web/inventory/`), "isUrl": true}])
       } catch (error) {
         console.error(error);
       } finally {

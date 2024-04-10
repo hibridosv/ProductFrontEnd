@@ -248,7 +248,7 @@ const listItems = products?.map((product: any):any => (
               <div className=" font-semibold m-4">
                 <div className="flex justify-between border-b-2">
                   <div>Enviar a: </div>
-                  <div>{ isTransferSelected?.from?.name }</div>
+                  <div>{ isTransferSelected?.to?.name }</div>
                 </div>
               </div>
 
