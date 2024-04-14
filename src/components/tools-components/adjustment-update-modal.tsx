@@ -51,7 +51,7 @@ export function AdjustmentUpdateModal(props: AdjustmentUpdateModalProps) {
 
   return (
     <Modal size="md" show={isShow} position="center" onClose={onClose}>
-      <Modal.Header>ACTUALIZAR CANTIDA</Modal.Header>
+      <Modal.Header>ACTUALIZAR CANTIDAD</Modal.Header>
       <Modal.Body>
       <form className="max-w-lg mt-4" onSubmit={handleSubmit(onSubmit)} >
         

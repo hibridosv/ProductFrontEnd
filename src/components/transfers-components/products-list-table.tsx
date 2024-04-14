@@ -79,7 +79,7 @@ export function TransferProductListTable(props: TransferProductListTableProps) {
     </table>
     <Toaster position="top-right" reverseOrder={false} />
     <DeleteModal isShow={showDeleteModal}
-              text="¿Está seguro de eliminar este contacto?"
+              text="¿Está seguro de eliminar este producto?"
               onDelete={()=>handleRecordDelete(recordSelect)}
               onClose={()=>setShowDeleteModal(false)} /> 
  </div>

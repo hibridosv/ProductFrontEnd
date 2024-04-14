@@ -52,8 +52,8 @@ export function AdjustmentTable(props: AdjustmentTableProps) {
       <td className="py-2 px-6">{ record?.cod } </td>
       <td className="py-2 px-6">{ record?.name } </td>
       <td className="py-2 px-6">{ record?.quantity } </td>
-      <td className="py-2 px-6"><Button text="Cambiar" onClick={()=>setModal(record)} /> </td>
-      <td className="py-2 px-6"><Button preset={Preset.save} text="Aceptar" onClick={()=>sendAdjustment(record)} /> </td>
+      <td className="py-2 px-6"><Button text="Cambiar" onClick={()=>setModal(record)} disabled={isSending}/> </td>
+      <td className="py-2 px-6"><Button preset={isSending ? Preset.saving : Preset.save} text="Aceptar" onClick={()=>sendAdjustment(record)} disabled={isSending}/> </td>
     </tr>
   ));
 
