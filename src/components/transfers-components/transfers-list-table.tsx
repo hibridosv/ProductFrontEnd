@@ -3,15 +3,18 @@ import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { IoMdAlert } from "react-icons/io";
 import { MdCheck, MdOutlineDownloading } from "react-icons/md";
+import { getTenant } from "@/services/oauth";
 
 interface TransfersListTableProps {
   records?:  any;
   getProductsOnline: (transfer: number)=>void;
   isSending: boolean;
+  getRequest: (tansferId: string)=>void
 }
 
 export function TransfersListTable(props: TransfersListTableProps) {
-  const { records, getProductsOnline, isSending } = props;
+  const { records, getProductsOnline, isSending, getRequest } = props;
+  const tenant = getTenant();
 
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
@@ -23,13 +26,15 @@ export function TransfersListTable(props: TransfersListTableProps) {
         case 3: return <span className="status-warning uppercase">* Aceptado</span>
         case 4: return <span className="status-success uppercase">Aceptado</span>
         case 5: return <span className="status-danger uppercase">Rechazado</span>
+        case 6: return <span className="status-info uppercase">Solicitando</span>
+        case 7: return <span className="status-danger uppercase">Solicitado</span>
         default: return <span>Eliminado</span>
       }
   }
 
 
   const listItems = records.data.map((record: any) => (
-    <tr key={record.id} className="border-b bg-white" >
+    <tr key={record.id} className={`border-b ${record.status == 6 && record.to_tenant_id == tenant || record.status == 7 && record.from_tenant_id == tenant ? "bg-red-100 clickeable" : "bg-white"}`}  onClick={record.status == 6 && record.to_tenant_id == tenant || record.status == 7 && record.from_tenant_id == tenant ? ()=>getRequest(record.id) : ()=>{}}>
       <td className="py-3 px-6">
       { record?.received_at ? formatDateAsDMY(record?.received_at) : "N/A" } 
       { record?.received_at && formatHourAsHM(record?.received_at) }</td>

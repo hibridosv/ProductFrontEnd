@@ -1,6 +1,6 @@
 'use client'
 
-import { Alert, Loading, ViewTitle } from "@/components"
+import { Alert, ViewTitle } from "@/components"
 import { Button, Preset } from "@/components/button/button";
 import { TransferProductListTable } from "@/components/transfers-components/products-list-table";
 import { SelectGuest } from "@/components/transfers-components/select-guest";
@@ -12,7 +12,6 @@ import { Product } from "@/services/products";
 import { getData, postData } from "@/services/resources";
 import { style } from "@/theme";
 import { SearchIcon } from "@/theme/svg";
-import { getFirstElement } from "@/utils/functions";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast, Toaster } from "react-hot-toast";
@@ -33,13 +32,26 @@ const [randomNumber, setRandomNumber] = useState(0);
 const tenant = getTenant();
 
 
+
+// obtiene el primer elemento de un arreglo
+const getElement = (items: any)=> {
+    const elementsWithStatus1 = items.filter((element: any) => element.status === 6);
+  
+    if (elementsWithStatus1 && elementsWithStatus1.length > 0) {
+        const firstElementWithStatus1 = elementsWithStatus1[0];
+        return firstElementWithStatus1;
+    } else {
+        return null;
+    }
+  }
+
 const initialData = async () =>{
   try {
     setIsLoading(true)
-    const response = await getData(`transfers?sort=-created_at&filter[from_tenant_id]=-${tenant}&included=products,to,from`);
+    const response = await getData(`transfers?sort=-created_at&filter[to_tenant_id]=-${tenant}&included=products,to,from`);
     if (!response.message) {
-      let first = getFirstElement(response.data);
-      if (first?.status == 1) {
+      let first = getElement(response.data);
+      if (first?.status == 6) {
         setIsTransferSelected(first)
         setProductsAdded({data: first.products});
       } else {
@@ -66,7 +78,7 @@ useEffect(() => {
 
 
 const handleIsGuestSelected = async (record: any)=>{
-  let data = { to_tenant_id : record.to_tenant_id, from_tenant_id : record.from.id, status : 1 }
+  let data = { from_tenant_id : record.to_tenant_id, to_tenant_id : record.from.id, requested_at : true, requested_by : true, status : 6 }
   try {
     setIsSending(true)
     const response = await postData(`transfers`, "POST", data);
@@ -106,7 +118,7 @@ const onSubmit = async (data: any) => {
   data.transfer_id = isTransferSelected.id
   data.product_id = productSelected.id
   data.cod = productSelected.cod
-  data.requested_exists = 1
+  data.requested = data.quantity
   data.description = productSelected.description
   data.status = 1
 
@@ -187,7 +199,7 @@ const handleCancelAll = async () =>{
 const handleSaveAll = async () =>{
   try {
     setIsSending(true)
-    const response = await postData(`transfers/${isTransferSelected.id}`, "PUT", { status : 2 });
+    const response = await postData(`transfers/request/${isTransferSelected.id}`, "PUT", { status: 7 });
     if (!response.message) {
       setIsTransferSelected("")
       setProductsAdded({ data: []});
@@ -223,43 +235,25 @@ const getProductsOnline = async (transfer: any) => {
   }
 }
 
+
 const getRequest = async (tansferId: string) =>{
-  try {
-    setIsSending(true)
-    const response = await postData(`transfers/request/${tansferId}`, "PUT", { status : 1 });
-    if (!response.message) {
-      setRandomNumber(Math.random())
-      toast.success("Tranferencia Enviada");
-    } else {
-      toast.error("Faltan algunos datos importantes!");
+    try {
+      setIsSending(true)
+      const response = await postData(`transfers/request/${tansferId}`, "PUT", { status : 6 });
+      if (!response.message) {
+        setRandomNumber(Math.random())
+        toast.success("Tranferencia Enviada");
+      } else {
+        toast.error("Faltan algunos datos importantes!");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } finally {
+      setIsSending(false)
     }
-  } catch (error) {
-    console.error(error);
-    toast.error("Ha ocurrido un error!");
-  } finally {
-    setIsSending(false)
   }
-}
 
-
-
-const handleUpdateQuantity = async (recordSelect: any, quantity: number)=> {
-  setIsSending(true)
-  try {
-    const response = await postData(`transfers/products/quantity/${recordSelect.id}`, "PUT", { quantity });
-    if (response.type == "successful") {
-      setRandomNumber(Math.random())
-      toast.success("Cantidad Actualizada");
-    } else {
-      toast.error("Faltan algunos datos importantes!");
-    }
-  } catch (error) {
-    console.error(error);
-    toast.error("Ha ocurrido un error!");
-  } finally {
-    setIsSending(false)
-  }
-}
 
 
 const listItems = products?.map((product: any):any => (
@@ -279,14 +273,14 @@ const listItems = products?.map((product: any):any => (
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
     <div className={`${isTransferSelected ? "col-span-5" : "col-span-4"} border-r md:border-sky-600`}>
-          <ViewTitle text={isTransferSelected ? "AGREGAR PRODUCTOS" : "NUEVA TRANSFERENCIA"} />
+          <ViewTitle text={isTransferSelected ? "AGREGAR PRODUCTOS" : "NUEVA SOLICITUD"} />
           { isTransferSelected ? 
             <div className="w-full px-4">
             
               <div className=" font-semibold m-4">
                 <div className="flex justify-between border-b-2">
-                  <div>Enviar a: </div>
-                  <div className="uppercase">{ isTransferSelected?.to?.name }</div>
+                  <div>Enviar solicitud a: </div>
+                  <div className="uppercase">{ isTransferSelected?.from?.name }</div>
                 </div>
               </div>
 
@@ -345,14 +339,14 @@ const listItems = products?.map((product: any):any => (
           }
     </div>
     <div className={isTransferSelected ? "col-span-5" : "col-span-6"}>
-      <ViewTitle text={isTransferSelected ? "PRODUCTOS AGREGADOS" : "ULTIMAS TRANSFERENCIAS"} />
+      <ViewTitle text={isTransferSelected ? "PRODUCTOS AGREGADOS" : "ULTIMAS SOLICITUDES"} />
         {
           isTransferSelected ? <div>
-          <TransferProductListTable records={productsAdded} products={setProductsAdded} handleUpdateQuantity={handleUpdateQuantity}/> 
+          <TransferProductListTable records={productsAdded} products={setProductsAdded} deleteActive={true} handleUpdateQuantity={()=>{}}/> 
             <div className="grid grid-cols-1 md:grid-cols-10 m-4">
               <div className="col-span-3 m-1"><Button isFull disabled={isSending} preset={Preset.cancel} text="Cancelar" onClick={handleCancelAll} /></div>
               <div className="col-span-7 m-1">
-                { productsAdded?.data?.length > 0 && <Button isFull disabled={isSending} preset={isSending ? Preset.saving : Preset.save} text="Enviar todo" onClick={handleSaveAll} />
+                { productsAdded?.data?.length > 0 && <Button isFull disabled={isSending} preset={isSending ? Preset.saving : Preset.save} text="Enviar solicitud" onClick={handleSaveAll} />
                 }</div>
             </div>
           </div>: 

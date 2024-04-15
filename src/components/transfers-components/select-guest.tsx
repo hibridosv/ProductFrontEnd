@@ -1,16 +1,19 @@
 'use client'
+import { Loading } from "../loading/loading";
 import { NothingHere } from "../nothing-here/nothing-here";
 import Image from "next/image";
 
 interface SelectGuestProps {
   records?:  any;
+  isLoading?:  boolean;
   isGuestSelected: (id: string[]) => void;
 }
 
 export function SelectGuest(props: SelectGuestProps) {
-  const { records, isGuestSelected } = props;
+  const { records, isGuestSelected, isLoading } = props;
 
 
+  if (isLoading) return <Loading />
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="NO TIENES SUCURSALES ASIGNADAS" width="164" height="98" />;
 
