@@ -153,7 +153,7 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
   }
 
   const listItems = transfer.products.map((record: any) => (
-    <tr key={record.id} className={`border-b bg-white`} >
+    <tr key={record.id} className={`border-b ${record.requested_exists == 0 ? "bg-orange-100" : "bg-white"}`} >
       <td className="py-3 px-6 whitespace-nowrap">{ record?.cod }</td> 
       <td className="py-3 px-6 whitespace-nowrap">{ record?.description }</td> 
       <td className="py-3 px-6 truncate">{ record?.quantity }</td>
@@ -162,13 +162,13 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
         { isloading ? "ESPERE ..." : record?.cod_receive ? "CON REGISTRO" : "SIN REGISTRO" }</td>
         { transfer.status == 2 && 
           <td className="py-3 px-6 truncate">
-            <span className="flex justify-between">
+            <span className="flex justify-between" title={`${record.requested_exists == 0 ? "El Producto no fue enviado por que no existe en el inventario de quien envia" : "Eliminar"}`}>
             {
               record?.cod_receive ? <MdCheck size={20} className="text-lime-600" /> :
               isSending ? <MdOutlineDownloading size={20} className="text-teal-500 animate-spin" /> : 
               <AiOutlineFundView size={20} title="Agregar registro nuevo de este producto" className="text-red-600 clickeable" onClick={record.status == 1 ? ()=>createNewRegister(record) : ()=>console.log()} />
             }
-            <Button preset={record.status != 1 ? Preset.smallCloseDisable : Preset.smallClose} disabled={record.status != 1} noText onClick={()=>isDeleteProduct(record)} />
+            <Button preset={record.status != 1 ? Preset.smallCloseDisable : Preset.smallClose} disabled={record.status != 1} noText onClick={record.requested_exists == 0 ? ()=>{toast.error("Este producto no existe en el inventario de quien envia");} : ()=>isDeleteProduct(record)} />
             </span>
           </td> }
     </tr>
