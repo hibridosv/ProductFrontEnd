@@ -160,6 +160,7 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
       <td className="py-3 px-6 truncate">{ status(record?.status) }</td>
       <td className={`py-3 px-6 truncate font-semibold ${ isloading ? 'text-orange-500' : record?.cod_receive ? 'text-green-500' : 'text-red-500' }`} title={record?.cod_receive ? "Registro correcto" : "Debe agregar un registro que coincida con el codigo del producto entrante"}>
         { isloading ? "ESPERE ..." : record?.cod_receive ? "CON REGISTRO" : "SIN REGISTRO" }</td>
+        
         { transfer.status == 2 && 
           <td className="py-3 px-6 truncate">
             <span className="flex justify-between" title={`${record.requested_exists == 0 ? "El Producto no fue enviado por que no existe en el inventario de quien envia" : "Eliminar"}`}>
