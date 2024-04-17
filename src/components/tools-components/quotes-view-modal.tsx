@@ -4,6 +4,7 @@ import { Button, Preset } from "../button/button";
 import {  getTotalPercentage, numberToMoney, sumarTotales } from "@/utils/functions";
 import { getUrlFromCookie } from "@/services/oauth";
 import { formatDate } from "@/utils/date-formats";
+import { style } from "@/theme";
 
 
 export interface QuotesViewModalProps {
@@ -84,7 +85,7 @@ export function QuotesViewModal(props: QuotesViewModalProps) {
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         {
-           record && !isSending && <a target="_blank" href={`${remoteUrl}/download/pdf/quote/${record.id}`} className="py-2 px-4 flex justify-center items-center text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 clickeable">DESCARGAR PDF</a>
+           record && !isSending && <a target="_blank" href={`${remoteUrl}/download/pdf/quote/${record.id}`} className={style.hrefDownload}>DESCARGAR PDF</a>
         }
         <Button onClick={()=>sendQuotes(record)} preset={isSending ? Preset.saving : Preset.save} text="Facturar" disabled={isSending} />
         <Button onClick={onClose} preset={Preset.close} disabled={isSending} />

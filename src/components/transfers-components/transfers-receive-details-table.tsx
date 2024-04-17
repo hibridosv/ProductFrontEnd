@@ -7,6 +7,8 @@ import { getData, postData } from "@/services/resources";
 import { toast, Toaster } from "react-hot-toast";
 import { MdCheck, MdOutlineDownloading } from "react-icons/md";
 import { DeleteModal } from "../modals/delete-modal";
+import { style } from "@/theme";
+import { getUrlFromCookie } from "@/services/oauth";
 
 const checkCodReceive = (data: any) => {
   for (let i = 0; i < data.length; i++) {
@@ -31,6 +33,7 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showDeleteModalTransfer, setShowDeleteModalTransfer] = useState(false);
   const [selectProduct, setSelectProduct] = useState({} as any);
+  const remoteUrl = getUrlFromCookie();
 
   const initialData = async () =>{
     try {
@@ -160,7 +163,7 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
       <td className="py-3 px-6 truncate">{ status(record?.status) }</td>
       <td className={`py-3 px-6 truncate font-semibold ${ isloading ? 'text-orange-500' : record?.cod_receive ? 'text-green-500' : 'text-red-500' }`} title={record?.cod_receive ? "Registro correcto" : "Debe agregar un registro que coincida con el codigo del producto entrante"}>
         { isloading ? "ESPERE ..." : record?.cod_receive ? "CON REGISTRO" : "SIN REGISTRO" }</td>
-        
+
         { transfer.status == 2 && 
           <td className="py-3 px-6 truncate">
             <span className="flex justify-between" title={`${record.requested_exists == 0 ? "El Producto no fue enviado por que no existe en el inventario de quien envia" : "Eliminar"}`}>
@@ -192,12 +195,13 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
       <tbody>{listItems}</tbody>
     </table>
     <div className="flex justify-end m-8">
-        <Button onClick={onClose} disabled={isSending} text="REGRESAR" preset={Preset.add} style="m-3" />
+        <Button onClick={onClose} disabled={isSending} text="REGRESAR" preset={Preset.add} style="mx-3" />
         { transfer.status == 2 ? <>
-        <Button text="RECHAZAR" onClick={()=>setShowDeleteModalTransfer(true)} disabled={isSending} preset={Preset.cancel} style="m-3" />
-        <Button text="ACEPTAR TODO" onClick={handleAceptAll} preset={isSending ? Preset.saving : Preset.save} disabled={checkCodReceive(transfer.products)} style="m-3" />
+        <Button text="RECHAZAR" onClick={()=>setShowDeleteModalTransfer(true)} disabled={isSending} preset={Preset.cancel} style="mx-3" />
+        <Button text="ACEPTAR TODO" onClick={handleAceptAll} preset={isSending ? Preset.saving : Preset.save} disabled={checkCodReceive(transfer.products)} style="mx-3" />
         </> :
-        <Button disabled={isSending} text="DESCARGAR REPORTE" preset={Preset.save} style="m-3" />
+        <a target="_blank" href={`${encodeURI(`${remoteUrl}/download/pdf/transfer/${transfer.id}`)}`} className={style.hrefDownload} >DESCARGAR REPORTE</a>
+        // <Button disabled={isSending} text="DESCARGAR REPORTE" preset={Preset.save} style="m-3" />
         }
     </div>
  </div>
