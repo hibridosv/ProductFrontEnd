@@ -19,6 +19,14 @@ const checkCodReceive = (data: any) => {
   return false;
 };
 
+export const statusOfProductTransfer = (status: number)=>{
+  switch (status) {
+    case 1: return <span className="status-info uppercase">Activo</span>
+    case 2: return <span className="status-success uppercase">Aceptado</span>
+    case 3: return <span className="status-danger uppercase">Rechazado</span>
+    default: return <span>Activo</span>
+  }
+}
 
 interface TransfersReceiveDetailsTableProps {
   records?:  any;
@@ -146,21 +154,14 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
   if (!transfer.products) return <NothingHere width="164" height="98" />;
   if (transfer.products.length == 0) return <NothingHere text="No se encontraron productos" width="164" height="98" />;
 
-  const status = (status: number)=>{
-      switch (status) {
-        case 1: return <span className="status-info uppercase">Activo</span>
-        case 2: return <span className="status-success uppercase">Aceptado</span>
-        case 3: return <span className="status-danger uppercase">Rechazado</span>
-        default: return <span>Activo</span>
-      }
-  }
+
 
   const listItems = transfer.products.map((record: any) => (
     <tr key={record.id} className={`border-b ${record.requested_exists == 0 ? "bg-orange-100" : "bg-white"}`} >
       <td className="py-3 px-6 whitespace-nowrap">{ record?.cod }</td> 
       <td className="py-3 px-6 whitespace-nowrap">{ record?.description }</td> 
       <td className="py-3 px-6 truncate">{ record?.quantity }</td>
-      <td className="py-3 px-6 truncate">{ status(record?.status) }</td>
+      <td className="py-3 px-6 truncate">{ statusOfProductTransfer(record?.status) }</td>
       <td className={`py-3 px-6 truncate font-semibold ${ isloading ? 'text-orange-500' : record?.cod_receive ? 'text-green-500' : 'text-red-500' }`} title={record?.cod_receive ? "Registro correcto" : "Debe agregar un registro que coincida con el codigo del producto entrante"}>
         { isloading ? "ESPERE ..." : record?.cod_receive ? "CON REGISTRO" : "SIN REGISTRO" }</td>
 

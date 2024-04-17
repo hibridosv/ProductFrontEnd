@@ -56,7 +56,7 @@ if(isloading) return <Loading />
           <ViewTitle text={isShowTransfer ? "DETALLES DE LA TRANSFERENCIA" : "ULTIMAS TRANSFERENCIAS"} />
           {isShowTransfer ? 
             <TransfersReceiveDetailsTable records={isSelectTransfer} onClose={()=>setIsShowTransfer(false)} /> :
-            <TransfersReceiveTable records={allTransfers} showTransfer={showTransfer} />
+            <TransfersReceiveTable records={allTransfers} showTransfer={showTransfer} showOpRow={true} />
           }
     </div>
     <div className="col-span-2">

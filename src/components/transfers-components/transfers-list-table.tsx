@@ -4,6 +4,7 @@ import { NothingHere } from "../nothing-here/nothing-here";
 import { IoMdAlert } from "react-icons/io";
 import { MdCheck, MdOutlineDownloading } from "react-icons/md";
 import { getTenant } from "@/services/oauth";
+import { statusOfTransfer } from "./transfers-receive-table";
 
 interface TransfersListTableProps {
   records?:  any;
@@ -19,19 +20,6 @@ export function TransfersListTable(props: TransfersListTableProps) {
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
-  const status = (status: number)=>{
-      switch (status) {
-        case 1: return <span className="status-info uppercase">En Progreso</span>
-        case 2: return <span className="status-info uppercase">Activo</span>
-        case 3: return <span className="status-warning uppercase">* Aceptado</span>
-        case 4: return <span className="status-success uppercase">Aceptado</span>
-        case 5: return <span className="status-danger uppercase">Rechazado</span>
-        case 6: return <span className="status-info uppercase">Solicitando</span>
-        case 7: return <span className="status-danger uppercase">Solicitado</span>
-        default: return <span>Eliminado</span>
-      }
-  }
-
 
   const listItems = records.data.map((record: any) => (
     <tr key={record.id} className={`border-b ${record.status == 6 && record.to_tenant_id == tenant || record.status == 7 && record.from_tenant_id == tenant ? "bg-red-100 clickeable" : "bg-white"}`}  onClick={record.status == 6 && record.to_tenant_id == tenant || record.status == 7 && record.from_tenant_id == tenant ? ()=>getRequest(record.id) : ()=>{}}>
@@ -41,7 +29,7 @@ export function TransfersListTable(props: TransfersListTableProps) {
       <td className="py-3 px-6 whitespace-nowrap">{ record?.to?.name }</td> 
       <td className="py-3 px-6 truncate">{ record?.send }</td>
       <td className="py-3 px-6 truncate">{ record?.receive ? record?.receive : "PENDIENTE" }</td>
-      <td className="py-3 px-6">{ status(record?.status) }</td>
+      <td className="py-3 px-6">{ statusOfTransfer(record?.status) }</td>
       <td className="py-3 px-6">
         { isSending ? <MdOutlineDownloading size={20} className="text-teal-500 animate-spin" /> : 
         (record?.status == 3 || record?.status == 5) && record?.is_online == 1 ? 
