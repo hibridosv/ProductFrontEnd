@@ -37,7 +37,6 @@ export default function Page() {
       (async () => setTenants(await loadData(`tenants`)))();
   }, []);
 
-console.log(selectedOption)
 
     const handlegetSales = async (data: any) => {
       data.tenantId = selectedOption?.id == 0 ? 0 : watch("tenantId")
@@ -49,7 +48,8 @@ console.log(selectedOption)
             toast.success("Datos obtenidos correctamente");
             setTransfers(response);
             setIsMessage(`Mostrando: ${selectedOption?.name}`)
-            if(response.data.length > 0) addLink(links, data, 'excel/transfers/', {name: "tenantId", value: data.tenantId});
+            if(response.data.length > 0) addLink(links, data, 'excel/transfers/', 
+            [{name: "tenantId", value: data.tenantId}, {name: "show", value: selectedOption?.id}]);
           } else {
             toast.error("Faltan algunos datos importantes!");
           }

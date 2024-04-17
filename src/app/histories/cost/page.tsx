@@ -74,7 +74,7 @@ export default function Page() {
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setCost(response);
-            if(response.data.length > 0) addLink(links, data, 'excel/cost/', {name: "product_id", value: productSelected?.id});
+            if(response.data.length > 0) addLink(links, data, 'excel/cost/', [{name: "product_id", value: productSelected?.id}]);
           } else {
             toast.error("Faltan algunos datos importantes!");
           }

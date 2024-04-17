@@ -11,13 +11,13 @@ export function AddNewDownloadLink() {
 
     const addLink = (listLinks: LinkUrls[], data: DateRangeValues, url: string, params?:any )=>{
         if (listLinks.length >= 3) listLinks.shift()
-        
-        var url = `${remoteUrl}/download/${url}?${data.option ? `option=${data.option}` : ``}${data.initialDate ? `&initialDate=${data.initialDate}` : ``}${data.finalDate ? `&finalDate=${data.finalDate}` : ``}${params ? `&${params.name}=${params.value}` : ``}` 
+        let getParams = params && params?.map((param: any) => `&${param.name}=${param.value}`).join('');
+        const newUrl = `${remoteUrl}/download/${url}?${data.option ? `option=${data.option}` : ``}${data.initialDate ? `&initialDate=${data.initialDate}` : ``}${data.finalDate ? `&finalDate=${data.finalDate}` : ``}${params ? `&${getParams}` : ``}` 
         
         links.push({"name": `${data.option == '1' ? 
                             `Fecha establecida ${formatDate(data.initialDate)}` : 
                             `Del ${formatDate(data.initialDate)} al ${formatDate(data.finalDate)}`}`, 
-                    "link": encodeURI(url), 
+                    "link": encodeURI(newUrl), 
                     "isUrl": true})
         setLinks(links)
     }
