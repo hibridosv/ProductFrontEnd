@@ -13,7 +13,7 @@ export const statusOfTransfer = (status: number)=>{
     case 5: return <span className="status-danger uppercase">Rechazado</span>
     case 6: return <span className="status-danger uppercase">Solicitando</span>
     case 7: return <span className="status-danger uppercase">Solicitado</span>
-    default: return <span>Eliminado</span>
+    default: return <span className="uppercase font-bold">Eliminado</span>
   }
 }
 
