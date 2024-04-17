@@ -7,6 +7,7 @@ import { getData } from "@/services/resources";
 import { toast, Toaster } from "react-hot-toast";
 import { getTenant } from "@/services/oauth";
 import { TransfersReceiveDetailsTable } from "@/components/transfers-components/transfers-receive-details-table";
+import { RightSideTransfer } from "@/components/right-side/right-side-transfer";
 
 export default function Page() {
   const [isloading, setIsloading] = useState(false);
@@ -60,7 +61,7 @@ if(isloading) return <Loading />
     </div>
     <div className="col-span-2">
       <ViewTitle text="TRANSFERENCIAS" />
-
+          <RightSideTransfer records={allTransfers} />
     </div>
     <Toaster position="top-right" reverseOrder={false} />
 </div>
