@@ -272,8 +272,8 @@ export default function ViewSales() {
     try {
       const response = await postData(`sales/order/select/${order}`, "POST");
       if (response.type !== "error") {
-        setOrder(order);
-        setChangeOrder(!changeOrder);
+        setProductsOfInvoice(response.data);
+        setOrder(response.data.id);    
       } else {
         toast.error(response.message);
       }
