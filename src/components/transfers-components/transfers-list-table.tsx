@@ -2,19 +2,21 @@
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { IoMdAlert } from "react-icons/io";
-import { MdCheck, MdOutlineDownloading } from "react-icons/md";
+import { MdCheck } from "react-icons/md";
 import { getTenant } from "@/services/oauth";
 import { statusOfTransfer } from "./transfers-receive-table";
+import { FaSpinner } from "react-icons/fa";
 
 interface TransfersListTableProps {
   records?:  any;
   getProductsOnline: (transfer: number)=>void;
   isSending: boolean;
   getRequest: (tansferId: string)=>void
+  updateStatus: (tansferId: string, status: number, reset: boolean)=>void
 }
 
 export function TransfersListTable(props: TransfersListTableProps) {
-  const { records, getProductsOnline, isSending, getRequest } = props;
+  const { records, getProductsOnline, isSending, getRequest, updateStatus } = props;
   const tenant = getTenant();
 
   if (!records.data) return <NothingHere width="164" height="98" />;
@@ -22,7 +24,9 @@ export function TransfersListTable(props: TransfersListTableProps) {
 
 
   const listItems = records.data.map((record: any) => (
-    <tr key={record.id} className={`border-b ${record.status == 6 && record.to_tenant_id == tenant || record.status == 7 && record.from_tenant_id == tenant ? "bg-red-100 clickeable" : "bg-white"}`}  onClick={record.status == 6 && record.to_tenant_id == tenant || record.status == 7 && record.from_tenant_id == tenant ? ()=>getRequest(record.id) : ()=>{}}>
+    <tr key={record.id} className={`border-b ${record.status == 6 && record.to_tenant_id == tenant || record.status == 7 && record.from_tenant_id == tenant ? "bg-red-100 clickeable" : record.status == 8 && record.from_tenant_id == tenant ? "bg-blue-100 clickeable" : "bg-white"}`} 
+      onClick={record.status == 6 && record.to_tenant_id == tenant || record.status == 7 && record.from_tenant_id == tenant ? 
+      ()=>getRequest(record.id) : record.status == 8 && record.from_tenant_id == tenant ? ()=>updateStatus(record?.id, 1, true) : ()=>{} }>
       <td className="py-3 px-6">
       { record?.received_at ? formatDateAsDMY(record?.received_at) : "N/A" } 
       { record?.received_at && formatHourAsHM(record?.received_at) }</td>
@@ -31,7 +35,7 @@ export function TransfersListTable(props: TransfersListTableProps) {
       <td className="py-3 px-6 truncate">{ record?.receive ? record?.receive : "PENDIENTE" }</td>
       <td className="py-3 px-6">{ statusOfTransfer(record?.status) }</td>
       <td className="py-3 px-6">
-        { isSending ? <MdOutlineDownloading size={20} className="text-teal-500 animate-spin" /> : 
+        { isSending ? <FaSpinner size={20} className="text-teal-500 animate-spin" /> : 
         (record?.status == 3 || record?.status == 5) && record?.is_online == 1 ? 
         <IoMdAlert size={24}  className="clickleable text-orange-400" onClick={()=>getProductsOnline(record)}/> : 
         <MdCheck size={20} className="text-lime-600" /> }

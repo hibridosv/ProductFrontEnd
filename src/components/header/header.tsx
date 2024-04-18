@@ -7,7 +7,7 @@ import { useContext, useState } from "react";
 import { ProductSearchModal } from "../modals/product-search-modal";
 import { ConfigContext } from "@/contexts/config-context";
 import { HeaderSkeleton } from "./header-skeleton";
-import { NotificationsPush } from "../alert/nofications-push";
+import { NotificationsPush } from "../pusher/nofications-push";
 import { getConfigStatus } from "@/utils/functions";
 
 export function Header() {

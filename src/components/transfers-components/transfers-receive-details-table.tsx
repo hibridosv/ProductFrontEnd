@@ -9,6 +9,8 @@ import { MdCheck, MdOutlineDownloading } from "react-icons/md";
 import { DeleteModal } from "../modals/delete-modal";
 import { style } from "@/theme";
 import { getUrlFromCookie } from "@/services/oauth";
+import { ButtonDownload } from "../button/button-download";
+import { FaDownload } from "react-icons/fa";
 
 const checkCodReceive = (data: any) => {
   for (let i = 0; i < data.length; i++) {
@@ -200,8 +202,8 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
         { transfer.status == 2 ? <>
         <Button text="RECHAZAR" onClick={()=>setShowDeleteModalTransfer(true)} disabled={isSending} preset={Preset.cancel} style="mx-3" />
         <Button text="ACEPTAR TODO" onClick={handleAceptAll} preset={isSending ? Preset.saving : Preset.save} disabled={checkCodReceive(transfer.products)} style="mx-3" />
-        </> :
-        <a target="_blank" href={`${encodeURI(`${remoteUrl}/download/pdf/transfer/${transfer.id}`)}`} className={style.hrefDownload} >DESCARGAR REPORTE</a>
+        </> : <ButtonDownload href={`/download/pdf/transfer/${transfer.id}`}><FaDownload size={24}/></ButtonDownload>
+
         // <Button disabled={isSending} text="DESCARGAR REPORTE" preset={Preset.save} style="m-3" />
         }
     </div>

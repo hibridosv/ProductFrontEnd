@@ -9,8 +9,9 @@ import { getConfigStatus, numberToMoney, setPriceName, setPriceOptions } from "@
 import { OptionsClickOrder, PresetTheme, TypeOfPrice } from "@/services/enums";
 import { Alert } from "../alert/alert";
 import { ConfigContext } from "@/contexts/config-context";
-import { getUrlFromCookie } from "@/services/oauth";
+import { getTenant, getUrlFromCookie } from "@/services/oauth";
 import { FaDownload } from "react-icons/fa";
+import Pusher from 'pusher-js';
 
 
 
@@ -30,8 +31,10 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   const [wholesalerStatus, setWholesalerStatus] = useState<boolean>(false)
   const [promotionStatus, setPromotionStatus] = useState<boolean>(false)
   const [downloadStatus, setDownloadStatus] = useState<boolean>(false)
+  const [randomNumber, setRandomNumber] = useState(0);
   let pricesActive = [TypeOfPrice.normal];
   const remoteUrl = getUrlFromCookie();
+  const tenant = getTenant();
   
   const loadAllOrders = async () => {
     setIsLoading(true);
@@ -50,13 +53,27 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
       (async () =>  await loadAllOrders())();
     }
     // eslint-disable-next-line
-  }, []);
+  }, [randomNumber]);
   
+
+  const getPusherRequest = ()=>{
+    var pusher = new Pusher('67ef4909138ad18120e1', { cluster: 'us2' });
+    var channel = pusher.subscribe(`${tenant}-channel-orders`);
+    channel.bind('get-orders-event', function(data:any) {
+      if (!order) {
+        setRandomNumber(Math.random());
+      }
+    });
+  }
+
   useEffect(() => {
       setMultiPriceStatus(getConfigStatus("is-multi-price", config))
       setWholesalerStatus(getConfigStatus("product-price-wolesaler", config))
       setPromotionStatus(getConfigStatus("product-price-promotion", config))
       setDownloadStatus(getConfigStatus("sales-download", config))
+      if (getConfigStatus("realtime-orders", config)) {
+          getPusherRequest();
+      }
     // eslint-disable-next-line
   }, [config])
 
@@ -64,7 +81,6 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
 
 
-  
   if (isLoading) return <Loading />;
 
   const imageLoader = ({ src, width, quality }: any) => {

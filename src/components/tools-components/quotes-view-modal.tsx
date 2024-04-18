@@ -1,10 +1,11 @@
 "use client";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
-import {  getTotalPercentage, numberToMoney, sumarTotales } from "@/utils/functions";
+import {  numberToMoney, sumarTotales } from "@/utils/functions";
 import { getUrlFromCookie } from "@/services/oauth";
 import { formatDate } from "@/utils/date-formats";
-import { style } from "@/theme";
+import { ButtonDownload } from "../button/button-download";
+import { FaDownload } from "react-icons/fa";
 
 
 export interface QuotesViewModalProps {
@@ -17,7 +18,6 @@ export interface QuotesViewModalProps {
 
 export function QuotesViewModal(props: QuotesViewModalProps) {
     const { onClose, isShow, record, sendQuotes, isSending } = props;
-    const remoteUrl = getUrlFromCookie();
 
 
 
@@ -85,7 +85,8 @@ export function QuotesViewModal(props: QuotesViewModalProps) {
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         {
-           record && !isSending && <a target="_blank" href={`${remoteUrl}/download/pdf/quote/${record.id}`} className={style.hrefDownload}>DESCARGAR PDF</a>
+           record && !isSending && 
+           <ButtonDownload href={`/download/pdf/quote/${record.id}`}><FaDownload  size={24}/></ButtonDownload>
         }
         <Button onClick={()=>sendQuotes(record)} preset={isSending ? Preset.saving : Preset.save} text="Facturar" disabled={isSending} />
         <Button onClick={onClose} preset={Preset.close} disabled={isSending} />

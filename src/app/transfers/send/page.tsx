@@ -2,12 +2,13 @@
 
 import { Alert, Loading, ViewTitle } from "@/components"
 import { Button, Preset } from "@/components/button/button";
+import { ButtonDownload } from "@/components/button/button-download";
 import { TransferProductListTable } from "@/components/transfers-components/products-list-table";
 import { SelectGuest } from "@/components/transfers-components/select-guest";
 import { TransfersListTable } from "@/components/transfers-components/transfers-list-table";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { PresetTheme } from "@/services/enums";
-import { getTenant } from "@/services/oauth";
+import { getTenant, getUrlFromCookie } from "@/services/oauth";
 import { Product } from "@/services/products";
 import { getData, postData } from "@/services/resources";
 import { style } from "@/theme";
@@ -16,6 +17,7 @@ import { getFirstElement } from "@/utils/functions";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast, Toaster } from "react-hot-toast";
+import { FaDownload } from "react-icons/fa";
 
 export default function Page() {
 const [isTransferSelected, setIsTransferSelected] = useState("") as any;
@@ -192,7 +194,7 @@ const handleSaveAll = async () =>{
       setIsTransferSelected("")
       setProductsAdded({ data: []});
       setRandomNumber(Math.random())
-      toast.success("Tranferencia Enviada");
+      toast.success("Transferecncia guardada");
     } else {
       toast.error("Faltan algunos datos importantes!");
     }
@@ -229,7 +231,30 @@ const getRequest = async (tansferId: string) =>{
     const response = await postData(`transfers/request/${tansferId}`, "PUT", { status : 1 });
     if (!response.message) {
       setRandomNumber(Math.random())
-      toast.success("Tranferencia Enviada");
+      toast.success("Tranferencia Seleccionada");
+    } else {
+      toast.error("Faltan algunos datos importantes!");
+    }
+  } catch (error) {
+    console.error(error);
+    toast.error("Ha ocurrido un error!");
+  } finally {
+    setIsSending(false)
+  }
+}
+
+
+const updateStatus = async (transfer: string, status: number, reset = false) =>{
+  try {
+    setIsSending(true)
+    const response = await postData(`transfers/update/${transfer}`, "PUT", { status });
+    if (response.type == "successful") {
+      if(reset){
+        setIsTransferSelected("")
+        setProductsAdded({ data: []});
+      }
+      setRandomNumber(Math.random())
+      toast.success("Cambios efectuados");
     } else {
       toast.error("Faltan algunos datos importantes!");
     }
@@ -350,13 +375,25 @@ const listItems = products?.map((product: any):any => (
           isTransferSelected ? <div>
           <TransferProductListTable records={productsAdded} products={setProductsAdded} handleUpdateQuantity={handleUpdateQuantity}/> 
             <div className="grid grid-cols-1 md:grid-cols-10 m-4">
+              <div className="col-span-3 m-1">
+                { productsAdded?.data?.length > 0 && 
+                  <Button isFull disabled={isSending} preset={Preset.primary} text="Guardar" onClick={()=>updateStatus(isTransferSelected.id, isTransferSelected?.requested_by ? 7 : 8, true)} />
+                }
+                </div>
               <div className="col-span-3 m-1"><Button isFull disabled={isSending} preset={Preset.cancel} text="Cancelar" onClick={handleCancelAll} /></div>
-              <div className="col-span-7 m-1">
-                { productsAdded?.data?.length > 0 && <Button isFull disabled={isSending} preset={isSending ? Preset.saving : Preset.save} text="Enviar todo" onClick={handleSaveAll} />
-                }</div>
+              <div className="col-span-3 m-1">
+                { productsAdded?.data?.length > 0 && 
+                  <Button isFull disabled={isSending} preset={isSending ? Preset.saving : Preset.save} text="Enviar todo" onClick={handleSaveAll} />
+                }
+              </div>
+              <div className="col-span-1 m-1">
+                { productsAdded?.data?.length > 0 && 
+                  <ButtonDownload href={`/download/pdf/transfer/${isTransferSelected.id}`}><FaDownload  size={24}/></ButtonDownload>
+                }
+              </div>
             </div>
           </div>: 
-          <TransfersListTable isSending={isSending} getProductsOnline={getProductsOnline} records={allTransfers} getRequest={getRequest} />
+          <TransfersListTable isSending={isSending} getProductsOnline={getProductsOnline} records={allTransfers} getRequest={getRequest} updateStatus={updateStatus} />
         }
     </div>
     <Toaster position="top-right" reverseOrder={false} />

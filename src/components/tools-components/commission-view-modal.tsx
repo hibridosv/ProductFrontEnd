@@ -10,6 +10,8 @@ import { Alert } from "../alert/alert";
 import { formatDateAsDMY } from "@/utils/date-formats";
 import { getUrlFromCookie } from "@/services/oauth";
 import { style } from "@/theme";
+import { ButtonDownload } from "../button/button-download";
+import { FaDownload } from "react-icons/fa";
 
 
 export interface CommissionViewModalProps {
@@ -140,7 +142,7 @@ export function CommissionViewModal(props: CommissionViewModalProps) {
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         {
-           record && record.status == 2 && <a target="_blank" href={`${remoteUrl}/download/pdf/commission/${record.id}`} className={style.hrefDownload}>DESCARGAR PDF</a>
+           record && record.status == 2 && <ButtonDownload href={`/download/pdf/commission/${record.id}`}><FaDownload  size={24}/></ButtonDownload>
         }
         <Button onClick={onClose} preset={Preset.close} />
         {

@@ -255,6 +255,28 @@ const getRequest = async (tansferId: string) =>{
   }
 
 
+  const updateStatus = async (transfer: string, status: number, reset = false) =>{
+    try {
+      setIsSending(true)
+      const response = await postData(`transfers/update/${transfer}`, "PUT", { status });
+      if (response.type == "successful") {
+        if(reset){
+          setIsTransferSelected("")
+          setProductsAdded({ data: []});
+        }
+        setRandomNumber(Math.random())
+        toast.success("Cambios efectuados");
+      } else {
+        toast.error("Faltan algunos datos importantes!");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } finally {
+      setIsSending(false)
+    }
+  }
+
 
 const listItems = products?.map((product: any):any => (
   <div key={product.id} onClick={()=>handleClickOnProduct(product.id)}>
@@ -344,13 +366,15 @@ const listItems = products?.map((product: any):any => (
           isTransferSelected ? <div>
           <TransferProductListTable records={productsAdded} products={setProductsAdded} deleteActive={true} handleUpdateQuantity={()=>{}}/> 
             <div className="grid grid-cols-1 md:grid-cols-10 m-4">
-              <div className="col-span-3 m-1"><Button isFull disabled={isSending} preset={Preset.cancel} text="Cancelar" onClick={handleCancelAll} /></div>
+              <div className="col-span-3 m-1">
+                <Button isFull disabled={isSending} preset={Preset.cancel} text="Cancelar" onClick={handleCancelAll} />
+              </div>
               <div className="col-span-7 m-1">
                 { productsAdded?.data?.length > 0 && <Button isFull disabled={isSending} preset={isSending ? Preset.saving : Preset.save} text="Enviar solicitud" onClick={handleSaveAll} />
                 }</div>
             </div>
           </div>: 
-          <TransfersListTable isSending={isSending} getProductsOnline={getProductsOnline} records={allTransfers} getRequest={getRequest} />
+          <TransfersListTable isSending={isSending} getProductsOnline={getProductsOnline} records={allTransfers} getRequest={getRequest} updateStatus={updateStatus}/>
         }
     </div>
     <Toaster position="top-right" reverseOrder={false} />

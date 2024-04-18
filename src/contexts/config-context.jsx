@@ -27,12 +27,14 @@ export function ConfigContextProvider(props){
         try {
             const response = await postData(`config/${key}`, 'PUT', {"active": value});
             setConfig(response);
-            } 
+        } 
         catch (error) {
             console.error(error);
-            }  
+        }  
     }
 
+    // console.log("systemInformation", systemInformation)
+    // console.log("config", config)
 
     return (
         <ConfigContext.Provider value={{config, updateConfig, cashDrawer, setCashDrawer, setRandomInit, systemInformation }}>
