@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Pagination, ViewTitle } from "@/components";
+import { Loading, Pagination, ViewTitle } from "@/components";
 import { getData, postData } from "@/services/resources";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast';
@@ -16,6 +16,7 @@ export default function InsertProduct() {
   const [initialData, setInitialData] = useState<any>({});
   const { register, handleSubmit, reset, watch, setValue } = useForm();
   const [isSending, setIsSending] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [productSelected, setProductSelected] = useState(null as any);
   const [failures, setFailures] = useState(null as any);
@@ -24,36 +25,29 @@ export default function InsertProduct() {
 
 
   const loadData = async () => {
+    setIsLoading(true)
       try {
         const response = await getData(`failures/active`);
         if(response.data){
             setIsActive(true);
             setInitialData(response?.data)
             reset();
+        } else {
+          const responseFailures = await getData(`failures?sort=-created_at&included=employee,failures,failures.employee,failures.deleted_by,failures.product&filter[status]=2&perPage=10${currentPage}`);
+          if (responseFailures) {
+            setFailures(responseFailures)
+          }
         }
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false)
       }
   };
-  
-  const loadDataFailures = async () => {
-    try {
-        const responseFailures = await getData(`failures?sort=-created_at&included=employee,failures,failures.employee,failures.deleted_by,failures.product&filter[status]=2&perPage=10${currentPage}`);
-        if (responseFailures) {
-          setFailures(responseFailures)
-        }
-    } catch (error) {
-      console.error(error);
-    }
-};
 
 
   useEffect(() => {
-    if (isActive) {
       (async () => { await loadData() })(); 
-    } else {
-      (async () => { await loadDataFailures() })(); 
-    }
     // eslint-disable-next-line
   }, [randomNumber, currentPage]);
 
@@ -170,7 +164,7 @@ export default function InsertProduct() {
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
       <div className="col-span-4">
         <ViewTitle text="DESCONTAR PRODUCTOS" />
-        { !isActive ? 
+        { isLoading ? <Loading /> : !isActive ? 
         <div className="w-full px-4">
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
               <div className="flex flex-wrap -mx-3 mb-6">
