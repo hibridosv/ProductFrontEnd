@@ -11,10 +11,11 @@ export interface SalesSearchByNameProps {
     typeOfSearch?: boolean; // tipo de busqueda
     setTypeOfSearch: (type: boolean)=>void;
     onSubmit: (product : Product) => void;
+    showButton?: boolean;
 }
 
 export function SalesSearchByName(props: SalesSearchByNameProps){
-const {  setTypeOfSearch, typeOfSearch, onSubmit } = props;
+const {  setTypeOfSearch, typeOfSearch, onSubmit, showButton = true } = props;
 const [products, setProducts] = useState([]) as any;
 const [randNumber, setrandNumber] = useState(0) as any;
 
@@ -84,8 +85,9 @@ return (
                 </ul>
               }
             </div>
-
-        <div className="mx-2 grid content-center cursor-pointer" onClick={()=>setTypeOfSearch(!typeOfSearch)}>{  typeOfSearch ? NameIcon : SearchIcon  }</div>
+        {
+          showButton && <div className="mx-2 grid content-center cursor-pointer" onClick={()=>setTypeOfSearch(!typeOfSearch)}>{  typeOfSearch ? NameIcon : SearchIcon  }</div>
+        }
         </div>
     )
 

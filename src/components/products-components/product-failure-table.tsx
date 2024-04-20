@@ -34,6 +34,7 @@ export function ProductFailureTable(props: ProductFailureTableProps) {
 
   const listItems = records.map((record: any) => (
     <tr title={ record?.status === 2 ? `Eliminado por ${record?.deleted_by?.name}` : ``} key={record.id} className={record.status === 2 ? `bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-red-600` : `bg-white border-b dark:bg-gray-800 dark:border-gray-700`} >
+      <td className="py-2 px-2 truncate">{ record?.product?.description }</td>
       <td className="py-2 px-2">{ record.quantity }</td>
       <td className="py-2 px-2 truncate uppercase">{ record.reason }</td>
       <td className="py-2 px-2">{ record?.employee?.name }</td>
@@ -52,6 +53,7 @@ export function ProductFailureTable(props: ProductFailureTableProps) {
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
+          <th scope="col" className="py-2 px-2 border">Producto</th>
           <th scope="col" className="py-2 px-2 border">Cant</th>
           <th scope="col" className="py-2 px-2 border">Razón</th>
           <th scope="col" className="py-2 px-2 border">Usuario</th>
