@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from "react";
-import { Alert, Loading, ViewTitle } from "@/components";
+import { Alert, DeleteModal, Loading, ViewTitle } from "@/components";
 import { getData, postData } from "@/services/resources";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { SearchInput } from "@/components/form/search";
@@ -19,6 +19,7 @@ export default function KardexPage() {
     const [documenSelected, setDocumentSelected] = useState(false);
     const [records, setRecords] = useState([]) as any;
     const [isSending, setIsSending] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
   
 
     const loadData = async () => {
@@ -71,6 +72,25 @@ export default function KardexPage() {
       setIsSending(true)
       const response = await postData(`invoices/print`, "POST", {invoice: iden});
       if (response.message) {
+        toast.success(response.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } finally {
+      setIsSending(false)
+    }
+  };
+
+
+
+  const deleteOrder = async (iden: string) => {
+    setShowDeleteModal(false)
+    try {
+      setIsSending(true)
+      const response = await postData(`invoices/delete`, "POST", {invoice: iden});
+      if (response.message) {
+        await handleFormSubmit(iden)
         toast.success(response.message);
       }
     } catch (error) {
@@ -176,11 +196,17 @@ export default function KardexPage() {
         <div>
           <ViewTitle text="OPCIONES" />
           <div className="mt-4">
+
             <div className="m-3 flex justify-between mb-8">
               <div><FaPrint className="clickeable" size={45} color="blue" onClick={()=>printOrder(records?.data?.id)} /></div>
-              <div><RiDeleteBin2Line className="clickeable" size={45} color="red" onClick={()=>console.log()} /></div>
+              <div><RiDeleteBin2Line className="clickeable" size={45} color="red" 
+              onClick={records?.data?.status == 3 ? ()=>setShowDeleteModal(true) : ()=>toast.error("Esta orden ya se encuentra eliminada")} /></div>
             </div>
+            
             <Button text='Nueva busqueda' isFull type="submit" preset={Preset.cancel} onClick={() => handleNewSearch()} />
+            {
+              records?.data?.status == 4 && <div className="mt-4"><Alert info="Atención: " text="Esta orden se encuentra eliminada" isDismisible={false}  /></div>
+            }
           </div>
         </div> </> :
         <div className="col-span-3 m-4">
@@ -193,6 +219,10 @@ export default function KardexPage() {
           </div>
         </div>
       }
+        <DeleteModal isShow={showDeleteModal}
+          text="¿Estas seguro de eliminar este elemento?"
+          onDelete={()=>deleteOrder(records?.data?.id)} 
+          onClose={()=>setShowDeleteModal(false)} />
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );

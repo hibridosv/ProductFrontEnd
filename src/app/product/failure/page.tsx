@@ -175,12 +175,13 @@ export default function InsertProduct() {
                         <option value="1">Averia</option>
                         <option value="2">Traslado</option>
                         <option value="3">Devolución</option>
+                        <option value="4">Cambio</option>
                     </select>
                 </div>
 
                   <div className="w-full px-3 mb-4">
                   <label htmlFor="reason" className={style.inputLabel}>
-                    Razón de averia{" "}
+                    Comentario{" "}
                   </label>
                   <textarea {...register("reason", {})} rows={2} className={`${style.input} w-full`} />
                 </div>

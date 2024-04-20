@@ -22,6 +22,7 @@ export function ProductFailureTable(props: ProductFailureTableProps) {
         case 1: return <span className="status-danger">Averias</span>  
         case 2: return <span className="status-success">Traslado</span>
         case 3: return <span className="status-info">Devolución</span>
+        case 4: return <span className="status-warning">Cambio</span>
       }
   }
 
