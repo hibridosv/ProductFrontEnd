@@ -120,9 +120,9 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
         {orders.map((order: any, index: any) => (
           <ListGroup.Item key={index}>
           <Tooltip animation="duration-300" content={showProducts(order.invoiceproducts)} placement="right-end" style="light" >
-            <div className="w-full flex justify-between">
-              <span className="uppercase" onClick={() => onClick(order.id)}>{order?.client?.name ? `Cliente: ${order?.client?.name}` : `Usuario: ${order.employee.name}`}</span>
-              <span className="ml-3" onClick={() => onClick(order.id)}>
+            <div className="w-full flex justify-between" onClick={() => onClick(order.id)}>
+              <span className="uppercase">{order?.client?.name ? `Cliente: ${order?.client?.name}` : `Usuario: ${order.employee.name}`}</span>
+              <span className="ml-3">
                 {formatDateAsDMY(order.created_at)} | {formatHourAsHM(order.created_at)}
               </span>
               { downloadStatus && <span className="justify-end"><a target="_blank" href={`${remoteUrl}/download/pdf/order/${order.id}`}><FaDownload /></a></span> }
