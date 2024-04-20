@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from "react";
 import { Alert, Loading, ViewTitle } from "@/components";
-import { getData } from "@/services/resources";
+import { getData, postData } from "@/services/resources";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { SearchInput } from "@/components/form/search";
 import { Product } from "@/services/products";
@@ -63,6 +63,23 @@ export default function KardexPage() {
       setDocuments([])
       setRecords([])
     }
+
+
+    
+  const printOrder = async (iden: string) => {
+    try {
+      setIsSending(true)
+      const response = await postData(`invoices/print`, "POST", {invoice: iden});
+      if (response.message) {
+        toast.success(response.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } finally {
+      setIsSending(false)
+    }
+  };
 
     const listItems = documents?.map((document: any):any => (
         <div key={document.id} onClick={()=>handleFormSubmit(document.id)}>
@@ -160,7 +177,7 @@ export default function KardexPage() {
           <ViewTitle text="OPCIONES" />
           <div className="mt-4">
             <div className="m-3 flex justify-between mb-8">
-              <div><FaPrint className="clickeable" size={45} color="blue" onClick={()=>console.log()} /></div>
+              <div><FaPrint className="clickeable" size={45} color="blue" onClick={()=>printOrder(records?.data?.id)} /></div>
               <div><RiDeleteBin2Line className="clickeable" size={45} color="red" onClick={()=>console.log()} /></div>
             </div>
             <Button text='Nueva busqueda' isFull type="submit" preset={Preset.cancel} onClick={() => handleNewSearch()} />
