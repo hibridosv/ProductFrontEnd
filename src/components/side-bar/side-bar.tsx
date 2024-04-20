@@ -52,7 +52,7 @@ const handlePermission = (permission: string, redirect: string): string => {
           <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-register", "/product/register")} />}>Registrar Producto</MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-edit", "/product/edit")} />}>Editar Producto</MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-add", "/product/add")} />}>Agregar Productos</MenuItem>
-          <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-failure", "/product/failure")} />}>Descontar Averias</MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-failure", "/product/failure")} />}>Descontar Productos</MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-linked", "/product/linked")} />}>Productos Relacionados</MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-stock", "/product/stock")} />}>Bajas Existencias</MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-expiration", "/product/expiration")} />}>Proximos Vencimientos</MenuItem>

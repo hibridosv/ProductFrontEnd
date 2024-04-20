@@ -1,16 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Loading, ViewTitle } from "@/components";
+import { Pagination, ViewTitle } from "@/components";
 import { getData, postData } from "@/services/resources";
-import { numberToMoney } from "@/utils/functions";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast';
-
 import { Button, Preset } from "@/components/button/button";
 import { style } from "@/theme";
 import { SalesSearchByName } from "@/components/sales-components/sales-search-by-name";
-import { addElementToData, removeElementById } from "@/utils/functions-elements";
 import { ProductFailureTable } from "@/components/products-components/product-failure-table";
+import { ProductFailureProductsTable } from "@/components/products-components/product-failure-products-table";
+import { usePagination } from "@/hooks/usePagination";
+
 
 export default function InsertProduct() {
   const [initialData, setInitialData] = useState<any>({});
@@ -18,6 +18,9 @@ export default function InsertProduct() {
   const [isSending, setIsSending] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [productSelected, setProductSelected] = useState(null as any);
+  const [failures, setFailures] = useState(null as any);
+  const [randomNumber, setRandomNumber] = useState(0);
+  const {currentPage, handlePageNumber} = usePagination("&page=1");
 
 
   const loadData = async () => {
@@ -33,11 +36,26 @@ export default function InsertProduct() {
       }
   };
   
+  const loadDataFailures = async () => {
+    try {
+        const responseFailures = await getData(`failures?sort=-created_at&included=employee,failures,failures.employee,failures.deleted_by,failures.product&filter[status]=2&perPage=10${currentPage}`);
+        if (responseFailures) {
+          setFailures(responseFailures)
+        }
+    } catch (error) {
+      console.error(error);
+    }
+};
+
 
   useEffect(() => {
-          (async () => { await loadData() })(); 
+    if (isActive) {
+      (async () => { await loadData() })(); 
+    } else {
+      (async () => { await loadDataFailures() })(); 
+    }
     // eslint-disable-next-line
-  }, []);
+  }, [randomNumber, currentPage]);
 
 
   const onSubmit = async (data: any) => {
@@ -63,11 +81,6 @@ export default function InsertProduct() {
         setIsSending(false);
       }
   };
-
-  console.log("initialData", initialData)
-  console.log("isActive", isActive)
-
-
 
   const addProduct = async (data:any) => {
     if (!data.quantity || !initialData?.reason) {
@@ -123,6 +136,7 @@ export default function InsertProduct() {
         toast.success("Registro Guardado Correctamente");
         setInitialData(null)
         setIsActive(false);
+        setRandomNumber(Math.random())
       }
     } catch (error) {
       console.error(error);
@@ -142,6 +156,7 @@ export default function InsertProduct() {
         setIsActive(false);
         setProductSelected(null)
         reset();
+        setRandomNumber(Math.random())
       }
     } catch (error) {
       console.error(error);
@@ -165,7 +180,7 @@ export default function InsertProduct() {
                     <select id="type" {...register("type")} className={style.input} >
                         <option value="1">Averia</option>
                         <option value="2">Traslado</option>
-                        <option value="3">Devolucion</option>
+                        <option value="3">Devolución</option>
                     </select>
                 </div>
 
@@ -237,7 +252,14 @@ export default function InsertProduct() {
       <div  className="col-span-6">
         <ViewTitle text="ULTIMOS REGISTROS" />
         <div className="mx-4">
-          <ProductFailureTable records={initialData?.failures} onDelete={deleteProduct} />
+        { isActive ? <div>
+          <ProductFailureProductsTable records={initialData?.failures} onDelete={deleteProduct} />
+        </div> :
+        <div>  
+          <ProductFailureTable records={failures?.data} />
+          <Pagination records={failures} handlePageNumber={handlePageNumber}  />
+        </div>
+        }
         </div>
             <div className='w-full mt-4 '>
             { isActive && <span className="float-right mx-4">
