@@ -88,16 +88,26 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   }
 
   const showProducts = (products: any) =>{
-    return  products?.map((product: any):any => (
-      <div key={product.id} className="w-full flex justify-center border-2">
-        <div className="border border-teal-300">
-            <span className="mx-2">{product.cod }</span>
-            <span className="mx-2">{product.product }</span>
-            <span className="mx-2">{ product.quantity}</span>
-            <span className="mx-2">{ numberToMoney(product.total)}</span>
-        </div>
-      </div>
-    ));
+   return (<table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" className="py-2 px-2 border">Cod</th>
+        <th scope="col" className="py-2 px-2 border">Producto</th>
+        <th scope="col" className="py-2 px-2 border">Cantidad</th>
+        <th scope="col" className="py-2 px-2 border">Total</th>
+      </tr>
+    </thead>
+    <tbody>{
+    products?.map((product: any):any => (
+      <tr key={product.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <td className="py-1 px-2">{product.cod }</td>
+            <td className="py-1 px-2">{product.product }</td>
+            <td className="py-1 px-2">{ product.quantity}</td>
+            <td className="py-1 px-2">{ numberToMoney(product.total)}</td>
+      </tr>
+    ))
+    }</tbody>
+  </table>)
   }
 
   return (
