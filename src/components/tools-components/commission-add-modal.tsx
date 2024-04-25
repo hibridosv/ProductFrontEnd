@@ -142,11 +142,8 @@ export function CommissionAddModal(props: CommissionAddModalProps) {
                     <label htmlFor="userId" className={style.inputLabel}> Seleccione el usuario </label>
                     <select id="userId" {...register("userId")} className={style.input} >
                         {!users && <option value=""> Cargando... </option>}
-                        {users?.data?.map((value: any) => {
-                            return (
-                                <option key={value.id} value={value.id}> {value.name} </option>
-                                );
-                        })}
+                        <option>Seleccione un referido</option>
+                        {users && users?.data?.map((value: any) => <option key={value.id} value={value.id}> {value.name} </option>)}
                     </select>
                 </div>
             </div>
@@ -154,6 +151,7 @@ export function CommissionAddModal(props: CommissionAddModalProps) {
           </div>
            }
         </>}
+      <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         <Button onClick={onClose} preset={Preset.close} />
