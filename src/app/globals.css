@@ -40,7 +40,7 @@
   }
 
   .status-warning {
-    @apply text-orange-500 font-bold
+    @apply text-orange-400 font-bold
   }
 }
 

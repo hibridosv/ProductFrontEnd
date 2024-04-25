@@ -32,6 +32,14 @@ export function CommissionsListTable(props: CommissionsListTableProps) {
       }
   }
 
+  const setType = (status: number): any =>{
+    switch (status) {
+      case 1: return <span className="status-info">Normal</span>
+      case 2: return <span className="status-warning">Puntos Oro</span>
+    }
+}
+
+
   const setModal = (record: any)=> {
     setIsCommissionSelected(record)
     setIsViewCommissionModal(true)
@@ -42,10 +50,11 @@ export function CommissionsListTable(props: CommissionsListTableProps) {
     <tr key={record.id} className="border-b">
       <td className="py-2 px-6 truncate">{ formatDate(record?.initial_date) }</td>
       <td className="py-2 px-6">{ formatDate(record?.final_date) }</td>
+      <td className="py-2 px-6">{ setType(record?.type) }</td>
       <td className="py-2 px-6">{ record?.referred?.name }</td>
       <td className="py-2 px-6">{ record?.invoices }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0) }</td>
-      <th className="py-2 px-6">{ numberToMoney(record?.commissions ? record?.commissions : 0) }</th>
+      <th className="py-2 px-6">{ numberToMoney(record?.commissions ? record.type == 1 ? record?.commissions : record?.commissions * 0.10 : 0) }</th>
       <th className="py-2 px-6" onClick={()=>setModal(record)}>{ setStatus(record?.status) }</th>
     </tr>
   ));
@@ -58,6 +67,7 @@ export function CommissionsListTable(props: CommissionsListTableProps) {
         <tr>
           <th scope="col" className="py-3 px-4 border">Inicio</th>
           <th scope="col" className="py-3 px-4 border">Fin</th>
+          <th scope="col" className="py-3 px-4 border">Tipo</th>
           <th scope="col" className="py-3 px-4 border">Cliente</th>
           <th scope="col" className="py-3 px-4 border">Facturas</th>
           <th scope="col" className="py-3 px-4 border">Total</th>

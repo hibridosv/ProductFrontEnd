@@ -36,6 +36,7 @@ export function CommissionAddModal(props: CommissionAddModalProps) {
 
     const handleGetCommission = async (data: any)=>{
         data.userId = watch("userId")
+        data.type = watch("type")
         try {
           setIsSending(true);
           setSales(null);
@@ -123,12 +124,24 @@ export function CommissionAddModal(props: CommissionAddModalProps) {
                     </table>
                     { sales?.length > 0 ?
                     <div className="uppercase shadow-lg border-x-2 ml-4 mt-4 ">
-                        <div>Cantidad de productos: <span className="font-semibold">{ getTotalOfItem(sales, "quantity") }</span></div>
-                        <div>Total descuentos: <span className="font-semibold">{ numberToMoney(getTotalOfItem(sales, "discount")) }</span></div>
-                        <div>Total de ventas: <span className="font-semibold">{ numberToMoney(getTotalOfItem(sales, "total")) }</span></div>
-                        <div>Total de Comisión: <span className="font-semibold">{ numberToMoney(getTotalCommission(sales)) }</span></div>
-                        <div>Total de Retenciones: <span className="font-semibold">{ numberToMoney(getTotalCommission(sales)  * 0.10)}</span></div>
-                        <div>Total a Pagar: <span className="font-semibold">{ numberToMoney(getTotalCommission(sales)  * 0.90)}</span></div>
+                      { sendData?.type == 1 ? <div>
+                          <div>Cantidad de productos: <span className=" font-semibold">{ getTotalOfItem(sales, "quantity") }</span></div>
+                          <div>Total descuentos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(sales, "discount")) }</span></div>
+                          <div>Total de ventas: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(sales, "total")) }</span></div>
+                          <div>Total de Comisión: <span className=" font-semibold">{ numberToMoney(getTotalCommission(sales)) }</span></div>
+                          <div>Total de Retenciones: <span className=" font-semibold">{ numberToMoney(getTotalCommission(sales)  * 0.10)}</span></div>
+                          <div>Total a Pagar: <span className=" font-semibold">{ numberToMoney(getTotalCommission(sales)  * 0.90)}</span></div>
+                        </div> :
+                        <div>
+                          <div>Cantidad de productos: <span className=" font-semibold">{ getTotalOfItem(sales, "quantity") }</span></div>
+                          <div>Total descuentos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(sales, "discount")) }</span></div>
+                          <div>Total de ventas: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(sales, "total")) }</span></div>
+                          <div>Total de Comisiones otorgadas: <span className=" font-semibold">{ numberToMoney(getTotalCommission(sales)) }</span></div>
+                          <div>Total Puntos de Oro: <span className="font-semibold">{ numberToMoney(getTotalCommission(sales) * 0.10) }</span></div>
+                          <div>Total de Retenciones: <span className=" font-semibold">{ numberToMoney((getTotalCommission(sales)  * 0.10) * 0.10)}</span></div>
+                          <div>Total a Pagar: <span className=" font-semibold">{ numberToMoney((getTotalCommission(sales) * 0.10)-((getTotalCommission(sales)  * 0.10) * 0.10) )}</span></div>
+                        </div>
+                      }
                     </div> : 
                     <div className="flex justify-center">
                       <Alert text="No se encuentran registros" isDismisible={false} />
@@ -138,6 +151,13 @@ export function CommissionAddModal(props: CommissionAddModalProps) {
           <div> 
              {/* <Alert info="Nota!:" text="La ultima fecha reportada es: 21/03/2023" isDismisible={false} /> */}
             <div className="flex flex-wrap m-4 shadow-lg border-2 rounded-md mb-8">
+            <div className="w-full md:w-full px-3 mb-2">
+                    <label htmlFor="type" className={style.inputLabel}> Tipo de comisiones a establecer </label>
+                    <select defaultValue={1} id="type" {...register("type")} className={style.input} >
+                        <option value={1}> Normal </option>
+                        <option value={2}> Puntos de Oro </option>
+                    </select>
+                </div>
               <div className="w-full md:w-full px-3 mb-2">
                     <label htmlFor="userId" className={style.inputLabel}> Seleccione el usuario </label>
                     <select id="userId" {...register("userId")} className={style.input} >
