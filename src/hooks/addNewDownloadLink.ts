@@ -12,7 +12,7 @@ export function AddNewDownloadLink() {
     const addLink = (listLinks: LinkUrls[], data: DateRangeValues, url: string, params?:any )=>{
         if (listLinks.length >= 3) listLinks.shift()
         let getParams = params && params?.map((param: any) => `&${param.name}=${param.value}`).join('');
-        const newUrl = `${remoteUrl}/download/${url}?${data.option ? `option=${data.option}` : ``}${data.initialDate ? `&initialDate=${data.initialDate}` : ``}${data.finalDate ? `&finalDate=${data.finalDate}` : ``}${params ? `&${getParams}` : ``}` 
+        const newUrl = `${remoteUrl}/download/${url}?${data.option ? `option=${data.option}` : ``}${data.initialDate ? `&initialDate=${data.initialDate}` : ``}${data.finalDate ? `&finalDate=${data.finalDate}` : ``}${params ? `${getParams}` : ``}` 
         
         links.push({"name": `${data.option == '1' ? 
                             `Fecha establecida ${formatDate(data.initialDate)}` : 

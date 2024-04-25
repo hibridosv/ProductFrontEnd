@@ -32,11 +32,11 @@ export function ReportsSalesTable(props: ReportsSalesTableProps) {
       <td className="py-2 px-6">{ numberToMoney(record?.unit_cost ? record?.unit_cost * record?.quantity : 0) }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.unit_price ? record?.unit_price : 0) }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.unit_price ? record?.unit_price * record?.quantity : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.discount_percerntage ? record?.discount_percerntage : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.discount_percentage ? record?.discount_percentage : 0) }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.discount ? record?.discount : 0) }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney((record?.unit_price * record?.quantity) - (record?.unit_cost * record?.quantity)) }</td>
-      <td className="py-2 px-6">{ percentage(record?.unit_cost * record?.quantity, record?.unit_price * record?.quantity) }</td>
+      <td className="py-2 px-6 whitespace-nowrap" scope="row">{ numberToMoney((record?.unit_price * record?.quantity) - (record?.unit_cost * record?.quantity)) }</td>
+      <td className="py-2 px-6 whitespace-nowrap" scope="row">{ percentage(record?.unit_cost * record?.quantity, record?.unit_price * record?.quantity).toFixed(2) } %</td>
     </tr>
   ));
 
@@ -58,7 +58,7 @@ export function ReportsSalesTable(props: ReportsSalesTableProps) {
           <th scope="col" className="py-3 px-4 border">Descuento</th>
           <th scope="col" className="py-3 px-4 border">Monto</th>
           <th scope="col" className="py-3 px-4 border">Total</th>
-          <th scope="col" className="py-3 px-4 border">Margen $</th>
+          <th scope="col" className="py-3 px-4 border whitespace-nowrap">Margen $</th>
           <th scope="col" className="py-3 px-4 border">Margen %</th>
         </tr>
       </thead>

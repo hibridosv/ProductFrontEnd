@@ -7,10 +7,13 @@ import { postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { DateTime } from 'luxon';
 import { ReportsFailuresTable } from "@/components/reports-components/reports-failures-table";
+import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
+import { LinksList } from "@/components/common/links-list";
 
 export default function Page() {
   const [sales, setSales] = useState([]);
   const [isSending, setIsSending] = useState(false);
+  const { links, addLink} = AddNewDownloadLink()
 
   useEffect(() => {
       (async () => { 
@@ -18,6 +21,7 @@ export default function Page() {
         const formatedDate = actualDate.toFormat('yyyy-MM-dd');
         await handlegetSales({option: "1", initialDate: `${formatedDate} 00:00:00`})
       })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
     const handlegetSales = async (data: DateRangeValues) => {
@@ -27,6 +31,7 @@ export default function Page() {
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setSales(response);
+            if(response.data.length > 0) addLink(links, data, 'excel/reports/failures/');
           } else {
             toast.error("Faltan algunos datos importantes!");
           }
@@ -51,6 +56,7 @@ export default function Page() {
         <ViewTitle text="SELECCIONAR FECHA" />
 
         <DateRange onSubmit={handlegetSales} />
+        <LinksList links={links} />
         </div>
       <Toaster position="top-right" reverseOrder={false} />
     </div>

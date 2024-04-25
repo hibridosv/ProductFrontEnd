@@ -10,12 +10,16 @@ import { loadData } from "@/utils/functions";
 import { style } from "@/theme";
 import { useForm } from "react-hook-form";
 import { InvoiceDocumentsTable } from "@/components/invoice-components/invoice-documents-table";
+import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
+import { LinksList } from "@/components/common/links-list";
 
 export default function Page() {
   const [documents, setDocuments] = useState([]);
   const [invoices, setInvoices] = useState([] as any);
   const [isSending, setIsSending] = useState(false);
   const { register, watch } = useForm();
+  const { links, addLink} = AddNewDownloadLink()
+
 
   useEffect(() => {
       (async () => setInvoices(await loadData(`invoice/type/active`)))();
@@ -31,6 +35,7 @@ export default function Page() {
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setDocuments(response);
+            if(response.data.length > 0) addLink(links, data, 'excel/invoices/documents/', [{name: "invoiceId", value: data.invoiceId}]);
           } else {
             toast.error("Faltan algunos datos importantes!");
           }
@@ -76,6 +81,7 @@ export default function Page() {
             </div>
 
         <DateRange onSubmit={handleDocuments} />
+        <LinksList links={links} />
         </div>
       <Toaster position="top-right" reverseOrder={false} />
     </div>
