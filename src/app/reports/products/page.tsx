@@ -9,11 +9,14 @@ import { DateTime } from 'luxon';
 import { ReportsProductsTable } from "@/components/reports-components/reports-products-table";
 import { LinksList } from "@/components/common/links-list";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
+import { AiOutlineSearch } from "react-icons/ai";
+import { ReportsProductsModal } from "@/components/reports-components/reports-products-modal";
 
 export default function Page() {
   const [products, setProducts] = useState([]);
   const [isSending, setIsSending] = useState(false);
   const { links, addLink} = AddNewDownloadLink()
+  const [isShowModal, setIsShowModal] = useState(false);
 
 
   useEffect(() => {
@@ -25,14 +28,15 @@ export default function Page() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-    const handlegetSales = async (data: DateRangeValues) => {
+    const handlegetSales = async (data: DateRangeValues, document?: number) => {
+
         try {
           setIsSending(true);
-          const response = await postData(`reports/products-in`, "POST", data);
+          const response = await postData(`reports/products-in`, "POST", document ? {document} : data );
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setProducts(response);
-            if(response.data.length > 0) addLink(links, data, 'excel/reports/products-in/');
+            if(response.data.length > 0) addLink(links, data, 'excel/reports/products-in/', [{name: "document", value: document}]);
           } else {
             toast.error("Faltan algunos datos importantes!");
           }
@@ -44,12 +48,17 @@ export default function Page() {
         }
       };
 
+      const setDocument = async(document: number) =>{
+        await handlegetSales({}, document)
+      }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
-        <div className="col-span-7 border-r md:border-sky-600">
-        <ViewTitle text="PRODUCTOS INGRESADOS" />
-
+        <div className="col-span-7 border-r md:border-sky-600"> 
+          <div className="flex justify-between">
+            <ViewTitle text="PRODUCTOS INGRESADOS" />
+            <span className=" m-4 text-2xl clickeable" onClick={()=>setIsShowModal(true)}><AiOutlineSearch size={24} /></span>
+          </div>
         <ReportsProductsTable records={products} isLoading={isSending} />
 
         </div>
@@ -60,6 +69,8 @@ export default function Page() {
         <LinksList links={links} />
         </div>
       <Toaster position="top-right" reverseOrder={false} />
+      <ReportsProductsModal isShow={isShowModal} onClose={()=>setIsShowModal(false)} setDocument={setDocument} />
+
     </div>
   )
 }
