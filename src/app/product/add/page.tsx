@@ -14,7 +14,7 @@ import { Contacts } from "@/services/Contacts";
 import { ProductRegisterTable } from "@/components/products-components/product-register-table";
 import { PresetTheme } from "@/services/enums";
 import { ProductRegisterPrincipalTable } from "@/components/products-components/product-register-principal-table";
-import { documentType } from "@/utils/functions";
+import { documentType, loadData } from "@/utils/functions";
 import { ToggleSwitch } from "flowbite-react";
 
 export default function ProductAdd() {
@@ -22,12 +22,16 @@ export default function ProductAdd() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<any>({});
   const [isSending, setIsSending] = useState(false);
-  const [isTaxesActive, setIsTaxesActive] = useState(true);
+  const [isTaxesActive, setIsTaxesActive] = useState(false);
+  const [isBillsActive, setIsBillsActive] = useState(false);
+  const [isAccountActive, setIsAccountActive] = useState(false);
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
   const [products, setProducts] = useState([]);
   const [productPrincipal, setProductPrincipal] = useState([]) as any;
   const [productSelected, setProductSelected] = useState<Product>({} as Product);
   const [providers, setProviders] = useState<Contacts>([] as Contacts);
+  const [categories, setCategories] = useState([] as any);
+  const [accounts, setAccounts] = useState([] as any);
 
 
   const { register, handleSubmit, reset, watch, setValue } = useForm();
@@ -67,8 +71,14 @@ export default function ProductAdd() {
   }
 
   const addRegisterPrincipal = async (data: any) => {
+    if (isAccountActive && (!data.account_name || !data.account_quantity) || isBillsActive && (!data.bills_name || !data.bills_quantity) ) {
+      toast.error("Faltan algunos datos importantes para continuar!");
+      return
+    }
     data.provider_id = data.provider_id ? data.provider_id : providers.data ? providers.data[0].id : 0;
     data.comment = data.comment ? data.comment : "Ingreso de productos";
+    data.bills_active = isBillsActive;
+    data.account_active = isAccountActive;
     try {
       setIsSending(true)
       const response = await postData(`products/add/principal`, "POST", data);
@@ -80,12 +90,12 @@ export default function ProductAdd() {
         toast.error("Faltan algunos datos importantes!");
         setMessage(response);
       }
+      await loadLastRegistersPrincipal();
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!");
     } finally {
       setIsSending(false)
-      await loadLastRegistersPrincipal();
     }
   }
 
@@ -150,6 +160,8 @@ useEffect(() => {
         await loadProviders(); 
         await loadLastRegistersPrincipal();
         await loadLastRegistersPrincipalOpen();
+        setCategories(await loadData(`cash/categories`))
+        setAccounts(await loadData(`cash/accounts`));
       })();
 // eslint-disable-next-line
 }, []);
@@ -224,23 +236,13 @@ useEffect(() => {
 
                 <div className="w-full md:w-1/2 px-3 mb-2">
                     <label htmlFor="document_number" className={style.inputLabel}>Numero de Documento</label>
-                    <input
-                          type="number"
-                          id="document_number"
-                          {...register("document_number")}
-                          className={style.input}
-                          step="any"
-                          min={0}
-                        />
+                    <input type="number" id="document_number" {...register("document_number")} className={style.input} step="any" min={0} />
                 </div>
 
                 <div className="w-full md:w-1/2 px-3 mb-2">
                     <label htmlFor="document_type" className={style.inputLabel}> Tipo de Documento </label>
                     <select
-                          id="document_type"
-                          {...register("document_type")}
-                          className={style.input}
-                        >
+                          id="document_type" {...register("document_type")} className={style.input} >
                         <option value="0">Ninguno</option>
                         <option value="1">Ticket</option>
                         <option value="2">Factura</option>
@@ -252,28 +254,15 @@ useEffect(() => {
                     <label htmlFor="provider_id" className={style.inputLabel}> Proveedor </label>
                     <select
                           defaultValue={providers && providers.data && providers.data.length > 0 ? providers.data[0].id : 0}
-                          id="provider_id"
-                          {...register("provider_id")}
-                          className={style.input}
-                        >
-                        {providers?.data?.map((value: any) => {
-                          return (
-                            <option key={value.id} value={value.id}> {value.name}</option>
-                          );
-                        })}
+                          id="provider_id" {...register("provider_id")} className={style.input} >
+                          {providers?.data?.map((value: any) => <option key={value.id} value={value.id}> {value.name}</option>)}
                     </select>
                 </div>
 
                 <div className="w-full md:w-1/2 px-3 mb-2">
                     <label htmlFor="lot" className={style.inputLabel}> Lote </label>
                     <input
-                          type="number"
-                          id="lot"
-                          {...register("lot")}
-                          className={style.input}
-                          step="any"
-                          min={0}
-                        />
+                          type="number" id="lot" {...register("lot")} className={style.input} step="any" min={0} />
                 </div>
 
                 <div className="w-full md:w-full px-3 mb-4">
@@ -285,27 +274,131 @@ useEffect(() => {
                   />
                 </div>
 
-                    <div className="w-full md:w-full px-2 mb-3 flex justify-center">
-                      <div className='col-span-10 m-3 ml-10 font-semibold'>Productos con impuestos incluidos</div>
-                        <div className='col-span-2 m-3'>
+
+                <div className="w-full md:w-1/2 px-2 mb-3 flex justify-center">
+                      <div className='mr-2 font-semibold'>Sumar impuestos</div>
+                        <div>
                             <ToggleSwitch
                             checked={isTaxesActive}
                             label={isTaxesActive ? 'Activo' : 'Inactivo'}
-                            onChange={() => setIsTaxesActive(!isTaxesActive)}
-                          />
+                            onChange={() => setIsTaxesActive(!isTaxesActive)} />
                       </div>
                 </div>
+                <div className="w-full md:w-1/2">
+
+                </div>
                 
+                <div className="uppercase text-xl font-semibold text-slate-800 m-2 bg-slate-400 w-full px-6 clickeable rounded-md border shadow-md shadow-slate-400" onClick={()=>setIsBillsActive(!isBillsActive)}>{ isBillsActive ? "Cancelar" : "Activar"} ingreso como gasto</div>
+                
+              {
+                isBillsActive && <>
+                    <div className=" font-semibold text-lg text-teal-800 text-center uppercase px-2">Información del ingreso de gasto</div>
+
+                    <div className="w-full md:w-full px-3 mb-2">
+                      <label htmlFor="bills_name" className={style.inputLabel}>Nombre del Gasto *</label>
+                      <input type="text" id="bills_name" {...register("bills_name")} className={style.input} step="any" min={0} />
+                    </div>
+
+                    <div className="w-full md:w-1/2 px-3 mb-2">
+                      <label htmlFor="bills_payment_type" className={style.inputLabel}> Tipo de pago </label>
+                      <select defaultValue={1} id="bills_payment_type" {...register("bills_payment_type")} className={style.input}  >
+                        <option value="1">Efectivo</option>
+                        <option value="2">Tarjeta</option>
+                        <option value="3">Transferencia</option>
+                        <option value="4">Cheque</option>
+                        <option value="6">BTC</option>
+                        <option value="0">Otro</option>
+                      </select>
+                    </div>
+                      
+                    <div className="w-full md:w-1/2 px-3 mb-2">
+                      <label htmlFor="bills_categories_id" className={`${style.inputLabel}`}> Categoria de gasto </label>
+                      <select
+                        defaultValue={categories && categories.data && categories.data.length > 0 ? categories.data[0].id : 0}
+                        id="bills_categories_id" {...register("bills_categories_id")} className={style.input} >
+                        {categories?.data?.map((value: any) => <option key={value.id} value={value.id}> {value.name}</option> )}
+                      </select>
+                    </div>
+
+
+                    <div className="w-full md:w-1/2 px-3 mb-2">
+                        <label htmlFor="bills_payment_type" className={style.inputLabel}> Tipo de pago </label>
+                        <select
+                          defaultValue={1}
+                          id="bills_payment_type"
+                          {...register("bills_payment_type")}
+                          className={style.input}
+                        >
+                          <option value="1">Efectivo</option>
+                          <option value="2">Tarjeta</option>
+                          <option value="3">Transferencia</option>
+                          <option value="4">Cheque</option>
+                          <option value="6">BTC</option>
+                          <option value="0">Otro</option>
+                        </select>
+                      </div>
+
+
+                    {watch("bills_payment_type") != 1 ? <div className="w-full md:w-1/2 px-3 mb-2">
+                        <label htmlFor="bills_cash_accounts_id" className={style.inputLabel}> Cuenta de tranferencia </label>
+                        <select
+                          defaultValue={accounts && accounts.data && accounts.data.length > 0 ? accounts.data[0].id : 0}
+                          id="bills_cash_accounts_id"
+                          {...register("bills_cash_accounts_id")}
+                          className={style.input}
+                        >
+                          {accounts?.data?.map((value: any) => {
+                            return (
+                              <option key={value.id} value={value.id}> {value.account}{" | "}{value.bank}{" | $"}{value.balance}</option>
+                            );
+                          })}
+                        </select>
+                      </div> :
+                      <div className="w-full md:w-1/2 px-3 mb-2">
+                        <label className={style.inputLabel}> Cuenta de tranferencia </label>
+                        <input className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight bg-red-200 focus:outline-none pointer-events-none" readOnly />
+                      </div>
+                      }
+
+
+                    <div className="w-full md:w-full px-3 mb-2">
+                      <label htmlFor="bills_quantity" className={style.inputLabel}> Cantidad *</label>
+                      <input
+                        type="number" id="bills_quantity" {...register("bills_quantity")} className={style.input} step="any" min={0} />
+                    </div>
+
+                </>
+              }
+                <div className="uppercase text-xl font-semibold text-slate-800 m-2 bg-slate-400 w-full px-6 clickeable rounded-md border shadow-md shadow-slate-400" onClick={()=>setIsAccountActive(!isAccountActive)}>{ isAccountActive ? "Cancelar" : "Activar"} ingreso de cuenta por pagar</div>
+
+              { 
+                isAccountActive && <>
+              <div className=" font-semibold text-lg text-teal-800 text-center uppercase px-2">Información de la cuenta por pagar</div>
+              <div className="w-full md:w-full px-3 mb-2">
+                    <label htmlFor="account_name" className={style.inputLabel}>Nombre de la cuenta *</label>
+                    <input type="text" id="account_name" {...register("account_name")} className={style.input} step="any" min={0} />
+                </div>
+
+                <div className="w-full md:w-1/2 px-3 mb-2">
+                    <label htmlFor="account_quantity" className={style.inputLabel}> Cantidad *</label>
+                    <input type="number" id="account_quantity" {...register("account_quantity")} className={style.input} step="any" min={0} />
+                </div>
+
+                
+                <div className="w-full md:w-1/2 px-3 mb-2">
+                    <label htmlFor="account_expiration" className={style.inputLabel}>
+                      Fecha de vencimiento
+                    </label>
+                    <input type="date" id="account_expiration" {...register("account_expiration")} className={style.input} />
+                  </div>
+                </>
+              }
+
               </div>
 
               {message.errors && (
                 <div className="mb-4">
-                  <Alert
-                    theme={PresetTheme.danger}
-                    info="Error"
-                    text={JSON.stringify(message.message)}
-                    isDismisible={false}
-                  />
+                  <Alert theme={PresetTheme.danger} info="Error" text={JSON.stringify(message.message)} isDismisible={false} />
                 </div>
               )}
 
