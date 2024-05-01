@@ -523,11 +523,11 @@ useEffect(() => {
          </div>
 
          <div className="col-span-5 border-r md:border-sky-600">
-         <ViewTitle text="ULTIMAS ENTRADAS" />
+         <ViewTitle text="ULTIMA ENTRADA" />
          <div className="w-full p-4">
             <ProductRegisterPrincipalTable records={lastProductsPrincipal} isLoading={isLoading} />
           </div>
-         <ViewTitle text="PRODUCTOS INGRESADOS" />
+         <ViewTitle text="PRODUCTOS" />
           <div className="w-full p-4">
             <ProductRegisterTable records={lastProductsPrincipal ? lastProductsPrincipal[0]?.registers : []} isLoading={isLoading} />
           </div>
