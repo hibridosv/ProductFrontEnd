@@ -1,7 +1,9 @@
 'use client'
+import { ListGroup } from "flowbite-react";
 import { Loading } from "../loading/loading";
 import { NothingHere } from "../nothing-here/nothing-here";
 import Image from "next/image";
+import { BiHomeAlt, BiHomeCircle } from "react-icons/bi";
 
 interface SelectGuestProps {
   records?:  any;
@@ -18,18 +20,17 @@ export function SelectGuest(props: SelectGuestProps) {
   if (records.data.length == 0) return <NothingHere text="NO TIENES SUCURSALES ASIGNADAS" width="164" height="98" />;
 
   const listItems = records.data.map((record: any) => (
-    <div key={record.id} className="md:mx-6 mx-2 shadow-2xl shadow-slate-900 rounded-t-full clickeable" onClick={()=>isGuestSelected(record)}>
-      <Image
-          src="/img/home.png"
-          alt="Guest"  width={140} height={140} priority={false} />
-        <div className="flex justify-center uppercase font-bold text-lg text-cyan-600">{ record?.to?.name }</div>
-        <div className="flex justify-center text-sm text-blue-600 mb-2">{ record?.to?.description }</div>
-    </div>
+            <ListGroup.Item key={record.id} onClick={()=>isGuestSelected(record)}>
+              <BiHomeCircle size={32} /><span className="ml-3 text-left font-semibold uppercase text-2xl">{ record?.to?.description }</span>
+            </ListGroup.Item>
   ));
 
 
   return (
-    <div  className="flex justify-center py-4 px-4">
+    <div  className="py-4 px-4 w-full p-2">
+      <div className="m-3">Enviar a:</div>
+      <ListGroup className="w-full">
         {listItems}
+      </ListGroup>
     </div>);
 }

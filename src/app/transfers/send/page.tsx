@@ -303,7 +303,7 @@ const listItems = products?.map((product: any):any => (
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
-    <div className={`${isTransferSelected ? "col-span-5" : "col-span-4"} border-r md:border-sky-600`}>
+    <div className={`${isTransferSelected ? "col-span-5" : "col-span-3"} border-r md:border-sky-600`}>
           <ViewTitle text={isTransferSelected ? "AGREGAR PRODUCTOS" : "NUEVA TRANSFERENCIA"} />
           { isTransferSelected ? 
             <div className="w-full px-4">
@@ -311,7 +311,7 @@ const listItems = products?.map((product: any):any => (
               <div className=" font-semibold m-4">
                 <div className="flex justify-between border-b-2">
                   <div>Enviar a: </div>
-                  <div className="uppercase">{ isTransferSelected?.to?.name }</div>
+                  <div className="uppercase">{ isTransferSelected?.to?.description }</div>
                 </div>
               </div>
 
@@ -369,7 +369,7 @@ const listItems = products?.map((product: any):any => (
             <SelectGuest records={linkedSystems} isGuestSelected={handleIsGuestSelected} isLoading={isLoading} />
           }
     </div>
-    <div className={isTransferSelected ? "col-span-5" : "col-span-6"}>
+    <div className={isTransferSelected ? "col-span-5" : "col-span-7"}>
       <ViewTitle text={isTransferSelected ? "PRODUCTOS AGREGADOS" : "ULTIMAS TRANSFERENCIAS"} />
         {
           isTransferSelected ? <div>

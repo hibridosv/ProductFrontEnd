@@ -30,7 +30,7 @@ export function TransfersListTable(props: TransfersListTableProps) {
       <td className="py-3 px-6">
       { record?.received_at ? formatDateAsDMY(record?.received_at) : "N/A" } 
       { record?.received_at && formatHourAsHM(record?.received_at) }</td>
-      <td className="py-3 px-6 whitespace-nowrap">{ record?.to?.name }</td> 
+      <td className="py-3 px-6 whitespace-nowrap">{ record?.to?.description }</td> 
       <td className="py-3 px-6 truncate">{ record?.send }</td>
       <td className="py-3 px-6 truncate">{ record?.receive ? record?.receive : "PENDIENTE" }</td>
       <td className="py-3 px-6">{ statusOfTransfer(record?.status) }</td>
