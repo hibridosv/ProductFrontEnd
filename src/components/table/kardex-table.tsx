@@ -1,7 +1,9 @@
 'use client'
 import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
-import { formatDateAsDMY } from "@/utils/date-formats";
+import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
+import { useState } from "react";
+import { ProductKardexViewModal } from "../products-components/product-kardex-view-modal";
 
 interface KardexTableProps {
   records?:  any;
@@ -9,17 +11,22 @@ interface KardexTableProps {
 
 export function KardexTable(props: KardexTableProps) {
   const { records } = props;
+  const [isShowKardexModal, setIsShowKardexModal] = useState(false);
+  const [isSelectKardexId, setIsSelectKardexId] = useState("");
 
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
 
-
+  const setKardexDetails = (record: any)=>{
+      setIsShowKardexModal(true)
+      setIsSelectKardexId(record)
+  }
 
   const listItems = records.data.map((record: any) => (
     <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
-      <td className="py-3 px-6">{ formatDateAsDMY(record.created_at) }</td>
-      <th className="py-3 px-6 font-medium text-gray-900 whitespace-nowrap" scope="row">{ record.description }</th>
+      <td className="py-3 px-6 whitespace-nowrap ">{ formatDateAsDMY(record.created_at) } { formatHourAsHM(record.created_at) }</td>
+      <th className="py-3 px-6 font-medium text-gray-900 whitespace-nowrap clickeable" scope="row" onClick={()=>setKardexDetails(record)}>{ record.description }</th>
       <td className="py-3 px-6">{ record.unit_cost }</td>
       <td className={`py-3 px-6 ${record.qty_in && 'text-blue-600 font-semibold'}`}>{ record.qty_in ? record.qty_in : 0 }</td>
       <td className={`py-3 px-6 ${record.total_in && 'text-blue-600 font-semibold'}`}>{ numberToMoney(record.total_in ? record.total_in : 0) }</td>
@@ -48,7 +55,7 @@ export function KardexTable(props: KardexTableProps) {
         <tr>
           <th scope="col" className="py-3 px-4 border">Fecha</th>
           <th scope="col" className="py-3 px-4 border">Detalle</th>
-          <th scope="col" className="py-3 px-4 border">Costo U</th>
+          <th scope="col" className="py-3 px-4 border whitespace-nowrap ">Costo U</th>
           <th scope="col" className="py-3 px-4 border">Cantidad</th>
           <th scope="col" className="py-3 px-4 border">Total</th>
           <th scope="col" className="py-3 px-4 border">Cantidad</th>
@@ -59,6 +66,7 @@ export function KardexTable(props: KardexTableProps) {
       </thead>
       <tbody>{listItems}</tbody>
     </table>
+    <ProductKardexViewModal isShow={isShowKardexModal} onClose={()=>setIsShowKardexModal(false)} record={isSelectKardexId} />
  </div>
  </div>);
 }

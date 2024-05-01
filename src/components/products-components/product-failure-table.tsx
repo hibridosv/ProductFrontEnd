@@ -8,6 +8,15 @@ interface ProductFailureTableProps {
   records?:  any;
 }
 
+export const typeFailure = (status: number) => {
+  switch (status) {
+    case 1: return <span className="status-danger">Averias</span>  
+    case 2: return <span className="status-success">Traslado</span>
+    case 3: return <span className="status-info">Devolución</span>
+    case 4: return <span className="status-warning">Cambio</span>
+  }
+}
+
 export function ProductFailureTable(props: ProductFailureTableProps) {
   const { records } = props;
   const [isShowModal, setIsShowModal] = useState(false);
@@ -16,15 +25,6 @@ export function ProductFailureTable(props: ProductFailureTableProps) {
   if (!records) return <NothingHere width="164" height="98" text="No existen registros" />;
   if (records.length == 0) return <NothingHere text="No existen registros" width="164" height="98" />;
 
-
-  const typeFailure = (status: number) => {
-      switch (status) {
-        case 1: return <span className="status-danger">Averias</span>  
-        case 2: return <span className="status-success">Traslado</span>
-        case 3: return <span className="status-info">Devolución</span>
-        case 4: return <span className="status-warning">Cambio</span>
-      }
-  }
 
   const selectRecord = (record: any)=>{
     setIsSelectedRecord(record)
