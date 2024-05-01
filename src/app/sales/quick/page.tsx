@@ -227,7 +227,7 @@ export default function ViewSales() {
         break;
       case OptionsClickOrder.quotes: saveAsQuote();
         break;
-      default: console.log(option);
+      default: ()=>{};
         break;
     }
   };

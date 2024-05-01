@@ -2,20 +2,24 @@ import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { formatDateAsDMY } from "@/utils/date-formats";
 import { Loading } from "../loading/loading";
+import { Button, Preset } from "../button/button";
 
 interface ProductRegisterProps {
   records: any[];
   isLoading?: boolean;
+  onDelete: (iden: string)=>void;
+  productPrincipal?: string;
 }
 
 export function ProductRegisterTable(props: ProductRegisterProps) {
-  const { records, isLoading } = props;
+  const { records, isLoading, onDelete, productPrincipal } = props;
 
   if (isLoading) return (<Loading />)
 
   if (!records) return <NothingHere width="164" height="98" text="No se encuentran productos" />;
   if (!Array.isArray(records) || records.length === 0) return <NothingHere text="No se encuentran productos" width="164" height="98" />;
 
+  
   const listItems = records?.map((record: any) => (
     <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
       <td className="py-2 px-2 truncate uppercase">{ record?.product?.description }</td>
@@ -23,6 +27,7 @@ export function ProductRegisterTable(props: ProductRegisterProps) {
       <td className="py-2 px-2">{ numberToMoney(record.unit_cost ? record.unit_cost : 0) }</td>
       <td className="py-2 px-2 truncate">{ record?.document_number }</td>
       <td className="py-2 px-2 truncate">{ formatDateAsDMY(record.created_at) }</td>
+      <td className="py-2 px-2"><Button preset={productPrincipal ? Preset.smallClose : Preset.smallCloseDisable} noText onClick={productPrincipal ? ()=>onDelete(record.id) : ()=>{}} /></td>
     </tr>
   ));
 
@@ -37,6 +42,7 @@ export function ProductRegisterTable(props: ProductRegisterProps) {
           <th scope="col" className="py-2 px-2 border">Precio Costo</th>
           <th scope="col" className="py-2 px-2 border">Documento</th>
           <th scope="col" className="py-2 px-2 border">Fecha</th>
+          <th scope="col" className="py-2 px-2 border"></th>
         </tr>
       </thead>
       <tbody>{listItems}</tbody>

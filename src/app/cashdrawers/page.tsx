@@ -69,7 +69,7 @@ const onDeleteCut = async(cutId: any)=>{
         {
           cashDrawers?.data && cashDrawers?.data.map((cash: any) => (
             <div key={cash.id} className="md:mx-6 mx-2 shadow-2xl shadow-slate-900 rounded-t-full clickeable" 
-            onClick={!cashDrawer && cash.status == 1 ? ()=>handleOpenCashDrawer(cash.id) : cashDrawer == cash.id ? ()=>setCashDrawerCloseModal(true) : ()=>console.log() }>
+            onClick={!cashDrawer && cash.status == 1 ? ()=>handleOpenCashDrawer(cash.id) : cashDrawer == cash.id ? ()=>setCashDrawerCloseModal(true) : ()=>{} }>
               <Image
                   src={!cashDrawer && cash.status == 1 ? "/img/cashdrawer.png" : cashDrawer == cash.id ? "/img/cashdrawer.png" : "/img/cashdrawer_block.png" }
                   alt="CashDrawer"  width={168} height={168} priority={false} />

@@ -87,7 +87,7 @@ export default function Page() {
       };
 
 
-      console.log("cost", cost)
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className={`${cost?.data && cost?.data.length > 0 ? "col-span-7" : "col-span-5"} border-r md:border-sky-600`}>

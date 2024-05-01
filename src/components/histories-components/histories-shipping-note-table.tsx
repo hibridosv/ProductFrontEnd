@@ -14,7 +14,7 @@ export function HistoriesShippingNoteTable(props: HistoriesShippingNoteTableProp
   const { records, isLoading } = props;
 
 
-console.log(records)
+
   if (isLoading) return <Loading />;
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;

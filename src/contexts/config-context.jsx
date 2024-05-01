@@ -33,8 +33,6 @@ export function ConfigContextProvider(props){
         }  
     }
 
-    // console.log("systemInformation", systemInformation)
-    // console.log("config", config)
 
     return (
         <ConfigContext.Provider value={{config, updateConfig, cashDrawer, setCashDrawer, setRandomInit, systemInformation }}>

@@ -12,6 +12,8 @@ import { RightSideSearch } from "@/components/right-side/right-side-search";
 import { PresetTheme } from "@/services/enums";
 import { AdjustmentTable } from "@/components/tools-components/adjustment-table";
 import { AdjustmentListTable } from "@/components/tools-components/adjustments-list-table";
+import { getUrlFromCookie } from "@/services/oauth";
+import { LinksList } from "@/components/common/links-list";
 
 export default function Page() {
   const [isSending, setIsSending] = useState(false);
@@ -21,6 +23,9 @@ export default function Page() {
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "name"], 500);
   const [randomNumber, setRandomNumber] = useState(0);
+  const remoteUrl = getUrlFromCookie();
+  const [ links, setLinks ] = useState([] as any)
+
 
 
   const startAdjustment = async() =>{
@@ -60,6 +65,8 @@ export default function Page() {
 
 useEffect(() => {
     (async () => setAdjustment(await loadData(`adjustment`)))();
+    setLinks([
+      {"name": `DESCARGAR LISTADO EN PDF`, "link": encodeURI(`${remoteUrl}/web/inventory-free/`), "isUrl": true}])
   // eslint-disable-next-line
 }, []);
 
@@ -109,6 +116,7 @@ useEffect(() => {
             </div>
           </div>
           }
+          <LinksList links={links} text="DESCARGAS" />
         </div>
       <Toaster position="top-right" reverseOrder={false} />
     </div>

@@ -209,6 +209,28 @@ useEffect(() => {
     }
   }
 
+
+  const deleteProduct = async (iden: string) => {
+    try {
+      setIsSending(true)
+      const response = await postData(`registers/products/${iden}`, "DELETE");
+      if (!response.message) {
+        setProductSelected({} as Product)
+        setValue("quantity", null)
+        setValue("unit_cost", null)
+        toast.success("Producto eliminado correctamente");
+        await loadLastRegistersPrincipal();
+        setMessage({});
+      } else {
+        toast.error("Faltan algunos datos importantes!");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } finally {
+      setIsSending(false)
+    }
+  }
   
  
   const listItems = products?.map((product: any):any => (
@@ -529,7 +551,7 @@ useEffect(() => {
           </div>
          <ViewTitle text="PRODUCTOS" />
           <div className="w-full p-4">
-            <ProductRegisterTable records={lastProductsPrincipal ? lastProductsPrincipal[0]?.registers : []} isLoading={isLoading} />
+            <ProductRegisterTable productPrincipal={productPrincipal?.id} onDelete={deleteProduct} records={lastProductsPrincipal ? lastProductsPrincipal[0]?.registers : []} isLoading={isLoading} />
           </div>
           { productPrincipal?.id && <Button preset={isSending ? Preset.saving : Preset.cancel} text="Terminar ingreso" onClick={()=>finishRegister()} isFull /> }
         </div>

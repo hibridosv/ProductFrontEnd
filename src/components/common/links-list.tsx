@@ -6,16 +6,17 @@ export interface LinkUrls {
 
 export interface LinksListProps {
   links?: LinkUrls[];
+  text?: string;
 }
 
 export function LinksList(props: LinksListProps) {
-  const {  links } = props;
+  const {  links, text = "DESCARGAS EXCEL" } = props;
 
   if (links?.length === 0) return <></>
 
   return (
     <div className='mt-4 border-t border-teal-700'>
-        <div className="uppercase flex justify-center font-bold">DESCARGAS EXCEL</div>
+        <div className="uppercase flex justify-center font-bold">{text}</div>
             {links && links.map((item: LinkUrls, index: any) => {
               if (item.name && item.link) {
                 return (<a key={index} target="_blank" href={item.link}>

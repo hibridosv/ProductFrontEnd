@@ -14,7 +14,6 @@ export function NotificationsPush(props: NotificationsPushProps){
         const tenant = getTenant();
 
     const notification = (text: any) => {
-        // console.log("message: ", text)
         if (!text?.message) return
         toast((t) => (
           <span className="flex justify-between">

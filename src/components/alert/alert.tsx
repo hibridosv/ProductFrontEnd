@@ -35,7 +35,7 @@ export function Alert(props: AlertProps){
                <span className="text-center font-normal bg">{text}</span></div>
                { isDismisible && 
               <span className="ml-2 cursor-pointer my-1 text-end" 
-               onClick={isDismisible ? () => setIsOpen(false) : ()=> console.log()}>{ CloseIcon }</span>
+               onClick={isDismisible ? () => setIsOpen(false) : ()=> {}}>{ CloseIcon }</span>
               }
            </div>
         </div>

@@ -111,7 +111,7 @@ export default function AddProduct() {
         break;
       case "provider_id": setShowModalProvider(true)
         break;
-      default: console.log()
+      default: ()=>{}
         break;
     }
   }
@@ -260,7 +260,7 @@ export default function AddProduct() {
               RowTable.options,
               RowTable.prices,
             ]}
-            onDelete={() => console.log("Delete")}
+            onDelete={() => {}}
           />
         </div>
       </div>

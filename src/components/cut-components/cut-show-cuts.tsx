@@ -50,7 +50,7 @@ const isDeleteCut = (record: string) => {
             ${record?.cash_diference > 0 ? 'text-blue-600' : record?.cash_diference < 0 ? 'text-red-600' : 'text-black'}`}>
                 {numberToMoney(record?.cash_diference)}</div>
             <div className="m-2"><Button preset={firstRecord.id == record?.id ? Preset.smallClose : Preset.smallCloseDisable} 
-                onClick={firstRecord.id == record?.id ? ()=>isDeleteCut(record) : ()=>console.log() } noText /></div>
+                onClick={firstRecord.id == record?.id ? ()=>isDeleteCut(record) : ()=>{} } noText /></div>
         </div> }
         </div> ))}
 

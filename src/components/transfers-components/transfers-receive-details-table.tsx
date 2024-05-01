@@ -71,7 +71,6 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
 
 
   const createNewRegister = async (data: any) => {
-    console.log("Data: ", data)
     try {
       setIsSending(true);
       const response = await postData(`transfers/products/create/${data.id}`, "PUT", { create: 1 });
@@ -114,7 +113,6 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
   }
 
   const handleCancelAll = async ()=>{
-    console.log(transfer)
     setShowDeleteModalTransfer(false)
     try {
       setIsSending(true);
@@ -173,7 +171,7 @@ export function TransfersReceiveDetailsTable(props: TransfersReceiveDetailsTable
             {
               record?.cod_receive ? <MdCheck size={20} className="text-lime-600" /> :
               isSending ? <MdOutlineDownloading size={20} className="text-teal-500 animate-spin" /> : 
-              <AiOutlineFundView size={20} title="Agregar registro nuevo de este producto" className="text-red-600 clickeable" onClick={record.status == 1 ? ()=>createNewRegister(record) : ()=>console.log()} />
+              <AiOutlineFundView size={20} title="Agregar registro nuevo de este producto" className="text-red-600 clickeable" onClick={record.status == 1 ? ()=>createNewRegister(record) : ()=>{}} />
             }
             <Button preset={record.status != 1 ? Preset.smallCloseDisable : Preset.smallClose} disabled={record.status != 1} noText onClick={record.requested_exists == 0 ? ()=>{toast.error("Este producto no existe en el inventario de quien envia");} : ()=>isDeleteProduct(record)} />
             </span>
