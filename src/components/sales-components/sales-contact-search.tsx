@@ -32,7 +32,7 @@ const [isAdContactModal, setIsAdContactModal] = useState(false);
 
 const loadDataContacts = async () => {
     try {
-      const response = await getData(`${ContactTypeToGet}?sort=-created_at&perPage=10${searchTerm}`);
+      const response = await getData(`${ContactTypeToGet}sort=-created_at&perPage=10${searchTerm}`);
       setContacts(response.data);
     } catch (error) {
       console.error(error);

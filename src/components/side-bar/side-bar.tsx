@@ -75,6 +75,10 @@ const handlePermission = (permission: string, redirect: string): string => {
 
         <SubMenu label="Directorio" icon={<FaAddressBook />}>
           <MenuItem component={<Link className="text-sm" href={handlePermission("directory", "/directory")} />}>Contactos </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("directory", "/directory/client")} />}>Clientes </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("directory", "/directory/employee")} />}>Empleados </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("directory", "/directory/provider")} />}>Proveedores </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("directory", "/directory/referred")} />}>Referidos </MenuItem>
         </SubMenu>
 
         <SubMenu label="Historiales" icon={<FaHistory />}>
