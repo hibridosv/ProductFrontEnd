@@ -53,7 +53,7 @@ export function CashdrawerCloseModal(props: CashdrawerCloseModalProps) {
 
 
   return (
-    <Modal size={size} show={isShow} position="center" onClose={isSending ? console.log : onClose}>
+    <Modal size={size} show={isShow} position="center" onClose={isSending ? ()=>{} : onClose}>
       <Modal.Header>Corte de caja</Modal.Header>
       <Modal.Body>
     { cashDrawer ? (

@@ -67,9 +67,6 @@ export default function Config() {
         </ListGroup.Item>
       ))
     
-      console.log("tenantsRemoteUrl", tenantsRemoteUrl)
-      console.log("systemInformation", systemInformation)
-
   return (
     <div className="grid grid-cols-1 md:grid-cols-6 pb-10">
        <div className="col-span-2">
