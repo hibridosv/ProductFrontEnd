@@ -48,7 +48,7 @@ const getElement = (items: any)=> {
 const initialData = async () =>{
   try {
     setIsLoading(true)
-    const response = await getData(`transfers?sort=-created_at&filter[to_tenant_id]=-${tenant}&included=products,to,from`);
+    const response = await getData(`transfers?sort=-created_at&filter[to_tenant_id]==${tenant}&included=products,to,from`);
     if (!response.message) {
       let first = getElement(response.data);
       if (first?.status == 6) {

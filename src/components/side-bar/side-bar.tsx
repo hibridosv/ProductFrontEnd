@@ -127,7 +127,7 @@ const handlePermission = (permission: string, redirect: string): string => {
           <MenuItem component={<Link className="text-sm" href={handlePermission("config", "/config")} />}>Principal</MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("config-products", "/config/product")} />}>Productos</MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("config-user", "/config/user")} />}>Usuarios</MenuItem>
-          <MenuItem component={<Link className="text-sm" href={handlePermission("config-transfers", "/config/transfers")} />}>Cambios</MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("config-transfers", "/config/transfers")} />}>Sucursales</MenuItem>
           {/* <MenuItem component={<Link className="text-sm" href="/error/403" />}>Error</MenuItem> */}
 
         </SubMenu>

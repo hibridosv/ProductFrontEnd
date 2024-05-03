@@ -38,7 +38,7 @@ const tenant = getTenant();
 const initialData = async () =>{
   try {
     setIsLoading(true)
-    const response = await getData(`transfers?sort=-created_at&filter[from_tenant_id]=-${tenant}&included=products,to,from`);
+    const response = await getData(`transfers?sort=-created_at&filter[from_tenant_id]==${tenant}&included=products,to,from`);
     if (!response.message) {
       let first = getFirstElement(response.data);
       if (first?.status == 1) {

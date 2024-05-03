@@ -5,11 +5,11 @@ import { Button, Preset } from "../button/button";
 import {  postWithOutToken } from "@/services/resources";
 import { Loading } from "../loading/loading";
 import { useForm } from 'react-hook-form';
-import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/authContext";
 import { API_URL } from "@/constants";
 import { style } from '@/theme';
 import { ConfigContext } from '@/contexts/config-context';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 export interface ConfigChangeTenantModalProps {
@@ -25,13 +25,12 @@ export function ConfigChangeTenantModal(props: ConfigChangeTenantModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isRemoteUrl, setIsRemoteUrl] = useState<any>("");
   const { register, handleSubmit, setValue, watch } = useForm();
-  const router = useRouter();
   const { login, remoteUrl, tenant } = useAuthContext();
   const { setRandomInit, systemInformation } = useContext(ConfigContext);
 
 const getRemoteUrl = async () => {
+    setIsSending(true);
     try {
-      setIsSending(true);
       const response = await postWithOutToken(`${API_URL}oauth`, "POST", { email: systemInformation?.user?.email, change: tenantSelect?.url});
       if (response.type == "error") {
         setIsMessage(true); 
@@ -56,20 +55,24 @@ const getRemoteUrl = async () => {
       setIsSending(true);
       const response = await postWithOutToken(`${isRemoteUrl?.url}/oauth/token`, "POST", data);
       if (!response.error) {
+          toast.success("Recargando nuevos datos!!");
           setIsLoading(true)
           setIsMessage(false);
           login(response.access_token);
           remoteUrl(isRemoteUrl?.url);
           tenant(isRemoteUrl?.system);
           setRandomInit(Math.random())
-          router.push("/dashboard");
+          // router.push("/config/transfers");
+          onClose()
       } else {
         setIsMessage(true);
       }
     } catch (error) {
       console.error(error);
+      setIsMessage(true);
     } finally {
       setIsSending(false);  
+      setIsLoading(false)
     }
   };
 
@@ -93,6 +96,7 @@ const getRemoteUrl = async () => {
             <div className="w-full bg-white rounded-lg shadow-lg">
                   <form onSubmit={handleSubmit(handleSubmitLogin)} className="w-full">
                     <div className="md:w-full max-w-sm">
+                      <div className={style.input}>{ systemInformation?.user?.email }</div>
                       <input type="hidden" {...register("username")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
                       <label htmlFor="password" className={style.inputLabel}> Contraseña </label>
                       <input type="password" {...register("password")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
@@ -104,6 +108,7 @@ const getRemoteUrl = async () => {
                   </form>
             </div> 
         }
+      <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         <Button onClick={onClose} preset={Preset.close} disabled={isSending} />

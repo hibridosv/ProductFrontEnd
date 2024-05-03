@@ -27,7 +27,7 @@ export default function CashDrawerPage() {
     if (!cashDrawerOpenModal && !cashDrawerCloseModal) {
       try {
         setIsLoading(true);
-        (async () => setCashDrawers(await loadData(`cashdrawers`)))();
+        (async () => setCashDrawers(await loadData(`cashdrawers?filter[status]=!0&included=employee`)))();
         (async () => setCutsUser(await loadData(`cut/all?perPage=8${currentPage}`)))();
       } catch (error) {
         console.error(error);
