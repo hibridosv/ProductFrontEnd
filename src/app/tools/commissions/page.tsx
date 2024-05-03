@@ -20,7 +20,7 @@ export default function Page() {
   const [randomNumber, setRandomNumber] = useState(0);
 
   useEffect(() => {
-      (async () => setUsers(await loadData(`contacts/referrals`)))();
+      (async () => setUsers(await loadData(`contacts?filter[is_referred]==1`)))();
   }, []);
 
     const handlegetSales = async () => {

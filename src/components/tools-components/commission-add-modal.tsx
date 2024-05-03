@@ -28,7 +28,7 @@ export function CommissionAddModal(props: CommissionAddModalProps) {
 
     useEffect(() => {
         if (isShow) {
-            (async () => setUsers(await loadData(`contacts/referrals`)))();
+            (async () => setUsers(await loadData(`contacts?filter[is_referred]==1`)))();
             setSales(null);
         }
     }, [isShow]);

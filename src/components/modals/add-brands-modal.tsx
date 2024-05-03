@@ -29,7 +29,7 @@ export function AddBrandsModal(props: AddBrandsModalProps) {
   const loadProviders = async () => {
         setIsLoading(true);
         try {
-        const response = await getData(`contacts/providers`);
+        const response = await getData(`contacts?filter[is_provider]==1`);
         setProviders(response.data);
         } catch (error) {
             console.error(error);
