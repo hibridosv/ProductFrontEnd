@@ -15,10 +15,10 @@ import { ConfigContext } from '@/contexts/config-context';
 export default function Home() {
   const [isSending, setIsSending] = useState(false);
   const [isMessage, setIsMessage] = useState("");
-  const [isRemoteUrl, setIsRemoteUrl] = useState<any>("");
-  const { register, handleSubmit, setValue, watch } = useForm();
+  const [isRedirect, setIsRedirect] = useState(false);
+  const { register, handleSubmit } = useForm();
   const router = useRouter();
-  const { login, logout, remoteUrl, tenant } = useAuthContext();
+  const { login, remoteUrl, tenant } = useAuthContext();
   const { setRandomInit } = useContext(ConfigContext);
 
   const getRemoteUrl = async (data: any) => {
@@ -30,25 +30,26 @@ export default function Home() {
       } else {
         remoteUrl(response?.url);
         tenant(response?.system);
-        setIsRemoteUrl(response)
-        setValue("username", data.email);
+        data.username = data.email;
+        await handleSubmitLogin(data, response)
       }
     } catch (error) {
       console.error(error);
     } finally {
-      setIsSending(false);  
+      setIsSending(false);
     }
   };
   
-  const handleSubmitLogin = async (data: any) => {
+  const handleSubmitLogin = async (data: any, responseInitial: any) => {
     data.grant_type = 'password';
-    data.client_id = isRemoteUrl?.id;
-    data.client_secret = isRemoteUrl?.hash;
+    data.client_id = responseInitial?.id;
+    data.client_secret = responseInitial?.hash;
     data.scope = "*"
     try {
       setIsSending(true);
-      const response = await postWithOutToken(`${isRemoteUrl?.url}/oauth/token`, "POST", data);
+      const response = await postWithOutToken(`${responseInitial?.url}/oauth/token`, "POST", data);
       if (!response.error) {
+          setIsRedirect(true)
           login(response.access_token);
           setRandomInit(Math.random())
           router.push("/dashboard");
@@ -57,15 +58,9 @@ export default function Home() {
       }
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsSending(false);  
     }
   };
 
- const onReset = ()=>{
-    logout();
-    setIsRemoteUrl("")
-  }
 
   return (
     <div className="mx-auto px-1 my-auto ">
@@ -84,37 +79,22 @@ export default function Home() {
                 </div>
 
                 <div className='md:w-1/2 flex justify-center items-center my-2 mx-5'>
-                  {
-                    !isRemoteUrl ? 
-                    <>
                     <form onSubmit={handleSubmit(getRemoteUrl)} className="w-full">
                     <div className="md:w-full max-w-sm">
-                    <label htmlFor="email" className={style.inputLabel}> Email </label>
+                      <label htmlFor="email" className={style.inputLabel}> Email </label>
                       <input type="email" {...register("email")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
-                         <div className="text-center md:text-left mt-4">
-                        <Button type="submit" text='Siguiente' disabled={isSending} preset={isSending ? Preset.saving : Preset.send} isFull />
-                      </div>
-                      {isMessage && <div className="text-red-500 text-center mt-4">{isMessage}</div>}
-                    </div>
-                  </form>
-                  </> :
-                  <>
-                  <form onSubmit={handleSubmit(handleSubmitLogin)} className="w-full">
-                    <div className="md:w-full max-w-sm">
-                      <input type="hidden" {...register("username")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
-                      <div className="flex justify-between text-sm w-full px-4 py-2 border border-solid border-gray-100 rounded mb-4">
-                        { watch("email")} <Button preset={Preset.smallMinus} noText onClick={()=>onReset()} />
-                      </div>
+
                       <label htmlFor="password" className={style.inputLabel}> Contraseña </label>
                       <input type="password" {...register("password")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
-                      <div className="text-center md:text-left mt-4">
-                        <Button type="submit" text='Ingresar' disabled={isSending} preset={isSending ? Preset.saving : Preset.send} isFull />
+
+
+                         <div className="text-center md:text-left mt-4">
+                        <Button type="submit" text={isRedirect ? 'Ingresando...' : 'Ingresar'} disabled={isSending || isRedirect} preset={isSending ? Preset.saving : Preset.send} isFull />
                       </div>
                       {isMessage && <div className="text-red-500 text-center mt-4">{isMessage}</div>}
                     </div>
                   </form>
-                  </>
-                  }
+   
                 </div>
 
               </div>
