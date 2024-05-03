@@ -29,9 +29,6 @@ export function DocumentsList(props: DocumentsListProps) {
     // eslint-disable-next-line
   }, [option]);
 
-  console.log("changes: ", changes)
-  
-  // invoice/type/{id}
 
   const updateStatus = async (iden : string, status: any, type: string) => {
     setIsLoading(true)

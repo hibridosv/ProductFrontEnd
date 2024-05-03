@@ -20,15 +20,12 @@ export function CashDrawersList(props: CashDrawersListProps) {
   
   
     useEffect(() => {
-      if (option == 5) { 
+      if (option == 6) { 
         (async () => setCashDrawers(await loadData(`cashdrawers?included=employee`)) )();
       }
       // eslint-disable-next-line
     }, [option]);
   
-    console.log("changes: ", changes)
-    
-    // invoice/type/{id}
   
     const updateStatus = async (iden : string, status: any) => {
       setIsLoading(true)
