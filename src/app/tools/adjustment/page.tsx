@@ -66,7 +66,7 @@ export default function Page() {
 useEffect(() => {
     (async () => setAdjustment(await loadData(`adjustment`)))();
     setLinks([
-      {"name": `DESCARGAR LISTADO EN PDF`, "link": encodeURI(`${remoteUrl}/web/inventory-free/`), "isUrl": true}])
+      {"name": `DESCARGAR LISTADO EN PDF`, "link": encodeURI(`${remoteUrl}/web/inventory-free/?`), "isUrl": true}])
   // eslint-disable-next-line
 }, []);
 
