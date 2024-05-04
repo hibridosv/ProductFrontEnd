@@ -92,7 +92,6 @@ const handlePermission = (permission: string, redirect: string): string => {
           <MenuItem component={<Link className="text-sm" href={handlePermission("histories-deleted", "/histories/deleted")} />}>Ordenes eliminadas  </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("histories-cost", "/histories/cost")} />}>Listado de costos  </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("histories-shipping-notes", "/histories/shipping-notes")} />}>Notas de envío  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href={handlePermission("histories-transfers", "/histories/transfers")} />}>Listado de Transferencias </MenuItem>
         </SubMenu>
 
         <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar />}>
@@ -119,6 +118,7 @@ const handlePermission = (permission: string, redirect: string): string => {
           <MenuItem component={<Link className="text-sm" href={handlePermission("transfers-send", "/transfers/send")} />}>Crear Transferencia </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("transfers-receive", "/transfers/receive")} />}>Aceptar Transferencia </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("transfers-request", "/transfers/request")} />}>Solicitar Transferencia </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("histories-transfers", "/histories/transfers")} />}>Listado de Transferencias </MenuItem>
         </SubMenu>
         {/*         
         <SubMenu label="Planillas" icon={<HiOutlineChartSquareBar color="red" />}>

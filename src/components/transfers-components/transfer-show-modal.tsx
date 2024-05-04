@@ -50,9 +50,9 @@ export function TransferShowModal(props: TransferShowModalProps) {
                 <div className="col-span-1"> Estado: { statusOfTransfer(transfer?.status)} </div>
                 <div className="col-span-1 text-right"> Fecha: { formatDateAsDMY(transfer?.created_at) } { formatHourAsHM(transfer?.created_at) } </div>
             </div>
-    `            <div className="mx-4 font-semibold">
-                    Envia: { transfer?.to?.name } | { transfer?.send }
-                </div>`
+                <div className="mx-4 font-semibold">
+                    Envia: { transfer?.to?.description } | { transfer?.send }
+                </div>
            
                 { transfer?.request_at && 
                  <div className="grid grid-cols-2 mx-4 font-semibold">

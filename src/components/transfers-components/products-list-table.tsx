@@ -6,6 +6,7 @@ import { IoIosAlert, IoIosCloseCircle } from "react-icons/io";
 import { toast, Toaster } from "react-hot-toast";
 import { postData } from "@/services/resources";
 import { ChangeQuantityModal } from "./change-quantity-modal";
+import { numberToMoney } from "@/utils/functions";
 
 interface TransferProductListTableProps {
   records?:  any;
@@ -62,23 +63,34 @@ export function TransferProductListTable(props: TransferProductListTableProps) {
     setShowQuantityModal(true);
   }
 
-  const listItems = records.data.map((record: any) => (
-    <tr key={record.id} className={`border-b ${record.requested_exists == 0 ? "bg-orange-100" : "bg-white"}`} title={`${record.requested_exists == 0 ? "El producto no existe en el inventario" : ""}`} >
-      <td className="py-3 px-6">{ record?.cod }</td>
-      <td className="py-3 px-6 whitespace-nowrap">{ record?.description }</td> 
-      <td className={`py-3 px-6 truncate ${record.requested_exists == 1 && "clickeable"}`} onClick={record.requested_exists == 1 ? ()=>handleRecordUpdate( record ) : ()=>{}}>{ record?.quantity }</td>
-      <td className="py-2 px-6 truncate">
-        <span className="flex justify-between">
-          {
-            record.requested_exists == 1 || deleteActive ? 
-            <IoIosCloseCircle size={24} title="Eliminar Producto" className="text-red-600 clickeable" onClick={()=>handleRecordSelectDelete(record)} /> :
-            <IoIosAlert size={24} className="clickeable text-amber-400" onClick={()=> { toast.error("Producto no exite en inventario")}} />
-          }
-        </span>
-        </td>
-    </tr>
-  ));
+  let total = 0;
 
+  const listItems = records.data.map((record: any) => {
+    // Calcular el subtotal para esta iteración
+    const subtotal = JSON.parse(records?.data?.[0]?.product_json)?.unit_cost * record?.quantity;
+    // Sumar el subtotal al total general
+    total += subtotal;
+  
+    return (
+      <tr key={record.id} className={`border-b ${record.requested_exists == 0 ? "bg-orange-100" : "bg-white"}`} title={`${record.requested_exists == 0 ? "El producto no existe en el inventario" : ""}`} >
+        <td className="py-3 px-6">{ record?.cod }</td>
+        <td className="py-3 px-6 whitespace-nowrap">{ record?.description }</td> 
+        <td className="py-3 px-6 whitespace-nowrap">{ numberToMoney(JSON.parse(records?.data?.[0]?.product_json)?.unit_cost) }</td> 
+        <td className={`py-3 px-6 truncate ${record.requested_exists == 1 && "clickeable"}`} onClick={record.requested_exists == 1 ? ()=>handleRecordUpdate( record ) : ()=>{}}>{ record?.quantity }</td>
+        <td className="py-3 px-6 whitespace-nowrap">{ numberToMoney(subtotal)}</td> 
+        <td className="py-2 px-6 truncate">
+          <span className="flex justify-between">
+            {
+              record.requested_exists == 1 || deleteActive ? 
+              <IoIosCloseCircle size={24} title="Eliminar Producto" className="text-red-600 clickeable" onClick={()=>handleRecordSelectDelete(record)} /> :
+              <IoIosAlert size={24} className="clickeable text-amber-400" onClick={()=> { toast.error("Producto no exite en inventario")}} />
+            }
+          </span>
+          </td>
+      </tr>
+    );
+  });
+  
 
   return (<div>
   <div className="w-full overflow-auto">
@@ -87,12 +99,15 @@ export function TransferProductListTable(props: TransferProductListTableProps) {
         <tr>
           <th scope="col" className="py-3 px-4 border">Codigo</th>
           <th scope="col" className="py-3 px-4 border">Descripción</th>
+          <th scope="col" className="py-3 px-4 border">Precio Costo</th>
           <th scope="col" className="py-3 px-4 border">Cantidad</th>
+          <th scope="col" className="py-3 px-4 border">Total</th>
           <th scope="col" className="py-3 px-4 border">OP</th>
         </tr>
       </thead>
       <tbody>{listItems}</tbody>
     </table>
+    <div className=" font-medium uppercase text-lg text-teal-700 text-right mt-3">Total: {numberToMoney(total)}</div>
     <ChangeQuantityModal isShow={showQuantityModal} onClose={()=>setShowQuantityModal(false)} handleUpdateQuantity={updateQuantity} />
     <Toaster position="top-right" reverseOrder={false} />
     <DeleteModal isShow={showDeleteModal}

@@ -3,6 +3,8 @@ import { CharBarDay } from '@/components/dashboard-components/char-bar-day';
 import { DashBoardIndex } from '@/components/dashboard-components/dashboard-index';
 
 export default function Home() {
+
+
   return (
             <div>
               <DashBoardIndex />

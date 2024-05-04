@@ -1,6 +1,7 @@
 import { Configuration } from "@/services/config";
 import { DocumentTypes, DocumentTypesNames, OptionsClickOrder, PaymentType, PaymentTypeNames, TypeOfPrice } from "@/services/enums"
 import { getData } from "@/services/resources";
+import { formatDateAsNumber } from "./date-formats";
 
 
 export const loadData = async (url: string) => {
@@ -365,4 +366,11 @@ export const getCountryProperty = (country: number): { name: string, subname: st
     case 3: return {"name": "Guatemala", "subname": "GT", "currency": "Q", "currencyName": "Quetzales", "document": "NIT"};
     default: return {"name": "El Salvador", "subname": "SV", "currency": "$", "currencyName": "Dolares", "document": "NIT"};
   }
+}
+
+
+export const dateToNumberValidate = () =>{
+  const fecha = new Date();
+  const hoy = fecha.toISOString();
+  return formatDateAsNumber(hoy)
 }

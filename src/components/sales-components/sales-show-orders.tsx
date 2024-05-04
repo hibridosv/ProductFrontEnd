@@ -12,6 +12,7 @@ import { ConfigContext } from "@/contexts/config-context";
 import { getTenant, getUrlFromCookie } from "@/services/oauth";
 import { FaDownload } from "react-icons/fa";
 import Pusher from 'pusher-js';
+import { ButtonDownload } from "../button/button-download";
 
 
 
@@ -111,26 +112,28 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   }
 
   return (
-    <div className="mx-3 sm:mt-3">
+    <div className="sm:mt-3">
       { orders.length === 0 ? 
         <Image loader={imageLoader} src={systemInformation && systemInformation?.system?.logo} alt="Hibrido" width={500} height={500} /> : 
-      <ListGroup>
-        <ListGroup.Item active>ORDENES PENDIENTES</ListGroup.Item>
+          <div className="w-full rounded-lg border-2 shadow-md bg-black">
+          <div className="text-center uppercase rounded-t-lg py-2 bg-teal-900 text-gray-200 font-medium">ORDENES PENDIENTES</div>
 
-        {orders.map((order: any, index: any) => (
-          <ListGroup.Item key={index}>
-          <Tooltip animation="duration-300" content={showProducts(order.invoiceproducts)} placement="right-end" style="light" >
-            <div className="w-full flex justify-between" onClick={() => onClick(order.id)}>
-              <span className="uppercase">{order?.client?.name ? `Cliente: ${order?.client?.name}` : `Usuario: ${order.employee.name}`}</span>
-              <span className="ml-3">
-                {formatDateAsDMY(order.created_at)} | {formatHourAsHM(order.created_at)}
-              </span>
-              { downloadStatus && <span className="justify-end"><a target="_blank" href={`${remoteUrl}/download/pdf/order/${order.id}`}><FaDownload /></a></span> }
-            </div>
-          </Tooltip>
-          </ListGroup.Item>
-        ))}
-      </ListGroup> }
+          {orders.map((order: any, index: any) => (
+            <div key={index} className="flex justify-around py-1 border-x-2 border-b-2 border-slate-900 text-center uppercase bg-teal-200 font-medium">
+                <Tooltip animation="duration-300" content={showProducts(order.invoiceproducts)} placement="right-end" style="light" >
+                <span  onClick={() => onClick(order.id)} className="ml-1 clickeable">{order?.client?.name ? `Cliente: ${order?.client?.name}` : `Usuario: ${order.employee.name}`}</span>
+                </Tooltip>
+                <span className="ml-2">
+                  {formatDateAsDMY(order.created_at)} | {formatHourAsHM(order.created_at)}
+                </span>
+                { downloadStatus && 
+                <div className="ml-1">
+                  <ButtonDownload autoclass={false} href={`/download/pdf/order/${order.id}`}><FaDownload /></ButtonDownload>
+                </div> }
+              </div>
+          ))}
+        </div> 
+      }
 
       { multiPriceStatus &&
         <div className="mt-4">

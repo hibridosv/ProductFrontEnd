@@ -1,3 +1,6 @@
+import { dateToNumberValidate } from "@/utils/functions";
+import { md5 } from "js-md5";
+
 export interface LinkUrls {
   name: string;
   link: string;
@@ -13,13 +16,12 @@ export function LinksList(props: LinksListProps) {
   const {  links, text = "DESCARGAS EXCEL" } = props;
 
   if (links?.length === 0) return <></>
-
   return (
     <div className='mt-4 border-t border-teal-700'>
         <div className="uppercase flex justify-center font-bold">{text}</div>
             {links && links.map((item: LinkUrls, index: any) => {
               if (item.name && item.link) {
-                return (<a key={index} target="_blank" href={item.link}>
+                return (<a key={index} target="_blank" href={`${item.link}&code=${md5(dateToNumberValidate())}`}>
                     <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
                         {item.name}
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"

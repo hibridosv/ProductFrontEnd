@@ -302,7 +302,7 @@ const listItems = products?.map((product: any):any => (
               <div className=" font-semibold m-4">
                 <div className="flex justify-between border-b-2">
                   <div>Enviar solicitud a: </div>
-                  <div className="uppercase">{ isTransferSelected?.from?.name }</div>
+                  <div className="uppercase">{ isTransferSelected?.from?.description }</div>
                 </div>
               </div>
 

@@ -28,8 +28,8 @@ export function TransfersListTable(props: TransfersListTableProps) {
       onClick={record.status == 6 && record.to_tenant_id == tenant || record.status == 7 && record.from_tenant_id == tenant ? 
       ()=>getRequest(record.id) : record.status == 8 && record.from_tenant_id == tenant ? ()=>updateStatus(record?.id, 1, true) : ()=>{} }>
       <td className="py-3 px-6">
-      { record?.received_at ? formatDateAsDMY(record?.received_at) : "N/A" } 
-      { record?.received_at && formatHourAsHM(record?.received_at) }</td>
+      { record?.received_at ? formatDateAsDMY(record?.received_at) : "N/A" } { record?.received_at && formatHourAsHM(record?.received_at) }</td>
+      <td className="py-3 px-6 whitespace-nowrap">{ record?.from?.description }</td> 
       <td className="py-3 px-6 whitespace-nowrap">{ record?.to?.description }</td> 
       <td className="py-3 px-6 truncate">{ record?.send }</td>
       <td className="py-3 px-6 truncate">{ record?.receive ? record?.receive : "PENDIENTE" }</td>
@@ -50,6 +50,7 @@ export function TransfersListTable(props: TransfersListTableProps) {
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
           <th scope="col" className="py-3 px-4 border">Recibido</th>
+          <th scope="col" className="py-3 px-4 border">Origen</th>
           <th scope="col" className="py-3 px-4 border">Destino</th>
           <th scope="col" className="py-3 px-4 border">Envia</th>
           <th scope="col" className="py-3 px-4 border">Recibe</th>

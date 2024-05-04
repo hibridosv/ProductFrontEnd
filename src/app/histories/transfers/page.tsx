@@ -94,7 +94,7 @@ export default function Page() {
                     <option value={0}> Todos</option>
                         {tenants?.data?.map((value: any) => {
                           return (
-                            <option key={value.id} value={value.to.id}> {value.to.name}</option>
+                            <option key={value.id} value={value.to.id}> {value.to.description}</option>
                           );
                         })}
                     </select>

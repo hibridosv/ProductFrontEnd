@@ -26,3 +26,8 @@ export const formatHourAsHM = (date: Date | string): string => {
   date = getDateFromStringOrDate(date);
   return DateTime.fromJSDate(date).toFormat("HH:mm");
 };
+
+export const formatDateAsNumber = (date: Date | string): string => {
+  date = getDateFromStringOrDate(date);
+  return DateTime.fromJSDate(date).toFormat("yyyyLLddHH");
+};
