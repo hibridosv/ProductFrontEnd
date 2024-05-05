@@ -32,10 +32,10 @@ export function ProductFailureTable(props: ProductFailureTableProps) {
   }
 
   const listItems = records.map((record: any) => (
-    <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" onClick={()=>selectRecord(record)}>
+    <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 clickeable" onClick={()=>selectRecord(record)}>
       <td className="py-2 px-2 truncate">{ formatDateAsDMY(record?.created_at) } { formatHourAsHM(record?.created_at) }</td>
       <td className="py-2 px-2">{ record?.employee?.name }</td>
-      <td className="py-2 px-2 clickeable">{ typeFailure(record?.type) }</td>
+      <td className="py-2 px-2">{ typeFailure(record?.type) }</td>
       <td className="py-2 px-2 truncate uppercase">{ record.reason }</td>
       <td className="py-2 px-2">{ record?.failures?.length }</td>
       <td className="py-2 px-2"></td>
