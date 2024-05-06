@@ -5,7 +5,7 @@ import { Loading } from "../loading/loading";
 import { ListGroup, Tooltip } from "flowbite-react";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import Image from "next/image";
-import { getConfigStatus, numberToMoney, setPriceName, setPriceOptions } from "@/utils/functions";
+import { getConfigStatus, numberToMoney, permissionExists, setPriceName, setPriceOptions } from "@/utils/functions";
 import { OptionsClickOrder, PresetTheme, TypeOfPrice } from "@/services/enums";
 import { Alert } from "../alert/alert";
 import { ConfigContext } from "@/contexts/config-context";
@@ -13,6 +13,8 @@ import { getTenant, getUrlFromCookie } from "@/services/oauth";
 import { FaDownload } from "react-icons/fa";
 import Pusher from 'pusher-js';
 import { ButtonDownload } from "../button/button-download";
+import { useCodeRequest } from "@/hooks/useCodeRequest";
+import { RequestCodeModal } from "../common/request-code-modal";
 
 
 
@@ -34,6 +36,12 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   const [downloadStatus, setDownloadStatus] = useState<boolean>(false)
   const [randomNumber, setRandomNumber] = useState(0);
   let pricesActive = [TypeOfPrice.normal];
+  const { codeRequestPice, 
+    verifiedCode, 
+    isRequestCodeModal, 
+    setIsRequestCodeModal, 
+    isShowError, 
+    setIsShowError } = useCodeRequest('code-request-prices');
   const remoteUrl = getUrlFromCookie();
   const tenant = getTenant();
   
@@ -56,7 +64,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
     // eslint-disable-next-line
   }, [randomNumber]);
   
-
+  
   const getPusherRequest = ()=>{
     var pusher = new Pusher('67ef4909138ad18120e1', { cluster: 'us2' });
     var channel = pusher.subscribe(`${tenant}-channel-orders`);
@@ -77,11 +85,11 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
       }
     // eslint-disable-next-line
   }, [config])
-
-  if(wholesalerStatus) pricesActive.push(TypeOfPrice.wholesaler)
-  if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
-
-
+  
+    if(wholesalerStatus) pricesActive.push(TypeOfPrice.wholesaler)
+    if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
+    
+      
   if (isLoading) return <Loading />;
 
   const imageLoader = ({ src, width, quality }: any) => {
@@ -138,11 +146,19 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
       { multiPriceStatus &&
         <div className="mt-4">
           <div className='flex justify-center border-2 border-sky-500 rounded mb-2'>
-            <span className='mx-2 text-sm font-bold animatex' onClick={()=>setPrice(setPriceOptions(priceType, pricesActive))}>{setPriceName(priceType)}</span>
+            <span className='mx-2 text-sm font-bold animatex' onClick={
+              codeRequestPice.requestPrice && codeRequestPice.required ? 
+              ()=> setIsRequestCodeModal(true) : 
+              ()=>setPrice(setPriceOptions(priceType, pricesActive))
+              }>{setPriceName(priceType)}</span>
           </div>
         { priceType != TypeOfPrice.normal && <div className="flex justify-center"><Alert text={`EL PRECIO ESTA COMO ${setPriceName(priceType)}`} theme={PresetTheme.danger} isDismisible={false} /></div> }
       </div> }
-
+      <RequestCodeModal isShow={isRequestCodeModal}  
+      onClose={()=>setIsRequestCodeModal(false)} 
+      verifiedCode={verifiedCode} 
+      isShowError={isShowError} 
+      setIsShowError={()=>setIsShowError(false)} />
     </div>
   );
 }
