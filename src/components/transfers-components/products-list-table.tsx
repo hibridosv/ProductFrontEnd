@@ -65,17 +65,17 @@ export function TransferProductListTable(props: TransferProductListTableProps) {
 
   let total = 0;
 
-  const listItems = records.data.map((record: any) => {
+  const listItems = records.data.map((record: any, index: any) => {
     // Calcular el subtotal para esta iteración
-    const subtotal = JSON.parse(records?.data?.[0]?.product_json)?.unit_cost * record?.quantity;
+    const subtotal = JSON.parse(records?.data?.[index]?.product_json)?.unit_cost * record?.quantity;
     // Sumar el subtotal al total general
     total += subtotal;
-  
+
     return (
       <tr key={record.id} className={`border-b ${record.requested_exists == 0 ? "bg-orange-100" : "bg-white"}`} title={`${record.requested_exists == 0 ? "El producto no existe en el inventario" : ""}`} >
         <td className="py-3 px-6">{ record?.cod }</td>
         <td className="py-3 px-6 whitespace-nowrap">{ record?.description }</td> 
-        <td className="py-3 px-6 whitespace-nowrap">{ numberToMoney(JSON.parse(records?.data?.[0]?.product_json)?.unit_cost) }</td> 
+        <td className="py-3 px-6 whitespace-nowrap">{ numberToMoney(JSON.parse(records?.data?.[index]?.product_json)?.unit_cost) }</td> 
         <td className={`py-3 px-6 truncate ${record.requested_exists == 1 && "clickeable"}`} onClick={record.requested_exists == 1 ? ()=>handleRecordUpdate( record ) : ()=>{}}>{ record?.quantity }</td>
         <td className="py-3 px-6 whitespace-nowrap">{ numberToMoney(subtotal)}</td> 
         <td className="py-2 px-6 truncate">
