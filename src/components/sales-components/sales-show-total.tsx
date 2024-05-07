@@ -5,6 +5,9 @@ import { formatDuiWithAll, getConfigStatus, setPriceName, setPriceOptions, sumar
 import { ConfigContext } from "@/contexts/config-context";
 import { Alert } from "../alert/alert";
 import { ShowTotal } from "./show-total";
+import { RequestCodeModal } from "../common/request-code-modal";
+import { useCodeRequest } from "@/hooks/useCodeRequest";
+import { IoMdLock, IoMdUnlock } from "react-icons/io";
 
 
 export interface SalesShowTotalProps {
@@ -22,7 +25,12 @@ export function SalesShowTotal(props: SalesShowTotalProps) {
   const [wholesalerStatus, setWholesalerStatus] = useState<boolean>(false)
   const [promotionStatus, setPromotionStatus] = useState<boolean>(false)
   let pricesActive = [TypeOfPrice.normal];
-
+  const { codeRequestPice, 
+    verifiedCode, 
+    isRequestCodeModal, 
+    setIsRequestCodeModal, 
+    isShowError, 
+    setIsShowError } = useCodeRequest('code-request-prices');
 
   useEffect(() => {
     setMultiPriceStatus(getConfigStatus("is-multi-price", config))
@@ -44,7 +52,12 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
     <div className='flex justify-between border-2 border-sky-500 rounded mb-2'>
       <span className='mx-2 text-sm font-bold animatex' onClick={invoiceType} >{ records?.invoice_assigned?.name.toUpperCase() }</span> 
       { multiPriceStatus ? 
-      <span className='mx-2 text-sm font-bold animatex' onClick={()=>setPrice(setPriceOptions(priceType, pricesActive))}>{setPriceName(priceType)}</span> :
+      <span className='mx-2 text-sm font-bold animatex flex' onClick={
+        codeRequestPice.requestPrice && codeRequestPice.required ? 
+        ()=> setIsRequestCodeModal(true) : 
+        ()=>setPrice(setPriceOptions(priceType, pricesActive))
+        }>{setPriceName(priceType)}<span className="mt-1 ml-2">{codeRequestPice.requestPrice && codeRequestPice.required ? 
+          <IoMdLock color="red" /> : <IoMdUnlock color="green" />}</span></span> :
       <span className='mx-2 text-sm font-bold'>{setPriceName(priceType)}</span> 
       }
     </div>
@@ -83,6 +96,10 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
           isDismisible={false}
           className='my-2'
           /> }
-
+      <RequestCodeModal isShow={isRequestCodeModal}  
+      onClose={()=>setIsRequestCodeModal(false)} 
+      verifiedCode={verifiedCode} 
+      isShowError={isShowError} 
+      setIsShowError={()=>setIsShowError(false)} />
     </>);
 }

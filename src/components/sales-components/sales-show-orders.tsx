@@ -15,6 +15,7 @@ import Pusher from 'pusher-js';
 import { ButtonDownload } from "../button/button-download";
 import { useCodeRequest } from "@/hooks/useCodeRequest";
 import { RequestCodeModal } from "../common/request-code-modal";
+import { IoMdLock, IoMdUnlock } from "react-icons/io";
 
 
 
@@ -146,11 +147,13 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
       { multiPriceStatus &&
         <div className="mt-4">
           <div className='flex justify-center border-2 border-sky-500 rounded mb-2'>
-            <span className='mx-2 text-sm font-bold animatex' onClick={
+            <span className='mx-2 text-sm font-bold animatex flex' onClick={
               codeRequestPice.requestPrice && codeRequestPice.required ? 
               ()=> setIsRequestCodeModal(true) : 
               ()=>setPrice(setPriceOptions(priceType, pricesActive))
-              }>{setPriceName(priceType)}</span>
+              }>{setPriceName(priceType)} 
+              <span className="mt-1 ml-2">{codeRequestPice.requestPrice && codeRequestPice.required ? 
+              <IoMdLock color="red" /> : <IoMdUnlock color="green" />}</span></span>
           </div>
         { priceType != TypeOfPrice.normal && <div className="flex justify-center"><Alert text={`EL PRECIO ESTA COMO ${setPriceName(priceType)}`} theme={PresetTheme.danger} isDismisible={false} /></div> }
       </div> }
