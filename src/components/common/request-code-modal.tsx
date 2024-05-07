@@ -42,7 +42,7 @@ const onSubmit = async (data: any) => {
         toast.error("Código incorrecto!");
         setIsShowError();
     }
-  }, [isShow, setValue, isShowError]);
+  }, [isShow, setValue, isShowError, setIsShowError]);
 
 return (
 <Modal show={isShow} position="center" onClose={onClose} size="sm">

@@ -54,6 +54,9 @@ export function ProductKardexViewModal(props: ProductKardexViewModalProps) {
             case 'Ingreso de producto':             return <IngresoProducto request={request} />;
             case 'Ajuste de inventario':            return <AjusteInventario request={request} />;
             case 'Registro de averias':             return <RegistroAverias request={request} />;
+            case 'Registro de translados':          return <RegistroAverias request={request} />;
+            case 'Registro de devoluciones':        return <RegistroAverias request={request} />;
+            case 'Registro de cambios':             return <RegistroAverias request={request} />;
             case 'Inventario Inicial':              return <InventarioInicial request={request} />;
             case 'Retorno de inventario':           return <RetornoInventario request={request} />;
             case 'Transferencia desde sucursal':    return <TransferenciaDesde request={request} />;

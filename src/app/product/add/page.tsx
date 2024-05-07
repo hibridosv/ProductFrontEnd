@@ -45,7 +45,7 @@ export default function ProductAdd() {
     data.lot = productPrincipal.lot
     data.comment = productPrincipal.comment
     data.product_register_principal = productPrincipal.id
-    data.unit_cost = isTaxesActive ? data.unit_cost : data.unit_cost * 1.13;
+    data.unit_cost = isTaxesActive ? data.unit_cost * 1.13 : data.unit_cost;
     data.sale_price = productSelected?.prices[0]?.price;
 
     try {
