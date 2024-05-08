@@ -19,6 +19,7 @@ export function middleware(request: NextRequest) {
     '/reports',
     '/sales',
     '/tools',
+    '/transfers',
   ];
 
   // Comprobar si la ruta actual está en las rutas protegidas
@@ -57,5 +58,6 @@ export const config = {
     '/reports/:path*', 
     '/sales/:path*',
     '/tools/:path*',
+    '/transfers/:path*',
   ],
 };

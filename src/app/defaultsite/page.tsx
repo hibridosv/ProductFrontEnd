@@ -8,7 +8,7 @@ export default function Page() {
 
   useEffect(() => {
     router.push("/login");
-  });
+  }, [router]);
 
   return null;
 }
