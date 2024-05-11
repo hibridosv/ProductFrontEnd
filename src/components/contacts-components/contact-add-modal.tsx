@@ -1,5 +1,5 @@
 "use client";
-import {  useEffect, useState } from "react";
+import {  useContext, useEffect, useState } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
@@ -10,9 +10,10 @@ import { style } from "../../theme";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 import { ContactDetails } from "./contact-details.";
-import { formatDocument, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
+import { formatDocument, getConfigStatus, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
 import { ContactDepartamentModal } from "./contact-departament-modal";
 import { ContactTownModal } from "./contact-town-modal";
+import { ConfigContext } from "@/contexts/config-context";
 
 export interface ContactAddModalProps {
   onClose: () => void;
@@ -33,6 +34,8 @@ export function ContactAddModal(props: ContactAddModalProps) {
   const [town, setTown] = useState("14");
   const [isContactDepartamentModal, setIsContactDepartamentModal] = useState(false);
   const [isContactTowModal, setIsContactTowModal] = useState(false);
+  const { config } = useContext(ConfigContext);
+  const [isShowCode, setIsShowCode] = useState(false);
 
   useEffect(() => {
     if (record) {
@@ -46,6 +49,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
         setValue("phone", record.phone);
         setValue("address", record.address);
         setValue("email", record.email);
+        setValue("code", record.code);
         setValue("birthday", record.birthday);
 
         setValue("taxpayer", record.taxpayer);
@@ -57,8 +61,9 @@ export function ContactAddModal(props: ContactAddModalProps) {
         setDepartament(record.departament_doc)
         setTown(record.town_doc)
     }
+    setIsShowCode(getConfigStatus("contact-code", config));
     setIsChangedRecord(false);
-  }, [record, setValue, setIsChangedRecord]);
+  }, [record, setValue, setIsChangedRecord, config]);
 
 
   const onSubmit = async (data: any) => {
@@ -136,7 +141,13 @@ export function ContactAddModal(props: ContactAddModalProps) {
                 onBlur={(e) => setValue('taxpayer', e.target.value)} className={style.input} />
             </div>
 
-
+            {
+              isShowCode && 
+              <div className="w-full md:w-full px-3 mb-2">
+                  <label htmlFor="code" className={style.inputLabel}>Código</label>
+                  <input type="text" id="code" {...register("code", {required: true})} className={`${style.input}`} />
+              </div> 
+            }
             <div className="w-full md:w-1/2 px-3 mb-2">
                 <label htmlFor="id_number" className={style.inputLabel}>Numero de documento</label>
                 <input type="text" id="id_number" {...register("id_number", {required: true})} 

@@ -59,6 +59,12 @@ if (!locations || !record) {
                 <div> {record?.name} </div>
             </div>
 
+            { record?.code && <div className="w-full md:w-full px-3 mb-2 shadow-lg border-2">
+                <div className={style.inputLabel}>Código</div>
+                <div> {record?.code} </div>
+            </div>
+            }
+
 
             <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
                 <div  className={style.inputLabel}>Numero de documento</div>

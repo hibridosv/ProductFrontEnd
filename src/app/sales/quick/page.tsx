@@ -77,7 +77,6 @@ export default function ViewSales() {
       && !isCommissionModal 
       && !isSalesCommentModal 
       && !isDiscountProductModal
-      && !isContactSearchModal
       && !isSalesOtherModal
       && !isSalesSelectInvoiceType) {      
         (async () => await selectLastOrder())()
@@ -88,7 +87,6 @@ export default function ViewSales() {
     isCommissionModal, 
     isSalesCommentModal, 
     isDiscountProductModal, 
-    isContactSearchModal, 
     isSalesOtherModal, 
     isSalesSelectInvoiceType]);
 
@@ -269,6 +267,7 @@ export default function ViewSales() {
   }
 
   const handleChangeOrder = async (order: any) => {
+    console.log("order", order)
     try {
       const response = await postData(`sales/order/select/${order}`, "POST");
       if (response.type !== "error") {
@@ -308,7 +307,7 @@ export default function ViewSales() {
       </div>
       <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} priceType={typeOfPrice} />
       <SalesDiscountProductModal isShow={isDiscountProductModal} discountType={isDiscountType} order={productsOfInvoice} product={productSelected} onClose={()=>closeModalDiscount()} />
-      <SalesContactSearchModal  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={productsOfInvoice} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />
+      <SalesContactSearchModal handleChangeOrder={handleChangeOrder}  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={productsOfInvoice} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />
       <SalesOthers isShow={isSalesOtherModal} order={productsOfInvoice} onClose={()=>setIsSalesOtherModal(false)} />
       <SalesCommentModal isShow={isSalesCommentModal} order={productsOfInvoice} onClose={()=>setIsSalesCommentModal(false)} />
       <SalesSelectInvoiceTypeModal isShow={isSalesSelectInvoiceType} onClose={()=>setIsSalesSelectInvoiceType(false)} order={productsOfInvoice} />

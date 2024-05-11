@@ -6,8 +6,7 @@ import { ListGroup, ToggleSwitch } from 'flowbite-react';
 import { loadData, permissionExists } from '@/utils/functions';
 import { BiAnalyse } from 'react-icons/bi';
 import { postData } from '@/services/resources';
-import { data } from 'autoprefixer';
-import { root } from 'postcss';
+
 
 export default function ConfigPrincipal() {
   const [roles, setRoles ] = useState([] as any)
@@ -16,10 +15,6 @@ export default function ConfigPrincipal() {
   const [isSending, setIsSending] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-
-
-  console.log("roleSelect", roleSelect)
-  console.log("permissions: ", permissions)
 
   const handleGetPermissions = async (role: string = "Root")=>{
     setIsLoading(true)
