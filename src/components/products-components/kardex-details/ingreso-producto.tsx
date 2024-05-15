@@ -27,6 +27,12 @@ export function IngresoProducto(props: IngresoProductoProps) {
                     </div>
 
                     <div className="mx-3 flex justify-between p-2 font-semibold border-2 border-gray-500">
+                        <div className=" w-1/4 border-r-2 border-gray-500">Numero de documento</div>
+                        <div className=" w-3/4 ml-4">{ request?.data?.employee?.document_number }</div>
+                    </div>
+
+
+                    <div className="mx-3 flex justify-between p-2 font-semibold border-2 border-gray-500">
                         <div className=" w-1/4 border-r-2 border-gray-500">Ingresado por:</div>
                         <div className=" w-3/4 ml-4">{ request?.data?.employee?.name }</div>
                     </div>
