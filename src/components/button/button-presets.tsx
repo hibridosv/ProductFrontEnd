@@ -1,4 +1,4 @@
-import { AiFillSave, AiOutlineClose, AiOutlineSend } from "react-icons/ai"
+import { AiFillPrinter, AiFillSave, AiOutlineClose, AiOutlineSend } from "react-icons/ai"
 import { GiCancel } from "react-icons/gi"
 import { RiCheckDoubleFill } from "react-icons/ri"
 import { ImSpinner5 } from "react-icons/im"
@@ -31,6 +31,8 @@ export const textPresets = {
   smallMinus: "",
   smallMinusDisable: "",
   smallInfo: "",
+  smallPrint: "",
+  smallPrintDisable: "",
 }
 
 
@@ -52,7 +54,8 @@ export const stylePresets = {
     smallMinus: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 clickeable`,
     smallMinusDisable: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
     smallInfo: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
-
+    smallPrint: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 clickeable`,
+    smallPrintDisable: `transition ease-in duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`,
   }
 
 export const iconPresets = {
@@ -73,4 +76,6 @@ export const iconPresets = {
     smallMinus: <AiOutlineMinusCircle color="green" size={25} />,
     smallMinusDisable: <AiOutlineMinusCircle color="grey" size={25} />,
     smallInfo: <FaInfoCircle color="#5DADE2" size={23} />,
+    smallPrint: <AiFillPrinter color="#2FA0B9" size={25} />,
+    smallPrintDisable: <AiFillPrinter color="grey" size={25} />,
   }

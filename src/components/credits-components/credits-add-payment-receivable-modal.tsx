@@ -107,6 +107,21 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
       } 
   }
 
+  const isPrintPayment = async () => {
+    try {
+      const response = await postData(`credits/payment/${creditSelected.id}/print`, 'PUT');
+      if (response.type == "successful") {
+          toast.success("Imprimiendo");
+      } else {
+          toast.error("Error al imprimir");
+      }
+      console.log(response)
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } 
+  }
+
   const handleCheckIn = async() => {
     try {
       setIsSending(true)
@@ -225,7 +240,7 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
         </div>
             {payments?.data &&
             <div className="mt-3">
-                <CredistPaymentsTable records={payments} onDelete={onDeletePayment}  isDisabled={!cashDrawer} />
+                <CredistPaymentsTable records={payments} onDelete={onDeletePayment}  isDisabled={!cashDrawer} isPrint={isPrintPayment} />
             </div>}
 
           <DeleteModal isShow={showDeleteModal} text="¿Estas seguro de eliminar este elemento?" onDelete={handleDeleteCredit}  onClose={()=>setShowDeleteModal(false)} /> 
