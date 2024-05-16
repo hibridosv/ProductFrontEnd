@@ -45,5 +45,29 @@ export const validateInvoiceFields = (receptor: any, requiredFields: string[])=>
         }
     });
 
+    return missingFields;
+}
+
+export const validateInvoiceFieldsCount = (receptor: any, requiredFields: string[])=> {
+    const missingFields: any = [];
+
+    requiredFields.forEach(field => {
+        if (!receptor.hasOwnProperty(field) || receptor[field] === null || receptor[field] === '') {
+            missingFields.push(nameOfField[field]);
+        }
+    });
+
+    return missingFields.length;
+}
+
+export const validateInvoiceFieldsTrue = (receptor: any, requiredFields: string[])=> {
+    const missingFields: any = [];
+
+    requiredFields.forEach(field => {
+        if (!receptor.hasOwnProperty(field) || receptor[field] === null || receptor[field] === '') {
+            missingFields.push(nameOfField[field]);
+        }
+    });
+
     return missingFields.length > 0 && <div>Faltan los siguientes campos del cliente para facturar: <div className="text-red-500">{`${missingFields.join(', ')}.`}</div></div>;
 }

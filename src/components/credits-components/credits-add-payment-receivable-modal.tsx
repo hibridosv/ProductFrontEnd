@@ -115,7 +115,6 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
       } else {
           toast.error("Error al imprimir");
       }
-      console.log(response)
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!");
