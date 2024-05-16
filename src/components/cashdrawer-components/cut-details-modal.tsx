@@ -3,6 +3,8 @@ import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { formatDate, formatTime } from "@/utils/date-formats";
 import { numberToMoney } from "@/utils/functions";
+import { ButtonDownload } from "../button/button-download";
+import { FaDownload } from "react-icons/fa";
 
 export interface CutDetailsModalProps {
   onClose: () => void;
@@ -85,6 +87,8 @@ export function CutDetailsModal(props: CutDetailsModalProps) {
         </div>
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
+        {/* <Button onClick={()=>{}} preset={Preset.accept} /> */}
+        <ButtonDownload href={`/download/pdf/cut/${record.id}`}><FaDownload  size={24}/></ButtonDownload>
         <Button onClick={onClose} preset={Preset.close} />
       </Modal.Footer>
     </Modal>

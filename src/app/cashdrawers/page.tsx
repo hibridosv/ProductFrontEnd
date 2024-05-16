@@ -63,7 +63,7 @@ const onDeleteCut = async(cutId: any)=>{
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
-    <div className="col-span-7 border-r md:border-sky-600">
+    <div className="col-span-5 border-r md:border-sky-600">
         <ViewTitle text="CAJAS DISPONIBLES" />
         <div  className="flex justify-center py-4 px-4">
         {
@@ -80,7 +80,7 @@ const onDeleteCut = async(cutId: any)=>{
               }
       </div>
     </div>
-    <div className="col-span-3">
+    <div className="col-span-5">
         <ViewTitle text="SUS ULTIMOS CORTES" />
         <CutShowCuts records={cutsUser} onDelete={onDeleteCut} />
         <Pagination records={cutsUser} handlePageNumber={handlePageNumber } />
