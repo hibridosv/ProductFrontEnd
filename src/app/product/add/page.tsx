@@ -305,7 +305,7 @@ useEffect(() => {
                 </div>
 
 
-                <div className="w-full md:w-1/2 px-2 mb-3 flex justify-center">
+                <div className="w-full md:w-full px-2 mb-3 flex justify-center">
                       <div className='mr-2 font-semibold'>Sumar impuestos</div>
                         <div>
                             <ToggleSwitch
@@ -313,9 +313,6 @@ useEffect(() => {
                             label={isTaxesActive ? 'Activo' : 'Inactivo'}
                             onChange={() => setIsTaxesActive(!isTaxesActive)} />
                       </div>
-                </div>
-                <div className="w-full md:w-1/2">
-
                 </div>
                 
                 <div className="uppercase text-xl font-semibold text-slate-800 m-2 bg-slate-400 w-full px-6 clickeable rounded-md border shadow-md shadow-slate-400" onClick={()=>setIsBillsActive(!isBillsActive)}>{ isBillsActive ? "Cancelar" : "Activar"} ingreso como gasto</div>
