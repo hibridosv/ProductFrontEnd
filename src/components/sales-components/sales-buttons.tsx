@@ -45,7 +45,7 @@ export function SalesButtons(props: SalesButtonsProps) {
           className='my-1'
           /> }
 
-        { fieldsRequired.length > 0 && 
+        { fieldsRequired && fieldsRequired.length > 0 && 
           <div>Faltan los siguientes campos del cliente para facturar: <div className="text-red-500">{`${fieldsRequired.join(', ')}.`}</div></div> 
         }
            <div>
@@ -74,7 +74,7 @@ export function SalesButtons(props: SalesButtonsProps) {
             <Button color="blue" gradientMonochrome="info" onClick={()=>onClick(2)}>
               <AiFillSave className='mr-1' /> Guardar </Button>
             <Button color="green" gradientMonochrome="success" 
-                              disabled={!cashDrawer || (!invoice?.client_id && invoice?.invoice_assigned?.type == 3) || fieldsRequired.length > 0} 
+                              disabled={!cashDrawer || (!invoice?.client_id && invoice?.invoice_assigned?.type == 3) || fieldsRequired && fieldsRequired.length > 0} 
                               onClick={()=>onClick(1)}>
                <FaRegMoneyBillAlt className='mr-1' /> Cobrar </Button>
             <Button color="red" gradientMonochrome="failure" onClick={()=>onClick(3)}>
