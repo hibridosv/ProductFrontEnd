@@ -18,6 +18,7 @@ export enum Preset {
     smallMinus = "smallMinus",
     smallMinusDisable = "smallMinusDisable",
     smallInfo = "smallInfo",
+    smallEdit = "smallEdit",
     smallPrint = "smallPrint",
     smallPrintDisable = "smallPrintDisable",
   }

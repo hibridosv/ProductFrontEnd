@@ -118,7 +118,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
-      <Modal.Header>AGREGAR NUEVO CONTACTO</Modal.Header>
+      <Modal.Header>{record ? "EDITAR CONTACTO" : "AGREGAR NUEVO CONTACTO"}</Modal.Header>
       <Modal.Body>
         {!isChangedRecord ? (
         <div className="mx-4">

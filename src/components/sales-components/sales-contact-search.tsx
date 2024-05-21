@@ -10,7 +10,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { Loading } from "../loading/loading";
 import { ContactNameOfOrder, ContactTypeToGet } from "@/services/enums";
 import { getRandomInt } from "@/utils/functions";
-import { IoIosPersonAdd } from "react-icons/io";
 import { ContactAddModal } from "../contacts-components/contact-add-modal";
 
 export interface SalesContactSearchModalProps {
@@ -25,10 +24,13 @@ export interface SalesContactSearchModalProps {
 export function SalesContactSearchModal(props: SalesContactSearchModalProps){
 const { ContactTypeToGet, onClose, isShow, order, clientToUpdate, handleChangeOrder } = props;
 const [contacts, setContacts] = useState([]) as any;
-const [randNumber, setrandNumber] = useState(0) as any;
+const [ randNumber, setrandNumber] = useState(0) as any;
+const [ randomAfterEdit, setRandomAfterEdit] = useState(0) as any;
 const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number"], 500);
 const [isSending, setIsSending] = useState(false);
-const [isAdContactModal, setIsAdContactModal] = useState(false);
+const [isContactModal, setIsContactModal] = useState(false);
+const [isAddContactModal, setIsAddContactModal] = useState(false);
+const [recordSelect, setRecordSelect] = useState<any>(null);
 
 
 const loadDataContacts = async () => {
@@ -50,8 +52,26 @@ useEffect(() => {
   // eslint-disable-next-line
 }, [searchTerm]);
 
+useEffect(() => {
+  if (randomAfterEdit != 0) {
+    (async () => { await handleContactSelected(recordSelect, true)})();   
+  }
+  // eslint-disable-next-line
+}, [randomAfterEdit]);
 
-const handleContactSelected = async(contact: Contact) => {
+const cancelClick = ()=>{
+  setContacts([]);
+  setrandNumber(getRandomInt(100));
+}
+
+const close = ()=>{
+  setContacts([]);
+  setrandNumber(getRandomInt(100));
+  onClose()
+}
+
+
+const handleContactSelected = async(contact: Contact, isAfterUpdate = false) => {
 
   const data = {
     order_id : order.id, // orden a actualiar
@@ -66,7 +86,11 @@ const handleContactSelected = async(contact: Contact) => {
     if (!response.message) {
       toast.error(response.message);
     } else {
-      toast.success(response.message);
+      if (isAfterUpdate){
+        setIsContactModal(false)
+      } else {
+        toast.success(response.message)
+      }         
       handleChangeOrder(order.id)
       onClose()
     }
@@ -113,6 +137,25 @@ const contactNameOfData = (contact: ContactNameOfOrder, order: any) => {
   }
 }
 
+const contactData = (contact: ContactNameOfOrder, order: any) => {
+  switch (contact) {
+    case ContactNameOfOrder.employee: return order?.employee;
+    case ContactNameOfOrder.delivery: return order?.delivery;
+    case ContactNameOfOrder.client: return order?.client;
+    case ContactNameOfOrder.referred: return order?.referred;
+    default: return "Contacto";
+  }
+}
+
+const handleRecordSelect = (contact: ContactNameOfOrder, order: any) => {
+  setRecordSelect(contactData(contact, order));
+  setIsContactModal(true);
+}
+
+const handleAddContact = () => {
+  setRecordSelect(null);
+  setIsAddContactModal(true);
+}
 
 
 return (
@@ -126,6 +169,14 @@ return (
         <div className="w-full bg-white rounded-lg shadow-lg mt-4">
             <ul className="divide-y-2 divide-gray-400">
             { listItems }
+            { contacts && contacts.length > 0 && 
+                    <li className="flex justify-between p-3 hover:bg-red-200 hover:text-red-800 cursor-pointer" onClick={cancelClick}>
+                        CANCELAR
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </li> }
             </ul>
         </div>
 
@@ -141,7 +192,9 @@ return (
           <span>{contactNameOfData(clientToUpdate, order)}</span>
           <span>
             {clientToUpdate == ContactNameOfOrder.employee ? <Button preset={Preset.smallCloseDisable} noText /> : 
-            <Button preset={Preset.smallClose} noText onClick={()=>handleContactSelected({id: "", name: ""})} />}
+            <span><Button style="mr-2" preset={Preset.smallEdit} noText onClick={()=>handleRecordSelect(clientToUpdate, order)} />
+            <Button preset={Preset.smallClose} noText onClick={()=>handleContactSelected({id: "", name: ""})} /></span>
+            }
             </span>
         </div>
       </div> : <></> }
@@ -150,10 +203,12 @@ return (
     </div>
   </Modal.Body>
   <Modal.Footer className="flex justify-end">
-    <Button onClick={()=>setIsAdContactModal(true)} text="Agregar Cliente" preset={Preset.add} disabled={isSending} /> 
-    <Button onClick={onClose} preset={Preset.close} disabled={isSending} /> 
+  { clientToUpdate == ContactNameOfOrder.employee ? <></> :
+    <Button onClick={handleAddContact} text="Agregar Cliente" preset={Preset.add} disabled={isSending} /> }
+    <Button onClick={close} preset={Preset.close} disabled={isSending} /> 
   </Modal.Footer>
-  <ContactAddModal isShow={isAdContactModal} onClose={()=>setIsAdContactModal(false)} />
+  <ContactAddModal isShow={isContactModal} onClose={()=>setIsContactModal(false)} record={recordSelect} random={setRandomAfterEdit} />
+  <ContactAddModal isShow={isAddContactModal} onClose={()=>setIsAddContactModal(false)} />
 </Modal>
 
     )
