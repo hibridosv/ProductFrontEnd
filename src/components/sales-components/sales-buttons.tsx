@@ -21,8 +21,7 @@ export function SalesButtons(props: SalesButtonsProps) {
 
   const validateFields = ()=>{
     if (invoice?.client_id && (invoice?.invoice_assigned?.type == 2 || invoice?.invoice_assigned?.type == 3)) {
-      return validateInvoiceFields(
-        invoice?.client, invoice?.invoice_assigned?.type == 2 ? requiredFieldsFactura : requiredFieldsCCF) 
+      return validateInvoiceFields(invoice?.client, invoice?.invoice_assigned?.type == 2 ? requiredFieldsFactura : requiredFieldsCCF) 
     }
   }
 

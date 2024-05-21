@@ -131,9 +131,11 @@ export function SalesPayModal(props: SalesPayModalProps) {
                 (
                   <div className="flex justify-center">
                     { paymentType === 5 && !invoice?.client_id ?
-                     <Alert text="Debe agregar un cliente para continuar con el credito" theme={PresetTheme.danger} isDismisible={false} /> :
-                    <Button type="submit" preset={isSending ? Preset.saving : Preset.primary} 
-                    text={ paymentType === 5  ? `Asignar Credito` : `Pagar con ${nameOfPaymentType(paymentType)}`} disabled={isSending} />
+                     <Alert text="Debe agregar un cliente para continuar con el credito" theme={PresetTheme.danger} isDismisible={false} /> : 
+                     paymentType === 5 && invoice?.client_id && invoice?.client?.is_credit_block == 1 ?
+                      <Alert text="Cliente bloqueado para otrorgar credito" theme={PresetTheme.danger} isDismisible={false} /> :
+                      <Button type="submit" preset={isSending ? Preset.saving : Preset.primary} 
+                      text={ paymentType === 5  ? `Asignar Credito` : `Pagar con ${nameOfPaymentType(paymentType)}`} disabled={isSending} />
                     }
                   </div>
                 )}
