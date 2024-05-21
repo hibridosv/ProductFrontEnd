@@ -24,6 +24,7 @@ export function SalesShowTotal(props: SalesShowTotalProps) {
   const [multiPriceStatus, setMultiPriceStatus] = useState<boolean>(false)
   const [wholesalerStatus, setWholesalerStatus] = useState<boolean>(false)
   const [promotionStatus, setPromotionStatus] = useState<boolean>(false)
+  const [showSeller, setShowSeller] = useState<boolean>(false)
   let pricesActive = [TypeOfPrice.normal];
   const { codeRequestPice, verifiedCode, isRequestCodeModal, setIsRequestCodeModal, isShowError, setIsShowError } = useCodeRequest('code-request-prices');
 
@@ -31,8 +32,9 @@ export function SalesShowTotal(props: SalesShowTotalProps) {
     setMultiPriceStatus(getConfigStatus("is-multi-price", config))
     setWholesalerStatus(getConfigStatus("product-price-wolesaler", config))
     setPromotionStatus(getConfigStatus("product-price-promotion", config))
-  // eslint-disable-next-line
-}, [config])
+    setShowSeller(getConfigStatus("sales-show-other-seller", config))
+    // eslint-disable-next-line
+  }, [config])
 
 if(wholesalerStatus) pricesActive.push(TypeOfPrice.wholesaler)
 if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
@@ -58,6 +60,8 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
     </div>
 
     <div>
+        { showSeller && <div className="flex justify-between border-b-2"> 
+        <span className=" text-blue-500 ">Vendedor: {records?.employee?.name}</span></div>}
         {records?.client?.name && <div className="flex justify-between border-b-2"> 
         <span className=" text-red-500 ">Cliente: {records?.client?.name}</span>
         <span className=" text-red-500 ">{records?.client?.document ? formatDuiWithAll(records?.client?.document) : formatDuiWithAll(records?.client?.id_number)}</span></div>}
