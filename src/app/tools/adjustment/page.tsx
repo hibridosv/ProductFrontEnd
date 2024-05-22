@@ -72,7 +72,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (adjustment?.type == "successful") {
-    (async () => setProducts(await loadData(`adjustment/products?sort=description&perPage=25${currentPage}${searchTerm}`)))();
+    (async () => setProducts(await loadData(`adjustment/products?sort=-created_at&perPage=25${currentPage}${searchTerm}`)))();
   } else {
     (async () => setAdjustmentRecord(await loadData(`adjustment/all?perPage=25${currentPage}`)))();
   }
