@@ -34,28 +34,32 @@ const isDeleteCut = (record: string) => {
     setShowCutDetailsModal(true);
   }
 
+
+  const listItems = records?.data &&  records.data.map((record: any, key: any) => (
+    <tr key={record.id} className={`border-2 ${record.status == 0 && "bg-red-300"}`} >
+      <td className="py-2 px-6 truncate clickeable" onClick={()=>isShowDetails(record)}>{ formatDateAsDMY(record.close) } | { formatTime(record.close)}</td>
+      <td className="py-2 px-6 clickeable" onClick={()=>isShowDetails(record)}>{ numberToMoney(record?.final_cash ? record?.final_cash : 0) }</td>
+      <td className={`py-2 px-6 font-bold clickeable ${record?.cash_diference > 0 ? 'text-blue-600' : record?.cash_diference < 0 ? 'text-red-600' : 'text-black'}`} onClick={()=>isShowDetails(record)}>{ numberToMoney(record?.cash_diference ? record?.cash_diference : 0) }</td>
+      <td className="py-2 px-6"><Button preset={firstRecord.id == record?.id ? Preset.smallClose : Preset.smallCloseDisable} 
+                onClick={firstRecord.id == record?.id ? ()=>isDeleteCut(record) : ()=>{} } noText /></td>
+    </tr>
+  ));
+
   return (<div className="mx-4">
-    <div  className="w-full shadow-neutral-600 shadow-lg rounded-md">
-        <div className="flex justify-between">
-            <div className="m-2">FECHA</div>
-            <div className="m-2">DIFERENCIA</div>
-            <div className="m-2">DEL</div>
-        </div>
+    <div className="w-full overflow-auto">
+    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" className="py-3 px-4 border">Fecha</th>
+          <th scope="col" className="py-3 px-4 border">Efectivo</th>
+          <th scope="col" className="py-3 px-4 border">Diferencia</th>
+          <th scope="col" className="py-3 px-4 border">Del</th>
+        </tr>
+      </thead>
+      <tbody>{listItems}</tbody>
+    </table>
+ </div>
 
-      {records?.data && records?.data.map((record: any) => ( <div key={record.id}>
-        {record?.status != 1 &&
-        <div className={`flex justify-between border-2 ${record.status == 0 && "bg-red-300"}`}>
-            <div className="m-2 clickeable" onClick={()=>isShowDetails(record)}>{ formatDateAsDMY(record.close) } | { formatTime(record.close)}</div>
-            <div className={`m-2 font-semibold
-            ${record?.cash_diference > 0 ? 'text-blue-600' : record?.cash_diference < 0 ? 'text-red-600' : 'text-black'}`}>
-                {numberToMoney(record?.cash_diference)}</div>
-            <div className="m-2"><Button preset={firstRecord.id == record?.id ? Preset.smallClose : Preset.smallCloseDisable} 
-                onClick={firstRecord.id == record?.id ? ()=>isDeleteCut(record) : ()=>{} } noText /></div>
-        </div> }
-        </div> ))}
-
-    </div>
-   
     <DeleteModal isShow={showDeleteModal} text="¿Estas seguro de eliminar este elemento?" onDelete={handleDeleteCut}  onClose={()=>setShowDeleteModal(false)} />
     <CutDetailsModal record={selectRecord} isShow={showCutDetailsModal} onClose={()=>setShowCutDetailsModal(false)} />
    </div>);

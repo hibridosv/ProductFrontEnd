@@ -58,6 +58,8 @@ export function ContactAddModal(props: ContactAddModalProps) {
         setValue("roar", record.roar);
         setValue("address_doc", record.address_doc);
         setValue("taxpayer_type", record.taxpayer_type);
+        setValue("is_credit_block", record.is_credit_block);
+        
         setDepartament(record.departament_doc)
         setTown(record.town_doc)
     }
@@ -116,7 +118,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
-      <Modal.Header>AGREGAR NUEVO CONTACTO</Modal.Header>
+      <Modal.Header>{record ? "EDITAR CONTACTO" : "AGREGAR NUEVO CONTACTO"}</Modal.Header>
       <Modal.Body>
         {!isChangedRecord ? (
         <div className="mx-4">
@@ -230,6 +232,12 @@ export function ContactAddModal(props: ContactAddModalProps) {
                     </select>
                     </div>
 
+                  { watch("is_client") == 1 &&
+                    <div className="w-full md:w-full px-3 mb-2 flex justify-between">
+                      <div><input className="bg-lime-600 rounded-full" type="checkbox" {...register("is_credit_block", {})} /> 
+                      <span className="ml-2 font-medium">Bloquear Credito al cliente</span></div>
+                    </div>
+                  }
 
                 </div>
             </div>

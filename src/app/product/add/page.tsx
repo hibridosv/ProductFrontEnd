@@ -16,6 +16,7 @@ import { PresetTheme } from "@/services/enums";
 import { ProductRegisterPrincipalTable } from "@/components/products-components/product-register-principal-table";
 import { documentType, loadData } from "@/utils/functions";
 import { ToggleSwitch } from "flowbite-react";
+import { ContactAddModal } from "@/components/contacts-components/contact-add-modal";
 
 export default function ProductAdd() {
   const [lastProductsPrincipal, setLastProductsPrincipal] = useState<any>({});
@@ -32,6 +33,7 @@ export default function ProductAdd() {
   const [providers, setProviders] = useState<Contacts>([] as Contacts);
   const [categories, setCategories] = useState([] as any);
   const [accounts, setAccounts] = useState([] as any);
+  const [showModalProvider, setShowModalProvider] = useState(false);
 
 
   const { register, handleSubmit, reset, watch, setValue } = useForm();
@@ -157,7 +159,6 @@ useEffect(() => {
 
 useEffect(() => {
       (async () => { 
-        await loadProviders(); 
         await loadLastRegistersPrincipal();
         await loadLastRegistersPrincipalOpen();
         setCategories(await loadData(`cash/categories`))
@@ -165,6 +166,13 @@ useEffect(() => {
       })();
 // eslint-disable-next-line
 }, []);
+
+useEffect(() => {
+  if (!showModalProvider) {
+    (async () => await loadProviders())();
+  }
+// eslint-disable-next-line
+}, [showModalProvider]);
 
 useEffect(() => {
   handleSearchTerm(watch('search'))
@@ -248,7 +256,7 @@ useEffect(() => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
-           <div className="col-span-5 border-r md:border-sky-600">
+           <div className="col-span-4 border-r md:border-sky-600">
              <ViewTitle text="AGREGAR PRODUCTOS" />
             <div className="w-full px-4">
 
@@ -273,7 +281,7 @@ useEffect(() => {
                 </div>
 
                 <div className="w-full md:w-1/2 px-3 mb-2">
-                    <label htmlFor="provider_id" className={style.inputLabel}> Proveedor </label>
+                    <label htmlFor="provider_id" className={`${style.inputLabel} clickeable`} onClick={()=>setShowModalProvider(true)}> Proveedor (Click para agregar)</label>
                     <select
                           defaultValue={providers && providers.data && providers.data.length > 0 ? providers.data[0].id : 0}
                           id="provider_id" {...register("provider_id")} className={style.input} >
@@ -297,7 +305,7 @@ useEffect(() => {
                 </div>
 
 
-                <div className="w-full md:w-1/2 px-2 mb-3 flex justify-center">
+                <div className="w-full md:w-full px-2 mb-3 flex justify-center">
                       <div className='mr-2 font-semibold'>Sumar impuestos</div>
                         <div>
                             <ToggleSwitch
@@ -305,9 +313,6 @@ useEffect(() => {
                             label={isTaxesActive ? 'Activo' : 'Inactivo'}
                             onChange={() => setIsTaxesActive(!isTaxesActive)} />
                       </div>
-                </div>
-                <div className="w-full md:w-1/2">
-
                 </div>
                 
                 <div className="uppercase text-xl font-semibold text-slate-800 m-2 bg-slate-400 w-full px-6 clickeable rounded-md border shadow-md shadow-slate-400" onClick={()=>setIsBillsActive(!isBillsActive)}>{ isBillsActive ? "Cancelar" : "Activar"} ingreso como gasto</div>
@@ -544,7 +549,7 @@ useEffect(() => {
           </div>
          </div>
 
-         <div className="col-span-5 border-r md:border-sky-600">
+         <div className="col-span-6 border-r md:border-sky-600">
          <ViewTitle text="ULTIMA ENTRADA" />
          <div className="w-full p-4">
             <ProductRegisterPrincipalTable records={lastProductsPrincipal} isLoading={isLoading} />
@@ -555,6 +560,7 @@ useEffect(() => {
           </div>
           { productPrincipal?.id && <Button preset={isSending ? Preset.saving : Preset.cancel} text="Terminar ingreso" onClick={()=>finishRegister()} isFull /> }
         </div>
+        <ContactAddModal isShow={showModalProvider} onClose={()=>setShowModalProvider(false)} />
       <Toaster position="top-right" reverseOrder={false} />
    </div>
   )

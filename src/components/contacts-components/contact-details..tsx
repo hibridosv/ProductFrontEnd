@@ -137,6 +137,10 @@ if (!locations || !record) {
                     <div className={style.inputLabel}>Tipo de contribuyente</div>
                         <div> {record?.taxpayer_type == 1 ? "CONTRIBUYENTE" : "GRAN CONTRIBUYENTE"} </div>
                     </div> }
+
+                    {record?.is_credit_block == 1 && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">
+                    <div className={`${style.inputLabel} text-red-600`} >Cliente Bloqueado para creditos</div>
+                    </div> }
                 </div>
             </div>
         </div>

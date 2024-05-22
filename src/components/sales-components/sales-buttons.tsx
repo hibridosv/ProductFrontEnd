@@ -6,7 +6,7 @@ import { FaRegMoneyBillAlt } from 'react-icons/fa';
 import { GiCancel } from 'react-icons/gi';
 import { IoMdOptions } from 'react-icons/io';
 import { Alert } from '../alert/alert';
-import { requiredFieldsCCF, requiredFieldsFactura, validateInvoiceFields } from '@/utils/validator-functions';
+import { requiredFieldsCCF, requiredFieldsFactura, validateInvoiceFields, validateInvoiceFieldsCount } from '@/utils/validator-functions';
 
 export interface SalesButtonsProps {
   onClick: (option: number) => void;
@@ -19,6 +19,13 @@ export function SalesButtons(props: SalesButtonsProps) {
   const {onClick, cashDrawer, config, invoice } = props
 
 
+  const validateFields = ()=>{
+    if (invoice?.client_id && (invoice?.invoice_assigned?.type == 2 || invoice?.invoice_assigned?.type == 3)) {
+      return validateInvoiceFields(invoice?.client, invoice?.invoice_assigned?.type == 2 ? requiredFieldsFactura : requiredFieldsCCF) 
+    }
+  }
+
+  let fieldsRequired = validateFields();
 
   return (<div>
           { !cashDrawer && <Alert
@@ -37,10 +44,8 @@ export function SalesButtons(props: SalesButtonsProps) {
           className='my-1'
           /> }
 
-        { (invoice?.client_id && (invoice?.invoice_assigned?.type == 2 || invoice?.invoice_assigned?.type == 3)) && 
-          validateInvoiceFields(
-            invoice?.client, 
-            invoice?.invoice_assigned?.type == 2 ? requiredFieldsFactura : requiredFieldsCCF) 
+        { fieldsRequired && fieldsRequired.length > 0 && 
+          <div>Faltan los siguientes campos del cliente para facturar: <div className="text-red-500">{`${fieldsRequired.join(', ')}.`}</div></div> 
         }
            <div>
             <Button.Group>
@@ -68,7 +73,7 @@ export function SalesButtons(props: SalesButtonsProps) {
             <Button color="blue" gradientMonochrome="info" onClick={()=>onClick(2)}>
               <AiFillSave className='mr-1' /> Guardar </Button>
             <Button color="green" gradientMonochrome="success" 
-                              disabled={!cashDrawer || (!invoice?.client_id && invoice?.invoice_assigned?.type == 3)} 
+                              disabled={!cashDrawer || (!invoice?.client_id && invoice?.invoice_assigned?.type == 3) || fieldsRequired && fieldsRequired.length > 0} 
                               onClick={()=>onClick(1)}>
                <FaRegMoneyBillAlt className='mr-1' /> Cobrar </Button>
             <Button color="red" gradientMonochrome="failure" onClick={()=>onClick(3)}>

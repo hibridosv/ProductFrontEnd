@@ -9,11 +9,12 @@ import { Tooltip } from "flowbite-react";
 interface CredistPaymentsTableProps {
   records?:  any;
   onDelete: (record: any)=> void;
+  isPrint: ()=> void;
   isDisabled?: boolean;
 }
 
 export function CredistPaymentsTable(props: CredistPaymentsTableProps) {
-  const { records, onDelete, isDisabled } = props;
+  const { records, onDelete, isDisabled, isPrint } = props;
   const [isLasElement, setIsLasElement] = useState([] as any);
 
 
@@ -45,14 +46,19 @@ export function CredistPaymentsTable(props: CredistPaymentsTableProps) {
       { record?.status == 0 ? <Tooltip animation="duration-300" 
       content={deleted(record)} >{ status(record?.status) }</Tooltip> : status(record?.status) }
       </td>
-      <td className="py-1 px-6"><Button preset={record?.status == 0 ? Preset.smallInfo : 
-      isLasElement?.id == record?.id && !isDisabled ? Preset.smallClose : Preset.smallCloseDisable} 
-                                    disabled={
+      <td className="py-1 px-6 flex"><Button preset={record?.status == 0 ? Preset.smallInfo : 
+                                        isLasElement?.id == record?.id && !isDisabled ? Preset.smallClose : Preset.smallCloseDisable} 
+                                        disabled={
                                         record?.status == 0 || 
                                         isDisabled || 
                                         isLasElement?.id != record?.id || 
                                         formatDateAsDMY(isLasElement?.created_at) != formatDateAsDMY(new Date()) ? true : false} 
-                                        noText onClick={()=>onDelete(record)} /></td>
+                                        noText onClick={()=>onDelete(record)} />
+
+                                    {isLasElement?.id == record?.id && !isDisabled &&          
+                                      <Button preset={Preset.smallPrint} noText onClick={()=>isPrint()} style="ml-2" />
+                                    }
+      </td>
     </tr>
   ));
 

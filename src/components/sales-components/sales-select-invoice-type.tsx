@@ -23,7 +23,7 @@ const [invoiceType, setInvoiceType] = useState([]);
 
 const loadInvoiceTypes = async () => {
     try {
-      const response = await getData(`invoice/type`);
+      const response = await getData(`invoice/type/active`);
       setInvoiceType(response.data);
     } catch (error) {
       console.error(error);

@@ -32,7 +32,6 @@ export default function ConfigPrincipal() {
 
 
   const handleChangePermission = async (isActive: boolean, iden: string, role: string) => {
-    console.log("iden", iden)
     let data = { is_active: isActive, iden, role }
     try {
       setIsSending(true);

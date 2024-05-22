@@ -267,7 +267,6 @@ export default function ViewSales() {
   }
 
   const handleChangeOrder = async (order: any) => {
-    console.log("order", order)
     try {
       const response = await postData(`sales/order/select/${order}`, "POST");
       if (response.type !== "error") {

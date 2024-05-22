@@ -66,8 +66,8 @@ const isStatusOption = (status: number): string =>{
 
 const isStatus = (status: number): string =>{
   switch (status) {
-    case 0: return "Inactivo";
-    case 1: return "Activo";
+    case 0: return "Activo";
+    case 1: return "Seleccionado";
     case 2: return "Terminado";
     case 3: return "Deshabilitado";
     default: return "Inactivo";
@@ -85,7 +85,7 @@ const listItems = invoiceTypes?.data?.map((record: any) => (
                         disabled={record?.type == 0 || record?.type == 1 || record?.type == 8 || isLoading}
                         checked={record?.is_electronic}
                         label={selectId == record.id && selectType == "is_electronic" ? "Espere" : record?.is_electronic ? 'Activo' : 'Inactivo'}
-                        onChange={() => updateStatus(record.id, {"is_electronic": record?.is_electronic===1?0:1}, "is_electronic")}
+                        onChange={() => updateStatus(record.id, {"is_electronic": record?.is_electronic === 1 ? 0 : 1}, "is_electronic")}
                       />
                   </div> : 
                   isStatusOption(record?.is_electronic) }</td>
@@ -95,11 +95,20 @@ const listItems = invoiceTypes?.data?.map((record: any) => (
                         disabled={isLoading}
                         checked={record?.is_printable}
                         label={selectId == record.id && selectType == "is_printable" ? "Espere" : record?.is_printable ? 'Activo' : 'Inactivo'}
-                        onChange={() => updateStatus(record.id, {"is_printable": record?.is_printable===1?0:1}, "is_printable")}
+                        onChange={() => updateStatus(record.id, {"is_printable": record?.is_printable === 1 ? 0 : 1}, "is_printable")}
                       />
                   </div> : 
                   isStatusOption(record?.is_printable) }</td>
-    <td className="py-2 px-2">{ isStatus(record?.status) }</td>
+    <td className="py-2 px-2">{ changes &&                     
+                      <div className='col-span-2 my-2'>
+                        <ToggleSwitch
+                        disabled={isLoading || record?.status == 2 || record?.status == 1}
+                        checked={record?.status == 0 || record?.status == 1}
+                        label={selectId == record.id && selectType == "status" ? "Espere" : (record?.status == 0 || record?.status == 1) ? 'Activo' : 'Deshabilitado'}
+                        onChange={() => updateStatus(record.id, {"status": (record?.status === 0 || record?.status === 1) ? 3 : 0}, "status")}
+                      />
+                  </div> }</td>
+   <td className="py-2 px-2">{ isStatus(record?.status) }</td>
   </tr>
 ));
 
@@ -114,6 +123,7 @@ const listItems = invoiceTypes?.data?.map((record: any) => (
                   <th scope="col" className="py-2 px-2 border">Nombre</th>
                   <th scope="col" className="py-2 px-2 border">Electronico</th>
                   <th scope="col" className="py-2 px-2 border">Imprimible</th>
+                  <th scope="col" className="py-2 px-2 border">Deshabilitar</th>
                   <th scope="col" className="py-2 px-2 border">Estado</th>
                 </tr>
               </thead>

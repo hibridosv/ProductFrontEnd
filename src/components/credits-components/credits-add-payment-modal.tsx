@@ -232,7 +232,7 @@ export function CreditAddPaymentModal(props: CreditAddPaymentModalProps) {
                         <Alert info="Importante!: " theme={PresetTheme.danger} text="No se encuentran abonos registrados" isDismisible={false} />
                         <Button preset={Preset.cancel} text="Eliminar cuenta" style="mt-5" isFull onClick={()=>setShowDeleteModal(true)} />
                     </div>}
-                    <CredistPaymentsTable records={payments} onDelete={onDeletePayment}  isDisabled={!cashDrawer} />
+                    <CredistPaymentsTable records={payments} onDelete={onDeletePayment}  isDisabled={!cashDrawer} isPrint={()=>{}} />
         </div>}
 
 
