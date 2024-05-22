@@ -22,7 +22,7 @@ export default function KardexPage() {
 
     const loadData = async () => {
         try {
-          const response = await getData(`products?sort=-created_at${searchTerm}`);
+          const response = await getData(`products?sort=description${searchTerm}`);
           setProducts(response.data);
         } catch (error) {
           console.error(error);

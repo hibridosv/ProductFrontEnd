@@ -24,7 +24,7 @@ export default function Page() {
 
     const loadData = async () => {
         try {
-        const response = await getData(`products?sort=-created_at&perPage=10${searchTerm}`);
+        const response = await getData(`products?sort=description&perPage=10${searchTerm}`);
         setProducts(response.data);
         } catch (error) {
         console.error(error);
