@@ -140,7 +140,7 @@ const loadLastRegistersPrincipalOpen = async () => {
 
 const loadProductsSearch = async () => {
   try {
-    const response = await getData(`sales/get-products?sort=-created_at${searchTerm}`);
+    const response = await getData(`sales/get-products?sort=description${searchTerm}`);
     setProducts(response.data);
   } catch (error) {
     console.error(error);

@@ -44,7 +44,7 @@ import { ContactAddModal } from "@/components/contacts-components/contact-add-mo
     
     const loadData = async () => {
       try {
-        const response = await getData(`products?sort=-created_at${searchTerm}`);
+        const response = await getData(`products?sort=description${searchTerm}`);
         setProducts(response.data);
       } catch (error) {
         console.error(error);

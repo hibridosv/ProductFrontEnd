@@ -24,7 +24,7 @@ const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 5
 
 const loadDataProducts = async () => {
     try {
-      const response = await getData(`search/products?sort=-created_at&perPage=7${searchTerm}`);
+      const response = await getData(`search/products?sort=description&perPage=7${searchTerm}`);
       setProducts(response.data);
     } catch (error) {
       console.error(error);

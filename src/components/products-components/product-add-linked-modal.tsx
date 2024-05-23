@@ -34,7 +34,7 @@ export function ProductLinkedModal(props: ProductLinkedProps) {
   
   const loadProductsBySearch = async () => {
     try {
-      const response = await getData(`search/forlinkeds?sort=-created_at${searchTerm}`);
+      const response = await getData(`search/forlinkeds?sort=description${searchTerm}`);
       setProducts(response.data);
     } catch (error) {
       console.error(error);
