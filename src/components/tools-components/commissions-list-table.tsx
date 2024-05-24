@@ -2,7 +2,7 @@
 import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
-import { formatDate } from "@/utils/date-formats";
+import { formatDate, formatHourAsHM } from "@/utils/date-formats";
 import { CommissionViewModal } from "./commission-view-modal";
 import { useState } from "react";
 
@@ -27,8 +27,9 @@ export function CommissionsListTable(props: CommissionsListTableProps) {
   const setStatus = (status: number): any =>{
       switch (status) {
         case 0: return <span className="status-danger clickeable">Eliminado</span>
-        case 1: return <span className="status-info clickeable">Activo</span>
-        case 2: return <span className="status-success clickeable">Pagado</span>
+        case 1: return <span className="status-warning clickeable">Activo</span>
+        case 2: return <span className="status-info clickeable">Creado</span>
+        case 3: return <span className="status-success clickeable">Pagado</span>
       }
   }
 
@@ -48,8 +49,7 @@ export function CommissionsListTable(props: CommissionsListTableProps) {
 
   const listItems = records.data.map((record: any, key: any) => (
     <tr key={record.id} className="border-b">
-      <td className="py-2 px-6 truncate">{ formatDate(record?.initial_date) }</td>
-      <td className="py-2 px-6">{ formatDate(record?.final_date) }</td>
+      <td className="py-2 px-6 truncate">{ formatDate(record?.updated_at) } { formatHourAsHM(record?.updated_at) }</td>
       <td className="py-2 px-6">{ setType(record?.type) }</td>
       <td className="py-2 px-6">{ record?.referred?.name }</td>
       <td className="py-2 px-6">{ record?.invoices }</td>
@@ -65,8 +65,7 @@ export function CommissionsListTable(props: CommissionsListTableProps) {
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          <th scope="col" className="py-3 px-4 border">Inicio</th>
-          <th scope="col" className="py-3 px-4 border">Fin</th>
+          <th scope="col" className="py-3 px-4 border">Fecha</th>
           <th scope="col" className="py-3 px-4 border">Tipo</th>
           <th scope="col" className="py-3 px-4 border">Cliente</th>
           <th scope="col" className="py-3 px-4 border">Facturas</th>

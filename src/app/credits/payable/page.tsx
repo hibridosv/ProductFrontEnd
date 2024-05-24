@@ -33,7 +33,7 @@ export default function CreditPayablePage() {
       (async () => setCredits(await loadData(`credits/payable?${contactSelected && `filterWhere[provider_id]==${contactSelected.id}&`}sort=-created_at&perPage=10${currentPage}`)))();
     }
   }, [isAddPayableModal, isAddPaymentModal, currentPage, contactSelected]);
-  console.log(`credits/payable?${contactSelected && `filterWhere[provider_id]==${contactSelected.id}&`}sort=-created_at&perPage=10${currentPage}`)
+
   useEffect(() => {
       if (credits.data && credits?.data.length > 0) {
         let dataFiltered = credits?.data.filter((element:any) => element.status === 1)
@@ -42,8 +42,6 @@ export default function CreditPayablePage() {
       }
   }, [setCreditsQuantity, setCreditsTotal, credits]);
 
-
-console.log("contactSelected", contactSelected)
 
   const handleCancelContact = () => {
       setContactSelected(null)

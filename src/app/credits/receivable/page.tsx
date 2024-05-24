@@ -43,8 +43,6 @@ useEffect(() => {
   }, [setCreditsQuantity, setCreditsTotal, credits]);
 
 
-console.log("contactSelected", contactSelected)
-
   const handleCancelContact = () => {
       setContactSelected(null)
       setrandNumber(getRandomInt(100));
