@@ -100,9 +100,9 @@ useEffect(() => { // manda el dato de cuantas ordenes hay marcadas
       setIsSending(false);
     }
   }
-
+console.log("ordersCommission: ", ordersCommission)
   const listItems = ordersCommission && ordersCommission?.data?.map((record: any, key: any) => (
-    <tr key={key} className={`border-b`}>
+    <tr key={key} className={`border-b ${record?.credit && record?.credit?.status == 1 && "bg-red-200"}`}>
       <td className="py-2 px-6 truncate">{ formatDate(record?.charged_at) } { formatHourAsHM(record?.charged_at) }</td>
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.invoice_assigned?.name }: { record?.invoice } </th>
       <td className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white">{ record?.referred?.name }</td>
@@ -111,7 +111,7 @@ useEffect(() => { // manda el dato de cuantas ordenes hay marcadas
       <td className="py-2 px-6">{ numberToMoney(getTotalCommission(record?.products)) }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0) }</td>
       <td className="py-2 px-6"><ToggleSwitch
-                        // disabled={isSending}
+                        disabled={record?.credit && record?.credit?.status == 1}
                         checked={!isSelectedOrder(record?.products)}
                         label=""
                         onChange={() => updateOrderAtPay(record?.id, isSelectedOrder(record?.products))}
