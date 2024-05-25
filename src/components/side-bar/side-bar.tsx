@@ -89,6 +89,7 @@ const handlePermission = (permission: string, redirect: string): string => {
           <MenuItem component={<Link className="text-sm" href={handlePermission("histories-discount", "/histories/discount")} />}>Ventas con descuento  </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("histories-list", "/histories/list")} />}>Listado de ventas  </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("histories-by-user", "/histories/by-user")} />}>Ventas por usuario  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("histories-by-client", "/histories/by-client")} />}>Ventas por cliente  </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("histories-deleted", "/histories/deleted")} />}>Ordenes eliminadas  </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("histories-cost", "/histories/cost")} />}>Listado de costos  </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("histories-shipping-notes", "/histories/shipping-notes")} />}>Notas de envío  </MenuItem>

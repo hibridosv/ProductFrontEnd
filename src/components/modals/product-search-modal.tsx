@@ -7,7 +7,7 @@ import { SearchInput } from "../form/search";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { Loading } from "../loading/loading";
 import { ProductDetails } from "../products-components/product-details";
-import { numberToMoney } from "@/utils/functions";
+import { getRandomInt, numberToMoney } from "@/utils/functions";
 
 export interface ProductSearchModalProps {
   onClose: () => void;
@@ -21,6 +21,7 @@ export function ProductSearchModal(props: ProductSearchModalProps) {
   const [products, setProducts] = useState([]);
   const [productSelected, setProductSelected] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [randomNumber, setRandomNumber] = useState(0);
 
   const loadData = async () => {
     try {
@@ -59,9 +60,18 @@ useEffect(() => {
 }, [productSelected, isShow]);
 
 const handleNewProduct = () => {
+  setRandomNumber(getRandomInt(100))
   setProductSelected(null)
   setProducts([])
+  handleSearchTerm("")
 }
+
+useEffect(() => {
+  if (!isShow) {
+    handleNewProduct()
+  }
+// eslint-disable-next-line
+}, [isShow]);
 
 
 
@@ -92,12 +102,12 @@ const listItems = products?.map((product: any):any => (
         </> 
           :
           <div className="m-4">
-            <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Producto" />
+            <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Producto" randNumber={randomNumber} />
             <div className="w-full bg-white rounded-lg shadow-lg mt-4">
               <ul className="w-full divide-y-2 divide-gray-400">
               { listItems }
               { listItems.length > 0 &&
-                <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer" onClick={handleNewProduct}>
+                <li className="flex justify-between p-3 hover:bg-red-200 hover:text-red-800 cursor-pointer" onClick={handleNewProduct}>
                   CANCELAR
                     <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">

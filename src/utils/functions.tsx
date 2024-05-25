@@ -330,6 +330,7 @@ export const getMunicipioNameById = (id_mun: string, data: any): any => {
 
 
 export function formatDocument(cadena: string) {
+  if (!cadena) return;
   return cadena.replace(/-/g, '');
 }
 
