@@ -15,9 +15,11 @@ export function SearchInput(props: SearchInputProps) {
   }, [handleSearchTerm])
 
   useEffect(() => {
-    focusInputSearch.current.value = "";
-  }, [randNumber])
-
+    if (focusInputSearch.current) {
+      focusInputSearch.current.value = "";
+    }
+  }, [randNumber]);
+  
   return (
     <div>
         <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white" >

@@ -2,6 +2,7 @@
 
 import { Alert, ViewTitle } from "@/components"
 import { Button, Preset } from "@/components/button/button";
+import { SearchInput } from "@/components/form/search";
 import { TransferProductListTable } from "@/components/transfers-components/products-list-table";
 import { SelectGuest } from "@/components/transfers-components/select-guest";
 import { TransfersListTable } from "@/components/transfers-components/transfers-list-table";
@@ -12,6 +13,7 @@ import { Product } from "@/services/products";
 import { getData, postData } from "@/services/resources";
 import { style } from "@/theme";
 import { SearchIcon } from "@/theme/svg";
+import { getRandomInt } from "@/utils/functions";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast, Toaster } from "react-hot-toast";
@@ -21,7 +23,7 @@ const [isTransferSelected, setIsTransferSelected] = useState("") as any;
 const [allTransfers, setAllTransfers] = useState([]);
 const [linkedSystems, setLinkedSystems] = useState([]);
 const [products, setProducts] = useState([]);
-const [productSelected, setProductSelected] = useState<Product>({} as Product);
+const [productSelected, setProductSelected] = useState<Product>({} as any);
 const { register, handleSubmit, reset, watch, setValue } = useForm();
 const [productsAdded, setProductsAdded] = useState([] as any);
 const [isSending, setIsSending] = useState(false);
@@ -29,6 +31,7 @@ const [isLoading, setIsLoading] = useState(false);
 const [message, setMessage] = useState<any>({});
 const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
 const [randomNumber, setRandomNumber] = useState(0);
+const [randNumber, setRandNumber] = useState(0);
 const tenant = getTenant();
 
 
@@ -170,11 +173,6 @@ useEffect(() => {
 }, [searchTerm]);
 
 
-useEffect(() => {
-  handleSearchTerm(watch('search'))
-// eslint-disable-next-line
-}, [watch('search')]);
-
 
 const handleCancelAll = async () =>{
   try {
@@ -278,6 +276,13 @@ const getRequest = async (tansferId: string) =>{
   }
 
 
+  const handleNewSearch = () => {
+    setRandNumber(getRandomInt(100))
+    setProductSelected({} as any)
+    setProducts([])
+    handleSearchTerm("")
+  }
+
 const listItems = products?.map((product: any):any => (
   <div key={product.id} onClick={()=>handleClickOnProduct(product.id)}>
       <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
@@ -306,31 +311,26 @@ const listItems = products?.map((product: any):any => (
                 </div>
               </div>
 
-              <div className="flex flex-wrap -mx-3 mb-6">
 
-                <div className="w-full m-2">
-                    <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                          { SearchIcon }
-                        </div>
-                        <input
-                          type="search"
-                          id="search"
-                          className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                          placeholder="Buscar Producto"
-                          {...register("search")}
-                        />
-                    </div>
-
-
-                </div>
-                <div className="w-full bg-white rounded-lg shadow-lg lg:w-2/3 mt-4">
-                  <ul className="divide-y-2 divide-gray-400">
+              <div className="m-4">
+                <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Producto" randNumber={randNumber} />
+                <div className="w-full bg-white rounded-lg shadow-lg mt-4">
+                  <ul className="w-full divide-y-2 divide-gray-400">
                   { listItems }
+                  { listItems.length > 0 &&
+                    <li className="flex justify-between p-3 hover:bg-red-200 hover:text-red-800 cursor-pointer" onClick={handleNewSearch}>
+                      CANCELAR
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </li>
+                  }
                   </ul>
                 </div>
+              </div>
 
-            </div>
+
 
             { productSelected?.id && (<>
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
