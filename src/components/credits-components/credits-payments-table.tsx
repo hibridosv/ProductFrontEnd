@@ -38,7 +38,7 @@ export function CredistPaymentsTable(props: CredistPaymentsTableProps) {
             </div>)}
   
   const listItems = records.data.map((record: any) => (
-    <tr key={record.id} className="border-b bg-white" >
+    <tr key={record.id} className={`border-b ${record.payment_type == 0 ? 'bg-blue-50' : 'bg-white'}`} >
       <td className="py-1 px-6 whitespace-nowrap">{formatDateAsDMY(record?.created_at)}</td> 
       <td className="py-1 px-6 truncate">{ numberToMoney(record?.quantity ? record?.quantity : 0) }</td>
       <td className="py-1 px-6 truncate">{ record?.employee?.name }</td>
@@ -49,6 +49,7 @@ export function CredistPaymentsTable(props: CredistPaymentsTableProps) {
       <td className="py-1 px-6 flex"><Button preset={record?.status == 0 ? Preset.smallInfo : 
                                         isLasElement?.id == record?.id && !isDisabled ? Preset.smallClose : Preset.smallCloseDisable} 
                                         disabled={
+                                        record.payment_type == 0 ||
                                         record?.status == 0 || 
                                         isDisabled || 
                                         isLasElement?.id != record?.id || 
