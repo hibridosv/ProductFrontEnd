@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast';
 import { postData } from "@/services/resources";
 import { style } from "../../theme";
-import { documentType, loadData, numberToMoney } from "@/utils/functions";
+import { documentType, getConfigStatus, loadData, numberToMoney } from "@/utils/functions";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 import { formatDateAsDMY } from "@/utils/date-formats";
@@ -14,6 +14,7 @@ import { DeleteModal } from "../modals/delete-modal";
 import { CredistPaymentsTable } from "./credits-payments-table";
 import { ConfigContext } from "@/contexts/config-context";
 import { NothingHere } from "../nothing-here/nothing-here";
+import { CreditAddNoteModal } from "./credits-add-note-modal";
 
 export enum Type {
     receivable = 1,
@@ -35,15 +36,17 @@ export function CreditAddPaymentModal(props: CreditAddPaymentModalProps) {
   const [accounts, setAccounts] = useState([] as any);
   const [payments, setPayments] = useState([] as any);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const { cashDrawer } = useContext(ConfigContext);
-
+  const { cashDrawer, config } = useContext(ConfigContext);
+  const [creditNotes, setCreditNotes] = useState([] as any);
+  const [showNoteModal, setShowNoteModal] = useState(false);
 
   useEffect(() => {
     if (isShow) {
         (async () => setAccounts(await loadData(`cash/accounts`)))();
         (async () => setPayments(await loadData(`credits/payment/${creditSelected?.id}/${accountType}`)))(); 
+        setCreditNotes(getConfigStatus("payable-credit-notes", config))
     }  
-    }, [creditSelected, isShow, accountType]);
+    }, [creditSelected, isShow, accountType, config]);
 
 
   const onSubmit = async (data: any) => {
@@ -218,7 +221,7 @@ export function CreditAddPaymentModal(props: CreditAddPaymentModalProps) {
 
                     <div className="ml-3 text-xl mt-2 font-semibold ">{ creditSelected?.name }</div>
                     <div className="ml-3 text-sm">{ creditSelected?.description }</div>
-                    <div className="ml-3 text-lg mt-1">Expira: { formatDateAsDMY(creditSelected?.expiration) }</div>
+                    <div className="ml-3 text-lg mt-1">Expira: { creditSelected?.expiration ? formatDateAsDMY(creditSelected?.expiration) : "N/A" }</div>
                     <div className="ml-3 text-lg mt-1">{documentType(creditSelected?.invoice)}: { creditSelected?.invoice_number}</div>
                     <div className="ml-3 text-lg mt-1">Usuario: { creditSelected?.employee?.name}</div>
                     <div className="ml-3 text-lg mt-1">Proveedor: { creditSelected?.provider?.name}</div>
@@ -227,12 +230,8 @@ export function CreditAddPaymentModal(props: CreditAddPaymentModalProps) {
         </div>
         {payments?.data &&
         <div className="mt-3">
-                { payments?.data.length == 0 && 
-                    <div>
-                        <Alert info="Importante!: " theme={PresetTheme.danger} text="No se encuentran abonos registrados" isDismisible={false} />
-                        <Button preset={Preset.cancel} text="Eliminar cuenta" style="mt-5" isFull onClick={()=>setShowDeleteModal(true)} />
-                    </div>}
-                    <CredistPaymentsTable records={payments} onDelete={onDeletePayment}  isDisabled={!cashDrawer} isPrint={()=>{}} />
+                { payments?.data.length == 0 && <Button preset={Preset.cancel}  text="ELIMINAR CUENTA" style="mt-2" isFull onClick={()=>setShowDeleteModal(true)} />}
+                <CredistPaymentsTable records={payments} onDelete={onDeletePayment}  isDisabled={!cashDrawer} isPrint={()=>{}} />
         </div>}
 
 
@@ -240,6 +239,10 @@ export function CreditAddPaymentModal(props: CreditAddPaymentModalProps) {
       <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
+        {
+          creditNotes && <Button preset={creditSelected?.note ? Preset.accept : Preset.add} text={creditSelected?.note ? "Ver nota de credito" : "Agregar Nota de credito"} onClick={()=>setShowNoteModal(true)} /> 
+        }
+        <CreditAddNoteModal isShow={showNoteModal} onClose={()=>setShowNoteModal(false)} creditSelected={creditSelected} close={onClose} />
         <Button onClick={onClose} preset={Preset.close} disabled={isSending} />
       </Modal.Footer>
     </Modal>

@@ -158,7 +158,6 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
                     </div>
                 </div>
                 <div>
-                    {/* Aqui va el formulario */}
               { cashDrawer ? (
               <form onSubmit={handleSubmit(onSubmit)} className="pb-4 mx-3 border-2 shadow-lg rounded-md">
               <div className="flex flex-wrap mx-3 mb-2 ">
@@ -183,14 +182,7 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
 
                 <div className="w-full md:w-full px-3 mb-2">
                     <label htmlFor="quantity" className={style.inputLabel}> Cantidad *</label>
-                    <input
-                          type="number"
-                          id="quantity"
-                          {...register("quantity", {disabled: payments?.balance == 0 ? true : false})}
-                          className={style.input}
-                          step="any"
-                          min={0}
-                        />
+                    <input type="number" id="quantity" {...register("quantity", {disabled: payments?.balance == 0 ? true : false})} className={style.input} step="any" min={0} />
                 </div>
                
               </div>
@@ -207,15 +199,9 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
 
             </form>) : 
                 <>
-                <Alert
-                theme={PresetTheme.danger}
-                info="Error"
-                text="Debe seleccionar una caja para este proceso"
-                isDismisible={false}
-                />
+                <Alert theme={PresetTheme.danger} info="Error" text="Debe seleccionar una caja para este proceso" isDismisible={false} />
                 <NothingHere text="" width="110" height="110" />
                 </>}
-                    {/* Termina formulario  */}
                 </div>
             </div>
             <div className="col-span-5 ">

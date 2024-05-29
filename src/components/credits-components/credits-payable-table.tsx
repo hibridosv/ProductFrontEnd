@@ -31,13 +31,13 @@ export function CredistPayableTable(props: CredistPayableTableProps) {
   
   const listItems = records.data.map((record: any) => (
     <tr key={record.id} className="border-b bg-white" >
-      <td className="py-3 px-6 whitespace-nowrap cursor-pointer font-semibold text-black">
+      <td className="py-3 px-6 whitespace-nowrap cursor-pointer font-semibold text-black uppercase">
       <Tooltip animation="duration-300" 
       content={`Fecha: ${formatDateAsDMY(record.created_at)}`} >{ record?.name }</Tooltip>
       </td>
       <td className="py-3 px-6 truncate">{ record?.provider?.name }</td>
+      <td className="py-2 px-6">{ record?.invoice_number }</td>
       <td className="py-3 px-6 whitespace-nowrap">{ record?.expiration ? formatDateAsDMY(record?.expiration) : "N/A"}</td> 
-      {/* <td className="py-2 px-6">{ record?.description }</td> */}
       <td className="py-3 px-6 truncate">{ numberToMoney(record?.quantity ? record?.quantity : 0) }</td>
       <td className="py-3 px-6 truncate">{ numberToMoney(record?.balance ? record?.balance : 0) }</td>
       <td className="py-2 px-6">{ status(record?.status) }</td>
@@ -53,7 +53,8 @@ export function CredistPayableTable(props: CredistPayableTableProps) {
         <tr>
           <th scope="col" className="py-3 px-4 border">Nombre</th>
           <th scope="col" className="py-3 px-4 border">Proveedor</th>
-          <th scope="col" className="py-3 px-4 border">Fecha limite</th>
+          <th scope="col" className="py-3 px-4 border">Factura</th>
+          <th scope="col" className="py-3 px-4 border">limite</th>
           <th scope="col" className="py-3 px-4 border">Total</th>
           <th scope="col" className="py-3 px-4 border">Saldo</th>
           <th scope="col" className="py-3 px-4 border">Estado</th>
