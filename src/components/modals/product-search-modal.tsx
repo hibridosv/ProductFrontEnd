@@ -14,8 +14,8 @@ export interface ProductSearchModalProps {
 
 export function ProductSearchModal(props: ProductSearchModalProps) {
   const { onClose, isShow } = props;
-  const [selectedProduct, setSelectedProdcut] = useState<any>({});
-  const [productData, setProductData] = useState({} as any);
+  const [selectedProduct, setSelectedProdcut] = useState<any>(null);
+  const [productData, setProductData] = useState(null as any);
   const [isLoading, setIsLoading] = useState(false);
 
 
