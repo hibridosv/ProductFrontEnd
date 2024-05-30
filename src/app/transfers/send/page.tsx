@@ -4,6 +4,7 @@ import { Alert, Loading, ViewTitle } from "@/components"
 import { Button, Preset } from "@/components/button/button";
 import { ButtonDownload } from "@/components/button/button-download";
 import { SearchInput } from "@/components/form/search";
+import { SearchInputProduct } from "@/components/form/search-product";
 import { TransferProductListTable } from "@/components/transfers-components/products-list-table";
 import { SelectGuest } from "@/components/transfers-components/select-guest";
 import { TransfersListTable } from "@/components/transfers-components/transfers-list-table";
@@ -24,16 +25,13 @@ export default function Page() {
 const [isTransferSelected, setIsTransferSelected] = useState("") as any;
 const [allTransfers, setAllTransfers] = useState([]);
 const [linkedSystems, setLinkedSystems] = useState([]);
-const [products, setProducts] = useState([]);
 const [productSelected, setProductSelected] = useState<Product>({} as Product);
-const { register, handleSubmit, reset, watch, setValue } = useForm();
+const { register, handleSubmit,  setValue } = useForm();
 const [productsAdded, setProductsAdded] = useState([] as any);
 const [isSending, setIsSending] = useState(false);
 const [isLoading, setIsLoading] = useState(false);
 const [message, setMessage] = useState<any>({});
-const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
 const [randomNumber, setRandomNumber] = useState(0);
-const [randNumber, setRandNumber] = useState(0);
 const tenant = getTenant();
 
 
@@ -89,12 +87,13 @@ const handleIsGuestSelected = async (record: any)=>{
 }
 
 
-const handleClickOnProduct = async (productId: string) =>{
+const handleClickOnProduct = async (product: any) =>{
+  if (!product?.id) return
+
   try {
-    const response = await getData(`products/${productId}`);
+    const response = await getData(`products/${product?.id}`);
     if (!response.message) {
       setProductSelected(response.data)
-      setProducts([]);
       setValue("search", null)
     } else {
       toast.error(response.message);
@@ -143,25 +142,6 @@ const onSubmit = async (data: any) => {
 }
 
 
-const loadProductsSearch = async () => {
-  try {
-    const response = await getData(`sales/get-products?sort=description${searchTerm}`);
-    setProducts(response.data);
-  } catch (error) {
-    console.error(error);
-  } 
-};
-
-useEffect(() => {
-  if (searchTerm) {
-      (async () => { await loadProductsSearch() })();
-  } else {
-    setProducts([])
-  }
-// eslint-disable-next-line
-}, [searchTerm]);
-
-
 
 const handleCancelAll = async () =>{
   try {
@@ -171,6 +151,7 @@ const handleCancelAll = async () =>{
       setIsTransferSelected("")
       setProductsAdded({ data: []});
       setRandomNumber(Math.random())
+      setProductSelected({} as Product)
       toast.success("Tranferencia Cancelada");
     } else {
       toast.error("Faltan algunos datos importantes!");
@@ -283,25 +264,7 @@ const handleUpdateQuantity = async (recordSelect: any, quantity: number)=> {
   }
 }
 
-const handleNewSearch = () => {
-  setRandNumber(getRandomInt(100))
-  setProductSelected({} as any)
-  setProducts([])
-  handleSearchTerm("")
-}
 
-
-const listItems = products?.map((product: any):any => (
-  <div key={product.id} onClick={()=>handleClickOnProduct(product.id)}>
-      <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
-      {product.cod} | {product.description}
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-      </li>
-  </div>
-))
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
@@ -319,21 +282,7 @@ const listItems = products?.map((product: any):any => (
 
 
               <div className="m-4">
-                <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Producto" randNumber={randNumber} />
-                <div className="w-full bg-white rounded-lg shadow-lg mt-4">
-                  <ul className="w-full divide-y-2 divide-gray-400">
-                  { listItems }
-                  { listItems.length > 0 &&
-                    <li className="flex justify-between p-3 hover:bg-red-200 hover:text-red-800 cursor-pointer" onClick={handleNewSearch}>
-                      CANCELAR
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </li>
-                  }
-                  </ul>
-                </div>
+                <SearchInputProduct recordSelected={handleClickOnProduct} placeholder="Buscar Producto" url="sales/get-products?sort=description" />
               </div>
 
             { productSelected?.id && (<>

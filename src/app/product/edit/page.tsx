@@ -6,7 +6,6 @@ import { FieldsFormProduct as Fields } from "@/constants/form-product-json";
 import { postData, getData } from "@/services/resources";
 import { Button, Preset } from "@/components/button/button";
 import toast, { Toaster } from 'react-hot-toast';
-
 import { ConfigContext } from "@/contexts/config-context";
 import { style } from "@/theme/styles";
 import { MultiPrice } from "@/components/products-components/multi-price";
@@ -14,12 +13,11 @@ import { ProductLinkedModal } from "@/components/products-components/product-add
 import { ListImagesOfProducts } from "@/components/products-components/list-images";
 import { ProductImageModal } from "@/components/products-components/product-image-modal";
 import { FaEdit } from "react-icons/fa";
-import { SearchInput } from "@/components/form/search";
-import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { PresetTheme } from "@/services/enums";
 import { transformFields } from "@/utils/functions";
 import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
 import { ContactAddModal } from "@/components/contacts-components/contact-add-modal";
+import { SearchInputProduct } from "@/components/form/search-product";
 
 
   export default function GetProduct() {
@@ -36,30 +34,10 @@ import { ContactAddModal } from "@/components/contacts-components/contact-add-mo
     const [isSending, setIsSending] = useState(false);
     const [isShowLinkedModal, setIsShowLinkedModal] = useState(false);
     const [isShowImagesModal, setIsShowImagesModal] = useState(false);
-    const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
-    const [products, setProducts] = useState([]);
     const [productSelected, setProductSelected] = useState(null);
     const [showModalCategories, setShowModalCategories] = useState(false);
     const [showModalProvider, setShowModalProvider] = useState(false);
     
-    const loadData = async () => {
-      try {
-        const response = await getData(`products?sort=description${searchTerm}`);
-        setProducts(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-  };
-    
-
-  useEffect(() => {
-      if (searchTerm) {
-          (async () => { await loadData() })();
-      }
-    // eslint-disable-next-line
-  }, [searchTerm]);
-  
-  
     const { register, handleSubmit, setValue } = useForm();
   
     useEffect(() => {
@@ -154,22 +132,9 @@ import { ContactAddModal } from "@/components/contacts-components/contact-add-mo
       }
     };
 
-  const handleNewProduct = () => {
-    setProductSelected(null)
-    setProducts([])
+  const handleProductSelected = (product: any) => {
+    setProductSelected(product.id)
   }
-
-  const listItems = products?.map((product: any):any => (
-    <div key={product.id} onClick={()=>setProductSelected(product.id)}>
-    <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
-    {product.cod} | {product.description}
-        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
-    </li>
-</div>
-  ))
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
@@ -353,19 +318,14 @@ import { ContactAddModal } from "@/components/contacts-components/contact-add-mo
           { isShowImagesModal && <ProductImageModal product={selectedProduct?.data} onClose={()=>setIsShowImagesModal(false)} />}
 
             <div className="mt-4">
-              <Button text='Nueva busqueda' isFull type="submit" preset={Preset.cancel} onClick={()=>handleNewProduct()} />
+              <Button text='Nueva busqueda' isFull type="submit" preset={Preset.cancel} onClick={()=>setProductSelected(null)} />
             </div>
           </div>
         </div>
         </> :
           <div className="col-span-3 m-4">
             <ViewTitle text="EDITAR PRODUCTO"  />
-            <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Producto" />
-            <div className="w-full bg-white rounded-lg shadow-lg lg:w-2/3 mt-4">
-              <ul className="divide-y-2 divide-gray-400">
-              { listItems }
-              </ul>
-            </div>
+            <SearchInputProduct recordSelected={handleProductSelected} placeholder="Buscar Producto" url="search/products?sort=description&perPage=7" />
           </div>
             }
         <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} />

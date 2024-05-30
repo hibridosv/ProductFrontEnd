@@ -5,10 +5,7 @@ import { useForm } from "react-hook-form";
 import { postData, getData } from "@/services/resources";
 import { Button, Preset } from "@/components/button/button";
 import { style } from "@/theme";
-import { useSearchTerm } from "@/hooks/useSearchTerm";
 import toast, { Toaster } from 'react-hot-toast';
-
-import { SearchIcon } from "@/theme/svg";
 import { Product } from "@/services/products";
 import { Contacts } from "@/services/Contacts";
 import { ProductRegisterTable } from "@/components/products-components/product-register-table";
@@ -17,6 +14,7 @@ import { ProductRegisterPrincipalTable } from "@/components/products-components/
 import { documentType, loadData } from "@/utils/functions";
 import { ToggleSwitch } from "flowbite-react";
 import { ContactAddModal } from "@/components/contacts-components/contact-add-modal";
+import { SearchInputProduct } from "@/components/form/search-product";
 
 export default function ProductAdd() {
   const [lastProductsPrincipal, setLastProductsPrincipal] = useState<any>({});
@@ -26,7 +24,6 @@ export default function ProductAdd() {
   const [isTaxesActive, setIsTaxesActive] = useState(false);
   const [isBillsActive, setIsBillsActive] = useState(false);
   const [isAccountActive, setIsAccountActive] = useState(false);
-  const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
   const [products, setProducts] = useState([]);
   const [productPrincipal, setProductPrincipal] = useState([]) as any;
   const [productSelected, setProductSelected] = useState<Product>({} as Product);
@@ -138,24 +135,6 @@ const loadLastRegistersPrincipalOpen = async () => {
 
 
 
-const loadProductsSearch = async () => {
-  try {
-    const response = await getData(`sales/get-products?sort=description${searchTerm}`);
-    setProducts(response.data);
-  } catch (error) {
-    console.error(error);
-  } 
-};
-
-useEffect(() => {
-  if (searchTerm) {
-      (async () => { await loadProductsSearch() })();
-  } else {
-    setProducts([])
-  }
-// eslint-disable-next-line
-}, [searchTerm]);
-
 
 useEffect(() => {
       (async () => { 
@@ -174,15 +153,11 @@ useEffect(() => {
 // eslint-disable-next-line
 }, [showModalProvider]);
 
-useEffect(() => {
-  handleSearchTerm(watch('search'))
-// eslint-disable-next-line
-}, [watch('search')]);
 
 
-  const handleClickOnProduct = async (productId: string) =>{
+  const handleClickOnProduct = async (product: any) =>{
     try {
-      const response = await getData(`products/${productId}`);
+      const response = await getData(`products/${product?.id}`);
       if (!response.message) {
         setProductSelected(response.data)
         setProducts([]);
@@ -241,18 +216,6 @@ useEffect(() => {
   }
   
  
-  const listItems = products?.map((product: any):any => (
-    <div key={product.id} onClick={()=>handleClickOnProduct(product.id)}>
-        <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
-        {product.cod} | {product.description}
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-        </li>
-    </div>
-  ))
-
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
@@ -465,29 +428,11 @@ useEffect(() => {
                 </div>
               </div>
 
+              <div className="my-4">
+                <SearchInputProduct recordSelected={handleClickOnProduct} placeholder="Buscar Producto" url="sales/get-products?sort=description" />
+              </div>
               <div className="flex flex-wrap -mx-3 mb-6">
 
-                <div className="w-full m-2">
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                          { SearchIcon }
-                        </div>
-                        <input
-                          type="search"
-                          id="search"
-                          className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                          placeholder="Buscar Producto"
-                          {...register("search")}
-                        />
-                    </div>
-
-
-                </div>
-                <div className="w-full bg-white rounded-lg shadow-lg lg:w-2/3 mt-4">
-                  <ul className="divide-y-2 divide-gray-400">
-                  { listItems }
-                  </ul>
-                </div>
 
               { productSelected?.id && (<>
                 <div className='w-full font-bold text-lg text-teal-900 border-b-2 mb-2'>{productSelected?.description}</div>
