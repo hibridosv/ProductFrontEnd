@@ -98,12 +98,13 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   }
 
   const showProducts = (products: any) =>{
-   return (<table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+   return (<div className="w-8/10">
+    <table className="text-sm text-left text-gray-500 dark:text-gray-400">
     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
         <th scope="col" className="py-2 px-2 border">Cod</th>
         <th scope="col" className="py-2 px-2 border">Producto</th>
-        <th scope="col" className="py-2 px-2 border">Cantidad</th>
+        <th scope="col" className="py-2 px-2 border">Cant</th>
         <th scope="col" className="py-2 px-2 border">Total</th>
       </tr>
     </thead>
@@ -117,7 +118,8 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
       </tr>
     ))
     }</tbody>
-  </table>)
+  </table>
+  </div>)
   }
 
   return (
@@ -129,7 +131,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
 
           {orders.map((order: any, index: any) => (
             <div key={index} className="flex justify-around py-1 border-x-2 border-b-2 border-slate-900 text-center uppercase bg-teal-200 font-medium">
-                <Tooltip animation="duration-300" content={showProducts(order.invoiceproducts)} placement="right-end" style="light" >
+                <Tooltip animation="duration-300" content={showProducts(order.invoiceproducts)} style="light" >
                 <span  onClick={() => onClick(order.id)} className="ml-1 clickeable">{order?.client?.name ? `Cliente: ${order?.client?.name}` : `Usuario: ${order.employee.name}`}</span>
                 </Tooltip>
                 <span className="ml-2">
