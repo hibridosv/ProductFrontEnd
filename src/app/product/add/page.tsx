@@ -401,9 +401,8 @@ useEffect(() => {
           ) : (
 
 
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-
-              <div className=" font-semibold ">
+            <div>
+            <div className=" font-semibold ">
                 <div className="flex justify-between border-b-2">
                   <div>Numero de documento</div>
                   <div>{ productPrincipal.document_number }</div>
@@ -431,6 +430,8 @@ useEffect(() => {
               <div className="my-4">
                 <SearchInputProduct recordSelected={handleClickOnProduct} placeholder="Buscar Producto" url="sales/get-products?sort=description" />
               </div>
+              
+              <form onSubmit={handleSubmit(onSubmit)} className="w-full">
               <div className="flex flex-wrap -mx-3 mb-6">
 
 
@@ -490,6 +491,7 @@ useEffect(() => {
                   <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
               </div>
             </form>
+            </div>
           ) }
           </div>
          </div>
