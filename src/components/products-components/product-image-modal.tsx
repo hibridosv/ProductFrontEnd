@@ -14,6 +14,8 @@ export interface ProductImageModalProps {
 export function ProductImageModal(props: ProductImageModalProps) {
   const { product, onClose, isShow } = props;
 
+  if (!product) return <></>
+
   return (
     <Modal show={isShow} position="center" onClose={onClose}>
       <Modal.Header>Imagenes del producto</Modal.Header>

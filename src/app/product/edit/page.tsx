@@ -314,8 +314,6 @@ import { SearchInputProduct } from "@/components/form/search-product";
           </div>
           <ListImagesOfProducts productId={selectedProduct?.data?.id} state={isShowImagesModal} />
 
-          <ProductLinkedModal isShow={isShowLinkedModal} product={selectedProduct?.data} onClose={()=>setIsShowLinkedModal(false)} />
-          { isShowImagesModal && <ProductImageModal product={selectedProduct?.data} onClose={()=>setIsShowImagesModal(false)} />}
 
             <div className="mt-4">
               <Button text='Nueva busqueda' isFull type="submit" preset={Preset.cancel} onClick={()=>setProductSelected(null)} />
@@ -328,6 +326,8 @@ import { SearchInputProduct } from "@/components/form/search-product";
             <SearchInputProduct recordSelected={handleProductSelected} placeholder="Buscar Producto" url="search/products?sort=description&perPage=7" />
           </div>
             }
+        <ProductLinkedModal isShow={isShowLinkedModal} product={selectedProduct?.data} onClose={()=>setIsShowLinkedModal(false)} />
+        <ProductImageModal isShow={isShowImagesModal} product={selectedProduct?.data} onClose={()=>setIsShowImagesModal(false)} />
         <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} />
         <ContactAddModal isShow={showModalProvider} onClose={()=>setShowModalProvider(false)} />
       <Toaster position="top-right" reverseOrder={false} />
