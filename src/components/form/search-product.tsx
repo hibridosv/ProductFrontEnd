@@ -54,6 +54,7 @@ const handleNewProduct = () => {
   if (inputSearch.current) {
     inputSearch.current.value = "";
     inputSearch.current.focus();
+    debounced.cancel()
   }
 }
 
@@ -65,6 +66,7 @@ const handleSelectedProduct = (product: any) => {
   if (inputSearch.current) {
     inputSearch.current.value = "";
     inputSearch.current.focus();
+    debounced.cancel()
   }
 }
 
