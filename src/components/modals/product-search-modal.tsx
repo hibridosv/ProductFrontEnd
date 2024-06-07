@@ -34,8 +34,12 @@ export function ProductSearchModal(props: ProductSearchModalProps) {
 // }
   
 const getProduct = (product: any)=> {
-  setProductData(product)
-  setSelectedProdcut({})
+  if (product?.id) {
+    setProductData(product)
+    setSelectedProdcut({})
+  } else {
+    resetSearch()
+  }
 }
 
 const resetSearch =()=>{

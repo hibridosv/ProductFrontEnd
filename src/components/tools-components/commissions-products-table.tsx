@@ -100,7 +100,7 @@ useEffect(() => { // manda el dato de cuantas ordenes hay marcadas
       setIsSending(false);
     }
   }
-console.log("ordersCommission: ", ordersCommission)
+
   const listItems = ordersCommission && ordersCommission?.data?.map((record: any, key: any) => (
     <tr key={key} className={`border-b ${record?.credit && record?.credit?.status == 1 && "bg-red-200"}`}>
       <td className="py-2 px-6 truncate">{ formatDate(record?.charged_at) } { formatHourAsHM(record?.charged_at) }</td>

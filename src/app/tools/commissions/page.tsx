@@ -91,7 +91,7 @@ export default function Page() {
           if (!active.message) {
             setInitialCommission(active)
           } else {
-            const response = await getData(`tools/commissions${contactSelected ? `?filterWhere[referred_id]==${contactSelected?.id}&` : `?`}included=employee_deleted,referred,linked.product`);
+            const response = await getData(`tools/commissions${contactSelected ? `?filterWhere[referred_id]==${contactSelected?.id}&` : `?`}included=employee_deleted,referred,linked.product.order&sort=-created_at`);
             if (!response.message) {
               setCommissions(response);
               toast.success("Datos obtenidos correctamente");
