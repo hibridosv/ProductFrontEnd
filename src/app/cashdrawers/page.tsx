@@ -25,15 +25,22 @@ export default function CashDrawerPage() {
 
   useEffect(() => {
     if (!cashDrawerOpenModal && !cashDrawerCloseModal) {
-      try {
-        setIsLoading(true);
-        (async () => setCashDrawers(await loadData(`cashdrawers?filter[status]=!0&included=employee`)))();
-        (async () => setCutsUser(await loadData(`cut/all?perPage=8${currentPage}`)))();
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
+      
+      const getDataInitial = async()=>{
+        try {
+            setIsLoading(true);
+            const cashdraersData =  await loadData(`cashdrawers?filter[status]=!0&included=employee`)
+            const usersData =  await await loadData(`cut/all?perPage=8${currentPage}`)
+            setCashDrawers(cashdraersData)
+            setCutsUser(usersData)
+          } catch (error) {
+            console.error(error);
+            toast.error("Ha ocurrido un error!");
+          } finally {
+            setIsLoading(false);
+          }
       }
+      getDataInitial()
     }
   }, [cashDrawerOpenModal, cashDrawerCloseModal, currentPage]);
 

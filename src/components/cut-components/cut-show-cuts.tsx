@@ -34,10 +34,10 @@ const isDeleteCut = (record: string) => {
     setShowCutDetailsModal(true);
   }
 
-
+console.log("record ", records)
   const listItems = records?.data &&  records.data.map((record: any, key: any) => (
     <tr key={record.id} className={`border-2 ${record.status == 0 && "bg-red-300"}`} >
-      <td className="py-2 px-6 truncate clickeable" onClick={()=>isShowDetails(record)}>{ formatDateAsDMY(record.close) } | { formatTime(record.close)}</td>
+      <td className="py-2 px-6 truncate clickeable" onClick={()=>isShowDetails(record)}>{ record?.close && formatDateAsDMY(record.close) }  { record?.close ? formatTime(record.close) : "Sin corte"}</td>
       <td className="py-2 px-6 clickeable" onClick={()=>isShowDetails(record)}>{ numberToMoney(record?.final_cash ? record?.final_cash : 0) }</td>
       <td className={`py-2 px-6 font-bold clickeable ${record?.cash_diference > 0 ? 'text-blue-600' : record?.cash_diference < 0 ? 'text-red-600' : 'text-black'}`} onClick={()=>isShowDetails(record)}>{ numberToMoney(record?.cash_diference ? record?.cash_diference : 0) }</td>
       <td className="py-2 px-6"><Button preset={firstRecord.id == record?.id ? Preset.smallClose : Preset.smallCloseDisable} 
