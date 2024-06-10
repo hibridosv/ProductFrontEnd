@@ -19,9 +19,16 @@ export function SalesButtons(props: SalesButtonsProps) {
   const {onClick, cashDrawer, config, invoice } = props
 
 
+  //const validateFields = ()=>{
+  //  if (invoice?.client_id && (invoice?.invoice_assigned?.type == 2 || invoice?.invoice_assigned?.type == 3)) {
+  //    return validateInvoiceFields(invoice?.client, invoice?.invoice_assigned?.type == 2 ? requiredFieldsFactura : requiredFieldsCCF) 
+  //  }
+  // }
+
+
   const validateFields = ()=>{
-    if (invoice?.client_id && (invoice?.invoice_assigned?.type == 2 || invoice?.invoice_assigned?.type == 3)) {
-      return validateInvoiceFields(invoice?.client, invoice?.invoice_assigned?.type == 2 ? requiredFieldsFactura : requiredFieldsCCF) 
+    if (invoice?.client_id && invoice?.invoice_assigned?.type == 3) {
+      return validateInvoiceFields(invoice?.client, requiredFieldsCCF) 
     }
   }
 
