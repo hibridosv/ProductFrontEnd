@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { OptionsClickOrder, PresetTheme, TypeOfPrice } from "@/services/enums";
 import { Order } from "@/services/order";
-import { formatDuiWithAll, getConfigStatus, setPriceName, setPriceOptions, sumarCantidad, sumarTotales } from "@/utils/functions";
+import { formatDuiWithAll, getConfigStatus, setPriceName, setPriceOptions, sumarCantidad, sumarSubtotal, sumarTotales } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
 import { Alert } from "../alert/alert";
 import { ShowTotal } from "./show-total";
@@ -43,7 +43,7 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
   if (!records?.invoiceproducts) return <></>
   if (records?.invoiceproducts.length == 0) return <></>
 
-  const total = sumarCantidad(records?.invoiceproducts);
+  const subtotal = sumarSubtotal(records?.invoiceproducts);
   return (<>
     <ShowTotal isSending={isSending} records={records} />
     <div className='flex justify-between border-2 border-sky-500 rounded mb-2'>
@@ -80,7 +80,7 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
     </div>
 
 
-        { (records?.client?.taxpayer_type == 2 && total >= 100) && <Alert
+        { (records?.client?.taxpayer_type == 2 && subtotal >= 100) && <Alert
           theme={PresetTheme.info}
           info="Información"
           text="Factura con retención del 1%"
