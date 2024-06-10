@@ -67,7 +67,7 @@ useEffect(() => { // manda el dato de cuantas ordenes hay marcadas
   const getTotalCommission = (datos: any): any => {
     let totalSuma = 0;
     datos?.forEach((elemento: any) => {
-        totalSuma =  getTotalPercentage(elemento?.total, elemento?.commission) + totalSuma;
+        totalSuma =  getTotalPercentage(elemento?.subtotal, elemento?.commission) + totalSuma;
     });
     return totalSuma;
   }
