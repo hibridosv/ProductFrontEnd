@@ -59,7 +59,7 @@ export function SalesQuickTable(props: SalesQuickProps) {
   const commissionTotal = (records: any)=>{
     let commission = 0;
         records.forEach((element: any) => {
-          let comissionPercentage = getTotalPercentage(element?.total, element?.commission)
+          let comissionPercentage = getTotalPercentage(element?.subtotal, element?.commission)
         commission = commission + comissionPercentage;
       });
     return commission;
