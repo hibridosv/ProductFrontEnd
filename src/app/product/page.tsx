@@ -90,7 +90,7 @@ export default function ViewProducts() {
                 statics={statics}
                  />
 
-              <LinksList links={links} />
+              <LinksList links={links} separator="?" />
             </div>
       <Toaster position="top-right" reverseOrder={false} />
       </div>

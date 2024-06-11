@@ -10,10 +10,11 @@ export interface LinkUrls {
 export interface LinksListProps {
   links?: LinkUrls[];
   text?: string;
+  separator?: string;
 }
 
 export function LinksList(props: LinksListProps) {
-  const {  links, text = "DESCARGAS EXCEL" } = props;
+  const {  links, text = "DESCARGAS EXCEL", separator = '&' } = props;
 
   if (links?.length === 0) return <></>
   return (
@@ -21,7 +22,7 @@ export function LinksList(props: LinksListProps) {
         <div className="uppercase flex justify-center font-bold">{text}</div>
             {links && links.map((item: LinkUrls, index: any) => {
               if (item.name && item.link) {
-                return (<a key={index} target="_blank" href={`${item.link}&code=${md5(dateToNumberValidate())}`}>
+                return (<a key={index} target="_blank" href={`${item.link}${separator}code=${md5(dateToNumberValidate())}`}>
                     <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
                         {item.name}
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
