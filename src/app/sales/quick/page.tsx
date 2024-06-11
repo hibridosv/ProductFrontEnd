@@ -21,6 +21,7 @@ import { ConfigContext } from "@/contexts/config-context";
 import { SalesCommissionModal } from "@/components/sales-components/sales-commission-modal";
 import { SalesProductViewModal } from "@/components/sales-components/sales-product-view-modal";
 import { SalesCommentModal } from "@/components/sales-components/sales-comment";
+import { SalesPriceModal } from "@/components/sales-components/sales-price-modal";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -30,6 +31,7 @@ export default function ViewSales() {
   const [changeOrder, setChangeOrder] = useState(false);
   const [isPayModal, setIsPayModal] = useState(false);
   const [isQuantityModal, setIsQuantityModal] = useState(false);
+  const [isPriceModal, setIsPriceModal] = useState(false);
   const [isCommissionModal, setIsCommissionModal] = useState(false);
   const [isProductViewModal, setIsProductViewModal] = useState(false);
   const [isDiscountProductModal, setIsDiscountProductModal] = useState(false);
@@ -78,6 +80,7 @@ export default function ViewSales() {
       && !isSalesCommentModal 
       && !isDiscountProductModal
       && !isSalesOtherModal
+      && !isPriceModal
       && !isSalesSelectInvoiceType) {      
         (async () => await selectLastOrder())()
       }
@@ -88,6 +91,7 @@ export default function ViewSales() {
     isSalesCommentModal, 
     isDiscountProductModal, 
     isSalesOtherModal, 
+    isPriceModal, 
     isSalesSelectInvoiceType]);
 
 
@@ -247,6 +251,8 @@ export default function ViewSales() {
         break;
       case OptionsClickSales.productView: (() => { setProductSelected(product); setIsProductViewModal(true); })();
         break;
+      case OptionsClickSales.price: (() => { setProductSelected(product); setIsPriceModal(true); })();
+        break;
     }
   };
 
@@ -305,6 +311,7 @@ export default function ViewSales() {
         </div>
       </div>
       <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} priceType={typeOfPrice} />
+      <SalesPriceModal isShow={isPriceModal} order={order} product={productSelected} onClose={()=>setIsPriceModal(false)} />
       <SalesDiscountProductModal isShow={isDiscountProductModal} discountType={isDiscountType} order={productsOfInvoice} product={productSelected} onClose={()=>closeModalDiscount()} />
       <SalesContactSearchModal handleChangeOrder={handleChangeOrder}  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={productsOfInvoice} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />
       <SalesOthers isShow={isSalesOtherModal} order={productsOfInvoice} onClose={()=>setIsSalesOtherModal(false)} />

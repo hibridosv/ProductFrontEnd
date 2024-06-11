@@ -19,6 +19,7 @@ export interface Product {
 	cod:              string;
 	description:      string;
 	quantity:         number;
+	unit_price?:         number;
 	category:         Category;
 	provider:         Provider;
 	brand?:            Brand;
