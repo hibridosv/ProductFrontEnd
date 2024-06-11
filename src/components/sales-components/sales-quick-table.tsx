@@ -28,7 +28,7 @@ export function SalesQuickTable(props: SalesQuickProps) {
   if (records.length == 0) return <NothingHere text="Agregue un producto" width="164" height="98" />;
 
   const listItems = records.map((record: any) => (
-    <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
+    <tr key={record.id} className="bg-white border-b text-slate-950" >
        { record.cod == 9999999999 ?
       <td className="py-1 px-2"> { record.quantity } </td> :
       <td className="py-1 px-2 cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.quantity)}> { record.quantity } </td> }
