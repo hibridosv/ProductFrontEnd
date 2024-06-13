@@ -64,10 +64,11 @@ export function CommissionViewModal(props: CommissionViewModalProps) {
 
     // Agrupar productos por ticket_order_id y calcular comision % promedio y total
     const groupedProducts = products?.reduce((acc: any, record: any) => {
-        const { ticket_order_id, quantity, commission, total, order, charged_at } = record.product;
+        const { ticket_order_id, quantity, commission, total, subtotal, order, charged_at } = record.product;
         if (!acc[ticket_order_id]) {
             acc[ticket_order_id] = {
                 quantity: 0,
+                subtotal: 0,
                 total: 0,
                 commission: 0,
                 commissionTotal: 0,
@@ -77,9 +78,10 @@ export function CommissionViewModal(props: CommissionViewModalProps) {
             };
         }
         acc[ticket_order_id].quantity += quantity;
+        acc[ticket_order_id].subtotal += subtotal;
         acc[ticket_order_id].total += total;
         acc[ticket_order_id].commission += commission * quantity;
-        acc[ticket_order_id].commissionTotal += getTotalPercentage(total, commission);
+        acc[ticket_order_id].commissionTotal += getTotalPercentage(subtotal, commission);
         acc[ticket_order_id].items += quantity;
         acc[ticket_order_id].order = order.invoice;
         acc[ticket_order_id].charged_at = order.charged_at;

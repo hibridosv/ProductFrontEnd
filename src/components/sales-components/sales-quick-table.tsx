@@ -46,7 +46,7 @@ export function SalesQuickTable(props: SalesQuickProps) {
         { numberToMoney(record.discount ? record.discount : 0) }</td>
       }
       {config.includes("product-default-commission") &&
-      <td className="py-1 px-2 clickeable" onClick={()=> onClick(record, OptionsClickSales.commisssion)}>{ record.commission ? record.commission : 0 } % -  { numberToMoney(getTotalPercentage(record?.total, record?.commission)) }</td>
+      <td className="py-1 px-2 clickeable" onClick={()=> onClick(record, OptionsClickSales.commisssion)}>{ record.commission ? record.commission : 0 } % -  { numberToMoney(getTotalPercentage(record?.subtotal, record?.commission)) }</td>
       }
       <td className="py-1 px-2 truncate">{ numberToMoney(record.total ? record.total : 0) }</td>
       <td className="py-1 px-2">
