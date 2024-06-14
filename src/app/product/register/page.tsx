@@ -67,7 +67,7 @@ export default function AddProduct() {
 
   useEffect(() => {
     (async () => {
-        const products = await getData("products?sort=description&perPage=10");
+        const products = await getData("products?sort=-created_at&perPage=10");
         setValue("taxes", 13);
         setLastProducts(products);
       })();
@@ -87,7 +87,7 @@ export default function AddProduct() {
       setIsSending(true);
       const response = await postData(`products`, "POST", data);
       if (!response.message) {
-        let newProducts = await getData("products?sort=description&perPage=10");
+        let newProducts = await getData("products?sort=-created_at&perPage=10");
         toast.success("Producto agregado correctamente");
         setLastProducts(newProducts);
         reset();
@@ -119,9 +119,9 @@ export default function AddProduct() {
   const getField = (field: any): any => {
     // const styled = field.style === "full" ? "w-full px-3 mb-2" : "w-full md:w-1/2 px-3 mb-2";
     let hiddenFields =
-      watch("product_type") == 1
-        ? []
-        : [
+    watch("product_type") == 1
+    ? []
+    : [
             "category_id",
             "brand_id",
             "provider_id",
@@ -130,13 +130,13 @@ export default function AddProduct() {
             "quantity_unit_id",
             "measure",
             "default_discount",
-            "default_commission",
+            // "default_commission",
           ];
     if (!brandStatus) hiddenFields.push("brand_id");
     if (!measuresStatus) hiddenFields.push("measure");
     if (!discountStatus) hiddenFields.push("default_discount");
     if (!commissionStatus) hiddenFields.push("default_commission");
-
+    
     if (!hiddenFields.includes(field.id)) {
       return (
         <div key={field.id} className={fieldWidth(field.style)}>

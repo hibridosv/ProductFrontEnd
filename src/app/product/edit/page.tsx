@@ -247,7 +247,7 @@ import { SearchInputProduct } from "@/components/form/search-product";
                 <input type="number" step="any" id="default_discount" {...register("default_discount")} className={style.input} />
               </div>)}
 
-              { (selectedProduct?.data?.product_type == 1 && commissionStatus) && (<div className="w-full md:w-1/3 px-3 mb-4">
+              { (commissionStatus) && (<div className="w-full md:w-1/3 px-3 mb-4">
                 <label htmlFor="default_commission" className={style.inputLabel}>Comisión por Defecto %</label>
                 <input type="number" step="any" id="default_commission" {...register("default_commission")} className={style.input} />
               </div>)}
