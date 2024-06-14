@@ -204,7 +204,7 @@ import { SearchInputProduct } from "@/components/form/search-product";
               </div>
 
               <div className="w-full md:w-1/3 px-3 mb-2">
-                <label htmlFor="provider_id" className={style.inputLabel} onClick={()=>setShowModalProvider(true)}>Proveedor (Click para agregar)</label>
+                <label htmlFor="provider_id" className={`${style.inputLabel} clickeable`} onClick={()=>setShowModalProvider(true)}>Proveedor (Click para agregar)</label>
                 <select
                   id="provider_id"
                   {...register("provider_id")}
