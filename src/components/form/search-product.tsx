@@ -19,7 +19,11 @@ export function SearchInputProduct(props: SearchInputProductProps) {
 
 
   const debounced = useDebouncedCallback(
-    (value) => { handleSearchTerm(value); }, 500,
+    (value) => { 
+      if (value.length > 2) {
+        handleSearchTerm(value); 
+      }
+    }, 500,
     // The maximum time func is allowed to be delayed before it's invoked:
     { maxWait: 1000 }
   );
@@ -37,7 +41,7 @@ export function SearchInputProduct(props: SearchInputProductProps) {
 };
 
 useEffect(() => {
-    if (searchTerm && searchTerm.length > 3) {
+    if (searchTerm) {
         (async () => { await loadData() })();
     }  
     if (searchTerm == "") {
@@ -77,15 +81,22 @@ const handleSelectedProduct = (product: any) => {
 const listItems = products?.map((product: any):any => (
   <li key={product.id} onClick={()=>handleSelectedProduct(product)} className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
   <div>
-    {product.cod} | {product.description} 
+    {product.cod} | {product.description}
     {product?.prices &&
     <span className="text-xs font-normal border border-slate-500 ml-3 shadow-md rounded-md px-1">{ numberToMoney(product?.prices[0]?.price ? product?.prices[0]?.price : 0) }</span>
     }
+
   </div>
+  <span className="flex justify-end">
+        {product?.quantity &&
+          <span className="text-xs font-normal border border-slate-500 ml-3 shadow-md rounded-md px-1 justify-end max-h-5 h-5">{ product?.quantity && product?.quantity }</span>
+          }
       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
           stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
       </svg>
+  </span>
+      
   </li>
 ))
 
