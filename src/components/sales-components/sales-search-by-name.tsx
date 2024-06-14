@@ -23,7 +23,7 @@ const handleProductSelected = (product: Product) => {
 return (
         <div className="m-2 flex justify-between">
             <div className="w-full bg-white rounded-lg shadow-lg">
-            <SearchInputProduct recordSelected={handleProductSelected} placeholder="Buscar Producto" url="search/products?sort=description&perPage=10" />
+            <SearchInputProduct recordSelected={handleProductSelected} placeholder="Buscar Producto" url="search/products?sort=description&perPage=50" />
             </div>
         {
           showButton && <div className="mx-2 grid content-center cursor-pointer" onClick={()=>setTypeOfSearch(!typeOfSearch)}>{  typeOfSearch ? NameIcon : SearchIcon  }</div>
