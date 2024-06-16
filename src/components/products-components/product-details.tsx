@@ -37,7 +37,7 @@ useEffect(() => {
             setIsLoading(false)
         }
       }
-      if (product && isShow) {
+      if (product && isShow && product?.product_type === 1) {
         (async () => {
           await loadData()
         })();
