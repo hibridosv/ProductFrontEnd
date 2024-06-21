@@ -48,7 +48,7 @@ export default function KardexPage() {
       const response = await getData(`sales/${iden}`);
       if (!response.message) {
         setRecords(response)
-        toast.success("Petición realizada correctamente");
+        // toast.success("Petición realizada correctamente");
       } else {
         toast.error("Faltan algunos datos importantes!");
       }
