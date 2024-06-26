@@ -27,6 +27,7 @@ export default function Page() {
       data.invoiceId = watch("invoiceId")
       if (data.invoiceId == 2) data.invoiceId = '01';
       if (data.invoiceId == 3) data.invoiceId = '03';
+      if (data.invoiceId == 4) data.invoiceId = '14';
         try {
           setIsSending(true);
           const response = await postData(`electronic/documents`, "POST", data);

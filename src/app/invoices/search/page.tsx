@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Alert, DeleteModal, Loading, ViewTitle } from "@/components";
 import { getData, postData } from "@/services/resources";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
@@ -8,9 +8,10 @@ import { Product } from "@/services/products";
 import toast, { Toaster } from 'react-hot-toast';
 import { Button, Preset } from "@/components/button/button";
 import { formatDateAsDMY } from "@/utils/date-formats";
-import {  getPaymentTypeName, getRandomInt, numberToMoney } from "@/utils/functions";
+import {  getConfigStatus, getPaymentTypeName, getRandomInt, numberToMoney } from "@/utils/functions";
 import { FaPrint } from "react-icons/fa";
 import { RiDeleteBin2Line } from "react-icons/ri";
+import { ConfigContext } from "@/contexts/config-context";
 
 
 export default function KardexPage() {
@@ -21,7 +22,13 @@ export default function KardexPage() {
     const [isSending, setIsSending] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [randNumber, setRandNumber] = useState(0);
+    const [showCodeStatus, setShowCodeStatus] = useState<boolean>(false);
+    const { config } = useContext(ConfigContext);
   
+    useEffect(() => {
+      setShowCodeStatus(getConfigStatus("sales-show-code", config));
+      // eslint-disable-next-line
+    }, [config]);
 
     const loadData = async () => {
         try {
@@ -115,10 +122,12 @@ export default function KardexPage() {
         </div>
     ))
 
-
     const listProducts = records?.data?.products.map((record: any, key: any) => (
       <tr key={record.id} className="border-b">
         <td className="py-2 px-6 truncate">{ record?.quantity} </td>
+        { showCodeStatus &&
+        <td className="py-2 px-6 truncate">{ record?.cod} </td>
+        }
         <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.product } </th>
         <td className="py-2 px-6">{ numberToMoney(record?.unit_price ? record?.unit_price : 0) }</td>
         <td className="py-2 px-6">{ numberToMoney(record?.subtotal ? record?.subtotal : 0) }</td>
@@ -164,6 +173,9 @@ export default function KardexPage() {
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                       <tr>
                         <th scope="col" className="py-3 px-4 border">Cant</th>
+                        { showCodeStatus &&
+                        <th scope="col" className="py-3 px-4 border">Codigo</th>
+                        }
                         <th scope="col" className="py-3 px-4 border">Producto</th>
                         <th scope="col" className="py-3 px-4 border">Precio</th>
                         <th scope="col" className="py-3 px-4 border">Subtotal</th>
