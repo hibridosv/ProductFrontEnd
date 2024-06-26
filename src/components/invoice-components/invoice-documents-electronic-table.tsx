@@ -30,6 +30,7 @@ const tipoDTE = (dte: string)=>{
     switch (dte) {
         case "01": return <span>Factura</span>;
         case "03": return <span>CCF</span>;
+        case "14": return <span>FSJ</span>;
     }
 }
 
