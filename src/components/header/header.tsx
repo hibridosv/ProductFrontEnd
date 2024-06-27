@@ -23,7 +23,7 @@ export function Header() {
       <div className="flex">
       <GiHamburgerMenu className='clickeable' color="white" onClick={() => toggleSidebar()} size={40} />
       </div>
-      <div className="text-white uppercase font-thin">
+      <div className="text-white text-sm md:text-sm uppercase font-thin md:font-normal">
       {systemInformation?.user?.name} | {systemInformation?.system?.name}
       </div>
 
