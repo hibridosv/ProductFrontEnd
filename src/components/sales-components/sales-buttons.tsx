@@ -1,6 +1,6 @@
 'use client';
 import { OptionsClickOrder, PresetTheme } from '@/services/enums';
-import { Button, Dropdown } from 'flowbite-react';
+import { Button, Dropdown, Tooltip } from 'flowbite-react';
 import { AiFillSave } from 'react-icons/ai';
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 import { GiCancel } from 'react-icons/gi';
@@ -34,6 +34,26 @@ export function SalesButtons(props: SalesButtonsProps) {
 
   let fieldsRequired = validateFields();
 
+  const showOptions = () =>{
+    return (<div className="w-8/10">
+              { config.includes("sales-discount") && 
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.discount)}> Agregar Descuento </Dropdown.Item>}
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.client)}> Asignar Cliente </Dropdown.Item>
+              { config.includes("sales-other-seller") && 
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.seller)}> Asignar Vendedor </Dropdown.Item>}
+              { config.includes("sales-referred") && 
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.referred)}> Asignar Referido </Dropdown.Item>}
+              { config.includes("sales-delivery-man") && 
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.delivery)}> Asignar Repartidor </Dropdown.Item>}
+              { config.includes("sales-other-sales") && 
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.special)}> Venta Especial </Dropdown.Item>}
+              { config.includes("sales-comment") && 
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.comment)}> Agregar comentario </Dropdown.Item>}
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.documentType)}> Tipo de Documento </Dropdown.Item>
+              <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.quotes)}> Guardar como Cotización </Dropdown.Item>
+   </div>)
+   }
+
   return (<div>
           { !cashDrawer && <Alert
           theme={PresetTheme.danger}
@@ -56,11 +76,12 @@ export function SalesButtons(props: SalesButtonsProps) {
         }
            <div>
             <Button.Group>
-            <Dropdown
-            dismissOnClick={true}
-            label={<div className='button-left-grey'><IoMdOptions className='mr-1' /> Opciones</div>}
-            inline={true}
-            arrowIcon={false}>
+            {/* <Dropdown
+                      dismissOnClick={true}
+                      label={<div className='button-left-grey'><IoMdOptions className='mr-1' /> Opciones</div>}
+                      inline={true}
+                      floatingArrow={false}
+                      arrowIcon={false}>
               { config.includes("sales-discount") && 
               <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.discount)}> Agregar Descuento </Dropdown.Item>}
               <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.client)}> Asignar Cliente </Dropdown.Item>
@@ -76,7 +97,11 @@ export function SalesButtons(props: SalesButtonsProps) {
               <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.comment)}> Agregar comentario </Dropdown.Item>}
               <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.documentType)}> Tipo de Documento </Dropdown.Item>
               <Dropdown.Item onClick={()=>onClick(OptionsClickOrder.quotes)}> Guardar como Cotización </Dropdown.Item>
-            </Dropdown>
+            </Dropdown> */}
+            <Tooltip animation="duration-300" content={showOptions()} style="light" >
+                <div className='button-left-grey clickeable'><IoMdOptions className='mr-1' /> Opciones</div>
+            </Tooltip>
+            
             <Button color="blue" gradientMonochrome="info" onClick={()=>onClick(2)}>
               <AiFillSave className='mr-1' /> Guardar </Button>
             <Button color="green" gradientMonochrome="success" 
