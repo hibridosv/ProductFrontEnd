@@ -9,6 +9,7 @@ import { DateTime } from 'luxon';
 import { HistoriesListTable } from "@/components/histories-components/histories-list-table";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
 import { LinksList } from "@/components/common/links-list";
+import { HistoriesPaymentTable } from "@/components/histories-components/histories-payment-table";
 
 
 export default function Page() {
@@ -28,11 +29,11 @@ export default function Page() {
     const handlegetSales = async (data: DateRangeValues) => {
         try {
           setIsSending(true);
-          const response = await postData(`histories/list`, "POST", data);
+          const response = await postData(`histories/payments`, "POST", data);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setSales(response);
-            if(response.data.length > 0) addLink(links, data, 'excel/list/');
+            if(response.data.length > 0) addLink(links, data, 'excel/payments/');
           } else {
             toast.error("Faltan algunos datos importantes!");
           }
@@ -49,7 +50,7 @@ export default function Page() {
         <div className="col-span-7 border-r md:border-sky-600">
         <ViewTitle text="LISTADO DE VENTAS" />
 
-        <HistoriesListTable records={sales} isLoading={isSending} />
+        <HistoriesPaymentTable records={sales} isLoading={isSending} />
 
         </div>
         <div className="col-span-3">
