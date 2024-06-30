@@ -11,6 +11,8 @@ import { getData } from "@/services/resources";
 import { Button, Preset } from "@/components/button/button";
 import { SearchInput } from "@/components/form/search";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
+import { Option, RadioButton } from "@/components/radio-button/radio-button";
+
 
 export default function CreditPayablePage() {
   const [isAddPaymentModal, setIsAddPaymentModal] = useState(false);
@@ -19,20 +21,26 @@ export default function CreditPayablePage() {
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const [creditsTotal, setCreditsTotal] = useState(0);
   const [creditsQuantity, setCreditsQuantity] = useState(0);
-
-
   const [ randNumber, setrandNumber] = useState(0) as any;
   const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number"], 500);
   const [contacts, setContacts] = useState([]) as any;
   const [contactSelected, setContactSelected] = useState(null) as any;
 
+  let optionsRadioButton: Option[] = [
+    { id: 2, name: "Todos" },
+    { id: 0, name: "Pagadas" },
+    { id: 1, name: "Pendientes" },
+  ];
+  const [selectedOption, setSelectedOption] = useState<Option | null>(optionsRadioButton[0] ? optionsRadioButton[0] : null);
+
+
 
   useEffect(() => {
       if (!isAddPaymentModal) {
-        (async () => setCredits(await loadData(`credits/receivable?${contactSelected && `filterWhere[client_id]==${contactSelected.id}&`}sort=-created_at&perPage=10${currentPage}`)))();
+        (async () => setCredits(await loadData(`credits/receivable?${selectedOption?.id != 2 ? `filterWhere[status]==${selectedOption?.id}&`:``}${contactSelected != null ? `filterWhere[client_id]==${contactSelected.id}&` : ``}sort=-created_at&perPage=10${currentPage}`)))();
       }
       
-  }, [isAddPaymentModal, currentPage, contactSelected]);
+  }, [isAddPaymentModal, currentPage, contactSelected, selectedOption]);
   
 useEffect(() => {
     if (credits.data && credits?.data.length > 0) {
@@ -118,6 +126,9 @@ useEffect(() => {
                   <span>{ contactSelected?.name }</span> 
                   <span className="text-right"><Button noText preset={Preset.smallClose} onClick={handleCancelContact} /></span>
               </div> }
+
+            <RadioButton options={optionsRadioButton} onSelectionChange={setSelectedOption} />
+
           </div>
         </div>
 

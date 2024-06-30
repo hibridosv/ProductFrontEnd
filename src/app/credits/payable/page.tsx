@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import { SearchInput } from "@/components/form/search";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { getData } from "@/services/resources";
+import { Option, RadioButton } from "@/components/radio-button/radio-button";
+
 
 export default function CreditPayablePage() {
   const [isAddPayableModal, setIsAddPayableModal] = useState(false);
@@ -26,11 +28,17 @@ export default function CreditPayablePage() {
   const [contacts, setContacts] = useState([]) as any;
   const [contactSelected, setContactSelected] = useState(null) as any;
 
+  let optionsRadioButton: Option[] = [
+    { id: 2, name: "Todos" },
+    { id: 0, name: "Pagadas" },
+    { id: 1, name: "Pendientes" },
+  ];
+  const [selectedOption, setSelectedOption] = useState<Option | null>(optionsRadioButton[0] ? optionsRadioButton[0] : null);
 
 
   useEffect(() => {
     if (!isAddPayableModal && !isAddPaymentModal) {
-      (async () => setCredits(await loadData(`credits/payable?${contactSelected && `filterWhere[provider_id]==${contactSelected.id}&`}sort=-created_at&perPage=10${currentPage}`)))();
+      (async () => setCredits(await loadData(`credits/payable?${selectedOption?.id != 2 ? `filterWhere[status]==${selectedOption?.id}&`:``}${contactSelected != null ? `filterWhere[client_id]==${contactSelected.id}&` : ``}sort=-created_at&perPage=10${currentPage}`)))();
     }
   }, [isAddPayableModal, isAddPaymentModal, currentPage, contactSelected]);
 
@@ -121,6 +129,10 @@ export default function CreditPayablePage() {
                   <span>{ contactSelected?.name }</span> 
                   <span className="text-right"><Button noText preset={Preset.smallClose} onClick={handleCancelContact} /></span>
               </div> }
+
+            <RadioButton options={optionsRadioButton} onSelectionChange={setSelectedOption} />
+
+
           </div>
           
         </div>
