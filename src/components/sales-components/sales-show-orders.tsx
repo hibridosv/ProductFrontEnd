@@ -125,7 +125,9 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   return (
     <div className="sm:mt-3">
       { orders.length === 0 ? 
-        <Image loader={imageLoader} src={systemInformation && systemInformation?.system?.logo} alt="Hibrido" width={500} height={500} /> : 
+        <div className="w-full flex justify-center">
+          <Image loader={imageLoader} src={systemInformation && systemInformation?.system?.logo} alt="Hibrido" width={500} height={500} />
+        </div> : 
           <div className="w-full rounded-lg border-2 shadow-md bg-black">
           <div className="text-center uppercase rounded-t-lg py-2 bg-teal-900 text-gray-200 font-medium">ORDENES PENDIENTES</div>
 
