@@ -35,9 +35,12 @@ export default function ViewProducts() {
     
 
   useEffect(() => {
-    (async () => {
-      await loadData();
-    })();
+    (async () => { 
+        if (searchTerm) {
+          handlePageNumber("&page=1")
+        }
+          await loadData();
+        })();   
     // eslint-disable-next-line
   }, [currentPage, searchTerm]);
 
