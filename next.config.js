@@ -4,7 +4,8 @@ const nextConfig = {
     env: {
         REACT_APP_NAME: 'Sistema de Facturación',
         // REACT_APP_API_URL: 'http://billing.test/',
-        REACT_APP_API_URL: 'https://api-connect.hibridosv.com/',
+        // REACT_APP_API_URL: 'https://api-connect.hibridosv.com/',
+        REACT_APP_API_URL: 'https://sistema-sv.pro/public/',
       },
       images: {
         remotePatterns: [
