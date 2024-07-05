@@ -212,6 +212,7 @@ export default function Page() {
           }
 
             {/* <ButtonDownload href={`/download/pdf/failure/`}><FaDownload size={24}/></ButtonDownload> */}
+            { commissions && 
             <div className='mt-4 border-t border-teal-700'>
                 <div className="uppercase flex justify-center font-bold">Descargar</div>
                 <ButtonDownload 
@@ -226,9 +227,9 @@ export default function Page() {
                                 </svg>
                             </li>
                 </ButtonDownload>
- 
-            </div>
 
+            </div>
+            }
         </div>
       <Toaster position="top-right" reverseOrder={false} />
     </div>
