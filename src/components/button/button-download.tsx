@@ -9,16 +9,17 @@ export interface ButtonDownloadProps {
   children: any;
   titleText?: string;
   autoclass?: boolean;
+  divider?: string;
 }
 
-export function ButtonDownload({ href, children, titleText = "Descargar", autoclass= true }: ButtonDownloadProps) {
+export function ButtonDownload({ href, children, titleText = "Descargar", autoclass= true, divider = "?" }: ButtonDownloadProps) {
   const remoteUrl = getUrlFromCookie();
 
   
   if (!href || !remoteUrl) return null;
 
   return (
-    <a target="_blank" href={encodeURI(`${remoteUrl}${href}?code=${md5(dateToNumberValidate())}`)} className={autoclass ? style.hrefDownload : "clickeable"} title={titleText}>
+    <a target="_blank" href={encodeURI(`${remoteUrl}${href}${divider}code=${md5(dateToNumberValidate())}`)} className={autoclass ? style.hrefDownload : "clickeable"} title={titleText}>
       {children}
     </a>
   );

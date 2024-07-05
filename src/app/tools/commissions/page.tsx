@@ -11,6 +11,8 @@ import { SearchInput } from "@/components/form/search";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { CommissionsProductsTable } from "@/components/tools-components/commissions-products-table";
 import { CreditsShowTotal } from "@/components/credits-components/credits-show-total";
+import { ButtonDownload } from "@/components/button/button-download";
+import { FaDownload } from "react-icons/fa";
 
 export default function Page() {
   const [commissions, setCommissions] = useState([]);
@@ -208,6 +210,25 @@ export default function Page() {
             <Button disabled={!contactSelected || isSending || initialCommission} isFull preset={Preset.primary} style="mx-2" text="AGREGAR" onClick={()=>createCommission()} />
           </div> 
           }
+
+            {/* <ButtonDownload href={`/download/pdf/failure/`}><FaDownload size={24}/></ButtonDownload> */}
+            <div className='mt-4 border-t border-teal-700'>
+                <div className="uppercase flex justify-center font-bold">Descargar</div>
+                <ButtonDownload 
+                  href={`/download/excel/commissions/report/${contactSelected ? `?filterWhere[referred_id]==${contactSelected?.id}&` : `?`}included=employee_deleted,referred,linked.product.order&sort=-created_at`}
+                  autoclass={false}
+                  divider="&">
+                            <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
+                                DESRCARGAR REPORTE EXCEL
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </li>
+                </ButtonDownload>
+ 
+            </div>
+
         </div>
       <Toaster position="top-right" reverseOrder={false} />
     </div>
