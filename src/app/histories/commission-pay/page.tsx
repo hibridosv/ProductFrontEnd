@@ -54,7 +54,7 @@ export default function Page() {
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setSales(response);
-            if(response.data.length > 0) addLink(links, data, 'excel/commissions/', [{name: "referredId", value: contactSelected?.id}]);
+            if(response.data.length > 0) addLink(links, data, 'excel/commissions/', contactSelected ? [{name: "referredId", value: contactSelected?.id}] : null);
           } else {
             toast.error("Faltan algunos datos importantes!");
           }
