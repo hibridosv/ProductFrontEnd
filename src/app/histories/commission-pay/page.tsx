@@ -47,10 +47,6 @@ export default function Page() {
 
 
     const handlegetSales = async (data: any) => {
-        if (!contactSelected) {
-            toast.error("Seleccione un contacto")
-            return
-        }
         data.referredId = contactSelected?.id
         try {
           setIsSending(true);

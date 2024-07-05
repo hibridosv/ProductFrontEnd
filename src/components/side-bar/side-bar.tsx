@@ -94,7 +94,7 @@ const handlePermission = (permission: string, redirect: string): string => {
           <MenuItem component={<Link className="text-sm" href={handlePermission("histories-cost", "/histories/cost")} />}>Listado de costos  </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("histories-shipping-notes", "/histories/shipping-notes")} />}>Notas de envío  </MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("histories-payments", "/histories/payments")} />}>Abonos recibidos  </MenuItem>
-          <MenuItem component={<Link className="text-sm" href="histories/commission-pay" />}>Comisiones pagadas  </MenuItem>
+          <MenuItem component={<Link className="text-sm" href={handlePermission("histories-commission-pay", "/histories/commission-pay")} />}>Comisiones pagadas  </MenuItem>
       
         </SubMenu>
 
