@@ -23,6 +23,7 @@ const status = (status: number)=>{
         case 2: return <span className="status-warning">FIRMADO</span>;
         case 3: return <span className="status-danger">RECHAZADO</span>;
         case 4: return <span className="status-success">PROCESADO</span>;
+        case 5: return <span className="status-danger">ANULADO</span>;
     }
 }
 
