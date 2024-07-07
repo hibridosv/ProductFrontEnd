@@ -38,7 +38,7 @@ export default function CreditPayablePage() {
 
   useEffect(() => {
     if (!isAddPayableModal && !isAddPaymentModal) {
-      (async () => setCredits(await loadData(`credits/payable?${selectedOption?.id != 2 ? `filterWhere[status]==${selectedOption?.id}&`:``}${contactSelected?.id ? `filterWhere[client_id]==${contactSelected.id}&` : ``}sort=-created_at&perPage=10${currentPage}`)))();
+      (async () => setCredits(await loadData(`credits/payable?${selectedOption?.id != 2 ? `filterWhere[status]==${selectedOption?.id}&`:``}${contactSelected?.id ? `filterWhere[provider_id]==${contactSelected.id}&` : ``}sort=-created_at&perPage=10${currentPage}`)))();
     }
   }, [isAddPayableModal, isAddPaymentModal, currentPage, contactSelected, selectedOption]);
 
