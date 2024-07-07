@@ -33,12 +33,12 @@ export default function CreditPayablePage() {
     { id: 0, name: "Pagadas" },
     { id: 1, name: "Pendientes" },
   ];
-  const [selectedOption, setSelectedOption] = useState<Option | null>(optionsRadioButton[0] ? optionsRadioButton[0] : null);
+  const [selectedOption, setSelectedOption] = useState<Option>({ id: 2, name: "Todos" });
 
 
   useEffect(() => {
     if (!isAddPayableModal && !isAddPaymentModal) {
-      (async () => setCredits(await loadData(`credits/payable?${selectedOption?.id != 2 ? `filterWhere[status]==${selectedOption?.id}&`:``}${contactSelected != null ? `filterWhere[client_id]==${contactSelected.id}&` : ``}sort=-created_at&perPage=10${currentPage}`)))();
+      (async () => setCredits(await loadData(`credits/payable?${selectedOption?.id != 2 ? `filterWhere[status]==${selectedOption?.id}&`:``}${contactSelected?.id ? `filterWhere[client_id]==${contactSelected.id}&` : ``}sort=-created_at&perPage=10${currentPage}`)))();
     }
   }, [isAddPayableModal, isAddPaymentModal, currentPage, contactSelected, selectedOption]);
 
