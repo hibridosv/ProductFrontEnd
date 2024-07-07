@@ -34,7 +34,11 @@ export default function CreditPayablePage() {
     { id: 1, name: "Pendientes" },
   ];
   const [selectedOption, setSelectedOption] = useState<Option>({ id: 2, name: "Todos" });
-
+  
+  const setOption = (option: Option) => {
+    setSelectedOption(option)
+    handlePageNumber("&page=1")
+  }
 
   useEffect(() => {
     if (!isAddPayableModal && !isAddPaymentModal) {
@@ -58,6 +62,7 @@ export default function CreditPayablePage() {
   }
   const handleSelectContact = (contact: any) => {
       setContactSelected(contact)
+      handlePageNumber("&page=1")
       setrandNumber(getRandomInt(100));
       setContacts([])
   }
@@ -130,7 +135,7 @@ export default function CreditPayablePage() {
                   <span className="text-right"><Button noText preset={Preset.smallClose} onClick={handleCancelContact} /></span>
               </div> }
 
-            <RadioButton options={optionsRadioButton} onSelectionChange={setSelectedOption} />
+            <RadioButton options={optionsRadioButton} onSelectionChange={setOption} />
 
 
           </div>
