@@ -14,7 +14,7 @@ import { RiDeleteBin2Line } from "react-icons/ri";
 import { ConfigContext } from "@/contexts/config-context";
 
 
-export default function KardexPage() {
+export default function Page() {
     const { searchTerm, handleSearchTerm } = useSearchTerm(["invoice"], 500);
     const [documents, setDocuments] = useState<Product[]>([]);
     const [documenSelected, setDocumentSelected] = useState(false);
@@ -214,12 +214,12 @@ export default function KardexPage() {
             <div className="m-3 flex justify-between mb-8">
               <div><FaPrint className="clickeable" size={45} color="blue" onClick={()=>printOrder(records?.data?.id)} /></div>
               <div><RiDeleteBin2Line className="clickeable" size={45} color="red" 
-              onClick={records?.data?.status == 3 ? ()=>setShowDeleteModal(true) : ()=>toast.error("Esta orden ya se encuentra eliminada")} /></div>
+              onClick={records?.data?.status == 3 ? ()=>setShowDeleteModal(true) : ()=>toast.error("Este documento ya se encuentra eliminado")} /></div>
             </div>
             
             <Button text='Nueva busqueda' isFull type="submit" preset={Preset.cancel} onClick={() => handleNewSearch()} />
             {
-              records?.data?.status == 4 && <div className="mt-4"><Alert info="Atención: " text="Esta orden se encuentra eliminada" isDismisible={false}  /></div>
+              records?.data?.status == 4 && <div className="mt-4"><Alert info="Atención: " text="Este documento se encuentra eliminado" isDismisible={false}  /></div>
             }
           </div>
         </div> </> :
@@ -245,7 +245,7 @@ export default function KardexPage() {
         </div>
       }
         <DeleteModal isShow={showDeleteModal}
-          text="¿Estas seguro de eliminar este elemento?"
+          text="¿Estas seguro de anular este docuento?"
           onDelete={()=>deleteOrder(records?.data?.id)} 
           onClose={()=>setShowDeleteModal(false)} />
       <Toaster position="top-right" reverseOrder={false} />
