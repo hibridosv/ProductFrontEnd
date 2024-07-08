@@ -26,7 +26,7 @@ export function InvoiceDocumentsTable(props: InvoiceDocumentsTableProps) {
 
 
   const listItems = records.data.map((record: any, key: any) => (
-    <tr key={record.id} className="border-b" onClick={()=>{ setRecordSelect(record?.id); setShowInvoiceModal(true)}}>
+    <tr key={key} className="border-b" onClick={()=>{ setRecordSelect(record?.id); setShowInvoiceModal(true)}}>
       <td className="py-2 px-6 truncate">{ formatDateAsDMY(record?.charged_at) } | { formatHourAsHM(record?.charged_at)} </td>
       <td className="py-2 px-6">{ record?.invoice_assigned?.name } </td>
       <td className="py-2 px-6">{ record?.invoice }</td>
