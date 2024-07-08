@@ -58,7 +58,7 @@ export function HistoriesListTable(props: HistoriesListTableProps) {
       <tbody>{listItems}</tbody>
     </table>
 
-        <div className="uppercase shadow-lg border-x-2 ml-4 mt-4 ">
+        <div className="uppercase shadow-lg border-x-2 ml-4 my-4 ">
             <div>Total descuentos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "discount")) }</span></div>
             <div>Total de ventas: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "total")) }</span></div>
         </div>
