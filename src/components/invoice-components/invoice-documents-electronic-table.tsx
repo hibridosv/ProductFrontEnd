@@ -8,10 +8,11 @@ import { API_URL } from "@/constants";
 interface InvoiceDocumentsElectronicTableProps {
   records?:  any;
   isLoading?: boolean;
+  resendDocument: (invoice: string)=> void
 }
 
 export function InvoiceDocumentsElectronicTable(props: InvoiceDocumentsElectronicTableProps) {
-  const { records, isLoading } = props;
+  const { records, isLoading, resendDocument } = props;
 
   if (isLoading) return <Loading />;
   if (!records.data) return <NothingHere width="164" height="98" />;
@@ -48,6 +49,7 @@ const tipoDTE = (dte: string)=>{
       <td className="py-2 px-6">{ record?.numero_control }</td>
       <td className="py-2 px-6" title={record?.descripcion_msg}>{ status(record?.status) }</td>
       <td className="py-2 px-6">{ record?.email == 1 ? "Enviado" : "Sin Enviar" }</td>
+      <td className="py-2 px-6">{ record?.status == 3 && <div onClick={()=>{ resendDocument(record?.codigo_generacion)}}>Reenviar</div> }</td>
     </tr>
   ));
 
@@ -61,6 +63,7 @@ const tipoDTE = (dte: string)=>{
           <th scope="col" className="py-3 px-4 border">Numero de control</th>
           <th scope="col" className="py-3 px-4 border">Estado</th>
           <th scope="col" className="py-3 px-4 border">Email</th>
+          <th scope="col" className="py-3 px-4 border">OP</th>
         </tr>
       </thead>
       <tbody>{listItems}</tbody>

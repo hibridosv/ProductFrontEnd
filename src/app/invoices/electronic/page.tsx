@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { ViewTitle } from "@/components"
 import { DateRange } from "@/components/form/date-range"
-import { postData } from "@/services/resources";
+import { getData, postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { DateTime } from 'luxon';
 import { loadData } from "@/utils/functions";
@@ -16,6 +16,7 @@ export default function Page() {
   const [invoices, setInvoices] = useState([] as any);
   const [isSending, setIsSending] = useState(false);
   const { register, watch } = useForm();
+  const [randomNumber, setRandomNumber] = useState(0);
 
   useEffect(() => {
       (async () => setInvoices(await loadData(`invoice/type/electronic`)))();
@@ -52,13 +53,33 @@ export default function Page() {
           await handleDocuments({option: "1", initialDate: `${formatedDate} 00:00:00`})
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [randomNumber]);
+
+    const resendDocument = async (invoice: string) => {
+      try {
+        setIsSending(true);
+        const response = await getData(`electronic/resend/${invoice}`);
+        if (response?.type == "error") {
+          toast.error("Ocurrio un error");
+        } else {
+          toast.success("Datos obtenidos correctamente");
+          setRandomNumber(Math.random());
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Ha ocurrido un error!");
+      } finally {
+        setIsSending(false);
+      }
+    };
+
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600">
         <ViewTitle text="REPORTE DOCUMENTOS EMITIDOS" />
 
-        <InvoiceDocumentsElectronicTable records={documents} isLoading={isSending} />
+        <InvoiceDocumentsElectronicTable records={documents} isLoading={isSending} resendDocument={resendDocument} />
 
         </div>
         <div className="col-span-3">
