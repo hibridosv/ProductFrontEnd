@@ -49,7 +49,7 @@ const tipoDTE = (dte: string)=>{
       <td className="py-2 px-6">{ record?.numero_control }</td>
       <td className="py-2 px-6" title={record?.descripcion_msg}>{ status(record?.status) }</td>
       <td className="py-2 px-6">{ record?.email == 1 ? "Enviado" : "Sin Enviar" }</td>
-      <td className="py-2 px-6">{ record?.status === 3 ? <div onClick={()=>{ resendDocument(record?.codigo_generacion)}}>Reenviar</div> : <div>Exitoso</div> }</td>
+      <td className="py-2 px-6">{ record?.status == 3 ? <div onClick={()=>{ resendDocument(record?.codigo_generacion)}}>Reenviar</div> : <div onClick={()=>{ resendDocument(record?.codigo_generacion)}}>Exitoso</div> }</td>
     </tr>
   ));
 
