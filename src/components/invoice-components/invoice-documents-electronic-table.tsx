@@ -3,6 +3,8 @@ import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import { API_URL } from "@/constants";
+import { InvoiceDetailsModal } from "./invoice-details-modal";
+import { useState } from "react";
 
 
 interface InvoiceDocumentsElectronicTableProps {
@@ -13,6 +15,8 @@ interface InvoiceDocumentsElectronicTableProps {
 
 export function InvoiceDocumentsElectronicTable(props: InvoiceDocumentsElectronicTableProps) {
   const { records, isLoading, resendDocument } = props;
+  const [howInvoiceModal, setShowInvoiceModal] = useState<boolean>(false);
+  const [recordSelect, setRecordSelect] = useState<string>("");
 
   if (isLoading) return <Loading />;
   if (!records.data) return <NothingHere width="164" height="98" />;
@@ -43,7 +47,7 @@ const tipoDTE = (dte: string)=>{
       <td className={`py-2 px-6 ${record?.status == 4 ? 'clickeable font-semibold' : 'text-red-500'}`}>
         { record?.status == 4 ?
         <a target="_blank" href={`${API_URL}documents/download/${record?.codigo_generacion}/${record?.client_id}`}>{ tipoDTE(record?.tipo_dte) }</a>  :
-        <div title={record?.observaciones}>{ tipoDTE(record?.tipo_dte) }</div>
+        <div title={record?.observaciones} onClick={()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)}}>{ tipoDTE(record?.tipo_dte) }</div>
         }
       </td>
       <td className="py-2 px-6">{ record?.numero_control }</td>
@@ -68,5 +72,6 @@ const tipoDTE = (dte: string)=>{
     </table>
 
  </div>
+ <InvoiceDetailsModal isShow={howInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={recordSelect} />
  </div>);
 }

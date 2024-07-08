@@ -3,6 +3,8 @@ import { getPaymentTypeName, getTotalOfItem, numberToMoney } from "@/utils/funct
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDate, formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
+import { useState } from "react";
+import { InvoiceDetailsModal } from "./invoice-details-modal";
 
 
 interface InvoiceDocumentsTableProps {
@@ -12,6 +14,8 @@ interface InvoiceDocumentsTableProps {
 
 export function InvoiceDocumentsTable(props: InvoiceDocumentsTableProps) {
   const { records, isLoading } = props;
+  const [howInvoiceModal, setShowInvoiceModal] = useState<boolean>(false);
+  const [recordSelect, setRecordSelect] = useState<string>("");
 
 
 
@@ -22,7 +26,7 @@ export function InvoiceDocumentsTable(props: InvoiceDocumentsTableProps) {
 
 
   const listItems = records.data.map((record: any, key: any) => (
-    <tr key={record.id} className="border-b">
+    <tr key={record.id} className="border-b" onClick={()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)}}>
       <td className="py-2 px-6 truncate">{ formatDateAsDMY(record?.charged_at) } | { formatHourAsHM(record?.charged_at)} </td>
       <td className="py-2 px-6">{ record?.invoice_assigned?.name } </td>
       <td className="py-2 px-6">{ record?.invoice }</td>
@@ -51,7 +55,7 @@ export function InvoiceDocumentsTable(props: InvoiceDocumentsTableProps) {
       </thead>
       <tbody>{listItems}</tbody>
     </table>
-
+    <InvoiceDetailsModal isShow={howInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={recordSelect} />
  </div>
  </div>);
 }

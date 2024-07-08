@@ -20,7 +20,6 @@ export default function Page() {
   const { register, watch } = useForm();
   const { links, addLink} = AddNewDownloadLink()
 
-
   useEffect(() => {
       (async () => setInvoices(await loadData(`invoice/type/active`)))();
   }, []);
