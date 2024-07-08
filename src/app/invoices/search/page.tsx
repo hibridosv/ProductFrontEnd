@@ -187,7 +187,7 @@ export default function Page() {
                     <tbody>
                       {listProducts}
                       <tr>
-                        <th scope="col" className="py-3 px-4 border" colSpan={3} ></th>
+                        <th scope="col" className="py-3 px-4 border" colSpan={showCodeStatus ? 4 : 3} ></th>
                         <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.subtotal) }</th>
                         <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.taxes) }</th>
                         <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.discount) }</th>
