@@ -50,7 +50,7 @@ const tipoDTE = (dte: string)=>{
         <div title={record?.observaciones}>{ tipoDTE(record?.tipo_dte) }</div>
         }
       </td>
-      <td className="py-2 px-6" onClick={()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)}}>{ record?.numero_control }</td>
+      <td className="py-2 px-6 clickeable" onClick={()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)}}>{ record?.numero_control }</td>
       <td className="py-2 px-6" title={record?.descripcion_msg}>{ status(record?.status, record?.codigo_generacion) }</td>
       <td className="py-2 px-6">{ record?.email == 1 ? "Enviado" : "Sin Enviar" }</td>
     </tr>

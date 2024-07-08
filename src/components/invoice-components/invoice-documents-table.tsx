@@ -26,9 +26,9 @@ export function InvoiceDocumentsTable(props: InvoiceDocumentsTableProps) {
 
 
   const listItems = records.data.map((record: any, key: any) => (
-    <tr key={key} className="border-b" onClick={()=>{ setRecordSelect(record?.id); setShowInvoiceModal(true)}}>
+    <tr key={key} className="border-b">
       <td className="py-2 px-6 truncate">{ formatDateAsDMY(record?.charged_at) } | { formatHourAsHM(record?.charged_at)} </td>
-      <td className="py-2 px-6">{ record?.invoice_assigned?.name } </td>
+      <td className="py-2 px-6 font-bold clickeable" onClick={()=>{ setRecordSelect(record?.id); setShowInvoiceModal(true)}}>{ record?.invoice_assigned?.name } </td>
       <td className="py-2 px-6">{ record?.invoice }</td>
       <td className={`py-2 px-6 ${record?.status == 4 && 'text-red-500'}`}>{ record?.status == 3 ? "Pagado" : "Anulado" }</td>
       <td className="py-2 px-6">{ record?.client?.name ? record?.client?.name : "N/A" }</td>
