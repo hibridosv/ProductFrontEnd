@@ -18,11 +18,11 @@ export function InvoiceDocumentsElectronicTable(props: InvoiceDocumentsElectroni
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
-const status = (status: number)=>{
+const status = (status: number, codigo: string)=>{
     switch (status) {
         case 1: return <span className="status-info">RECIBIDO</span>;
         case 2: return <span className="status-warning">FIRMADO</span>;
-        case 3: return <span className="status-danger">RECHAZADO</span>;
+        case 3: return <span title="REENVIAR DOCUMENTO" className="status-danger clickeable" onClick={()=>{ resendDocument(codigo)}}>RECHAZADO</span>;
         case 4: return <span className="status-success">PROCESADO</span>;
         case 5: return <span className="status-danger">ANULADO</span>;
     }
@@ -47,9 +47,8 @@ const tipoDTE = (dte: string)=>{
         }
       </td>
       <td className="py-2 px-6">{ record?.numero_control }</td>
-      <td className="py-2 px-6" title={record?.descripcion_msg}>{ status(record?.status) }</td>
+      <td className="py-2 px-6" title={record?.descripcion_msg}>{ status(record?.status, record?.codigo_generacion) }</td>
       <td className="py-2 px-6">{ record?.email == 1 ? "Enviado" : "Sin Enviar" }</td>
-      <td className="py-2 px-6">{ record?.status == 3 ? <div onClick={()=>{ resendDocument(record?.codigo_generacion)}}>Reenviar</div> : <div onClick={()=>{ resendDocument(record?.codigo_generacion)}}>Exitoso</div> }</td>
     </tr>
   ));
 
@@ -63,7 +62,6 @@ const tipoDTE = (dte: string)=>{
           <th scope="col" className="py-3 px-4 border">Numero de control</th>
           <th scope="col" className="py-3 px-4 border">Estado</th>
           <th scope="col" className="py-3 px-4 border">Email</th>
-          <th scope="col" className="py-3 px-4 border">OP</th>
         </tr>
       </thead>
       <tbody>{listItems}</tbody>
