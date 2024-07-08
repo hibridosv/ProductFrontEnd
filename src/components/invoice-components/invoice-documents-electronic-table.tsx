@@ -22,7 +22,7 @@ const status = (status: number, codigo: string)=>{
     switch (status) {
         case 1: return <span className="status-info">RECIBIDO</span>;
         case 2: return <span className="status-warning">FIRMADO</span>;
-        case 3: return <span title="REENVIAR DOCUMENTO" className="status-danger clickeable" onClick={()=>{ resendDocument(codigo)}}>RECHAZADO</span>;
+        case 3: return <span className="status-danger clickeable" onClick={()=>{ resendDocument(codigo)}}>RECHAZADO</span>;
         case 4: return <span className="status-success">PROCESADO</span>;
         case 5: return <span className="status-danger">ANULADO</span>;
     }
