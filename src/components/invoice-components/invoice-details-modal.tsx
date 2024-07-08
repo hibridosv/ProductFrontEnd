@@ -127,7 +127,7 @@ export function InvoiceDetailsModal(props: InvoiceDetailsModalProps) {
                 </table>
             </div>
 
-            <div className="uppercase shadow-lg border-x-2 ml-4 my-4 ">
+            <div className="uppercase shadow-lg border-x-2 ml-4 my-4 p-2">
                 {records?.data?.employee && <div>Atendido por: <span className="font-semibold">{records?.data?.employee?.name}</span></div>}
                 {records?.data?.referred && <div>Nombre de referido: <span className="font-semibold">{records?.data?.referred?.name}</span></div>}
                 {records?.data?.client && <div>Nombre del cliente: <span className="font-semibold">{records?.data?.client?.name}</span></div>}
