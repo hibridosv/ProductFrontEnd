@@ -196,6 +196,14 @@ export default function Page() {
                     </tbody>
                   </table>
               </div>
+
+              <div className="uppercase shadow-lg border-x-2 ml-4 mt-4 ">
+                {records?.data?.employee && <div>Atendido por: <span className="font-semibold">{records?.data?.employee?.name}</span></div>}
+                {records?.data?.referred && <div>Nombre de referido: <span className="font-semibold">{records?.data?.referred?.name}</span></div>}
+                {records?.data?.client && <div>Nombre del cliente: <span className="font-semibold">{records?.data?.client?.name}</span></div>}
+                {records?.data?.delivery && <div>Nombre del repartidor: <span className="font-semibold">{records?.data?.delivery?.name}</span></div>}
+            </div>
+            
           {
             records?.data?.invoice_assigned?.type == 9 && 
             <Alert text="Este Documento tiene una numeración temporal" />
