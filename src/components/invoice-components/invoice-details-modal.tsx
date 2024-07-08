@@ -73,7 +73,7 @@ export function InvoiceDetailsModal(props: InvoiceDetailsModalProps) {
 
   return (
     <Modal size="5xl" show={isShow} position="center" onClose={onClose}>
-      <Modal.Header>Agregar nueva categoria</Modal.Header>
+      <Modal.Header>DETALLES DEL DOCUMENTO EMITIDO</Modal.Header>
       <Modal.Body>
       { isSending ? <Loading text="Cargado datos" /> :
       <div className="mx-3 my-8 ">

@@ -14,7 +14,7 @@ interface InvoiceDocumentsTableProps {
 
 export function InvoiceDocumentsTable(props: InvoiceDocumentsTableProps) {
   const { records, isLoading } = props;
-  const [howInvoiceModal, setShowInvoiceModal] = useState<boolean>(false);
+  const [showInvoiceModal, setShowInvoiceModal] = useState<boolean>(false);
   const [recordSelect, setRecordSelect] = useState<string>("");
 
 
@@ -55,7 +55,7 @@ export function InvoiceDocumentsTable(props: InvoiceDocumentsTableProps) {
       </thead>
       <tbody>{listItems}</tbody>
     </table>
-    <InvoiceDetailsModal isShow={howInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={recordSelect} />
+    <InvoiceDetailsModal isShow={showInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={recordSelect} />
  </div>
  </div>);
 }

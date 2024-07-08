@@ -3,6 +3,8 @@ import { documentType, getPaymentTypeName, getTotalOfItem, numberToMoney } from 
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDate, formatHourAsHM } from "@/utils/date-formats";
+import { InvoiceDetailsModal } from "../invoice-components/invoice-details-modal";
+import { useState } from "react";
 
 
 interface HistoriesDeletedTableProps {
@@ -12,6 +14,8 @@ interface HistoriesDeletedTableProps {
 
 export function HistoriesDeletedTable(props: HistoriesDeletedTableProps) {
   const { records, isLoading } = props;
+  const [showInvoiceModal, setShowInvoiceModal] = useState<boolean>(false);
+  const [recordSelect, setRecordSelect] = useState<string>("");
 
 
 
@@ -25,7 +29,7 @@ export function HistoriesDeletedTable(props: HistoriesDeletedTableProps) {
     <tr key={record.id} className="border-b">
       <td className="py-2 px-6 truncate">{ formatDate(record?.charged_at) } | { formatHourAsHM(record?.charged_at)} </td>
       <td className="py-2 px-6 truncate">{ formatDate(record?.canceled_at) } | { formatHourAsHM(record?.canceled_at)} </td>
-      <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.casheir?.name } </th>
+      <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white clickeable" scope="row" onClick={()=>{ setRecordSelect(record?.id); setShowInvoiceModal(true)}}>{ record?.casheir?.name } </th>
       <td className="py-2 px-6">
         <span>{ record?.invoice_assigned?.name }:</span>
         <span className="ml-3">{ record?.invoice }</span>
@@ -58,5 +62,7 @@ export function HistoriesDeletedTable(props: HistoriesDeletedTableProps) {
         </div>
 
  </div>
+ <InvoiceDetailsModal isShow={showInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={recordSelect} />
+
  </div>);
 }

@@ -15,7 +15,7 @@ interface InvoiceDocumentsElectronicTableProps {
 
 export function InvoiceDocumentsElectronicTable(props: InvoiceDocumentsElectronicTableProps) {
   const { records, isLoading, resendDocument } = props;
-  const [howInvoiceModal, setShowInvoiceModal] = useState<boolean>(false);
+  const [showInvoiceModal, setShowInvoiceModal] = useState<boolean>(false);
   const [recordSelect, setRecordSelect] = useState<string>("");
 
   if (isLoading) return <Loading />;
@@ -77,6 +77,6 @@ const tipoDTE = (dte: string)=>{
     </table>
 
  </div>
- <InvoiceDetailsModal isShow={howInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={recordSelect} />
+ <InvoiceDetailsModal isShow={showInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={recordSelect} />
  </div>);
 }
