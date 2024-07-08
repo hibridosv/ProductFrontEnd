@@ -47,11 +47,11 @@ export function InvoiceDetailsModal(props: InvoiceDetailsModalProps) {
       };
       
     setShowCodeStatus(getConfigStatus("sales-show-code", config));
-    if (record) {
+    if (record && isShow) {
         (async () => { await handleFormSubmit(record) })();
     }
     // eslint-disable-next-line
-  }, [config, record]);
+  }, [config, record, isShow]);
 
 
 
