@@ -9,6 +9,7 @@ import { formatDateAsDMY } from "@/utils/date-formats";
 import { getData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { Loading } from "../loading/loading";
+import { PresetTheme } from "@/services/enums";
 
 
 export interface InvoiceDetailsModalProps {
@@ -139,10 +140,10 @@ export function InvoiceDetailsModal(props: InvoiceDetailsModalProps) {
                 }
                 {
                 records?.data?.invoice_assigned?.is_electronic == 1 && 
-                <Alert info="Atención: " text="Este Documento se envió electronicamente" isDismisible={false}  />
+                <Alert theme={PresetTheme.info} info="Atención: " text="Este Documento se envió electronicamente" isDismisible={false}  />
                 }
                 {
-                  records?.data?.status == 3 && 
+                  records?.data?.status == 4 && 
                   <div className="mt-3">
                       <Alert info="Atención: " text="Este Documento se ha sido anulado" isDismisible={false}  />
                   </div>
