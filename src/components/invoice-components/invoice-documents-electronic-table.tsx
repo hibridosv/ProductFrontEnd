@@ -47,10 +47,10 @@ const tipoDTE = (dte: string)=>{
       <td className={`py-2 px-6 ${record?.status == 4 ? 'clickeable font-semibold' : 'text-red-500'}`}>
         { record?.status == 4 ?
         <a target="_blank" href={`${API_URL}documents/download/${record?.codigo_generacion}/${record?.client_id}`}>{ tipoDTE(record?.tipo_dte) }</a>  :
-        <div title={record?.observaciones} onClick={()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)}}>{ tipoDTE(record?.tipo_dte) }</div>
+        <div title={record?.observaciones}>{ tipoDTE(record?.tipo_dte) }</div>
         }
       </td>
-      <td className="py-2 px-6">{ record?.numero_control }</td>
+      <td className="py-2 px-6" onClick={()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)}}>{ record?.numero_control }</td>
       <td className="py-2 px-6" title={record?.descripcion_msg}>{ status(record?.status, record?.codigo_generacion) }</td>
       <td className="py-2 px-6">{ record?.email == 1 ? "Enviado" : "Sin Enviar" }</td>
     </tr>
