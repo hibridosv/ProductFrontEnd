@@ -54,7 +54,7 @@ export default function Page() {
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setSales(response);
-            if(response.data.length > 0) addLink(links, data, 'excel/commissions/', contactSelected ? [{name: "referredId", value: contactSelected?.id}] : null);
+            if(response.data.length > 0) addLink(links, data, 'pdf/commissions/', contactSelected ? [{name: "referredId", value: contactSelected?.id}] : null);
           } else {
             toast.error("Faltan algunos datos importantes!");
           }
@@ -131,7 +131,7 @@ export default function Page() {
         </div>
 
         <DateRange onSubmit={handlegetSales} />
-        <LinksList links={links} />
+        <LinksList links={links} text="DESCARGAS EN PDF" />
         </div>
       <Toaster position="top-right" reverseOrder={false} />
     </div>
