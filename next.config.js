@@ -5,7 +5,6 @@ const nextConfig = {
         REACT_APP_NAME: 'Sistema de Facturacion',
         // REACT_APP_API_URL: 'http://billing.test/',
         // REACT_APP_API_URL: 'https://api.latam-pos.com/',
-        ENV_TYPE: 1, // 0: dev, 1: prod, 2: local
       },
       images: {
         remotePatterns: [
