@@ -1,2 +1,2 @@
 
-export const URL_CONF = "https://api.latam-pos.com/"
+export const URL_CONF = "https://apitest.latam-pos.com/"
