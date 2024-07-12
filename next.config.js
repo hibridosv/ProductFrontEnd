@@ -13,7 +13,7 @@ const nextConfig = {
             hostname: 'connect.test',
           },{
             protocol: 'https',
-            hostname: 'api-connect.hibridosv.com',
+            hostname: 'api.latam-pos.com',
           },
         ],
       },
