@@ -48,7 +48,7 @@ const tipoDTE = (dte: string)=>{
       <td className="py-2 px-6 truncate">{ record?.fecha_procesamiento ? record?.fecha_procesamiento : "N/A" } </td>
       <td className={`py-2 px-6 ${record?.status == 4 ? 'clickeable font-semibold' : 'text-red-500'}`}>
         { record?.status == 4 ?
-        <a target="_blank" href={`${API_URL}documents/download/${record?.codigo_generacion}/${record?.client_id}`} title="Descargar PDF">
+        <a target="_blank" href={`${API_URL}documents/download/pdf/${record?.codigo_generacion}/${record?.client_id}`} title="Descargar PDF">
           { tipoDTE(record?.tipo_dte) }
         </a>  
           :
