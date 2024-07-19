@@ -59,9 +59,20 @@ export interface Category {
 	id:            number | string;
 	name:          string;
 	pronoun:       string;
+	img?:           string | null;
+	category_type?: number | string;
+	subcategories: SubCategories[];
+	dependable?:    null | string;
+}
+
+
+export interface SubCategories {
+	id:            number | string;
+	name:          string;
+	pronoun:       string;
 	img?:           null;
 	category_type?: number | string;
-	dependable?:    null;
+	dependable?:    null | string;
 }
 
 export interface Price {

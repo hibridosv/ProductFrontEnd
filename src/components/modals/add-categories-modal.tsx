@@ -34,7 +34,7 @@ export function AddCategoriesModal(props: AddCategoriesModalProps) {
   const loadCategories = async () => {
     setIsLoading(true);
     try {
-      const response = await getData(`categories`);
+      const response = await getData(`categories?sort=-created_at&included=subcategories`);
       setCategories(response.data);
         } catch (error) {
           console.error(error);

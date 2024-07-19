@@ -11,7 +11,7 @@ export function NothingHere(props: NothingHereProps){
         <div className="w-full justify-items-center align-middle mt-10">
             <div className="flex justify-center">
             <svg width={`${width}px`} height={`${height}px`} viewBox="0 0 329 197" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                    <title>Group 2</title>
+                    <title>Nada Aqui</title>
                     <desc>Created with Sketch.</desc>
                     <g id="Page-2" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                         <g id="Artboard" transform="translate(-416.000000, -360.000000)">
