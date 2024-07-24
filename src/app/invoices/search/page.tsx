@@ -241,7 +241,7 @@ export default function Page() {
             <div className="m-3 flex justify-between mb-8">
               <div title="Imprimir"><FaPrint className="clickeable" size={45} color="blue" onClick={()=>printOrder(records?.data?.id)} /></div>
               <div title="Crear nota de credito"><MdOutlineDelete className="clickeable" size={45} color="#2F81B9" 
-              onClick={records?.data?.status == 3 ? ()=>setShowDeleteModal(true) : ()=>toast.error("Este documento ya se encuentra eliminado")} /></div>
+              onClick={records?.data?.status == 3 ? ()=>setShowNoteModal(true) : ()=>toast.error("Este documento ya se encuentra eliminado")} /></div>
               <div title="Eliminar orden"><RiDeleteBin2Line className="clickeable" size={45} color="red" 
               onClick={records?.data?.status == 3 ? ()=>setShowDeleteModal(true) : ()=>toast.error("Este documento ya se encuentra eliminado")} /></div>
             </div>
@@ -274,11 +274,11 @@ export default function Page() {
         </div>
       }
         <DeleteModal isShow={showDeleteModal}
-          text="¿Estas seguro de anular este docuento?"
+          text="¿Estas seguro de anular este documento?"
           onDelete={()=>deleteOrder(records?.data?.id)} 
           onClose={()=>setShowDeleteModal(false)} />
         <DeleteModal isShow={showNoteModal}
-          text="¿Estas seguro desea crear una nota de credito de este docuento?"
+          text="¿Estas seguro desea crear una nota de credito de este documento?"
           onDelete={()=>noteOrder(records?.data?.id)} 
           onClose={()=>setShowNoteModal(false)} />
       <Toaster position="top-right" reverseOrder={false} />
