@@ -21,7 +21,7 @@ const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number"], 50
 
 useEffect(() => {
   if (!isAdContactModal) {
-    (async () => setContacts(await loadData(`contacts?sort=-created_at&perPage=10${currentPage}${searchTerm}&filterWhere[is_client]==1`)))();
+    (async () => setContacts(await loadData(`contacts?sort=-created_at&perPage=10${currentPage}${searchTerm}&filterWhere[status]==1&filterWhere[is_client]==1`)))();
   }
 }, [currentPage, searchTerm, isAdContactModal, randomNumber]);
 
