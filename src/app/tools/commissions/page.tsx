@@ -132,7 +132,7 @@ export default function Page() {
 
   const loadDataContacts = async () => {
     try {
-    const response = await getData(`contacts?filterWhere[is_referred]==1&sort=-created_at&perPage=10${searchTerm}`);
+    const response = await getData(`contacts?filterWhere[is_referred]==1&filterWhere[status]==1&sort=-created_at&perPage=10${searchTerm}`);
     setContacts(response.data);
     } catch (error) {
     console.error(error);

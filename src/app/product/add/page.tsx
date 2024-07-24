@@ -102,7 +102,7 @@ export default function ProductAdd() {
 
   const loadProviders = async () => {
     try {
-      const response = await getData(`contacts?filterWhere[is_provider]==1`);
+      const response = await getData(`contacts?filterWhere[is_provider]==1&filterWhere[status]==1`);
       setProviders(response);
     } catch (error) {
       console.error(error);
