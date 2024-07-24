@@ -12,6 +12,7 @@ import {  getConfigStatus, getPaymentTypeName, getRandomInt, numberToMoney } fro
 import { FaPrint } from "react-icons/fa";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { ConfigContext } from "@/contexts/config-context";
+import { MdOutlineDelete } from "react-icons/md";
 
 
 export default function Page() {
@@ -239,7 +240,7 @@ export default function Page() {
 
             <div className="m-3 flex justify-between mb-8">
               <div title="Imprimir"><FaPrint className="clickeable" size={45} color="blue" onClick={()=>printOrder(records?.data?.id)} /></div>
-              <div title="Crear nota de credito"><RiDeleteBin2Line className="clickeable" size={45} color="#2F81B9" 
+              <div title="Crear nota de credito"><MdOutlineDelete className="clickeable" size={45} color="#2F81B9" 
               onClick={records?.data?.status == 3 ? ()=>setShowDeleteModal(true) : ()=>toast.error("Este documento ya se encuentra eliminado")} /></div>
               <div title="Eliminar orden"><RiDeleteBin2Line className="clickeable" size={45} color="red" 
               onClick={records?.data?.status == 3 ? ()=>setShowDeleteModal(true) : ()=>toast.error("Este documento ya se encuentra eliminado")} /></div>
