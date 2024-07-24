@@ -39,6 +39,7 @@ const tipoDTE = (dte: string)=>{
         case "01": return <span>Factura</span>;
         case "03": return <span>CCF</span>;
         case "14": return <span>FSE</span>;
+        case "05": return <span>NC</span>;
     }
 }
 
