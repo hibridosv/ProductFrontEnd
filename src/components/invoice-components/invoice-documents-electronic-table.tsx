@@ -56,13 +56,13 @@ const tipoDTE = (dte: string)=>{
         <div title={record?.observaciones}>{ tipoDTE(record?.tipo_dte) }</div>
         }
       </td>
-      <td className="py-2 px-6 clickeable" onClick={(record?.tipo_dte == "01" || record?.tipo_dte == "03") ? ()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)} : ()=>{} } title="Ver detalles de documento"> { record?.numero_control } </td>
+      <td className={`py-2 px-6 ${(record?.tipo_dte == "01" || record?.tipo_dte == "03") && 'clickeable'}`} onClick={(record?.tipo_dte == "01" || record?.tipo_dte == "03") ? ()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)} : ()=>{} } title="Ver detalles de documento"> { record?.numero_control } </td>
       <td className="py-2 px-6" title={record?.descripcion_msg}>{ status(record?.status, record?.codigo_generacion) }</td>
       <td className="py-2 px-6">{ record?.email == 1 ? "Enviado" : "Sin Enviar" }</td>
       <td className="py-2 px-6">
       <Tooltip animation="duration-300" style="light" content={
             <div className="w-8/10">
-              <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={ (record?.tipo_dte == "01" || record?.tipo_dte == "03") ? ()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)} : ()=>{} }>Detalles del documento</div>
+              <div className={`w-full font-semibold ${(record?.tipo_dte == "01" || record?.tipo_dte == "03") ? 'text-red-700 py-2 px-4 hover:bg-red-100 clickeable clickeable' : 'text-slate-700 py-2 px-4 hover:bg-slate-100'}`} onClick={ (record?.tipo_dte == "01" || record?.tipo_dte == "03") ? ()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)} : ()=>{} }>Detalles del documento</div>
               
               <div className={`w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 ${record?.status == 4 ? 'clickeable' : ''}`}>
               { record?.status == 4 ?
