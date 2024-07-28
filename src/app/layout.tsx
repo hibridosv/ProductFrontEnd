@@ -13,9 +13,10 @@ export default function RootLayout({
 }) {
   return (
 
-      <html lang="en">
+      <html lang="es">
         <head>
           <title>{ NAME }</title>
+          <meta http-equiv="Content-Language" content="es"></meta>
         </head>
         <body className="overflow-x-visible">
         <ConfigContextProvider>
