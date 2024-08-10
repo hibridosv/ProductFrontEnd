@@ -26,7 +26,7 @@ export function CreditAddPayableModal(props: CreditAddPayableModalProps) {
 
   useEffect(() => {
     if (isShow) {
-        (async () => setProviders(await loadData(`contacts?filter[is_provider]==1`)))();  
+        (async () => setProviders(await loadData(`contacts?filter[is_provider]==1&filterWhere[status]==1`)))();  
     }
 }, [isShow]);
 

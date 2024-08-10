@@ -12,6 +12,7 @@ import {  getConfigStatus, getPaymentTypeName, getRandomInt, numberToMoney } fro
 import { FaPrint } from "react-icons/fa";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { ConfigContext } from "@/contexts/config-context";
+import { MdOutlineDelete } from "react-icons/md";
 
 
 export default function Page() {
@@ -21,6 +22,7 @@ export default function Page() {
     const [records, setRecords] = useState([]) as any;
     const [isSending, setIsSending] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showNoteModal, setShowNoteModal] = useState(false);
     const [randNumber, setRandNumber] = useState(0);
     const [showCodeStatus, setShowCodeStatus] = useState<boolean>(false);
     const { config } = useContext(ConfigContext);
@@ -98,6 +100,23 @@ export default function Page() {
     try {
       setIsSending(true)
       const response = await postData(`invoices/delete`, "POST", {invoice: iden});
+      if (response.message) {
+        await handleFormSubmit(iden)
+        toast.success(response.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } finally {
+      setIsSending(false)
+    }
+  };
+
+  const noteOrder = async (iden: string) => {
+    setShowNoteModal(false)
+    try {
+      setIsSending(true)
+      const response = await postData(`invoices/credit-note`, "POST", {invoice: iden});
       if (response.message) {
         await handleFormSubmit(iden)
         toast.success(response.message);
@@ -220,8 +239,14 @@ export default function Page() {
           <div className="mt-4">
 
             <div className="m-3 flex justify-between mb-8">
-              <div><FaPrint className="clickeable" size={45} color="blue" onClick={()=>printOrder(records?.data?.id)} /></div>
-              <div><RiDeleteBin2Line className="clickeable" size={45} color="red" 
+              <div title="Imprimir"><FaPrint className="clickeable" size={45} color="blue" onClick={()=>printOrder(records?.data?.id)} /></div>
+              {
+                records?.data?.invoice_assigned?.type == 3 &&
+                <div title="Crear nota de credito"><MdOutlineDelete className="clickeable" size={45} color="#2F81B9" 
+                  onClick={records?.data?.status == 3 ? ()=>setShowNoteModal(true) : ()=>toast.error("Este documento ya se encuentra eliminado")} /></div>
+              }
+
+              <div title="Eliminar orden"><RiDeleteBin2Line className="clickeable" size={45} color="red" 
               onClick={records?.data?.status == 3 ? ()=>setShowDeleteModal(true) : ()=>toast.error("Este documento ya se encuentra eliminado")} /></div>
             </div>
             
@@ -253,9 +278,13 @@ export default function Page() {
         </div>
       }
         <DeleteModal isShow={showDeleteModal}
-          text="¿Estas seguro de anular este docuento?"
+          text="¿Estas seguro de anular este documento?"
           onDelete={()=>deleteOrder(records?.data?.id)} 
           onClose={()=>setShowDeleteModal(false)} />
+        <DeleteModal isShow={showNoteModal}
+          text="¿Estas seguro desea crear una nota de credito de este documento?"
+          onDelete={()=>noteOrder(records?.data?.id)} 
+          onClose={()=>setShowNoteModal(false)} />
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );

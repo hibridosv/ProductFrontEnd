@@ -10,6 +10,9 @@ import { loadData } from "@/utils/functions";
 import { style } from "@/theme";
 import { useForm } from "react-hook-form";
 import { InvoiceDocumentsElectronicTable } from "@/components/invoice-components/invoice-documents-electronic-table";
+import { LinksList } from "@/components/common/links-list";
+import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
+
 
 export default function Page() {
   const [documents, setDocuments] = useState([] as any);
@@ -17,6 +20,8 @@ export default function Page() {
   const [isSending, setIsSending] = useState(false);
   const { register, watch } = useForm();
   const [randomNumber, setRandomNumber] = useState(0);
+  const { links, addLink} = AddNewDownloadLink()
+
 
   useEffect(() => {
       (async () => setInvoices(await loadData(`invoice/type/electronic`)))();
@@ -29,12 +34,14 @@ export default function Page() {
       if (data.invoiceId == 2) data.invoiceId = '01';
       if (data.invoiceId == 3) data.invoiceId = '03';
       if (data.invoiceId == 4) data.invoiceId = '14';
+      if (data.invoiceId == 5) data.invoiceId = '05';
         try {
           setIsSending(true);
           const response = await postData(`electronic/documents`, "POST", data);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setDocuments(response);
+            if(response.data.length > 0) addLink(links, data, 'excel/electronic/');
           } else {
             toast.error("Faltan algunos datos importantes!");
           }
@@ -99,6 +106,7 @@ export default function Page() {
             </div>
 
         <DateRange onSubmit={handleDocuments} />
+        <LinksList links={links} />
         </div>
       <Toaster position="top-right" reverseOrder={false} />
     </div>
