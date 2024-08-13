@@ -2,13 +2,10 @@
 import { useState } from "react";
 import { Modal } from "flowbite-react";
 import toast, { Toaster } from 'react-hot-toast';
-
 import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
 import { style } from "@/theme";
-import { PresetTheme } from "@/services/enums";
 import { Button, Preset } from "@/components/button/button";
-import { Alert } from "@/components/alert/alert";
 import { AddImageModal } from "./add-image-modal";
 import Image from "next/image";
 import { URL } from "@/constants";
@@ -84,7 +81,6 @@ export function AddOptionsModal(props: AddOptionsModalProps) {
         } else {
           toast.error("Faltan algunos datos importantes!");
         }
-        console.log(response)
       } catch (error) {
         console.error(error);
         toast.error("Ha Ocurrido un Error!");
@@ -92,9 +88,6 @@ export function AddOptionsModal(props: AddOptionsModalProps) {
         setIsSending(false)
       }
   };
-
-
-    console.log("variants: ", variants)
   
     const imageLoader = ({ src, width, quality }: any) => {
         return `${URL}/images/ico/${src}?w=${width}&q=${quality || 75}`
@@ -112,9 +105,9 @@ export function AddOptionsModal(props: AddOptionsModalProps) {
                     <span>{ modifier }</span> 
                     <span className="text-right"><Button noText preset={Preset.smallClose} onClick={removeOption} /></span>
                 </div> 
-                  {variants?.map((value: any) => {
+                  {variants?.map((value: any, key) => {
                     return ( 
-                      <div className="flex justify-between ml-4 px-2 mb-2 text-lg shadow-md rounded-md">
+                      <div className="flex justify-between ml-4 px-2 mb-2 text-lg shadow-md rounded-md" key={key}>
                             <span>{ value?.name }</span> 
                             <span className="text-right"><Button noText preset={Preset.smallClose} onClick={()=> removeVariant(value.name)} /></span>
                         </div> 

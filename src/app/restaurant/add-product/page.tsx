@@ -37,7 +37,7 @@ export default function Page() {
     const loadData = async () => {
         setIsLoading(true);
         try {
-          const cat = await getData(`categories?sort=created_at&filterWhere[category_type]==2`);
+          const cat = await getData(`restaurant/categories?sort=created_at&filterWhere[category_type]==2`);
           setCategories(cat.data);
           const opt = await getData(`restaurant/options`);
           setOptions(opt.data);
@@ -59,16 +59,22 @@ export default function Page() {
     }, [showModalCategories, showModalOptions]);
 
   const onSubmit = async (data: any) => {
-    data.quantity = 1;
     data.minimum_stock = 1;
     data.product_type = 2;
     data.image = selectedImage;
     data.taxes = 13;
+    if (!data.work_station_id) {
+      data.work_station_id = (workStations?.length > 0) ? data.work_station_id[0] : null;
+    }
+
+    if (!Array.isArray(data.options)) {
+      data.options = (data.options == false) ? null : [data.options];
+    }
 
     try {
       setIsSending(true)
       const response = await postData(`restaurant/products`, "POST", data);
-      if (!response.message) {
+      if (response.type == "successful") {
         toast.success("Producto agregado correctamente");
         setMessage({});
         reset();
@@ -139,15 +145,19 @@ export default function Page() {
                     })}
               </div>
               
+              {workStations?.length > 0 ?
               <div className="w-full md:w-1/3 px-3 mb-4">
-                <label htmlFor="work_station" className={style.inputLabel}>Espacios de trabajo</label>
-                  <select defaultValue={0} id="work_station" {...register("work_station")} className={style.input} >
-                  <option value={0}> Seleccione... </option>
+                <label htmlFor="work_station_id" className={style.inputLabel}>Espacios de trabajo</label>
+                  <select id="work_station_id" {...register("work_station_id")} className={style.input} >
                   {workStations?.map((value: any) => {
                     return ( <option key={value.id} value={value.id}> {value.name} </option> );
                   })}
                 </select>
-              </div>
+              </div> :
+              <div className="w-full md:w-1/3 px-3 mb-4">
+                <label htmlFor="sale_price" className={style.inputLabel}>Precio de venta</label>
+                <div className={style.input} />
+              </div>}
 
               <div className="w-full md:w-1/3 px-3 mb-4">
                 <label className={style.inputLabel}>Seleccionar Imagen</label>
