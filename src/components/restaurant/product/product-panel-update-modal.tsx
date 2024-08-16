@@ -66,7 +66,14 @@ export function ProductPanelUpdateModal(props: ProductPanelUpdateModalProps) {
       <Modal.Header>{dataInit.text}</Modal.Header>
       <Modal.Body>
         <div className="mx-4">
-            { isLoading ? <Loading /> : listItems }
+            { isLoading ? <Loading /> : <>
+              <div onClick={()=>sendData(null)}>
+                <li className={ style}>
+                      Ninguno  { ArrowIcon }
+                </li>
+            </div>
+            { listItems }
+            </> }
         </div>
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">

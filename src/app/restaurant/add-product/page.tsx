@@ -59,12 +59,14 @@ export default function Page() {
     }, [showModalCategories, showModalOptions]);
 
   const onSubmit = async (data: any) => {
+
     data.minimum_stock = 1;
     data.product_type = 2;
     data.image = selectedImage;
     data.taxes = 13;
-    if (!data.work_station_id) {
-      data.work_station_id = (workStations?.length > 0) ? data.work_station_id[0] : null;
+
+    if (data.work_station_id == "1" || !data.work_station_id) {
+      data.work_station_id = null
     }
 
     if (!Array.isArray(data.options)) {
@@ -147,8 +149,9 @@ export default function Page() {
               
               {workStations?.length > 0 ?
               <div className="w-full md:w-1/3 px-3 mb-4">
-                <label htmlFor="work_station_id" className={style.inputLabel}>Espacios de trabajo</label>
-                  <select id="work_station_id" {...register("work_station_id")} className={style.input} >
+                <label htmlFor="work_station_id" className={style.inputLabel}>Espacio de trabajo</label>
+                  <select id="work_station_id" defaultValue={1} {...register("work_station_id")} className={style.input} >
+                    <option value={1}> Ninguno </option>
                   {workStations?.map((value: any) => {
                     return ( <option key={value.id} value={value.id}> {value.name} </option> );
                   })}

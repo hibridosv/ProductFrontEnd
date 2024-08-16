@@ -191,20 +191,22 @@ export function ProductView(props: ProductViewProps) {
 
   return (
     <div className="w-full overflow-auto">
-    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-          <th scope="col" className="py-3 px-4 border">Imagen</th>
-          <th scope="col" className="py-3 px-4 border">Nombre</th>
-          <th scope="col" className="py-3 px-4 border">Categoria</th>
-          <th scope="col" className="py-3 px-4 border">Modificadores</th>
-          <th scope="col" className="py-3 px-4 border">Panel</th>
-          <th scope="col" className="py-3 px-4 border">Precio</th>
-          <th scope="col" className="py-3 px-4 border">OP</th>
-        </tr>
-      </thead>
-      <tbody>{ isLoading && !selectProduct ? <Loading /> : listItems }</tbody>
-    </table>
+      { isLoading && !selectProduct ? <Loading /> :
+      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" className="py-3 px-4 border">Imagen</th>
+            <th scope="col" className="py-3 px-4 border">Nombre</th>
+            <th scope="col" className="py-3 px-4 border">Categoria</th>
+            <th scope="col" className="py-3 px-4 border">Modificadores</th>
+            <th scope="col" className="py-3 px-4 border">Panel</th>
+            <th scope="col" className="py-3 px-4 border">Precio</th>
+            <th scope="col" className="py-3 px-4 border">OP</th>
+          </tr>
+        </thead>
+        <tbody>{ listItems }</tbody>
+      </table> 
+      }
 
     <DeleteModal isShow={modalDelete.isOpen}
         text="¿Está seguro de eliminar este producto?"

@@ -39,6 +39,9 @@ export enum OptionsClickOrder {
     documentType = 20,
     comment = 21,
     quotes = 22,
+
+    payType = 23, // restaurant
+    setPrinter = 24, // restaurant
   }
   
 

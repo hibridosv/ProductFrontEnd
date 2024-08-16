@@ -375,3 +375,57 @@ export const dateToNumberValidate = () =>{
   const hoy = fecha.toISOString();
   return formatDateAsNumber(hoy)
 }
+
+
+export function getModalSize(imagesFiltered: any) {
+  const count = imagesFiltered.length;
+  if (count === 1) return 'xs';
+  if (count >= 2 && count <= 3) return 'sm';
+  if (count >= 4 && count <= 6) return 'md';
+  if (count >= 7 && count <= 12) return 'xl';
+  if (count >= 16 && count <= 20) return '2xl';
+  if (count >= 21 && count <= 35) return '4xl';
+  if (count >= 36 && count <= 40) return '6xl';
+  // Si hay más de 45 elementos, devolvemos el tamaño más grande '7xl'
+  return '7xl';
+}
+
+
+// agrupa los productos de restaurante para no mostrarlos individuales
+ export function groupInvoiceProductsByCod(invoice: any) {
+  const groupedProducts = {} as any;
+
+  invoice.invoiceproducts.forEach((product : any) => {
+      const { cod, quantity, subtotal, total } = product;
+
+      if (!groupedProducts[cod]) {
+          groupedProducts[cod] = { ...product };
+      } else {
+          groupedProducts[cod].quantity += quantity;
+          groupedProducts[cod].subtotal += subtotal;
+          groupedProducts[cod].total += total;
+      }
+  });
+
+  // Convertir el objeto en un array de productos
+  invoice.invoiceproductsGroup = Object.values(groupedProducts);
+  invoice.invoiceproductsGroup.sort((a: any, b: any) => 
+    new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+);
+  return invoice;
+}
+
+//// contar cuantos productos estan en cero de imprimir
+export function countSendPrintZero(invoice: any) {
+  if (!invoice?.invoiceproducts) return;
+
+  let count = 0;
+
+  invoice.invoiceproducts.forEach((product: any) => {
+      if (product.attributes && product.attributes.work_station_id && product.attributes.send_print === 0) {
+          count++;
+      }
+  });
+
+  return count;
+}
