@@ -39,7 +39,6 @@ export function IconsMenu(props: IconsMenuProps) {
         }
         // eslint-disable-next-line
       }, [isShow]);
-      console.log(images)
 
       const imageLoader = ({ src, width, quality }: any) => {
           return `${URL}/images/ico/${src}?w=${width}&q=${quality || 75}`

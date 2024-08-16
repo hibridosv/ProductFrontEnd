@@ -24,7 +24,6 @@ export default function Page() {
             setIsLoading(false);
         }
     };
-console.log(products)
 
     useEffect(() => {
             (async () => { await loadData() })();

@@ -34,7 +34,7 @@ const isDeleteCut = (record: string) => {
     setShowCutDetailsModal(true);
   }
 
-console.log("record ", records)
+
   const listItems = records?.data &&  records.data.map((record: any, key: any) => (
     <tr key={record.id} className={`border-2 ${record.status == 0 && "bg-red-300"}`} >
       <td className="py-2 px-6 truncate clickeable" onClick={()=>isShowDetails(record)}>{ record?.close && formatDateAsDMY(record.close) }  { record?.close ? formatTime(record.close) : "Sin corte"}</td>

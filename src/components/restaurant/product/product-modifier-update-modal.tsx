@@ -80,7 +80,6 @@ export function ProductModifierUpdateModal(props: ProductModifierUpdateModalProp
           }
     };
     
-    // console.log(dataInit?.assigments)
 
       if (!dataInit.text && !isShow) {
         return <div></div>

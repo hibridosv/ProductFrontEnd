@@ -55,7 +55,6 @@ export function SalesQuantityModal(props: SalesQuantityModalProps) {
       addOrSubtract: addOrSubtract, // 1 sumar 2 restar
       quantity: quantity,
     };
-console.log(values)
 
     try {
       setIsSending(true);

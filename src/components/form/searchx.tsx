@@ -55,7 +55,6 @@ const handleNewProduct = () => {
 
 
 const handleSelectedProduct = (product: any) => {
-  console.log("product", product)
   recordSelected(product)
   setProducts([])
   handleSearchTerm("")

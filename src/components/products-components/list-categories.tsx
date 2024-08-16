@@ -10,7 +10,6 @@ export interface ListCategoriesProps {
 export function ListCategories(props: ListCategoriesProps) {
   const { categories, onDelete } = props;
 
-  console.log(categories)
   return (
     <div className="w-full p-4">
       {categories.map((item: any) => (

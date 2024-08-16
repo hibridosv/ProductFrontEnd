@@ -28,7 +28,6 @@ export function SalesButtonsRestaurant(props: SalesButtonsRestaurantProps) {
   }, [setFocus, order, payType])
 
 const onSubmit =(data: any)=> {
-    console.log(data)
     payOrder(data.cash)
     reset()
 }

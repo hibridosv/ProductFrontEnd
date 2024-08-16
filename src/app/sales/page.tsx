@@ -54,7 +54,6 @@ export default function ViewSales() {
       // eslint-disable-next-line
       }, [config]);
 
-      console.log("order: ", order);
 
       const selectLastOrder = async () => {
             setIsLoading(true);
@@ -133,7 +132,6 @@ export default function ViewSales() {
                     setOrder(response.data)
                     if(configuration?.includes("sales-sound")) successSound()
                   }
-                  console.log(response)
                 } catch (error) {
                   console.error(error);
                   toast.error("Ha Ocurrido un Error!");

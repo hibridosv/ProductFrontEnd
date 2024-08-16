@@ -17,8 +17,6 @@ export function IconMenuCategoryModal(props: IconMenuCategoryModalProps) {
   const { onClose, isShow, selectedIcon, images, filter } = props;
 
 
-  console.log(filter)
-
         if (!images || !isShow) return <></>
 
         const imageLoader = ({ src, width, quality }: any) => {
