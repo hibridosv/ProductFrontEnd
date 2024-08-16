@@ -16,7 +16,7 @@ export default function Page() {
     const loadData = async () => {
         setIsLoading(true);
         try {
-          const cat = await getData(`restaurant/products?sort=created_at&included=workstation,category,assigments.option,menu_order`);
+          const cat = await getData(`restaurant/products?sort=created_at&included=restaurant.workstation,prices,category,assigments.option,menu_order`);
           setProducts(cat.data);
         } catch (error) {
             console.error(error);
@@ -24,7 +24,7 @@ export default function Page() {
             setIsLoading(false);
         }
     };
-
+console.log(products)
 
     useEffect(() => {
             (async () => { await loadData() })();

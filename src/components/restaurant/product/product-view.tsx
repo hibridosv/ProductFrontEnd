@@ -132,7 +132,7 @@ export function ProductView(props: ProductViewProps) {
 
   const listItems = products.map((record: any) => (
     <tr key={record.id} className={`border-b ${isLoading && selectProduct == record && 'animate-pulse'}`}>
-      <td className="py-2 px-6"><Image loader={imageLoader} src={record?.image} alt="Icono de imagen" width={70} height={70} className="drop-shadow-lg rounded-md" /></td>
+      <td className="py-2 px-6"><Image loader={imageLoader} src={record?.restaurant?.image} alt="Icono de imagen" width={70} height={70} className="drop-shadow-lg rounded-md" /></td>
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white uppercase" scope="row">
         { record?.description }
         { record.menu_order?.status === 0 && <div className="uppercase text-red-700">Inhabilitado</div> }
@@ -143,8 +143,8 @@ export function ProductView(props: ProductViewProps) {
       <td className="py-2 px-6">
         { record?.assigments.map((assigment: any)=> <li key={assigment.id}>{assigment.option?.name}</li>) }
       </td>
-      <td className="py-2 px-6">{record?.workstation?.name}</td>
-      <td className="py-2 px-6">{record?.sale_price ? numberToMoney(record?.sale_price) : numberToMoney(0)}</td>
+      <td className="py-2 px-6">{record?.restaurant?.workstation?.name}</td>
+      <td className="py-2 px-6">{record?.prices ? numberToMoney(record?.prices[0]?.price) : numberToMoney(0)}</td>
       <td className="py-2 px-6">
         <Tooltip animation="duration-300" content={
                 <div className="w-8/10">

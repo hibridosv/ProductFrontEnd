@@ -24,7 +24,7 @@ export function IconsMenu(props: IconsMenuProps) {
   const loadImages = async () => {
     setIsLoading(true);
     try {
-      const response = await getData(`restaurant/menu?sort=-order&filterWhere[status]==1&included=product,category,`);
+      const response = await getData(`restaurant/menu?sort=-order&filterWhere[status]==1&included=product.restaurant,category,`);
       setImages(response);
         } catch (error) {
           console.error(error);
@@ -39,7 +39,7 @@ export function IconsMenu(props: IconsMenuProps) {
         }
         // eslint-disable-next-line
       }, [isShow]);
-      
+      console.log(images)
 
       const imageLoader = ({ src, width, quality }: any) => {
           return `${URL}/images/ico/${src}?w=${width}&q=${quality || 75}`
@@ -56,7 +56,7 @@ export function IconsMenu(props: IconsMenuProps) {
                 <div key={record?.id} className="m-2 clickeable">
                     <div onClick={record.icon_type == 1 ? () => selectedIcon(record.product_id) : ()=>{setSelectedcategory(record.category_id); modalCategory.setIsOpen(true)} }
                      className="rounded-md drop-shadow-lg">
-                        <Image loader={imageLoader} src={record.icon_type == 1 ? record?.product?.image : record?.category?.img } alt="Icono de imagen" width={96} height={96} className="rounded-t-md" />
+                        <Image loader={imageLoader} src={record.icon_type == 1 ? record?.product?.restaurant?.image : record?.category?.img } alt="Icono de imagen" width={96} height={96} className="rounded-t-md" />
                         <p className={`w-full content-center text-center rounded-b-md overflow-hidden uppercase text-xs text-black font-medium p-1 h-9 ${record.icon_type == 1 ? 'bg-slate-300' : 'bg-cyan-200'}`} 
                            style={{ maxWidth: '96px',  wordBreak: 'keep-all', lineHeight: '1.2em' }}>
                             {record.icon_type == 1 ? record?.product?.description : record?.category?.name }

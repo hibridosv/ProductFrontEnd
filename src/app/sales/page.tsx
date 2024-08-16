@@ -115,7 +115,7 @@ export default function ViewSales() {
                 }
                 let values = {
                   product_id: producId,
-                  request_type: 2, // 1: id, 2: cod
+                  request_type: 1, // 1: id, 2: cod
                   delivery_type: 1, // delivery, recoger en tienda, ecommerce
                   order_type: 1, // venta, consignacion, ecommerce
                   price_type: typeOfPrice, // tipo de precio del producto

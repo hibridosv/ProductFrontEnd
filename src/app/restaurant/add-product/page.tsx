@@ -37,7 +37,7 @@ export default function Page() {
     const loadData = async () => {
         setIsLoading(true);
         try {
-          const cat = await getData(`restaurant/categories?sort=created_at&filterWhere[category_type]==2`);
+          const cat = await getData(`categories?sort=created_at&filterWhere[category_type]==2`);
           setCategories(cat.data);
           const opt = await getData(`restaurant/options`);
           setOptions(opt.data);
@@ -61,16 +61,17 @@ export default function Page() {
   const onSubmit = async (data: any) => {
 
     data.minimum_stock = 1;
-    data.product_type = 2;
+    data.product_type = 3;
     data.image = selectedImage;
     data.taxes = 13;
+    data.is_restaurant = 1;
+    data.quantity = 1;
 
     if (data.work_station_id == "1" || !data.work_station_id) {
       data.work_station_id = null
     }
-
     if (!Array.isArray(data.options)) {
-      data.options = (data.options == false) ? null : [data.options];
+      data.options = data.options ? [data.options] : null;
     }
 
     try {
