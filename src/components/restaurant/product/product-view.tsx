@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Tooltip } from "flowbite-react";
 
 import Image from "next/image";
@@ -21,6 +21,9 @@ import { ProductModifierUpdateModal } from "./product-modifier-update-modal";
 import { ProductPanelUpdateModal } from "./product-panel-update-modal";
 import { AddImageModal } from "./add-image-modal";
 import { Loading } from "@/components/loading/loading";
+import { ConfigContext } from "@/contexts/config-context";
+
+
 
 export interface ProductViewProps {
   products?: any;
@@ -38,6 +41,7 @@ export function ProductView(props: ProductViewProps) {
   const modalImg = useIsOpen(false);
   const [selectProduct, setSelectProduct] = useState<Product>({} as Product);
   const [dataUpdate, setDataUpdate] = useState({});
+  const { systemInformation } = useContext(ConfigContext);
 
   if (!products) return <></>;
 
@@ -144,7 +148,7 @@ export function ProductView(props: ProductViewProps) {
         { record?.assigments.map((assigment: any)=> <li key={assigment.id}>{assigment.option?.name}</li>) }
       </td>
       <td className="py-2 px-6">{record?.restaurant?.workstation?.name}</td>
-      <td className="py-2 px-6">{record?.prices ? numberToMoney(record?.prices[0]?.price) : numberToMoney(0)}</td>
+      <td className="py-2 px-6">{record?.prices ? numberToMoney(record?.prices[0]?.price, systemInformation) : numberToMoney(0, systemInformation)}</td>
       <td className="py-2 px-6">
         <Tooltip animation="duration-300" content={
                 <div className="w-8/10">

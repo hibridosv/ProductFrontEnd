@@ -1,8 +1,10 @@
 'use client'
-import { getTotalOfItem, numberToMoney, percentage } from "@/utils/functions";
+import { numberToMoney, percentage } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDateAsDMY } from "@/utils/date-formats";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
 
 
 interface ReportsSalesTableProps {
@@ -12,6 +14,7 @@ interface ReportsSalesTableProps {
 
 export function ReportsSalesTable(props: ReportsSalesTableProps) {
   const { records, isLoading } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -28,14 +31,14 @@ export function ReportsSalesTable(props: ReportsSalesTableProps) {
       <td className="py-2 px-6">{ record?.cod }</td>
       {/* <td className="py-2 px-6">{ numberToMoney(record?.unit_price ? record?.unit_price : 0) }</td> */}
       <td className="py-2 px-6">{ record?.quantity }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.unit_cost ? record?.unit_cost : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.unit_cost ? record?.unit_cost * record?.quantity : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.unit_price ? record?.unit_price : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.unit_price ? record?.unit_price * record?.quantity : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.discount_percentage ? record?.discount_percentage : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.discount ? record?.discount : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0) }</td>
-      <td className="py-2 px-6 whitespace-nowrap" scope="row">{ numberToMoney((record?.unit_price * record?.quantity) - (record?.unit_cost * record?.quantity)) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.unit_cost ? record?.unit_cost : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.unit_cost ? record?.unit_cost * record?.quantity : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.unit_price ? record?.unit_price : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.unit_price ? record?.unit_price * record?.quantity : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.discount_percentage ? record?.discount_percentage : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.discount ? record?.discount : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0, systemInformation) }</td>
+      <td className="py-2 px-6 whitespace-nowrap" scope="row">{ numberToMoney((record?.unit_price * record?.quantity) - (record?.unit_cost * record?.quantity), systemInformation) }</td>
       <td className="py-2 px-6 whitespace-nowrap" scope="row">{ percentage(record?.unit_cost * record?.quantity, record?.unit_price * record?.quantity).toFixed(2) } %</td>
     </tr>
   ));

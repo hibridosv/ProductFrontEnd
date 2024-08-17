@@ -1,3 +1,4 @@
+'use client'
 import { OptionsClickSales } from "@/components/sales-components/sales-quick-table";
 import { ConfigContext } from "@/contexts/config-context";
 import { OptionsClickOrder } from "@/services/enums";
@@ -8,6 +9,7 @@ import Image from "next/image";
 import { useContext, useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
+
 
 export interface ProductsTableProps {
   order: any
@@ -36,8 +38,8 @@ export function ProductsTable(props: ProductsTableProps) {
             <tr key={record.id} className="border-b bg-white" >
             <td className="py-3 px-6 clickeable" onClick={()=> onClickProduct(record, OptionsClickSales.quantity)}>{ record.quantity }</td>
             <td className="py-3 px-6">{ record.product }</td>
-            <td className="py-3 px-6 clickeable truncate" onClick={()=> onClickProduct(record, OptionsClickSales.discount)}>{ numberToMoney(record.unit_price, systemInformation?.system?.country) }</td> 
-            <td className="py-3 px-6 truncate">{ numberToMoney(record.total, systemInformation?.system?.country) }</td>
+            <td className="py-3 px-6 clickeable truncate" onClick={()=> onClickProduct(record, OptionsClickSales.discount)}>{ numberToMoney(record.unit_price, systemInformation) }</td> 
+            <td className="py-3 px-6 truncate">{ numberToMoney(record.total, systemInformation) }</td>
             <td className="py-2 truncate">
             <span className="flex justify-between">
                 <AiFillCloseCircle size={20} title="Editar" className="text-red-600 clickeable" onClick={()=> onClickProduct(record, OptionsClickSales.delete) } />

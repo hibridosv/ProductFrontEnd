@@ -2,6 +2,9 @@
 
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import { getPaymentTypeName, numberToMoney } from "@/utils/functions";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
+
 
 export interface RetornoInventarioProps {
     request?: any;
@@ -9,6 +12,7 @@ export interface RetornoInventarioProps {
 
 export function RetornoInventario(props: RetornoInventarioProps) {
     const { request } = props;
+    const { systemInformation } = useContext(ConfigContext);
 
     if (!request?.data) return <></>
 
@@ -57,7 +61,7 @@ export function RetornoInventario(props: RetornoInventarioProps) {
 
                     <div className="mx-3 flex justify-between p-2 font-semibold border-2 border-gray-500">
                         <div className=" w-1/4 border-r-2 border-gray-500">Total</div>
-                        <div className=" w-3/4 ml-4">{ numberToMoney(request?.data?.total) }</div>
+                        <div className=" w-3/4 ml-4">{ numberToMoney(request?.data?.total, systemInformation) }</div>
                     </div>
 
                 </div>

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Tooltip } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { getData } from "@/services/resources";
@@ -9,6 +9,7 @@ import { PresetTheme } from "@/services/enums";
 import { ListImagesOfProducts } from "../products-components/list-images";
 import { ProductLinkedModal } from "../products-components/product-add-linked-modal";
 import { Price } from "@/services/products";
+import { ConfigContext } from "@/contexts/config-context";
 
 
 export interface ProductDetailsProps {
@@ -23,6 +24,7 @@ export function ProductDetails(props: ProductDetailsProps) {
   const [isShowLinkedModal, setIsShowLinkedModal] = useState(false);
   const [isNotShowImages, setIsNotShowImages] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const { systemInformation } = useContext(ConfigContext);
 
 
 useEffect(() => {
@@ -50,7 +52,7 @@ const listPrices = product?.prices?.map((price: Price):any => (
     <div className="border border-teal-300">
         <span className="mx-2">{price.qty }</span>
         <span className="mx-2">=</span>
-        <span className="mx-2">{ numberToMoney(price.price)}</span>
+        <span className="mx-2">{ numberToMoney(price.price, systemInformation)}</span>
         <span className="mx-2">{price.price_type == 1 && "N"} {price.price_type == 2 && "M"} {price.price_type == 3 && "P"}</span>
     </div>
   </div>
@@ -73,7 +75,7 @@ const listPrices = product?.prices?.map((price: Price):any => (
       <div className="pb-4 pt-2 sm:mx-3 mx-1 rounded-lg border-cyan-700  text-blue-700 px-2 border-2">
         Precio Unidad
         <div className="sm:text-4xl flex justify-center text-2xl">
-          {product?.prices && product.prices.length > 0 ? numberToMoney(product.prices[0].price) : numberToMoney(0)}
+          {product?.prices && product.prices.length > 0 ? numberToMoney(product.prices[0].price, systemInformation) : numberToMoney(0, systemInformation)}
         </div>
         </div>
         </Tooltip>

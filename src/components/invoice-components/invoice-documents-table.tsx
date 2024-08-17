@@ -3,8 +3,9 @@ import { getPaymentTypeName, getTotalOfItem, numberToMoney } from "@/utils/funct
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDate, formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { InvoiceDetailsModal } from "./invoice-details-modal";
+import { ConfigContext } from "@/contexts/config-context";
 
 
 interface InvoiceDocumentsTableProps {
@@ -16,6 +17,7 @@ export function InvoiceDocumentsTable(props: InvoiceDocumentsTableProps) {
   const { records, isLoading } = props;
   const [showInvoiceModal, setShowInvoiceModal] = useState<boolean>(false);
   const [recordSelect, setRecordSelect] = useState<string>("");
+  const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -34,7 +36,7 @@ export function InvoiceDocumentsTable(props: InvoiceDocumentsTableProps) {
       <td className="py-2 px-6">{ record?.client?.name ? record?.client?.name : "N/A" }</td>
       <td className="py-2 px-6">{ getPaymentTypeName(record?.payment_type) }</td>
       <td className="py-2 px-6">{ record?.casheir?.name } </td>
-      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0, systemInformation) }</td>
     </tr>
   ));
 

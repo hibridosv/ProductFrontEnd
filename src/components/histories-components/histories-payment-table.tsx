@@ -3,6 +3,8 @@ import { documentType, getPaymentTypeName, getTotalOfItem, numberToMoney } from 
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDate, formatHourAsHM } from "@/utils/date-formats";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
 
 
 interface HistoriesPaymentTableProps {
@@ -12,6 +14,7 @@ interface HistoriesPaymentTableProps {
 
 export function HistoriesPaymentTable(props: HistoriesPaymentTableProps) {
   const { records, isLoading } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -26,8 +29,8 @@ export function HistoriesPaymentTable(props: HistoriesPaymentTableProps) {
       <td className="py-2 px-6 truncate">{ formatDate(record?.created_at) } | { formatHourAsHM(record?.created_at)} </td>
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.employee?.name } </th>
       <td className="py-2 px-6">{ record?.credit?.order?.invoice }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.quantity ? record?.quantity : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.balance ? record?.balance : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.quantity ? record?.quantity : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.balance ? record?.balance : 0, systemInformation) }</td>
     </tr>
   ));
 
@@ -48,7 +51,7 @@ export function HistoriesPaymentTable(props: HistoriesPaymentTableProps) {
     </table>
 
         <div className="uppercase shadow-lg border-x-2 ml-4 mt-4 ">
-            <div>Total Abonos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "quantity")) }</span></div>
+            <div>Total Abonos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "quantity"), systemInformation) }</span></div>
         </div>
 
  </div>

@@ -3,6 +3,8 @@ import { documentType, getPaymentTypeName, getTotalOfItem, numberToMoney } from 
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDate, formatHourAsHM } from "@/utils/date-formats";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
 
 
 interface HistoriesShippingNoteTableProps {
@@ -12,6 +14,7 @@ interface HistoriesShippingNoteTableProps {
 
 export function HistoriesShippingNoteTable(props: HistoriesShippingNoteTableProps) {
   const { records, isLoading } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -29,7 +32,7 @@ export function HistoriesShippingNoteTable(props: HistoriesShippingNoteTableProp
       <td className="py-2 px-6">{ record?.invoice }</td>
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.client ? record?.client?.name : "N/A" } </th>
       <td className="py-2 px-6">{ record?.products.length }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0, systemInformation) }</td>
     </tr>
   ));
 
@@ -53,7 +56,7 @@ export function HistoriesShippingNoteTable(props: HistoriesShippingNoteTableProp
 
         <div className="uppercase shadow-lg border-x-2 ml-4 mt-4 ">
             <div>Cantidad de envíos: <span className=" font-semibold">{ records?.data.length }</span></div>
-            <div>Total de envíos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "total")) }</span></div>
+            <div>Total de envíos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "total"), systemInformation) }</span></div>
         </div>
 
  </div>

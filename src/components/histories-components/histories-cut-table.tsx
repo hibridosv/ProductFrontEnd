@@ -4,7 +4,8 @@ import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDate, formatHourAsHM } from "@/utils/date-formats";
 import { CutDetailsModal } from "../cashdrawer-components/cut-details-modal";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ConfigContext } from "@/contexts/config-context";
 
 
 interface HistoriesCutTableProps {
@@ -16,6 +17,7 @@ export function HistoriesCutTable(props: HistoriesCutTableProps) {
   const { records, isLoading } = props;
   const [showCutDetailsModal, setShowCutDetailsModal] = useState(false);
   const [selectRecord, setSelectRecord] = useState("");
+  const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -32,14 +34,14 @@ export function HistoriesCutTable(props: HistoriesCutTableProps) {
     <tr key={record.id} className={`border-b ${record?.status == 0 && 'bg-red-200'}`}>
       <td className="py-2 px-6 truncate">{ formatDate(record?.opening) } | { formatHourAsHM(record?.opening)} </td>
       <td className="py-2 px-6 truncate">{ formatDate(record?.close) } | { formatHourAsHM(record?.close)} </td>
-      <td className="py-2 px-6">{ numberToMoney(record?.initial_cash ? record?.initial_cash : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.final_cash ? record?.final_cash : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.initial_cash ? record?.initial_cash : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.final_cash ? record?.final_cash : 0, systemInformation) }</td>
 
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.employee?.name } </th>
 
-      <td className="py-2 px-6">{ numberToMoney(record?.cash_incomes ? record?.cash_incomes : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.cash_expenses ? record?.cash_expenses : 0) }</td>
-      <td className="py-2 px-6 text-red-500 font-semibold clickeable" onClick={()=>isShowDetails(record)}>{ numberToMoney(record?.cash_diference ? record?.cash_diference : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.cash_incomes ? record?.cash_incomes : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.cash_expenses ? record?.cash_expenses : 0, systemInformation) }</td>
+      <td className="py-2 px-6 text-red-500 font-semibold clickeable" onClick={()=>isShowDetails(record)}>{ numberToMoney(record?.cash_diference ? record?.cash_diference : 0, systemInformation) }</td>
     </tr>
   ));
 

@@ -1,10 +1,12 @@
 'use client'
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { formatDateAsDMY } from "@/utils/date-formats";
 import { Product } from "@/services/products";
 import { ProductViewModal } from "./product-view-modal";
+import { ConfigContext } from "@/contexts/config-context";
+
 
 interface ProductExpirationTableProps {
   records?:  any;
@@ -14,6 +16,7 @@ export function ProductExpirationTable(props: ProductExpirationTableProps) {
   const { records } = props;
   const [showProductDetail, setShowProductDetail] = useState(false);
   const [selectProduct, setSelectProduct] = useState<Product>({} as Product);
+  const { systemInformation } = useContext(ConfigContext);
 
 
   if (!records.data) return <NothingHere width="164" height="98" />;
@@ -39,7 +42,7 @@ export function ProductExpirationTable(props: ProductExpirationTableProps) {
       <td className="py-3 px-6">{ record.lot ? record.lot : "N/A" }</td>
       <td className="py-3 px-6">{ record?.provider?.name }</td>
       <td className="py-3 px-6">{ record.actual_stock }</td>
-      <td className="py-3 px-6">{ numberToMoney(record.unit_cost ? record.unit_cost : 0) }</td>
+      <td className="py-3 px-6">{ numberToMoney(record.unit_cost ? record.unit_cost : 0, systemInformation) }</td>
       <td className="py-3 px-6 truncate font-medium">{ formatDateAsDMY(record.expiration) }</td>
       <td className="py-3 px-6 truncate">{ status(record.expiration) }</td>
     </tr>

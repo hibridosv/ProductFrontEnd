@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import toast, { Toaster } from 'react-hot-toast';
@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
 import { Button as Boton } from "flowbite-react";
 import { numberToMoney, sumarDiscount, sumarTotales, sumarTotalesWithoutDIscount } from "@/utils/functions";
+import { ConfigContext } from "@/contexts/config-context";
 
 
 export interface SalesDiscountProductModalProps {
@@ -27,6 +28,8 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
   const { register, handleSubmit, resetField, setFocus } = useForm();
   const [isSending, setIsSending] = useState(false);
   const [typeOfDiscount, setTypeOfDiscount] = useState(1);
+  const { systemInformation } = useContext(ConfigContext);
+
 
   useEffect(() => {
     setFocus('quantity', {shouldSelect: true})
@@ -90,25 +93,25 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
         { byCode ?
         <div>
           <div className="mt-4  border-b-2 flex justify-between">
-            <span>Precio sin descuento:</span> {discountType == 1 ? numberToMoney(product?.unit_price) : numberToMoney(sumarTotalesWithoutDIscount(order?.invoiceproducts))}
+            <span>Precio sin descuento:</span> {discountType == 1 ? numberToMoney(product?.unit_price, systemInformation) : numberToMoney(sumarTotalesWithoutDIscount(order?.invoiceproducts), systemInformation)}
           </div>
           <div className="mt-1 border-b-2 flex justify-between">
-            <span>Descuento aplicado:</span> {discountType == 1 ? numberToMoney(product?.discount)  : numberToMoney(sumarDiscount(order?.invoiceproducts))}
+            <span>Descuento aplicado:</span> {discountType == 1 ? numberToMoney(product?.discount, systemInformation)  : numberToMoney(sumarDiscount(order?.invoiceproducts), systemInformation)}
           </div>
           <div className="mt-1 border-b-2 flex justify-between">
-            <span>Total con descuento:</span> {discountType == 1 ? numberToMoney((parseFloat(product?.unit_price)) - (parseFloat(product?.discount)))  : numberToMoney(sumarTotales(order?.invoiceproducts))}
+            <span>Total con descuento:</span> {discountType == 1 ? numberToMoney((parseFloat(product?.unit_price)) - (parseFloat(product?.discount)), systemInformation)  : numberToMoney(sumarTotales(order?.invoiceproducts), systemInformation)}
           </div>
         </div>
         :
         <div>
           <div className="mt-4  border-b-2 flex justify-between">
-          <span>Precio sin descuento:</span> {discountType == 1 ? numberToMoney(parseFloat(product?.discount) + parseFloat(product?.total )) : numberToMoney(sumarTotalesWithoutDIscount(order?.invoiceproducts))}
+          <span>Precio sin descuento:</span> {discountType == 1 ? numberToMoney(parseFloat(product?.discount) + parseFloat(product?.total ), systemInformation) : numberToMoney(sumarTotalesWithoutDIscount(order?.invoiceproducts), systemInformation)}
           </div>
           <div className="mt-1 border-b-2 flex justify-between">
-            <span>Descuento aplicado:</span> {discountType == 1 ? numberToMoney(product?.discount)  : numberToMoney(sumarDiscount(order?.invoiceproducts))}
+            <span>Descuento aplicado:</span> {discountType == 1 ? numberToMoney(product?.discount, systemInformation)  : numberToMoney(sumarDiscount(order?.invoiceproducts), systemInformation)}
           </div>
           <div className="mt-1 border-b-2 flex justify-between">
-            <span>Total con descuento:</span> {discountType == 1 ? numberToMoney(product?.total)  : numberToMoney(sumarTotales(order?.invoiceproducts))}
+            <span>Total con descuento:</span> {discountType == 1 ? numberToMoney(product?.total)  : numberToMoney(sumarTotales(order?.invoiceproducts), systemInformation)}
           </div>
       </div>
         }

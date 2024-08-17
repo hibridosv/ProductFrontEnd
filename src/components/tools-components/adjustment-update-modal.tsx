@@ -1,16 +1,11 @@
 "use client";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
-import { DateRange } from "../form/date-range";
 import { style } from "@/theme";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { postData } from "@/services/resources";
-import { getTotalOfItem, getTotalPercentage, loadData, numberToMoney } from "@/utils/functions";
-import { Loading } from "../loading/loading";
-import { Alert } from "../alert/alert";
-import { formatDateAsDMY } from "@/utils/date-formats";
 
 
 export interface AdjustmentUpdateModalProps {

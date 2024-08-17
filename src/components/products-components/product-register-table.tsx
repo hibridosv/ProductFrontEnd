@@ -1,8 +1,11 @@
+'use client'
 import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { formatDateAsDMY } from "@/utils/date-formats";
 import { Loading } from "../loading/loading";
 import { Button, Preset } from "../button/button";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
 
 interface ProductRegisterProps {
   records: any[];
@@ -13,6 +16,8 @@ interface ProductRegisterProps {
 
 export function ProductRegisterTable(props: ProductRegisterProps) {
   const { records, isLoading, onDelete, productPrincipal } = props;
+  const { systemInformation } = useContext(ConfigContext);
+
 
   if (isLoading) return (<Loading />)
 
@@ -28,8 +33,8 @@ export function ProductRegisterTable(props: ProductRegisterProps) {
       <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
         <td className="py-2 px-2 truncate uppercase">{ record?.product?.description }</td>
         <td className="py-2 px-2">{ record?.quantity }</td>
-        <td className="py-2 px-2">{ numberToMoney(record.unit_cost ? record.unit_cost : 0) }</td>
-        <td className="py-2 px-2">{ numberToMoney((record.unit_cost ? record.unit_cost : 0) * record?.quantity) }</td>
+        <td className="py-2 px-2">{ numberToMoney(record.unit_cost ? record.unit_cost : 0, systemInformation) }</td>
+        <td className="py-2 px-2">{ numberToMoney((record.unit_cost ? record.unit_cost : 0) * record?.quantity, systemInformation) }</td>
         <td className="py-2 px-2 truncate">{ record?.document_number }</td>
         <td className="py-2 px-2 truncate">{ formatDateAsDMY(record.created_at) }</td>
         <td className="py-2 px-2"><Button preset={productPrincipal ? Preset.smallClose : Preset.smallCloseDisable} noText onClick={productPrincipal ? ()=>onDelete(record.id) : ()=>{}} /></td>
@@ -54,7 +59,7 @@ export function ProductRegisterTable(props: ProductRegisterProps) {
       </thead>
       <tbody>{listItems}</tbody>
     </table>
-    <div className=" font-semibold uppercase text-right ml-4 text-red-950">Total ingresado: {numberToMoney(total)}</div>
+    <div className=" font-semibold uppercase text-right ml-4 text-red-950">Total ingresado: {numberToMoney(total, systemInformation)}</div>
  </div>
  </div>);
 }

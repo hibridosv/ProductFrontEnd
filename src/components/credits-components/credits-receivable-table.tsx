@@ -4,6 +4,10 @@ import { NothingHere } from "../nothing-here/nothing-here";
 import { Tooltip } from "flowbite-react";
 import { formatDateAsDMY } from "@/utils/date-formats";
 import { MdAddchart } from "react-icons/md";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
+
+
 
 interface CredistReceivableTableProps {
   records?:  any;
@@ -13,6 +17,8 @@ interface CredistReceivableTableProps {
 
 export function CredistReceivableTable(props: CredistReceivableTableProps) {
   const { records, onClick, creditSelect } = props;
+  const { systemInformation } = useContext(ConfigContext);
+
 
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
@@ -38,8 +44,8 @@ export function CredistReceivableTable(props: CredistReceivableTableProps) {
       <td className="py-3 px-6 truncate">{ record?.order?.invoice == 5 ? "N/A" : record?.order?.invoice }</td>
       <td className="py-3 px-6 whitespace-nowrap">{ record?.expiration ? formatDateAsDMY(record?.expiration) : "N/A"}</td> 
       {/* <td className="py-2 px-6">{ record?.description }</td> */}
-      <td className="py-3 px-6 truncate">{ numberToMoney(record?.order?.total ? record?.order?.total : 0) }</td>
-      <td className="py-3 px-6 truncate">{ numberToMoney(record?.balance ? record?.balance : 0) }</td>
+      <td className="py-3 px-6 truncate">{ numberToMoney(record?.order?.total ? record?.order?.total : 0, systemInformation) }</td>
+      <td className="py-3 px-6 truncate">{ numberToMoney(record?.balance ? record?.balance : 0, systemInformation) }</td>
       <td className="py-2 px-6">{ status(record?.status) }</td>
       <td className="py-2 px-6">
         <MdAddchart size={28} 

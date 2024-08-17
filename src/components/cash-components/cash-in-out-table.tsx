@@ -1,10 +1,12 @@
 'use client'
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Button, Preset } from "../button/button";
 import { DeleteModal } from "../modals/delete-modal";
 import { InOut } from "@/services/Account";
+import { ConfigContext } from "@/contexts/config-context";
+
 
 interface CashInOutTableProps {
   records?:  any;
@@ -15,6 +17,7 @@ export function CashInOutTable(props: CashInOutTableProps) {
   const { records, onDelete } = props;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectBill, setSelectBill] = useState<InOut>({} as InOut);
+  const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -44,7 +47,7 @@ export function CashInOutTable(props: CashInOutTableProps) {
         { transactionType(record?.transaction_type) }</td>
       <td className="py-3 px-6 whitespace-nowrap">{ record?.description }</td>
       <td className="py-3 px-6 truncate">{ record?.employee?.name }</td>
-      <td className="py-2 px-6">{ numberToMoney(record.quantity ? record.quantity : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record.quantity ? record.quantity : 0, systemInformation) }</td>
       <td className="py-2 px-6 truncate"><Button 
       preset={record.status == 1 ? Preset.smallClose : Preset.smallCloseDisable} 
       disabled={record.status == 0 ? true : false} noText onClick={()=>isDelete(record)} /> </td>

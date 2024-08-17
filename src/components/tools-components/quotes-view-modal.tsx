@@ -6,6 +6,8 @@ import { getUrlFromCookie } from "@/services/oauth";
 import { formatDate } from "@/utils/date-formats";
 import { ButtonDownload } from "../button/button-download";
 import { FaDownload } from "react-icons/fa";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
 
 
 export interface QuotesViewModalProps {
@@ -18,6 +20,7 @@ export interface QuotesViewModalProps {
 
 export function QuotesViewModal(props: QuotesViewModalProps) {
     const { onClose, isShow, record, sendQuotes, isSending } = props;
+    const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -26,9 +29,9 @@ export function QuotesViewModal(props: QuotesViewModalProps) {
           <td className="py-2 px-6 truncate">{ record?.cod } </td>
           <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.product }</th>
           <td className="py-2 px-6">{ record?.quantity }</td>
-          <td className="py-2 px-6">{ numberToMoney(record?.unit_price ? record?.unit_price : 0) }</td>
-          <td className="py-2 px-6">{ numberToMoney(record?.discount ? record?.discount : 0) }</td>
-          <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0) }</td>
+          <td className="py-2 px-6">{ numberToMoney(record?.unit_price ? record?.unit_price : 0, systemInformation) }</td>
+          <td className="py-2 px-6">{ numberToMoney(record?.discount ? record?.discount : 0, systemInformation) }</td>
+          <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0, systemInformation) }</td>
         </tr>
       ));
 
@@ -70,7 +73,7 @@ export function QuotesViewModal(props: QuotesViewModalProps) {
                             <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col" className="py-3 px-4 border">Total: </th>
-                            <th scope="col" className="py-3 px-4 border">{ numberToMoney(sumarTotales(record?.products)) }</th>
+                            <th scope="col" className="py-3 px-4 border">{ numberToMoney(sumarTotales(record?.products), systemInformation) }</th>
                         </tr>
                     </tfoot>
                     </table>

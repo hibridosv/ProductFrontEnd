@@ -3,6 +3,8 @@ import { numberToMoney, percentage } from "@/utils/functions";
 import { formatDateAsDMY } from "@/utils/date-formats";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
 
 
 interface ReportsProductsTableProps {
@@ -12,6 +14,7 @@ interface ReportsProductsTableProps {
 
 export function ReportsProductsTable(props: ReportsProductsTableProps) {
   const { records, isLoading } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
   if (isLoading) return <Loading />;
   if (!records.data) return <NothingHere width="164" height="98" />;
@@ -25,7 +28,7 @@ export function ReportsProductsTable(props: ReportsProductsTableProps) {
       <td className="py-2 px-6">{ record?.product?.cod }</td>
       <td className="py-2 px-6">{ record?.document_number ? record?.document_number : "N/A" }</td>
       <td className="py-2 px-6">{ record?.quantity }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.unit_cost ? record?.unit_cost : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.unit_cost ? record?.unit_cost : 0, systemInformation) }</td>
       <td className="py-2 px-6">{ record?.provider?.name }</td>
       <td className="py-2 px-6">{ record?.expiration ? formatDateAsDMY(record?.expiration) : "N/A" }</td>
       <td className="py-2 px-6">{ record?.employee?.name }</td>

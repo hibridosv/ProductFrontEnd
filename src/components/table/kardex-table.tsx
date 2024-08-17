@@ -2,8 +2,11 @@
 import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ProductKardexViewModal } from "../products-components/product-kardex-view-modal";
+import { ConfigContext } from "@/contexts/config-context";
+
+
 
 interface KardexTableProps {
   records?:  any;
@@ -13,6 +16,9 @@ export function KardexTable(props: KardexTableProps) {
   const { records } = props;
   const [isShowKardexModal, setIsShowKardexModal] = useState(false);
   const [isSelectKardexId, setIsSelectKardexId] = useState("");
+  const { systemInformation } = useContext(ConfigContext);
+
+
 
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
@@ -29,11 +35,11 @@ export function KardexTable(props: KardexTableProps) {
       <th className="py-3 px-6 font-medium text-gray-900 whitespace-nowrap clickeable" scope="row" onClick={()=>setKardexDetails(record)}>{ record.description }</th>
       <td className="py-3 px-6">{ record.unit_cost }</td>
       <td className={`py-3 px-6 ${record.qty_in && 'text-blue-600 font-semibold'}`}>{ record.qty_in ? record.qty_in : 0 }</td>
-      <td className={`py-3 px-6 ${record.total_in && 'text-blue-600 font-semibold'}`}>{ numberToMoney(record.total_in ? record.total_in : 0) }</td>
+      <td className={`py-3 px-6 ${record.total_in && 'text-blue-600 font-semibold'}`}>{ numberToMoney(record.total_in ? record.total_in : 0, systemInformation) }</td>
       <td className={`py-3 px-6 ${record.qty_out && 'text-red-500 font-semibold'}`}>{ record.qty_out ? record.qty_out : 0 }</td>
-      <td className={`py-3 px-6 ${record.total_out && 'text-red-500 font-semibold'}`}>{ numberToMoney(record.total_out ? record.total_out : 0) }</td>
+      <td className={`py-3 px-6 ${record.total_out && 'text-red-500 font-semibold'}`}>{ numberToMoney(record.total_out ? record.total_out : 0, systemInformation) }</td>
       <td className="py-3 px-6">{ record.qty_balance ? record.qty_balance : 0 }</td>
-      <td className="py-3 px-6 font-semibold">{ numberToMoney(record.total_balance ? record.total_balance : 0) }</td>
+      <td className="py-3 px-6 font-semibold">{ numberToMoney(record.total_balance ? record.total_balance : 0, systemInformation) }</td>
     </tr>
   ));
 

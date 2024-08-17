@@ -1,10 +1,11 @@
 'use client'
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Button, Preset } from "../button/button";
 import { DeleteModal } from "../modals/delete-modal";
 import { Account } from "@/services/Bills";
+import { ConfigContext } from "@/contexts/config-context";
 
 interface CashAccountsTableProps {
   records?:  any;
@@ -15,6 +16,7 @@ export function CashAccountsTable(props: CashAccountsTableProps) {
   const { records, onDelete } = props;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectBill, setSelectBill] = useState<Account>({} as Account);
+  const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -48,7 +50,7 @@ export function CashAccountsTable(props: CashAccountsTableProps) {
       <td className="py-3 px-6 whitespace-nowrap">{ record?.account }</td>
       <td className="py-3 px-6 whitespace-nowrap">{ record?.bank }</td>
       <td className="py-3 px-6 truncate">{ typeOfAccount(record?.type) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record.balance ? record.balance : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record.balance ? record.balance : 0, systemInformation) }</td>
       <td className="py-2 px-6 truncate"><Button 
       preset={(record.status == 1 && record.is_principal == 0) ? Preset.smallClose : Preset.smallCloseDisable} 
       disabled={(record.status == 0 || record.is_principal == 1) ? true : false} noText onClick={()=>isDelete(record)} /> </td>

@@ -2,10 +2,14 @@
 import { getTotalPercentage, numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { formatDate, formatHourAsHM } from "@/utils/date-formats";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getData, postData } from "@/services/resources";
 import { ToggleSwitch } from "flowbite-react";
 import toast, { Toaster } from 'react-hot-toast';
+import { ConfigContext } from "@/contexts/config-context";
+
+
+
 
 interface CommissionsProductsTableProps {
   record?:  any;
@@ -16,6 +20,7 @@ export function CommissionsProductsTable(props: CommissionsProductsTableProps) {
   const { record, setProducts } = props;
   const [ordersCommission, setOrdersCommission] = useState({} as any);
   const [isSending, setIsSending] = useState(false);
+  const { systemInformation } = useContext(ConfigContext);
 
 
   const handleGetProducts = async () => {
@@ -107,9 +112,9 @@ useEffect(() => { // manda el dato de cuantas ordenes hay marcadas
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.invoice_assigned?.name }: { record?.invoice } </th>
       <td className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white">{ record?.referred?.name }</td>
       <td className="py-2 px-6">{ record?.products.length }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.discount ? record?.discount : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(getTotalCommission(record?.products)) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.discount ? record?.discount : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(getTotalCommission(record?.products), systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0, systemInformation) }</td>
       <td className="py-2 px-6"><ToggleSwitch
                         disabled={record?.credit && record?.credit?.status == 1}
                         checked={!isSelectedOrder(record?.products)}

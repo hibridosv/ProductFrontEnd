@@ -3,6 +3,9 @@ import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Tooltip } from "flowbite-react";
 import { formatDateAsDMY } from "@/utils/date-formats";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
+
 
 interface CashhistoryTableProps {
   records?:  any;
@@ -10,6 +13,7 @@ interface CashhistoryTableProps {
 
 export function CashhistoryTable(props: CashhistoryTableProps) {
   const { records } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
@@ -17,8 +21,8 @@ export function CashhistoryTable(props: CashhistoryTableProps) {
   const viewTooltip = (previus: number, current: number)=>{
      return (
         <div>
-            <div><span className="mr-3">Saldo Anterior</span>{ numberToMoney(previus ? previus : 0) }</div>
-            <div><span className="mr-3">Saldo Actual</span>{ numberToMoney(current ? current : 0) }</div>
+            <div><span className="mr-3">Saldo Anterior</span>{ numberToMoney(previus ? previus : 0, systemInformation) }</div>
+            <div><span className="mr-3">Saldo Actual</span>{ numberToMoney(current ? current : 0, systemInformation) }</div>
         </div>
      )
   }
@@ -43,7 +47,7 @@ export function CashhistoryTable(props: CashhistoryTableProps) {
       content={viewTooltip(record?.to_previous_balance,record?.to_current_balance)} >{ record?.account_to?.bank }</Tooltip> :
       <span className="ml-4 text-red-500 font-semibold text-center">N/A</span> }
       </td>
-      <td className="py-3 px-6 truncate">{ numberToMoney(record?.quantity ? record?.quantity : 0) }</td>
+      <td className="py-3 px-6 truncate">{ numberToMoney(record?.quantity ? record?.quantity : 0, systemInformation) }</td>
       <td className="py-2 px-6">{ record?.employee?.name }</td>
     </tr>
   ));

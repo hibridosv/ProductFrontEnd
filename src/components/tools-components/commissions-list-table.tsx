@@ -4,7 +4,8 @@ import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDate, formatHourAsHM } from "@/utils/date-formats";
 import { CommissionViewModal } from "./commission-view-modal";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ConfigContext } from "@/contexts/config-context";
 
 
 interface CommissionsListTableProps {
@@ -17,6 +18,7 @@ export function CommissionsListTable(props: CommissionsListTableProps) {
   const { records, isLoading, random } = props;
   const [isViewCommissionModal, setIsViewCommissionModal] = useState(false);
   const [isCommissionSelected, setIsCommissionSelected] = useState({} as any);
+  const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -53,8 +55,8 @@ export function CommissionsListTable(props: CommissionsListTableProps) {
       <td className="py-2 px-6">{ setType(record?.type) }</td>
       <td className="py-2 px-6">{ record?.referred?.name }</td>
       <td className="py-2 px-6">{ record?.invoices }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0) }</td>
-      <th className="py-2 px-6">{ numberToMoney(record?.commissions ? record.type == 1 ? record?.commissions : record?.commissions * 0.10 : 0) }</th>
+      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0, systemInformation) }</td>
+      <th className="py-2 px-6">{ numberToMoney(record?.commissions ? record.type == 1 ? record?.commissions : record?.commissions * 0.10 : 0, systemInformation) }</th>
       <th className="py-2 px-6" onClick={()=>setModal(record)}>{ setStatus(record?.status) }</th>
     </tr>
   ));

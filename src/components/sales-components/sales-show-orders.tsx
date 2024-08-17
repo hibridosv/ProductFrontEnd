@@ -114,7 +114,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
             <td className="py-1 px-2">{product.cod }</td>
             <td className="py-1 px-2">{product.product }</td>
             <td className="py-1 px-2">{ product.quantity}</td>
-            <td className="py-1 px-2">{ numberToMoney(product.total)}</td>
+            <td className="py-1 px-2">{ numberToMoney(product.total, systemInformation)}</td>
       </tr>
     ))
     }</tbody>

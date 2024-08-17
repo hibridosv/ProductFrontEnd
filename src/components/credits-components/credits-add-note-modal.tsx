@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
@@ -11,6 +11,7 @@ import { PresetTheme } from "@/services/enums";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import { numberToMoney } from "@/utils/functions";
 import { DeleteModal } from "../modals/delete-modal";
+import { ConfigContext } from "@/contexts/config-context";
 
 
 
@@ -27,6 +28,7 @@ export function CreditAddNoteModal(props: CreditAddNoteModalProps) {
   const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState<any>({});
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { systemInformation } = useContext(ConfigContext);
 
     const onSubmit = async(data: any) => {
       data.credits_payable_id = creditSelected.id;
@@ -96,7 +98,7 @@ export function CreditAddNoteModal(props: CreditAddNoteModalProps) {
                         </div>
                         <div className="w-full md:w-full px-3 mb-2">
                             <div  className={style.inputLabel}> Cantidad *</div>
-                            <div className={style.input}>{numberToMoney(creditSelected?.note?.quantity)}</div>
+                            <div className={style.input}>{numberToMoney(creditSelected?.note?.quantity, systemInformation)}</div>
                         </div>
                     
                     </div>

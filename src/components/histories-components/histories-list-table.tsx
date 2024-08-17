@@ -4,7 +4,8 @@ import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDate, formatHourAsHM } from "@/utils/date-formats";
 import { InvoiceDetailsModal } from "../invoice-components/invoice-details-modal";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ConfigContext } from "@/contexts/config-context";
 
 
 interface HistoriesListTableProps {
@@ -16,6 +17,7 @@ export function HistoriesListTable(props: HistoriesListTableProps) {
   const { records, isLoading } = props;
   const [showInvoiceModal, setShowInvoiceModal] = useState<boolean>(false);
   const [recordSelect, setRecordSelect] = useState<string>("");
+  const { systemInformation } = useContext(ConfigContext);
 
 
   if (isLoading) return <Loading />;
@@ -36,8 +38,8 @@ export function HistoriesListTable(props: HistoriesListTableProps) {
         <span className="ml-3">{ record?.invoice }</span>
       </td>
       <td className="py-2 px-6">{ getPaymentTypeName(record?.payment_type) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.discount ? record?.discount : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.discount ? record?.discount : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0, systemInformation) }</td>
     </tr>
   ));
 
@@ -59,8 +61,8 @@ export function HistoriesListTable(props: HistoriesListTableProps) {
     </table>
 
         <div className="uppercase shadow-lg border-x-2 ml-4 my-4 ">
-            <div>Total descuentos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "discount")) }</span></div>
-            <div>Total de ventas: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "total")) }</span></div>
+            <div>Total descuentos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "discount"), systemInformation) }</span></div>
+            <div>Total de ventas: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "total"), systemInformation) }</span></div>
         </div>
 
  </div>

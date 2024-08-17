@@ -23,6 +23,8 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
   const [isSending, setIsSending] = useState(false);
   const [newProductPrices, setNewProductPrices] = useState(product?.prices);
   const [newFilterPrices, setNewFilterPrices] = useState([]);
+  const { systemInformation } = useContext(ConfigContext);
+
 
   let optionsRadioButton: Option[] = [
     { id: 0, name: "Todos" },
@@ -101,7 +103,7 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
     const listItems = newFilterPrices?.map((price: any) => (
         <tr key={price.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
             <td className="py-3 px-6">{price.qty}</td>
-            <td className="py-3 px-6">{numberToMoney(price.price)}</td>
+            <td className="py-3 px-6">{numberToMoney(price.price, systemInformation)}</td>
             <td className="py-3 px-6">{ priceTypeToText(price) }</td>
             <td className="py-3 px-6"><Button onClick={()=> deletePrice(price.id)} noText={true} preset={Preset.smallClose} /></td>
         </tr>

@@ -1,4 +1,7 @@
+'use client'
 import { numberToMoney } from "@/utils/functions";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
 
 export interface CashShowTotalProps {
  records?: any;
@@ -6,6 +9,7 @@ export interface CashShowTotalProps {
 
 export function CashShowTotal(props: CashShowTotalProps) {
   const { records } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -16,7 +20,7 @@ export function CashShowTotal(props: CashShowTotalProps) {
   const listItems = records.data.map((record: any) => (
     <div key={record.id} className="w-full my-4 shadow-neutral-600 shadow-lg rounded-md">
       <div className="flex justify-center pt-2 font-bold">{record?.bank}</div>
-      <div className="flex justify-center text-3xl mb-4 pb-4 font-bold">{numberToMoney(record?.balance)}</div>
+      <div className="flex justify-center text-3xl mb-4 pb-4 font-bold">{numberToMoney(record?.balance, systemInformation)}</div>
     </div>
   ));
 

@@ -2,6 +2,8 @@
 import { getTotalOfItem, numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
 
 
 interface HistoriesSalesTableProps {
@@ -11,6 +13,7 @@ interface HistoriesSalesTableProps {
 
 export function HistoriesSalesTable(props: HistoriesSalesTableProps) {
   const { records, isLoading } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -25,9 +28,9 @@ export function HistoriesSalesTable(props: HistoriesSalesTableProps) {
       <td className="py-2 px-6 truncate">{ record?.cod } </td>
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.product }</th>
       <td className="py-2 px-6">{ record?.quantity_sum }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.unit_price ? record?.unit_price : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.discount_sum ? record?.discount_sum : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.total_sum ? record?.total_sum : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.unit_price ? record?.unit_price : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.discount_sum ? record?.discount_sum : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.total_sum ? record?.total_sum : 0, systemInformation) }</td>
     </tr>
   ));
 
@@ -50,8 +53,8 @@ export function HistoriesSalesTable(props: HistoriesSalesTableProps) {
 
         <div className="uppercase shadow-lg border-x-2 ml-4 mt-4 ">
             <div>Cantidad de productos: <span className=" font-semibold">{ getTotalOfItem(records?.data, "quantity_sum") }</span></div>
-            <div>Total descuentos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "discount_sum")) }</span></div>
-            <div>Total de ventas: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "total_sum")) }</span></div>
+            <div>Total descuentos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "discount_sum"), systemInformation) }</span></div>
+            <div>Total de ventas: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "total_sum"), systemInformation) }</span></div>
         </div>
  </div>
  </div>);

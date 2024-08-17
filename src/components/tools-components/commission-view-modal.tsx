@@ -1,7 +1,7 @@
 "use client";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { postData } from "@/services/resources";
 import { formatDuiWithAll, getRandomInt, getTotalPercentage, numberToMoney } from "@/utils/functions";
@@ -10,6 +10,9 @@ import { Alert } from "../alert/alert";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import { ButtonDownload } from "../button/button-download";
 import { FaDownload } from "react-icons/fa";
+import { ConfigContext } from "@/contexts/config-context";
+
+
 
 export interface CommissionViewModalProps {
     onClose: () => void;
@@ -22,6 +25,7 @@ export function CommissionViewModal(props: CommissionViewModalProps) {
     const { onClose, isShow, record, random } = props;
     const [isSending, setIsSending] = useState(false);
     const products = record && record.linked;
+    const { systemInformation } = useContext(ConfigContext);
 
 
     const payReport = async () => {
@@ -95,8 +99,8 @@ export function CommissionViewModal(props: CommissionViewModalProps) {
                 <td className="py-2 px-6">{formatDateAsDMY(item.charged_at)}</td>
                 <td className="py-2 px-6">{item.order}</td>
                 <td className="py-2 px-6">{(item.commission / item.items).toFixed(2)} %</td>
-                <td className="py-2 px-6">{numberToMoney(item.commissionTotal)}</td>
-                <td className="py-2 px-6">{numberToMoney(item.total)}</td>
+                <td className="py-2 px-6">{numberToMoney(item.commissionTotal, systemInformation)}</td>
+                <td className="py-2 px-6">{numberToMoney(item.total, systemInformation)}</td>
             </tr>
         );
     });
@@ -130,10 +134,10 @@ export function CommissionViewModal(props: CommissionViewModalProps) {
                                     <div>
                                         <div className="py-1 pl-5 border border-b-2 ">Facturas afectadas: <span className="font-semibold">{record.invoices}</span></div>
                                         <div className="py-1 pl-5 border border-b-2 ">Cantidad de productos: <span className="font-semibold">{record.products}</span></div>
-                                        <div className="py-1 pl-5 border border-b-2 ">Total de ventas: <span className="font-semibold">{numberToMoney(record.total)}</span></div>
-                                        <div className="py-1 pl-5 border border-b-2 ">Total de Comisión: <span className="font-semibold">{numberToMoney(record.commissions)}</span></div>
-                                        <div className="py-1 pl-5 border border-b-2 ">Total de Retenciones: <span className="font-semibold">{numberToMoney(record.commissions.toFixed(2) * 0.10)}</span></div>
-                                        <div className="py-1 pl-5 border border-b-2 bg-lime-200">Total a Pagar: <span className="font-semibold">{numberToMoney(record.commissions - (record.commissions * 0.10))}</span></div>
+                                        <div className="py-1 pl-5 border border-b-2 ">Total de ventas: <span className="font-semibold">{numberToMoney(record.total, systemInformation)}</span></div>
+                                        <div className="py-1 pl-5 border border-b-2 ">Total de Comisión: <span className="font-semibold">{numberToMoney(record.commissions, systemInformation)}</span></div>
+                                        <div className="py-1 pl-5 border border-b-2 ">Total de Retenciones: <span className="font-semibold">{numberToMoney(record.commissions.toFixed(2) * 0.10, systemInformation)}</span></div>
+                                        <div className="py-1 pl-5 border border-b-2 bg-lime-200">Total a Pagar: <span className="font-semibold">{numberToMoney(record.commissions - (record.commissions * 0.10), systemInformation)}</span></div>
                                     </div>
                                 </div>
                             ) : (

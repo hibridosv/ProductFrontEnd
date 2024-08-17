@@ -3,6 +3,8 @@ import { getTotalOfItem, numberToMoney, percentage } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
 
 
 interface ReportsFailuresTableProps {
@@ -12,6 +14,7 @@ interface ReportsFailuresTableProps {
 
 export function ReportsFailuresTable(props: ReportsFailuresTableProps) {
   const { records, isLoading } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -25,7 +28,7 @@ export function ReportsFailuresTable(props: ReportsFailuresTableProps) {
       <td className="py-2 px-6 truncate">{ formatDateAsDMY(record?.created_at) } { formatHourAsHM(record?.created_at) }</td>
       <td className="py-2 px-6">{ record?.product?.cod }</td>
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.product?.description }</th>
-      <th className="py-2 px-6">{ numberToMoney(record?.product?.unit_cost) }</th>
+      <th className="py-2 px-6">{ numberToMoney(record?.product?.unit_cost, systemInformation) }</th>
       <td className="py-2 px-6">{ record?.quantity }</td>
       <td className="py-2 px-6  whitespace-nowrap"  scope="row">{ record?.reason }</td>
       <td className="py-2 px-6">{ record?.employee?.name }</td>

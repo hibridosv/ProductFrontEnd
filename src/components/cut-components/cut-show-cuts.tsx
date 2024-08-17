@@ -1,9 +1,11 @@
 import { formatDate, formatDateAsDMY, formatTime } from "@/utils/date-formats";
 import { numberToMoney } from "@/utils/functions";
 import { Button, Preset } from "../button/button";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { DeleteModal } from "../modals/delete-modal";
 import { CutDetailsModal } from "../cashdrawer-components/cut-details-modal";
+import { ConfigContext } from "@/contexts/config-context";
+
 
 export interface CutShowCutsProps {
  records?: any;
@@ -15,6 +17,7 @@ export function CutShowCuts(props: CutShowCutsProps) {
   const [selectRecord, setSelectRecord] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showCutDetailsModal, setShowCutDetailsModal] = useState(false);
+  const { systemInformation } = useContext(ConfigContext);
 
 const firstRecord = records?.data && records?.data[0];
 
@@ -38,8 +41,8 @@ const isDeleteCut = (record: string) => {
   const listItems = records?.data &&  records.data.map((record: any, key: any) => (
     <tr key={record.id} className={`border-2 ${record.status == 0 && "bg-red-300"}`} >
       <td className="py-2 px-6 truncate clickeable" onClick={()=>isShowDetails(record)}>{ record?.close && formatDateAsDMY(record.close) }  { record?.close ? formatTime(record.close) : "Sin corte"}</td>
-      <td className="py-2 px-6 clickeable" onClick={()=>isShowDetails(record)}>{ numberToMoney(record?.final_cash ? record?.final_cash : 0) }</td>
-      <td className={`py-2 px-6 font-bold clickeable ${record?.cash_diference > 0 ? 'text-blue-600' : record?.cash_diference < 0 ? 'text-red-600' : 'text-black'}`} onClick={()=>isShowDetails(record)}>{ numberToMoney(record?.cash_diference ? record?.cash_diference : 0) }</td>
+      <td className="py-2 px-6 clickeable" onClick={()=>isShowDetails(record)}>{ numberToMoney(record?.final_cash ? record?.final_cash : 0, systemInformation) }</td>
+      <td className={`py-2 px-6 font-bold clickeable ${record?.cash_diference > 0 ? 'text-blue-600' : record?.cash_diference < 0 ? 'text-red-600' : 'text-black'}`} onClick={()=>isShowDetails(record)}>{ numberToMoney(record?.cash_diference ? record?.cash_diference : 0, systemInformation) }</td>
       <td className="py-2 px-6"><Button preset={firstRecord.id == record?.id ? Preset.smallClose : Preset.smallCloseDisable} 
                 onClick={firstRecord.id == record?.id ? ()=>isDeleteCut(record) : ()=>{} } noText /></td>
     </tr>

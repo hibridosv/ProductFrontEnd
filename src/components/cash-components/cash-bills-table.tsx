@@ -1,10 +1,11 @@
 'use client'
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { getPaymentTypeName, numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Button, Preset } from "../button/button";
 import { DeleteModal } from "../modals/delete-modal";
 import { Bill } from "@/services/Bills";
+import { ConfigContext } from "@/contexts/config-context";
 
 interface CashBillsTableProps {
   records?:  any;
@@ -16,6 +17,7 @@ export function CashBillsTable(props: CashBillsTableProps) {
   const { records, onDelete, isDisabled } = props;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectBill, setSelectBill] = useState<Bill>({} as Bill);
+  const { systemInformation } = useContext(ConfigContext);
 
 
   if (!records.data) return <NothingHere width="164" height="98" />;
@@ -37,7 +39,7 @@ export function CashBillsTable(props: CashBillsTableProps) {
     <tr key={record.id} className={`border-b  ${record.status == 1 ? 'bg-white' : 'bg-red-200'}`} >
       {/* <td className="py-3 px-6 whitespace-nowrap">{ record.name }</td> */}
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row"><div className={`${record?.description && "text-xs font-light"}`}>{ record.name }</div><div>{ record.description }</div></th>
-      <td className="py-2 px-6">{ numberToMoney(record.quantity ? record.quantity : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record.quantity ? record.quantity : 0, systemInformation) }</td>
       {/* <td className="py-3 px-6 whitespace-nowrap">{ formatDateAsDMY(record.created_at) }</td> */}
       <td className="py-2 px-6 truncate">{ getPaymentTypeName(record.payment_type) }</td>
       {/* <td className="py-3 px-6 truncate">{ record.cash_accounts_id }</td> */}

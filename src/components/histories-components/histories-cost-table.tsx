@@ -3,6 +3,8 @@ import { getTotalOfItem, numberToMoney, percentage } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDate, formatHourAsHM } from "@/utils/date-formats";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
 
 
 interface HistoriesCostTableProps {
@@ -12,6 +14,7 @@ interface HistoriesCostTableProps {
 
 export function HistoriesCostTable(props: HistoriesCostTableProps) {
   const { records, isLoading } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -26,10 +29,10 @@ export function HistoriesCostTable(props: HistoriesCostTableProps) {
       <td className="py-2 px-6 truncate">{ formatDate(record?.created_at) } | { formatHourAsHM(record?.created_at)} </td>
       <th className="py-2 px-6">{ record?.quantity } </th>
       <th className="py-2 px-6">{ record?.actual_stock } </th>
-      <td className="py-2 px-6">{ numberToMoney(record?.unit_cost ? record?.unit_cost : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.sale_price ? record?.sale_price : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney((record?.sale_price) - (record?.unit_cost)) }</td>
-      <td className="py-2 px-6">{ numberToMoney((record?.sale_price * record?.quantity) - (record?.unit_cost * record?.quantity)) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.unit_cost ? record?.unit_cost : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.sale_price ? record?.sale_price : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney((record?.sale_price) - (record?.unit_cost), systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney((record?.sale_price * record?.quantity) - (record?.unit_cost * record?.quantity), systemInformation) }</td>
       <td className="py-2 px-6">{ percentage(record?.unit_cost * record?.quantity, record?.sale_price * record?.quantity).toFixed(2) } %</td>
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.provider?.name } </th>
     </tr>

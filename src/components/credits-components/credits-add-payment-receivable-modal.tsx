@@ -15,6 +15,7 @@ import { CredistPaymentsTable } from "./credits-payments-table";
 import { ConfigContext } from "@/contexts/config-context";
 import { NothingHere } from "../nothing-here/nothing-here";
 
+
 export enum Type {
     receivable = 1,
     payable = 2,
@@ -34,7 +35,7 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
   const [message, setMessage] = useState<any>({});
   const [payments, setPayments] = useState([] as any);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const { cashDrawer } = useContext(ConfigContext);
+  const { cashDrawer, systemInformation } = useContext(ConfigContext);
 
 
   useEffect(() => {
@@ -150,11 +151,11 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
                 <div className="flex justify-between mb-6">
                     <div className="mx-4 border-2 border-slate-600 shadow-lg shadow-teal-500 rounded-md w-full">
                         <div className="w-full text-center">Abonos</div>
-                        <div className="w-full text-center text-2xl">{ numberToMoney(payments?.total ? payments?.total :0) }</div>
+                        <div className="w-full text-center text-2xl">{ numberToMoney(payments?.total ? payments?.total :0, systemInformation) }</div>
                     </div>
                     <div className="mx-4 border-2 border-slate-600 shadow-lg shadow-red-500 rounded-md w-full">
                         <div className="w-full text-center">Saldo</div>
-                        <div className="w-full text-center text-2xl">{numberToMoney(payments?.balance ? payments?.balance : 0)}</div>
+                        <div className="w-full text-center text-2xl">{numberToMoney(payments?.balance ? payments?.balance : 0, systemInformation)}</div>
                     </div>
                 </div>
                 <div>
@@ -209,7 +210,7 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
                     <div className="w-full flex justify-center  mb-6">
                         <div className="w-1/2 mx-4 border-2 border-slate-600 shadow-lg shadow-lime-500 rounded-md">
                             <div className="text-center">Total</div>
-                            <div className="text-center text-2xl">{ numberToMoney(creditSelected?.order?.total ? creditSelected?.order?.total : 0) }</div>
+                            <div className="text-center text-2xl">{ numberToMoney(creditSelected?.order?.total ? creditSelected?.order?.total : 0, systemInformation) }</div>
                         </div>
                     </div>
                <div className="pb-4 mx-3 border-2 shadow-lg rounded-md"> 

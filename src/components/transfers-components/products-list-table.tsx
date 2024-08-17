@@ -1,12 +1,15 @@
 'use client'
 import { NothingHere } from "../nothing-here/nothing-here";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { DeleteModal } from "../modals/delete-modal";
 import { IoIosAlert, IoIosCloseCircle } from "react-icons/io";
 import { toast, Toaster } from "react-hot-toast";
 import { postData } from "@/services/resources";
 import { ChangeQuantityModal } from "./change-quantity-modal";
 import { numberToMoney } from "@/utils/functions";
+import { ConfigContext } from "@/contexts/config-context";
+
+
 
 interface TransferProductListTableProps {
   records?:  any;
@@ -20,6 +23,9 @@ export function TransferProductListTable(props: TransferProductListTableProps) {
   const [recordSelect, setRecordSelect] = useState<any>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showQuantityModal, setShowQuantityModal] = useState(false);
+  const { systemInformation } = useContext(ConfigContext);
+
+
 
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
@@ -75,9 +81,9 @@ export function TransferProductListTable(props: TransferProductListTableProps) {
       <tr key={record.id} className={`border-b ${record.requested_exists == 0 ? "bg-orange-100" : "bg-white"}`} title={`${record.requested_exists == 0 ? "El producto no existe en el inventario" : ""}`} >
         <td className="py-3 px-6">{ record?.cod }</td>
         <td className="py-3 px-6 whitespace-nowrap">{ record?.description }</td> 
-        <td className="py-3 px-6 whitespace-nowrap">{ numberToMoney(JSON.parse(records?.data?.[index]?.product_json)?.unit_cost) }</td> 
+        <td className="py-3 px-6 whitespace-nowrap">{ numberToMoney(JSON.parse(records?.data?.[index]?.product_json)?.unit_cost, systemInformation) }</td> 
         <td className={`py-3 px-6 truncate ${record.requested_exists == 1 && "clickeable"}`} onClick={record.requested_exists == 1 ? ()=>handleRecordUpdate( record ) : ()=>{}}>{ record?.quantity }</td>
-        <td className="py-3 px-6 whitespace-nowrap">{ numberToMoney(subtotal)}</td> 
+        <td className="py-3 px-6 whitespace-nowrap">{ numberToMoney(subtotal, systemInformation)}</td> 
         <td className="py-2 px-6 truncate">
           <span className="flex justify-between">
             {
@@ -107,7 +113,7 @@ export function TransferProductListTable(props: TransferProductListTableProps) {
       </thead>
       <tbody>{listItems}</tbody>
     </table>
-    <div className=" font-medium uppercase text-lg text-teal-700 text-right mt-3">Total: {numberToMoney(total)}</div>
+    <div className=" font-medium uppercase text-lg text-teal-700 text-right mt-3">Total: {numberToMoney(total, systemInformation)}</div>
     <ChangeQuantityModal isShow={showQuantityModal} onClose={()=>setShowQuantityModal(false)} handleUpdateQuantity={updateQuantity} />
     <Toaster position="top-right" reverseOrder={false} />
     <DeleteModal isShow={showDeleteModal}

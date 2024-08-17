@@ -3,6 +3,8 @@ import { getPaymentTypeName, getTotalOfItem, numberToMoney } from "@/utils/funct
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDate, formatHourAsHM } from "@/utils/date-formats";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
 
 
 interface HistoriesDiscountTableProps {
@@ -12,6 +14,7 @@ interface HistoriesDiscountTableProps {
 
 export function HistoriesDiscountTable(props: HistoriesDiscountTableProps) {
   const { records, isLoading } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -30,8 +33,8 @@ export function HistoriesDiscountTable(props: HistoriesDiscountTableProps) {
         <span className="ml-3">{ record?.invoice }</span>
       </td>
       <td className="py-2 px-6">{ getPaymentTypeName(record?.payment_type) }</td>
-      <td className="py-2 px-6 text-red-500 font-semibold">{ numberToMoney(record?.discount ? record?.discount : 0) }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0) }</td>
+      <td className="py-2 px-6 text-red-500 font-semibold">{ numberToMoney(record?.discount ? record?.discount : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0, systemInformation) }</td>
     </tr>
   ));
 
@@ -53,8 +56,8 @@ export function HistoriesDiscountTable(props: HistoriesDiscountTableProps) {
     </table>
 
         <div className="uppercase shadow-lg border-x-2 ml-4 mt-4 ">
-            <div>Total descuentos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "discount")) }</span></div>
-            <div>Total de ventas: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "total")) }</span></div>
+            <div>Total descuentos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "discount"), systemInformation) }</span></div>
+            <div>Total de ventas: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "total"), systemInformation) }</span></div>
         </div>
 
  </div>

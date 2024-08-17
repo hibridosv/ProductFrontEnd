@@ -2,6 +2,9 @@
 
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import { numberToMoney } from "@/utils/functions";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
+
 
 export interface InventarioInicialProps {
     request?: any;
@@ -9,6 +12,7 @@ export interface InventarioInicialProps {
 
 export function InventarioInicial(props: InventarioInicialProps) {
     const { request } = props;
+    const { systemInformation } = useContext(ConfigContext);
 
     if (!request?.data) return <></>
 
@@ -45,13 +49,13 @@ export function InventarioInicial(props: InventarioInicialProps) {
                     
                     <div className="mx-3 flex justify-between p-2 font-semibold border-2 border-gray-500">
                         <div className=" w-1/4 border-r-2 border-gray-500">Precio Compra</div>
-                        <div className=" w-3/4 ml-4">{ numberToMoney(request?.data?.unit_cost) }</div>
+                        <div className=" w-3/4 ml-4">{ numberToMoney(request?.data?.unit_cost, systemInformation) }</div>
                     </div>
 
                     
                     <div className="mx-3 flex justify-between p-2 font-semibold border-2 border-gray-500">
                         <div className=" w-1/4 border-r-2 border-gray-500">Precio Venta</div>
-                        <div className=" w-3/4 ml-4">{ numberToMoney(request?.data?.sale_price) }</div>
+                        <div className=" w-3/4 ml-4">{ numberToMoney(request?.data?.sale_price, systemInformation) }</div>
                     </div>
 
 

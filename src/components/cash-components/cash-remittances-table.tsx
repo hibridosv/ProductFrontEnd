@@ -1,10 +1,12 @@
 'use client'
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { getPaymentTypeName, numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Button, Preset } from "../button/button";
 import { DeleteModal } from "../modals/delete-modal";
 import { Remittance } from "@/services/Remittances";
+import { ConfigContext } from "@/contexts/config-context";
+
 
 interface CashRemittancesTableProps {
   records?:  any;
@@ -16,6 +18,7 @@ export function CashRemittancesTable(props: CashRemittancesTableProps) {
   const { records, onDelete, isDisabled } = props;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectBill, setSelectBill] = useState<Remittance>({} as Remittance);
+  const { systemInformation } = useContext(ConfigContext);
 
 
 
@@ -37,7 +40,7 @@ export function CashRemittancesTable(props: CashRemittancesTableProps) {
   const listItems = records.data.map((record: Remittance) => (
     <tr key={record.id} className={`border-b  ${record.status == 1 ? 'bg-white' : 'bg-red-200'}`} >
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row"><div className={`${record?.description && "text-xs font-light"}`}>{ record.name }</div><div>{ record.description }</div></th>
-      <td className="py-2 px-6">{ numberToMoney(record.quantity ? record.quantity : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record.quantity ? record.quantity : 0, systemInformation) }</td>
       <td className="py-3 px-6 truncate">{ record?.account?.account }</td>
       <td className="py-2 px-6 truncate"><Button preset={record.status == 1 && !isDisabled  ? Preset.smallClose : Preset.smallCloseDisable} disabled={record.status == 0 || isDisabled && true} noText onClick={()=>isDelete(record)} /> </td>
     </tr>

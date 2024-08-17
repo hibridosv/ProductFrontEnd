@@ -1,8 +1,11 @@
+'use client'
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { getData } from "@/services/resources";
 import { numberToMoney } from "@/utils/functions";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from 'use-debounce';
+import { ConfigContext } from "@/contexts/config-context";
+
 
 export interface SearchInputProps {
     placeholder?: string;
@@ -15,6 +18,7 @@ export function SearchInput(props: SearchInputProps) {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const inputSearch = useRef<any>();
+  const { systemInformation } = useContext(ConfigContext);
 
 
   const debounced = useDebouncedCallback(
@@ -73,7 +77,7 @@ const listItems = products?.map((product: any):any => (
   <div>
     {product.cod} | {product.description} 
     {product?.prices &&
-    <span className="text-xs font-normal border border-slate-500 ml-3 shadow-md rounded-md px-1">{ numberToMoney(product?.prices[0]?.price ? product?.prices[0]?.price : 0) }</span>
+    <span className="text-xs font-normal border border-slate-500 ml-3 shadow-md rounded-md px-1">{ numberToMoney(product?.prices[0]?.price ? product?.prices[0]?.price : 0, systemInformation) }</span>
     }
   </div>
       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"

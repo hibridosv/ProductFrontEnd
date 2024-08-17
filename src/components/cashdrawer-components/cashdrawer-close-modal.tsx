@@ -21,9 +21,11 @@ export function CashdrawerCloseModal(props: CashdrawerCloseModalProps) {
     const { register, handleSubmit, resetField } = useForm();
     const [isSending, setIsSending] = useState(false);
     const [message, setMessage] = useState<any>({});
-    const { cashDrawer, setCashDrawer} = useContext(ConfigContext);
+    const { cashDrawer, setCashDrawer, systemInformation} = useContext(ConfigContext);
     const [size, setSize] = useState("md");
     const [lastCut, setLastCut] = useState<any>({});
+
+
 
   useEffect(() => { isShow && setSize("md") }, [isShow]);
 
@@ -83,26 +85,26 @@ export function CashdrawerCloseModal(props: CashdrawerCloseModalProps) {
             <div className="grid grid-cols-1 md:grid-cols-6 pb-10">
                 <div className="col-span-3 border-2 border-slate-600 shadow-lg shadow-sky-500 rounded-md m-2">
                   <div className="m-2 text-center">Efectivo Apertura</div>
-                  <div className="m-2 text-center font-bold text-3xl">{ numberToMoney(lastCut?.data?.inicial_cash ? lastCut?.data?.inicial_cash : 0) }</div>
+                  <div className="m-2 text-center font-bold text-3xl">{ numberToMoney(lastCut?.data?.inicial_cash ? lastCut?.data?.inicial_cash : 0, systemInformation) }</div>
                 </div>
                 <div className="col-span-3 border-2 border-slate-600 shadow-lg shadow-sky-500 rounded-md m-2">
                   <div className="m-2 text-center">Efectivo Cierre</div>
-                  <div className="m-2 text-center font-bold text-3xl">{ numberToMoney(lastCut?.data?.final_cash ? lastCut?.data?.final_cash : 0) }</div>
+                  <div className="m-2 text-center font-bold text-3xl">{ numberToMoney(lastCut?.data?.final_cash ? lastCut?.data?.final_cash : 0, systemInformation) }</div>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-9 pb-10">
                 <div className="col-span-3 border-2 border-slate-600 shadow-lg shadow-orange-500 rounded-md m-2">
                   <div className="m-2 text-center">Salidas</div>
-                  <div className="m-2 text-center font-bold text-3xl">{ numberToMoney(lastCut?.data?.cash_expenses ? lastCut?.data?.cash_expenses : 0) }</div>
+                  <div className="m-2 text-center font-bold text-3xl">{ numberToMoney(lastCut?.data?.cash_expenses ? lastCut?.data?.cash_expenses : 0, systemInformation) }</div>
                 </div>
                 <div className="col-span-3 border-2 border-slate-600 shadow-lg shadow-lime-500 rounded-md m-2">
                   <div className="m-2 text-center">Entradas</div>
-                  <div className="m-2 text-center font-bold text-3xl">{ numberToMoney(lastCut?.data?.cash_incomes ? lastCut?.data?.cash_incomes : 0) }</div>
+                  <div className="m-2 text-center font-bold text-3xl">{ numberToMoney(lastCut?.data?.cash_incomes ? lastCut?.data?.cash_incomes : 0, systemInformation) }</div>
                 </div>
                 <div className="col-span-3 border-2 border-slate-600 shadow-lg shadow-fuchsia-500 rounded-md m-2">
                   <div className="m-2 text-center">Diferencia</div>
-                  <div className="m-2 text-center font-bold text-3xl">{ numberToMoney(lastCut?.data?.cash_diference ? lastCut?.data?.cash_diference : 0) }</div>
+                  <div className="m-2 text-center font-bold text-3xl">{ numberToMoney(lastCut?.data?.cash_diference ? lastCut?.data?.cash_diference : 0, systemInformation) }</div>
                 </div>
             </div>
 

@@ -25,7 +25,7 @@ export default function Page() {
     const [showNoteModal, setShowNoteModal] = useState(false);
     const [randNumber, setRandNumber] = useState(0);
     const [showCodeStatus, setShowCodeStatus] = useState<boolean>(false);
-    const { config } = useContext(ConfigContext);
+    const { config, systemInformation } = useContext(ConfigContext);
   
     useEffect(() => {
       setShowCodeStatus(getConfigStatus("sales-show-code", config));
@@ -148,11 +148,11 @@ export default function Page() {
         <td className="py-2 px-6 truncate">{ record?.cod} </td>
         }
         <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.product } </th>
-        <td className="py-2 px-6">{ numberToMoney(record?.unit_price ? record?.unit_price : 0) }</td>
-        <td className="py-2 px-6">{ numberToMoney(record?.subtotal ? record?.subtotal : 0) }</td>
-        <td className="py-2 px-6">{ numberToMoney(record?.taxes ? record?.taxes : 0) }</td>
-        <td className="py-2 px-6">{ numberToMoney(record?.discount ? record?.discount : 0) }</td>
-        <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0) }</td>
+        <td className="py-2 px-6">{ numberToMoney(record?.unit_price ? record?.unit_price : 0, systemInformation) }</td>
+        <td className="py-2 px-6">{ numberToMoney(record?.subtotal ? record?.subtotal : 0, systemInformation) }</td>
+        <td className="py-2 px-6">{ numberToMoney(record?.taxes ? record?.taxes : 0, systemInformation) }</td>
+        <td className="py-2 px-6">{ numberToMoney(record?.discount ? record?.discount : 0, systemInformation) }</td>
+        <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0, systemInformation) }</td>
       </tr>
     ));
 
@@ -207,10 +207,10 @@ export default function Page() {
                       {listProducts}
                       <tr>
                         <th scope="col" className="py-3 px-4 border" colSpan={showCodeStatus ? 4 : 3} ></th>
-                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.subtotal) }</th>
-                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.taxes) }</th>
-                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.discount) }</th>
-                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.total) }</th>
+                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.subtotal, systemInformation) }</th>
+                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.taxes, systemInformation) }</th>
+                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.discount, systemInformation) }</th>
+                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.total, systemInformation) }</th>
                       </tr>
                     </tbody>
                   </table>

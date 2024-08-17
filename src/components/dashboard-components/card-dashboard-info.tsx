@@ -2,7 +2,7 @@
 'use client'
 import {  DownArrow, UpArrow } from "@/theme/svg";
 import { Loading } from "../loading/loading";
-import { getCountryProperty, numberToMoney } from "@/utils/functions";
+import { getCountryProperty } from "@/utils/functions";
 import { useContext } from "react";
 import { ConfigContext } from "@/contexts/config-context";
 

@@ -1,10 +1,13 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getFirstElement, getLastElement, numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import {  formatDate, formatDateAsDMY, formatTime } from "@/utils/date-formats";
 import { Button, Preset } from "../button/button";
 import { Tooltip } from "flowbite-react";
+import { ConfigContext } from "@/contexts/config-context";
+
+
 
 interface CredistPaymentsTableProps {
   records?:  any;
@@ -16,6 +19,7 @@ interface CredistPaymentsTableProps {
 export function CredistPaymentsTable(props: CredistPaymentsTableProps) {
   const { records, onDelete, isDisabled, isPrint } = props;
   const [isLasElement, setIsLasElement] = useState([] as any);
+  const { systemInformation } = useContext(ConfigContext);
 
 
   useEffect(() => setIsLasElement(getFirstElement(records?.data)), [records]);
@@ -40,7 +44,7 @@ export function CredistPaymentsTable(props: CredistPaymentsTableProps) {
   const listItems = records.data.map((record: any) => (
     <tr key={record.id} className={`border-b ${record.payment_type == 0 ? 'bg-blue-50' : 'bg-white'}`} >
       <td className="py-1 px-6 whitespace-nowrap">{formatDateAsDMY(record?.created_at)}</td> 
-      <td className="py-1 px-6 truncate">{ numberToMoney(record?.quantity ? record?.quantity : 0) }</td>
+      <td className="py-1 px-6 truncate">{ numberToMoney(record?.quantity ? record?.quantity : 0, systemInformation) }</td>
       <td className="py-1 px-6 truncate">{ record?.employee?.name }</td>
       <td className="py-1 px-6">
       { record?.status == 0 ? <Tooltip animation="duration-300" 

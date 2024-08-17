@@ -3,7 +3,8 @@ import { getPaymentTypeName, getTotalOfItem, numberToMoney } from "@/utils/funct
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDate, formatHourAsHM } from "@/utils/date-formats";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ConfigContext } from "@/contexts/config-context";
 
 
 interface HistoriesBillsTableProps {
@@ -13,6 +14,7 @@ interface HistoriesBillsTableProps {
 
 export function HistoriesBillsTable(props: HistoriesBillsTableProps) {
   const { records, isLoading } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
 
   if (isLoading) return <Loading />;
@@ -27,7 +29,7 @@ export function HistoriesBillsTable(props: HistoriesBillsTableProps) {
       <td className="py-2 px-6">{ record?.description } </td>
       <td className="py-2 px-6">{ getPaymentTypeName(record.payment_type) }</td>
       <td className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.employee?.name } </td>
-      <td className="py-2 px-6">{ numberToMoney(record?.quantity ? record?.quantity : 0) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.quantity ? record?.quantity : 0, systemInformation) }</td>
     </tr>
   ));
 
@@ -50,7 +52,7 @@ export function HistoriesBillsTable(props: HistoriesBillsTableProps) {
 
         <div className="uppercase shadow-lg border-x-2 ml-4 mt-4 ">
             <div>Numero total gastos: <span className=" font-semibold">{ records?.data.length }</span></div>
-            <div>Total en gastos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "quantity")) }</span></div>
+            <div>Total en gastos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "quantity"), systemInformation) }</span></div>
         </div>
  </div>
  </div>);

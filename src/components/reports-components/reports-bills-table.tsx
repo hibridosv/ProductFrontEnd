@@ -3,6 +3,8 @@ import { documentType, getPaymentTypeName, numberToMoney, percentage } from "@/u
 import { formatDateAsDMY } from "@/utils/date-formats";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
 
 
 interface ReportsBillsTableProps {
@@ -12,6 +14,7 @@ interface ReportsBillsTableProps {
 
 export function ReportsBillsTable(props: ReportsBillsTableProps) {
   const { records, isLoading } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
   if (isLoading) return <Loading />;
   if (!records.data) return <NothingHere width="164" height="98" />;
@@ -31,7 +34,7 @@ export function ReportsBillsTable(props: ReportsBillsTableProps) {
       </td>
       <td className="py-2 px-6">{ getPaymentTypeName(record?.type) }</td>
       <td className="py-2 px-6">{ record?.account?.account ? record?.account?.account : "N/A" }</td>
-      <th className="py-2 px-6">{ numberToMoney(record?.quantity ? record?.quantity : 0) }</th>
+      <th className="py-2 px-6">{ numberToMoney(record?.quantity ? record?.quantity : 0, systemInformation) }</th>
     </tr>
   ));
 

@@ -81,7 +81,7 @@ export function ProductsTable(props: ProductsTableProps) {
         {product.description}
       </span>
         </th>}
-      { !withOutRows?.includes(RowTable.prices) && <td className="py-3 px-6">{product.prices[0] ? numberToMoney(product.prices[0].price) : numberToMoney(0)}</td>}
+      { !withOutRows?.includes(RowTable.prices) && <td className="py-3 px-6">{product.prices[0] ? numberToMoney(product.prices[0].price, systemInformation) : numberToMoney(0, systemInformation)}</td>}
       { !withOutRows?.includes(RowTable.quantity) && <td className="py-3 px-6">{product.quantity}</td>}
       { !withOutRows?.includes(RowTable.category) && <td className="py-3 px-6">{product.category.name}</td>}
       { !withOutRows?.includes(RowTable.brand) && <td className="py-3 px-6">{product?.brand?.name}</td>}

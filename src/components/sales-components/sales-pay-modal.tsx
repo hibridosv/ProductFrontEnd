@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,10 @@ import { numberToMoney } from "@/utils/functions";
 import { ShowTotal } from "./show-total";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
+import { ConfigContext } from "@/contexts/config-context";
+
+
+
 
 export interface SalesPayModalProps {
   onClose: () => void;
@@ -35,6 +39,8 @@ export function SalesPayModal(props: SalesPayModalProps) {
   const [isSending, setIsSending] = useState(false);
   const [isPayInvoice, setIsPayInvoice] = useState(false);
   const [dataInvoice, setDataInvoice] = useState({}) as any;
+  const { systemInformation } = useContext(ConfigContext);
+
 
   useEffect(() => {
     setFocus('cash')
@@ -84,17 +90,17 @@ export function SalesPayModal(props: SalesPayModalProps) {
         <div className="w-full my-4">
           { invoice?.invoice_assigned?.type != 8 &&
           <div  className='flex justify-between  border-y-4'>
-            <div><span className="flex justify-center">Descuentos</span> <span className="flex justify-center">{numberToMoney(dataInvoice?.discount)}</span></div>
-            <div><span className="flex justify-center">Impuestos</span> <span className="flex justify-center">{numberToMoney(dataInvoice?.taxes)}</span></div>
-            <div><span className="flex justify-center">Sub Total</span> <span className="flex justify-center">{numberToMoney(dataInvoice?.subtotal)}</span></div>
+            <div><span className="flex justify-center">Descuentos</span> <span className="flex justify-center">{numberToMoney(dataInvoice?.discount, systemInformation)}</span></div>
+            <div><span className="flex justify-center">Impuestos</span> <span className="flex justify-center">{numberToMoney(dataInvoice?.taxes, systemInformation)}</span></div>
+            <div><span className="flex justify-center">Sub Total</span> <span className="flex justify-center">{numberToMoney(dataInvoice?.subtotal, systemInformation)}</span></div>
           </div>
           }
 
           <div className="flex justify-center mt-4">TOTAL</div>
-          <div className="flex justify-center text-7xl mb-4 font-bold">{numberToMoney(dataInvoice?.total - dataInvoice?.retention)}</div>
+          <div className="flex justify-center text-7xl mb-4 font-bold">{numberToMoney(dataInvoice?.total - dataInvoice?.retention, systemInformation)}</div>
           { paymentType === 1 && invoice?.invoice_assigned?.type != 8 ? <>
           <div className="flex justify-center">CAMBIO</div>
-          <div className="flex justify-center text-7xl mb-4 text-red-600 font-bold">{numberToMoney(dataInvoice?.change)}
+          <div className="flex justify-center text-7xl mb-4 text-red-600 font-bold">{numberToMoney(dataInvoice?.change, systemInformation)}
           </div></> : 
           <div className='flex justify-center text-lg font-semibold uppercase text-blue-600'>
             { paymentType === 5 ? 
