@@ -1,4 +1,5 @@
 'use client'
+import { NothingHere } from "@/components/nothing-here/nothing-here";
 import { OptionsClickSales } from "@/components/sales-components/sales-quick-table";
 import { ConfigContext } from "@/contexts/config-context";
 import { OptionsClickOrder } from "@/services/enums";
@@ -27,10 +28,15 @@ export function ProductsTable(props: ProductsTableProps) {
       return `${remoteUrl}/images/logo/${src}?w=${width}&q=${quality || 75}`
     }
 
-    console.log(systemInformation?.system?.country)
-    if (!order?.invoiceproducts) return <div className="w-full flex justify-center">
-            <Image loader={imageLoader} src={systemInformation && systemInformation?.system?.logo} alt="Hibrido" width={500} height={500} />
+
+        if (!order?.invoiceproducts) return (
+            <div className="w-full flex justify-center">
+                { systemInformation && systemInformation?.system?.logo ? 
+                <Image loader={imageLoader} src={systemInformation && systemInformation?.system?.logo} alt="Hibrido" width={500} height={500} /> :
+                <NothingHere text=" " />
+                }
             </div>
+            )
 
 
         order?.invoiceproducts && groupInvoiceProductsByCod(order);
