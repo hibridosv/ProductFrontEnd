@@ -161,7 +161,7 @@ export const sumarDiscount = (datos: any): number => {
   return totalSuma;
 }
 
-export const sumarTotalesWithoutDIscount = (datos: any): string => {
+export const sumarTotalesWithoutDIscount = (datos: any): number => {
   let totalSuma = 0;
   let totalDiscount = 0;
   let total = 0;
@@ -176,7 +176,7 @@ export const sumarTotalesWithoutDIscount = (datos: any): string => {
   });
   total = totalDiscount + totalSuma;
 
-  return total.toFixed(2);
+  return total;
 }
 
 
@@ -379,8 +379,7 @@ export const dateToNumberValidate = () =>{
 
 export function getModalSize(imagesFiltered: any) {
   const count = imagesFiltered.length;
-  if (count === 1) return 'xs';
-  if (count >= 2 && count <= 3) return 'sm';
+  if (count <= 3) return 'sm';
   if (count >= 4 && count <= 6) return 'md';
   if (count >= 7 && count <= 12) return 'xl';
   if (count >= 16 && count <= 20) return '2xl';

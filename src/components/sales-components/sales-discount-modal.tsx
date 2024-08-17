@@ -17,12 +17,13 @@ export interface SalesDiscountProductModalProps {
   isShow: boolean;
   order: any;
   discountType: number;
+  byCode?: boolean;
 }
 
 
 
 export function SalesDiscountProductModal(props: SalesDiscountProductModalProps) {
-  const { onClose, product, isShow, order, discountType } = props;
+  const { onClose, product, isShow, order, discountType, byCode = false } = props;
   const { register, handleSubmit, resetField, setFocus } = useForm();
   const [isSending, setIsSending] = useState(false);
   const [typeOfDiscount, setTypeOfDiscount] = useState(1);
@@ -37,6 +38,9 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
         order: order.id,
         typeOfDiscount: typeOfDiscount,
         quantityDiscount: data.quantity,
+        
+        product_cod: product.cod,
+        byCode
       };
       try {
         setIsSending(true);
@@ -55,6 +59,7 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
       }
   };
 
+  
   return (
     <Modal show={isShow} position="center" onClose={onClose} size="md">
     <Modal.Header>Descuento a {discountType == 1 ? "Producto" : "Orden"}</Modal.Header>
@@ -82,16 +87,32 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
               </div>
         </form>
 
-        <div className="mt-4  border-b-2 flex justify-between">
-          <span>Precio sin descuento:</span> $ {discountType == 1 ? (parseFloat(product?.discount ? product?.discount : 0) + parseFloat(product?.total ? product.total : 0)).toFixed(2) : sumarTotalesWithoutDIscount(order?.invoiceproducts)}
+        { byCode ?
+        <div>
+          <div className="mt-4  border-b-2 flex justify-between">
+            <span>Precio sin descuento:</span> {discountType == 1 ? numberToMoney(product?.unit_price) : numberToMoney(sumarTotalesWithoutDIscount(order?.invoiceproducts))}
+          </div>
+          <div className="mt-1 border-b-2 flex justify-between">
+            <span>Descuento aplicado:</span> {discountType == 1 ? numberToMoney(product?.discount)  : numberToMoney(sumarDiscount(order?.invoiceproducts))}
+          </div>
+          <div className="mt-1 border-b-2 flex justify-between">
+            <span>Total con descuento:</span> {discountType == 1 ? numberToMoney((parseFloat(product?.unit_price)) - (parseFloat(product?.discount)))  : numberToMoney(sumarTotales(order?.invoiceproducts))}
+          </div>
         </div>
-        <div className="mt-1 border-b-2 flex justify-between">
-          <span>Descuento aplicado:</span> $ {discountType == 1 ? (product?.discount ? product?.discount : 0).toFixed(2)  : numberToMoney(sumarDiscount(order?.invoiceproducts))}
-        </div>
-        <div className="mt-1 border-b-2 flex justify-between">
-          <span>Total con descuento:</span> $ {discountType == 1 ? (product?.total ? product?.total : 0).toFixed(2)  : numberToMoney(sumarTotales(order?.invoiceproducts))}
-        </div>
-        </div>
+        :
+        <div>
+          <div className="mt-4  border-b-2 flex justify-between">
+          <span>Precio sin descuento:</span> {discountType == 1 ? numberToMoney(parseFloat(product?.discount) + parseFloat(product?.total )) : numberToMoney(sumarTotalesWithoutDIscount(order?.invoiceproducts))}
+          </div>
+          <div className="mt-1 border-b-2 flex justify-between">
+            <span>Descuento aplicado:</span> {discountType == 1 ? numberToMoney(product?.discount)  : numberToMoney(sumarDiscount(order?.invoiceproducts))}
+          </div>
+          <div className="mt-1 border-b-2 flex justify-between">
+            <span>Total con descuento:</span> {discountType == 1 ? numberToMoney(product?.total)  : numberToMoney(sumarTotales(order?.invoiceproducts))}
+          </div>
+      </div>
+        }
+      </div>
       <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end">

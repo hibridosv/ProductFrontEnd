@@ -23,6 +23,7 @@ import { SalesDiscountProductModal } from "@/components/sales-components/sales-d
 import { SalesContactSearchModal } from "@/components/sales-components/sales-contact-search";
 import { SalesOthers } from "@/components/sales-components/sales-others";
 import { SalesCommentModal } from "@/components/sales-components/sales-comment";
+import { SalesSetQuantityModal } from "@/components/restaurant/sales/sales-set-quantity-modal";
 
 
 export default function ViewSales() {
@@ -46,6 +47,7 @@ export default function ViewSales() {
       const modalContact = useIsOpen(false);
       const modalOthers = useIsOpen(false);
       const modalComment = useIsOpen(false);
+      const modalQuantity = useIsOpen(false);
 
       useEffect(() => {
             if (config?.configurations) {
@@ -107,7 +109,7 @@ export default function ViewSales() {
             }
           };
           
-      const sendProduct = async (producId: any) => {
+      const sendProduct = async (producId: any, quantity = 1) => {
             if (!producId){
                   toast.error("Error en el codigo!");
                   return
@@ -119,7 +121,8 @@ export default function ViewSales() {
                   order_type: 1, // venta, consignacion, ecommerce
                   price_type: typeOfPrice, // tipo de precio del producto
                   clients_quantity: 1, // Numero de clientes
-                  client_active: clientActive // Cliente activo para asignar producto
+                  client_active: clientActive, // Cliente activo para asignar producto
+                  quantity,
                 };
             
                 try {
@@ -213,6 +216,10 @@ export default function ViewSales() {
             switch (option) {
               case OptionsClickSales.delete: deleteProduct(product.cod)
                 break;
+              case OptionsClickSales.discount: (() => { setProductSelected(product); modalDiscount.setIsOpen(true); setIsDiscountType(1); })();
+                break;
+              case OptionsClickSales.quantity: (() => { setProductSelected(product); modalQuantity.setIsOpen(true); })();
+                break;
               default: ()=>{};
                 break;
             }
@@ -280,11 +287,12 @@ export default function ViewSales() {
                   <OptionsSelect onClickOrder={handleClickOptionOrder} payType={paymentType} order={order} setOrder={setOrder} />
             </div>
             <SalesSelectInvoiceTypeModal isShow={modalInvoiceType.isOpen} onClose={()=>modalInvoiceType.setIsOpen(false)} order={order} />
-            <SalesDiscountProductModal isShow={modalDiscount.isOpen} discountType={isDiscountType} order={order} product={productSelected} onClose={()=>closeModalDiscount()} />
+            <SalesDiscountProductModal isShow={modalDiscount.isOpen} discountType={isDiscountType} order={order} product={productSelected} onClose={()=>closeModalDiscount()} byCode />
             <SelectPayTypeModal isShow={modalPaymentsType.isOpen} onClose={()=>modalPaymentsType.setIsOpen(false)} payments={systemInformation?.payMethods} setPayment={setPaymentType} />
             <SalesContactSearchModal handleChangeOrder={handleChangeOrder}  isShow={modalContact.isOpen} ContactTypeToGet={typeOfClient} order={order} onClose={()=>modalContact.setIsOpen(false)} clientToUpdate={clientNametoUpdate}  />
             <SalesOthers isShow={modalOthers.isOpen} order={order} onClose={()=>modalOthers.setIsOpen(false)} />
             <SalesCommentModal isShow={modalComment.isOpen} order={order} onClose={()=>modalComment.setIsOpen(false)} />
+            <SalesSetQuantityModal isShow={modalQuantity.isOpen} onClose={()=>modalQuantity.setIsOpen(false)} product={productSelected} sendProduct={sendProduct} />
             <PayFinishMModal isShow={modalPayed.isOpen} onClose={onFinish} invoice={payedInvoice} isSending={isSending} />
       </div>
       );

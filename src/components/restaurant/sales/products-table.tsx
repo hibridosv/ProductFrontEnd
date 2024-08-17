@@ -35,9 +35,9 @@ export function ProductsTable(props: ProductsTableProps) {
         order?.invoiceproducts && groupInvoiceProductsByCod(order);
         const listItems = order?.invoiceproductsGroup.map((record: any) => (
             <tr key={record.id} className="border-b bg-white" >
-            <td className="py-3 px-6 whitespace-nowrap cursor-pointer font-semibold text-black" onClick={()=>{}}>{ record.quantity }</td>
+            <td className="py-3 px-6 clickeable" onClick={()=> onClickProduct(record, OptionsClickSales.quantity)}>{ record.quantity }</td>
             <td className="py-3 px-6">{ record.product }</td>
-            <td className="py-3 px-6 whitespace-nowrap cursor-pointer">{ numberToMoney(record.unit_price) }</td> 
+            <td className="py-3 px-6 clickeable" onClick={()=> onClickProduct(record, OptionsClickSales.discount)}>{ numberToMoney(record.unit_price) }</td> 
             <td className="py-3 px-6 truncate">{ numberToMoney(record.total) }</td>
             <td className="py-2 truncate">
             <span className="flex justify-between">
