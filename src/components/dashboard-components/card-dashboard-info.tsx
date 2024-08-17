@@ -2,7 +2,9 @@
 'use client'
 import {  DownArrow, UpArrow } from "@/theme/svg";
 import { Loading } from "../loading/loading";
-import { numberToMoney } from "@/utils/functions";
+import { getCountryProperty, numberToMoney } from "@/utils/functions";
+import { useContext } from "react";
+import { ConfigContext } from "@/contexts/config-context";
 
 
 interface CardDashBoardInfoProps {
@@ -13,6 +15,7 @@ interface CardDashBoardInfoProps {
 
 export function CardDashBoardInfo(props: CardDashBoardInfoProps){
   const { records, isLoading } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
   if (!records || isLoading) return <Loading />
 
@@ -31,7 +34,7 @@ export function CardDashBoardInfo(props: CardDashBoardInfoProps){
         <div className="text-base text-gray-700 ">{records.title}</div>
         <div className="flex items-center pt-1">
         <div className="text-2xl font-bold text-gray-900 ">
-         {records.isMoney ? `$ ${records.value}` : records.value}
+         {records.isMoney ? `${ getCountryProperty(parseInt(systemInformation?.system?.country)).currency} ${records.value}` : records.value}
         </div>
         {records.percent > 0 && (
         <span

@@ -20,11 +20,10 @@ export default function Page() {
     const [productSelected, setProductSelected] = useState(null as any);
     const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
     const { register, watch, setValue } = useForm();
-  
 
     const loadData = async () => {
         try {
-        const response = await getData(`products?sort=description&perPage=10${searchTerm}`);
+        const response = await getData(`products?sort=description&filterWhere[is_restaurant]==0&perPage=10${searchTerm}`);
         setProducts(response.data);
         } catch (error) {
         console.error(error);

@@ -67,7 +67,7 @@ export default function AddProduct() {
 
   useEffect(() => {
     (async () => {
-        const products = await getData("products?sort=-created_at&perPage=10");
+        const products = await getData("products?sort=-created_at&filterWhere[is_restaurant]==0&perPage=10");
         setValue("taxes", 13);
         setLastProducts(products);
       })();
@@ -87,7 +87,7 @@ export default function AddProduct() {
       setIsSending(true);
       const response = await postData(`products`, "POST", data);
       if (!response.message) {
-        let newProducts = await getData("products?sort=-created_at&perPage=10");
+        let newProducts = await getData("products?sort=-created_at&filterWhere[is_restaurant]==0&perPage=10");
         toast.success("Producto agregado correctamente");
         setLastProducts(newProducts);
         reset();

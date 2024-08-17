@@ -323,7 +323,8 @@ import { SearchInputProduct } from "@/components/form/search-product";
         </> :
           <div className="col-span-3 m-4">
             <ViewTitle text="EDITAR PRODUCTO"  />
-            <SearchInputProduct recordSelected={handleProductSelected} placeholder="Buscar Producto" url="search/products?sort=description&perPage=7" />
+            <SearchInputProduct recordSelected={handleProductSelected} placeholder="Buscar Producto" 
+            url="products?sort=description&filterWhere[is_restaurant]==0&perPage=7" />
           </div>
             }
         <ProductLinkedModal isShow={isShowLinkedModal} product={selectedProduct?.data} onClose={()=>setIsShowLinkedModal(false)} />

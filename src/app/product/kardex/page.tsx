@@ -57,7 +57,7 @@ export default function KardexPage() {
         </div> </> :
         <div className="col-span-3 m-4">
           <ViewTitle text="KARDEX DE PRODUCTO" />
-          <SearchInputProduct recordSelected={handleSelectProduct} placeholder="Buscar Producto" url="products?sort=description" />
+          <SearchInputProduct recordSelected={handleSelectProduct} placeholder="Buscar Producto" url="products?sort=description&filterWhere[is_restaurant]==0" />
         </div>
       }
       <Toaster position="top-right" reverseOrder={false} />

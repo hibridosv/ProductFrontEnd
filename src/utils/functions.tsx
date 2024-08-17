@@ -14,9 +14,9 @@ export const loadData = async (url: string) => {
 };
 
 
-export const numberToMoney = (number: number): string => {
+export const numberToMoney = (number: number, country = "1"): string => {
     let num = number ? number : 0;
-    return `$${num.toFixed(2)}`
+    return `${getCountryProperty(parseInt(country)).currency} ${num.toFixed(2)}`
 }
 
 export const getConfigStatus = (feature: string, config: any)=>{

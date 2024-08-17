@@ -1,5 +1,7 @@
+import { ConfigContext } from "@/contexts/config-context";
 import { Order } from "@/services/order";
-import { sumarCantidad, sumarSubtotal } from "@/utils/functions";
+import { getCountryProperty, sumarCantidad, sumarSubtotal } from "@/utils/functions";
+import { useContext } from "react";
 
 
 export interface ShowTotalProps {
@@ -9,6 +11,7 @@ export interface ShowTotalProps {
 
 export function ShowTotal(props: ShowTotalProps) {
   const { records, isSending } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
 
   if (!records?.invoiceproducts) return <></>
@@ -22,7 +25,7 @@ export function ShowTotal(props: ShowTotalProps) {
   return (
     <div className="w-full my-4 shadow-neutral-600 shadow-lg rounded-md">
       <div className="flex justify-center pt-2">TOTAL</div>
-      <div className={`${texStyle} pb-4`}>$ {records?.client?.taxpayer_type == 2 && subtotal >= 100 ? (total - retention).toFixed(2) : total.toFixed(2)}</div>
+      <div className={`${texStyle} pb-4`}>{ getCountryProperty(parseInt(systemInformation?.system?.country)).currency} {records?.client?.taxpayer_type == 2 && subtotal >= 100 ? (total - retention).toFixed(2) : total.toFixed(2)}</div>
     </div>
     );
 }

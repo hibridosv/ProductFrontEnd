@@ -17,16 +17,15 @@ export interface ProductsTableProps {
 
 export function ProductsTable(props: ProductsTableProps) {
   const { order, onClickOrder, onClickProduct } = props;
-  const { config, systemInformation } = useContext(ConfigContext);
+  const { systemInformation } = useContext(ConfigContext);
   const remoteUrl = getUrlFromCookie();
   const [isSending, setIsSending] = useState(false);
   
   const imageLoader = ({ src, width, quality }: any) => {
       return `${remoteUrl}/images/logo/${src}?w=${width}&q=${quality || 75}`
     }
-    
-    
-    
+
+    console.log(systemInformation?.system?.country)
     if (!order?.invoiceproducts) return <div className="w-full flex justify-center">
             <Image loader={imageLoader} src={systemInformation && systemInformation?.system?.logo} alt="Hibrido" width={500} height={500} />
             </div>
@@ -37,8 +36,8 @@ export function ProductsTable(props: ProductsTableProps) {
             <tr key={record.id} className="border-b bg-white" >
             <td className="py-3 px-6 clickeable" onClick={()=> onClickProduct(record, OptionsClickSales.quantity)}>{ record.quantity }</td>
             <td className="py-3 px-6">{ record.product }</td>
-            <td className="py-3 px-6 clickeable" onClick={()=> onClickProduct(record, OptionsClickSales.discount)}>{ numberToMoney(record.unit_price) }</td> 
-            <td className="py-3 px-6 truncate">{ numberToMoney(record.total) }</td>
+            <td className="py-3 px-6 clickeable truncate" onClick={()=> onClickProduct(record, OptionsClickSales.discount)}>{ numberToMoney(record.unit_price, systemInformation?.system?.country) }</td> 
+            <td className="py-3 px-6 truncate">{ numberToMoney(record.total, systemInformation?.system?.country) }</td>
             <td className="py-2 truncate">
             <span className="flex justify-between">
                 <AiFillCloseCircle size={20} title="Editar" className="text-red-600 clickeable" onClick={()=> onClickProduct(record, OptionsClickSales.delete) } />
