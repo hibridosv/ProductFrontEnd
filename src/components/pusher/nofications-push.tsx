@@ -3,15 +3,30 @@ import { toast, Toaster } from "react-hot-toast";
 import Pusher from 'pusher-js';
 import { IoIosNotifications } from "react-icons/io";
 import { getTenant } from "@/services/oauth";
+import usePusher from "@/hooks/usePusher";
+import { getConfigStatus } from "@/utils/functions";
+import { useEffect } from "react";
 
 interface NotificationsPushProps {
     theme?: any;
+    config: any;
   }
 
 
 
 export function NotificationsPush(props: NotificationsPushProps){
-        const tenant = getTenant();
+  const { config } = props
+  const tenant = getTenant();
+  const isConfig = getConfigStatus("notifications", config);
+  let pusherEvent = usePusher(`${tenant}-channel`, 'transfer-new-event', isConfig, false);
+
+
+  useEffect(() => {
+    if (isConfig) {
+      notification(pusherEvent);
+    }
+      // eslint-disable-next-line
+  }, [pusherEvent, isConfig]);
 
     const notification = (text: any) => {
         if (!text?.message) return
@@ -21,15 +36,6 @@ export function NotificationsPush(props: NotificationsPushProps){
           </span>
         ), {  id: 'clipboard', icon: <IoIosNotifications size={24} color="red" className="animate-pulse"/> });
       }
-    
-        // Enable pusher logging - don't include this in production
-        // Pusher.logToConsole = true;
-    
-        var pusher = new Pusher('67ef4909138ad18120e1', { cluster: 'us2' });
-        var channel = pusher.subscribe(`${tenant}-channel`);
-        channel.bind('transfer-new-event', function(data:any) {
-         notification(data);
-        });
-
+  
     return(<Toaster position="top-right" />);
 }

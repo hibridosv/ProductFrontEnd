@@ -16,6 +16,9 @@ module.exports = {
       colors: {
         'mdb': '#243A51',
       },
+      animation: {
+        'spin-slow': 'spin 4s linear infinite',
+      },
     },
   },
   plugins: [

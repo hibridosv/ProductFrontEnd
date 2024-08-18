@@ -2,20 +2,20 @@
 import { useState, useEffect, useContext } from "react";
 import { getData } from "@/services/resources";
 import { Loading } from "../loading/loading";
-import { ListGroup, Tooltip } from "flowbite-react";
+import { Tooltip } from "flowbite-react";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import Image from "next/image";
-import { getConfigStatus, numberToMoney, permissionExists, setPriceName, setPriceOptions } from "@/utils/functions";
+import { getConfigStatus, numberToMoney, setPriceName, setPriceOptions } from "@/utils/functions";
 import { OptionsClickOrder, PresetTheme, TypeOfPrice } from "@/services/enums";
 import { Alert } from "../alert/alert";
 import { ConfigContext } from "@/contexts/config-context";
 import { getTenant, getUrlFromCookie } from "@/services/oauth";
 import { FaDownload } from "react-icons/fa";
-import Pusher from 'pusher-js';
 import { ButtonDownload } from "../button/button-download";
 import { useCodeRequest } from "@/hooks/useCodeRequest";
 import { RequestCodeModal } from "../common/request-code-modal";
 import { IoMdLock, IoMdUnlock } from "react-icons/io";
+import usePusher from "@/hooks/usePusher";
 
 
 
@@ -35,7 +35,6 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   const [wholesalerStatus, setWholesalerStatus] = useState<boolean>(false)
   const [promotionStatus, setPromotionStatus] = useState<boolean>(false)
   const [downloadStatus, setDownloadStatus] = useState<boolean>(false)
-  const [randomNumber, setRandomNumber] = useState(0);
   let pricesActive = [TypeOfPrice.normal];
   const { codeRequestPice, 
     verifiedCode, 
@@ -45,11 +44,12 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
     setIsShowError } = useCodeRequest('code-request-prices');
   const remoteUrl = getUrlFromCookie();
   const tenant = getTenant();
+  let pusherEvent = usePusher(`${tenant}-channel-orders`, 'get-orders-event', getConfigStatus("realtime-orders", config));
   
   const loadAllOrders = async () => {
     setIsLoading(true);
     try {
-      const response = await getData(`sales`);
+      const response = await getData(`sales?included=employee,client,invoiceproducts&filterWhere[status]==2`);
       setOrders(response.data);
     } catch (error) {
       console.error(error);
@@ -63,27 +63,14 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
       (async () =>  await loadAllOrders())();
     }
     // eslint-disable-next-line
-  }, [randomNumber]);
+  }, [pusherEvent]);
   
   
-  const getPusherRequest = ()=>{
-    var pusher = new Pusher('67ef4909138ad18120e1', { cluster: 'us2' });
-    var channel = pusher.subscribe(`${tenant}-channel-orders`);
-    channel.bind('get-orders-event', function(data:any) {
-      if (!order) {
-        setRandomNumber(Math.random());
-      }
-    });
-  }
-
   useEffect(() => {
       setMultiPriceStatus(getConfigStatus("is-multi-price", config))
       setWholesalerStatus(getConfigStatus("product-price-wolesaler", config))
       setPromotionStatus(getConfigStatus("product-price-promotion", config))
       setDownloadStatus(getConfigStatus("sales-download", config))
-      if (getConfigStatus("realtime-orders", config)) {
-          getPusherRequest();
-      }
     // eslint-disable-next-line
   }, [config])
   

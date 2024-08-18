@@ -429,3 +429,23 @@ export function countSendPrintZero(invoice: any) {
 
   return count;
 }
+
+
+// filtra los productos que se mostraran en la pantalla
+export function filterProductsOrInvoiceProducts(data: any) {
+  const items = data.products.length > 0 ? data.products : data.invoiceproducts;
+  const filteredItems = items.filter((item: any) => 
+      item.attributes.work_station_id !== null && 
+      item.attributes.show_station == 1
+  );
+  return filteredItems;
+}
+
+export const deliveryType = (type: number) => {
+  switch (type) {
+    case 1: return "Comer Aqui";
+    case 2: return "Para Llevar";
+    case 3: return "Delivery";
+    default: return "Para Llevar";
+  }
+}

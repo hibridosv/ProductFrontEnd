@@ -42,7 +42,7 @@ export function Header() {
       </div>
     </nav>
     <ProductSearchModal onClose={()=>setShowProductSearchModal(false)} isShow={showProductSearchModal}  />
-    { getConfigStatus("notifications", config) && <NotificationsPush /> }
+    <NotificationsPush config={config} />
   </header>
   );
 }

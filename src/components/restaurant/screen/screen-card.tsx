@@ -1,0 +1,68 @@
+import { useRelativeTime } from '@/hooks/useRelativeTime';
+import { formatDate, formatHourAsHM } from '@/utils/date-formats';
+import { deliveryType, filterProductsOrInvoiceProducts } from '@/utils/functions';
+import { url } from 'inspector';
+import React from 'react';
+import { BiCar, BiCheckDouble, BiUser } from 'react-icons/bi';
+import { FaClock } from 'react-icons/fa';
+
+export interface ScreenCardProps {
+    order: any;
+    processData: (values: {})=> void
+}
+
+export function ScreenCard(props: ScreenCardProps) {
+    const { order, processData } = props;
+
+    const filteredResult = filterProductsOrInvoiceProducts(order);
+    const time = useRelativeTime(order.created_at);
+
+    return (
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div className="py-2 px-3 flex flex-row cursor-pointer" onClick={()=>processData({order: order?.id,
+                                                    status: 2,
+                                                    url: "screen/order/process"})}>
+                <div className="w-full">
+                    <div className="w-full text-xl font-bold flex justify-around">
+                        <div className="w-1/2">Orden # {order.number}</div>
+                        <div className="text-sm text-gray-600 pt-1 text-right w-1/2"></div>
+                    </div>
+                    <div className="text-sm text-gray-800 flex">
+                        <FaClock size={12} color="red" className="mt-1 mr-2 animate-spin-slow" />
+                        {formatDate(order.created_at)} {formatHourAsHM(order.created_at)} | {time}
+                    </div>
+                    <div className="text-sm text-gray-800">
+                        <i className="far fa-comment-dots"></i> Comentario
+                    </div>
+                </div>
+            </div>
+
+            <table className="table-auto w-full text-sm text-left">
+                <tbody>
+                    {filteredResult.map((product: any) => (
+                        <tr key={product.id} className="bg-slate-100 border-y-2 border-slate-600 clickeable" 
+                           onClick={()=>processData({order: order?.id,
+                                                    product: product.id,
+                                                    status: 2,
+                                                    url: "screen/product/process"})}>
+                            <td className="font-medium h-9 flex p-2 uppercase">
+                                <BiCheckDouble size={20} color="green" className="mx-2" /> {product.product}
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
+            <div className="bg-gray-800 text-white text-center py-3">
+                <ul className="list-none flex justify-around space-x-4">
+                    <li className="flex">
+                        <BiUser className="mt-1 mr-2" /> <span>{order.employee.name}</span>
+                    </li>
+                    <li className="flex">
+                        <BiCar className="mt-1 mr-2" /> <span>{deliveryType(order.delivery_type)}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    );
+}
