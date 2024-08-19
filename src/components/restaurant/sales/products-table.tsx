@@ -33,7 +33,7 @@ export function ProductsTable(props: ProductsTableProps) {
             <div className="w-full flex justify-center">
                 { systemInformation && systemInformation?.system?.logo ? 
                 <Image loader={imageLoader} src={systemInformation && systemInformation?.system?.logo} alt="Hibrido" width={500} height={500} /> :
-                <NothingHere text=" " />
+                <NothingHere width="500" text=" " />
                 }
             </div>
             )

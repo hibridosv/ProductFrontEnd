@@ -9,14 +9,14 @@ import { useContext } from "react";
 
 
 
-export interface PayFinishMModalProps {
+export interface PayFinishModalProps {
   onClose: () => void;
   invoice?: any;
   isShow?: boolean;
   isSending?: boolean;
 }
 
-export function PayFinishMModal(props: PayFinishMModalProps) {
+export function PayFinishModal(props: PayFinishModalProps) {
   const { onClose, invoice, isShow, isSending } = props;
   const { systemInformation } = useContext(ConfigContext);
 
@@ -27,14 +27,14 @@ export function PayFinishMModal(props: PayFinishMModalProps) {
         <div className="mx-4">
               <div onClick={onClose} className='cursor-pointer'>
               <div className="w-full my-4">
-                { invoice?.invoice_assigned?.type != 8 &&
+                { invoice?.invoice_assigned?.type != 8 && !isSending &&
                 <div  className='flex justify-between  border-y-4'>
                   <div><span className="flex justify-center">Descuentos</span> <span className="flex justify-center">{numberToMoney(invoice?.discount, systemInformation)}</span></div>
                   <div><span className="flex justify-center">Impuestos</span> <span className="flex justify-center">{numberToMoney(invoice?.taxes, systemInformation)}</span></div>
                   <div><span className="flex justify-center">Sub Total</span> <span className="flex justify-center">{numberToMoney(invoice?.subtotal, systemInformation)}</span></div>
                 </div>
                 }
-                { isSending ? <Loading text="Procesando..." /> :
+                { isSending ? <Loading text="Facturando..." /> :
                 <div>
                     <div className="flex justify-center mt-4">TOTAL</div>
                     <div className="flex justify-center text-7xl mb-4 font-bold">{numberToMoney(invoice?.total - invoice?.retention, systemInformation)}</div>

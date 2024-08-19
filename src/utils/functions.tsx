@@ -246,8 +246,9 @@ export const getTotalOfItem = (datos: any, item: string): any => {
 
 
 // obtiene el ultimo elemento de un arreglo
-export const getLastElement = (items: any)=> {
-  const elementsWithStatus1 = items.filter((element:any) => element.status === 1);
+export const getLastElement = (items: any, status = 1)=> {
+  if(!items) return null;
+  const elementsWithStatus1 = items.filter((element:any) => element.status === status);
 
   if (elementsWithStatus1 && elementsWithStatus1.length > 0) {
       const lastElementWithStatus1 = elementsWithStatus1[elementsWithStatus1.length - 1];
@@ -258,8 +259,8 @@ export const getLastElement = (items: any)=> {
 }
 
 // obtiene el primer elemento de un arreglo
-export const getFirstElement = (items: any)=> {
-  const elementsWithStatus1 = items.filter((element: any) => element.status === 1);
+export const getFirstElement = (items: any, status =  1)=> {
+  const elementsWithStatus1 = items.filter((element: any) => element.status === status);
 
   if (elementsWithStatus1 && elementsWithStatus1.length > 0) {
       const firstElementWithStatus1 = elementsWithStatus1[0];
@@ -448,4 +449,14 @@ export const deliveryType = (type: number) => {
     case 3: return "Delivery";
     default: return "Para Llevar";
   }
+}
+
+
+/// verifica si hay opciones para elegien en la orden de restaurante
+export function hasOptionsActive(invoice: any) {
+  if (!invoice?.invoiceproducts) return false;
+  return invoice.invoiceproducts.some((product: any) => {
+    if (!product.options) return false;
+    return product.options.some((option: any) => option.status === 0);
+  });
 }

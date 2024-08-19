@@ -8,14 +8,14 @@ import { RestaurantShowTotal } from "@/components/restaurant/sales/show-total";
 import { SalesButtons } from "@/components/sales-components/sales-buttons";
 import toast, { Toaster } from 'react-hot-toast';
 import { ConfigContext } from "@/contexts/config-context";
-import { errorSound, extractActiveFeature, successSound } from "@/utils/functions";
+import { errorSound, extractActiveFeature, hasOptionsActive, successSound } from "@/utils/functions";
 import { getData, postData } from "@/services/resources";
 import { ContactNameOfOrder, ContactTypeToGet, OptionsClickOrder } from "@/services/enums";
 import { OptionsClickSales } from "@/components/sales-components/sales-quick-table";
 import { Product } from "@/services/products";
 import { SalesButtonsRestaurant } from "@/components/restaurant/sales/sales-buttons-restaurant";
 import { useIsOpen } from "@/hooks/useIsOpen";
-import { PayFinishMModal } from "@/components/restaurant/sales/pay-finish-modal";
+import { PayFinishModal } from "@/components/restaurant/sales/pay-finish-modal";
 import { SelectPayTypeModal } from "@/components/restaurant/sales/select-pay-type-modal";
 import { OptionsSelect } from "@/components/restaurant/sales/options-select";
 import { SalesSelectInvoiceTypeModal } from "@/components/sales-components/sales-select-invoice-type";
@@ -24,6 +24,7 @@ import { SalesContactSearchModal } from "@/components/sales-components/sales-con
 import { SalesOthers } from "@/components/sales-components/sales-others";
 import { SalesCommentModal } from "@/components/sales-components/sales-comment";
 import { SalesSetQuantityModal } from "@/components/restaurant/sales/sales-set-quantity-modal";
+import { SelectOptionsModal } from "@/components/restaurant/sales/select-options-modal";
 
 
 export default function ViewSales() {
@@ -72,34 +73,33 @@ export default function ViewSales() {
             }
           };
         
-        
+          
           useEffect(() => {
             if (!modalInvoiceType.isOpen && !modalDiscount.isOpen && !modalContact.isOpen && !modalOthers.isOpen && !modalComment.isOpen) {
-                  (async () => await selectLastOrder())()
+              (async () => await selectLastOrder())()
             }
             // eslint-disable-next-line
           }, [modalInvoiceType.isOpen, modalDiscount.isOpen, modalContact.isOpen, modalOthers.isOpen, modalComment.isOpen]);
-
-      const resetOrder = () =>{
+          
+          const resetOrder = () =>{
             setOrder([]);
-      }
-      const onFinish = () => {
+          }
+          const onFinish = () => {
             setPayedInvoice([]);
             modalPayed.setIsOpen(false)
-      }
+          }
           
       const closeModalDiscount  = () => {
-            modalDiscount.setIsOpen(false);
-            setProductSelected([]);
-            setIsDiscountType(0)
+        modalDiscount.setIsOpen(false);
+        setProductSelected([]);
+        setIsDiscountType(0)
       }
-
+      
       const handleChangeOrder = async (order: any) => {
-            try {
+        try {
               const response = await postData(`sales/order/select/${order}`, "POST");
               if (response.type !== "error") {
                 setOrder(response.data);
-                setOrder(response.data.id);    
               } else {
                 toast.error(response.message);
               }
@@ -109,126 +109,126 @@ export default function ViewSales() {
             }
           };
           
-      const sendProduct = async (producId: any, quantity = 1) => {
+          const sendProduct = async (producId: any, quantity = 1) => {
             if (!producId){
-                  toast.error("Error en el codigo!");
-                  return
-                }
-                let values = {
-                  product_id: producId,
-                  request_type: 1, // 1: id, 2: cod
-                  delivery_type: 1, // delivery, recoger en tienda, ecommerce
-                  order_type: 1, // venta, consignacion, ecommerce
-                  price_type: typeOfPrice, // tipo de precio del producto
-                  clients_quantity: 1, // Numero de clientes
-                  client_active: clientActive, // Cliente activo para asignar producto
-                  quantity,
-                };
-            
-                try {
-                  setIsSending(true);
-                  const response = await postData(`restaurant/sales`, "POST", values);
-                  if (response.type === "error") {
-                    toast.error(response.message);
-                    if(configuration?.includes("sales-sound")) errorSound()
-                  } else {
-                    setOrder(response.data)
-                    if(configuration?.includes("sales-sound")) successSound()
-                  }
-                } catch (error) {
-                  console.error(error);
-                  toast.error("Ha Ocurrido un Error!");
-                } finally {
-                  setIsSending(false);
-                }
-
-      }
-
-      const deleteOrder = async () => {
-            try {
-              const response = await postData(`sales/order/${order.id}`, "DELETE");
-              toast.success(response.message);
-              if (response.type == "successful") {
-                resetOrder()
-              }
-            } catch (error) {
-              console.error(error);
-              toast.error("Ha ocurrido un error!");
+              toast.error("Error en el codigo!");
+              return
             }
-          };
-
+            let values = {
+              product_id: producId,
+              request_type: 1, // 1: id, 2: cod
+              delivery_type: 1, // delivery, recoger en tienda, ecommerce
+              order_type: 1, // venta, consignacion, ecommerce
+              price_type: typeOfPrice, // tipo de precio del producto
+              clients_quantity: 1, // Numero de clientes
+              client_active: clientActive, // Cliente activo para asignar producto
+              quantity,
+            };
+            
+            try {
+              setIsSending(true);
+              const response = await postData(`restaurant/sales`, "POST", values);
+              if (response.type === "error") {
+                toast.error(response.message);
+                    if(configuration?.includes("sales-sound")) errorSound()
+                } else {
+                  setOrder(response.data)
+                  if(configuration?.includes("sales-sound")) successSound()
+                  }
+              } catch (error) {
+                console.error(error);
+                toast.error("Ha Ocurrido un Error!");
+              } finally {
+                setIsSending(false);
+              }
+                
+              }
+              
+          const deleteOrder = async () => {
+              try {
+                const response = await postData(`sales/order/${order.id}`, "DELETE");
+                toast.success(response.message);
+                if (response.type == "successful") {
+                  resetOrder()
+                }
+              } catch (error) {
+                console.error(error);
+                toast.error("Ha ocurrido un error!");
+              }
+            };
+          
           const deleteProduct = async (iden: string) => {
             setIsSending(true);
             try {
               const response = await postData(`restaurant/sales/product/${iden}`, "DELETE");
               if (response.data) {
-                    setOrder(response.data)
-                    toast.success("Producto Eliminado");
-                    if(configuration?.includes("sales-sound")) successSound()
+                setOrder(response.data)
+                toast.success("Producto Eliminado");
+                if(configuration?.includes("sales-sound")) successSound()
+                } else {
+              if (response.type === "error") {
+                toast.error(response.message);
               } else {
-                  if (response.type === "error") {
-                        toast.error(response.message);
-                  } else {
-                        resetOrder()
-                  }
+                resetOrder()
               }
-            } catch (error) {
-              console.error(error);
-              toast.error("Ha ocurrido un error!");
-            } finally {
+            }
+          } catch (error) {
+            console.error(error);
+            toast.error("Ha ocurrido un error!");
+          } finally {
               setIsSending(false);
             }
           };
           
-      const handleClickOptionOrder = (option: OptionsClickOrder) => { // opciones de la orden
+          const handleClickOptionOrder = (option: OptionsClickOrder) => { // opciones de la orden
             switch (option) {
-            case OptionsClickOrder.save: (() => { })();
+              case OptionsClickOrder.save: (() => { })();
                   break;
-            case OptionsClickOrder.delete: (() => { deleteOrder() })();
+                  case OptionsClickOrder.delete: (() => { deleteOrder() })();
                   break;
-            case OptionsClickOrder.payType: (() => { modalPaymentsType.setIsOpen(true) })();
+                  case OptionsClickOrder.payType: (() => { modalPaymentsType.setIsOpen(true) })();
                   break;
-            case OptionsClickOrder.documentType: (() => { modalInvoiceType.setIsOpen(true); })();
+                  case OptionsClickOrder.documentType: (() => { modalInvoiceType.setIsOpen(true); })();
                   break;
-            case OptionsClickOrder.setPrinter: (() => { setOrderPriter(); })();
+                  case OptionsClickOrder.setPrinter: (() => { setOrderPrinter(); })();
                   break;
-            case OptionsClickOrder.discount: (() => { modalDiscount.setIsOpen(true); setIsDiscountType(2) })();
+                  case OptionsClickOrder.discount: (() => { modalDiscount.setIsOpen(true); setIsDiscountType(2) })();
                   break;     
-            case OptionsClickOrder.client: (() => { modalContact.setIsOpen(true); setTypeOfClient(ContactTypeToGet.clients); setClientNametoUpdate(ContactNameOfOrder.client) })();
+                  case OptionsClickOrder.client: (() => { modalContact.setIsOpen(true); setTypeOfClient(ContactTypeToGet.clients); setClientNametoUpdate(ContactNameOfOrder.client) })();
                   break;
-            case OptionsClickOrder.seller: (() => { modalContact.setIsOpen(true); setTypeOfClient(ContactTypeToGet.employees); setClientNametoUpdate(ContactNameOfOrder.employee) })();
+                  case OptionsClickOrder.seller: (() => { modalContact.setIsOpen(true); setTypeOfClient(ContactTypeToGet.employees); setClientNametoUpdate(ContactNameOfOrder.employee) })();
                   break; 
-            case OptionsClickOrder.referred: (() => { modalContact.setIsOpen(true); setTypeOfClient(ContactTypeToGet.referrals); setClientNametoUpdate(ContactNameOfOrder.referred) })();
+                  case OptionsClickOrder.referred: (() => { modalContact.setIsOpen(true); setTypeOfClient(ContactTypeToGet.referrals); setClientNametoUpdate(ContactNameOfOrder.referred) })();
                   break;
-            case OptionsClickOrder.delivery: (() => { modalContact.setIsOpen(true); setTypeOfClient(ContactTypeToGet.employees); setClientNametoUpdate(ContactNameOfOrder.delivery) })();
+                  case OptionsClickOrder.delivery: (() => { modalContact.setIsOpen(true); setTypeOfClient(ContactTypeToGet.employees); setClientNametoUpdate(ContactNameOfOrder.delivery) })();
                   break;
-            case OptionsClickOrder.special: (() => { modalOthers.setIsOpen(true); })();
+                  case OptionsClickOrder.special: (() => { modalOthers.setIsOpen(true); })();
                   break;
-            case OptionsClickOrder.comment: (() => { modalComment.setIsOpen(true); })();
+                  case OptionsClickOrder.comment: (() => { modalComment.setIsOpen(true); })();
                   break;
-            default: ()=>{};
+                  default: ()=>{};
                   break;
-            }
-          };
-
-
-          const handleClickOptionProduct = (product: Product, option: OptionsClickSales) => { // opciones del producto
-            switch (option) {
-              case OptionsClickSales.delete: deleteProduct(product.cod)
+                }
+              };
+              
+              
+              const handleClickOptionProduct = (product: Product, option: OptionsClickSales) => { // opciones del producto
+                switch (option) {
+                  case OptionsClickSales.delete: deleteProduct(product.cod)
+                  break;
+                  case OptionsClickSales.discount: (() => { setProductSelected(product); modalDiscount.setIsOpen(true); setIsDiscountType(1); })();
                 break;
-              case OptionsClickSales.discount: (() => { setProductSelected(product); modalDiscount.setIsOpen(true); setIsDiscountType(1); })();
+                case OptionsClickSales.quantity: (() => { setProductSelected(product); modalQuantity.setIsOpen(true); })();
                 break;
-              case OptionsClickSales.quantity: (() => { setProductSelected(product); modalQuantity.setIsOpen(true); })();
+                default: ()=>{};
                 break;
-              default: ()=>{};
-                break;
-            }
+              }
       
-          };
+            };
+            
 
-
-          const payOrder = async (cash: number) => {
-            let values = {
+            const payOrder = async (cash: number) => {
+              let values = {
               order_id: order?.id,
               payment_type: paymentType, // efectivo, tarjeta, transferencia, cheque, credito
               cash: cash,
@@ -255,23 +255,35 @@ export default function ViewSales() {
           };
           
 
-          const setOrderPriter = async () => {
+          const setOrderPrinter = async () => {
             try {
               const response = await postData(`restaurant/sales/printer/${order.id}`, "PUT");
               if (response.data) {
-                  setOrder(response.data)
+                setOrder(response.data)
               }
             } catch (error) {
               console.error(error);
               toast.error("Ha ocurrido un error!");
-            }
+            } 
           };
 
+
+          const updateProductOption = async (data: any) => {
+            try {
+                const response = await postData(`restaurant/sales/option`, 'PUT', data);
+                if (response.data) {
+                  setOrder(response.data)
+                  if(configuration?.includes("sales-sound")) successSound()
+                }
+              } catch (error) {
+                console.error(error);
+                toast.error("Ha ocurrido un error!");
+              } 
+          }
           
-
-
-  return (
-       <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
+          
+          return (
+            <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
             <div className="col-span-6 border-r md:border-sky-600">
                   <IconsMenu isShow={true} selectedIcon={sendProduct} />
             </div>
@@ -293,7 +305,8 @@ export default function ViewSales() {
             <SalesOthers isShow={modalOthers.isOpen} order={order} onClose={()=>modalOthers.setIsOpen(false)} />
             <SalesCommentModal isShow={modalComment.isOpen} order={order} onClose={()=>modalComment.setIsOpen(false)} />
             <SalesSetQuantityModal isShow={modalQuantity.isOpen} onClose={()=>modalQuantity.setIsOpen(false)} product={productSelected} sendProduct={sendProduct} />
-            <PayFinishMModal isShow={modalPayed.isOpen} onClose={onFinish} invoice={payedInvoice} isSending={isSending} />
+            <SelectOptionsModal selectOption={updateProductOption} isShow={hasOptionsActive(order)}  order={order} isSending={isSending} />
+            <PayFinishModal isShow={modalPayed.isOpen} onClose={onFinish} invoice={payedInvoice} isSending={isSending} />
       </div>
       );
 }

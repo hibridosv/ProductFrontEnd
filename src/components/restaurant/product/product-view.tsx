@@ -127,8 +127,7 @@ export function ProductView(props: ProductViewProps) {
       } 
   }
 
-  const handleChangeImage = async (image: string)=>
-    {
+  const handleChangeImage = async (image: string)=>{
         await updateProduct({ field: "image", data: image })
     }
   
