@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ViewTitle, Alert, Loading } from "@/components";
 import { useForm } from "react-hook-form";
 import { postData, getData } from "@/services/resources";
@@ -14,23 +14,22 @@ import { URL } from "@/constants";
 import { AddImageModal } from "@/components/restaurant/product/add-image-modal";
 import { AddCategoriesModal } from "@/components/restaurant/product/add-categories-modal";
 import { AddOptionsModal } from "@/components/restaurant/product/add-options-modal";
+import { ConfigContext } from "@/contexts/config-context";
+import { getCountryProperty } from "@/utils/functions";
 
 export default function Page() {
   const [message, setMessage] = useState<any>({});
-  const [selectedProduct, setSelectedProdcut] = useState<any>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
-
-
   const [isShowImagesModal, setIsShowImagesModal] = useState(false);
   const [ selectedImage, setSelectedImage ] = useState("default.png")
-
   const [showModalCategories, setShowModalCategories] = useState(false);
   const [showModalOptions, setShowModalOptions] = useState(false);
   const [ categories, setCategories ] = useState<Category[]>([])
   const [ options, setOptions ] = useState([])
   const [ workStations, setWorkStations ] = useState([])
   const { register, handleSubmit, reset } = useForm();
+  const { systemInformation } = useContext(ConfigContext);
 
   
 
@@ -50,7 +49,7 @@ export default function Page() {
         }
     };
 
-
+console.log(systemInformation)
     useEffect(() => {
       if (!showModalCategories && !showModalOptions) {
             (async () => { await loadData() })();
@@ -63,7 +62,7 @@ export default function Page() {
     data.minimum_stock = 1;
     data.product_type = 3;
     data.image = selectedImage;
-    data.taxes = 13;
+    data.taxes = getCountryProperty(systemInformation?.system?.country).taxes;
     data.is_restaurant = 1;
     data.quantity = 1;
 

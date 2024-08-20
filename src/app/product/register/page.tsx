@@ -10,7 +10,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import { ConfigContext } from "@/contexts/config-context";
 import { style } from "@/theme";
-import { getConfigStatus, fieldWidth, transformFields } from "@/utils/functions";
+import { getConfigStatus, fieldWidth, transformFields, getCountryProperty } from "@/utils/functions";
 import { ProductLinkedModal } from "@/components/products-components/product-add-linked-modal";
 import { PresetTheme } from "@/services/enums";
 import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
@@ -21,7 +21,7 @@ export default function AddProduct() {
   const [fieldsModified, setFieldsModified] = useState<any>(Fields);
   const [lastProducts, setLastProducts] = useState<any>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { config } = useContext(ConfigContext);
+  const { config, systemInformation } = useContext(ConfigContext);
   const [expiresStatus, setExpiresStatus] = useState<boolean>(false);
   const [brandStatus, setBrandStatus] = useState<boolean>(false);
   const [measuresStatus, setMeasuresStatus] = useState<boolean>(false);
@@ -68,11 +68,11 @@ export default function AddProduct() {
   useEffect(() => {
     (async () => {
         const products = await getData("products?sort=-created_at&filterWhere[is_restaurant]==0&perPage=10");
-        setValue("taxes", 13);
         setLastProducts(products);
       })();
     // eslint-disable-next-line
-  }, []);
+  }, [systemInformation]);
+
 
   const onSubmit = async (data: any) => {
     if (data.product_type != 1) {
@@ -82,7 +82,7 @@ export default function AddProduct() {
     if (data.expiration) data.expires = 1;
     if (!data.unit_cost) data.unit_cost = 0;
     if (!data.sale_price) data.sale_price = 0;
-
+    data.taxes = getCountryProperty(systemInformation?.system?.country).taxes;
     try {
       setIsSending(true);
       const response = await postData(`products`, "POST", data);
@@ -225,8 +225,6 @@ export default function AddProduct() {
                     className={`${style.input} w-full`}
                   />
                 </div>
-
-                <input type="hidden" id="taxes" {...register("taxes")} />
               </div>
 
               {message.errors && (
