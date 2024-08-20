@@ -11,10 +11,11 @@ export interface IconMenuCategoryModalProps {
   selectedIcon: (image: string)=> void
   images?: any
   filter?: string
+  config: string[];
 }
 
 export function IconMenuCategoryModal(props: IconMenuCategoryModalProps) {
-  const { onClose, isShow, selectedIcon, images, filter } = props;
+  const { onClose, isShow, selectedIcon, images, filter, config } = props;
 
 
         if (!images || !isShow) return <></>
@@ -28,7 +29,12 @@ export function IconMenuCategoryModal(props: IconMenuCategoryModalProps) {
                 if (record.icon_type == 2) return
                 return (
                     <div key={record?.id} className="m-2 clickeable">
-                        <div onClick={() => { selectedIcon(record.product_id)}}
+                        <div onClick={() => { 
+                            selectedIcon(record.product_id); 
+                            if (config?.includes("restaurant-sales-modal-dismis-category")) {
+                                onClose();
+                            }
+                        }}
                          className="rounded-md drop-shadow-lg">
                             <Image loader={imageLoader} src={record?.product?.restaurant?.image} alt="Icono de imagen" width={96} height={96} className="rounded-t-md" />
                             <p className={`w-full content-center text-center rounded-b-md overflow-hidden uppercase text-xs text-black font-medium p-1 h-9 bg-slate-300`} 
@@ -40,8 +46,6 @@ export function IconMenuCategoryModal(props: IconMenuCategoryModalProps) {
                 )
             });
             
-
-
 
       return (
           <Modal size={getModalSize(imagesFiltered)} show={isShow} position="center" onClose={onClose}>

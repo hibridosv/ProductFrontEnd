@@ -7,6 +7,7 @@ import { getTenant } from "@/services/oauth";
 import { getConfigStatus } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
 import usePusher from "@/hooks/usePusher";
+import { NothingHere } from "@/components";
 
 
 export default function Page() {
@@ -19,7 +20,7 @@ export default function Page() {
     const loadData = async () => {
         setIsLoading(true);
         try {
-          const products = await getData(`sales?included=employee,client,invoiceproducts.attributes,products.attributes,attributes&filter[status]==3&filter[status]==1&filterWhere[active_station]==1`);
+          const products = await getData(`sales?included=employee,client,invoiceproducts.attributes,invoiceproducts.options.option,products.attributes,products.options.option,attributes&filter[status]==3&filter[status]==1&filterWhere[active_station]==1`);
           setOrders(products.data);
         } catch (error) {
             console.error(error);
@@ -27,7 +28,6 @@ export default function Page() {
             setIsLoading(false);
         }
     };
-
 
 
 
@@ -47,6 +47,8 @@ export default function Page() {
           console.error(error);
         }
       };
+
+  if (!orders || orders.length == 0) return <NothingHere text="No hay comandas pendientes" />
 
   return (
         <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 m-4 pb-10">

@@ -10,10 +10,11 @@ import { useIsOpen } from "@/hooks/useIsOpen";
 export interface IconsMenuProps {
   isShow?: boolean;
   selectedIcon: (image: string)=> void
+  config: string[];
 }
 
 export function IconsMenu(props: IconsMenuProps) {
-  const { isShow, selectedIcon } = props;
+  const { isShow, selectedIcon, config } = props;
   const [ images, setImages ] = useState([] as any)
   const [isLoading, setIsLoading] = useState(false);
   const [selectedcategory, setSelectedcategory] = useState("");
@@ -96,7 +97,7 @@ export function IconsMenu(props: IconsMenuProps) {
             {isLoading ? listMocks() : listItems }
             {((!images?.data || images.data.length === 0) && !isLoading) && <div className="clickeable"><NothingHere text="No se encontraron imágenes" /></div> }
             </div>
-            <IconMenuCategoryModal selectedIcon={selectedIcon} isShow={modalCategory.isOpen} onClose={()=>modalCategory.setIsOpen(false)} images={images.data} filter={selectedcategory} />
+            <IconMenuCategoryModal selectedIcon={selectedIcon} isShow={modalCategory.isOpen} onClose={()=>modalCategory.setIsOpen(false)} images={images.data} filter={selectedcategory} config={config}/>
         </div>
   );
 

@@ -2,9 +2,11 @@ import { useRelativeTime } from '@/hooks/useRelativeTime';
 import { formatDate, formatHourAsHM } from '@/utils/date-formats';
 import { deliveryType, filterProductsOrInvoiceProducts } from '@/utils/functions';
 import { url } from 'inspector';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { BiCar, BiCheckDouble, BiUser } from 'react-icons/bi';
 import { FaClock } from 'react-icons/fa';
+import { GrChatOption } from 'react-icons/gr';
+import { TbPointFilled } from 'react-icons/tb';
 
 export interface ScreenCardProps {
     order: any;
@@ -39,17 +41,29 @@ export function ScreenCard(props: ScreenCardProps) {
 
             <table className="table-auto w-full text-sm text-left">
                 <tbody>
-                    {filteredResult.map((product: any) => (
-                        <tr key={product.id} className="bg-slate-100 border-y-2 border-slate-600 clickeable" 
-                           onClick={()=>processData({order: order?.id,
-                                                    product: product.id,
-                                                    status: 2,
-                                                    url: "screen/product/process"})}>
-                            <td className="font-medium h-9 flex p-2 uppercase">
-                                <BiCheckDouble size={20} color="green" className="mx-2" /> {product.product}
-                            </td>
-                        </tr>
-                    ))}
+                    {filteredResult.map((product: any) => {
+                        return (<Fragment key={product.id}>
+                            <tr  className="bg-slate-100 border-y-2 border-slate-600 clickeable" 
+                               onClick={()=>processData({order: order?.id,
+                                                        product: product.id,
+                                                        status: 2,
+                                                        url: "screen/product/process"})}>
+                                <td className="font-medium h-9 flex p-2 uppercase">
+                                    <BiCheckDouble size={20} color="green" className="mx-2" /> {product.product}
+                                </td>
+                            </tr>
+                               {product?.options?.length > 0 && 
+                               <tr className="bg-slate-100 border-y-2 border-slate-600">
+                                    <td className=" font-medium h-9 flex p-2 bg-red-100">
+                                        {product.options.map((option: any)=> <span key={option.id} className='flex'>
+                                                <TbPointFilled className='mt-1 text-red-600' /><span className='mr-1 '>{option?.option?.name}</span>
+                                            </span>)}
+                                    </td>
+                                </tr>
+                                }
+                            </Fragment>)
+                    })}
+
                 </tbody>
             </table>
 

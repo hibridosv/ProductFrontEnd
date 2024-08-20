@@ -12,10 +12,19 @@ export default function Home() {
 
 
   useEffect(() => {
-      if (!permissionExists(systemInformation?.permission, 'dashboard')) {
+    const { permission, system } = systemInformation || {};
+    const tenantSystem = system?.tenant?.system;
+  
+    if (permission && !permissionExists(permission, 'dashboard')) {
+      if (tenantSystem === 2 || tenantSystem === 4) {
+        router.push("/sales");
+      } else {
         router.push("/sales/quick");
       }
-    }, [router, systemInformation]);
+    }
+  }, [router, systemInformation]);
+  
+    console.log(systemInformation)
   return (
             <div>
               <DashBoardIndex />
