@@ -25,7 +25,7 @@ export function ProductCategoryUpdateModal(props: ProductCategoryUpdateModalProp
   const loadData = async () => {
         setIsLoading(true);
         try {
-        const cat = await getData(`categories?sort=created_at&filterWhere[category_type]==2`);
+        const cat = await getData(`categories?sort=created_at&filterWhere[category_type]==2&filterWhere[is_restaurant]==1`);
         setCategories(cat.data);
         } catch (error) {
             console.error(error);
