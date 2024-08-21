@@ -36,7 +36,7 @@ export default function Page() {
     const loadData = async () => {
         setIsLoading(true);
         try {
-          const cat = await getData(`categories?sort=created_at&filterWhere[category_type]==2&filterWhere[is_restaurant]==1`);
+          const cat = await getData(`categories?sort=created_at&filterWhere[category_type]==2&filter[is_restaurant]==1`);
           setCategories(cat.data);
           const opt = await getData(`restaurant/options`);
           setOptions(opt.data);
