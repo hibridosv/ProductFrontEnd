@@ -3,8 +3,8 @@ const nextConfig = {
     // output: 'export',
     env: {
         REACT_APP_NAME: 'Sistema de Facturacion',
-        // REACT_APP_API_URL: 'http://billing.test/',
-        REACT_APP_API_URL: 'https://apitest.latam-pos.com/',
+        REACT_APP_API_URL: 'http://billing.test/',
+        // REACT_APP_API_URL: 'https://apitest.latam-pos.com/',
       },
       images: {
         remotePatterns: [

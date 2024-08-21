@@ -62,7 +62,7 @@ console.log(systemInformation)
     data.minimum_stock = 1;
     data.product_type = 3;
     data.image = selectedImage;
-    data.taxes = getCountryProperty(systemInformation?.system?.country).taxes;
+    data.taxes = getCountryProperty(parseInt(systemInformation?.system?.country)).taxes;
     data.is_restaurant = 1;
     data.quantity = 1;
 

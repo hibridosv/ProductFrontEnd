@@ -40,43 +40,57 @@ const tipoDTE = (dte: string)=>{
         case "03": return <span>CCF</span>;
         case "14": return <span>FSE</span>;
         case "05": return <span>NC</span>;
+        default: return <span>N/A</span>;
     }
 }
 
 
   const listItems = records.data.map((record: any, key: any) => (
     <tr key={record.id} className="border-b">
-      <td className="py-2 px-6 truncate">{ record?.fecha_procesamiento ? record?.fecha_procesamiento : "N/A" } </td>
-      <td className={`py-2 px-6 ${record?.status == 4 ? 'clickeable font-semibold' : 'text-red-500'}`}>
-        { record?.status == 4 ?
-        <a target="_blank" href={`${API_URL}documents/download/pdf/${record?.codigo_generacion}/${record?.client_id}`} title="Descargar PDF">
-          { tipoDTE(record?.tipo_dte) }
+
+
+      <td className="py-2 px-6 truncate">{ record?.date_sended ? record?.date_sended : "N/A" } </td>
+
+
+      <td className={`py-2 px-6 ${record?.uuid ? 'clickeable font-semibold' : 'text-red-500'}`}>
+        { record?.uuid ?
+        <a target="_blank" href={`https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid=${record?.uuid}`} title="Descargar PDF">
+          { tipoDTE(record?.tipo_documento) }
         </a>  
           :
-        <div title={record?.observaciones}>{ tipoDTE(record?.tipo_dte) }</div>
+        <div title={record?.descripcion}>{ tipoDTE(record?.tipo_documento) }</div>
         }
       </td>
-      <td className={`py-2 px-6 ${(record?.tipo_dte == "01" || record?.tipo_dte == "03") && 'clickeable'}`} onClick={(record?.tipo_dte == "01" || record?.tipo_dte == "03") ? ()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)} : ()=>{} } title="Ver detalles de documento"> { record?.numero_control } </td>
-      <td className="py-2 px-6" title={record?.descripcion_msg}>{ status(record?.status, record?.codigo_generacion) }</td>
-      <td className="py-2 px-6">{ record?.email == 1 ? "Enviado" : "Sin Enviar" }</td>
+
+
+      <td className={`py-2 px-6 ${(record?.tipo_documento == "01" || record?.tipo_documento == "03") && 'clickeable'}`} onClick={(record?.tipo_documento == "01" || record?.tipo_documento == "03") ? ()=>{ setRecordSelect(record?.identificador); setShowInvoiceModal(true)} : ()=>{} } title="Ver detalles de documento"> { record?.numero_control } </td>
+
+
+
+
+      <td className="py-2 px-6">{ record?.serie }</td>
+      <td className="py-2 px-6">{ record?.numero }</td>
+      <td className="py-2 px-6" title={record?.descripcion_msg}>{ status(record?.status, record?.identificador) }</td>
+
+
       <td className="py-2 px-6">
       <Tooltip animation="duration-300" style="light" content={
             <div className="w-8/10">
-              <div className={`w-full font-semibold ${(record?.tipo_dte == "01" || record?.tipo_dte == "03") ? 'text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' : 'text-red-700 py-2 px-4 hover:bg-red-100'}`} onClick={ (record?.tipo_dte == "01" || record?.tipo_dte == "03") ? ()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)} : ()=>{} }>Detalles del documento</div>
+              <div className={`w-full font-semibold ${(record?.tipo_documento == "01" || record?.tipo_documento == "03") ? 'text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' : 'text-red-700 py-2 px-4 hover:bg-red-100'}`} onClick={ (record?.tipo_documento == "01" || record?.tipo_documento == "03") ? ()=>{ setRecordSelect(record?.identificador); setShowInvoiceModal(true)} : ()=>{} }>Detalles del documento</div>
               
-              <div className={`w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 ${record?.status == 4 ? 'clickeable' : ''}`}>
-              { record?.status == 4 ?
-              <a target="_blank" href={`${API_URL}documents/download/pdf/${record?.codigo_generacion}/${record?.client_id}`} title="Descargar PDF"> Descargar PDF </a>  :
+              <div className={`w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 ${record?.uuid ? 'clickeable' : ''}`}>
+              { record?.uuid ?
+              <a target="_blank" href={`https://report.feel.com.gt/ingfacereport/ingfacereport_documento?uuid=${record?.uuid}`} title="Descargar PDF"> Descargar PDF </a>  :
               <div> Descargar PDF</div>
               }
               </div>
-              <div className={`w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 ${record?.status == 4 ? 'clickeable' : ''}`}>
-              { record?.status == 4 ?
-              <a target="_blank" href={`${API_URL}documents/download/json/${record?.codigo_generacion}/${record?.client_id}`} title="Descargar PDF"> Descargar JSON </a>  :
-              <div> Descargar JSON</div>
+              <div className={`w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 ${record?.uuid ? 'clickeable' : ''}`}>
+              { record?.uuid ?
+              <a target="_blank" href={`https://report.feel.com.gt/ingfacereport/ingfacereport?uuid=${record?.uuid}`} title="Descargar PDF"> Descargar XML </a>  :
+              <div> Descargar XML</div>
               }
               </div>
-              <div className={`w-full font-semibold ${record?.status == 3 ? 'text-red-700 py-2 px-4 hover:bg-red-100 clickeable' : 'text-slate-700 py-2 px-4 hover:bg-slate-100'}`} onClick={ record?.status == 3 ? ()=> resendDocument(record?.codigo_generacion) : ()=> {}}>Reenviar Documento</div>
+              <div className={`w-full font-semibold ${record?.status == 3 ? 'text-red-700 py-2 px-4 hover:bg-red-100 clickeable' : 'text-slate-700 py-2 px-4 hover:bg-slate-100'}`} onClick={ record?.status == 3 ? ()=> resendDocument(record?.identificador) : ()=> {}}>Reenviar Documento</div>
             </div>
           }>
         <div className='clickeable'><FaEdit size="1.2em" /></div>
@@ -94,8 +108,9 @@ const tipoDTE = (dte: string)=>{
           <th scope="col" className="py-3 px-4 border">Fecha</th>
           <th scope="col" className="py-3 px-4 border">Tipo DTE</th>
           <th scope="col" className="py-3 px-4 border">Numero de control</th>
+          <th scope="col" className="py-3 px-4 border">Serie</th>
+          <th scope="col" className="py-3 px-4 border">Numero</th>
           <th scope="col" className="py-3 px-4 border">Estado</th>
-          <th scope="col" className="py-3 px-4 border">Email</th>
           <th scope="col" className="py-3 px-4 border">OP</th>
         </tr>
       </thead>

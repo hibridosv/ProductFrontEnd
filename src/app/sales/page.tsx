@@ -1,11 +1,9 @@
 'use client'
 
 import { useContext, useEffect, useState } from "react";
-import { IconsMenu } from "@/components/restaurant/sales/icons-menu";
-import { ProductsTable } from "@/components/restaurant/sales/products-table";
+
 import { ServiceTypeSelect } from "@/components/restaurant/sales/service-type-select";
 import { RestaurantShowTotal } from "@/components/restaurant/sales/show-total";
-import { SalesButtons } from "@/components/sales-components/sales-buttons";
 import toast, { Toaster } from 'react-hot-toast';
 import { ConfigContext } from "@/contexts/config-context";
 import { errorSound, extractActiveFeature, hasOptionsActive, successSound } from "@/utils/functions";
@@ -25,6 +23,8 @@ import { SalesOthers } from "@/components/sales-components/sales-others";
 import { SalesCommentModal } from "@/components/sales-components/sales-comment";
 import { SalesSetQuantityModal } from "@/components/restaurant/sales/sales-set-quantity-modal";
 import { SelectOptionsModal } from "@/components/restaurant/sales/select-options-modal";
+import { IconsMenu } from "@/components/restaurant/sales/icons-menu";
+import { ProductsTable } from "@/components/restaurant/sales/products-table";
 
 
 export default function ViewSales() {
@@ -307,6 +307,8 @@ export default function ViewSales() {
             <SalesSetQuantityModal isShow={modalQuantity.isOpen} onClose={()=>modalQuantity.setIsOpen(false)} product={productSelected} sendProduct={sendProduct} />
             <SelectOptionsModal selectOption={updateProductOption} isShow={hasOptionsActive(order)}  order={order} isSending={isSending} />
             <PayFinishModal isShow={modalPayed.isOpen} onClose={onFinish} invoice={payedInvoice} isSending={isSending} />
+      <Toaster position="top-right" reverseOrder={false} />
+            
       </div>
       );
 }

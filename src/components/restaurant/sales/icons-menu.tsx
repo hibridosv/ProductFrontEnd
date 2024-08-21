@@ -95,7 +95,7 @@ export function IconsMenu(props: IconsMenuProps) {
         <div>
             <div className="flex flex-wrap justify-center">
             {isLoading ? listMocks() : listItems }
-            {((!images?.data || images.data.length === 0) && !isLoading) && <div className="clickeable"><NothingHere text="No se encontraron imágenes" /></div> }
+            {((!images?.data || images.data.length == 0) && !isLoading) && <div className="clickeable"><NothingHere text="No se encontraron imágenes" /></div> }
             </div>
             <IconMenuCategoryModal selectedIcon={selectedIcon} isShow={modalCategory.isOpen} onClose={()=>modalCategory.setIsOpen(false)} images={images.data} filter={selectedcategory} config={config}/>
         </div>
