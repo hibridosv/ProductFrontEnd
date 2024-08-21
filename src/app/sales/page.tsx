@@ -11,12 +11,13 @@ export default function Home() {
   useEffect(() => {
     const { system } = systemInformation || {};
     const tenantSystem = system?.tenant?.system;
-      if (tenantSystem === 2 || tenantSystem === 4) {
-        router.push("/sales/orders");
-      } else {
-        router.push("/sales/quick");
-      }
-
+    if (tenantSystem) {
+        if (tenantSystem === 2 || tenantSystem === 4) {
+            router.push("/sales/orders");
+          } else {
+            router.push("/sales/quick");
+          }
+    }
   }, [router, systemInformation]);
   
   return (<div></div>)
