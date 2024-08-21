@@ -10,7 +10,7 @@ export default function Home() {
   const tenantSystem = useMemo(() => systemInformation?.system?.tenant?.system, [systemInformation]);
 
   if (tenantSystem === 2 || tenantSystem === 4) {
-    router.push("/sales");
+    router.push("/sales/orders");
   } else {
     router.push("/sales/quick");
   }
