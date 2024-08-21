@@ -142,7 +142,7 @@ export default function ViewSales() {
                 setIsSending(false);
               }
                 
-              }
+          }
               
           const deleteOrder = async () => {
               try {
@@ -285,7 +285,7 @@ export default function ViewSales() {
           return (
             <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
             <div className="col-span-6 border-r md:border-sky-600">
-                  <IconsMenu isShow={true} selectedIcon={sendProduct} config={configuration} />
+                  <IconsMenu isShow={true} selectedIcon={sendProduct} config={configuration} isSending={isSending} />
             </div>
             <div className="col-span-4 border-l md:border-sky-600">
                   <ServiceTypeSelect selectType={()=>{}} />
