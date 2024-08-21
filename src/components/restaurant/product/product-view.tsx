@@ -6,7 +6,7 @@ import Image from "next/image";
 import { URL } from "@/constants";
 import { numberToMoney } from "@/utils/functions";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { MdDelete, MdOutlinePriceCheck } from "react-icons/md";
+import { MdDelete, MdOutlinePriceCheck, MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { IoMdCloseCircleOutline, IoMdOptions } from "react-icons/io";
 import { FaCheckCircle, FaImages, FaSolarPanel } from "react-icons/fa";
 import { BiCategory, BiRename } from "react-icons/bi";
@@ -22,6 +22,7 @@ import { ProductPanelUpdateModal } from "./product-panel-update-modal";
 import { AddImageModal } from "./add-image-modal";
 import { Loading } from "@/components/loading/loading";
 import { ConfigContext } from "@/contexts/config-context";
+import { ProductLinkedModal } from "@/components/products-components/product-add-linked-modal";
 
 
 
@@ -39,6 +40,7 @@ export function ProductView(props: ProductViewProps) {
   const modalPanel = useIsOpen(false);
   const modalDelete = useIsOpen(false);
   const modalImg = useIsOpen(false);
+  const modalProd = useIsOpen(false);
   const [selectProduct, setSelectProduct] = useState<Product>({} as Product);
   const [dataUpdate, setDataUpdate] = useState({});
   const { systemInformation } = useContext(ConfigContext);
@@ -175,6 +177,10 @@ export function ProductView(props: ProductViewProps) {
                         <span className="mt-1"><FaImages /></span> 
                         <span className="ml-2">Cambiar Imagen</span> 
                     </div>
+                    <div onClick={()=> {modalProd.setIsOpen(true); setSelectProduct(record) }} className='flex justify-items-start w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable'>
+                        <span className="mt-1"><MdOutlineProductionQuantityLimits /></span> 
+                        <span className="ml-2">Productos a descontar </span> 
+                    </div>
                     <div onClick={()=>updateStatus(record.id, record.menu_order?.status)} className={`flex justify-items-start w-full font-semibold clickeable ${record.menu_order?.status === 0 ? 'text-slate-700 py-2 px-4 hover:bg-slate-100' : 'text-red-700 py-2 px-4 hover:bg-red-100'}`}>
                         <span className="mt-1">{record.menu_order?.status === 0 ? <FaCheckCircle color="green" /> : <IoMdCloseCircleOutline /> }</span> 
                         <span className="ml-2">{record.menu_order?.status === 0 ? 'Habilitar Producto' : 'Inhabilitar Producto'}</span> 
@@ -221,6 +227,8 @@ export function ProductView(props: ProductViewProps) {
       <ProductPanelUpdateModal isShow={modalPanel.isOpen} onClose={()=>modalPanel.setIsOpen(false)} dataInit={dataUpdate} onSubmit={updateProduct} />
       <ProductModifierUpdateModal isShow={modalModif.isOpen} onClose={()=>modalModif.setIsOpen(false)} dataInit={dataUpdate} random={random} />
       <AddImageModal isShow={modalImg.isOpen} onClose={()=> modalImg.setIsOpen(false)} selectedImage={handleChangeImage} />
+      <ProductLinkedModal isShow={modalProd.isOpen} product={selectProduct} onClose={()=>modalProd.setIsOpen(false)} />
+
  </div>
   );
 

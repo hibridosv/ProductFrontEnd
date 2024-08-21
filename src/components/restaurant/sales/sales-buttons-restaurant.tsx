@@ -8,6 +8,7 @@ import { style } from '@/theme';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import { countSendPrintZero } from '@/utils/functions';
+import { Alert } from '@/components/alert/alert';
 
 export interface SalesButtonsRestaurantProps {
     onClickOrder: (option: OptionsClickOrder)=>void
@@ -16,10 +17,11 @@ export interface SalesButtonsRestaurantProps {
     payType: PaymentType;
     config: string[];
     isSending:boolean;
+    cashDrawer?: boolean;
 }
 
 export function SalesButtonsRestaurant(props: SalesButtonsRestaurantProps) {
-  const {onClickOrder, order, payOrder, payType, config, isSending } = props
+  const {onClickOrder, order, payOrder, payType, config, isSending, cashDrawer } = props
   const { register, handleSubmit, reset, setFocus } = useForm();
 
   useEffect(() => {
@@ -38,6 +40,14 @@ if (order?.invoiceproducts.length == 0) return <></>
 
   return (
     <div className="border rounded-md shadow-md m-2">
+        { !cashDrawer && <Alert
+          theme={PresetTheme.danger}
+          info="Error"
+          text="Debe seleccionar una caja para poder cobrar"
+          isDismisible={false}
+          className='my-1'
+          /> }
+          
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         { payType == 1 &&
         <input type="number" step="any" min={0} readOnly={isSending} className={style.input} placeholder='Ingrese una cantidad' {...register("cash")} />
@@ -76,9 +86,9 @@ if (order?.invoiceproducts.length == 0) return <></>
             </div>
 
             { payType == 1 ?
-            <button disabled={isSending} type='submit' className='button-cyan clickeable w-full'><FaRegMoneyBillAlt className='mr-1' /> Cobrar</button>
+            <button disabled={isSending || !cashDrawer} type='submit'  className='button-cyan clickeable w-full'><FaRegMoneyBillAlt className='mr-1' /> Cobrar</button>
             : 
-            <div className='button-cyan clickeable w-full' title='Cobrar' onClick={isSending ? ()=>{} : ()=>payOrder(0)}><FaRegMoneyBillAlt className='mr-1' /> Cobrar</div>
+            <div className='button-cyan clickeable w-full' title='Cobrar' onClick={(isSending || !cashDrawer) ? ()=>{} : ()=>payOrder(0)}><FaRegMoneyBillAlt className='mr-1' /> Cobrar</div>
             }
         </div>
         </form>

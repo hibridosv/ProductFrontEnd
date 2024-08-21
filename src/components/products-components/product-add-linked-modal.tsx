@@ -31,7 +31,8 @@ export function ProductLinkedModal(props: ProductLinkedProps) {
   const [lastProductsLinked, setLastProductsLinked] = useState<any>([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectProduct, setSelectProduct] = useState<Product>({} as Product);
-  
+
+
   const loadProductsBySearch = async () => {
     try {
       const response = await getData(`products?sort=description&filterWhere[is_restaurant]==0&selected=id,cod,description,product_type${searchTerm}`);
@@ -143,9 +144,10 @@ useEffect(() => {
 ))
 
 const listProducts = lastProductsLinked?.map((product: any):any => (
-    <li  key={product.id} className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800">
-    {product.qty} | {product.composed}
-    <Button onClick={()=>isDeleteProduct(product)} preset={Preset.smallClose} noText />
+    <li  key={product.id} className="flex justify-between p-3 hover:bg-blue-100 hover:text-blue-800 w-full">
+    <span className="font-semibold w-2/12">{product.qty}</span>
+    <span className="text-left w-7/12">{product.composed}</span>
+    <span className="text-right w-3/12"><Button onClick={()=>isDeleteProduct(product)} preset={Preset.smallClose} noText /></span>
     </li>
 ))
 
@@ -153,13 +155,13 @@ const listProducts = lastProductsLinked?.map((product: any):any => (
 
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
-      <Modal.Header>Agregar producto relacionado</Modal.Header>
+      <Modal.Header>{ product?.description }</Modal.Header>
       <Modal.Body>
         { isLoading ? <Loading /> : (<>
 
         { (!productSelected && lastProductsLinked.length > 0) ? 
             (<div>
-                <div className="text-2xl justify-self-center">PRODUCTOS AGREGADOS</div>
+                <div className="text-2xl justify-self-center font-semibold">PRODUCTOS AGREGADOS</div>
                     <ul className="divide-y-2 divide-gray-400 mb-4">
                         {listProducts}
                     </ul>
@@ -185,18 +187,19 @@ const listProducts = lastProductsLinked?.map((product: any):any => (
                     </div>
                 </div>
             </div>
+            <div className="uppercase font-light text-teal-700">Producto a agregar</div>
             <div className="flex justify-between p-3 bg-blue-100 hover:bg-blue-300">
                 <span>{productSelected.description}</span> 
                 <Button onClick={cancelSelected} preset={Preset.smallClose} noText />
             </div>
 
         </div>) :
-        (<><SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Producto" />
+        (<div className=" border border-slate-100 p-2 mt-2 rounded-md shadow-lg"><SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Producto" />
         <div className="w-full bg-white rounded-lg shadow-lg lg:w-2/3 mt-4">
             <ul className="divide-y-2 divide-gray-400">
             { listItems }
             </ul>
-        </div></>)
+        </div></div>)
         }
 
         </>)}

@@ -295,7 +295,7 @@ export default function ViewSales() {
                   <div className="flex justify-center">
                         <RestaurantShowTotal order={order} isSending={isSending}  />
                   </div>  
-                  <SalesButtonsRestaurant payOrder={payOrder} onClickOrder={handleClickOptionOrder} order={order} payType={paymentType} config={configuration} isSending={isSending} />
+                  <SalesButtonsRestaurant cashDrawer={cashDrawer} payOrder={payOrder} onClickOrder={handleClickOptionOrder} order={order} payType={paymentType} config={configuration} isSending={isSending} />
                   <OptionsSelect onClickOrder={handleClickOptionOrder} payType={paymentType} order={order} setOrder={setOrder} />
             </div>
             <SalesSelectInvoiceTypeModal isShow={modalInvoiceType.isOpen} onClose={()=>modalInvoiceType.setIsOpen(false)} order={order} />
