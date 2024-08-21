@@ -113,7 +113,10 @@ const handlePermission = (permission: string, redirect: string): string => {
 
         <SubMenu label="Facturación" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href={handlePermission("invoices-documents", "/invoices/documents")} />}>Documentos Emitidos </MenuItem>
-          <MenuItem component={<Link className="text-sm" href={handlePermission("invoices-electronic", "/invoices/electronic")} />}>Documentos Electrónicos </MenuItem>
+          { systemInformation?.system?.country == 1 &&
+          <MenuItem component={<Link className="text-sm" href={handlePermission("invoices-electronic", "/invoices/electronic")} />}>Documentos Electrónicos </MenuItem> }
+          { systemInformation?.system?.country == 3 &&
+          <MenuItem component={<Link className="text-sm" href={handlePermission("invoices-electronic", "/invoices/electronic-gt")} />}>Documentos Electrónicos </MenuItem> }
           <MenuItem component={<Link className="text-sm" href={handlePermission("invoices-search", "/invoices/search")} />}>Buscar Documentos </MenuItem>
           {/* <MenuItem component={<Link className="text-sm" href="/cash" />}>Reporte contable </MenuItem> */}
         </SubMenu>

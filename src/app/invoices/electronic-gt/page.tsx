@@ -9,9 +9,9 @@ import { DateTime } from 'luxon';
 import { loadData } from "@/utils/functions";
 import { style } from "@/theme";
 import { useForm } from "react-hook-form";
-import { InvoiceDocumentsElectronicTable } from "@/components/invoice-components/invoice-documents-electronic-table";
 import { LinksList } from "@/components/common/links-list";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
+import { InvoiceDocumentsElectronicGtTable } from "@/components/invoice-components/invoice-documents-electronic-gt-table";
 
 
 export default function Page() {
@@ -86,7 +86,7 @@ export default function Page() {
         <div className="col-span-7 border-r md:border-sky-600">
         <ViewTitle text="REPORTE DOCUMENTOS EMITIDOS" />
 
-        <InvoiceDocumentsElectronicTable records={documents} isLoading={isSending} resendDocument={resendDocument} />
+        <InvoiceDocumentsElectronicGtTable records={documents} isLoading={isSending} resendDocument={resendDocument} />
 
         </div>
         <div className="col-span-3">
