@@ -292,7 +292,10 @@ export const  errorSound = () => {
   audio.play();
 }
 
-
+export const  screenSound = () => {
+  const audio = new Audio('/sounds/screen.mp3');
+  audio.play();
+}
 
 /**
  * Extrae de config las carateristicas activadas

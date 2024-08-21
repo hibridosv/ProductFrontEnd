@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { getData, postData } from "@/services/resources";
 import { ScreenCard } from "@/components/restaurant/screen/screen-card";
 import { getTenant } from "@/services/oauth";
-import { getConfigStatus } from "@/utils/functions";
+import { getConfigStatus, screenSound } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
 import usePusher from "@/hooks/usePusher";
 import { NothingHere } from "@/components";
@@ -21,7 +21,10 @@ export default function Page() {
         setIsLoading(true);
         try {
           const products = await getData(`sales?included=employee,client,invoiceproducts.attributes,invoiceproducts.options.option,products.attributes,products.options.option,attributes&filter[status]==3&filter[status]==1&filterWhere[active_station]==1`);
-          setOrders(products.data);
+          if (products.data) {
+            setOrders(products.data);
+            screenSound()
+          }
         } catch (error) {
             console.error(error);
         } finally {
