@@ -49,11 +49,9 @@ const handlePermission = (permission: string, redirect: string): string => {
         <MenuItem icon={<FaCashRegister />} component={<Link href={handlePermission("cashdrawer", "/cashdrawers")} />}>Control de cajas</MenuItem>
           {(sys == 1 || sys == 3) &&
               <SubMenu label="Restaurant" icon={<IoMdCash />}>
-                <MenuItem component={<Link className="text-sm" href={handlePermission("cash-bills", "/cash/bills")} />}>Registro de gastos </MenuItem>
-                <MenuItem component={<Link className="text-sm" href={handlePermission("cash-remittance", "/cash/remittance")} />}>Remesas de efectivo </MenuItem>
-                <MenuItem component={<Link className="text-sm" href={handlePermission("cash-accounts", "/cash/accounts")} />}>Cuentas Bancarias </MenuItem>
-                <MenuItem component={<Link className="text-sm" href={handlePermission("cash-inout", "/cash/inout")} />}>Flujo de Efectivo </MenuItem>
-                <MenuItem component={<Link className="text-sm" href={handlePermission("cash-history", "/cash/history")} />}>Historial de transferencias </MenuItem>
+                <MenuItem component={<Link className="text-sm" href="restaurant/add-product" />}>Agregar Producto </MenuItem>
+                <MenuItem component={<Link className="text-sm" href="restaurant/products" />}>Productos de Menu </MenuItem>
+                <MenuItem component={<Link className="text-sm" href="restaurant/screen" />}>Pantalla </MenuItem>
               </SubMenu>
           }
         <SubMenu label="Inventario" icon={<HiOutlineChartSquareBar />}>
