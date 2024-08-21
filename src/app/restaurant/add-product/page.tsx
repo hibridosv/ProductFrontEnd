@@ -197,7 +197,7 @@ console.log(systemInformation)
 
         </div>
         <div className="col-span-3">
-        <ViewTitle text="ULTIMOS PRODUCTOS" />
+        {/* <ViewTitle text="ULTIMOS PRODUCTOS" /> */}
 
         </div>
         <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} />
