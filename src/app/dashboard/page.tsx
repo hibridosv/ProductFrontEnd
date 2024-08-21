@@ -24,7 +24,6 @@ export default function Home() {
     }
   }, [router, systemInformation]);
   
-    console.log(systemInformation)
   return (
             <div>
               <DashBoardIndex />

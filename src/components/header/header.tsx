@@ -37,7 +37,7 @@ export function Header() {
           </div> }
 
           <div className="ml-2">
-            <Link href={(sys == 1 || sys == 3) ? "/sales/quick" : "/sales"}><span className="clickeable text-white"><span><AiFillHome size={24} /></span></span></Link>
+            <Link href={(sys == 1 || sys == 3) ? "/sales/quick" : "/sales/orders"}><span className="clickeable text-white"><span><AiFillHome size={24} /></span></span></Link>
           </div>
           
         </div>

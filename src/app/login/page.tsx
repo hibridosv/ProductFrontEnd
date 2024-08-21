@@ -52,7 +52,7 @@ export default function Home() {
           setIsRedirect(true)
           login(response.access_token);
           setRandomInit(Math.random())
-          router.push("/sales/quick");
+          router.push("/sales");
       } else {
         setIsMessage("Usuario o contraseña incorrecta");
       }
