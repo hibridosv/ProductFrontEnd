@@ -40,7 +40,7 @@ export default function Page() {
           setCategories(cat.data);
           const opt = await getData(`restaurant/options`);
           setOptions(opt.data);
-          const work = await getData(`restaurant/workstations`);
+          const work = await getData(`restaurant/workstations?filterWhere[sttaus]==1`);
           setWorkStations(work.data);
         } catch (error) {
             console.error(error);
