@@ -49,9 +49,9 @@ const handlePermission = (permission: string, redirect: string): string => {
         <MenuItem icon={<FaCashRegister />} component={<Link href={handlePermission("cashdrawer", "/cashdrawers")} />}>Control de cajas</MenuItem>
           {(sys == 2 || sys == 4) &&
               <SubMenu label="Restaurant" icon={<IoMdCash />}>
-                <MenuItem component={<Link className="text-sm" href="restaurant/add-product" />}>Agregar Producto </MenuItem>
-                <MenuItem component={<Link className="text-sm" href="restaurant/products" />}>Productos de Menu </MenuItem>
-                <MenuItem component={<Link className="text-sm" href="restaurant/screen" />}>Pantalla </MenuItem>
+                <MenuItem component={<Link className="text-sm" href="/restaurant/add-product" />}>Agregar Producto </MenuItem>
+                <MenuItem component={<Link className="text-sm" href="/restaurant/products" />}>Productos de Menu </MenuItem>
+                <MenuItem component={<Link className="text-sm" href="/restaurant/screen" />}>Pantalla </MenuItem>
               </SubMenu>
           }
         <SubMenu label="Inventario" icon={<HiOutlineChartSquareBar />}>
