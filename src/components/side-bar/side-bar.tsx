@@ -18,6 +18,7 @@ import { permissionExists } from "@/utils/functions";
 
 export function SideBar() {
 const { systemInformation } = useContext(ConfigContext);
+const sys = systemInformation?.system?.tenant?.system;
 
 const handlePermission = (permission: string, redirect: string): string => {
     if (permissionExists(systemInformation?.permission, permission)) {
@@ -46,7 +47,15 @@ const handlePermission = (permission: string, redirect: string): string => {
         </div>
         <MenuItem icon={<HiFingerPrint />} component={<Link href={handlePermission("dashboard", "/dashboard")} />}>Panel Principal</MenuItem>
         <MenuItem icon={<FaCashRegister />} component={<Link href={handlePermission("cashdrawer", "/cashdrawers")} />}>Control de cajas</MenuItem>
-
+          {(sys == 1 || sys == 3) &&
+              <SubMenu label="Restaurant" icon={<IoMdCash />}>
+                <MenuItem component={<Link className="text-sm" href={handlePermission("cash-bills", "/cash/bills")} />}>Registro de gastos </MenuItem>
+                <MenuItem component={<Link className="text-sm" href={handlePermission("cash-remittance", "/cash/remittance")} />}>Remesas de efectivo </MenuItem>
+                <MenuItem component={<Link className="text-sm" href={handlePermission("cash-accounts", "/cash/accounts")} />}>Cuentas Bancarias </MenuItem>
+                <MenuItem component={<Link className="text-sm" href={handlePermission("cash-inout", "/cash/inout")} />}>Flujo de Efectivo </MenuItem>
+                <MenuItem component={<Link className="text-sm" href={handlePermission("cash-history", "/cash/history")} />}>Historial de transferencias </MenuItem>
+              </SubMenu>
+          }
         <SubMenu label="Inventario" icon={<HiOutlineChartSquareBar />}>
           <MenuItem component={<Link className="text-sm" href={handlePermission("inventory", "/product")} />}>Ver Productos</MenuItem>
           <MenuItem component={<Link className="text-sm" href={handlePermission("inventory-register", "/product/register")} />}>Registrar Producto</MenuItem>

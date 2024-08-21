@@ -31,9 +31,10 @@ export function Header() {
       <div className="justify-end">
         <div className="flex justify-between">
 
+        {(sys == 1 || sys == 3) &&
           <div className="mr-2">
             <span className="clickeable text-white" onClick={()=>setShowProductSearchModal(true)}><span><AiOutlineSearch size={24} /></span></span>
-          </div>
+          </div> }
 
           <div className="ml-2">
             <Link href={(sys == 1 || sys == 3) ? "/sales/quick" : "/sales"}><span className="clickeable text-white"><span><AiFillHome size={24} /></span></span></Link>
