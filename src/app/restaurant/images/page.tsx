@@ -47,7 +47,6 @@ const resetSearch = async () => {
 
 
 const selectedImage = async (image: any) => {
-  console.log(image)
   setImageSelected(image)
   modalImg.setIsOpen(true)
   reset();
@@ -55,7 +54,6 @@ const selectedImage = async (image: any) => {
 
 
 const sendTags = async (image: any, tags: string) => {
-  console.log(tags)
   setIsLoading(true);
   try {
     const response = await postData(`restaurant/images/${image.id}`, "PUT", { tags: tags });

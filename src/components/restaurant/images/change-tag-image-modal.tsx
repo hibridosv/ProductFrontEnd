@@ -4,6 +4,8 @@ import { Modal } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { style } from "@/theme";
 import { Button, Preset } from "@/components/button/button";
+import Image from "next/image";
+import { URL } from "@/constants";
 
 
 export interface ChangeTagsImagesModalProps {
@@ -31,17 +33,27 @@ export function ChangeTagsImagesModal(props: ChangeTagsImagesModalProps) {
     onClose()
   };
 
+  const imageLoader = ({ src, width, quality }: any) => {
+    return `${URL}/images/ico/${src}?w=${width}&q=${quality || 75}`
+  }
+
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
       <Modal.Header>Cambiar texto de busqueda</Modal.Header>
       <Modal.Body>
         <div className="mx-4">
+            <div className=" text-center">
+                { image?.tags && <span className="uppercase text-red-600 font-semibold">{image.tags}</span>}
+            </div>
+            <div className="flex justify-center my-4">
+                <Image loader={imageLoader} src={image?.image} alt="Icono de imagen" width={300} height={300} className="rounded-md" />
+            </div>
 
           <div className="flex justify-center my-4">
             <form onSubmit={handleSubmit(sendData)} className="w-full mx-6">
               <div className="flex flex-wrap -mx-3 mb-6">
                 <div className="w-full px-3 mb-2">
-                  <label htmlFor='tags' className={style.inputLabel} >Texto de busqueda</label>
+                  <label htmlFor='tags' className={style.inputLabel} >Texto a establecer</label>
                   <input
                     type={"text"}
                     id={"tags"}
