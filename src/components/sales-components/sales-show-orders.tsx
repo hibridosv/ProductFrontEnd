@@ -44,7 +44,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
     setIsShowError } = useCodeRequest('code-request-prices');
   const remoteUrl = getUrlFromCookie();
   const tenant = getTenant();
-  let pusherEvent = usePusher(`${tenant}-channel-orders`, 'get-orders-event', getConfigStatus("realtime-orders", config));
+  let pusherEvent = usePusher(`${tenant}-channel-orders`, 'get-orders-event', getConfigStatus("realtime-orders", config)).random;
   
   const loadAllOrders = async () => {
     setIsLoading(true);

@@ -2,11 +2,6 @@
 
 import { useState, useEffect, useContext } from "react";
 import { getData, postData } from "@/services/resources";
-import { ScreenCard } from "@/components/restaurant/screen/screen-card";
-import { getTenant } from "@/services/oauth";
-import { getConfigStatus, screenSound } from "@/utils/functions";
-import { ConfigContext } from "@/contexts/config-context";
-import usePusher from "@/hooks/usePusher";
 import { NothingHere, Pagination } from "@/components";
 import { usePagination } from "@/hooks/usePagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";

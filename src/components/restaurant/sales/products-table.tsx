@@ -8,6 +8,7 @@ import { Product } from "@/services/products";
 import { groupInvoiceProductsByCod, numberToMoney } from "@/utils/functions";
 import Image from "next/image";
 import { useContext, useState } from "react";
+import toast from "react-hot-toast";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 
@@ -24,10 +25,9 @@ export function ProductsTable(props: ProductsTableProps) {
   const remoteUrl = getUrlFromCookie();
   const [isSending, setIsSending] = useState(false);
   
-  const imageLoader = ({ src, width, quality }: any) => {
-      return `${remoteUrl}/images/logo/${src}?w=${width}&q=${quality || 75}`
-    }
-
+        const imageLoader = ({ src, width, quality }: any) => {
+            return `${remoteUrl}/images/logo/${src}?w=${width}&q=${quality || 75}`
+            }
 
         if (!order?.invoiceproducts) return (
             <div className="w-full flex justify-center">
@@ -42,7 +42,7 @@ export function ProductsTable(props: ProductsTableProps) {
         order?.invoiceproducts && groupInvoiceProductsByCod(order);
         const listItems = order?.invoiceproductsGroup.map((record: any) => (
             <tr key={record.id} className="border-b bg-white" >
-            <td className="py-3 px-6 clickeable" onClick={()=> onClickProduct(record, OptionsClickSales.quantity)}>{ record.quantity }</td>
+            <td className='py-3 px-6 clickeable' onClick={record.options.length > 0 ? ()=> toast.error('Opción no disponible en este producto') : ()=> onClickProduct(record, OptionsClickSales.quantity)}>{ record.quantity }</td>
             <td className="py-3 px-6">{ record.product }</td>
             <td className="py-3 px-6 clickeable truncate" onClick={()=> onClickProduct(record, OptionsClickSales.discount)}>{ numberToMoney(record.unit_price, systemInformation) }</td> 
             <td className="py-3 px-6 truncate">{ numberToMoney(record.total, systemInformation) }</td>

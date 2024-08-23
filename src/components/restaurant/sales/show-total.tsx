@@ -1,5 +1,5 @@
 import { ConfigContext } from "@/contexts/config-context";
-import { getCountryProperty, numberToMoney, sumarCantidad, sumarDiscount, sumarSubtotal, sumarTotalesWithoutDIscount } from "@/utils/functions";
+import { formatDuiWithAll, getCountryProperty, numberToMoney, sumarCantidad, sumarDiscount, sumarSubtotal, sumarTotalesWithoutDIscount } from "@/utils/functions";
 import { useContext } from "react";
 
 export interface RestaurantShowTotalProps {
@@ -44,6 +44,22 @@ export function RestaurantShowTotal(props: RestaurantShowTotalProps) {
                     </div>
                 </div>
             </div>
+
+            <div>
+                {order?.client?.name && <div className="flex justify-between border-b-2 mt-3"> 
+                <span className=" text-red-500 ">Cliente: {order?.client?.name}</span>
+                <span className=" text-red-500 ">{order?.client?.document ? formatDuiWithAll(order?.client?.document) : formatDuiWithAll(order?.client?.id_number)}</span></div>}
+
+                {order?.delivery?.name && <div className="flex justify-between border-b-2 mt-3"> 
+                <span className=" text-blue-500 ">Repartidor: {order?.delivery?.name}</span></div>}
+            </div>
+
+            <div>
+                {order?.comment && <div className="flex justify-between border-b-2 mt-2"> 
+                <span className="text-teal-500 font-semibold">Nota: {order?.comment}</span></div>}
+            </div>
+
+
         </div>
     );
 

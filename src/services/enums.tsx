@@ -42,6 +42,7 @@ export enum OptionsClickOrder {
 
     payType = 23, // restaurant
     setPrinter = 24, // restaurant
+    sendNit = 25, // send nit
   }
   
 

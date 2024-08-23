@@ -45,7 +45,7 @@ export function ChangeTagsImagesModal(props: ChangeTagsImagesModalProps) {
             <div className=" text-center">
                 { image?.tags && <span className="uppercase text-red-600 font-semibold">{image.tags}</span>}
             </div>
-            <div className="flex justify-center my-4">
+            <div className="flex justify-center my-4 rounded-md drop-shadow-lg">
                 <Image loader={imageLoader} src={image?.image} alt="Icono de imagen" width={300} height={300} className="rounded-md" />
             </div>
 

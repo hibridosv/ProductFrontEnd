@@ -49,7 +49,7 @@ export default function Page() {
         }
     };
 
-console.log(systemInformation)
+
     useEffect(() => {
       if (!showModalCategories && !showModalOptions) {
             (async () => { await loadData() })();

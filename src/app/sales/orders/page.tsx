@@ -25,6 +25,7 @@ import { SalesSetQuantityModal } from "@/components/restaurant/sales/sales-set-q
 import { SelectOptionsModal } from "@/components/restaurant/sales/select-options-modal";
 import { IconsMenu } from "@/components/restaurant/sales/icons-menu";
 import { ProductsTable } from "@/components/restaurant/sales/products-table";
+import { SalesContactSearchGtModal } from "@/components/restaurant/sales/sales-contact-search-gt";
 
 
 export default function ViewSales() {
@@ -49,6 +50,7 @@ export default function ViewSales() {
       const modalOthers = useIsOpen(false);
       const modalComment = useIsOpen(false);
       const modalQuantity = useIsOpen(false);
+      const modalContactGt = useIsOpen(false);
 
       useEffect(() => {
             if (config?.configurations) {
@@ -206,6 +208,8 @@ export default function ViewSales() {
                   break;
                   case OptionsClickOrder.comment: (() => { modalComment.setIsOpen(true); })();
                   break;
+                  case OptionsClickOrder.sendNit: (() => { modalContactGt.setIsOpen(true); })();
+                  break;
                   default: ()=>{};
                   break;
                 }
@@ -307,6 +311,7 @@ export default function ViewSales() {
             <SalesSetQuantityModal isShow={modalQuantity.isOpen} onClose={()=>modalQuantity.setIsOpen(false)} product={productSelected} sendProduct={sendProduct} />
             <SelectOptionsModal selectOption={updateProductOption} isShow={hasOptionsActive(order)}  order={order} isSending={isSending} />
             <PayFinishModal isShow={modalPayed.isOpen} onClose={onFinish} invoice={payedInvoice} isSending={isSending} />
+            <SalesContactSearchGtModal isShow={modalContactGt.isOpen} onClose={()=>modalContactGt.setIsOpen(false)} setOrder={setOrder} order={order} onOpenContact={()=>modalContact.setIsOpen(true)} />
       <Toaster position="top-right" reverseOrder={false} />
             
       </div>

@@ -3,14 +3,18 @@ import { useEffect, useState } from 'react';
 import pusher from '../utils/pusher';
 
 const usePusher = (channelName: string, eventName: string, status = false, randomData = true) => {
-  const [data, setData] = useState(null as any);
+  const [data, setData] = useState({});
+  const [random, setRandom] = useState(0);
 
   useEffect(() => {
     if (status) {
         const channel = pusher.subscribe(channelName);
         const handleEvent = (newData: any) => {
-            setData(randomData ? Math.random() : newData);
-            // console.log(newData)
+          if (randomData) {
+            setRandom(Math.random())
+          } else {
+            setData(newData)
+          }
         };
         channel.bind(eventName, handleEvent);
         // Limpia la suscripción al desmontar el componente
@@ -20,9 +24,8 @@ const usePusher = (channelName: string, eventName: string, status = false, rando
             pusher.unsubscribe(channelName);
         };
     }
-  }, [channelName, eventName, status]);
-
-  return data;
+  }, [channelName, eventName, status, randomData]);
+  return { data, random };
 };
 
 export default usePusher;

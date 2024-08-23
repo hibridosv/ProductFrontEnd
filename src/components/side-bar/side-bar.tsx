@@ -35,7 +35,7 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
 }
 
   if (!systemInformation?.system?.theme) { return <></> }
-console.log(systemInformation)
+
   return (
     <Sidebar
       breakPoint="always"

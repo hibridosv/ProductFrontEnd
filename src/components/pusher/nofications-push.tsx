@@ -18,7 +18,7 @@ export function NotificationsPush(props: NotificationsPushProps){
   const { config } = props
   const tenant = getTenant();
   const isConfig = getConfigStatus("notifications", config);
-  let pusherEvent = usePusher(`${tenant}-channel`, 'transfer-new-event', isConfig, false);
+  let pusherEvent = usePusher(`${tenant}-channel`, 'transfer-new-event', isConfig, false).data;
 
 
   useEffect(() => {

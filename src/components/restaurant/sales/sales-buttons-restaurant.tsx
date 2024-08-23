@@ -58,6 +58,7 @@ if (order?.invoiceproducts.length == 0) return <></>
                     { config.includes("sales-discount") && 
                     <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.discount)}>  Agregar Descuento</div>}
                     <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.client)}> Asignar Cliente</div>
+
                     { config.includes("sales-other-seller") && 
                     <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.seller)}>Asignar Vendedor</div>}
                     { config.includes("sales-referred") && 
@@ -71,6 +72,7 @@ if (order?.invoiceproducts.length == 0) return <></>
                     <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.comment)}> Agregar comentario </div>}
                     
                     <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>{}}> Imprimir pre cuenta</div>
+                    <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.sendNit)}> Buscar por NIT</div>
                     </div>
                 } style="light" >
                     <div className='button-grey clickeable w-4/10'><IoMdOptions className='mr-1' /> Opciones</div>

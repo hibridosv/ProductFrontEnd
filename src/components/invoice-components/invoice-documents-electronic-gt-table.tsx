@@ -1,12 +1,12 @@
 'use client'
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
-import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
-import { API_URL } from "@/constants";
 import { InvoiceDetailsModal } from "./invoice-details-modal";
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { Tooltip } from "flowbite-react";
+import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
+import { ErrorsGtModal } from "./errors-gt-modal";
 
 
 interface InvoiceDocumentsElectronicGtTableProps {
@@ -18,13 +18,15 @@ interface InvoiceDocumentsElectronicGtTableProps {
 export function InvoiceDocumentsElectronicGtTable(props: InvoiceDocumentsElectronicGtTableProps) {
   const { records, isLoading, resendDocument } = props;
   const [showInvoiceModal, setShowInvoiceModal] = useState<boolean>(false);
+  const [showErrorsModal, setShowErrorsModal] = useState<boolean>(false);
   const [recordSelect, setRecordSelect] = useState<string>("");
+  const [errorsSelect, setErrorsSelect] = useState([]);
 
   if (isLoading) return <Loading />;
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
-const status = (status: number, codigo: string)=>{
+const status = (status: number)=>{
     switch (status) {
         case 1: return <span className="status-info">RECIBIDO</span>;
         case 2: return <span className="status-warning">FIRMADO</span>;
@@ -49,7 +51,7 @@ const tipoDTE = (dte: string)=>{
     <tr key={record.id} className="border-b">
 
 
-      <td className="py-2 px-6 truncate">{ record?.date_sended ? record?.date_sended : "N/A" } </td>
+      <td className="py-2 px-6 truncate">{ record?.date_sended ? `${formatDateAsDMY(record?.date_sended)} ${formatHourAsHM(record?.date_sended)}` : "N/A" } </td>
 
 
       <td className={`py-2 px-6 ${record?.uuid ? 'clickeable font-semibold' : 'text-red-500'}`}>
@@ -70,7 +72,7 @@ const tipoDTE = (dte: string)=>{
 
       <td className="py-2 px-6">{ record?.serie }</td>
       <td className="py-2 px-6">{ record?.numero }</td>
-      <td className="py-2 px-6" title={record?.descripcion_msg}>{ status(record?.status, record?.identificador) }</td>
+      <td className={`py-2 px-6 ${record?.status == 3 && 'clickeable'}`} onClick={ record?.status == 3 ? ()=>{ setErrorsSelect(record?.errors); setShowErrorsModal(true); } : ()=>{}}>{ status(record?.status) }</td>
 
 
       <td className="py-2 px-6">
@@ -119,5 +121,6 @@ const tipoDTE = (dte: string)=>{
 
  </div>
  <InvoiceDetailsModal isShow={showInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={recordSelect} />
+ <ErrorsGtModal isShow={showErrorsModal} onClose={()=>setShowErrorsModal(false)} errors={errorsSelect} />
  </div>);
 }
