@@ -55,7 +55,7 @@ export function IconsMenu(props: IconsMenuProps) {
             if (record.icon_type == 1 && record.product.category_id != categoryId || record.icon_type == 2 && record.category.id == categoryId) return
             return (
                 <div key={record?.id} className="m-2 clickeable">
-                    <div onClick={record.icon_type == 1 ? (() => selectedIcon(record.product_id)) : ()=>{setSelectedcategory(record.category_id); modalCategory.setIsOpen(true)} }
+                    <div onClick={record.icon_type == 1 ? (isSending ? ()=>{} : () => selectedIcon(record.product_id)) : ()=>{setSelectedcategory(record.category_id); modalCategory.setIsOpen(true)} }
                      className="rounded-md drop-shadow-lg">
                         <Image loader={imageLoader} src={record.icon_type == 1 ? record?.product?.restaurant?.image : record?.category?.img } alt="Icono de imagen" width={96} height={96} className="rounded-t-md" />
                         <p className={`w-full content-center text-center rounded-b-md overflow-hidden uppercase text-xs text-black font-medium p-1 h-9 ${record.icon_type == 1 ? 'bg-slate-300' : 'bg-cyan-200'}`} 
