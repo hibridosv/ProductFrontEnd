@@ -6,9 +6,12 @@ import { FaRegMoneyBillAlt } from 'react-icons/fa';
 import { IoMdOptions } from 'react-icons/io';
 import { style } from '@/theme';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { countSendPrintZero } from '@/utils/functions';
 import { Alert } from '@/components/alert/alert';
+import Keyboard from 'react-simple-keyboard';
+import 'react-simple-keyboard/build/css/index.css';
+
 
 export interface SalesButtonsRestaurantProps {
     onClickOrder: (option: OptionsClickOrder)=>void
@@ -22,18 +25,51 @@ export interface SalesButtonsRestaurantProps {
 
 export function SalesButtonsRestaurant(props: SalesButtonsRestaurantProps) {
   const {onClickOrder, order, payOrder, payType, config, isSending, cashDrawer } = props
-  const { register, handleSubmit, reset, setFocus } = useForm();
+  const { register, handleSubmit, reset, setFocus, setValue } = useForm();
+  const [input, setInput] = useState('');
+  const [keyboard, setKeyboard] = useState<any>(null);
+  const [showInput, setShowInput] = useState<boolean>(false);
 
   useEffect(() => {
-    if (payType == 1) {
+    if (payType == 1 && config.includes("input-sales-focus")) {
         setFocus('cash')
     }
-  }, [setFocus, order, payType])
+  }, [setFocus, order, payType, config])
 
 const onSubmit =(data: any)=> {
     payOrder(data.cash)
-    reset()
+    reset(); // Resetea el estado del formulario en react-hook-form
+    if (config.includes("input-sales-keyboard")) {
+        setInput(''); // Resetea el estado del input
+        keyboard.clearInput(); // Resetea el teclado virtual
+        setShowInput(false)
+    }
 }
+
+
+
+//////keyboard
+const handleKeyboardChange = (inputValue: string) => {
+    // Actualiza el estado del campo de entrada y el valor en react-hook-form
+    setInput(inputValue);
+    setValue('cash', inputValue, { shouldValidate: true });
+  };
+
+  const handleKeyPress = (button: string) => {
+    if (button === '{bksp}') {
+      handleKeyboardChange(input.slice(0, -1));
+    } else if (button === '.') {
+      // Solo agrega el punto si no existe ya uno en el input
+      if (!input.includes('.')) {
+        handleKeyboardChange(input + button);
+      }
+    } else if (button === '{submit}') {
+      handleSubmit(onSubmit)();
+    } else {
+      handleKeyboardChange(input + button);
+    }
+  };
+//////// termina keyboard
 
 if (!order?.invoiceproducts) return <></>
 if (order?.invoiceproducts.length == 0) return <></>
@@ -49,9 +85,17 @@ if (order?.invoiceproducts.length == 0) return <></>
           /> }
           
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        { payType == 1 &&
+        { payType == 1 && <>
+        { config.includes("input-sales-keyboard") ? <>
+        { showInput &&
+        <Keyboard inputName='cash' display={{'{bksp}': '<'}} layout={{ default: ["1 2 3", "4 5 6", "7 8 9", ". 0 {bksp}"] }}  onKeyPress={handleKeyPress} keyboardRef={r => setKeyboard(r)}/> }
+        <div onClick={()=>setShowInput(!showInput)} className='clickeable p-1'>
+            <input className={style.inputDisable} type="text" {...register('cash', { required: 'Este campo es obligatorio', validate: value => !isNaN(Number(value)) || 'El valor debe ser un número válido',})} value={input} placeholder="Ingrese una cantidad" readOnly />
+        </div>
+        </> :
         <input type="number" step="any" min={0} readOnly={isSending} className={style.input} placeholder='Ingrese una cantidad' {...register("cash")} />
         }
+        </>}
         <div className='flex justify-center'>
                 <Tooltip animation="duration-300" content={
                     <div className="">
