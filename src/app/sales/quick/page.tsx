@@ -215,7 +215,7 @@ export default function ViewSales() {
         break;
       case OptionsClickOrder.delivery: (() => { setIsContactSearchModal(true); setTypeOfClient(ContactTypeToGet.employees); setClientNametoUpdate(ContactNameOfOrder.delivery) })();
         break;
-      case OptionsClickOrder.special: (() => { setIsSalesOtherModal(true); })();
+      case OptionsClickOrder.otrasVentas: (() => { setIsSalesOtherModal(true); })();
         break;
       case OptionsClickOrder.documentType: (() => { setIsSalesSelectInvoiceType(true); })();
         break;

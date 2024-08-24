@@ -34,7 +34,7 @@ export function ScreenCard(props: ScreenCardProps) {
                         {formatDate(order.created_at)} {formatHourAsHM(order.created_at)} | {time}
                     </div>
                     <div className="text-sm text-gray-800">
-                        <i className="far fa-comment-dots"></i> Comentario
+                        <i className="far fa-comment-dots"></i> { order?.comment }
                     </div>
                 </div>
             </div>

@@ -32,7 +32,7 @@ export enum OptionsClickOrder {
     seller = 13,
     referred = 14,
     delivery = 15,
-    special = 16,
+    otrasVentas = 16,
     normalPrice = 17,
     promotionPrice = 18,
     wholesalerPrice = 19,
@@ -43,6 +43,7 @@ export enum OptionsClickOrder {
     payType = 23, // restaurant
     setPrinter = 24, // restaurant
     sendNit = 25, // send nit
+    ventaSpecial = 26, // send nit
   }
   
 

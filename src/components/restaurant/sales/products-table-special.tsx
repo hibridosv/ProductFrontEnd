@@ -5,7 +5,7 @@ import { ConfigContext } from "@/contexts/config-context";
 import { OptionsClickOrder } from "@/services/enums";
 import { getUrlFromCookie } from "@/services/oauth";
 import { Product } from "@/services/products";
-import { groupInvoiceProductsByCodAll, numberToMoney } from "@/utils/functions";
+import { groupInvoiceProductsByCodSpecial, numberToMoney } from "@/utils/functions";
 import Image from "next/image";
 import { useContext } from "react";
 import toast from "react-hot-toast";
@@ -13,13 +13,13 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 
 
-export interface ProductsTableProps {
+export interface ProductsTableSpecialProps {
   order: any
   onClickOrder: (option: OptionsClickOrder)=>void
   onClickProduct: (product: Product, option: OptionsClickSales)=>void
 }
 
-export function ProductsTable(props: ProductsTableProps) {
+export function ProductsTableSpecial(props: ProductsTableSpecialProps) {
   const { order, onClickOrder, onClickProduct } = props;
   const { systemInformation } = useContext(ConfigContext);
   const remoteUrl = getUrlFromCookie();
@@ -38,13 +38,13 @@ export function ProductsTable(props: ProductsTableProps) {
             )
 
 
-        order?.invoiceproducts && groupInvoiceProductsByCodAll(order);
-        const listItems = order?.invoiceproductsGroup.map((record: any) => (
+        let special = order?.invoiceproducts && groupInvoiceProductsByCodSpecial(order);
+        const listItems = special && special.map((record: any) => (
             <tr key={record.id} className="border-b bg-white" >
             <td className='py-3 px-6 clickeable' onClick={record.options.length > 0 ? ()=> toast.error('Opción no disponible en este producto') : ()=> onClickProduct(record, OptionsClickSales.quantity)}>{ record.quantity }</td>
             <td className="py-3 px-6">{ record.product }</td>
-            <td className="py-3 px-6 clickeable truncate" onClick={()=> onClickProduct(record, OptionsClickSales.discount)}>{ numberToMoney(record.unit_price, systemInformation) }</td> 
-            <td className="py-3 px-6 truncate">{ numberToMoney(record.total, systemInformation) }</td>
+            {/* <td className="py-3 px-6 clickeable truncate" onClick={()=> onClickProduct(record, OptionsClickSales.discount)}>{ numberToMoney(record.unit_price, systemInformation) }</td> 
+            <td className="py-3 px-6 truncate">{ numberToMoney(record.total, systemInformation) }</td> */}
             <td className="py-2 truncate">
             <span className="flex justify-between">
                 <AiFillCloseCircle size={20} title="Editar" className="text-red-600 clickeable" onClick={()=> onClickProduct(record, OptionsClickSales.delete) } />
@@ -53,7 +53,7 @@ export function ProductsTable(props: ProductsTableProps) {
             </tr>
         ));
 
-
+        if (special && special?.length == 0) return <NothingHere text="No existen productos especiales" />
       return (
             <div className="rounded-sm shadow-md w-full ">
                 <div className="overflow-auto">
@@ -62,9 +62,9 @@ export function ProductsTable(props: ProductsTableProps) {
                         <tr>
                         <th scope="col" className="py-3 px-4 border">Cant</th>
                         <th scope="col" className="py-3 px-4 border">Producto</th>
-                        <th scope="col" className="py-3 px-4 border">Precio</th>
-                        <th scope="col" className="py-3 px-4 border">Total</th>
-                        <th scope="col" className="py-3 border"><MdDelete size={22} title="Eliminar" className="text-red-800 clickeable" onClick={()=>onClickOrder(OptionsClickOrder.delete)} /></th>
+                        {/* <th scope="col" className="py-3 px-4 border">Precio</th>
+                        <th scope="col" className="py-3 px-4 border">Total</th> */}
+                        <th scope="col" className="py-3 border"><MdDelete size={22} title="Eliminar" className="text-gray-400" /></th>
                         </tr>
                     </thead>
                     <tbody>

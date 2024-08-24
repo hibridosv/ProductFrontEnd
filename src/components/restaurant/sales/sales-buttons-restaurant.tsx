@@ -6,11 +6,12 @@ import { FaRegMoneyBillAlt } from 'react-icons/fa';
 import { IoMdOptions } from 'react-icons/io';
 import { style } from '@/theme';
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import { countSendPrintZero } from '@/utils/functions';
+import { useContext, useEffect, useState } from 'react';
+import { countSendPrintZero, getCountryProperty, sumarCantidad } from '@/utils/functions';
 import { Alert } from '@/components/alert/alert';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
+import { ConfigContext } from '@/contexts/config-context';
 
 
 export interface SalesButtonsRestaurantProps {
@@ -29,6 +30,9 @@ export function SalesButtonsRestaurant(props: SalesButtonsRestaurantProps) {
   const [input, setInput] = useState('');
   const [keyboard, setKeyboard] = useState<any>(null);
   const [showInput, setShowInput] = useState<boolean>(false);
+  const { systemInformation } = useContext(ConfigContext);
+  const total = sumarCantidad(order?.invoiceproducts);
+  const blockMaxQuantityWithOutNit = systemInformation?.system?.country == 3 && total >= 2500 && !order?.client_id;
 
   useEffect(() => {
     if (payType == 1 && config.includes("input-sales-focus")) {
@@ -36,12 +40,15 @@ export function SalesButtonsRestaurant(props: SalesButtonsRestaurantProps) {
     }
   }, [setFocus, order, payType, config])
 
+  
 const onSubmit =(data: any)=> {
     payOrder(data.cash)
     reset(); // Resetea el estado del formulario en react-hook-form
     if (config.includes("input-sales-keyboard")) {
         setInput(''); // Resetea el estado del input
-        keyboard.clearInput(); // Resetea el teclado virtual
+        if (keyboard) {
+            keyboard.clearInput(); // Resetea el teclado virtual
+        }
         setShowInput(false)
     }
 }
@@ -83,14 +90,22 @@ if (order?.invoiceproducts.length == 0) return <></>
           isDismisible={false}
           className='my-1'
           /> }
-          
+
+          { blockMaxQuantityWithOutNit && <Alert
+          theme={PresetTheme.info}
+          info="Importante: "
+          text="Debe ingresar un NIT para realizar esta venta"
+          isDismisible={false}
+          className='my-1'
+          /> }
+
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         { payType == 1 && <>
         { config.includes("input-sales-keyboard") ? <>
         { showInput &&
         <Keyboard inputName='cash' display={{'{bksp}': '<'}} layout={{ default: ["1 2 3", "4 5 6", "7 8 9", ". 0 {bksp}"] }}  onKeyPress={handleKeyPress} keyboardRef={r => setKeyboard(r)}/> }
         <div onClick={()=>setShowInput(!showInput)} className='clickeable p-1'>
-            <input className={style.inputDisable} type="text" {...register('cash', { required: 'Este campo es obligatorio', validate: value => !isNaN(Number(value)) || 'El valor debe ser un número válido',})} value={input} placeholder="Ingrese una cantidad" readOnly />
+            <input className={style.inputDisable} type="text" {...register('cash')} value={input} placeholder="Ingrese una cantidad" readOnly />
         </div>
         </> :
         <input type="number" step="any" min={0} readOnly={isSending} className={style.input} placeholder='Ingrese una cantidad' {...register("cash")} />
@@ -110,11 +125,12 @@ if (order?.invoiceproducts.length == 0) return <></>
                     { config.includes("sales-delivery-man") && 
                     <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.delivery)}> Asignar Repartidor </div>}
                     { config.includes("sales-other-sales") && 
-                    <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.special)}> Venta Especial</div>}
+                    <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.otrasVentas)}> Otras Ventas</div>}
                     <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.documentType)}> Tipo de Documento </div>
                     { config.includes("sales-comment") && 
                     <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.comment)}> Agregar comentario </div>}
-                    
+                    { config.includes("sales-special") && 
+                    <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.ventaSpecial)}> Venta Especial </div>}
                     <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>{}}> Imprimir pre cuenta</div>
                     <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.sendNit)}> Buscar por NIT</div>
                     </div>
@@ -132,9 +148,9 @@ if (order?.invoiceproducts.length == 0) return <></>
             </div>
 
             { payType == 1 ?
-            <button disabled={isSending || !cashDrawer} type='submit'  className='button-cyan clickeable w-full'><FaRegMoneyBillAlt className='mr-1' /> Cobrar</button>
+            <button disabled={isSending || !cashDrawer || blockMaxQuantityWithOutNit} type='submit'  className='button-cyan clickeable w-full'><FaRegMoneyBillAlt className='mr-1' /> Cobrar</button>
             : 
-            <div className='button-cyan clickeable w-full' title='Cobrar' onClick={(isSending || !cashDrawer) ? ()=>{} : ()=>payOrder(0)}><FaRegMoneyBillAlt className='mr-1' /> Cobrar</div>
+            <div className='button-cyan clickeable w-full' title='Cobrar' onClick={(isSending || !cashDrawer || blockMaxQuantityWithOutNit) ? ()=>{} : ()=>payOrder(0)}><FaRegMoneyBillAlt className='mr-1' /> Cobrar</div>
             }
         </div>
         </form>

@@ -8,7 +8,7 @@ import { numberToMoney } from "@/utils/functions";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdDelete, MdOutlinePriceCheck, MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { IoMdCloseCircleOutline, IoMdOptions } from "react-icons/io";
-import { FaCheckCircle, FaImages, FaSolarPanel } from "react-icons/fa";
+import { FaCheckCircle, FaImages, FaSolarPanel, FaStar } from "react-icons/fa";
 import { BiCategory, BiRename } from "react-icons/bi";
 import { useIsOpen } from "@/hooks/useIsOpen";
 import { DeleteModal } from "@/components/modals/delete-modal";
@@ -94,9 +94,10 @@ export function ProductView(props: ProductViewProps) {
   }
 
 
-  const handleUpdate = (product:Product, data: any) => {
+  const handleUpdate =  (product:Product, data: any) => {
     setSelectProduct(product);
     setDataUpdate(data)
+
     switch (data.field) {
         case "category_id":
             modalCategory.setIsOpen(true);
@@ -106,7 +107,7 @@ export function ProductView(props: ProductViewProps) {
             break;
             case "assigments":
             modalModif.setIsOpen(true);
-            break;    
+            break;  
         default:
             modalUpdate.setIsOpen(true);
             break;
@@ -134,12 +135,30 @@ export function ProductView(props: ProductViewProps) {
     }
   
 
+    const updateSpecial = async (order: any, data: any) => {
+      console.log(order)
+      try {
+          const response = await postData(`restaurant/products/${order.id}`, 'PUT', data);
+          if (response.type == "successful") {
+            toast.success(response.message);
+            random && random(Math.random());
+        } else {
+          toast.error(response.message)
+        }
+        } catch (error) {
+          console.error(error);
+          toast.error("Ha ocurrido un error!");
+        } 
+    }
 
   const listItems = products.map((record: any) => (
     <tr key={record.id} className={`border-b ${isLoading && selectProduct == record && 'animate-pulse'}`}>
       <td className="py-2 px-6"><Image loader={imageLoader} src={record?.restaurant?.image} alt="Icono de imagen" width={70} height={70} className="drop-shadow-lg rounded-md" /></td>
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white uppercase" scope="row">
-        { record?.description }
+       <div className="flex"> 
+          <span>{ record?.description }</span> 
+          <span className="mt-1 ml-2">{record.menu_order?.special === 1 && <FaStar size={8} color="#009eff" /> }</span>
+        </div>
         { record.menu_order?.status === 0 && <div className="uppercase text-red-700">Inhabilitado</div> }
         </th>
       <td className="py-2 px-6">
@@ -180,6 +199,10 @@ export function ProductView(props: ProductViewProps) {
                     <div onClick={()=> {modalProd.setIsOpen(true); setSelectProduct(record) }} className='flex justify-items-start w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable'>
                         <span className="mt-1"><MdOutlineProductionQuantityLimits /></span> 
                         <span className="ml-2">Productos a descontar </span> 
+                    </div>
+                    <div onClick={()=>{ updateSpecial(record, { field: "special", data: record.menu_order?.special == 0 ? 1 : 0 }) }} className={`flex justify-items-start w-full font-semibold clickeable ${record.menu_order?.special === 0 ? 'text-slate-700 py-2 px-4 hover:bg-slate-100' : 'text-red-700 py-2 px-4 hover:bg-red-100'}`}>
+                        <span className="mt-1">{record.menu_order?.special == 0 ? <FaCheckCircle color="green" /> : <IoMdCloseCircleOutline /> }</span> 
+                        <span className="ml-2">{record.menu_order?.special == 0 ? 'Mostrar Producto' : 'Ocultar Producto'}</span> 
                     </div>
                     <div onClick={()=>updateStatus(record.id, record.menu_order?.status)} className={`flex justify-items-start w-full font-semibold clickeable ${record.menu_order?.status === 0 ? 'text-slate-700 py-2 px-4 hover:bg-slate-100' : 'text-red-700 py-2 px-4 hover:bg-red-100'}`}>
                         <span className="mt-1">{record.menu_order?.status === 0 ? <FaCheckCircle color="green" /> : <IoMdCloseCircleOutline /> }</span> 

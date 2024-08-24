@@ -396,19 +396,21 @@ export function getModalSize(imagesFiltered: any) {
 
 
 // agrupa los productos de restaurante para no mostrarlos individuales
- export function groupInvoiceProductsByCod(invoice: any) {
+ export function groupInvoiceProductsByCodAll(invoice: any) {
   const groupedProducts = {} as any;
 
   invoice.invoiceproducts.forEach((product : any) => {
       const { cod, quantity, subtotal, total } = product;
+        if (product.special == 0) {
+          if (!groupedProducts[cod]) {
+              groupedProducts[cod] = { ...product };
+          } else {
+              groupedProducts[cod].quantity += quantity;
+              groupedProducts[cod].subtotal += subtotal;
+              groupedProducts[cod].total += total;
+          }
+        }
 
-      if (!groupedProducts[cod]) {
-          groupedProducts[cod] = { ...product };
-      } else {
-          groupedProducts[cod].quantity += quantity;
-          groupedProducts[cod].subtotal += subtotal;
-          groupedProducts[cod].total += total;
-      }
   });
 
   // Convertir el objeto en un array de productos
@@ -418,6 +420,36 @@ export function getModalSize(imagesFiltered: any) {
 );
   return invoice;
 }
+
+
+// agrupa los productos de restaurante para no mostrarlos individuales
+export function groupInvoiceProductsByCodSpecial(invoice: any) {
+  const groupedProducts = {} as any;
+  let products = {} as any;
+
+  invoice.invoiceproducts.forEach((product : any) => {
+      const { cod, quantity, subtotal, total } = product;
+
+      if (product.special == 1 && product.group_by == null) {
+          if (!groupedProducts[cod]) {
+            groupedProducts[cod] = { ...product };
+        } else {
+            groupedProducts[cod].quantity += quantity;
+            groupedProducts[cod].subtotal += subtotal;
+            groupedProducts[cod].total += total;
+        }
+      }
+
+  });
+
+  // Convertir el objeto en un array de productos
+  products = Object.values(groupedProducts);
+  products.sort((a: any, b: any) => 
+    new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+);
+  return products;
+}
+
 
 //// contar cuantos productos estan en cero de imprimir
 export function countSendPrintZero(invoice: any) {

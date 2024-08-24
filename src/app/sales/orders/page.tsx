@@ -26,6 +26,7 @@ import { SelectOptionsModal } from "@/components/restaurant/sales/select-options
 import { IconsMenu } from "@/components/restaurant/sales/icons-menu";
 import { ProductsTable } from "@/components/restaurant/sales/products-table";
 import { SalesContactSearchGtModal } from "@/components/restaurant/sales/sales-contact-search-gt";
+import { SalesEspecialModal } from "@/components/restaurant/sales/sales-special";
 
 
 export default function ViewSales() {
@@ -51,6 +52,7 @@ export default function ViewSales() {
       const modalComment = useIsOpen(false);
       const modalQuantity = useIsOpen(false);
       const modalContactGt = useIsOpen(false);
+      const modalSalesSpecial = useIsOpen(false);
 
       useEffect(() => {
             if (config?.configurations) {
@@ -77,11 +79,21 @@ export default function ViewSales() {
         
           
           useEffect(() => {
-            if (!modalInvoiceType.isOpen && !modalDiscount.isOpen && !modalContact.isOpen && !modalOthers.isOpen && !modalComment.isOpen) {
+            if (!modalInvoiceType.isOpen 
+              && !modalDiscount.isOpen 
+              && !modalContact.isOpen 
+              && !modalOthers.isOpen 
+              && !modalComment.isOpen 
+              && !modalSalesSpecial.isOpen) {
               (async () => await selectLastOrder())()
             }
             // eslint-disable-next-line
-          }, [modalInvoiceType.isOpen, modalDiscount.isOpen, modalContact.isOpen, modalOthers.isOpen, modalComment.isOpen]);
+          }, [modalInvoiceType.isOpen, 
+            modalDiscount.isOpen, 
+            modalContact.isOpen, 
+            modalOthers.isOpen, 
+            modalComment.isOpen, 
+            modalSalesSpecial.isOpen]);
           
           const resetOrder = () =>{
             setOrder([]);
@@ -125,6 +137,7 @@ export default function ViewSales() {
               clients_quantity: 1, // Numero de clientes
               client_active: clientActive, // Cliente activo para asignar producto
               quantity,
+              special: modalSalesSpecial.isOpen ? 1 : 0,
             };
             
             try {
@@ -162,7 +175,7 @@ export default function ViewSales() {
           const deleteProduct = async (iden: string) => {
             setIsSending(true);
             try {
-              const response = await postData(`restaurant/sales/product/${iden}`, "DELETE");
+              const response = await postData(`restaurant/sales/product/${iden}/${order.id}`, "DELETE");
               if (response.data) {
                 setOrder(response.data)
                 toast.success("Producto Eliminado");
@@ -204,11 +217,13 @@ export default function ViewSales() {
                   break;
                   case OptionsClickOrder.delivery: (() => { modalContact.setIsOpen(true); setTypeOfClient(ContactTypeToGet.employees); setClientNametoUpdate(ContactNameOfOrder.delivery) })();
                   break;
-                  case OptionsClickOrder.special: (() => { modalOthers.setIsOpen(true); })();
+                  case OptionsClickOrder.otrasVentas: (() => { modalOthers.setIsOpen(true); })();
                   break;
                   case OptionsClickOrder.comment: (() => { modalComment.setIsOpen(true); })();
                   break;
                   case OptionsClickOrder.sendNit: (() => { modalContactGt.setIsOpen(true); })();
+                  break;
+                  case OptionsClickOrder.ventaSpecial: (() => { modalSalesSpecial.setIsOpen(true); })();
                   break;
                   default: ()=>{};
                   break;
@@ -312,6 +327,8 @@ export default function ViewSales() {
             <SelectOptionsModal selectOption={updateProductOption} isShow={hasOptionsActive(order)}  order={order} isSending={isSending} />
             <PayFinishModal isShow={modalPayed.isOpen} onClose={onFinish} invoice={payedInvoice} isSending={isSending} />
             <SalesContactSearchGtModal isShow={modalContactGt.isOpen} onClose={()=>modalContactGt.setIsOpen(false)} setOrder={setOrder} order={order} onOpenContact={()=>modalContact.setIsOpen(true)} />
+            <SalesEspecialModal isShow={modalSalesSpecial.isOpen} onClose={()=>modalSalesSpecial.setIsOpen(false)} setOrder={setOrder} order={order} 
+            config={configuration} handleClickOptionProduct={handleClickOptionProduct} sendProduct={sendProduct} />
           <Toaster position="top-right" reverseOrder={false} />
             
       </div>
