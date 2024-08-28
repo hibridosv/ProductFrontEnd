@@ -333,6 +333,15 @@ export const getMunicipioNameById = (id_mun: string, data: any): any => {
   }
 };
 
+export function getCountryNameByCode(code: any, countries: any) {
+  if(!code || !countries) return; 
+  if (!Array.isArray(countries)) {
+    return 'La lista de países no es válida';
+}
+
+  const country = countries && countries.find((c:any) => c.code === code);
+  return country ? country.country : 'Código no encontrado';
+}
 
 export function formatDocument(cadena: string) {
   if (!cadena) return;
