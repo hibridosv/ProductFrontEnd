@@ -2,9 +2,10 @@
 import { BiCheckCircle } from "react-icons/bi";
 import { style } from "../../theme";
 import { formatDateAsDMY } from "@/utils/date-formats";
-import { formatDuiWithAll, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
-import { useEffect, useState } from "react";
+import { formatDuiWithAll, getConfigStatus, getCountryNameByCode, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
+import { useContext, useEffect, useState } from "react";
 import { Loading } from "../loading/loading";
+import { ConfigContext } from "@/contexts/config-context";
 
 export interface ContactDetailsProps {
   record?: any;
@@ -13,6 +14,8 @@ export interface ContactDetailsProps {
 export function ContactDetails(props: ContactDetailsProps) {
   const { record } = props;
   const [locations, setLocaltions] = useState({} as any);
+  const [countries, setCountries] = useState({} as any);
+  const { config } = useContext(ConfigContext);
 
   useEffect(() => {
     if (record) {
@@ -24,6 +27,16 @@ export function ContactDetails(props: ContactDetailsProps) {
           fetchData();
     }
   }, [setLocaltions, record]);
+
+  useEffect(() => {
+      const fetchData = async () => {
+          if (getConfigStatus("contact-country", config)) {
+              const countries = await loadData(`electronic/getcountries`);
+              setCountries(countries);
+            }
+          };
+      fetchData();
+  }, [setCountries, config]);
 
 if (!locations || !record) {
     return <Loading />
@@ -136,6 +149,11 @@ if (!locations || !record) {
                     {record?.taxpayer_type && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">
                     <div className={style.inputLabel}>Tipo de contribuyente</div>
                         <div> {record?.taxpayer_type == 1 ? "CONTRIBUYENTE" : "GRAN CONTRIBUYENTE"} </div>
+                    </div> }
+
+                    {record?.country && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
+                        <div className={style.inputLabel}>Pais</div>
+                        <div> {getCountryNameByCode(`${record?.country}`, countries)} </div>
                     </div> }
 
                     {record?.is_credit_block == 1 && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">
