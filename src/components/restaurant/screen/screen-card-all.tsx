@@ -34,10 +34,9 @@ export function ScreenCardAll(props: ScreenCardAllProps) {
 
     return (
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-            <div className="py-2 px-3 flex flex-row cursor-pointer" onClick={()=>processData({order: order?.id,
-                                                    status: 2,
-                                                    active_print: 3,
-                                                    url: "screen/order/counter"})}>
+            <div className="py-2 px-3 flex flex-row cursor-pointer" 
+            // onClick={()=>processData({order: order?.id, status: 2, active_print: 3, url: "screen/order/counter"})}
+                                                    >
                 <div className="w-full">
                     <div className="w-full text-xl font-bold flex justify-around">
                         <div className="w-1/2">Orden # {order.number}</div>
@@ -57,7 +56,7 @@ export function ScreenCardAll(props: ScreenCardAllProps) {
                 <tbody>
                     {items.map((product: any) => {
                         return (<Fragment key={product.id}>
-                            <tr  className="bg-slate-100 border-y-2 border-slate-600">
+                            <tr  className={`border-y-2 border-slate-600 ${ product?.attributes?.work_station_id ? 'bg-red-100' : 'bg-slate-100'}`}>
                                 <td className="font-medium h-9 flex p-2 uppercase">
                                     <BiCheckDouble size={20} color="green" className="mx-2" /> <span className='mr-2 font-bold'>{ product.quantity }</span> {product.product}
                                 </td>
@@ -76,7 +75,7 @@ export function ScreenCardAll(props: ScreenCardAllProps) {
 
                 </tbody>
             </table>
-            <div className="bg-lime-600 text-white text-center py-3 clickeable" onClick={()=>processData({order: order?.id,
+            <div className={`text-white text-center py-3 clickeable ${order.delivery_type == 2 ? 'bg-red-500' : 'bg-lime-600'}`} onClick={()=>processData({order: order?.id,
                                                     status: 2,
                                                     active_print: 2,
                                                     url: "screen/order/counter"})}>
