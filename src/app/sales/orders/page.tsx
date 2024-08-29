@@ -35,6 +35,7 @@ export default function ViewSales() {
       const [order, setOrder] = useState([] as any); // orden que se obtiene
       const [ payedInvoice, setPayedInvoice ] = useState([] as any); // orden pagada para mostrar el modal de pago
       const [paymentType, setPaymentType] = useState(1); // Efectivo, Tarjeta, Otros
+      const [deliveryType, setDeliveryType] = useState(2); // 1: Aqui, 2: Llevar, 3: delivery
       const [clientActive, setClientActive] = useState(1); // Cliente seleccionado de la cuenta
       const [typeOfPrice, setTypeOfPrice] = useState(1); // 1 tipo de precio, 1: normal, 2: Promocion
       const { config, cashDrawer, systemInformation } = useContext(ConfigContext);
@@ -56,10 +57,15 @@ export default function ViewSales() {
 
       useEffect(() => {
             if (config?.configurations) {
-                  setConfiguration(extractActiveFeature(config.configurations))
+                  setConfiguration(extractActiveFeature(config.configurations));
             }
       // eslint-disable-next-line
       }, [config]);
+
+      useEffect(() => {
+        if(configuration?.includes("sales-quick-here")) setDeliveryType(1)
+      // eslint-disable-next-line
+      }, [configuration]);
 
 
       const selectLastOrder = async () => {
@@ -131,7 +137,7 @@ export default function ViewSales() {
             let values = {
               product_id: producId,
               request_type: 1, // 1: id, 2: cod
-              delivery_type: 2, // 1: Aqui, 2: Llevar, 3: delivery
+              delivery_type: deliveryType, // 1: Aqui, 2: Llevar, 3: delivery
               order_type: 1, // venta, consignacion, ecommerce
               price_type: typeOfPrice, // tipo de precio del producto
               clients_quantity: 1, // Numero de clientes

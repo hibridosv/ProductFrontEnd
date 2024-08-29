@@ -12,7 +12,7 @@ export interface OptionsSelectProps {
 export function deliveryTypeRestaurant(type: number) {
     switch (type) {
       case 1: return "Comer Aqui";
-      case 2: return "Para Levar";
+      case 2: return "Para Llevar";
       case 3: return "Delivery";
     }
 }
