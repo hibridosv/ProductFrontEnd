@@ -34,7 +34,7 @@ export function ScreenCardAll(props: ScreenCardAllProps) {
 
     return (
         <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-            <div className="py-2 px-3 flex flex-row cursor-pointer" 
+            <div className="py-2 px-3 flex flex-row" 
             // onClick={()=>processData({order: order?.id, status: 2, active_print: 3, url: "screen/order/counter"})}
                                                     >
                 <div className="w-full">
@@ -75,7 +75,7 @@ export function ScreenCardAll(props: ScreenCardAllProps) {
 
                 </tbody>
             </table>
-            <div className={`text-white text-center py-3 clickeable ${order.delivery_type == 2 ? 'bg-red-500' : 'bg-lime-600'}`} onClick={()=>processData({order: order?.id,
+            <div className="bg-lime-600 text-white text-center py-3 clickeable" onClick={()=>processData({order: order?.id,
                                                     status: 2,
                                                     active_print: 2,
                                                     url: "screen/order/counter"})}>
