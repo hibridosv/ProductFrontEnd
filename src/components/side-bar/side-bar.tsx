@@ -20,12 +20,10 @@ export function SideBar() {
 const { systemInformation } = useContext(ConfigContext);
 const sys = systemInformation?.system?.tenant?.system;
 
-const handlePermission = (permission: string, redirect: string): string => {
-    if (permissionExists(systemInformation?.permission, permission)) {
-      return redirect;
-    }
-    return "/error/403";
+const hasAnyPermission = (permissions: string[]): boolean => {
+  return permissions.some(permission => permissionExists(systemInformation?.permission, permission));
 }
+
 
 const showIten = (permission: string, item: ReactElement): ReactElement => {
   if (permissionExists(systemInformation?.permission, permission)) {
@@ -52,12 +50,15 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
             priority={false}
           />
         </div>
+        { hasAnyPermission(["dashboard"]) && 
+          showIten("dashboard", <MenuItem icon={<HiFingerPrint />} component={<Link href="/dashboard" />}>Panel Principal</MenuItem>)
+        }
 
-        {showIten("dashboard", <MenuItem icon={<HiFingerPrint />} component={<Link href="/dashboard" />}>Panel Principal</MenuItem>)}
-        {showIten("cashdrawer", <MenuItem icon={<FaCashRegister />} component={<Link href="/cashdrawers" />}>Control de cajas</MenuItem>)}
+        { hasAnyPermission(["cashdrawer"]) &&
+        showIten("cashdrawer", <MenuItem icon={<FaCashRegister />} component={<Link href="/cashdrawers" />}>Control de cajas</MenuItem>)
+        }
         
-        
-          {(sys == 2 || sys == 4) &&
+          { hasAnyPermission(["restaurant-add-product", "restaurant-producs", "restaurant-screen", "restaurant-counter"]) && (sys == 2 || sys == 4) &&
               <SubMenu label="Restaurant" icon={<IoMdCash />}>
               {showIten("restaurant-add-product", <MenuItem component={<Link className="text-sm" href="/restaurant/add-product" />}>Agregar Producto </MenuItem>)}
               {showIten("restaurant-producs", <MenuItem component={<Link className="text-sm" href="/restaurant/products" />}>Productos de Menu </MenuItem>)}
@@ -66,6 +67,7 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
               </SubMenu>
           }
 
+        { hasAnyPermission(["inventory", "inventory-register", "inventory-edit", "inventory-add", "inventory-failure", "inventory-linked", "inventory-stock", "inventory-expiration", "inventory-karex"]) &&
         <SubMenu label="Inventario" icon={<HiOutlineChartSquareBar />}>
           {showIten("inventory", <MenuItem component={<Link className="text-sm" href="/product" />}>Ver Productos</MenuItem>)}
           {showIten("inventory-register", <MenuItem component={<Link className="text-sm" href="/product/register" />}>Registrar Producto</MenuItem>)}
@@ -76,8 +78,10 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
           {showIten("inventory-stock", <MenuItem component={<Link className="text-sm" href="/product/stock" />}>Bajas Existencias</MenuItem>)}
           {showIten("inventory-expiration", <MenuItem component={<Link className="text-sm" href="/product/expiration" />}>Proximos Vencimientos</MenuItem>)}
           {showIten("inventory-karex", <MenuItem component={<Link className="text-sm" href="/product/kardex" />}>Kardex</MenuItem>)}
-
         </SubMenu>
+        }
+
+        { hasAnyPermission(["cash-bills", "cash-remittance", "cash-accounts", "cash-inout", "cash-history"]) &&
         <SubMenu label="Efectivo" icon={<IoMdCash />}>
           {showIten("cash-bills", <MenuItem component={<Link className="text-sm" href="/cash/bills" />}>Registro de gastos </MenuItem>)}
           {showIten("cash-remittance", <MenuItem component={<Link className="text-sm" href="/cash/remittance" />}>Remesas de efectivo </MenuItem>)}
@@ -85,13 +89,16 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
           {showIten("cash-inout", <MenuItem component={<Link className="text-sm" href="/cash/inout" />}>Flujo de Efectivo </MenuItem>)}
           {showIten("cash-history", <MenuItem component={<Link className="text-sm" href="/cash/history" />}>Historial de transferencias </MenuItem>)}
         </SubMenu>
+        }
 
+        { hasAnyPermission(["credits-receivable", "credits-payable"]) && 
         <SubMenu label="Cuentas" icon={<TbBrandCashapp />}>
           {showIten("credits-receivable", <MenuItem component={<Link className="text-sm" href="/credits/receivable" />}>Cuentas por cobrar </MenuItem>)}
           {showIten("credits-payable", <MenuItem component={<Link className="text-sm" href="/credits/payable" />}>Cuentas por pagar </MenuItem>)}
         </SubMenu>
+        }
 
-
+        { hasAnyPermission(["directory"]) && 
         <SubMenu label="Directorio" icon={<FaAddressBook />}>
         {showIten("directory", <MenuItem component={<Link className="text-sm" href="/directory" />}>Contactos </MenuItem>)}
         {showIten("directory", <MenuItem component={<Link className="text-sm" href="/directory/client" />}>Clientes </MenuItem>)}
@@ -99,7 +106,9 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         {showIten("directory", <MenuItem component={<Link className="text-sm" href="/directory/provider" />}>Proveedores </MenuItem>)}
         {showIten("directory", <MenuItem component={<Link className="text-sm" href="/directory/referred" />}>Referidos </MenuItem>)}
         </SubMenu>
+        }
 
+        { hasAnyPermission(["histories-sales", "histories-bills", "histories-remittance","histories-cut","histories-discount","histories-list","histories-by-user","histories-by-client","histories-deleted","histories-cost","histories-shipping-notes","histories-payments","histories-commission-pay"]) && 
         <SubMenu label="Historiales" icon={<FaHistory />}>
         {showIten("histories-sales", <MenuItem component={<Link className="text-sm" href="/histories/sales" />}>Ventas  </MenuItem>)}
         {showIten("histories-bills", <MenuItem component={<Link className="text-sm" href="/histories/bills" />}>Gastos  </MenuItem>)}
@@ -114,21 +123,27 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         {showIten("histories-shipping-notes", <MenuItem component={<Link className="text-sm" href="/histories/shipping-notes" />}>Notas de envío  </MenuItem>)}
         {showIten("histories-payments", <MenuItem component={<Link className="text-sm" href="/histories/payments" />}>Abonos recibidos  </MenuItem>)}
         {showIten("histories-commission-pay", <MenuItem component={<Link className="text-sm" href="/histories/commission-pay" />}>Comisiones pagadas  </MenuItem>)}
-
         </SubMenu>
+        }
+
+        { hasAnyPermission(["tools-quotes","tools-commissions","tools-adjustment"]) && 
         <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar />}>
         {showIten("tools-quotes", <MenuItem component={<Link className="text-sm" href="/tools/quotes" />}>Cotizaciones </MenuItem>)}
         {showIten("tools-commissions", <MenuItem component={<Link className="text-sm" href="/tools/commissions" />}>Detalle Comisiones </MenuItem>)}
         {showIten("tools-adjustment", <MenuItem component={<Link className="text-sm" href="/tools/adjustment" />}>Ajustar inventario </MenuItem>)}
         </SubMenu>
+        }
 
+        { hasAnyPermission(["reports-sales","reports-bills","reports-products"]) && 
         <SubMenu label="Reportes" icon={<HiOutlineChartSquareBar />}>
         {showIten("reports-sales", <MenuItem component={<Link className="text-sm" href="/reports/sales" />}>Detalles de ventas </MenuItem>)}
         {showIten("reports-bills", <MenuItem component={<Link className="text-sm" href="/reports/bills" />}>Detalles de gastos </MenuItem>)}
         {showIten("reports-products", <MenuItem component={<Link className="text-sm" href="/reports/products" />}>Productos ingresados </MenuItem>)}
         {showIten("reports-products", <MenuItem component={<Link className="text-sm" href="/reports/failures" />}>Productos Averiados </MenuItem>)}
         </SubMenu>
+        }
 
+        { hasAnyPermission(["invoices-documents","invoices-electronic","invoices-search"]) && 
         <SubMenu label="Facturación" icon={<HiOutlineChartSquareBar />}>
         {showIten("invoices-documents", <MenuItem component={<Link className="text-sm" href="/invoices/documents" />}>Documentos Emitidos </MenuItem>)}
         { systemInformation?.system?.country == 1 &&
@@ -138,16 +153,19 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         showIten("invoices-electronic", <MenuItem component={<Link className="text-sm" href="/invoices/electronic-gt" />}>Documentos Electrónicos </MenuItem>)
         }
         {showIten("invoices-search", <MenuItem component={<Link className="text-sm" href="/invoices/search" />}>Buscar Documentos </MenuItem>)}
-
         </SubMenu>
+        }
 
+        { hasAnyPermission(["transfers-send","transfers-receive","transfers-request","histories-transfers"]) && 
         <SubMenu label="Transferencias" icon={<HiOutlineChartSquareBar />}>
         {showIten("transfers-send", <MenuItem component={<Link className="text-sm" href="/transfers/send" />}>Crear Transferencia </MenuItem>)}
         {showIten("transfers-receive", <MenuItem component={<Link className="text-sm" href="/transfers/receive" />}>Aceptar Transferencia </MenuItem>)}
         {showIten("transfers-request", <MenuItem component={<Link className="text-sm" href="/transfers/request" />}>Solicitar Transferencia </MenuItem>)}
         {showIten("histories-transfers", <MenuItem component={<Link className="text-sm" href="/histories/transfers" />}>Listado de Transferencias </MenuItem>)}
         </SubMenu>
+        }
 
+        { hasAnyPermission(["config","config-products","config-user","config-permissions","config-transfers"]) && 
         <SubMenu label="Configuraciones" icon={<HiOutlineChartSquareBar />}>
         {showIten("config", <MenuItem component={<Link className="text-sm" href="/config" />}>Principal</MenuItem>)}
         {showIten("config-products", <MenuItem component={<Link className="text-sm" href="/config/product" />}>Productos</MenuItem>)}
@@ -155,7 +173,7 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         {showIten("config-permissions", <MenuItem component={<Link className="text-sm" href="/config/permissions" />}>Permisos de Usuario</MenuItem>)}
         {showIten("config-transfers", <MenuItem component={<Link className="text-sm" href="/config/transfers" />}>Sucursales</MenuItem>)}
         </SubMenu>
-
+        }
         <MenuItem icon={<HiLogout />} href="/logout">Salir</MenuItem>
       </Menu>
     </Sidebar>

@@ -2,13 +2,14 @@ import { useRelativeTime } from '@/hooks/useRelativeTime';
 import { formatDate, formatHourAsHM } from '@/utils/date-formats';
 import { deliveryType, filterProductsOrInvoiceProducts } from '@/utils/functions';
 import React, { Fragment } from 'react';
-import { BiCar, BiCheckDouble, BiPrinter, BiUser } from 'react-icons/bi';
+import { BiCar, BiCheckDouble, BiLoader, BiPrinter, BiUser } from 'react-icons/bi';
 import { FaClock } from 'react-icons/fa';
 import { TbPointFilled } from 'react-icons/tb';
 
 export interface ScreenCardAllProps {
     order: any;
     processData: (values: {})=> void
+    isLoading: boolean;
 }
 
 const activePrint = (print: number) =>{
@@ -23,13 +24,11 @@ const activePrint = (print: number) =>{
 
 
 export function ScreenCardAll(props: ScreenCardAllProps) {
-    const { order, processData } = props;
+    const { order, processData, isLoading } = props;
     const time = useRelativeTime(order.created_at);
     const items = order?.products.length > 0 ? order?.products : order?.invoiceproducts;
 
     if (!order) return <></>
-
-    console.log(order)
 
 
     return (
@@ -75,13 +74,13 @@ export function ScreenCardAll(props: ScreenCardAllProps) {
 
                 </tbody>
             </table>
-            <div className="bg-lime-600 text-white text-center py-3 clickeable" onClick={()=>processData({order: order?.id,
+            <div className="bg-lime-600 text-white text-center py-3 clickeable" onClick={isLoading ? ()=>{} : ()=>processData({order: order?.id,
                                                     status: 2,
                                                     active_print: 2,
                                                     url: "screen/order/counter"})}>
                 <ul className="list-none flex justify-around space-x-4">
                     <li className="flex">
-                        <BiPrinter className="mt-1 mr-2" /> <span>{activePrint(order.active_print)}</span>
+                    { isLoading ? <BiLoader className="mt-1 mr-2 animate-spin" /> : <BiPrinter className="mt-1 mr-2" /> } <span>{activePrint(order.active_print)}</span>
                     </li>
                 </ul>
             </div>

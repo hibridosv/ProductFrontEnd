@@ -41,6 +41,7 @@ export default function Page() {
 
 
     const processData = async (values: any) => {
+      setIsLoading(true);
         try {
           const response = await postData(`${values.url}`, "PUT", values);
           if (response.data) {
@@ -48,7 +49,9 @@ export default function Page() {
           }
         } catch (error) {
           console.error(error);
-        }
+        } finally {
+          setIsLoading(false);
+      }
       };
 
   if (!orders || orders.length == 0) return <NothingHere text="No hay comandas pendientes" />
@@ -57,7 +60,7 @@ export default function Page() {
         <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 m-4 pb-10">
             {orders && orders?.map((order: any) => (
                 <div key={order.id} className="mb-4 break-inside-avoid-column">
-                    <ScreenCardAll processData={processData} order={order} />
+                    <ScreenCardAll processData={processData} order={order} isLoading={isLoading} />
                 </div>
             ))}
         </div>
