@@ -10,10 +10,11 @@ import { style } from "../../theme";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 import { ContactDetails } from "./contact-details.";
-import { formatDocument, getConfigStatus, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
+import { formatDocument, getConfigStatus, getCountryNameByCode, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
 import { ContactDepartamentModal } from "./contact-departament-modal";
 import { ContactTownModal } from "./contact-town-modal";
 import { ConfigContext } from "@/contexts/config-context";
+import { ContactCountryModal } from "./contact-country-modal";
 
 export interface ContactAddModalProps {
   onClose: () => void;
@@ -29,13 +30,17 @@ export function ContactAddModal(props: ContactAddModalProps) {
   const [message, setMessage] = useState<any>({});
   const [newRecord, setNewRecord] = useState<any>({});
   const [isChangedRecord, setIsChangedRecord] = useState(false);
-  const [locations, setLocaltions] = useState({} as any);
+  const [locations, setLocations] = useState({} as any);
+  const [countries, setCountries] = useState({} as any);
+  const [country, setCountry] = useState("9300");
   const [departament, setDepartament] = useState("06");
   const [town, setTown] = useState("14");
   const [isContactDepartamentModal, setIsContactDepartamentModal] = useState(false);
   const [isContactTowModal, setIsContactTowModal] = useState(false);
+  const [isCountryModal, setIsCountryModal] = useState(false);
   const { config } = useContext(ConfigContext);
   const [isShowCode, setIsShowCode] = useState(false);
+  const [isShowCountry, setIsShowCountry] = useState(false);
 
   useEffect(() => {
     if (record) {
@@ -59,13 +64,15 @@ export function ContactAddModal(props: ContactAddModalProps) {
         setValue("address_doc", record.address_doc);
         setValue("taxpayer_type", record.taxpayer_type);
         setValue("is_credit_block", record.is_credit_block);
+        setValue("country", record.country);
         
         setDepartament(record.departament_doc)
         setTown(record.town_doc)
     }
     setIsShowCode(getConfigStatus("contact-code", config));
+    setIsShowCountry(getConfigStatus("contact-country", config))
     setIsChangedRecord(false);
-  }, [record, setValue, setIsChangedRecord, config]);
+  }, [record, setValue, setIsChangedRecord, setIsShowCountry, config]);
 
 
   const onSubmit = async (data: any) => {
@@ -75,6 +82,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
     if (record) { data.id = record.id; }
     data.departament_doc = departament
     data.town_doc = town
+    data.country = country
     data.id_number = formatDocument(data.id_number) // se registr sin guiones
     data.document = formatDocument(data.document) // se registr sin guiones
     data.register = formatDocument(data.register) // se registr sin guiones
@@ -106,16 +114,29 @@ export function ContactAddModal(props: ContactAddModalProps) {
   useEffect(() => {
     if (isShow) {
       const fetchData = async () => {
-        const data = await loadData(`electronic/getlocations`);
-        setLocaltions(data);
-      };
-    
+          const data = await loadData(`electronic/getlocations`);
+          setLocations(data);
+          };
       fetchData();
     }
 
-  }, [setLocaltions, isShow]);
+  }, [setLocations, isShow]);
 
 
+  useEffect(() => {
+    if (isShow) {
+      const fetchData = async () => {
+          if (getConfigStatus("contact-country", config)) {
+              const countries = await loadData(`electronic/getcountries`);
+              setCountries(countries);
+            }
+          };
+      fetchData();
+    }
+
+  }, [setCountries, isShow, config]);
+
+  
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
       <Modal.Header>{record ? "EDITAR CONTACTO" : "AGREGAR NUEVO CONTACTO"}</Modal.Header>
@@ -239,6 +260,15 @@ export function ContactAddModal(props: ContactAddModalProps) {
                     </div>
                   }
 
+                  { isShowCountry &&
+                    <div className="w-full md:w-full px-3 mb-2">
+                      <label htmlFor="town_doc" className={style.inputLabel}> Seleccione un pais </label>
+                      <div className={style.input} onClick={()=>setIsCountryModal(true)}>
+                          { getCountryNameByCode(country, countries) }
+                      </div>
+                    </div>
+                  }
+
                 </div>
             </div>
 
@@ -260,6 +290,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
             </form>
 
         </div>) : (<ContactDetails record={newRecord} /> )}
+        <ContactCountryModal setCountry={setCountry} isShow={isCountryModal} onClose={()=>setIsCountryModal(false)} countries={countries} />
         <ContactDepartamentModal setDepartament={setDepartament} setTown={setTown} isShow={isContactDepartamentModal} onClose={()=>setIsContactDepartamentModal(false)} record={locations} />
         <ContactTownModal setTown={setTown} departament={departament} isShow={isContactTowModal} onClose={()=>setIsContactTowModal(false)} record={locations} />
       <Toaster position="top-right" reverseOrder={false} />
