@@ -48,7 +48,7 @@ export default function Invoices() {
     }, [systemInformation]);
 
     useEffect(() => {
-        if (invoices?.data?.[0].id) {
+        if (invoices?.data?.[0]?.id) {
             (async () => { await loadLink();})();   
         }
         // eslint-disable-next-line
@@ -72,7 +72,7 @@ export default function Invoices() {
             <div className='mr-3 sm:mt-3'>
                 <div className="m-3 border-slate-700 shadow-md shadow-lime-700 rounded-md">
                     <div className=" text-center">Saldo pendiente</div>
-                    <div className=" text-center font-semibold text-6xl p-3">{ numberToMoney(invoices?.data?.[0].total ? invoices?.data?.[0].total : 0, systemInformation) }</div>
+                    <div className=" text-center font-semibold text-6xl p-3">{ numberToMoney(invoices?.data?.[0]?.total ? invoices?.data?.[0].total : 0, systemInformation) }</div>
                 </div>
 
                 { isSending ? 
@@ -105,7 +105,7 @@ export default function Invoices() {
                         <div>Banco Promerica</div>
                         <div><span>Numero de Cuenta: </span><span className="ml-2">20000066001071</span></div>
                         <div><span>Nombre: </span><span className="ml-2">Erick Adonai Nuñez Martinez</span></div>
-                        <div><span>Concepto: </span><span className="ml-2 uppercase">Factura { systemInformation?.system?.tenant?.id }-{invoices?.data?.[0].id.slice(-4)}</span></div>
+                        <div><span>Concepto: </span><span className="ml-2 uppercase">Factura { systemInformation?.system?.tenant?.id }-{invoices?.data?.[0]?.id.slice(-4)}</span></div>
                     </div>
                 </div>
                 
