@@ -59,11 +59,11 @@ export default function Invoices() {
     }, [invoices]);
 
     useEffect(() => {
-        if (lastInvoice?.id) {
+        if (lastInvoice?.id && total > 0) {
             (async () => { await loadLink();})();   
         }
         // eslint-disable-next-line
-    }, [lastInvoice]);
+    }, [lastInvoice, total]);
 
     const imageLoader = ({ src, width, quality }: any) => {
         return `${src}?w=${width}&q=${quality || 75}`
