@@ -91,7 +91,7 @@ export default function Invoices() {
                     <div className="flex justify-center p-3">
                     <Loading size="sm" text="Cargando" /> 
                     </div>
-                </div> : payLink?.urlQrCodeEnlace &&
+                </div> : payLink?.urlQrCodeEnlace && total > 0 &&
                 <div className="m-3 border-slate-700 shadow-md shadow-lime-700 rounded-md">
                     <div className=" text-center bg-slate-300 font-semibold rounded-t-md uppercase">Pagar con tarjeta de credito</div>
                     <Alert className="m-2" theme={PresetTheme.info} isDismisible={false} text="Transacción segura a traves de Wompi del Banco Agricola, No guardamos ningun tipo de dato de su tarjeta" />
