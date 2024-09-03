@@ -90,7 +90,9 @@ export default function Invoices() {
                     </div>
                     <div className=" border-2 "></div>
                     <div className="flex justify-center">
-                    <Image loader={imageLoader} src={payLink?.urlQrCodeEnlace && payLink?.urlQrCodeEnlace} alt="QR de pago" width={250} height={250} />
+                        {payLink?.urlQrCodeEnlace &&
+                            <Image loader={imageLoader} src={payLink?.urlQrCodeEnlace} alt="QR de pago" width={250} height={250} />
+                        }
                     </div>
                 </div> : 
                 <div className="m-3 border-slate-700 shadow-md shadow-gray-700 rounded-md">
