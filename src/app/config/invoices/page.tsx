@@ -84,7 +84,7 @@ export default function Invoices() {
                 </div> : payLink?.urlQrCodeEnlace ?
                 <div className="m-3 border-slate-700 shadow-md shadow-lime-700 rounded-md">
                     <div className=" text-center">Pagar con tarjeta de credito</div>
-                    <Alert className="m-2" theme={PresetTheme.info} isDismisible={false} text="Transacción completamente segura a traves de Wompi del Banco Agricola, No guardamos ningun tipo de dato de su tarjeta" />
+                    <Alert className="m-2" theme={PresetTheme.info} isDismisible={false} text="Transacción segura a traves de Wompi del Banco Agricola, No guardamos ningun tipo de dato de su tarjeta" />
                     <div className="flex justify-center font-semibold text-6xl p-3">
                      <a target="_blank" href={payLink?.urlEnlace ? payLink?.urlEnlace : "#"} className="button-green rounded-md">Pagar factura</a> 
                     </div>
@@ -99,15 +99,23 @@ export default function Invoices() {
                     <div className=" text-center">NO se creo el enlace de pago</div>
                 </div>
                 }
+                { invoices?.data?.[0]?.total ? 
                 <div className="m-3 border-slate-700 shadow-md shadow-lime-700 rounded-md">
                     <div className=" text-center">Pagar con Transferencia Electrónica</div>
                     <div className="font-semibold p-3">
-                        <div>Banco Promerica</div>
+                        <Image loader={imageLoader} src="https://digital.promerica.com.sv/promerica//assets/img/logo-promerica.png" alt="QR de pago" width={375} height={57} />
                         <div><span>Numero de Cuenta: </span><span className="ml-2">20000066001071</span></div>
                         <div><span>Nombre: </span><span className="ml-2">Erick Adonai Nuñez Martinez</span></div>
                         <div><span>Concepto: </span><span className="ml-2 uppercase">Factura { systemInformation?.system?.tenant?.id }-{invoices?.data?.[0]?.id.slice(-4)}</span></div>
                     </div>
+                </div> :
+                <div className="m-3 border-slate-700 shadow-md shadow-lime-700 rounded-md">
+                <div className=" text-center">Gracias por mantenerse al dia con sus pagos</div>
+                <div className="font-semibold p-3">
+                    <div>Si tiene alguna duda no dude en contactarnos</div>
                 </div>
+            </div>
+                }
                 
 
 
