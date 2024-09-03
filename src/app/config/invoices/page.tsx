@@ -25,7 +25,7 @@ export default function Invoices() {
     const loadInvoices = async () => {
         try {
             setIsLoading(true)
-            const response = await getData(`system/invoices?filterWhere[tenant_id]==${systemInformation?.system?.tenant?.id}&included=items,tenant&sort=-created_at&perPage=10`);
+            const response = await getData(`system/invoices?filterWhere[tenant_id]==${systemInformation?.system?.tenant?.id}&included=items.payment,tenant&sort=-created_at&perPage=10`);
             setInvoices(response);
         } catch (error) {
             console.error(error);
@@ -117,8 +117,8 @@ export default function Invoices() {
                     </div>
                 </div> :
                 <div className="m-3 border-slate-700 shadow-md shadow-lime-700 rounded-md">
-                <div className=" text-center">Gracias por mantenerse al dia con sus pagos</div>
-                <div className="font-semibold p-3">
+                <div className=" text-center bg-slate-300 font-semibold rounded-t-md uppercase">Gracias por mantenerse al dia con sus facturas</div>
+                <div className="font-semibold p-3 text-center">
                     <div>Si tiene alguna duda no dude en contactarnos</div>
                 </div>
             </div>
