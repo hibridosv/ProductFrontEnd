@@ -24,7 +24,7 @@ export function InvoicePayDetailsModal(props: InvoicePayDetailsModalProps) {
   const { config, systemInformation } = useContext(ConfigContext);
   const [records, setRecords] = useState([]) as any;
 
-    console.log(record)
+  
     if (!record?.items || record?.items.length == 0) return <></>
 
   const listProducts = record.items.map((record: any, key: any) => (
