@@ -16,40 +16,47 @@ export default function Invoices() {
     const [isSending, setIsSending] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [payLink, setPayLink] = useState({} as any);
+    const [lastInvoice, setLastInvoice] = useState({}) as any;
     const { systemInformation } = useContext(ConfigContext);
     const total = sumarTotalesStatus(invoices?.data)
-    const lastInvoice = getLastElement(invoices?.data)
     let pusherEvent = usePusher(`${systemInformation?.system?.tenant?.id}-channel-pay`, 'pay-event', true).random;
-
-
+    
+    
     const loadInvoices = async () => {
         try {
-        setIsLoading(true)
-        const response = await getData(`system/invoices?filterWhere[tenant_id]==${systemInformation?.system?.tenant?.id}&included=items,tenant&sort=-created_at&perPage=10`);
-        setInvoices(response);
+            setIsLoading(true)
+            const response = await getData(`system/invoices?filterWhere[tenant_id]==${systemInformation?.system?.tenant?.id}&included=items,tenant&sort=-created_at&perPage=10`);
+            setInvoices(response);
         } catch (error) {
-        console.error(error);
+            console.error(error);
         } finally {
             setIsLoading(false)
         }
     };
-  
+    
     const loadLink = async () => {
         try {
-            setIsSending(true)
+        setIsSending(true)
         const response = await postData(`system/invoices/payments/${lastInvoice?.id}`, 'POST');
         setPayLink(response);
-        } catch (error) {
+    } catch (error) {
         console.error(error);
-        } finally {
-            setIsSending(false)
-        }
+    } finally {
+        setIsSending(false)
+    }
     };
-
+    
     useEffect(() => {
             (async () => { await loadInvoices();})();   
         // eslint-disable-next-line
     }, [systemInformation, pusherEvent]);
+
+    useEffect(() => {
+        if (invoices) {
+            setLastInvoice(getLastElement(invoices?.data));
+        }
+        // eslint-disable-next-line
+    }, [invoices]);
 
     useEffect(() => {
         if (lastInvoice?.id) {
@@ -61,9 +68,6 @@ export default function Invoices() {
     const imageLoader = ({ src, width, quality }: any) => {
         return `${src}?w=${width}&q=${quality || 75}`
     }
-
-        console.log(total)
-        console.log("lastInvoice ", lastInvoice)
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 pb-10">
