@@ -17,7 +17,6 @@ export function Header() {
   const sys = systemInformation?.system?.tenant?.system;
 
   if (!systemInformation?.system?.theme) { return <HeaderSkeleton />}
-  console.log("System: ", systemInformation);
 
   return (
     <header className="bg-white">

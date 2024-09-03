@@ -150,6 +150,20 @@ export const sumarTotales = (datos: any): number => {
 }
 
 
+export const sumarTotalesStatus = (datos: any, status = 1): number => {
+  let totalSuma = 0;
+
+  datos?.forEach((elemento: any) => {
+    // Verifica si el elemento tiene la propiedad 'total' y si su 'status' coincide con el parámetro pasado
+    if (elemento.hasOwnProperty('total') && elemento.status === status) {
+      totalSuma += elemento.total;
+    }
+  });
+
+  return totalSuma;
+}
+
+
 export const sumarDiscount = (datos: any): number => {
   let totalSuma = 0;
 
