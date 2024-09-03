@@ -172,6 +172,7 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         {showIten("config-user", <MenuItem component={<Link className="text-sm" href="/config/user" />}>Usuarios</MenuItem>)}
         {showIten("config-permissions", <MenuItem component={<Link className="text-sm" href="/config/permissions" />}>Permisos de Usuario</MenuItem>)}
         {showIten("config-transfers", <MenuItem component={<Link className="text-sm" href="/config/transfers" />}>Sucursales</MenuItem>)}
+        <MenuItem component={<Link className="text-sm" href="/config/invoices" />}>Pagos</MenuItem>
         </SubMenu>
         }
         <MenuItem icon={<HiLogout />} href="/logout">Salir</MenuItem>
