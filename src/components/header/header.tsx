@@ -17,6 +17,7 @@ export function Header() {
   const sys = systemInformation?.system?.tenant?.system;
 
   if (!systemInformation?.system?.theme) { return <HeaderSkeleton />}
+  console.log("System: ", systemInformation);
 
   return (
     <header className="bg-white">
@@ -30,6 +31,20 @@ export function Header() {
 
       <div className="justify-end">
         <div className="flex justify-between">
+
+          {
+            systemInformation.invoiceExist &&
+            <div className="mr-2">
+              <Link href="/config/invoices" children={
+                <span className="relative clickeable text-white flex justify-center align-middle " title="Click para ver sus facturas">
+                  <span className="absolute flex h-3 w-3 mt-2 mr-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                  </span>
+              </span>
+              } />
+          </div>
+          }
 
         {(sys == 1 || sys == 3) &&
           <div className="mr-2">
