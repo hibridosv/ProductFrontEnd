@@ -26,7 +26,8 @@ export default function ViewProducts() {
         setProductos(response);
         setLinks([
           {"name": `DESCARGAR EN EXCEL`, "link": encodeURI(`${remoteUrl}/download/excel/inventory/`), "isUrl": true}, 
-          {"name": `DESCARGAR EN PDF`, "link": encodeURI(`${remoteUrl}/web/inventory/`), "isUrl": true}])
+          {"name": `DESCARGAR EN PDF`, "link": encodeURI(`${remoteUrl}/web/inventory/`), "isUrl": true},
+          {"name": `DESCARGAR PRECIOS`, "link": encodeURI(`${remoteUrl}/web/inventory/prices`), "isUrl": true}])
       } catch (error) {
         console.error(error);
       } finally {
