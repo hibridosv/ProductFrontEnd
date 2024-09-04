@@ -33,11 +33,11 @@ export default function Page() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600">
-        <ViewTitle text="NUEVO PRODUCTO" />
+        <ViewTitle text="PRODUCTOS" />
           <ProductView products={products} random={setRandomNumber} isLoading={isLoading} />
         </div>
         <div className="col-span-3">
-        {/* <ViewTitle text="BUSCAR PRODUCTOS" /> */}
+        <ViewTitle text="MODIFICADORES" />
 
         </div>
     </div>

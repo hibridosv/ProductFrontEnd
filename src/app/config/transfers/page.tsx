@@ -129,7 +129,7 @@ export default function Config() {
                 <div className=' border border-slate-200'></div>
                 <div className="flex justify-between font-semibold w-full px-2 py-1">
                     <div className=" w-1/4 border-r-2 border-gray-500 uppercase">Pais</div>
-                    <div className=" w-3/4 ml-4">{ getCountryProperty(systemInformation?.system?.country).name }</div>
+                    <div className=" w-3/4 ml-4">{ getCountryProperty(parseInt(systemInformation?.system?.country)).name }</div>
                 </div>
                 <div className=' border border-slate-200'></div>
                 <div className="flex justify-between font-semibold w-full px-2 py-1">
