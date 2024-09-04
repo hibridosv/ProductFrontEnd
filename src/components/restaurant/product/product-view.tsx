@@ -136,7 +136,6 @@ export function ProductView(props: ProductViewProps) {
   
 
     const updateSpecial = async (order: any, data: any) => {
-      console.log(order)
       try {
           const response = await postData(`restaurant/products/${order.id}`, 'PUT', data);
           if (response.type == "successful") {
