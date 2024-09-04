@@ -72,7 +72,7 @@ export function ProductsTable(props: ProductsTableProps) {
 
   const listItems = products.data.map((product: any) => (
     <tr key={product.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
-      { !withOutRows?.includes(RowTable.cod) && <td className="py-3 px-6">{product.cod}</td>}
+      { !withOutRows?.includes(RowTable.cod) && <td className="py-3 px-6 whitespace-nowrap">{product.cod}</td>}
       { !withOutRows?.includes(RowTable.description) && <th className="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer flex justify-items-start" scope="row" onClick={()=>showProduct(product)}>
       
         {productTypeIcon(product.product_type)}
@@ -83,7 +83,7 @@ export function ProductsTable(props: ProductsTableProps) {
         </th>}
       { !withOutRows?.includes(RowTable.prices) && <td className="py-3 px-6">{product.prices[0] ? numberToMoney(product.prices[0].price, systemInformation) : numberToMoney(0, systemInformation)}</td>}
       { !withOutRows?.includes(RowTable.quantity) && <td className="py-3 px-6">{product.quantity}</td>}
-      { !withOutRows?.includes(RowTable.category) && <td className="py-3 px-6">{product.category.name}</td>}
+      { !withOutRows?.includes(RowTable.category) && <td className="py-3 px-6 whitespace-nowrap">{product.category.name}</td>}
       { !withOutRows?.includes(RowTable.brand) && <td className="py-3 px-6">{product?.brand?.name}</td>}
       { !withOutRows?.includes(RowTable.minimum_stock) && <td className="py-3 px-6">{product.minimum_stock}</td>}
       { !withOutRows?.includes(RowTable.options) && <td className="py-3 px-6">

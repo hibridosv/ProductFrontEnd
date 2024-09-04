@@ -6,6 +6,7 @@ import { usePagination } from "@/components/pagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { RowTable } from "@/components/products-components/products-table";
 import toast, { Toaster } from 'react-hot-toast';
+import SkeletonTable from "@/components/common/skeleton-table";
 
 
 
@@ -50,18 +51,17 @@ const deleteProduct = async (iden: number) => {
     <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
            <div className="col-span-3">
              <ViewTitle text="BAJAS EXISTENCIAS" />
-             { isLoading ? <Loading /> : <>
+             { isLoading ? <SkeletonTable rows={11} columns={7} /> :
                 <ProductsTable 
                 products={productos}
                 onDelete={deleteProduct} 
                 withOutRows={[RowTable.brand, RowTable.category]}
                  />
-                <Pagination 
+              }
+               <Pagination 
                 records={productos}
                 handlePageNumber={handlePageNumber } 
                 />
-                </>
-              }
          </div>
          <div>
          <ViewTitle text="BUSQUEDA" />

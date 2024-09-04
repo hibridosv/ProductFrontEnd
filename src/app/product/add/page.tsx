@@ -506,7 +506,7 @@ useEffect(() => {
           <div className="w-full p-4">
             <ProductRegisterTable productPrincipal={productPrincipal?.id} onDelete={deleteProduct} records={lastProductsPrincipal ? lastProductsPrincipal[0]?.registers : []} isLoading={isLoading} />
           </div>
-          { productPrincipal?.id && <Button preset={isSending ? Preset.saving : Preset.cancel} text="Terminar ingreso" onClick={()=>finishRegister()} isFull /> }
+          { productPrincipal?.id && <Button disabled={isSending} preset={isSending ? Preset.saving : Preset.cancel} text="Terminar ingreso" onClick={()=>finishRegister()} isFull /> }
         </div>
         <ContactAddModal isShow={showModalProvider} onClose={()=>setShowModalProvider(false)} />
       <Toaster position="top-right" reverseOrder={false} />

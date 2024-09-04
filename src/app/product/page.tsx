@@ -8,6 +8,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { RowTable } from "@/components/products-components/products-table";
 import { LinksList } from "@/components/common/links-list";
 import { getUrlFromCookie } from "@/services/oauth";
+import SkeletonTable from "@/components/common/skeleton-table";
 
 export default function ViewProducts() {
   const [isLoading, setIsLoading] = useState(false);
@@ -73,18 +74,19 @@ export default function ViewProducts() {
               <div className="col-span-3">
                 <ViewTitle text="PRODUCTOS" />
 
-              { isLoading ? <Loading /> : <>
+              { isLoading ? <SkeletonTable rows={11} columns={7} /> : <>
                 <ProductsTable 
                 products={productos}
                 onDelete={deleteProduct} 
                 withOutRows={[RowTable.brand]}
                  />
-                <Pagination 
+                
+                </>
+              }
+              <Pagination 
                 records={productos}
                 handlePageNumber={handlePageNumber } 
                 />
-                </>
-              }
             </div>
             <div>
                 <RightSideProducts 

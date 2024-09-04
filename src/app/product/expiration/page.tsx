@@ -7,6 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import { ProductExpirationTable } from "@/components/products-components/product-expiration-table";
 import { RightExpired } from "@/components/right-side/right-side-expired";
+import SkeletonTable from "@/components/common/skeleton-table";
 
 
 export default function Expirations() {
@@ -58,16 +59,15 @@ useEffect(() => {
     <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
            <div className="col-span-3">
              <ViewTitle text="PROXIMOS VENCIMIENTOS" />
-             { isLoading ? <Loading /> : <>
+             { isLoading ?  <SkeletonTable rows={11} columns={7} /> : 
                 <ProductExpirationTable 
                 records={expirations}
                  />
-                <Pagination 
+              }
+              <Pagination 
                 records={expirations}
                 handlePageNumber={handlePageNumber } 
                 />
-                </>
-              }
          </div>
          <div>
          <ViewTitle text="DETALLES" />

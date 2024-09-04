@@ -1,35 +1,38 @@
 import React from 'react'
 
 interface SkeletonTableProps {
-  columns: number
-  rows: number
+  columns?: number
+  rows?: number
 }
 
-export default function SkeletonTable({ columns, rows }: SkeletonTableProps) {
+export default function SkeletonTable({ columns = 7, rows = 11 }: SkeletonTableProps) {
   return (
-    <div className="w-full overflow-x-auto">
-      <table className="w-full border-collapse">
-        <thead>
-          <tr>
-            {Array.from({ length: columns }).map((_, index) => (
-              <th key={`header-${index}`} className="p-2 border">
-                <div className="h-4 bg-gray-300 rounded animate-pulse"></div>
+    <div>
+  <div className="w-full overflow-auto">
+    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+        {Array.from({ length: columns }).map((_, index) => (
+              <th scope="col"  key={`header-${index}`} className="py-2 px-2  border">
+                <div className="h-5 bg-gray-300 rounded animate-pulse"></div>
               </th>
             ))}
-          </tr>
-        </thead>
-        <tbody>
-          {Array.from({ length: rows }).map((_, rowIndex) => (
-            <tr key={`row-${rowIndex}`}>
+
+        </tr>
+      </thead>
+      <tbody>
+      {Array.from({ length: rows }).map((_, rowIndex) => (
+            <tr key={`row-${rowIndex}`} className='bg-white border-b dark:bg-gray-800 dark:border-gray-700'>
               {Array.from({ length: columns }).map((_, colIndex) => (
-                <td key={`cell-${rowIndex}-${colIndex}`} className="p-2 border">
-                  <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                </td>
+                <td className="py-2 px-2" key={colIndex}>
+                  <div className="h-6 bg-gray-200 rounded animate-pulse text-lg"></div>
+                  </td>
               ))}
             </tr>
           ))}
-        </tbody>
-      </table>
-    </div>
+      </tbody>
+    </table>
+ </div>
+ </div>
   )
 }
