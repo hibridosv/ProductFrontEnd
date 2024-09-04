@@ -5,6 +5,7 @@ import { Loading } from "../loading/loading";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import { useContext, useState } from "react";
 import { ConfigContext } from "@/contexts/config-context";
+import { InvoicePayDetailsModal } from "./invoice-pay-details-modal";
 
 
 interface InvoiceSystemTableProps {
@@ -38,9 +39,10 @@ export function InvoiceSystemTable(props: InvoiceSystemTableProps) {
     <tr key={key} className="border-b">
       <td className="py-2 px-6 truncate uppercase">{ record.id.slice(-4) } </td>
       <td className="py-2 px-6 truncate">{ formatDateAsDMY(record?.billing_day) } </td>
-      <td className="py-2 px-6">{ numberToMoney(record?.total, systemInformation) }</td>
       <td className={`py-2 px-6`}>{ formatDateAsDMY(record?.expires_at) }</td>
-      <td className={`py-2 px-6`}>{ status(record?.status) }</td>
+      <td className={`py-2 px-6`}>{ record?.payed_at ? formatDateAsDMY(record?.payed_at) : "N/A" }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.total, systemInformation) }</td>
+      <td className={`py-2 px-6 clickeable`} onClick={()=>{ setRecordSelect(record); setShowInvoiceModal(true)}}>{ status(record?.status) }</td>
     </tr>
   ));
 
@@ -51,13 +53,15 @@ export function InvoiceSystemTable(props: InvoiceSystemTableProps) {
         <tr>
           <th scope="col" className="py-3 px-4 border">Codigo</th>
           <th scope="col" className="py-3 px-4 border">Fecha Facturación</th>
-          <th scope="col" className="py-3 px-4 border">Total</th>
           <th scope="col" className="py-3 px-4 border">Expira</th>
+          <th scope="col" className="py-3 px-4 border">Pagada</th>
+          <th scope="col" className="py-3 px-4 border">Total</th>
           <th scope="col" className="py-3 px-4 border">Estado</th>
         </tr>
       </thead>
       <tbody>{listItems}</tbody>
     </table>
  </div>
+ <InvoicePayDetailsModal isShow={showInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={recordSelect} />
  </div>);
 }
