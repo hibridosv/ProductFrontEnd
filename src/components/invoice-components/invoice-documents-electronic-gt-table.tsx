@@ -12,7 +12,7 @@ import { ErrorsGtModal } from "./errors-gt-modal";
 interface InvoiceDocumentsElectronicGtTableProps {
   records?:  any;
   isLoading?: boolean;
-  resendDocument: (invoice: string)=> void
+  resendDocument: (invoice: any)=> void
 }
 
 export function InvoiceDocumentsElectronicGtTable(props: InvoiceDocumentsElectronicGtTableProps) {
@@ -28,7 +28,7 @@ export function InvoiceDocumentsElectronicGtTable(props: InvoiceDocumentsElectro
 
 const status = (status: number)=>{
     switch (status) {
-        case 1: return <span className="status-info">RECIBIDO</span>;
+        case 1: return <span className="status-info">SIN PROCESAR</span>;
         case 2: return <span className="status-warning">FIRMADO</span>;
         case 3: return <span className="status-danger" >RECHAZADO</span>;
         case 4: return <span className="status-success">PROCESADO</span>;
@@ -92,7 +92,7 @@ const tipoDTE = (dte: string)=>{
               <div> Descargar XML</div>
               }
               </div>
-              <div className={`w-full font-semibold ${record?.status == 3 ? 'text-red-700 py-2 px-4 hover:bg-red-100 clickeable' : 'text-slate-700 py-2 px-4 hover:bg-slate-100'}`} onClick={ record?.status == 3 ? ()=> resendDocument(record?.identificador) : ()=> {}}>Reenviar Documento</div>
+              <div className={`w-full font-semibold ${(record?.status == 3 || record?.status == 1) ? 'text-red-700 py-2 px-4 hover:bg-red-100 clickeable' : 'text-slate-700 py-2 px-4 hover:bg-slate-100'}`} onClick={ (record?.status == 3 || record?.status == 1) ? ()=> resendDocument(record) : ()=> {}}>Reenviar Documento</div>
             </div>
           }>
         <div className='clickeable'><FaEdit size="1.2em" /></div>

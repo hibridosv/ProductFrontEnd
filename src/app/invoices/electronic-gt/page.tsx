@@ -62,10 +62,10 @@ export default function Page() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [randomNumber]);
 
-    const resendDocument = async (invoice: string) => {
+    const resendDocument = async (invoice: any) => {
       try {
         setIsSending(true);
-        const response = await getData(`electronic/resend-gt/${invoice}`);
+        const response = await getData(invoice.tipo_documento == "01" ? `electronic/resend-gt/${invoice.identificador}` : `electronic/resendCreditNote-gt/${invoice.identificador}`);
         if (response?.type == "error") {
           toast.error("Ocurrio un error");
         } else {
