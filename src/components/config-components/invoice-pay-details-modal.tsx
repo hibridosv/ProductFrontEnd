@@ -1,15 +1,11 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
-import { Alert } from "../alert/alert";
-import { getConfigStatus, getPaymentTypeName, numberToMoney } from "@/utils/functions";
+import { numberToMoney } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
 import { formatDateAsDMY } from "@/utils/date-formats";
-import { getData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
-import { Loading } from "../loading/loading";
-import { PresetTheme } from "@/services/enums";
 
 
 export interface InvoicePayDetailsModalProps {
@@ -20,9 +16,7 @@ export interface InvoicePayDetailsModalProps {
 
 export function InvoicePayDetailsModal(props: InvoicePayDetailsModalProps) {
   const { onClose, record, isShow } = props;
-  const [showCodeStatus, setShowCodeStatus] = useState<boolean>(false);
-  const { config, systemInformation } = useContext(ConfigContext);
-  const [records, setRecords] = useState([]) as any;
+  const { systemInformation } = useContext(ConfigContext);
 
   
     if (!record?.items || record?.items.length == 0) return <></>
