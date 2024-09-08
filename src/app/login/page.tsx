@@ -6,7 +6,7 @@ import { postWithOutToken } from '@/services/resources';
 import Image from 'next/image';
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/authContext";
-import { API_URL } from "@/constants";
+import { API_URL, AUTH_CLIENT, AUTH_SECRET } from "@/constants";
 import { style } from '@/theme';
 import { ConfigContext } from '@/contexts/config-context';
 
@@ -20,6 +20,7 @@ export default function Home() {
   const router = useRouter();
   const { login, remoteUrl, tenant } = useAuthContext();
   const { setRandomInit } = useContext(ConfigContext);
+  
 
   const getRemoteUrl = async (data: any) => {
     try {
@@ -42,8 +43,8 @@ export default function Home() {
   
   const handleSubmitLogin = async (data: any, responseInitial: any) => {
     data.grant_type = 'password';
-    data.client_id = responseInitial?.id;
-    data.client_secret = responseInitial?.hash;
+    data.client_id = AUTH_CLIENT;
+    data.client_secret = AUTH_SECRET;
     data.scope = "*"
     try {
       setIsSending(true);

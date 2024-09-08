@@ -6,10 +6,10 @@ import {  postWithOutToken } from "@/services/resources";
 import { Loading } from "../loading/loading";
 import { useForm } from 'react-hook-form';
 import { useAuthContext } from "@/contexts/authContext";
-import { API_URL } from "@/constants";
 import { style } from '@/theme';
 import { ConfigContext } from '@/contexts/config-context';
 import toast, { Toaster } from 'react-hot-toast';
+import { API_URL, AUTH_CLIENT, AUTH_SECRET } from "@/constants";
 
 
 export interface ConfigChangeTenantModalProps {
@@ -48,8 +48,8 @@ const getRemoteUrl = async () => {
 
   const handleSubmitLogin = async (data: any) => {
     data.grant_type = 'password';
-    data.client_id = isRemoteUrl?.id;
-    data.client_secret = isRemoteUrl?.hash;
+    data.client_id = AUTH_CLIENT;
+    data.client_secret = AUTH_SECRET;
     data.scope = "*"
     try {
       setIsSending(true);
