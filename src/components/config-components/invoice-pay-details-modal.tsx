@@ -74,6 +74,10 @@ export function InvoicePayDetailsModal(props: InvoicePayDetailsModalProps) {
                     </tr>
                 </tbody>
                 </table>
+                <div className="mt-2 uppercase font-medium">
+                  <div className="mr-2">Periodo:</div>
+                  <div>del { formatDateAsDMY(record?.started_at)} al { formatDateAsDMY(record?.billing_day)}</div>
+                </div>
             </div>
 
         </div> 
