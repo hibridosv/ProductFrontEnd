@@ -10,6 +10,8 @@ import { Dropdown } from "flowbite-react";
 import { DeleteModal, ProductViewModal } from "..";
 import { numberToMoney, permissionExists } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 export enum RowTable {
   cod = "cod",
@@ -91,7 +93,7 @@ export function ProductsTable(props: ProductsTableProps) {
           <Dropdown.Item onClick={()=>showProduct(product)}>VER PRODUCTO</Dropdown.Item>
           {/* <Dropdown.Item icon={GrEdit}><Link href={`/product/edit/${product.id}`}>Editar</Link></Dropdown.Item>
           <Dropdown.Item icon={GrAction}><Link href={`/product/kardex/${product.id}`}>Kardex</Link></Dropdown.Item> */}
-          { canDelete && <Dropdown.Item icon={GrClose} onClick={()=>isDeleteProduct(product)}><span className="text-red-700">Eliminar</span></Dropdown.Item> }
+          { canDelete && <Dropdown.Item icon={GrClose} onClick={product.quantity > 0 ? ()=> toast.error("Para eliminar el producto la cantidad debe ser cero") : ()=>isDeleteProduct(product)}><span className="text-red-700">Eliminar</span></Dropdown.Item> }
         </Dropdown>
       </td>}
 
@@ -130,6 +132,8 @@ export function ProductsTable(props: ProductsTableProps) {
           editable={canEdit}
           isShow={showProductDetail}
           /> 
+      <Toaster position="top-right" reverseOrder={false} />
+
  </div>
  );
 }

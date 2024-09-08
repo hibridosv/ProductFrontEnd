@@ -20,6 +20,14 @@ export const numberToMoney = (number: number, systemInformation = null as any): 
     return `${symbol}${num.toFixed(2)}`
 }
 
+
+export const numberToMoney4Digits = (number: number, systemInformation = null as any): string => {
+  let num = number ? number : 0;
+  let symbol =  systemInformation ? getCountryProperty(parseInt(systemInformation?.system?.country)).currency : '$';
+  return `${symbol}${num.toFixed(4)}`
+}
+
+
 export const getConfigStatus = (feature: string, config: any)=>{
     if (config?.configurations) {
      return config.configurations.find((configuration: any) => configuration.feature === feature)?.active === 1

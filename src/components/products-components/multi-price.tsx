@@ -4,7 +4,7 @@ import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
 import { postData, getData } from "@/services/resources";
 import { Price, Product } from "@/services/products";
-import { getConfigStatus, numberToMoney } from "@/utils/functions";
+import { getConfigStatus, numberToMoney, numberToMoney4Digits } from "@/utils/functions";
 import toast, { Toaster } from 'react-hot-toast';
 import { RadioButton, Option} from "../radio-button/radio-button";
 import { style } from "../../theme";
@@ -103,7 +103,7 @@ export function MultiPrice(props: ProductPrecioMultipleProps) {
     const listItems = newFilterPrices?.map((price: any) => (
         <tr key={price.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
             <td className="py-3 px-6">{price.qty}</td>
-            <td className="py-3 px-6">{numberToMoney(price.price, systemInformation)}</td>
+            <td className="py-3 px-6">{numberToMoney4Digits(price.price, systemInformation)}</td>
             <td className="py-3 px-6">{ priceTypeToText(price) }</td>
             <td className="py-3 px-6"><Button onClick={()=> deletePrice(price.id)} noText={true} preset={Preset.smallClose} /></td>
         </tr>

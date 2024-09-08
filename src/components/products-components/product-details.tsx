@@ -4,7 +4,7 @@ import { Tooltip } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { getData } from "@/services/resources";
 import { Alert } from "../alert/alert";
-import { numberToMoney } from "@/utils/functions";
+import { numberToMoney, numberToMoney4Digits } from "@/utils/functions";
 import { PresetTheme } from "@/services/enums";
 import { ListImagesOfProducts } from "../products-components/list-images";
 import { ProductLinkedModal } from "../products-components/product-add-linked-modal";
@@ -52,7 +52,7 @@ const listPrices = product?.prices?.map((price: Price):any => (
     <div className="border border-teal-300">
         <span className="mx-2">{price.qty }</span>
         <span className="mx-2">=</span>
-        <span className="mx-2">{ numberToMoney(price.price, systemInformation)}</span>
+        <span className="mx-2">{ numberToMoney4Digits(price.price, systemInformation)}</span>
         <span className="mx-2">{price.price_type == 1 && "N"} {price.price_type == 2 && "M"} {price.price_type == 3 && "P"}</span>
     </div>
   </div>
