@@ -1,35 +1,55 @@
-'use client'
 import { useContext, useEffect, useState } from 'react';
 import { dateToNumberValidate, permissionExists } from '@/utils/functions';
 import { ConfigContext } from '@/contexts/config-context';
 import { md5 } from 'js-md5';
 
-export function useCodeRequest(permmission: string) {
-    const [codeRequestPice, setCodeRequestPice] = useState({ requestPrice: false, required: false})
-    const { systemInformation } = useContext(ConfigContext);
-    const [isRequestCodeModal, setIsRequestCodeModal] = useState(false);
-    const [isShowError, setIsShowError] = useState(false);
+/**
+ * 
+ * @param permmission // nombre del permiso a validar si existe y esta activo
+ * @param reverseRequired // si es true // valida que el permiso sea true
+ * @returns 
+ */
 
-    useEffect(() => {
-        setCodeRequestPice(prevState => ({ ...prevState, 
-          requestPrice: permissionExists(systemInformation?.permission, permmission), 
-          required: permissionExists(systemInformation?.permission, permmission)  }
-        ));
-        // eslint-disable-next-line
-      }, [systemInformation]);
+export function useCodeRequest(permmission: string, reverseRequired: boolean = true) {
+  const [codeRequestPice, setCodeRequestPice] = useState({ requestPrice: false, required: false });
+  const { systemInformation } = useContext(ConfigContext);
+  const [isRequestCodeModal, setIsRequestCodeModal] = useState(false);
+  const [isShowError, setIsShowError] = useState(false);
 
-      const verifiedCode  = (code: string, ) => {
-        if (code.toUpperCase() == md5(dateToNumberValidate()).substring(0, 4).toUpperCase()) {
-            setCodeRequestPice(prevState => ({ ...prevState, 
-                requestPrice: permissionExists(systemInformation?.permission, permmission), 
-                required: false  }
-              ));
-            setIsRequestCodeModal(false)
-            return
-        }
-        setIsShowError(true)
-      }
-  
-    
-  return { codeRequestPice, verifiedCode, isRequestCodeModal, setIsRequestCodeModal, isShowError, setIsShowError };
+  useEffect(() => {
+    if (systemInformation?.permission) {
+      const permissionExistsFlag = permissionExists(systemInformation?.permission, permmission);
+      // Modificar el valor de `required` basado en `reverseRequired`
+      setCodeRequestPice(prevState => ({
+        ...prevState,
+        requestPrice: reverseRequired ? permissionExistsFlag : !permissionExistsFlag,
+        required: reverseRequired ? permissionExistsFlag : !permissionExistsFlag
+      }));
+    }
+
+    // eslint-disable-next-line
+  }, [systemInformation, reverseRequired]);
+
+  const verifiedCode = (code: string) => {
+    const permissionExistsFlag = permissionExists(systemInformation?.permission, permmission);
+    if (code.toUpperCase() === md5(dateToNumberValidate()).substring(0, 4).toUpperCase()) {
+      setCodeRequestPice(prevState => ({
+        ...prevState,
+        requestPrice: reverseRequired ? permissionExistsFlag : !permissionExistsFlag,
+        required: false
+      }));
+      setIsRequestCodeModal(false);
+      return;
+    }
+    setIsShowError(true);
+  };
+
+  return {
+    codeRequestPice,
+    verifiedCode,
+    isRequestCodeModal,
+    setIsRequestCodeModal,
+    isShowError,
+    setIsShowError
+  };
 }

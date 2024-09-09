@@ -26,7 +26,7 @@ export function SalesShowTotal(props: SalesShowTotalProps) {
   const [promotionStatus, setPromotionStatus] = useState<boolean>(false)
   const [showSeller, setShowSeller] = useState<boolean>(false)
   let pricesActive = [TypeOfPrice.normal];
-  const { codeRequestPice, verifiedCode, isRequestCodeModal, setIsRequestCodeModal, isShowError, setIsShowError } = useCodeRequest('code-request-prices');
+  const { codeRequestPice, verifiedCode, isRequestCodeModal, setIsRequestCodeModal, isShowError, setIsShowError } = useCodeRequest('code-request-prices', false);
 
   useEffect(() => {
     setMultiPriceStatus(getConfigStatus("is-multi-price", config))

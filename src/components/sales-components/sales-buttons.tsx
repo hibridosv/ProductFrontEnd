@@ -33,7 +33,7 @@ export function SalesButtons(props: SalesButtonsProps) {
   }
 
   let fieldsRequired = validateFields();
-
+  let payDisabled = !cashDrawer || (!invoice?.client_id && invoice?.invoice_assigned?.type == 3) || fieldsRequired && fieldsRequired.length > 0;
 
   return (<div>
           { !cashDrawer && <Alert
@@ -55,8 +55,7 @@ export function SalesButtons(props: SalesButtonsProps) {
         { fieldsRequired && fieldsRequired.length > 0 && 
           <div>Faltan los siguientes campos del cliente para facturar: <div className="text-red-500">{`${fieldsRequired.join(', ')}.`}</div></div> 
         }
-           <div>
-            <Button.Group>
+           <div className='flex'>
             <Tooltip animation="duration-300" content={
                 <div className="w-8/10">
                 { config.includes("sales-discount") && 
@@ -79,15 +78,9 @@ export function SalesButtons(props: SalesButtonsProps) {
                 <div className='button-left-grey clickeable'><IoMdOptions className='mr-1' /> Opciones</div>
             </Tooltip>
             
-            <Button color="blue" gradientMonochrome="info" onClick={()=>onClick(2)}>
-              <AiFillSave className='mr-1' /> Guardar </Button>
-            <Button color="green" gradientMonochrome="success" 
-                              disabled={!cashDrawer || (!invoice?.client_id && invoice?.invoice_assigned?.type == 3) || fieldsRequired && fieldsRequired.length > 0} 
-                              onClick={()=>onClick(1)}>
-               <FaRegMoneyBillAlt className='mr-1' /> Cobrar </Button>
-            <Button color="red" gradientMonochrome="failure" onClick={()=>onClick(3)}>
-               <GiCancel className='mr-1' /> Cancelar </Button>
-            </Button.Group>
+              <div className='button-cyan clickeable' onClick={()=>onClick(2)}> <AiFillSave className='mr-1' /> Guardar </div>
+              <div className={`button-lime ${payDisabled ? 'cursor-not-allowed' : 'clickeable'}`} onClick={payDisabled ? ()=>{} : ()=>onClick(1)}> <FaRegMoneyBillAlt className='mr-1' /> Cobrar </div>
+              <div className='button-red rounded-r-lg clickeable' onClick={()=>onClick(3)}><GiCancel className='mr-1' /> Cancelar </div>
            </div>
             
     </div>);

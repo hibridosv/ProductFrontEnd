@@ -4,6 +4,9 @@ import { NothingHere } from "../nothing-here/nothing-here";
 import { Button, Preset } from "../button/button";
 import { ConfigContext } from "@/contexts/config-context";
 import { useContext } from "react";
+import { RequestCodeModal } from "../common/request-code-modal";
+import { useCodeRequest } from "@/hooks/useCodeRequest";
+import { IoMdLock, IoMdUnlock } from "react-icons/io";
 
 
 
@@ -29,8 +32,13 @@ export enum OptionsClickSales {
 export function SalesQuickTable(props: SalesQuickProps) {
   const { records, onClick, config } = props;
   const { systemInformation } = useContext(ConfigContext);
-
-
+  const { codeRequestPice, 
+    verifiedCode, 
+    isRequestCodeModal, 
+    setIsRequestCodeModal, 
+    isShowError, 
+    setIsShowError } = useCodeRequest('code-request-change-price', false);
+    console.log(systemInformation)
 
   if (!records) return <NothingHere width="164" height="98" text="Agregue un producto" />;
   if (records.length == 0) return <NothingHere text="Agregue un producto" width="164" height="98" />;
@@ -44,7 +52,12 @@ export function SalesQuickTable(props: SalesQuickProps) {
       <td className="py-1 px-2">{ record.cod }</td>
       }
       <td className="py-1 px-2 truncate uppercase clickeable" onClick={()=> onClick(record, OptionsClickSales.productView)}>{ record.product.slice(0, 50) }</td>
-      <td className="py-1 px-2  cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.price)}>{ numberToMoney(record.unit_price ? record.unit_price : 0, systemInformation) }</td>
+      <td className="py-1 px-2  cursor-pointer" onClick={codeRequestPice.requestPrice && codeRequestPice.required ?
+         ()=> setIsRequestCodeModal(true) : 
+         ()=> onClick(record, OptionsClickSales.price)}>
+        { numberToMoney(record.unit_price ? record.unit_price : 0, systemInformation) }
+              
+              </td>
       {
         config.includes("sales-discount") ?
         <td className="py-1 px-2 truncate cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.discount)}>
@@ -115,5 +128,12 @@ export function SalesQuickTable(props: SalesQuickProps) {
       </tfoot>
     </table>
  </div>
+
+ <RequestCodeModal isShow={isRequestCodeModal}  
+      onClose={()=>setIsRequestCodeModal(false)} 
+      verifiedCode={verifiedCode} 
+      isShowError={isShowError} 
+      setIsShowError={()=>setIsShowError(false)} />
+
  </div>);
 }

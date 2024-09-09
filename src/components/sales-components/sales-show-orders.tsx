@@ -41,7 +41,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
     isRequestCodeModal, 
     setIsRequestCodeModal, 
     isShowError, 
-    setIsShowError } = useCodeRequest('code-request-prices');
+    setIsShowError } = useCodeRequest('code-request-prices', false);
   const remoteUrl = getUrlFromCookie();
   const tenant = getTenant();
   let pusherEvent = usePusher(`${tenant}-channel-orders`, 'get-orders-event', getConfigStatus("realtime-orders", config)).random;
@@ -113,7 +113,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
     <div className="sm:mt-3">
       { orders.length === 0 ? 
         <div className="w-full flex justify-center">
-          <Image loader={imageLoader} src={systemInformation && systemInformation?.system?.logo} alt="Hibrido" width={500} height={500} />
+          { systemInformation?.system && <Image loader={imageLoader} src={systemInformation?.system?.logo} alt="Hibrido" width={500} height={500} /> }
         </div> : 
           <div className="w-full rounded-lg border-2 shadow-md bg-black">
           <div className="text-center uppercase rounded-t-lg py-2 bg-teal-900 text-gray-200 font-medium">ORDENES PENDIENTES</div>
@@ -141,8 +141,9 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
             <span className='mx-2 text-sm font-bold animatex flex' onClick={
               codeRequestPice.requestPrice && codeRequestPice.required ? 
               ()=> setIsRequestCodeModal(true) : 
-              ()=>setPrice(setPriceOptions(priceType, pricesActive))
-              }>{setPriceName(priceType)} 
+              ()=>setPrice(setPriceOptions(priceType, pricesActive)) }>
+
+                {setPriceName(priceType)} 
               <span className="mt-1 ml-2">{codeRequestPice.requestPrice && codeRequestPice.required ? 
               <IoMdLock color="red" /> : <IoMdUnlock color="green" />}</span></span>
           </div>
