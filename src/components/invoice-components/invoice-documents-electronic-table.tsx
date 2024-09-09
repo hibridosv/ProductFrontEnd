@@ -1,12 +1,12 @@
 'use client'
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
-import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import { API_URL } from "@/constants";
 import { InvoiceDetailsModal } from "./invoice-details-modal";
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { Tooltip } from "flowbite-react";
+import { ErrorsSVModal } from "./errors-sv-modal";
 
 
 interface InvoiceDocumentsElectronicTableProps {
@@ -19,6 +19,9 @@ export function InvoiceDocumentsElectronicTable(props: InvoiceDocumentsElectroni
   const { records, isLoading, resendDocument } = props;
   const [showInvoiceModal, setShowInvoiceModal] = useState<boolean>(false);
   const [recordSelect, setRecordSelect] = useState<string>("");
+  const [showErrorsModal, setShowErrorsModal] = useState<boolean>(false);
+  const [errorsSelect, setErrorsSelect] = useState([]);
+
 
   if (isLoading) return <Loading />;
   if (!records.data) return <NothingHere width="164" height="98" />;
@@ -58,7 +61,7 @@ const tipoDTE = (dte: string)=>{
         }
       </td>
       <td className={`py-2 px-6 ${(record?.tipo_dte == "01" || record?.tipo_dte == "03") && 'clickeable'}`} onClick={(record?.tipo_dte == "01" || record?.tipo_dte == "03") ? ()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)} : ()=>{} } title="Ver detalles de documento"> { record?.numero_control } </td>
-      <td className="py-2 px-6" title={record?.descripcion_msg}>{ status(record?.status, record?.codigo_generacion) }</td>
+      <td className="py-2 px-6" title={record?.descripcion_msg} onClick={ record?.status == 3 ? ()=>{ setErrorsSelect(record?.observaciones); setShowErrorsModal(true); } : ()=>{}}>{ status(record?.status, record?.codigo_generacion) }</td>
       <td className="py-2 px-6">{ record?.email == 1 ? "Enviado" : "Sin Enviar" }</td>
       <td className="py-2 px-6">
       <Tooltip animation="duration-300" style="light" content={
@@ -105,5 +108,6 @@ const tipoDTE = (dte: string)=>{
 
  </div>
  <InvoiceDetailsModal isShow={showInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={recordSelect} />
+ <ErrorsSVModal isShow={showErrorsModal} onClose={()=>setShowErrorsModal(false)} errors={recordSelect} />
  </div>);
 }
