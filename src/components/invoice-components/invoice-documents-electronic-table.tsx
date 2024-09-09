@@ -108,6 +108,6 @@ const tipoDTE = (dte: string)=>{
 
  </div>
  <InvoiceDetailsModal isShow={showInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={recordSelect} />
- <ErrorsSVModal isShow={showErrorsModal} onClose={()=>setShowErrorsModal(false)} errors={recordSelect} />
+ <ErrorsSVModal isShow={showErrorsModal} onClose={()=>setShowErrorsModal(false)} errors={errorsSelect} />
  </div>);
 }
