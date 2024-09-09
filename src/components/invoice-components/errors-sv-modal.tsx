@@ -51,16 +51,24 @@ export function ErrorsSVModal(props: ErrorTableProps) {
   // Formatear los errores
   const formattedErrors = formatErrors(parsedErrors);
 
+  
+  function decodeUnicode(str: string): string {
+    return str.replace(/\\u([\dA-Fa-f]{4})/g, (match, grp) => {
+      return String.fromCharCode(parseInt(grp, 16));
+    });
+  }
+
+  parsedErrors = formattedErrors.map(error => decodeUnicode(error));
   return (
     <Modal size="xl" show={isShow} position="center" onClose={onClose}>
       <Modal.Header>DETALLES DE ERRORES</Modal.Header>
       <Modal.Body>
         <div>
-          {formattedErrors.length === 0 ? (
+          {parsedErrors.length === 0 ? (
             <p>No hay errores para mostrar.</p>
           ) : (
             <ul className="list-disc pl-5">
-              {formattedErrors.map((error, idx) => (
+              {parsedErrors.map((error, idx) => (
                 <li key={idx} className="text-red-600">{error}</li>
               ))}
             </ul>
