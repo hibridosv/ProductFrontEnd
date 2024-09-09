@@ -20,26 +20,27 @@ export function ErrorsSVModal(props: ErrorTableProps) {
 
   // Formatear errores
   const formattedErrors = formatErrors(errors);
-
-  return (
-    <Modal size="xl" show={isShow} position="center" onClose={onClose}>
-      <Modal.Header>DETALLES DE ERRORES</Modal.Header>
-      <Modal.Body>
-        <div>
-          {formattedErrors.length === 0 ? (
-            <p>No hay errores para mostrar.</p>
-          ) : (
-            <ul className="list-disc pl-5">
-              {formattedErrors.map((error, idx) => (
-                <li key={idx} className="text-red-600">{error}</li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </Modal.Body>
-      <Modal.Footer className="flex justify-end gap-4">
-        <Button onClick={onClose} preset={Preset.close} />
-      </Modal.Footer>
-    </Modal>
-  );
+    console.log(formatErrors)
+  return <></>
+  // return (
+  //   <Modal size="xl" show={isShow} position="center" onClose={onClose}>
+  //     <Modal.Header>DETALLES DE ERRORES</Modal.Header>
+  //     <Modal.Body>
+  //       <div>
+  //         {formattedErrors.length === 0 ? (
+  //           <p>No hay errores para mostrar.</p>
+  //         ) : (
+  //           <ul className="list-disc pl-5">
+  //             {formattedErrors.map((error, idx) => (
+  //               <li key={idx} className="text-red-600">{error}</li>
+  //             ))}
+  //           </ul>
+  //         )}
+  //       </div>
+  //     </Modal.Body>
+  //     <Modal.Footer className="flex justify-end gap-4">
+  //       <Button onClick={onClose} preset={Preset.close} />
+  //     </Modal.Footer>
+  //   </Modal>
+  // );
 }
