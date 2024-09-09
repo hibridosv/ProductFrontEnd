@@ -59,6 +59,7 @@ export function ErrorsSVModal(props: ErrorTableProps) {
   }
 
   parsedErrors = formattedErrors.map(error => decodeUnicode(error));
+  
   return (
     <Modal size="xl" show={isShow} position="center" onClose={onClose}>
       <Modal.Header>DETALLES DE ERRORES</Modal.Header>
