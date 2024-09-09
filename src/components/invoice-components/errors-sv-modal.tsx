@@ -20,7 +20,7 @@ export function ErrorsSVModal(props: ErrorTableProps) {
 
   // Formatear errores
   const formattedErrors = formatErrors(errors);
-    console.log(formatErrors)
+    console.log(formattedErrors)
   return <></>
   // return (
   //   <Modal size="xl" show={isShow} position="center" onClose={onClose}>
