@@ -10,7 +10,7 @@ import { style } from "../../theme";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 import { ContactDetails } from "./contact-details.";
-import { formatDocument, getConfigStatus, getCountryNameByCode, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
+import { formatDocument, formatDuiWithAll, formatNumberPhone, getConfigStatus, getCountryNameByCode, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
 import { ContactDepartamentModal } from "./contact-departament-modal";
 import { ContactTownModal } from "./contact-town-modal";
 import { ConfigContext } from "@/contexts/config-context";
@@ -50,16 +50,16 @@ export function ContactAddModal(props: ContactAddModalProps) {
         setValue("is_referred", record.is_referred);
 
         setValue("name", record.name);
-        setValue("id_number", record.id_number);
-        setValue("phone", record.phone);
+        setValue("id_number", formatDuiWithAll(record.id_number));
+        setValue("phone", formatNumberPhone(record.phone));
         setValue("address", record.address);
         setValue("email", record.email);
         setValue("code", record.code);
         setValue("birthday", record.birthday);
 
         setValue("taxpayer", record.taxpayer);
-        setValue("document", record.document);
-        setValue("register", record.register);
+        setValue("document", formatDuiWithAll(record.document));
+        setValue("register", formatDuiWithAll(record.register));
         setValue("roar", record.roar);
         setValue("address_doc", record.address_doc);
         setValue("taxpayer_type", record.taxpayer_type);
