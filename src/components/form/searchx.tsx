@@ -30,7 +30,7 @@ export function SearchInput(props: SearchInputProps) {
   const loadData = async () => {
     try {
       setIsLoading(true)
-      const response = await getData(`products?sort=description&filterWhere[is_restaurant]==0${searchTerm}`);
+      const response = await getData(`products?sort=description&filterWhere[status]==1&filterWhere[is_restaurant]==0${searchTerm}`);
       setProducts(response.data);
     } catch (error) {
       console.error(error);

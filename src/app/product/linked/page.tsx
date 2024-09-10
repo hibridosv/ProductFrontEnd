@@ -20,7 +20,7 @@ export default function Linkeds() {
   const loadData = async () => {
     setIsLoading(true);
     try {
-      const response = await getData(`products?sort=description&filterWhere[is_restaurant]==0&filterWhere[product_type]==3&included=prices,category,quantityUnit,provider,brand&perPage=10${currentPage}${searchTerm}`);
+      const response = await getData(`products?sort=description&filterWhere[status]==1&filterWhere[is_restaurant]==0&filterWhere[product_type]==3&included=prices,category,quantityUnit,provider,brand&perPage=10${currentPage}${searchTerm}`);
       setProductos(response);
     } catch (error) {
       console.error(error);

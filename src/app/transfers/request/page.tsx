@@ -269,7 +269,7 @@ const getRequest = async (tansferId: string) =>{
 
               <div className="m-4">
               <SearchInputProduct recordSelected={handleClickOnProduct} placeholder="Buscar Producto" 
-              url="products?sort=description&filterWhere[is_restaurant]==0&selected=id,cod,description,product_type&included=prices" />
+              url="products?sort=description&filterWhere[status]==1&filterWhere[is_restaurant]==0&selected=id,cod,description,product_type&included=prices" />
               </div>
 
 

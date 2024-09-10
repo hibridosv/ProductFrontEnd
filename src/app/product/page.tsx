@@ -22,7 +22,7 @@ export default function ViewProducts() {
   const loadData = async () => {
       setIsLoading(true);
       try {
-        const response = await getData(`products?sort=-cod&filterWhere[is_restaurant]==0&perPage=10${currentPage}${searchTerm}`);
+        const response = await getData(`products?sort=-cod&filterWhere[status]==1&filterWhere[is_restaurant]==0&perPage=10${currentPage}${searchTerm}`);
         setProductos(response);
         setLinks([
           {"name": `DESCARGAR EN EXCEL`, "link": encodeURI(`${remoteUrl}/download/excel/inventory/`), "isUrl": true}, 

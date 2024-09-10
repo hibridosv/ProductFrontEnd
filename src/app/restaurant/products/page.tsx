@@ -16,7 +16,7 @@ export default function Page() {
     const loadData = async () => {
         setIsLoading(true);
         try {
-          const cat = await getData(`restaurant/products?sort=created_at&included=restaurant.workstation,prices,category,assigments.option,menu_order&filterWhere[is_restaurant]==1`);
+          const cat = await getData(`restaurant/products?sort=created_at&included=restaurant.workstation,prices,category,assigments.option,menu_order&filterWhere[status]==1&filterWhere[is_restaurant]==1`);
           setProducts(cat.data);
         } catch (error) {
             console.error(error);
