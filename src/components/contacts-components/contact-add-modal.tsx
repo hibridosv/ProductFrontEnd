@@ -174,12 +174,12 @@ export function ContactAddModal(props: ContactAddModalProps) {
             <div className="w-full md:w-1/2 px-3 mb-2">
                 <label htmlFor="id_number" className={style.inputLabel}>Numero de documento</label>
                 <input type="text" id="id_number" {...register("id_number", {required: true})} 
-                 onBlur={(e) => setValue('document', e.target.value)} className={`${style.input}`} />
+                 onBlur={(e) => setValue('document', e.target.value)} pattern="^([0-9]{14}|[0-9]{9})$" className={`${style.input}`} />
             </div> 
 
             <div className="w-full md:w-1/2 px-3 mb-2">
                 <label htmlFor="phone" className={style.inputLabel}>Tel&eacute;fono</label>
-                <input type="text" id="phone" {...register("phone")} className={`${style.input}`} />
+                <input type="text" id="phone" {...register("phone")} pattern="^[0-9]{8}$" className={`${style.input}`} />
             </div> 
 
             <div className="w-full md:w-full px-3 mb-2">
@@ -190,7 +190,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
             <div className="w-full md:w-full px-3 mb-2">
                 <label htmlFor="email" className={style.inputLabel}>Email</label>
-                <input type="text" id="email" {...register("email")} className={style.input} />
+                <input type="email" id="email" {...register("email")} className={style.input} />
             </div>
 
                             
@@ -213,12 +213,12 @@ export function ContactAddModal(props: ContactAddModalProps) {
                 
                     <div className="w-full md:w-1/2 px-3 mb-2">
                         <label htmlFor="document" className={style.inputLabel}>Documento</label>
-                        <input type="text" id="document" {...register("document")} className={style.input} />
+                        <input type="text" id="document" {...register("document")} pattern="^([0-9]{14}|[0-9]{9})$" className={style.input} />
                     </div>
 
                     <div className="w-full md:w-1/2 px-3 mb-2">
                         <label htmlFor="register" className={style.inputLabel}>Registro</label>
-                        <input type="text" id="register" {...register("register")} className={style.input} />
+                        <input type="text" id="register" {...register("register")} pattern="^[0-9]{1,8}$" className={style.input} />
                     </div>
 
                     <div className="w-full md:w-full px-3 mb-2">
