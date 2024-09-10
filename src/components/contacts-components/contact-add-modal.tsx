@@ -51,7 +51,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
         setValue("name", record.name);
         setValue("id_number", formatDuiWithAll(record.id_number));
-        setValue("phone", formatNumberPhone(record.phone));
+        setValue("phone", record.phone);
         setValue("address", record.address);
         setValue("email", record.email);
         setValue("code", record.code);
@@ -180,7 +180,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
             <div className="w-full md:w-1/2 px-3 mb-2">
                 <label htmlFor="phone" className={style.inputLabel}>Tel&eacute;fono</label>
-                <input type="text" id="phone" {...register("phone")} placeholder="2250-9885" pattern="^[0-9]{4}-[0-9]{4}?$" className={`${style.input}`} />
+                <input type="text" id="phone" {...register("phone")} placeholder="2250-9885" pattern="^[a-zA-Z0-9+()]{8,30}?$" className={`${style.input}`} />
             </div> 
 
             <div className="w-full md:w-full px-3 mb-2">
