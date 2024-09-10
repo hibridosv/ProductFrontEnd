@@ -174,7 +174,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
             <div className="w-full md:w-1/2 px-3 mb-2">
                 <label htmlFor="id_number" className={style.inputLabel}>Numero de documento</label>
                 <input type="text" id="id_number" {...register("id_number", {required: true})} 
-                 onBlur={(e) => setValue('document', e.target.value)} placeholder="03659854-5 o 0207-210690-102-9" pattern="^([0-9]{8}-[0-9]{1}|[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1})?$" className={`${style.input}`} />
+                 onBlur={(e) => setValue('document', e.target.value)} placeholder="0207-210690-102-9" pattern="^([0-9]{8}-[0-9]{1}|[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1})?$" className={`${style.input}`} />
             </div> 
 
             <div className="w-full md:w-1/2 px-3 mb-2">
@@ -213,7 +213,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
                 
                     <div className="w-full md:w-1/2 px-3 mb-2">
                         <label htmlFor="document" className={style.inputLabel}>Documento</label>
-                        <input type="text" id="document" {...register("document")} placeholder="03659854-5 o 0207-210690-102-9" pattern="^([0-9]{8}-[0-9]{1}|[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1})?$" className={style.input} />
+                        <input type="text" id="document" {...register("document")} placeholder="0207-210690-102-9" pattern="^([0-9]{8}-[0-9]{1}|[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1})?$" className={style.input} />
                     </div>
 
                     <div className="w-full md:w-1/2 px-3 mb-2">
