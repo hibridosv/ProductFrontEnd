@@ -31,21 +31,21 @@ export function ErrorsSVModal(props: ErrorTableProps) {
       
       parsedErrors = cleanedErrors;
     } catch (error) {
-      console.error("Error al procesar los errores:", error);
-      return <p>Error al procesar los errores. Formato no válido.</p>;
+      // console.error("Error al procesar los errores:", error);
+      return <></>;
     }
   } else if (Array.isArray(errors)) {
     // Si errors es un array, simplemente convertir a string
     parsedErrors = errors.map(error => error.toString());
   } else {
     // Si errors no es un string ni un array, mostrar mensaje de error
-    console.error("El parámetro 'errors' no es una cadena de texto ni un array.");
-    return <p>Error al procesar los errores. El formato proporcionado no es válido.</p>;
+    // console.error("El parámetro 'errors' no es una cadena de texto ni un array.");
+    return <></>;
   }
 
   if (parsedErrors.length === 0) {
-    console.error("No hay errores para mostrar.");
-    return <p>No hay errores para mostrar.</p>;
+    // console.error("No hay errores para mostrar.");
+    return <></>;
   }
 
   // Formatear los errores
