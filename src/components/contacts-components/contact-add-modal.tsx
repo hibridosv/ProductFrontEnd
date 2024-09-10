@@ -179,7 +179,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
             <div className="w-full md:w-1/2 px-3 mb-2">
                 <label htmlFor="phone" className={style.inputLabel}>Tel&eacute;fono</label>
-                <input type="text" id="phone" {...register("phone")} placeholder="60659885" pattern="^[0-9]{8}?$" className={`${style.input}`} />
+                <input type="text" id="phone" {...register("phone")} placeholder="2250-9885" pattern="^[0-9]{4}-[0-9]{4}?$" className={`${style.input}`} />
             </div> 
 
             <div className="w-full md:w-full px-3 mb-2">
