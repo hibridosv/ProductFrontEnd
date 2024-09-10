@@ -39,8 +39,12 @@ useEffect(() => {
 const deleteProduct = async (iden: number) => {
   try {
     const response = await postData(`products/${iden}`, 'DELETE');
-    await loadData();
-    toast.success( response.message);
+    if (response.type == "error") {
+      toast.error(response.message);
+    } else {
+      toast.success(response.message);
+      await loadData();
+    }
   } catch (error) {
     console.error(error);
     toast.error("Ha ocurrido un error!");

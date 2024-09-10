@@ -22,7 +22,7 @@ export default function ViewProducts() {
   const loadData = async () => {
       setIsLoading(true);
       try {
-        const response = await getData(`products?sort=-cod&filterWhere[is_restaurant]==0&perPage=10${currentPage}${searchTerm}`);
+        const response = await getData(`products?sort=-cod&filterWhere[status]==1&filterWhere[is_restaurant]==0&perPage=10${currentPage}${searchTerm}`);
         setProductos(response);
         setLinks([
           {"name": `DESCARGAR EN EXCEL`, "link": encodeURI(`${remoteUrl}/download/excel/inventory/`), "isUrl": true}, 
@@ -62,8 +62,12 @@ export default function ViewProducts() {
   const deleteProduct = async (iden: number) => {
     try {
       const response = await postData(`products/${iden}`, 'DELETE');
-      toast.success(response.message);
-      await loadData();
+      if (response.type == "error") {
+        toast.error(response.message);
+      } else {
+        toast.success(response.message);
+        await loadData();
+      }
     } catch (error) {
       console.error(error);
       toast.error("Ha ocurrido un error!");

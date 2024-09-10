@@ -370,6 +370,16 @@ export function formatDocument(cadena: string) {
   return cadena.replace(/-/g, '');
 }
 
+
+export function formatNumberPhone(num: any) {
+  if (!num || num.length == 0) return;
+  let numStr = num.toString();
+  if (numStr.length !== 8) {
+      return num
+  }
+  return `${numStr.slice(0, 4)}-${numStr.slice(4, 8)}`;
+}
+
 export function formatDuiWithAll(cadena: string) {
   if(!cadena) return; 
   var doc = cadena.replace(/-/g, '');

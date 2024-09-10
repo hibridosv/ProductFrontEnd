@@ -23,7 +23,7 @@ export default function Page() {
 
     const loadData = async () => {
         try {
-        const response = await getData(`products?sort=description&filterWhere[is_restaurant]==0&perPage=10${searchTerm}`);
+        const response = await getData(`products?sort=description&filterWhere[status]==1&filterWhere[is_restaurant]==0&perPage=10${searchTerm}`);
         setProducts(response.data);
         } catch (error) {
         console.error(error);

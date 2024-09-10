@@ -20,7 +20,7 @@ export default function Linkeds() {
   const loadData = async () => {
     setIsLoading(true);
     try {
-      const response = await getData(`products?sort=description&filterWhere[is_restaurant]==0&filterWhere[product_type]==3&included=prices,category,quantityUnit,provider,brand&perPage=10${currentPage}${searchTerm}`);
+      const response = await getData(`products?sort=description&filterWhere[status]==1&filterWhere[is_restaurant]==0&filterWhere[product_type]==3&included=prices,category,quantityUnit,provider,brand&perPage=10${currentPage}${searchTerm}`);
       setProductos(response);
     } catch (error) {
       console.error(error);
@@ -40,8 +40,12 @@ useEffect(() => {
 const deleteProduct = async (iden: number) => {
   try {
     const response = await postData(`products/${iden}`, 'DELETE');
-      toast.success( response.message);
-    await loadData();
+    if (response.type == "error") {
+      toast.error(response.message);
+    } else {
+      toast.success(response.message);
+      await loadData();
+    }
   } catch (error) {
     console.error(error);
       toast.error("Ha ocurrido un error!");

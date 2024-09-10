@@ -10,7 +10,7 @@ import { style } from "../../theme";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 import { ContactDetails } from "./contact-details.";
-import { formatDocument, getConfigStatus, getCountryNameByCode, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
+import { formatDocument, formatDuiWithAll, formatNumberPhone, getConfigStatus, getCountryNameByCode, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
 import { ContactDepartamentModal } from "./contact-departament-modal";
 import { ContactTownModal } from "./contact-town-modal";
 import { ConfigContext } from "@/contexts/config-context";
@@ -50,7 +50,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
         setValue("is_referred", record.is_referred);
 
         setValue("name", record.name);
-        setValue("id_number", record.id_number);
+        setValue("id_number", formatDuiWithAll(record.id_number));
         setValue("phone", record.phone);
         setValue("address", record.address);
         setValue("email", record.email);
@@ -58,8 +58,8 @@ export function ContactAddModal(props: ContactAddModalProps) {
         setValue("birthday", record.birthday);
 
         setValue("taxpayer", record.taxpayer);
-        setValue("document", record.document);
-        setValue("register", record.register);
+        setValue("document", formatDuiWithAll(record.document));
+        setValue("register", formatDuiWithAll(record.register));
         setValue("roar", record.roar);
         setValue("address_doc", record.address_doc);
         setValue("taxpayer_type", record.taxpayer_type);
@@ -86,6 +86,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
     data.id_number = formatDocument(data.id_number) // se registr sin guiones
     data.document = formatDocument(data.document) // se registr sin guiones
     data.register = formatDocument(data.register) // se registr sin guiones
+    data.phone = formatDocument(data.phone) // se registr sin guiones
     try {
       setIsSending(true)
       const response = await postData(`contacts`, "POST", data);
@@ -174,12 +175,12 @@ export function ContactAddModal(props: ContactAddModalProps) {
             <div className="w-full md:w-1/2 px-3 mb-2">
                 <label htmlFor="id_number" className={style.inputLabel}>Numero de documento</label>
                 <input type="text" id="id_number" {...register("id_number", {required: true})} 
-                 onBlur={(e) => setValue('document', e.target.value)} className={`${style.input}`} />
+                 onBlur={(e) => setValue('document', e.target.value)} placeholder="0207-210690-102-9" pattern="^([0-9]{8}-[0-9]{1}|[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1})?$" className={`${style.input}`} />
             </div> 
 
             <div className="w-full md:w-1/2 px-3 mb-2">
                 <label htmlFor="phone" className={style.inputLabel}>Tel&eacute;fono</label>
-                <input type="text" id="phone" {...register("phone")} className={`${style.input}`} />
+                <input type="text" id="phone" {...register("phone")} placeholder="2250-9885" pattern="^[a-zA-Z0-9+()]{8,30}?$" className={`${style.input}`} />
             </div> 
 
             <div className="w-full md:w-full px-3 mb-2">
@@ -190,7 +191,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
 
             <div className="w-full md:w-full px-3 mb-2">
                 <label htmlFor="email" className={style.inputLabel}>Email</label>
-                <input type="text" id="email" {...register("email")} className={style.input} />
+                <input type="email" id="email" {...register("email")} className={style.input} />
             </div>
 
                             
@@ -213,12 +214,12 @@ export function ContactAddModal(props: ContactAddModalProps) {
                 
                     <div className="w-full md:w-1/2 px-3 mb-2">
                         <label htmlFor="document" className={style.inputLabel}>Documento</label>
-                        <input type="text" id="document" {...register("document")} className={style.input} />
+                        <input type="text" id="document" {...register("document")} placeholder="0207-210690-102-9" pattern="^([0-9]{8}-[0-9]{1}|[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1})?$" className={style.input} />
                     </div>
 
                     <div className="w-full md:w-1/2 px-3 mb-2">
                         <label htmlFor="register" className={style.inputLabel}>Registro</label>
-                        <input type="text" id="register" {...register("register")} className={style.input} />
+                        <input type="text" id="register" {...register("register")} placeholder="021545-9" pattern="^[0-9]{1,6}-[0-9]{1}?$" className={style.input} />
                     </div>
 
                     <div className="w-full md:w-full px-3 mb-2">
