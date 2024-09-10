@@ -29,7 +29,7 @@ export function ErrorsGtModal(props: ErrorTableProps) {
   }
 
   if (!Array.isArray(parsedErrors)) {
-    console.log("Invalid data provided. Expected an array of errors");
+    // console.log("Invalid data provided. Expected an array of errors");
     return <></>;
   }
 
