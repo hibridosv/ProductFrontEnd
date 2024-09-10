@@ -374,7 +374,7 @@ export function formatDocument(cadena: string) {
 export function formatNumberPhone(num: number) {
   let numStr = num.toString();
   if (numStr.length !== 8) {
-      return
+      return num
   }
   return `${numStr.slice(0, 4)}-${numStr.slice(4, 8)}`;
 }
