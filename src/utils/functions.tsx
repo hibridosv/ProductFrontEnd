@@ -372,6 +372,7 @@ export function formatDocument(cadena: string) {
 
 
 export function formatNumberPhone(num: any) {
+  if (!num || num.length == 0) return;
   let numStr = num.toString();
   if (numStr.length !== 8) {
       return num
