@@ -86,6 +86,7 @@ export function ContactAddModal(props: ContactAddModalProps) {
     data.id_number = formatDocument(data.id_number) // se registr sin guiones
     data.document = formatDocument(data.document) // se registr sin guiones
     data.register = formatDocument(data.register) // se registr sin guiones
+    data.phone = formatDocument(data.phone) // se registr sin guiones
     try {
       setIsSending(true)
       const response = await postData(`contacts`, "POST", data);
