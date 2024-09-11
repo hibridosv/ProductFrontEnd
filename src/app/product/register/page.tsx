@@ -259,6 +259,7 @@ export default function AddProduct() {
               RowTable.prices,
             ]}
             onDelete={() => {}}
+            updatePrice={()=>{}}
           />
         </div>
       </div>

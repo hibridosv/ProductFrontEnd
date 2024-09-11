@@ -52,6 +52,24 @@ const deleteProduct = async (iden: number) => {
   } 
 }
 
+
+const updatePrice = async (code: any) =>{
+  setIsLoading(true);
+  try {
+    const response = await getData(code ? `get/price/${code}` : `get/prices`);
+    if (response.type == 'successful') {
+      await loadData();
+    } else {
+      toast.error(response.message);
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setIsLoading(false);
+  }
+}
+
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
            <div className="col-span-3">
@@ -61,6 +79,7 @@ const deleteProduct = async (iden: number) => {
                 products={productos}
                 onDelete={deleteProduct} 
                 withOutRows={[RowTable.brand, RowTable.category]}
+                updatePrice={updatePrice}
                  />
               }
               <Pagination 
