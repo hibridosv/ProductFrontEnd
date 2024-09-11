@@ -13,7 +13,6 @@ import SkeletonTable from "@/components/common/skeleton-table";
 export default function ViewProducts() {
   const [isLoading, setIsLoading] = useState(false);
   const [productos, setProductos] = useState([]);
-  const [ statics, setStatics ] = useState([])
   const [ links, setLinks ] = useState([] as any)
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
@@ -47,17 +46,6 @@ export default function ViewProducts() {
   }, [currentPage, searchTerm]);
 
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const data = await getData("special/products");
-        setStatics(data);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, [productos]);
-
 
   const deleteProduct = async (iden: number) => {
     try {
@@ -74,6 +62,23 @@ export default function ViewProducts() {
     } 
   }
 
+  const updatePrice = async (code: any) =>{
+    setIsLoading(true);
+    try {
+      const response = await getData(code ? `get/price/${code}` : `get/prices`);
+      if (response.type == 'successful') {
+        await loadData();
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+
   return (
        <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
               <div className="col-span-3">
@@ -84,6 +89,7 @@ export default function ViewProducts() {
                 products={productos}
                 onDelete={deleteProduct} 
                 withOutRows={[RowTable.brand]}
+                updatePrice={updatePrice}
                  />
                 
                 </>
@@ -97,10 +103,16 @@ export default function ViewProducts() {
                 <RightSideProducts 
                 products={productos}
                 handleSearchTerm={handleSearchTerm}
-                statics={statics}
                  />
 
               <LinksList links={links} separator="?" />
+                    <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer" onClick={()=>updatePrice(null)}>
+                        ACTUALIZAR PRECIOS
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </li>
             </div>
       <Toaster position="top-right" reverseOrder={false} />
       </div>

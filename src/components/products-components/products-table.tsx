@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Product, Products as ProductsInterface } from "../../services/products";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { IoMdOptions } from "react-icons/io";
-import {  GrClose } from "react-icons/gr";
+import {  GrClose, GrUpdate } from "react-icons/gr";
 import { MdOutlineHomeRepairService } from "react-icons/md"
 import { FaLayerGroup } from "react-icons/fa"
 import { Dropdown } from "flowbite-react";
@@ -27,24 +27,29 @@ export enum RowTable {
 interface ProductsTableProps {
   products?: ProductsInterface | any;
   onDelete: (id: number) => void;
+  updatePrice: (cod: string) => void;
   withOutRows?: RowTable[];
 }
 
 export function ProductsTable(props: ProductsTableProps) {
-  const { products, onDelete, withOutRows } = props;
+  const { products, onDelete, withOutRows, updatePrice } = props;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showProductDetail, setShowProductDetail] = useState(false);
   const [canDelete, setCanDelete] = useState(false);
   const [canEdit, setCanEdit] = useState(false);
+  const [canTransfer, setCanTransfer] = useState(false);
   const [selectProduct, setSelectProduct] = useState<Product>({} as Product);
   const { systemInformation } = useContext(ConfigContext);
 
+  
   useEffect(() => {
     setCanDelete( permissionExists(systemInformation?.permission, 'product-delete'));
     setCanEdit( permissionExists(systemInformation?.permission, 'product-edit'));
+    setCanTransfer( permissionExists(systemInformation?.permission, 'config-transfers'));
     // eslint-disable-next-line
   }, [systemInformation]);
 
+  
   if (!products.data) return <NothingHere width="164" height="98" />;
   if (products.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
@@ -93,6 +98,7 @@ export function ProductsTable(props: ProductsTableProps) {
           <Dropdown.Item onClick={()=>showProduct(product)}>VER PRODUCTO</Dropdown.Item>
           {/* <Dropdown.Item icon={GrEdit}><Link href={`/product/edit/${product.id}`}>Editar</Link></Dropdown.Item>
           <Dropdown.Item icon={GrAction}><Link href={`/product/kardex/${product.id}`}>Kardex</Link></Dropdown.Item> */}
+          { canTransfer && <Dropdown.Item icon={GrUpdate} onClick={()=>updatePrice(product.cod)}>Actualizar Precios</Dropdown.Item> }
           { canDelete && <Dropdown.Item icon={GrClose} onClick={()=>isDeleteProduct(product)}><span className="text-red-700">Eliminar</span></Dropdown.Item> }
         </Dropdown>
       </td>}

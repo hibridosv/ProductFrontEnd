@@ -7,11 +7,10 @@ import { CreditsShowTotal } from "../credits-components/credits-show-total";
 export interface RightSideProductsProps {
     products?: ProductsInterface | any;
     handleSearchTerm: (term: string) => void;
-    statics?: any;
 }
 
 export function RightSideProducts(props: RightSideProductsProps){
-const { products, handleSearchTerm, statics } = props;
+const { products, handleSearchTerm } = props;
 
 const loadingSmall = (value: any)=>{
     if (value || value != null) {
@@ -39,23 +38,23 @@ return (<div>
     { !products.data ? <Loading text="" /> : 
         <CreditsShowTotal quantity={products?.meta?.total} text="PRODUCTOS" number />
     }
-    { statics && 
+    { products.data && 
         <div className="m-5 border-2 shadow-xl rounded-md">
             <div className="m-2 grid grid-cols-6">
                 <span className="col-span-4 px-2 xl:text-xl">Total Productos: </span>
-                <span className="col-span-2 px-2 xl:text-xl text-right">{ loadingSmall(statics.totalProducts)}</span>
+                <span className="col-span-2 px-2 xl:text-xl text-right">{ loadingSmall(products.data.length)}</span>
             </div>
             <div className="m-2 grid grid-cols-6">
                 <span className="col-span-4 px-2 xl:text-xl">Productos: </span>
-                <span className="col-span-2 px-2 xl:text-xl text-right">{loadingSmall(statics.products)}</span>
+                <span className="col-span-2 px-2 xl:text-xl text-right">{loadingSmall(products.data.filter((product: any) => product.status === 1 && product.product_type === 1).length)}</span>
             </div>
             <div className="m-2 grid grid-cols-6">
                 <span className="col-span-4 px-2 xl:text-xl">Servicios: </span>
-                <span className="col-span-2 px-2 xl:text-xl text-right">{loadingSmall(statics.services)}</span>
+                <span className="col-span-2 px-2 xl:text-xl text-right">{loadingSmall(products.data.filter((product: any) => product.status === 1 && product.product_type === 2).length)}</span>
             </div>
             <div className="m-2 grid grid-cols-6">
                 <span className="col-span-4 px-2 xl:text-xl">Relacionados: </span>
-                <span className="col-span-2 px-2 xl:text-xl text-right">{loadingSmall(statics.linked)}</span>
+                <span className="col-span-2 px-2 xl:text-xl text-right">{loadingSmall(products.data.filter((product: any) => product.status === 1 && product.product_type === 2).length)}</span>
             </div>
         </div>
     }
