@@ -86,7 +86,6 @@ export function ContactAddModal(props: ContactAddModalProps) {
     data.id_number = formatDocument(data.id_number) // se registr sin guiones
     data.document = formatDocument(data.document) // se registr sin guiones
     data.register = formatDocument(data.register) // se registr sin guiones
-    data.phone = formatDocument(data.phone) // se registr sin guiones
     try {
       setIsSending(true)
       const response = await postData(`contacts`, "POST", data);
@@ -169,12 +168,12 @@ export function ContactAddModal(props: ContactAddModalProps) {
               isShowCode && 
               <div className="w-full md:w-full px-3 mb-2">
                   <label htmlFor="code" className={style.inputLabel}>Código</label>
-                  <input type="text" id="code" {...register("code", {required: true})} className={`${style.input}`} />
+                  <input type="text" id="code" {...register("code")} className={`${style.input}`} />
               </div> 
             }
             <div className="w-full md:w-1/2 px-3 mb-2">
                 <label htmlFor="id_number" className={style.inputLabel}>Numero de documento</label>
-                <input type="text" id="id_number" {...register("id_number", {required: true})} 
+                <input type="text" id="id_number" {...register("id_number")} 
                  onBlur={(e) => setValue('document', e.target.value)} placeholder="0207-210690-102-9" pattern="^([0-9]{8}-[0-9]{1}|[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1})?$" className={`${style.input}`} />
             </div> 
 

@@ -61,7 +61,7 @@ const tipoDTE = (dte: string)=>{
         }
       </td>
       <td className={`py-2 px-6 ${(record?.tipo_dte == "01" || record?.tipo_dte == "03") && 'clickeable'}`} onClick={(record?.tipo_dte == "01" || record?.tipo_dte == "03") ? ()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)} : ()=>{} } title="Ver detalles de documento"> { record?.numero_control } </td>
-      <td className="py-2 px-6" title={record?.descripcion_msg} onClick={ record?.status == 3 ? ()=>{ setErrorsSelect(record?.observaciones); setShowErrorsModal(true); } : ()=>{}}>{ status(record?.status, record?.codigo_generacion) }</td>
+      <td className={`py-2 px-6 ${record?.status == 3 && 'clickeable'}`} title={record?.descripcion_msg} onClick={ record?.status == 3 ? ()=>{ setErrorsSelect(record?.observaciones); setShowErrorsModal(true); } : ()=>{}}>{ status(record?.status, record?.codigo_generacion) }</td>
       <td className="py-2 px-6">{ record?.email == 1 ? "Enviado" : "Sin Enviar" }</td>
       <td className="py-2 px-6">
       <Tooltip animation="duration-300" style="light" content={
