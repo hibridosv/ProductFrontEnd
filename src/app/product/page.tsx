@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { getData, postData } from "@/services/resources";
 import { ProductsTable, RightSideProducts, Loading, Pagination, ViewTitle } from "@/components";
 import { usePagination } from "@/components/pagination";
@@ -18,6 +18,7 @@ export default function ViewProducts() {
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
   const remoteUrl = getUrlFromCookie();
+  const [previousSearchTerm, setPreviousSearchTerm] = useState<string | null>(null); // Estado para guardar el valor anterior
 
   const loadData = async () => {
       setIsLoading(true);
@@ -38,23 +39,19 @@ export default function ViewProducts() {
 
 
   useEffect(() => {
-    const previousSearchTerm = useRef(searchTerm); // Ref para guardar el valor anterior
-  
     const fetchData = async () => {
       await loadData();
     };
-  
-    // Verificar si `searchTerm` ha cambiado comparándolo con el valor anterior
-    if (searchTerm !== previousSearchTerm.current) {
-      handlePageNumber("&page=1"); // Si ha cambiado, establece la página en 1
+
+    if (searchTerm !== previousSearchTerm) {
+      // Si el `searchTerm` ha cambiado, reinicia la paginación
+      handlePageNumber("&page=1");
+      setPreviousSearchTerm(searchTerm); // Actualiza el valor de `previousSearchTerm`
     } else {
-      fetchData(); // Si no ha cambiado, solo carga los datos de la nueva página
+      // Si `searchTerm` no ha cambiado, solo carga los datos de la página
+      fetchData();
     }
-  
-    // Actualizamos el valor anterior de `searchTerm`
-    previousSearchTerm.current = searchTerm;
-  
-  }, [currentPage, searchTerm]);
+  }, [searchTerm, currentPage, previousSearchTerm, handlePageNumber, loadData]);
 
 
   useEffect(() => {
