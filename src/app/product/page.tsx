@@ -36,15 +36,21 @@ export default function ViewProducts() {
   };
     
 
+
   useEffect(() => {
-    (async () => { 
-        if (searchTerm) {
-          handlePageNumber("&page=1")
-        }
-          await loadData();
-        })();   
-    // eslint-disable-next-line
+    const fetchData = async () => {
+      await loadData();
+    };
+  
+    if (searchTerm) {
+      handlePageNumber("&page=1");
+    }
+  
+    fetchData();
+  
+    // Solo vuelve a ejecutar cuando `currentPage` o `searchTerm` cambien
   }, [currentPage, searchTerm]);
+
 
   useEffect(() => {
     (async () => {
