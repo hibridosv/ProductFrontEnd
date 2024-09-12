@@ -17,8 +17,8 @@ export default function ViewProducts() {
   const [ statics, setStatics ] = useState([])
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
+  const [searchTermNew, setSearchTermNew] = useState("");
   const remoteUrl = getUrlFromCookie();
-  const [previousSearchTerm, setPreviousSearchTerm] = useState<string | null>(null); // Estado para guardar el valor anterior
 
   const loadData = async () => {
       setIsLoading(true);
@@ -37,23 +37,20 @@ export default function ViewProducts() {
   };
     
 
-
   useEffect(() => {
-    const fetchData = async () => {
-      await loadData();
-    };
+    (async () => { 
+        if (searchTerm != searchTermNew) {
+          handlePageNumber("&page=1");
+          setSearchTermNew(searchTerm);
+          await loadData();
+         } else {
+          await loadData();
+         }
+        })();   
+    // eslint-disable-next-line
+  }, [currentPage, searchTerm]);
 
-    // Solo ejecuta `handlePageNumber` si el searchTerm es diferente del anterior
-    if (searchTerm !== previousSearchTerm && searchTerm !== "") {
-      handlePageNumber("&page=1");
-      setPreviousSearchTerm(searchTerm); // Actualiza el valor de `previousSearchTerm`
-    } else {
-      // Si no ha cambiado o es vacío, simplemente carga la página actual
-      fetchData();
-    }
-  }, [searchTerm, currentPage, previousSearchTerm, handlePageNumber, loadData]);
-
-
+  
   useEffect(() => {
     (async () => {
       try {
