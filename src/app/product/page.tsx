@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getData, postData } from "@/services/resources";
 import { ProductsTable, RightSideProducts, Loading, Pagination, ViewTitle } from "@/components";
 import { usePagination } from "@/components/pagination";
@@ -38,17 +38,22 @@ export default function ViewProducts() {
 
 
   useEffect(() => {
+    const previousSearchTerm = useRef(searchTerm); // Ref para guardar el valor anterior
+  
     const fetchData = async () => {
       await loadData();
     };
   
-    if (searchTerm) {
-      handlePageNumber("&page=1");
+    // Verificar si `searchTerm` ha cambiado comparándolo con el valor anterior
+    if (searchTerm !== previousSearchTerm.current) {
+      handlePageNumber("&page=1"); // Si ha cambiado, establece la página en 1
+    } else {
+      fetchData(); // Si no ha cambiado, solo carga los datos de la nueva página
     }
   
-    fetchData();
+    // Actualizamos el valor anterior de `searchTerm`
+    previousSearchTerm.current = searchTerm;
   
-    // Solo vuelve a ejecutar cuando `currentPage` o `searchTerm` cambien
   }, [currentPage, searchTerm]);
 
 
