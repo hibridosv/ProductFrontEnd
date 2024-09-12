@@ -14,6 +14,7 @@ export default function ViewProducts() {
   const [isLoading, setIsLoading] = useState(false);
   const [productos, setProductos] = useState([]);
   const [ links, setLinks ] = useState([] as any)
+  const [ statics, setStatics ] = useState([])
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
   const remoteUrl = getUrlFromCookie();
@@ -45,6 +46,16 @@ export default function ViewProducts() {
     // eslint-disable-next-line
   }, [currentPage, searchTerm]);
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getData("special/products");
+        setStatics(data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [productos]);
 
 
   const deleteProduct = async (iden: number) => {
@@ -103,6 +114,7 @@ export default function ViewProducts() {
                 <RightSideProducts 
                 products={productos}
                 handleSearchTerm={handleSearchTerm}
+                statics={statics}
                  />
 
               <LinksList links={links} separator="?" />
