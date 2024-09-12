@@ -43,12 +43,12 @@ export default function ViewProducts() {
       await loadData();
     };
 
-    if (searchTerm !== previousSearchTerm) {
-      // Si el `searchTerm` ha cambiado, reinicia la paginación
+    // Solo ejecuta `handlePageNumber` si el searchTerm es diferente del anterior
+    if (searchTerm !== previousSearchTerm && searchTerm !== "") {
       handlePageNumber("&page=1");
       setPreviousSearchTerm(searchTerm); // Actualiza el valor de `previousSearchTerm`
     } else {
-      // Si `searchTerm` no ha cambiado, solo carga los datos de la página
+      // Si no ha cambiado o es vacío, simplemente carga la página actual
       fetchData();
     }
   }, [searchTerm, currentPage, previousSearchTerm, handlePageNumber, loadData]);
