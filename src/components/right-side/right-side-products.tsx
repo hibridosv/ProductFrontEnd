@@ -46,15 +46,15 @@ return (<div>
             </div>
             <div className="m-2 grid grid-cols-6">
                 <span className="col-span-4 px-2 xl:text-xl">Productos: </span>
-                <span className="col-span-2 px-2 xl:text-xl text-right">{loadingSmall(products.data.filter((product: any) => product.status === 1 && product.product_type === 1).length)}</span>
+                <span className="col-span-2 px-2 xl:text-xl text-right">{loadingSmall(products.data.filter((product: any) => product.status == 1 && product.product_type == 1).length)}</span>
             </div>
             <div className="m-2 grid grid-cols-6">
                 <span className="col-span-4 px-2 xl:text-xl">Servicios: </span>
-                <span className="col-span-2 px-2 xl:text-xl text-right">{loadingSmall(products.data.filter((product: any) => product.status === 1 && product.product_type === 2).length)}</span>
+                <span className="col-span-2 px-2 xl:text-xl text-right">{loadingSmall(products.data.filter((product: any) => product.status == 1 && product.product_type == 2).length)}</span>
             </div>
             <div className="m-2 grid grid-cols-6">
                 <span className="col-span-4 px-2 xl:text-xl">Relacionados: </span>
-                <span className="col-span-2 px-2 xl:text-xl text-right">{loadingSmall(products.data.filter((product: any) => product.status === 1 && product.product_type === 2).length)}</span>
+                <span className="col-span-2 px-2 xl:text-xl text-right">{loadingSmall(products.data.filter((product: any) => product.status == 1 && product.product_type == 3).length)}</span>
             </div>
         </div>
     }
