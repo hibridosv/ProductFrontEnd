@@ -12,6 +12,7 @@ import { style } from "@/theme";
 import { useForm } from "react-hook-form";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
 import { LinksList } from "@/components/common/links-list";
+import { useDateUrlConstructor } from "@/hooks/useDateUrlConstructor";
 
 
 export default function Page() {
@@ -20,6 +21,7 @@ export default function Page() {
   const [isSending, setIsSending] = useState(false);
   const { register, watch } = useForm();
   const { links, addLink} = AddNewDownloadLink()
+  const { url, constructor } = useDateUrlConstructor()
 
 
   useEffect(() => {
@@ -32,7 +34,8 @@ export default function Page() {
       data.userId = watch("userId")
         try {
           setIsSending(true);
-          const response = await postData(`histories/by-user`, "POST", data);
+          constructor(data, 'histories/by-user')
+          const response = await loadData(url);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setSales(response);

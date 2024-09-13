@@ -10,12 +10,16 @@ import { HistoriesListTable } from "@/components/histories-components/histories-
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
 import { LinksList } from "@/components/common/links-list";
 import { HistoriesPaymentTable } from "@/components/histories-components/histories-payment-table";
+import { loadData } from "@/utils/functions";
+import { useDateUrlConstructor } from "@/hooks/useDateUrlConstructor";
 
 
 export default function Page() {
   const [sales, setSales] = useState([]);
   const [isSending, setIsSending] = useState(false);
   const { links, addLink} = AddNewDownloadLink()
+  const { url, constructor } = useDateUrlConstructor()
+
 
   useEffect(() => {
       (async () => { 
@@ -29,7 +33,8 @@ export default function Page() {
     const handlegetSales = async (data: DateRangeValues) => {
         try {
           setIsSending(true);
-          const response = await postData(`histories/payments`, "POST", data);
+          constructor(data, 'histories/payments')
+          const response = await loadData(url);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setSales(response);

@@ -11,9 +11,10 @@ import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
 import { LinksList } from "@/components/common/links-list";
 import { SearchInput } from "@/components/form/search";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
-import { getRandomInt } from "@/utils/functions";
+import { getRandomInt, loadData } from "@/utils/functions";
 import { Button, Preset } from "@/components/button/button";
 import { CommissionsListTable } from "@/components/tools-components/commissions-list-table";
+import { useDateUrlConstructor } from "@/hooks/useDateUrlConstructor";
 
 
 export default function Page() {
@@ -24,6 +25,7 @@ export default function Page() {
   const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number"], 500);
   const [contacts, setContacts] = useState([]) as any;
   const [contactSelected, setContactSelected] = useState(null) as any;
+  const { url, constructor } = useDateUrlConstructor()
 
 
   const loadDataContacts = async () => {
@@ -50,7 +52,8 @@ export default function Page() {
         data.referredId = contactSelected?.id
         try {
           setIsSending(true);
-          const response = await postData(`histories/commissions`, "POST", data);
+          constructor(data, 'histories/commissions')
+          const response = await loadData(url);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setSales(response);

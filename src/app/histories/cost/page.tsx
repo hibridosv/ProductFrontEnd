@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { ViewTitle } from "@/components"
 import { DateRange, DateRangeValues } from "@/components/form/date-range"
-import { getData, postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
 import { LinksList } from "@/components/common/links-list";
@@ -11,6 +10,8 @@ import { HistoriesCostTable } from "@/components/histories-components/histories-
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { useForm } from "react-hook-form";
 import { SearchIcon } from "@/theme/svg";
+import { useDateUrlConstructor } from "@/hooks/useDateUrlConstructor";
+import { getData } from "@/services/resources";
 
 export default function Page() {
     const [cost, setCost] = useState([] as any);
@@ -20,6 +21,8 @@ export default function Page() {
     const [productSelected, setProductSelected] = useState(null as any);
     const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
     const { register, watch, setValue } = useForm();
+    const { url: urlByDate, constructor } = useDateUrlConstructor()
+
 
     const loadData = async () => {
         try {
@@ -69,7 +72,8 @@ export default function Page() {
         data.product_id = productSelected?.id;
         try {
           setIsSending(true);
-          const response = await postData(`histories/cost`, "POST", data);
+          constructor(data, 'histories/cost')
+          const response = await getData(urlByDate);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setCost(response);

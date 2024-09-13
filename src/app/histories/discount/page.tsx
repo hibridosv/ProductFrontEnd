@@ -9,12 +9,16 @@ import { DateTime } from 'luxon';
 import { HistoriesDiscountTable } from "@/components/histories-components/histories-discount-table";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
 import { LinksList } from "@/components/common/links-list";
+import { loadData } from "@/utils/functions";
+import { useDateUrlConstructor } from "@/hooks/useDateUrlConstructor";
 
 
 export default function Page() {
   const [sales, setSales] = useState([]);
   const [isSending, setIsSending] = useState(false);
   const { links, addLink} = AddNewDownloadLink()
+  const { url, constructor } = useDateUrlConstructor()
+
 
   useEffect(() => {
       (async () => { 
@@ -28,7 +32,8 @@ export default function Page() {
     const handlegetSales = async (data: DateRangeValues) => {
         try {
           setIsSending(true);
-          const response = await postData(`histories/discount`, "POST", data);
+          constructor(data, 'histories/discount')
+          const response = await loadData(url);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setSales(response);

@@ -14,6 +14,7 @@ import { LinksList } from "@/components/common/links-list";
 import { TransfersReceiveTable } from "@/components/transfers-components/transfers-receive-table";
 import { Option, RadioButton } from "@/components/radio-button/radio-button";
 import { TransferShowModal } from "@/components/transfers-components/transfer-show-modal";
+import { useDateUrlConstructor } from "@/hooks/useDateUrlConstructor";
 
 
 export default function Page() {
@@ -31,6 +32,7 @@ export default function Page() {
     { id: 2, name: "Recibidas" },
   ];
   const [selectedOption, setSelectedOption] = useState<Option | null>(optionsRadioButton[0] ? optionsRadioButton[0] : null);
+  const { url, constructor } = useDateUrlConstructor()
 
 
   useEffect(() => {
@@ -43,7 +45,8 @@ export default function Page() {
       data.show = selectedOption?.id
         try {
           setIsSending(true);
-          const response = await postData(`histories/transfers`, "POST", data);
+          constructor(data, 'histories/transfers')
+          const response = await loadData(url);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setTransfers(response);
