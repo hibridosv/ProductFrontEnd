@@ -25,6 +25,7 @@ export default function Page() {
   const [randomNumber, setRandomNumber] = useState(0);
   const remoteUrl = getUrlFromCookie();
   const [ links, setLinks ] = useState([] as any)
+  const [searchTermNew, setSearchTermNew] = useState("");
 
 
 
@@ -71,11 +72,21 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  if (adjustment?.type == "successful") {
-    (async () => setProducts(await loadData(`adjustment/products?sort=-cod&perPage=25${currentPage}${searchTerm}`)))();
-  } else {
-    (async () => setAdjustmentRecord(await loadData(`adjustment/all?perPage=25${currentPage}`)))();
-  }
+  
+    (async () => {
+      if (adjustment?.type == "successful") {
+        if (searchTerm != searchTermNew) {
+          handlePageNumber("&page=1");
+          setSearchTermNew(searchTerm);
+          setProducts(await loadData(`adjustment/products?sort=-cod&perPage=25${currentPage}${searchTerm}`))
+         } else {
+          setProducts(await loadData(`adjustment/products?sort=-cod&perPage=25${currentPage}${searchTerm}`))
+         }
+      } else {
+        setAdjustmentRecord(await loadData(`adjustment/all?perPage=25${currentPage}`))
+      }
+    })();
+  
   // eslint-disable-next-line
 }, [currentPage, searchTerm, adjustment, randomNumber]);
 
