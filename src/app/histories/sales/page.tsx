@@ -9,6 +9,7 @@ import { HistoriesSalesTable } from "@/components/histories-components/histories
 import { DateTime } from 'luxon';
 import { LinksList } from "@/components/common/links-list";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
+import { loadData } from "@/utils/functions";
 
 
 export default function Page() {
@@ -28,7 +29,7 @@ export default function Page() {
   const handlegetSales = async (data: DateRangeValues) => {
     try {
       setIsSending(true);
-      const response = await postData(`histories/sales`, "POST", data);
+      const response = await loadData(`histories/sales?option=${data.option}&initialDate=${data.initialDate}&finalDate=${data.finalDate}&product_id=${data.product_id}`);
       if (!response.message) {
         toast.success("Datos obtenidos correctamente");
         setSales(response);
