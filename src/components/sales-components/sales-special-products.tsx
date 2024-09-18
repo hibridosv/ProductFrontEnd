@@ -39,10 +39,8 @@ const { onClose, isShow, order, handleClickOptionProduct, onFormSubmit, onSubmit
 const [isSending, setIsSending] = useState(false);
 const { register, handleSubmit, reset, setValue } = useForm();
 const [typeOfSearch, setTypeOfSearch] = useState(false); // false: codigo, true: busqueda por nombre
-console.log("order", order)
 
 let special = order?.invoiceproducts && groupInvoiceProductsByCodSpecial(order);
-console.log("special", special)
 
 const onSubmitSpecial = async (data: any) => {
     
