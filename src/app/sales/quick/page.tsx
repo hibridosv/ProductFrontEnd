@@ -84,7 +84,8 @@ export default function ViewSales() {
       && !isDiscountProductModal
       && !isSalesOtherModal
       && !isPriceModal
-      && !isSalesSelectInvoiceType) {      
+      && !isSalesSelectInvoiceType
+      && !modalSalesSpecial.isOpen) {      
         (async () => await selectLastOrder())()
       }
     // eslint-disable-next-line
@@ -95,7 +96,8 @@ export default function ViewSales() {
     isDiscountProductModal, 
     isSalesOtherModal, 
     isPriceModal, 
-    isSalesSelectInvoiceType]);
+    isSalesSelectInvoiceType,
+    modalSalesSpecial.isOpen]);
 
 
   const deleteProduct = async (iden: number) => {
