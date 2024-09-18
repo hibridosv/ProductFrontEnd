@@ -22,6 +22,8 @@ import { SalesCommissionModal } from "@/components/sales-components/sales-commis
 import { SalesProductViewModal } from "@/components/sales-components/sales-product-view-modal";
 import { SalesCommentModal } from "@/components/sales-components/sales-comment";
 import { SalesPriceModal } from "@/components/sales-components/sales-price-modal";
+import { SalesEspecialProductsModal } from "@/components/sales-components/sales-special-products";
+import { useIsOpen } from "@/hooks/useIsOpen";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -47,6 +49,7 @@ export default function ViewSales() {
   const [typeOfSearch, setTypeOfSearch] = useState(false); // false: codigo, true: busqueda por nombre
   const { config, cashDrawer } = useContext(ConfigContext);
   const [configuration, setConfiguration] = useState([] as any); // configuraciones que vienen de config
+  const modalSalesSpecial = useIsOpen(false);
 
 
   useEffect(() => {
@@ -172,6 +175,7 @@ export default function ViewSales() {
       order_type: 1, // venta, consignacion, ecommerce
       price_type: typeOfPrice, // tipo de precio del producto
       addOrSubtract: data.addOrSubtract ? data.addOrSubtract : 1, // 1 sumar 2 restar
+      special: modalSalesSpecial.isOpen ? 1 : 0,
     };
 
     try {
@@ -228,6 +232,8 @@ export default function ViewSales() {
       case OptionsClickOrder.promotionPrice: (() => { setTypeOfPrice(3); })();
         break;
       case OptionsClickOrder.quotes: saveAsQuote();
+        break;
+      case OptionsClickOrder.ventaSpecial: (() => { modalSalesSpecial.setIsOpen(true); })();
         break;
       default: ()=>{};
         break;
@@ -320,6 +326,7 @@ export default function ViewSales() {
       <SalesCommissionModal isShow={isCommissionModal} product={productSelected} onClose={()=>setIsCommissionModal(false)} />
       <SalesProductViewModal isShow={isProductViewModal} product={productSelected} onClose={()=>setIsProductViewModal(false)} />
       <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} config={configuration} />
+      <SalesEspecialProductsModal isShow={modalSalesSpecial.isOpen} onClose={()=>modalSalesSpecial.setIsOpen(false)} order={productsOfInvoice} handleClickOptionProduct={handleClickOptionProduct} setTypeOfSearch={setTypeOfSearch} typeOfSearch={typeOfSearch} onFormSubmit={onSubmit} onSubmit={onSubmit} isLoading={isLoading}/>
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );

@@ -68,7 +68,9 @@ export function SalesButtons(props: SalesButtonsProps) {
                 { config.includes("sales-delivery-man") && 
                 <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.delivery)}> Asignar Repartidor </div>}
                 { config.includes("sales-other-sales") && 
-                <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.otrasVentas)}> Venta Especial</div>}
+                <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.otrasVentas)}> Otras Ventas</div>}
+                { config.includes("sales-special") && 
+                    <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.ventaSpecial)}> Venta Especial </div>}
                 { config.includes("sales-comment") && 
                 <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.comment)}> Agregar comentario </div>}
                 <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.documentType)}> Tipo de Documento </div>
