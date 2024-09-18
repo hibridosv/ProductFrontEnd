@@ -114,7 +114,7 @@ export function ContactAddGTModal(props: ContactAddGTModalProps) {
             <div className="w-full md:w-1/2 px-3 mb-2">
                 <label htmlFor="id_number" className={style.inputLabel}>Indenficación Fiscal</label>
                 <input type="text" id="id_number" {...register("id_number")} 
-                 onBlur={(e) => setValue('document', e.target.value)} placeholder="0207-210690-102-9" pattern="^([0-9]{8}-[0-9]{1}|[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1})?$" className={`${style.input}`} />
+                 onBlur={(e) => setValue('document', e.target.value)} placeholder="0207-210690-102-9" className={`${style.input}`} />
             </div> 
 
             <div className="w-full md:w-1/2 px-3 mb-2">
