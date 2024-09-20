@@ -42,7 +42,7 @@ export default function Page() {
         }
       };
 
-        handlegetSales() 
+      handlegetSales() 
 
 
     // eslint-disable-next-line
@@ -126,7 +126,7 @@ export default function Page() {
             { listItems }
             </ul>
             </div>
-</div>
+    </div>
 
            
         { productSelected &&  
