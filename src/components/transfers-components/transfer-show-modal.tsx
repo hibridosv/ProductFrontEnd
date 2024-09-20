@@ -4,6 +4,8 @@ import { Button, Preset } from "../button/button";
 import { statusOfTransfer } from "./transfers-receive-table";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import { statusOfProductTransfer } from "./transfers-receive-details-table";
+import { ButtonDownload } from "../button/button-download";
+import { FaDownload } from "react-icons/fa";
 
 
 export interface TransferShowModalProps {
@@ -115,6 +117,7 @@ export function TransferShowModal(props: TransferShowModalProps) {
         </div>
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
+        <ButtonDownload href={`/download/pdf/transfer/${transfer.id}`}><FaDownload size={24}/></ButtonDownload>
         <Button onClick={onClose} preset={Preset.close} />
       </Modal.Footer>
     </Modal>
