@@ -9,11 +9,12 @@ import { useContext } from "react";
 
 interface HistoriesCostTableProps {
   records?:  any;
+  productSected?:  any;
   isLoading?: boolean;
 }
 
 export function HistoriesCostTable(props: HistoriesCostTableProps) {
-  const { records, isLoading } = props;
+  const { records, isLoading, productSected } = props;
   const { systemInformation } = useContext(ConfigContext);
 
 
@@ -22,11 +23,12 @@ export function HistoriesCostTable(props: HistoriesCostTableProps) {
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
+  console.log(records.data)
 
 
   const listItems = records.data.map((record: any, key: any) => (
     <tr key={record.id} className="border-b">
-      <td className="py-2 px-6 truncate">{ formatDate(record?.created_at) } | { formatHourAsHM(record?.created_at)} </td>
+      <td className="py-2 px-6 truncate" title={record?.product?.description}>{ formatDate(record?.created_at) } | { formatHourAsHM(record?.created_at)} </td>
       <th className="py-2 px-6">{ record?.quantity } </th>
       <th className="py-2 px-6">{ record?.actual_stock } </th>
       <td className="py-2 px-6">{ numberToMoney(record?.unit_cost ? record?.unit_cost : 0, systemInformation) }</td>
@@ -41,7 +43,7 @@ export function HistoriesCostTable(props: HistoriesCostTableProps) {
 
   return (<div>
             <div className="uppercase shadow-lg border-x-2 ml-4 mt-4 font-bold text-2xl">
-                <div>{ records.data?.[0].product?.cod} | { records.data?.[0].product?.description}</div>
+                <div>{ productSected ? `${productSected?.cod} | ${productSected?.description}` : "Ultimos ingresos" }</div>
             </div>
   <div className="w-full overflow-auto">
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">

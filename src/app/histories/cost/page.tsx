@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { ViewTitle } from "@/components"
-import { DateRange, DateRangeValues } from "@/components/form/date-range"
 import toast, { Toaster } from 'react-hot-toast';
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
 import { LinksList } from "@/components/common/links-list";
@@ -10,8 +9,8 @@ import { HistoriesCostTable } from "@/components/histories-components/histories-
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { useForm } from "react-hook-form";
 import { SearchIcon } from "@/theme/svg";
-import { useDateUrlConstructor } from "@/hooks/useDateUrlConstructor";
 import { getData } from "@/services/resources";
+import { MdDelete } from "react-icons/md";
 
 export default function Page() {
     const [cost, setCost] = useState([] as any);
@@ -21,8 +20,33 @@ export default function Page() {
     const [productSelected, setProductSelected] = useState(null as any);
     const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
     const { register, watch, setValue } = useForm();
-    const { url: urlByDate, constructor } = useDateUrlConstructor()
 
+
+    useEffect(() => {
+      const handlegetSales = async () => {
+        try {
+          setIsSending(true);
+          const response = await getData(`histories/cost${productSelected?.id ? `?product_id=${productSelected?.id}&perPage=25` : ''}`);
+          if (!response.message) {
+            toast.success("Datos obtenidos correctamente");
+            setCost(response);
+            if(response.data.length > 0) addLink(links, {}, 'excel/cost/', productSelected?.id ? [{name: "product_id", value: productSelected?.id}] : []);
+          } else {
+            toast.error("Faltan algunos datos importantes!");
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error("Ha ocurrido un error!");
+        } finally {
+          setIsSending(false);
+        }
+      };
+
+        handlegetSales() 
+
+
+    // eslint-disable-next-line
+    }, [productSelected]);
 
     const loadData = async () => {
         try {
@@ -35,7 +59,7 @@ export default function Page() {
     
 
     useEffect(() => {
-        if (searchTerm) {
+        if (searchTerm || searchTerm != "") {
             (async () => { await loadData() })();
         } else {
           setProducts([])
@@ -55,40 +79,18 @@ export default function Page() {
         setValue("search", null)
     }
 
-    const listItems = products?.map((product: any):any => (
-            <div key={product.id} onClick={()=>selectProduct(product)}>
-            <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer z-50">
-            {product.cod} | {product.description}
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-            </li>
-        </div>
-        ))
 
-
-    const handlegetSales = async (data: DateRangeValues) => {
-        data.product_id = productSelected?.id;
-        try {
-          setIsSending(true);
-          constructor(data, 'histories/cost')
-          const response = await getData(urlByDate);
-          if (!response.message) {
-            toast.success("Datos obtenidos correctamente");
-            setCost(response);
-            if(response.data.length > 0) addLink(links, data, 'excel/cost/', [{name: "product_id", value: productSelected?.id}]);
-          } else {
-            toast.error("Faltan algunos datos importantes!");
-          }
-        } catch (error) {
-          console.error(error);
-          toast.error("Ha ocurrido un error!");
-        } finally {
-          setIsSending(false);
-        }
-      };
-
+      const listItems = products?.map((product: any):any => (
+        <div key={product.id} onClick={()=>selectProduct(product)}>
+        <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer z-50">
+        {product.cod} | {product.description}
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+        </li>
+    </div>
+    ))
 
 
   return (
@@ -96,7 +98,7 @@ export default function Page() {
         <div className={`${cost?.data && cost?.data.length > 0 ? "col-span-7" : "col-span-5"} border-r md:border-sky-600`}>
         <ViewTitle text="LISTADO DE COSTOS" />
 
-        <HistoriesCostTable records={cost} isLoading={isSending} />
+        <HistoriesCostTable records={cost} isLoading={isSending} productSected={productSelected} />
 
         </div>
         <div className={`${cost?.data && cost?.data.length > 0 ? "col-span-3" : "col-span-5"}`}>
@@ -127,16 +129,16 @@ export default function Page() {
 </div>
 
            
-{ productSelected &&  
-<div className=" bg-white rounded-lg shadow-lg m-2">
-    <ul>
-        <li className="flex justify-between rounded-lg p-3 w-full bg-lime-200 text-lime-800 ">
-            {productSelected.cod} | {productSelected.description}
-        </li>
-    </ul>
-</div>}
+        { productSelected &&  
+        <div className=" bg-white rounded-lg shadow-lg m-2">
+            <ul>
+                <li className="flex justify-between rounded-lg p-3 w-full bg-lime-200 text-lime-800 ">
+                    {productSelected.cod} | {productSelected.description} <span className="text-right clickeable"><MdDelete size={24} color="red" onClick={()=>{setProductSelected(null) }} /></span>
+                </li>
+            </ul>
+        </div>}
 
-        <DateRange onSubmit={handlegetSales} />
+
         <LinksList links={links} />
         </div>
       <Toaster position="top-right" reverseOrder={false} />
