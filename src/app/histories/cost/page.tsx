@@ -26,7 +26,7 @@ export default function Page() {
       const handlegetSales = async () => {
         try {
           setIsSending(true);
-          const response = await getData(`histories/cost${productSelected?.id ? `?product_id=${productSelected?.id}&perPage=25` : ''}`);
+          const response = await getData(`histories/cost?perPage=25${productSelected?.id ? `&product_id=${productSelected?.id}` : ''}`);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setCost(response);
