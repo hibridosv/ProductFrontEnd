@@ -28,8 +28,8 @@ export function HistoriesCostTable(props: HistoriesCostTableProps) {
 
   const listItems = records.data.map((record: any, key: any) => (
     <tr key={record.id} className="border-b">
-      <th className="py-2 px-6">{record?.product?.description } </th>
-      <td className="py-2 px-6 truncate" title={record?.product?.cod}>{ formatDate(record?.created_at) } | { formatHourAsHM(record?.created_at)} </td>
+      <td className="py-2 px-6 truncate">{ formatDate(record?.created_at) } | { formatHourAsHM(record?.created_at)} </td>
+      <th className="py-2 px-6" title={record?.product?.cod}>{record?.product?.description } </th>
       <th className="py-2 px-6">{ record?.quantity } </th>
       <th className="py-2 px-6">{ record?.actual_stock } </th>
       <td className="py-2 px-6">{ numberToMoney(record?.unit_cost ? record?.unit_cost : 0, systemInformation) }</td>
@@ -50,8 +50,8 @@ export function HistoriesCostTable(props: HistoriesCostTableProps) {
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          <th scope="col" className="py-3 px-4 border">Producto</th>
           <th scope="col" className="py-3 px-4 border">Ingreso</th>
+          <th scope="col" className="py-3 px-4 border">Producto</th>
           <th scope="col" className="py-3 px-4 border">Cantidad</th>
           <th scope="col" className="py-3 px-4 border">Existencia</th>
           <th scope="col" className="py-3 px-4 border">Precio Costo</th>
