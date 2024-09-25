@@ -306,6 +306,7 @@ export default function ViewSales() {
               } 
           }
        
+          console.log(order)
 
           return (
             <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
