@@ -23,7 +23,6 @@ export function HistoriesCostTable(props: HistoriesCostTableProps) {
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
-  console.log(records.data)
 
 
   const listItems = records.data.map((record: any, key: any) => (

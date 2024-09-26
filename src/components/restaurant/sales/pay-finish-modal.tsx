@@ -6,6 +6,7 @@ import { numberToMoney } from "@/utils/functions";
 import { Modal } from "flowbite-react";
 import { ConfigContext } from "@/contexts/config-context";
 import { useContext } from "react";
+import { NothingHere } from "@/components/nothing-here/nothing-here";
 
 
 
@@ -20,12 +21,15 @@ export function PayFinishModal(props: PayFinishModalProps) {
   const { onClose, invoice, isShow, isSending } = props;
   const { systemInformation } = useContext(ConfigContext);
 
-
+console.log("invoice: ", invoice)
   return (
     <Modal show={isShow} position="center" onClose={onClose} size="md">
       <Modal.Body>
         <div className="mx-4">
               <div onClick={onClose} className='cursor-pointer'>
+                { !isSending && invoice.status == 1 && invoice.total == null ? <div>
+                  <NothingHere text="Ocurrió un error al facturar, intentelo de nuevo!" />
+                </div> : 
               <div className="w-full my-4">
                 { invoice?.invoice_assigned?.type != 8 && !isSending &&
                 <div  className='flex justify-between  border-y-4'>
@@ -50,6 +54,7 @@ export function PayFinishModal(props: PayFinishModalProps) {
                 </div>
                   }
               </div>
+              }
             </div>
         </div>
       </Modal.Body>

@@ -27,6 +27,8 @@ import { IconsMenu } from "@/components/restaurant/sales/icons-menu";
 import { ProductsTable } from "@/components/restaurant/sales/products-table";
 import { SalesContactSearchGtModal } from "@/components/restaurant/sales/sales-contact-search-gt";
 import { SalesEspecialModal } from "@/components/restaurant/sales/sales-special";
+import { Tables } from "@/components/restaurant/sales/tables";
+import { ClientsTables } from "@/components/restaurant/sales/clients-tables";
 
 
 export default function ViewSales() {
@@ -36,8 +38,10 @@ export default function ViewSales() {
       const [ payedInvoice, setPayedInvoice ] = useState([] as any); // orden pagada para mostrar el modal de pago
       const [paymentType, setPaymentType] = useState(1); // Efectivo, Tarjeta, Otros
       const [deliveryType, setDeliveryType] = useState(2); // 1: Aqui, 2: Llevar, 3: delivery
+      const [selectType, setSelectType] = useState(1); // 1: venta Rapida, 2: Servicio a mesa, 3: delivery
       const [clientActive, setClientActive] = useState(1); // Cliente seleccionado de la cuenta
       const [typeOfPrice, setTypeOfPrice] = useState(1); // 1 tipo de precio, 1: normal, 2: Promocion
+      const [selectedTable, setSelectedTable] = useState(""); // Mesa seleccionada
       const { config, cashDrawer, systemInformation } = useContext(ConfigContext);
       const [configuration, setConfiguration] = useState([] as any); // configuraciones que vienen de config
       const [isDiscountType, setIsDiscountType] = useState(0);
@@ -73,7 +77,8 @@ export default function ViewSales() {
             try {
               const response = await getData(`sales/order/select`);
               if (response?.data) {
-                setOrder(response.data);    
+                setOrder(response.data);   
+                setSelectType(response?.data?.order_type) 
                 if(configuration?.includes("sales-sound")) successSound()
               }
             } catch (error) {
@@ -103,7 +108,10 @@ export default function ViewSales() {
           
           const resetOrder = () =>{
             setOrder([]);
+            setSelectedTable("");
+            setClientActive(1);
           }
+
           const onFinish = () => {
             setPayedInvoice([]);
             modalPayed.setIsOpen(false)
@@ -138,11 +146,12 @@ export default function ViewSales() {
               product_id: producId,
               request_type: 1, // 1: id, 2: cod
               delivery_type: deliveryType, // 1: Aqui, 2: Llevar, 3: delivery
-              order_type: 1, // venta, consignacion, ecommerce
+              order_type: selectType, // venta, consignacion, ecommerce
               price_type: typeOfPrice, // tipo de precio del producto
               clients_quantity: 1, // Numero de clientes
               client_active: clientActive, // Cliente activo para asignar producto
               quantity,
+              restaurant_table_id: selectedTable,
               special: modalSalesSpecial.isOpen ? 1 : 0,
             };
             
@@ -201,9 +210,22 @@ export default function ViewSales() {
             }
           };
           
+          const saveOrder = async () => {
+            try {
+              const response = await postData(`sales/order/save/${order.id}`, "POST");
+              toast.success(response.message);
+              if (response.type !== "error") {
+                resetOrder()
+              }
+            } catch (error) {
+              console.error(error);
+              toast.error("Ha ocurrido un error!");
+            }
+          };
+
           const handleClickOptionOrder = (option: OptionsClickOrder) => { // opciones de la orden
             switch (option) {
-              case OptionsClickOrder.save: (() => { })();
+              case OptionsClickOrder.save: (() => saveOrder())();
                   break;
                   case OptionsClickOrder.delete: (() => { deleteOrder() })();
                   break;
@@ -292,6 +314,9 @@ export default function ViewSales() {
             } 
           };
 
+          console.log("order", order)
+          console.log("selectType", selectType)
+
 
           const updateProductOption = async (data: any) => {
             try {
@@ -305,16 +330,16 @@ export default function ViewSales() {
                 toast.error("Ha ocurrido un error!");
               } 
           }
-       
-          console.log(order)
 
           return (
             <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
             <div className="col-span-6 border-r md:border-sky-600">
-                  <IconsMenu isShow={true} selectedIcon={sendProduct} config={configuration} isSending={isSending} />
+            <ClientsTables isShow={selectType == 2 && selectedTable != ""} order={order} clientActive={clientActive} setClientActive={setClientActive} />
+            <IconsMenu isShow={selectType == 1 || (selectType == 2 && selectedTable != "") || order?.invoiceproducts} selectedIcon={sendProduct} config={configuration} isSending={isSending} />
+            <Tables isShow={selectType == 2 && selectedTable === ""} setSelectedTable={setSelectedTable} order={order} handleChangeOrder={handleChangeOrder} />
             </div>
             <div className="col-span-4 border-l md:border-sky-600">
-                  <ServiceTypeSelect selectType={()=>{}} />
+                  <ServiceTypeSelect setSelectType={setSelectType} selectType={selectType} order={order} onClickOrder={handleClickOptionOrder} setSelectedTable={setSelectedTable} />
                   <ProductsTable order={order} onClickOrder={handleClickOptionOrder} onClickProduct={handleClickOptionProduct} />
 
 
