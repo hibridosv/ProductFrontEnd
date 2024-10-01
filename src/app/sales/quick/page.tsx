@@ -24,6 +24,7 @@ import { SalesCommentModal } from "@/components/sales-components/sales-comment";
 import { SalesPriceModal } from "@/components/sales-components/sales-price-modal";
 import { SalesEspecialProductsModal } from "@/components/sales-components/sales-special-products";
 import { useIsOpen } from "@/hooks/useIsOpen";
+import { SalesChangeNameModal } from "@/components/sales-components/sales-change-name-modal";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +41,7 @@ export default function ViewSales() {
   const [isContactSearchModal, setIsContactSearchModal] = useState(false);
   const [isSalesOtherModal, setIsSalesOtherModal] = useState(false);
   const [isSalesCommentModal, setIsSalesCommentModal] = useState(false);
+  const [isSalesChangeNameModal, setIsSalesChangeNameModal] = useState(false);
   const [typeOfClient, setTypeOfClient] = useState<ContactTypeToGet>(ContactTypeToGet.clients); // tipo de cliente a buscar en el endpoint
   const [clientNametoUpdate, setClientNametoUpdate] = useState<ContactNameOfOrder>(ContactNameOfOrder.client); // tipo de cliente a buscar en el endpoint
   const [isDiscountType, setIsDiscountType] = useState(0);
@@ -84,6 +86,7 @@ export default function ViewSales() {
       && !isDiscountProductModal
       && !isSalesOtherModal
       && !isPriceModal
+      && !isSalesChangeNameModal
       && !isSalesSelectInvoiceType
       && !modalSalesSpecial.isOpen) {      
         (async () => await selectLastOrder())()
@@ -96,6 +99,7 @@ export default function ViewSales() {
     isDiscountProductModal, 
     isSalesOtherModal, 
     isPriceModal, 
+    isSalesChangeNameModal, 
     isSalesSelectInvoiceType,
     modalSalesSpecial.isOpen]);
 
@@ -261,6 +265,8 @@ export default function ViewSales() {
         break;
       case OptionsClickSales.price: (() => { setProductSelected(product); setIsPriceModal(true); })();
         break;
+      case OptionsClickSales.changeName: (() => { setProductSelected(product); setIsSalesChangeNameModal(true); })();
+        break;
     }
   };
 
@@ -324,6 +330,9 @@ export default function ViewSales() {
       <SalesContactSearchModal handleChangeOrder={handleChangeOrder}  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={productsOfInvoice} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />
       <SalesOthers isShow={isSalesOtherModal} order={productsOfInvoice} onClose={()=>setIsSalesOtherModal(false)} />
       <SalesCommentModal isShow={isSalesCommentModal} order={productsOfInvoice} onClose={()=>setIsSalesCommentModal(false)} />
+      
+      <SalesChangeNameModal isShow={isSalesChangeNameModal} order={order} product={productSelected} onClose={()=>setIsSalesChangeNameModal(false)} />
+      
       <SalesSelectInvoiceTypeModal isShow={isSalesSelectInvoiceType} onClose={()=>setIsSalesSelectInvoiceType(false)} order={productsOfInvoice} />
       <SalesCommissionModal isShow={isCommissionModal} product={productSelected} onClose={()=>setIsCommissionModal(false)} />
       <SalesProductViewModal isShow={isProductViewModal} product={productSelected} onClose={()=>setIsProductViewModal(false)} />
