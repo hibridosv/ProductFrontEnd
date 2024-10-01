@@ -36,8 +36,7 @@ export function ClientsTables(props: ClientsTablesProps) {
         <div className="border-b-2 border-slate-500">
             <div>
                 <div className="flex flex-wrap justify-center">
-                {/* <BiPlusCircle size={28} color="green" className="mt-4" /> */}
-                {listItems }
+                { listItems }
                 </div>
             </div>
         </div>

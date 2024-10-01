@@ -43,7 +43,9 @@ export enum OptionsClickOrder {
     payType = 23, // restaurant
     setPrinter = 24, // restaurant
     sendNit = 25, // send nit
-    ventaSpecial = 26, // send nit
+    ventaSpecial = 26, // Venta especial
+    addClientTable = 27, // agregar cliente a la mesa
+    divideAccount = 28, // Dividir cuenta de la mesa
   }
   
 

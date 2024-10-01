@@ -211,11 +211,27 @@ export default function ViewSales() {
           };
           
           const saveOrder = async () => {
+            setIsSending(true);
             try {
               const response = await postData(`sales/order/save/${order.id}`, "POST");
               toast.success(response.message);
               if (response.type !== "error") {
                 resetOrder()
+              }
+            } catch (error) {
+              console.error(error);
+              toast.error("Ha ocurrido un error!");
+            } finally {
+              setIsSending(false);
+            }
+          };
+
+          const orderAddOtherClient = async () => {
+            try {
+              const response = await postData(`restaurant/sales/add-client/${order.id}`, "PUT");
+              if (response.type !== "error") {
+                toast.success("cliente Agregado");
+                setOrder(response.data)
               }
             } catch (error) {
               console.error(error);
@@ -252,6 +268,8 @@ export default function ViewSales() {
                   case OptionsClickOrder.sendNit: (() => { modalContactGt.setIsOpen(true); })();
                   break;
                   case OptionsClickOrder.ventaSpecial: (() => { modalSalesSpecial.setIsOpen(true); })();
+                  break;
+                  case OptionsClickOrder.addClientTable: (() => { orderAddOtherClient() })();
                   break;
                   default: ()=>{};
                   break;
@@ -339,14 +357,14 @@ export default function ViewSales() {
             <Tables isShow={selectType == 2 && selectedTable === ""} setSelectedTable={setSelectedTable} order={order} handleChangeOrder={handleChangeOrder} />
             </div>
             <div className="col-span-4 border-l md:border-sky-600">
-                  <ServiceTypeSelect setSelectType={setSelectType} selectType={selectType} order={order} onClickOrder={handleClickOptionOrder} setSelectedTable={setSelectedTable} />
+                  <ServiceTypeSelect setSelectType={setSelectType} selectType={selectType} order={order} onClickOrder={handleClickOptionOrder} setSelectedTable={setSelectedTable} configuration={configuration} isSending={isSending}/>
                   <ProductsTable order={order} onClickOrder={handleClickOptionOrder} onClickProduct={handleClickOptionProduct} />
 
 
                   <div className="flex justify-center">
                         <RestaurantShowTotal order={order} isSending={isSending}  />
                   </div>  
-                  <SalesButtonsRestaurant cashDrawer={cashDrawer} payOrder={payOrder} onClickOrder={handleClickOptionOrder} order={order} payType={paymentType} config={configuration} isSending={isSending} />
+                  <SalesButtonsRestaurant cashDrawer={cashDrawer} payOrder={payOrder} onClickOrder={handleClickOptionOrder} order={order} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType}/>
                   <OptionsSelect onClickOrder={handleClickOptionOrder} payType={paymentType} order={order} setOrder={setOrder} />
             </div>
             <SalesSelectInvoiceTypeModal isShow={modalInvoiceType.isOpen} onClose={()=>modalInvoiceType.setIsOpen(false)} order={order} />

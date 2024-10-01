@@ -36,7 +36,7 @@ export function IconsMenu(props: IconsMenuProps) {
       };
       
       useEffect(() => {
-        if (isShow) {
+        if (isShow && !images.data) {
             (async () => { await loadImages() })();
         }
         // eslint-disable-next-line
