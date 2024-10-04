@@ -84,7 +84,7 @@ const tipoDTE = (dte: string)=>{
               </div>
 
               <div className={`w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 ${record?.status == 4 ? 'clickeable' : ''}`} 
-              onClick={ record?.status == 4 ? ()=>{ setRecordSelect(record?.codigo_generacion); setShowEmailModal(true)} : ()=>{} }> Reenviar Email</div>
+              onClick={ record?.status == 4 ? ()=>{ setRecordSelect(record?.email); setShowEmailModal(true)} : ()=>{} }> Reenviar Email</div>
 
               <div className={`w-full font-semibold ${record?.status == 3 ? 'text-red-700 py-2 px-4 hover:bg-red-100 clickeable' : 'text-slate-700 py-2 px-4 hover:bg-slate-100'}`} onClick={ record?.status == 3 ? ()=> resendDocument(record?.codigo_generacion) : ()=> {}}>Reenviar Documento</div>
             </div>
