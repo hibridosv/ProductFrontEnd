@@ -26,8 +26,8 @@ export function EmailSendModal(props: EmailSendModalProps) {
 
             <div>
                 <div className="w-full flex justify-between">
-                    <div onClick={!showEmailDefault ? ()=>setShowEmailDefault(!showEmailDefault) : ()=>{}} className={`w-full ${!showEmailDefault ? ' bg-slate-200 clickeable' : ' bg-slate-600'}`}>Enviar al Cliente</div>
-                    <div onClick={showEmailDefault ? ()=>setShowEmailDefault(!showEmailDefault) : ()=>{}} className={`w-full ${showEmailDefault ? ' bg-slate-200 clickeable' : ' bg-slate-600'}`}>Enviar a Otro</div>
+                    <div onClick={!showEmailDefault ? ()=>setShowEmailDefault(!showEmailDefault) : ()=>{}} className={`w-full p-2 text-center ${!showEmailDefault ? ' bg-slate-200 clickeable' : ' bg-slate-600 text-white'}`}>Enviar al Cliente</div>
+                    <div onClick={showEmailDefault ? ()=>setShowEmailDefault(!showEmailDefault) : ()=>{}} className={`w-full p-2 text-center ${showEmailDefault ? ' bg-slate-200 clickeable' : ' bg-slate-600 text-white'}`}>Enviar a Otro</div>
                 </div>
                 <div>
                     {
