@@ -14,7 +14,7 @@ interface EmailSendModalProps {
 
 export function EmailSendModal(props: EmailSendModalProps) {
   const { onClose, record, isShow } = props;
-  const [showEmailDefault, setShowEmailDefault] = useState<boolean>(false);
+  const [showEmailDefault, setShowEmailDefault] = useState<boolean>(true);
 
   return (
     <Modal size="xl" show={isShow} position="center" onClose={onClose}>
@@ -26,8 +26,8 @@ export function EmailSendModal(props: EmailSendModalProps) {
 
             <div>
                 <div className="w-full">
-                    <div onClick={()=>setShowEmailDefault(!showEmailDefault)} className={`${showEmailDefault ? ' bg-slate-200' : ' bg-slate-600 clickeable'}`}>Enviar al Cliente</div>
-                    <div onClick={()=>setShowEmailDefault(!showEmailDefault)} className={`${showEmailDefault ? 'bg-slate-600 clickeable' : 'bg-slate-200'}`}>Enviar a Otro</div>
+                    <div onClick={showEmailDefault ? ()=>setShowEmailDefault(!showEmailDefault) : ()=>{}} className={`${showEmailDefault ? ' bg-slate-200' : ' bg-slate-600 clickeable'}`}>Enviar al Cliente</div>
+                    <div onClick={!showEmailDefault ? ()=>setShowEmailDefault(!showEmailDefault) : ()=>{}} className={`${showEmailDefault ? 'bg-slate-600 clickeable' : 'bg-slate-200'}`}>Enviar a Otro</div>
                 </div>
                 <div>
                     {
