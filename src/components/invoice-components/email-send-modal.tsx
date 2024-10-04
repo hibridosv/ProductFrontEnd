@@ -16,9 +16,11 @@ export function EmailSendModal(props: EmailSendModalProps) {
 
   return (
     <Modal size="xl" show={isShow} position="center" onClose={onClose}>
-      <Modal.Header>DETALLES DE ERRORES</Modal.Header>
+      <Modal.Header>REENVIAR EMAIL</Modal.Header>
       <Modal.Body>
-
+            {
+                JSON.stringify(record)
+            }
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         <Button onClick={onClose} preset={Preset.close} />
