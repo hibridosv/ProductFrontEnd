@@ -28,7 +28,7 @@ export function EmailSendModal(props: EmailSendModalProps) {
     }
     try {
         setIsSending(true);
-        const response = await postData(`documents/email/send`, 'POST', payload);
+        const response = await postData(`electronic/send/email`, 'POST', payload);
         if (response?.type == "error") {
           toast.error("Ocurrio un error");
         } else {
