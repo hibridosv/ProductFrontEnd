@@ -3,6 +3,9 @@
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
+import { getData, postData } from "@/services/resources";
+
 
 // Props del componente
 interface EmailSendModalProps {
@@ -15,6 +18,31 @@ interface EmailSendModalProps {
 export function EmailSendModal(props: EmailSendModalProps) {
   const { onClose, record, isShow } = props;
   const [showEmailDefault, setShowEmailDefault] = useState<boolean>(true);
+  const [isSending, setIsSending] = useState(false);
+
+  const sendMail = async(email: any) => {
+    let payload = {
+        clientId: record?.client_id,
+        codigo: record?.codigo_generacion,
+        email: email
+    }
+    try {
+        setIsSending(true);
+        const response = await postData(`documents/email/send`, 'POST', payload);
+        if (response?.type == "error") {
+          toast.error("Ocurrio un error");
+        } else {
+          toast.success("Email enviado correctamente");
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Ha ocurrido un error!");
+      } finally {
+        setIsSending(false);
+      }
+  }
+
+
 
   return (
     <Modal size="xl" show={isShow} position="center" onClose={onClose}>
@@ -32,7 +60,9 @@ export function EmailSendModal(props: EmailSendModalProps) {
                 <div>
                     {
                         showEmailDefault ? 
-                        <div>Email del cliente</div> :
+                        <div>
+                            <Button disabled={isSending} preset={isSending? Preset.saving : Preset.save} text="Reenviar email" onClick={()=>sendMail(null)} />
+                        </div> :
                         <div>Otro email</div>
                     }
                 </div>
@@ -41,6 +71,7 @@ export function EmailSendModal(props: EmailSendModalProps) {
       <Modal.Footer className="flex justify-end gap-4"> 
         <Button onClick={onClose} preset={Preset.close} />
       </Modal.Footer>
+      <Toaster position="top-right" reverseOrder={false} />
     </Modal>
   );
 }
