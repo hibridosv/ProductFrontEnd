@@ -21,7 +21,7 @@ export function EmailSendModal(props: EmailSendModalProps) {
   const { onClose, record, isShow } = props;
   const [showEmailDefault, setShowEmailDefault] = useState<boolean>(true);
   const [isSending, setIsSending] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const sendMail = async(email: any) => {
     let payload = {
@@ -36,6 +36,7 @@ export function EmailSendModal(props: EmailSendModalProps) {
           toast.error("Ocurrio un error");
         } else {
           toast.success("Email enviado correctamente");
+          reset();
         }
       } catch (error) {
         console.error(error);
