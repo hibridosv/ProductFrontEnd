@@ -76,7 +76,7 @@ export function EmailSendModal(props: EmailSendModalProps) {
                         <form onSubmit={handleSubmit(onSubmit)} className="p-4 border-2 shadow-lg rounded-md m-4">
                             <div className="flex flex-wrap mx-3 mb-2 ">
                                 <div className="w-full md:w-full px-3 mb-2">
-                                    <label htmlFor="email" className={style.inputLabel}> Ingrese el email a enviar *</label>
+                                    <label htmlFor="email" className={style.inputLabel}> Ingrese el email destino *</label>
                                     <input type="email" id="email" {...register("email")} className={style.input} />
                                 </div>
                             </div>

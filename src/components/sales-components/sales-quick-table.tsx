@@ -40,8 +40,8 @@ export function SalesQuickTable(props: SalesQuickProps) {
     setIsRequestCodeModal, 
     isShowError, 
     setIsShowError } = useCodeRequest('code-request-change-price', false);
-    console.log(systemInformation)
 
+    
   if (!records) return <NothingHere width="164" height="98" text="Agregue un producto" />;
   if (records.length == 0) return <NothingHere text="Agregue un producto" width="164" height="98" />;
 

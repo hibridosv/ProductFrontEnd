@@ -8,6 +8,5 @@ export function usePagination(InitialState: string) {
         var page = url.split("?");
         setCurrentPage(`&${page[page.length - 1]}`);
       }
-      console.log(currentPage)
   return { currentPage, handlePageNumber };
 }
