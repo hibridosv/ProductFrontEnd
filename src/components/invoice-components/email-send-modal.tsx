@@ -59,11 +59,7 @@ export function EmailSendModal(props: EmailSendModalProps) {
     <Modal size="xl" show={isShow} position="center" onClose={onClose}>
       <Modal.Header>REENVIAR EMAIL</Modal.Header>
       <Modal.Body>
-            {
-                JSON.stringify(record)
-            }
-
-            <div>
+             <div>
                 <div className="w-full flex justify-between">
                     <div onClick={!showEmailDefault ? ()=>setShowEmailDefault(!showEmailDefault) : ()=>{}} className={`w-full p-2 text-center ${!showEmailDefault ? ' bg-slate-200 clickeable' : ' bg-slate-600 text-white'}`}>Enviar al Cliente</div>
                     <div onClick={showEmailDefault ? ()=>setShowEmailDefault(!showEmailDefault) : ()=>{}} className={`w-full p-2 text-center ${showEmailDefault ? ' bg-slate-200 clickeable' : ' bg-slate-600 text-white'}`}>Enviar a Otro</div>
