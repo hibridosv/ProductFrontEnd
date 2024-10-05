@@ -60,8 +60,8 @@ export function EmailSendModal(props: EmailSendModalProps) {
                 <div>
                     {
                         showEmailDefault ? 
-                        <div>
-                            <Button disabled={isSending} preset={isSending? Preset.saving : Preset.save} text="Reenviar email" onClick={()=>sendMail(null)} />
+                        <div className="m-4">
+                            <Button disabled={isSending} isFull preset={isSending ? Preset.saving : Preset.save} text="Reenviar email" onClick={()=>sendMail(null)} />
                         </div> :
                         <div>Otro email</div>
                     }
