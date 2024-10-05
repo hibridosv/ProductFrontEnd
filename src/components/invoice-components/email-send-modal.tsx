@@ -5,6 +5,8 @@ import { Button, Preset } from "../button/button";
 import { useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { getData, postData } from "@/services/resources";
+import { useForm } from "react-hook-form";
+import { style } from "@/theme";
 
 
 // Props del componente
@@ -19,6 +21,7 @@ export function EmailSendModal(props: EmailSendModalProps) {
   const { onClose, record, isShow } = props;
   const [showEmailDefault, setShowEmailDefault] = useState<boolean>(true);
   const [isSending, setIsSending] = useState(false);
+  const { register, handleSubmit } = useForm();
 
   const sendMail = async(email: any) => {
     let payload = {
@@ -42,6 +45,14 @@ export function EmailSendModal(props: EmailSendModalProps) {
       }
   }
 
+  const onSubmit = async(data: any) => {
+    if (!data.email) {
+        toast.error("Ingrese un email");
+        return;
+    }
+    sendMail(data.email)
+  }
+
 
 
   return (
@@ -61,9 +72,24 @@ export function EmailSendModal(props: EmailSendModalProps) {
                     {
                         showEmailDefault ? 
                         <div className="m-4">
-                            <Button disabled={isSending} isFull preset={isSending ? Preset.saving : Preset.save} text="Reenviar email" onClick={()=>sendMail(null)} />
+                            <Button disabled={isSending} isFull preset={isSending ? Preset.saving : Preset.save} text={isSending ? "Enviando Email" : "Reenviar email"} onClick={()=>sendMail(null)} />
                         </div> :
-                        <div>Otro email</div>
+                        <div>
+                            
+                        <form onSubmit={handleSubmit(onSubmit)} className="pb-4 border-2 shadow-lg rounded-md">
+                            <div className="flex flex-wrap mx-3 mb-2 ">
+                                <div className="w-full md:w-full px-3 mb-2">
+                                    <label htmlFor="email" className={style.inputLabel}> Numero de Nota de credito *</label>
+                                    <input type="email" id="email" {...register("email")} className={style.input} />
+                                </div>
+                            </div>
+                            <div className="flex justify-center">
+                            <Button type="submit" isFull disabled={isSending} preset={isSending ? Preset.saving : Preset.save} text={isSending ? "Enviando Email" : "Reenviar email"} />
+                            </div>
+                        </form>
+
+
+                        </div>
                     }
                 </div>
             </div>
