@@ -68,12 +68,12 @@ export function EmailSendModal(props: EmailSendModalProps) {
                 <div>
                     {
                         showEmailDefault ? 
-                        <div className="pb-4 border-2 shadow-lg rounded-md m-4">
+                        <div className="p-4 border-2 shadow-lg rounded-md m-4">
                             <Button disabled={isSending} isFull preset={isSending ? Preset.saving : Preset.save} text={isSending ? "Enviando Email" : "Reenviar email"} onClick={()=>sendMail(null)} />
                         </div> :
                         <div>
                             
-                        <form onSubmit={handleSubmit(onSubmit)} className="pb-4 border-2 shadow-lg rounded-md m-4">
+                        <form onSubmit={handleSubmit(onSubmit)} className="p-4 border-2 shadow-lg rounded-md m-4">
                             <div className="flex flex-wrap mx-3 mb-2 ">
                                 <div className="w-full md:w-full px-3 mb-2">
                                     <label htmlFor="email" className={style.inputLabel}> Numero de Nota de credito *</label>
