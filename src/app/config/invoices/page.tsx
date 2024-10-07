@@ -82,7 +82,7 @@ export default function Invoices() {
             <div className='mr-3 sm:mt-3'>
                 <div className="m-3 border-slate-700 shadow-md shadow-lime-700 rounded-md">
                     <div className=" text-center">Saldo pendiente</div>
-                    <div className=" text-center font-semibold text-6xl p-3">{ numberToMoney(total ? total : 0, systemInformation) }</div>
+                    <div className=" text-center font-semibold text-6xl p-3">$ { total.toFixed(2) }</div>
                 </div>
 
                 { isSending ? 
