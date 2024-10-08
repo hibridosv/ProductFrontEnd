@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
 
 
-export interface SalesChangeNameModalProps {
+export interface SalesChangeCommentModalProps {
   onClose: () => void;
   product: any;
   isShow: boolean;
@@ -18,33 +18,33 @@ export interface SalesChangeNameModalProps {
 
 
 
-export function SalesChangeNameModal(props: SalesChangeNameModalProps) {
+export function SalesChangeCommentModal(props: SalesChangeCommentModalProps) {
   const { onClose, product, isShow, order } = props;
   const { register, handleSubmit, resetField, setFocus, setValue } = useForm();
   const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     if (product) {
-      setValue("product", product?.product)
-      setFocus('product', {shouldSelect: true})      
+      setValue("comment", product?.comment)
+      setFocus('comment', {shouldSelect: true})      
     }
   }, [setFocus, isShow, product, setValue])
 
   const onSubmit = async (data: any) => {
-    if (data.product == null) onClose();
+    if (data.comment == null) onClose();
     let values = {
         product_id: product.id,
         order_id: order,
-        product: data.product,
+        comment: data.comment,
       };
 
     try {
         setIsSending(true);
-        const response = await postData(`sales/update-name`, "POST", values);
+        const response = await postData(`sales/update-comment`, "POST", values);
         if (response.type === "error") {
           toast.error(response.message);
         } else {
-          resetField("product")
+          resetField("comment")
         } 
       } catch (error) {
         console.error(error);
@@ -56,15 +56,15 @@ export function SalesChangeNameModal(props: SalesChangeNameModalProps) {
 
   return (
     <Modal show={isShow} position="center" onClose={onClose} size="xl">
-      <Modal.Header>Cambiar Descripción</Modal.Header>
+      <Modal.Header>Cambiar Comentario del Producto</Modal.Header>
       <Modal.Body>
         <div className="mx-4">
 
         <form className="max-w-lg mt-4" onSubmit={handleSubmit(onSubmit)} >
 
             <div className="w-full md:w-full px-3 mb-4">
-              <label htmlFor="product" className={style.inputLabel} >Descripción del producto</label>
-              <textarea rows={8} {...register("product", { required: true, max:250, min:5 })} className={`${style.input} w-full`} />
+              <label htmlFor="comment" className={style.inputLabel} >Comentario del producto</label>
+              <textarea rows={8} {...register("comment", { required: true, max:250, min:5 })} className={`${style.input} w-full`} />
             </div>
 
               <div className="flex justify-center">

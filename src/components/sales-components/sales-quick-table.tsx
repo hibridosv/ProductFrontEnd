@@ -56,7 +56,7 @@ export function SalesQuickTable(props: SalesQuickProps) {
       <td className="py-1 px-2 truncate uppercase">
         <div className="flex justify-between" >
           <span className="clickeable w-full" onClick={()=> onClick(record, OptionsClickSales.productView)}>{ record.product.slice(0, 50) }</span>
-          {config.includes("sales-change-name") && <span className="ml-2 mt-1 clickeable" onClick={()=> onClick(record, OptionsClickSales.changeName)}><FaPen /></span> }
+          {config.includes("sales-change-comment") && <span title={record.comment ? record.comment : "Sin comentarios"} className="ml-2 mt-1 clickeable" onClick={()=> onClick(record, OptionsClickSales.changeName)}><FaPen color={record.comment ? 'green' : 'black'} /></span> }
         </div>
       </td>
       <td className="py-1 px-2  cursor-pointer" onClick={codeRequestPice.requestPrice && codeRequestPice.required ?
