@@ -1,6 +1,6 @@
 "use client";
 import {  useContext, useEffect, useState } from "react";
-import { Modal } from "flowbite-react";
+import { Checkbox, Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast';
@@ -41,6 +41,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
   const { config } = useContext(ConfigContext);
   const [isShowCode, setIsShowCode] = useState(false);
   const [isShowCountry, setIsShowCountry] = useState(false);
+  const [isExcluded, setIsExcluded] = useState(false);
 
   useEffect(() => {
     if (record) {
@@ -64,6 +65,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
         setValue("address_doc", record.address_doc);
         setValue("taxpayer_type", record.taxpayer_type);
         setValue("is_credit_block", record.is_credit_block);
+        setValue("excluded", record.excluded);
         setValue("country", record.country);
         
         setDepartament(record.departament_doc)
@@ -71,6 +73,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
     }
     setIsShowCode(getConfigStatus("contact-code", config));
     setIsShowCountry(getConfigStatus("contact-country", config))
+    setIsExcluded(getConfigStatus("contact-excluded", config))
     setIsChangedRecord(false);
   }, [record, setValue, setIsChangedRecord, setIsShowCountry, config]);
 
@@ -245,7 +248,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
                     </div>
                     </div>
 
-                    <div className="w-full md:w-full px-3 mb-2">
+                    <div className={`w-full ${isExcluded ? 'md:w-3/4' : 'md:w-full'} px-3 mb-2`}>
                     <label htmlFor="taxpayer_type" className={style.inputLabel}> Tipo de contribuyente </label>
                     <select defaultValue={1} id="taxpayer_type" {...register("taxpayer_type")} className={style.input}>
                         <option value="1">CONTRIBUYENTE</option>
@@ -253,6 +256,13 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
                     </select>
                     </div>
 
+                  { isExcluded && 
+                    <div className="w-full md:w-1/4 px-3 mb-2">
+                        <label htmlFor="phone" className={style.inputLabel}>Excluido</label>
+                        <Checkbox {...register("excluded")} />
+                    </div> 
+                  }
+                    
                   { watch("is_client") == 1 &&
                     <div className="w-full md:w-full px-3 mb-2 flex justify-between">
                       <div><input className="bg-lime-600 rounded-full" type="checkbox" {...register("is_credit_block", {})} /> 

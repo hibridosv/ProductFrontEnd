@@ -31,8 +31,8 @@ export function ContactDetailsSV(props: ContactDetailsSVProps) {
   useEffect(() => {
       const fetchData = async () => {
           if (getConfigStatus("contact-country", config)) {
-              const countries = await loadData(`electronic/getcountries`);
-              setCountries(countries);
+              const response = await loadData(`electronic/getcountries`);
+              setCountries(response);
             }
           };
       fetchData();
@@ -151,7 +151,7 @@ if (!locations || !record) {
                         <div> {record?.taxpayer_type == 1 ? "CONTRIBUYENTE" : "GRAN CONTRIBUYENTE"} </div>
                     </div> }
 
-                    {record?.country && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
+                    { getConfigStatus("contact-country", config) && <div className="w-full md:w-1/2 px-3 mb-2  shadow-lg border-2">
                         <div className={style.inputLabel}>Pais</div>
                         <div> {getCountryNameByCode(`${record?.country}`, countries)} </div>
                     </div> }
@@ -159,6 +159,11 @@ if (!locations || !record) {
                     {record?.is_credit_block == 1 && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">
                     <div className={`${style.inputLabel} text-red-600`} >Cliente Bloqueado para creditos</div>
                     </div> }
+
+                    {record?.excluded == 1 && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">
+                    <div className={`${style.inputLabel} text-red-600`} >Cliente Excuido de impuestos</div>
+                    </div> }
+
                 </div>
             </div>
         </div>
