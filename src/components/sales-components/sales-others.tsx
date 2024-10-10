@@ -1,6 +1,6 @@
 'use client'
 import {  useEffect, useState } from "react";
-import { Modal } from "flowbite-react";
+import { Checkbox, Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { postData } from "@/services/resources";
 import toast, { Toaster } from "react-hot-toast";
@@ -31,6 +31,7 @@ const onSubmit = async (data: any) => {
         quantity: data.quantity,
         total: data.total,
         order_id: order.id,
+        exempt: data.exempt,
     };
     try {
       setIsSending(true);
@@ -72,6 +73,10 @@ return (
             <div className="w-full md:w-full px-3 mb-4">
                 <label htmlFor="total" className={style.inputLabel} >Precio</label>
                 <input type="number" step="any" {...register("total", { required: true })} className={`${style.input} w-full`} />
+            </div>
+            <div className="w-full md:w-full px-3 mb-4 flex justify-center">
+              <Checkbox {...register("exempt")} className="mr-2" />
+              <label htmlFor="exempt" className={style.inputLabel} >Exento de Impuestos</label>
             </div>
             <div className="flex justify-center">
             <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
