@@ -61,7 +61,7 @@ const resetSearch =()=>{
           :
           <div className="m-4">
             <SearchInputProduct recordSelected={getProduct} placeholder="Buscar Producto" 
-            url="products?sort=description&filterWhere[status]==1&filterWhere[is_restaurant]==0&perPage=100" />
+            url="products?sort=description&filterWhere[status]==1&filterWhere[is_restaurant]==0&perPage=300" />
           </div>
           }
       </Modal.Body>
