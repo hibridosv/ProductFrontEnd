@@ -21,7 +21,7 @@ const { register, handleSubmit, reset, setValue } = useForm();
 let optionsRadioButton: Option[] = [
   { id: 1, name: "Gravado" },
   { id: 2, name: "Exento" },
-  { id: 3, name: "Excluido" },
+  { id: 3, name: "No Sujeto" },
 ];
 const [selectedOption, setSelectedOption] = useState<Option>({ id: 1, name: "Gravado" });
 
