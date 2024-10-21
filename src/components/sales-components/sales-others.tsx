@@ -37,7 +37,7 @@ const onSubmit = async (data: any) => {
         quantity: data.quantity,
         total: data.total,
         order_id: order.id,
-        exempt: data.exempt,
+        exempt: selectedOption.id,
     };
     try {
       setIsSending(true);
@@ -82,7 +82,7 @@ return (
             </div>
             <div className="w-full md:w-full px-3 mb-4 flex justify-center">
               {/* <Checkbox {...register("exempt")} className="mr-2" /> */}
-              <label htmlFor="exempt" className={style.inputLabel} >Exento de Impuestos</label>
+              {/* <label htmlFor="exempt" className={style.inputLabel} >Exento de Impuestos</label> */}
               <RadioButton options={optionsRadioButton} onSelectionChange={setSelectedOption} />
             </div>
             <div className="flex justify-center">
