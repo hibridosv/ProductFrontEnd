@@ -141,7 +141,7 @@ export const sumarSalesTotal = (records: any): number => {
 
   if (records?.invoice_assigned?.type == 4) { // sujeto excluido
     let retention = subtotal * 0.10;
-    return (total - retention)
+    return (subtotal - retention)
   }
   return total;
 }
