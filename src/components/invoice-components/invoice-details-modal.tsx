@@ -59,7 +59,8 @@ export function InvoiceDetailsModal(props: InvoiceDetailsModalProps) {
     try {
       setIsSending(true)
       const response = await getData(`electronic/send/${record}`);
-      if (response.type == "successful") {
+      if (response?.type == "successful") {
+        toast.success("Petición realizada correctamente");
       } else {
         toast.error("Error al enviar factura electronica!");
       }
