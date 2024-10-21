@@ -55,6 +55,23 @@ export function InvoiceDetailsModal(props: InvoiceDetailsModalProps) {
   }, [config, record, isShow]);
 
 
+  const sendElectronic = async ()=>{
+    try {
+      setIsSending(true)
+      const response = await getData(`electronic/send/${record}`);
+      if (response.type == "successful") {
+      } else {
+        toast.error("Error al enviar factura electronica!");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } finally {
+      setIsSending(false)
+    }
+  }
+
+
 
   const listProducts = records?.data?.products.map((record: any, key: any) => (
     <tr key={record.id} className="border-b">
@@ -146,6 +163,13 @@ export function InvoiceDetailsModal(props: InvoiceDetailsModalProps) {
                   records?.data?.status == 4 && 
                   <div className="mt-3">
                       <Alert info="Atención: " text="Este Documento se ha sido anulado" isDismisible={false}  />
+                  </div>
+                }
+
+                {
+                records?.data?.invoice_assigned?.is_electronic == 1 && 
+                  <div className="mt-3">
+                      <div>Si este documento no se envio electronicamente, reintentelo <span className="clickeable" onClick={sendElectronic}>aqui</span></div>
                   </div>
                 }
         </div> }
