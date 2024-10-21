@@ -56,8 +56,6 @@ export function InvoiceDetailsModal(props: InvoiceDetailsModalProps) {
 
 
   const sendElectronic = async ()=>{
-    console.log(record)
-    return
     try {
       setIsSending(true)
       const response = await getData(`electronic/send/${record}`);
