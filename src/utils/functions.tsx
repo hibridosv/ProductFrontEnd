@@ -130,7 +130,6 @@ export const sumarSubtotal = (datos: any): number => {
  * @returns 
  */
 export const sumarSalesTotal = (records: any): number => {
-  console.log("records: ", records)
   const total = sumarCantidad(records?.invoiceproducts);
   const subtotal = sumarSubtotal(records?.invoiceproducts);
 
