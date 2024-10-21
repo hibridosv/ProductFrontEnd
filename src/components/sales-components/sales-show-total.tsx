@@ -48,8 +48,7 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
     <ShowTotal isSending={isSending} records={records} />
     { records?.invoice_assigned?.type == 4 &&
     <div>
-      <div>Subtotal: </div>
-      <div>Retención: </div>
+      <div>Retención: {(sumarSubtotal(records?.invoiceproducts) * 0.10).toFixed(2)}</div>
     </div>
     }
     <div className='flex justify-between border-2 border-sky-500 rounded mb-2'>
