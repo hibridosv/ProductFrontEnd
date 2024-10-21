@@ -44,10 +44,10 @@ export function SalesButtons(props: SalesButtonsProps) {
           className='my-1'
           /> }
 
-        { (!invoice?.client_id && invoice?.invoice_assigned?.type == 3) && <Alert
+        { (!invoice?.client_id && (invoice?.invoice_assigned?.type == 3 || invoice?.invoice_assigned?.type == 4)) && <Alert
           theme={PresetTheme.danger}
           info="Error"
-          text="Seleccione un cliente para el CCF"
+          text={`Seleccione un cliente para el ${invoice?.invoice_assigned?.type == 3 ? "CCF" : "Sujeto Excluido"}`}
           isDismisible={false}
           className='my-1'
           /> }
