@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { RequestCodeModal } from "../common/request-code-modal";
 import { useCodeRequest } from "@/hooks/useCodeRequest";
 import { IoMdLock, IoMdUnlock } from "react-icons/io";
+import { FaPen, FaPenAlt } from "react-icons/fa";
 
 
 
@@ -26,6 +27,7 @@ export enum OptionsClickSales {
   commisssion = 6,
   productView = 7,
   price = 8,
+  changeName = 9,
 }
 
 
@@ -51,13 +53,17 @@ export function SalesQuickTable(props: SalesQuickProps) {
       {config.includes("sales-show-code") &&
       <td className="py-1 px-2">{ record.cod }</td>
       }
-      <td className="py-1 px-2 truncate uppercase clickeable" onClick={()=> onClick(record, OptionsClickSales.productView)}>{ record.product.slice(0, 50) }</td>
+      <td className="py-1 px-2 truncate uppercase">
+        <div className="flex justify-between" >
+          <span className="clickeable w-full" onClick={()=> onClick(record, OptionsClickSales.productView)}>{ record.product.slice(0, 50) }</span>
+          {config.includes("sales-change-comment") && <span title={record.comment ? record.comment : "Sin comentarios"} className="ml-2 mt-1 clickeable" onClick={()=> onClick(record, OptionsClickSales.changeName)}><FaPen color={record.comment ? 'green' : 'black'} /></span> }
+        </div>
+      </td>
       <td className="py-1 px-2  cursor-pointer" onClick={codeRequestPice.requestPrice && codeRequestPice.required ?
          ()=> setIsRequestCodeModal(true) : 
          ()=> onClick(record, OptionsClickSales.price)}>
         { numberToMoney(record.unit_price ? record.unit_price : 0, systemInformation) }
-              
-              </td>
+      </td>
       {
         config.includes("sales-discount") ?
         <td className="py-1 px-2 truncate cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.discount)}>

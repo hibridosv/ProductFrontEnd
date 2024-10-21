@@ -7,6 +7,7 @@ import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { Tooltip } from "flowbite-react";
 import { ErrorsSVModal } from "./errors-sv-modal";
+import { EmailSendModal } from "./email-send-modal";
 
 
 interface InvoiceDocumentsElectronicTableProps {
@@ -20,6 +21,7 @@ export function InvoiceDocumentsElectronicTable(props: InvoiceDocumentsElectroni
   const [showInvoiceModal, setShowInvoiceModal] = useState<boolean>(false);
   const [recordSelect, setRecordSelect] = useState<string>("");
   const [showErrorsModal, setShowErrorsModal] = useState<boolean>(false);
+  const [showEmailModal, setShowEmailModal] = useState<boolean>(false);
   const [errorsSelect, setErrorsSelect] = useState([]);
 
 
@@ -80,6 +82,10 @@ const tipoDTE = (dte: string)=>{
               <div> Descargar JSON</div>
               }
               </div>
+
+              <div className={`w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 ${record?.status == 4 ? 'clickeable' : ''}`} 
+              onClick={ record?.status == 4 ? ()=>{ setRecordSelect(record); setShowEmailModal(true)} : ()=>{} }> Reenviar Email</div>
+
               <div className={`w-full font-semibold ${record?.status == 3 ? 'text-red-700 py-2 px-4 hover:bg-red-100 clickeable' : 'text-slate-700 py-2 px-4 hover:bg-slate-100'}`} onClick={ record?.status == 3 ? ()=> resendDocument(record?.codigo_generacion) : ()=> {}}>Reenviar Documento</div>
             </div>
           }>
@@ -109,5 +115,6 @@ const tipoDTE = (dte: string)=>{
  </div>
  <InvoiceDetailsModal isShow={showInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={recordSelect} />
  <ErrorsSVModal isShow={showErrorsModal} onClose={()=>setShowErrorsModal(false)} errors={errorsSelect} />
+ <EmailSendModal isShow={showEmailModal} onClose={()=>setShowEmailModal(false)} record={recordSelect} />
  </div>);
 }

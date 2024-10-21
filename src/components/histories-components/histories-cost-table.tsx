@@ -23,8 +23,6 @@ export function HistoriesCostTable(props: HistoriesCostTableProps) {
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
-
-
   const listItems = records.data.map((record: any, key: any) => (
     <tr key={record.id} className="border-b">
       <td className="py-2 px-6 truncate">{ formatDate(record?.created_at) } | { formatHourAsHM(record?.created_at)} </td>
