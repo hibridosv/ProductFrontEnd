@@ -332,9 +332,6 @@ export default function ViewSales() {
             } 
           };
 
-          console.log("order", order)
-          console.log("selectType", selectType)
-
 
           const updateProductOption = async (data: any) => {
             try {

@@ -21,7 +21,6 @@ export function PayFinishModal(props: PayFinishModalProps) {
   const { onClose, invoice, isShow, isSending } = props;
   const { systemInformation } = useContext(ConfigContext);
 
-console.log("invoice: ", invoice)
   return (
     <Modal show={isShow} position="center" onClose={onClose} size="md">
       <Modal.Body>

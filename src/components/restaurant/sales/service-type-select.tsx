@@ -47,9 +47,6 @@ export function ServiceTypeSelect(props: ServiceTypeSelectProps) {
     setSelectType(option)
   }
 
-
-  console.log("configuration", configuration)
-
       return (
             <div>
               <div className="flex justify-around w-full h-7 shadow-md">
