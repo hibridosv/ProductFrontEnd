@@ -6,6 +6,7 @@ import { postData } from "@/services/resources";
 import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { style } from "@/theme";
+import { Option, RadioButton } from "../radio-button/radio-button";
 
 export interface SalesOthersProps {
     onClose: () => void;
@@ -17,7 +18,12 @@ export function SalesOthers(props: SalesOthersProps){
 const { onClose, isShow, order } = props;
 const [isSending, setIsSending] = useState(false);
 const { register, handleSubmit, reset, setValue } = useForm();
-
+let optionsRadioButton: Option[] = [
+  { id: 1, name: "Gravado" },
+  { id: 2, name: "Exento" },
+  { id: 3, name: "Excluido" },
+];
+const [selectedOption, setSelectedOption] = useState<Option>({ id: 1, name: "Gravado" });
 
 
 const onSubmit = async (data: any) => {
@@ -75,8 +81,9 @@ return (
                 <input type="number" step="any" {...register("total", { required: true })} className={`${style.input} w-full`} />
             </div>
             <div className="w-full md:w-full px-3 mb-4 flex justify-center">
-              <Checkbox {...register("exempt")} className="mr-2" />
+              {/* <Checkbox {...register("exempt")} className="mr-2" /> */}
               <label htmlFor="exempt" className={style.inputLabel} >Exento de Impuestos</label>
+              <RadioButton options={optionsRadioButton} onSelectionChange={setSelectedOption} />
             </div>
             <div className="flex justify-center">
             <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
