@@ -57,7 +57,7 @@ export function InvoiceDocumentsTable(props: InvoiceDocumentsTableProps) {
       </thead>
       <tbody>{listItems}</tbody>
     </table>
-    <InvoiceDetailsModal isShow={showInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={recordSelect} />
+    <InvoiceDetailsModal isShow={showInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={recordSelect} onElectronic={true} />
  </div>
  </div>);
 }
