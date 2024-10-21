@@ -16,10 +16,11 @@ export interface InvoiceDetailsModalProps {
   onClose: () => void;
   isShow: boolean;
   record?: string;
+  onElectronic?: boolean;
 }
 
 export function InvoiceDetailsModal(props: InvoiceDetailsModalProps) {
-  const { onClose, record, isShow } = props;
+  const { onClose, record, isShow, onElectronic = false } = props;
   const [showCodeStatus, setShowCodeStatus] = useState<boolean>(false);
   const { config, systemInformation } = useContext(ConfigContext);
   const [records, setRecords] = useState([]) as any;
@@ -168,7 +169,7 @@ export function InvoiceDetailsModal(props: InvoiceDetailsModalProps) {
                 }
 
                 {
-                records?.data?.invoice_assigned?.is_electronic == 1 && 
+                records?.data?.invoice_assigned?.is_electronic == 1 && onElectronic && 
                   <div className="mt-3">
                       <div>Si este documento no se envio electronicamente, reintentelo <span className="clickeable" onClick={sendElectronic}>aqui</span></div>
                   </div>
