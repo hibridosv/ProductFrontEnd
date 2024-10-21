@@ -81,8 +81,6 @@ return (
                 <input type="number" step="any" {...register("total", { required: true })} className={`${style.input} w-full`} />
             </div>
             <div className="w-full md:w-full px-3 mb-4 flex justify-center">
-              {/* <Checkbox {...register("exempt")} className="mr-2" /> */}
-              {/* <label htmlFor="exempt" className={style.inputLabel} >Exento de Impuestos</label> */}
               <RadioButton options={optionsRadioButton} onSelectionChange={setSelectedOption} />
             </div>
             <div className="flex justify-center">
