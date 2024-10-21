@@ -123,6 +123,27 @@ export const sumarSubtotal = (datos: any): number => {
   return totalSuma;
 }
 
+
+/**
+ * 
+ * @param records (datos de la factura)
+ * @returns 
+ */
+export const sumarSalesTotal = (records: any): number => {
+  console.log("records: ", records)
+  const total = sumarCantidad(records?.invoiceproducts);
+  const subtotal = sumarSubtotal(records?.invoiceproducts);
+
+  if (records?.client?.taxpayer_type == 2 && subtotal >= 100) {
+    let retention = subtotal * 0.01;
+    return (total - retention)
+  }
+  // if (records?.client?.taxpayer_type == 2 && subtotal >= 100) {
+  //   return (total - retention)
+  // }
+  return total;
+}
+
 /**
  * Lo mismo que sumar totales pero retorna un numero
  * @param datos 
