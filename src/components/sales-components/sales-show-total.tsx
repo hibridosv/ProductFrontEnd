@@ -46,6 +46,12 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
   const subtotal = sumarSubtotal(records?.invoiceproducts);
   return (<>
     <ShowTotal isSending={isSending} records={records} />
+    { records?.invoice_assigned?.type == 4 &&
+    <div>
+      <div>Subtotal: </div>
+      <div>Retención: </div>
+    </div>
+    }
     <div className='flex justify-between border-2 border-sky-500 rounded mb-2'>
       <span className='mx-2 text-sm font-bold animatex' onClick={invoiceType} >{ records?.invoice_assigned?.name.toUpperCase() }</span> 
       { multiPriceStatus ? 

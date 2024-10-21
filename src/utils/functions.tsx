@@ -134,13 +134,15 @@ export const sumarSalesTotal = (records: any): number => {
   const total = sumarCantidad(records?.invoiceproducts);
   const subtotal = sumarSubtotal(records?.invoiceproducts);
 
-  if (records?.client?.taxpayer_type == 2 && subtotal >= 100) {
+  if (records?.client?.taxpayer_type == 2 && subtotal >= 100) { // gran contribuyente
     let retention = subtotal * 0.01;
     return (total - retention)
   }
-  // if (records?.client?.taxpayer_type == 2 && subtotal >= 100) {
-  //   return (total - retention)
-  // }
+
+  if (records?.invoice_assigned?.type == 4) { // sujeto excluido
+    let retention = subtotal * 0.10;
+    return (total - retention)
+  }
   return total;
 }
 
