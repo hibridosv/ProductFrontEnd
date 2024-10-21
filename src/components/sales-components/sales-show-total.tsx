@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { OptionsClickOrder, PresetTheme, TypeOfPrice } from "@/services/enums";
 import { Order } from "@/services/order";
-import { formatDuiWithAll, getConfigStatus, setPriceName, setPriceOptions, sumarCantidad, sumarSubtotal, sumarTotales } from "@/utils/functions";
+import { formatDuiWithAll, getConfigStatus, getCountryProperty, setPriceName, setPriceOptions, sumarSubtotal } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
 import { Alert } from "../alert/alert";
 import { ShowTotal } from "./show-total";
@@ -20,7 +20,7 @@ export interface SalesShowTotalProps {
 
 export function SalesShowTotal(props: SalesShowTotalProps) {
   const { records, isSending, invoiceType, setPrice, priceType } = props;
-  const { config } = useContext(ConfigContext);
+  const { config, systemInformation } = useContext(ConfigContext);
   const [multiPriceStatus, setMultiPriceStatus] = useState<boolean>(false)
   const [wholesalerStatus, setWholesalerStatus] = useState<boolean>(false)
   const [promotionStatus, setPromotionStatus] = useState<boolean>(false)
@@ -46,6 +46,11 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
   const subtotal = sumarSubtotal(records?.invoiceproducts);
   return (<>
     <ShowTotal isSending={isSending} records={records} />
+    { records?.invoice_assigned?.type == 4 &&
+    <div className="border-2 border-red-700 rounded mb-2">
+      <div className="mx-2 text-sm font-bold uppercase">Retención: { getCountryProperty(parseInt(systemInformation?.system?.country)).currency} {(sumarSubtotal(records?.invoiceproducts) * 0.10).toFixed(2)}</div>
+    </div>
+    }
     <div className='flex justify-between border-2 border-sky-500 rounded mb-2'>
       <span className='mx-2 text-sm font-bold animatex' onClick={invoiceType} >{ records?.invoice_assigned?.name.toUpperCase() }</span> 
       { multiPriceStatus ? 

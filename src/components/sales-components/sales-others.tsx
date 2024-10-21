@@ -1,11 +1,12 @@
 'use client'
 import {  useEffect, useState } from "react";
-import { Modal } from "flowbite-react";
+import { Checkbox, Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { postData } from "@/services/resources";
 import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { style } from "@/theme";
+import { Option, RadioButton } from "../radio-button/radio-button";
 
 export interface SalesOthersProps {
     onClose: () => void;
@@ -17,7 +18,12 @@ export function SalesOthers(props: SalesOthersProps){
 const { onClose, isShow, order } = props;
 const [isSending, setIsSending] = useState(false);
 const { register, handleSubmit, reset, setValue } = useForm();
-
+let optionsRadioButton: Option[] = [
+  { id: 1, name: "Gravado" },
+  { id: 2, name: "Exento" },
+  { id: 3, name: "No Sujeto" },
+];
+const [selectedOption, setSelectedOption] = useState<Option>({ id: 1, name: "Gravado" });
 
 
 const onSubmit = async (data: any) => {
@@ -31,6 +37,7 @@ const onSubmit = async (data: any) => {
         quantity: data.quantity,
         total: data.total,
         order_id: order.id,
+        exempt: selectedOption.id,
     };
     try {
       setIsSending(true);
@@ -72,6 +79,9 @@ return (
             <div className="w-full md:w-full px-3 mb-4">
                 <label htmlFor="total" className={style.inputLabel} >Precio</label>
                 <input type="number" step="any" {...register("total", { required: true })} className={`${style.input} w-full`} />
+            </div>
+            <div className="w-full md:w-full px-3 mb-4 flex justify-center">
+              <RadioButton options={optionsRadioButton} onSelectionChange={setSelectedOption} />
             </div>
             <div className="flex justify-center">
             <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
