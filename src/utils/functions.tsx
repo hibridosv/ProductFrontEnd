@@ -145,6 +145,7 @@ export const sumarSalesTotal = (records: any): number => {
   return total;
 }
 
+
 /**
  * Lo mismo que sumar totales pero retorna un numero
  * @param datos 
