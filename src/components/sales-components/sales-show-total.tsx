@@ -48,7 +48,7 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
     <ShowTotal isSending={isSending} records={records} />
     { records?.invoice_assigned?.type == 4 &&
     <div className="border-2 border-red-700 rounded mb-2">
-      <div className="mx-2 text-sm font-bold uppercase">Retención: { getCountryProperty(parseInt(systemInformation?.system?.country)).currency} {(sumarSubtotal(records?.invoiceproducts)).toFixed(2)}</div>
+      <div className="mx-2 text-sm font-bold uppercase">Retención: { getCountryProperty(parseInt(systemInformation?.system?.country)).currency} {records?.retention ? records?.retention.toFixed(2) : "0.00"}</div>
     </div>
     }
     <div className='flex justify-between border-2 border-sky-500 rounded mb-2'>
