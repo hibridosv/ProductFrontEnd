@@ -7,11 +7,14 @@ export interface ClientsTablesProps {
   order: any
   setClientActive: (client: number)=>void;
   clientActive: number;
+  isLoading?: boolean;
+
 }
 
 export function ClientsTables(props: ClientsTablesProps) {
-  const { isShow, order, setClientActive, clientActive } = props;
+  const { isShow, order, setClientActive, clientActive, isLoading } = props;
 
+        console.log("isLoading: ", isLoading)
         if (!isShow) return <></>
 
         const listItems = Array.from({ length: order?.attributes?.clients_quantity || 1 }).map((_, index) => {
@@ -30,13 +33,28 @@ export function ClientsTables(props: ClientsTablesProps) {
             )
         });
         
+        const clientMock = ()=>{
+            return (
+                <div  className="m-2 animate-pulse">
+                    <div className="rounded-md drop-shadow-lg">
+                        <div className="w-full flex justify-center">
+                        <BiUser size={48} className='text-red-900' />
+                        </div>
+                        <p className="w-full content-center text-center rounded-b-md overflow-hidden uppercase text-xs text-black font-medium p-1 bg-red-300" 
+                           style={{ maxWidth: '146px',  wordBreak: 'keep-all', lineHeight: '1.2em' }}>
+                            Cargando...
+                        </p>
+                    </div>
+                </div>
+            )
+        }
   
       
       return (
         <div className="border-b-2 border-slate-500">
             <div>
                 <div className="flex flex-wrap justify-center">
-                { listItems }
+                { isLoading ? clientMock() : listItems }
                 </div>
             </div>
         </div>
