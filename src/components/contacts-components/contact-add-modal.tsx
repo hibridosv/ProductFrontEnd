@@ -21,6 +21,9 @@ export function ContactAddModal(props: ContactAddModalProps) {
             systemInformation?.system?.country == 1 && <ContactAddSVModal isShow={isShow} onClose={onClose} record={record} random={random} />
           }
           {
+            systemInformation?.system?.country == 2 && <ContactAddGTModal isShow={isShow} onClose={onClose} record={record} random={random} />
+          }
+          {
             systemInformation?.system?.country == 3 && <ContactAddGTModal isShow={isShow} onClose={onClose} record={record} random={random} />
           }
         </div>);

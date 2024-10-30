@@ -18,6 +18,9 @@ export function ContactDetails(props: ContactDetailsProps) {
             systemInformation?.system?.country == 1 && <ContactDetailsSV record={record} /> 
           }
           {
+            systemInformation?.system?.country == 2 && <ContactDetailsGT record={record} /> 
+          }
+          {
             systemInformation?.system?.country == 3 && <ContactDetailsGT record={record} /> 
           }
         </div>
