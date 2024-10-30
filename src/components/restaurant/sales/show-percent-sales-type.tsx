@@ -28,7 +28,7 @@ export function ShowPercentSalesType(props: ShowPercentSalesTypeProps) {
       loadPercentajes();
     }
   }, [order, config]);
-    console.log(config)
+
   if (!percentajes || percentajes.data.length === 0) {
     return <div></div>;
   }
