@@ -10,6 +10,8 @@ import { loadData } from "@/utils/functions";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
+import { RiRefreshFill } from "react-icons/ri";
+import { BiUser, BiUserCircle } from "react-icons/bi";
 
 
 export default function CashDrawerPage() {
@@ -21,6 +23,7 @@ export default function CashDrawerPage() {
   const { cashDrawer, setCashDrawer } = useContext(ConfigContext);
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const [isLoading, setIsLoading] = useState(false);
+  const [showAll, setShowAll] = useState(false);
 
 
   useEffect(() => {
@@ -44,6 +47,42 @@ export default function CashDrawerPage() {
     }
   }, [cashDrawerOpenModal, cashDrawerCloseModal, currentPage]);
 
+  useEffect(() => {
+    if (!cashDrawerOpenModal && !cashDrawerCloseModal) {
+      
+      const getDataInitial = async()=>{
+        try {
+            setIsLoading(true);
+            const cashdraersData =  await loadData(`cashdrawers?filter[status]=!0&included=employee`)
+            setCashDrawers(cashdraersData)
+          } catch (error) {
+            console.error(error);
+            toast.error("Ha ocurrido un error!");
+          } finally {
+            setIsLoading(false);
+          }
+      }
+      getDataInitial()
+    }
+  }, [cashDrawerOpenModal, cashDrawerCloseModal]);
+
+  useEffect(() => {
+    if (!cashDrawerOpenModal && !cashDrawerCloseModal) {
+      
+      const getDataInitial = async()=>{
+        try {
+            const usersData =  await loadData(`cut/all?perPage=8${currentPage}${showAll ? "&showall" : ""}`)
+            setCutsUser(usersData)
+          } catch (error) {
+            console.error(error);
+            toast.error("Ha ocurrido un error!");
+          }
+      }
+      getDataInitial()
+    }
+  }, [cashDrawerOpenModal, cashDrawerCloseModal, currentPage, showAll]);
+
+
   const handleOpenCashDrawer = (id: string) => {
     setCashDrawerSelected(id);
     setCashDrawerOpenModal(true);
@@ -55,7 +94,7 @@ const onDeleteCut = async(cutId: any)=>{
   try {
       const response =  await postData(`cashdrawers/${cutId.id}`, 'DELETE');
       if (response.type == "successful") {
-        setCutsUser(await loadData(`cut/all`));
+        setCutsUser(await loadData(`cut/all?perPage=8${currentPage}${showAll ? "&showall" : ""}`));
         setCashDrawer(cutId.cashdrawers_id);
       }
       toast.error(response.message);
@@ -88,7 +127,11 @@ const onDeleteCut = async(cutId: any)=>{
       </div>
     </div>
     <div className="col-span-5">
-        <ViewTitle text="SUS ULTIMOS CORTES" />
+        <div className="flex justify-between">
+          <ViewTitle text="SUS ULTIMOS CORTES" />
+          
+          <div onClick={()=>setShowAll(!showAll)} className="text-sm text-right">{ showAll ? <RiRefreshFill size={32} className="col-span-11 m-4 text-2xl text-sky-900 clickeable" /> : <BiUserCircle size={32} className="col-span-11 m-4 text-2xl text-red-900 clickeable" /> }</div>
+        </div>
         <CutShowCuts records={cutsUser} onDelete={onDeleteCut} />
         <Pagination records={cutsUser} handlePageNumber={handlePageNumber } />
     </div>
