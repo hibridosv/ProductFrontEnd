@@ -86,8 +86,8 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
     data.departament_doc = departament
     data.town_doc = town
     data.country = country
-    data.id_number = formatDocument(data.id_number) // se registr sin guiones
-    data.document = formatDocument(data.document) // se registr sin guiones
+    data.id_number = formatDocument(data.id_number ? data.id_number : data.document) // se registr sin guiones
+    data.document = formatDocument(data.document ? data.document : data.id_number) // se registr sin guiones
     data.register = formatDocument(data.register) // se registr sin guiones
     try {
       setIsSending(true)
