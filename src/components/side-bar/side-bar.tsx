@@ -130,6 +130,7 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         <SubMenu label="Herramientas" icon={<HiOutlineChartSquareBar />}>
         {showIten("tools-quotes", <MenuItem component={<Link className="text-sm" href="/tools/quotes" />}>Cotizaciones </MenuItem>)}
         {showIten("tools-commissions", <MenuItem component={<Link className="text-sm" href="/tools/commissions" />}>Detalle Comisiones </MenuItem>)}
+        <MenuItem component={<Link className="text-sm" href="/tools/commissions/gold" />}>Puntos de Oro </MenuItem>
         {showIten("tools-adjustment", <MenuItem component={<Link className="text-sm" href="/tools/adjustment" />}>Ajustar inventario </MenuItem>)}
         </SubMenu>
         }

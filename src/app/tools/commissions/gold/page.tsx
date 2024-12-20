@@ -13,7 +13,9 @@ import { CommissionsProductsTable } from "@/components/tools-components/commissi
 import { CreditsShowTotal } from "@/components/credits-components/credits-show-total";
 import { ButtonDownload } from "@/components/button/button-download";
 import { FaDownload } from "react-icons/fa";
-import { ButtonLink } from "@/components/button/button-link";
+import { DateRange, DateRangeValues } from "@/components/form/date-range";
+import { CommissionsGoldSelectTable } from "@/components/tools-components/commissions-gold-select-table";
+import { CommissionsListGoldTable } from "@/components/tools-components/commissions-list-gold-table";
 
 export default function Page() {
   const [commissions, setCommissions] = useState([]);
@@ -29,10 +31,15 @@ export default function Page() {
 
   
 
-    const createCommission = async () => {
+    const createCommission = async (data: DateRangeValues) => {
+      if (data.option != "2") {
+        toast.error("Seleccione un rango de fechas!");
+        return;
+      }
+      let payload = { "userId" : contactSelected?.id, "type" : 2, "initialDate" : data.initialDate, "finalDate" : data.finalDate, option: data.option };
       try {
         setIsSending(true);
-        const response = await postData(`tools/commissions/create`, "POST", { "userId" : contactSelected?.id, "type" : 1 });
+        const response = await postData(`tools/commissions/create/gold`, "POST", payload);
         if (!response.message) {
           setInitialCommission(response)
         } else {
@@ -49,7 +56,7 @@ export default function Page() {
     const cancelCommission = async () => {
       try {
         setIsSending(true);
-        const response = await postData(`tools/commissions/cancel/${initialCommission?.data?.id}`, "PUT", { "userId" : initialCommission?.data?.referred_id });
+        const response = await postData(`tools/commissions/cancel/gold/${initialCommission?.data?.id}`, "DELETE");
         if (response.type == "successful") {
           setInitialCommission(null)
         } else {
@@ -69,7 +76,7 @@ export default function Page() {
     const saveCommission = async () => {
       try {
         setIsSending(true);
-        const response = await postData(`tools/commissions/save/${initialCommission?.data?.id}`, "PUT", { "userId" : initialCommission?.data?.referred_id });
+        const response = await postData(`tools/commissions/save/gold/${initialCommission?.data?.id}`, "PUT");
         if (response.type == "successful") {
           setInitialCommission(null)
         } else {
@@ -90,11 +97,11 @@ export default function Page() {
     const handleGetSales = async () => {
         try {
           setIsSending(true);
-          const active = await  await getData(`tools/commissions/active?type=1`);
+          const active = await  await getData(`tools/commissions/active?type=2`);
           if (!active.message) {
             setInitialCommission(active)
           } else {
-            const response = await getData(`tools/commissions${contactSelected ? `?filterWhere[referred_id]==${contactSelected?.id}&` : `?`}filterWhere[type]==1&included=employee_deleted,referred,linked.product.order&sort=-created_at`);
+            const response = await getData(`tools/commissions${contactSelected ? `?filterWhere[referred_id]==${contactSelected?.id}&` : `?`}filterWhere[type]==2&included=employee_deleted,referred,linked.product.order&sort=-created_at`);
             if (!response.message) {
               setCommissions(response);
               toast.success("Datos obtenidos correctamente");
@@ -168,8 +175,8 @@ export default function Page() {
             <ViewTitle text={initialCommission ? "FACTURAS PENDIENTES DE PAGAR" : "REPORTE DE COMISIONES POR CLIENTE"} />
 
             { initialCommission ?
-            <CommissionsProductsTable record={initialCommission} setProducts={setProducts} /> :
-            <CommissionsListTable records={commissions} isLoading={isSending} random={setRandomNumber}/>
+            <CommissionsGoldSelectTable record={initialCommission} setProducts={setProducts} /> :
+            <CommissionsListGoldTable records={commissions} isLoading={isSending} random={setRandomNumber}/>
             }
         </div>
         <div className="col-span-3">
@@ -177,10 +184,10 @@ export default function Page() {
         
         { initialCommission ? 
         <div>
-          <CreditsShowTotal quantity={products} text="Facturas seleccionadas" number />
+          <CreditsShowTotal quantity={products} text="Comisiones disponibles" number />
           <div className="mx-4 mt-8 flex">
             <Button text="Cancelar" isFull={products == 0} style="mx-2" preset={Preset.cancel} onClick={cancelCommission} />
-            { products > 0 && <Button text="Guardar" style="mx-2" isFull preset={Preset.save} onClick={saveCommission} /> }
+            <Button text="Guardar" style="mx-2" isFull preset={Preset.save} onClick={saveCommission} />
           </div>
         </div> 
         :
@@ -208,7 +215,8 @@ export default function Page() {
           }
           { contactSelected && !initialCommission && 
           <div className="mx-4 mt-8 ">
-            <Button disabled={!contactSelected || isSending || initialCommission} isFull preset={Preset.primary} style="mx-2" text="AGREGAR" onClick={()=>createCommission()} />
+                    <ViewTitle text="SELECCIONAR FECHA" />
+                    <DateRange onSubmit={createCommission} />
           </div> 
           }
 
@@ -219,12 +227,18 @@ export default function Page() {
                   href={`/download/excel/commissions/report/${contactSelected ? `?filterWhere[referred_id]==${contactSelected?.id}&` : `?`}included=employee_deleted,referred,linked.product.order&sort=-created_at`}
                   autoclass={false}
                   divider="&">
-                  <ButtonLink text="DESCARGAR REPORTE EXCEL" />
+                            <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
+                                DESCARGAR REPORTE EXCEL
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </li>
                 </ButtonDownload>
 
             </div>
             }
-        </div>           
+        </div>
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   )
