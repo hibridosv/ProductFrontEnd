@@ -140,10 +140,10 @@ export function CommissionGoldViewModal(props: CommissionGoldViewModalProps) {
                                 <div className="uppercase border-x-2 m-4 ">
                                     <div>
                                         <div className="py-1 pl-5 border border-b-2 ">Ordenes afectadas: <span className="font-semibold">{record.quantity_commissions}</span></div>
-                                        <div className="py-1 pl-5 border border-b-2 ">Total de ventas: <span className="font-semibold">{numberToMoney(record.total, systemInformation)}</span></div>
-                                        <div className="py-1 pl-5 border border-b-2 ">Total de Comisión: <span className="font-semibold">{numberToMoney(record.commissions, systemInformation)}</span></div>
-                                        <div className="py-1 pl-5 border border-b-2 ">Total de Retenciones: <span className="font-semibold">{numberToMoney(record.commissions.toFixed(2) * 0.10, systemInformation)}</span></div>
-                                        <div className="py-1 pl-5 border border-b-2 bg-lime-200">Total a Pagar: <span className="font-semibold">{numberToMoney(record.commissions - (record.commissions * 0.10), systemInformation)}</span></div>
+                                        <div className="py-1 pl-5 border border-b-2 ">Total de Comisiones: <span className="font-semibold">{numberToMoney(record.commissions, systemInformation)}</span></div>
+                                        <div className="py-1 pl-5 border border-b-2 ">Total de Puntos de Oro: <span className="font-semibold">{numberToMoney(((record.commissions * 0.90) * 0.10), systemInformation)}</span></div>
+                                        <div className="py-1 pl-5 border border-b-2 ">Total de Retenciones: <span className="font-semibold">{numberToMoney((((record.commissions * 0.90) * 0.10) * 0.10), systemInformation)}</span></div>
+                                        <div className="py-1 pl-5 border border-b-2 bg-lime-200">Total a Pagar: <span className="font-semibold">{numberToMoney(((record.commissions * 0.90) * 0.10) - (((record.commissions * 0.90) * 0.10) * 0.10), systemInformation)}</span></div>
                                     </div>
                                 </div>
                             ) : (

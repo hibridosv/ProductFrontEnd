@@ -55,8 +55,8 @@ export function CommissionsListGoldTable(props: CommissionsListGoldTableProps) {
       <td className="py-2 px-6 truncate">{ formatDate(record?.final_date) } { formatHourAsHM(record?.updated_at) }</td>
       <td className="py-2 px-6">{ setType(record?.type) }</td>
       <td className="py-2 px-6">{ record?.referred?.name }</td>
-      <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0, systemInformation) }</td>
-      <th className="py-2 px-6">{ numberToMoney(record?.commissions ? record.type == 1 ? record?.commissions : record?.commissions * 0.10 : 0, systemInformation) }</th>
+      <td className="py-2 px-6">{ numberToMoney(record?.commissions ? record?.commissions : 0, systemInformation) }</td>
+      <th className="py-2 px-6">{ numberToMoney(record?.commissions ? record.type == 1 ? record?.commissions : (record?.commissions * 0.90) * 0.10 : 0, systemInformation) }</th>
       <th className="py-2 px-6" onClick={()=>setModal(record)}>{ setStatus(record?.status) }</th>
     </tr>
   ));
@@ -72,7 +72,7 @@ export function CommissionsListGoldTable(props: CommissionsListGoldTableProps) {
           <th scope="col" className="py-3 px-4 border">Tipo</th>
           <th scope="col" className="py-3 px-4 border">Cliente</th>
           <th scope="col" className="py-3 px-4 border">Total Comisiones</th>
-          <th scope="col" className="py-3 px-4 border">Comision</th>
+          <th scope="col" className="py-3 px-4 border">Puntos de Oro</th>
           <th scope="col" className="py-3 px-4 border">Estado</th>
         </tr>
       </thead>
