@@ -164,7 +164,7 @@ export function CommissionGoldViewModal(props: CommissionGoldViewModalProps) {
                 }
             </Modal.Body>
             <Modal.Footer className="flex justify-end gap-4">
-                {record && record.status === 3 && <ButtonDownload href={`/download/pdf/commission/${record.id}`}><FaDownload size={24} /></ButtonDownload>}
+                {record && record.status === 3 && <ButtonDownload href={`/download/pdf/commission/gold/${record.id}`}><FaDownload size={24} /></ButtonDownload>}
                 {record && record.status === 2 && <Button onClick={deleteReport} preset={Preset.cancel} disabled={isSending} text="ELIMINAR REPORTE" />}
                 <Button onClick={onClose} preset={Preset.close} disabled={isSending} />
                 {record && record.status === 2 && <Button onClick={payReport} preset={isSending ? Preset.saving : Preset.save} disabled={isSending} text="PAGAR REPORTE" />}
