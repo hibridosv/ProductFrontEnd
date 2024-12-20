@@ -10,15 +10,12 @@ import { CommissionsListGoldTable } from "@/components/tools-components/commissi
 
 export default function Page() {
   const [commissions, setCommissions] = useState([]);
-  const [initialCommission, setInitialCommission] = useState(null as any);
   const [isSending, setIsSending] = useState(false);
   const [randomNumber, setRandomNumber] = useState(0);
 
-  const [ randNumber, setrandNumber] = useState(0) as any;
   const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number"], 500);
   const [contacts, setContacts] = useState([]) as any;
   const [contactSelected, setContactSelected] = useState(null) as any;
-  const [products, setProducts] = useState(0) as any;
 
   
 
@@ -90,7 +87,7 @@ export default function Page() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600">
-            <ViewTitle text={initialCommission ? "FACTURAS PENDIENTES DE PAGAR" : "REPORTE DE COMISIONES PUNTOS DE ORO"} />
+            <ViewTitle text="REPORTE DE COMISIONES PUNTOS DE ORO" />
             <CommissionsListGoldTable records={commissions} isLoading={isSending} random={setRandomNumber}/>
         </div>
         <div className="col-span-3">
