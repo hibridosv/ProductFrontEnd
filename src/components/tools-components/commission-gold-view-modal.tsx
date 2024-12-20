@@ -4,7 +4,7 @@ import { Button, Preset } from "../button/button";
 import { useState, useEffect, useContext } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { getData, postData } from "@/services/resources";
-import { formatDuiWithAll, getRandomInt, getTotalPercentage, numberToMoney } from "@/utils/functions";
+import { formatDuiWithAll, getRandomInt, numberToMoney } from "@/utils/functions";
 import { Loading } from "../loading/loading";
 import { Alert } from "../alert/alert";
 import { formatDate, formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";

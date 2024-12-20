@@ -3,7 +3,6 @@ import { numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import { Loading } from "../loading/loading";
 import { formatDate, formatHourAsHM } from "@/utils/date-formats";
-import { CommissionViewModal } from "./commission-view-modal";
 import { useContext, useState } from "react";
 import { ConfigContext } from "@/contexts/config-context";
 import { CommissionGoldViewModal } from "./commission-gold-view-modal";
