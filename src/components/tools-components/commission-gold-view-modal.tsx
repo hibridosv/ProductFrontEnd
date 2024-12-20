@@ -107,13 +107,14 @@ export function CommissionGoldViewModal(props: CommissionGoldViewModalProps) {
           <td className="py-2 px-6">{ setType(record?.type) }</td>
           <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0, systemInformation) }</td>
           <th className="py-2 px-6">{ numberToMoney(record?.commissions ? record.type == 1 ? record?.commissions : record?.commissions * 0.10 : 0, systemInformation) }</th>
+          <th className="py-2 px-6"><ButtonDownload href={`/download/pdf/commission/${record.id}`}><FaDownload size={12} /></ButtonDownload></th>
         </tr>
       ));
 
 
     return (
         <Modal size="6xl" show={isShow} position="center" onClose={onClose}>
-            <Modal.Header>REPORTE DE COMISIONES</Modal.Header>
+            <Modal.Header>RESUMEN DE COMISIONES PAGADAS</Modal.Header>
             <Modal.Body>
                 {isSending ? <Loading /> :
                     <div>
@@ -130,6 +131,7 @@ export function CommissionGoldViewModal(props: CommissionGoldViewModalProps) {
                                     <th scope="col" className="py-3 px-4 border">Tipo</th>
                                     <th scope="col" className="py-3 px-4 border">Total</th>
                                     <th scope="col" className="py-3 px-4 border">Comisiones</th>
+                                    <th scope="col" className="py-3 px-4 border">Ver</th>
                                 </tr>
                                 </thead>
                                 <tbody>{listItems}</tbody>

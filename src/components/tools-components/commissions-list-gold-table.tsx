@@ -22,10 +22,9 @@ export function CommissionsListGoldTable(props: CommissionsListGoldTableProps) {
   const { systemInformation } = useContext(ConfigContext);
 
 
-
   if (isLoading) return <Loading />;
   if (!records.data) return <NothingHere width="164" height="98" />;
-  if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
+  if (records.data.length == 0) return <NothingHere text="No se encontraron datos, Seleccione un rango de fechas para crear el reporte" width="164" height="98" />;
 
   const setStatus = (status: number): any =>{
       switch (status) {
@@ -49,6 +48,7 @@ export function CommissionsListGoldTable(props: CommissionsListGoldTableProps) {
     setIsViewCommissionModal(true)
   }
 
+  console.log("Records: ", records)
 
   const listItems = records.data.map((record: any, key: any) => (
     <tr key={record.id} className="border-b">
@@ -72,8 +72,8 @@ export function CommissionsListGoldTable(props: CommissionsListGoldTableProps) {
           <th scope="col" className="py-3 px-4 border">Fecha Fin</th>
           <th scope="col" className="py-3 px-4 border">Tipo</th>
           <th scope="col" className="py-3 px-4 border">Cliente</th>
-          <th scope="col" className="py-3 px-4 border">Total</th>
-          <th scope="col" className="py-3 px-4 border">Comisiones</th>
+          <th scope="col" className="py-3 px-4 border">Total Comisiones</th>
+          <th scope="col" className="py-3 px-4 border">Comision</th>
           <th scope="col" className="py-3 px-4 border">Estado</th>
         </tr>
       </thead>
