@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { OptionsClickOrder, PresetTheme, TypeOfPrice } from "@/services/enums";
 import { Order } from "@/services/order";
-import { formatDuiWithAll, getConfigStatus, getCountryProperty, setPriceName, setPriceOptions, sumarSubtotal } from "@/utils/functions";
+import { formatDuiWithAll, getConfigStatus, getCountryProperty, setPriceName, setPriceOptions, sumarSubtotal, sumarTotales } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
 import { Alert } from "../alert/alert";
 import { ShowTotal } from "./show-total";
@@ -48,7 +48,7 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
     <ShowTotal isSending={isSending} records={records} />
     { records?.invoice_assigned?.type == 4 &&
     <div className="border-2 border-red-700 rounded mb-2">
-      <div className="mx-2 text-sm font-bold uppercase">Retención: { getCountryProperty(parseInt(systemInformation?.system?.country)).currency} {(sumarSubtotal(records?.invoiceproducts) * 0.10).toFixed(2)}</div>
+      <div className="mx-2 text-sm font-bold uppercase">Retención: { getCountryProperty(parseInt(systemInformation?.system?.country)).currency} {(sumarTotales(records?.invoiceproducts) * 0.10).toFixed(2)}</div>
     </div>
     }
     <div className='flex justify-between border-2 border-sky-500 rounded mb-2'>

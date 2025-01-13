@@ -27,8 +27,9 @@ import { IconsMenu } from "@/components/restaurant/sales/icons-menu";
 import { ProductsTable } from "@/components/restaurant/sales/products-table";
 import { SalesContactSearchGtModal } from "@/components/restaurant/sales/sales-contact-search-gt";
 import { SalesEspecialModal } from "@/components/restaurant/sales/sales-special";
-import { Tables } from "@/components/restaurant/sales/tables";
+import { ShowPercentSalesType } from "@/components/restaurant/sales/show-percent-sales-type";
 import { ClientsTables } from "@/components/restaurant/sales/clients-tables";
+import { Tables } from "@/components/restaurant/sales/tables";
 
 
 export default function ViewSales() {
@@ -366,6 +367,7 @@ export default function ViewSales() {
                   </div>  
                   <SalesButtonsRestaurant cashDrawer={cashDrawer} payOrder={payOrder} onClickOrder={handleClickOptionOrder} order={order} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType}/>
                   <OptionsSelect onClickOrder={handleClickOptionOrder} payType={paymentType} order={order} setOrder={setOrder} />
+                  <ShowPercentSalesType order={order} config={configuration} />
             </div>
             <SalesSelectInvoiceTypeModal isShow={modalInvoiceType.isOpen} onClose={()=>modalInvoiceType.setIsOpen(false)} order={order} />
             <SalesDiscountProductModal isShow={modalDiscount.isOpen} discountType={isDiscountType} order={order} product={productSelected} onClose={()=>closeModalDiscount()} byCode />

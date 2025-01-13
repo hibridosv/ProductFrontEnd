@@ -18,6 +18,7 @@ export interface Order {
     discount?:         null;
     total?:            null;
     change?:           null;
+    retention?:        number;
     charged_at?:       null;
     canceled_at?:      null;
     status:           number;

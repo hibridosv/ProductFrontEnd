@@ -29,6 +29,10 @@ export default function Home() {
       if (response.type == "error") {
         setIsMessage("Usuario no registrado"); 
       } else {
+        if (response.status == 2) {
+          router.push("/error/401");
+          return
+        }
         remoteUrl(response?.url);
         tenant(response?.system);
         data.username = data.email;
