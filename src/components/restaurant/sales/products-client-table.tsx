@@ -10,49 +10,37 @@ import Image from "next/image";
 import { useContext } from "react";
 import toast from "react-hot-toast";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { MdDelete } from "react-icons/md";
+import { FaCheckSquare } from "react-icons/fa";
+import { MdCheck, MdDelete } from "react-icons/md";
 
 
-export interface ProductsTableProps {
+export interface ProductsClientTableProps {
   order: any
-  onClickOrder: (option: OptionsClickOrder)=>void
   onClickProduct: (product: Product, option: OptionsClickSales)=>void
-  blocked?: boolean;
+  clientActive: number;
 }
 
-export function ProductsTable(props: ProductsTableProps) {
-  const { order, onClickOrder, onClickProduct, blocked = false } = props;
+export function ProductsClientTable(props: ProductsClientTableProps) {
+  const { order, onClickProduct, clientActive } = props;
   const { systemInformation } = useContext(ConfigContext);
-  const remoteUrl = getUrlFromCookie();
-  
-        const imageLoader = ({ src, width, quality }: any) => {
-            return `${remoteUrl}/images/logo/${src}?w=${width}&q=${quality || 75}`
-            }
 
-        if (!order?.invoiceproducts) return (
-            <div className="w-full flex justify-center">
-                { systemInformation && systemInformation?.system?.logo ? 
-                <Image loader={imageLoader} src={systemInformation && systemInformation?.system?.logo} alt="Hibrido" width={500} height={500} /> :
-                <NothingHere width="500" text=" " />
-                }
-            </div>
-            )
+        if (!order?.invoiceproducts) return <NothingHere width="500" text=" " />
 
-
-        order?.invoiceproducts && groupInvoiceProductsByCodAll(order);
-        const listItems = order?.invoiceproductsGroup.map((record: any) => (
+        const listItems = order.invoiceproducts && order?.invoiceproducts.map((record: any) => (
             <tr key={record.id} className="border-b bg-white" >
             <td className='py-3 px-6 clickeable' onClick={record.options.length > 0 ? ()=> toast.error('Opción no disponible en este producto') : ()=> onClickProduct(record, OptionsClickSales.quantity)}>{ record.quantity }</td>
             <td className="py-3 px-6">{ record.product }</td>
             <td className="py-3 px-6 clickeable truncate" onClick={()=> onClickProduct(record, OptionsClickSales.discount)}>{ numberToMoney(record.unit_price, systemInformation) }</td> 
-            <td className="py-3 px-6 truncate">{ numberToMoney(record.total, systemInformation) }</td>
-            { !blocked &&
             <td className="py-2 truncate">
             <span className="flex justify-between">
-                <AiFillCloseCircle size={20} title="Editar" className="text-red-600 clickeable" onClick={()=> onClickProduct(record, OptionsClickSales.delete) } />
+                {
+                    record.attributes.client == clientActive ? 
+                    <AiFillCloseCircle size={24} className="text-red-600" /> 
+                    :
+                    <FaCheckSquare size={24} className="text-green-600 clickeable" />
+                }
             </span>
             </td>
-            }
             </tr>
         ));
 
@@ -66,10 +54,7 @@ export function ProductsTable(props: ProductsTableProps) {
                         <th scope="col" className="py-3 px-4 border">Cant</th>
                         <th scope="col" className="py-3 px-4 border">Producto</th>
                         <th scope="col" className="py-3 px-4 border">Precio</th>
-                        <th scope="col" className="py-3 px-4 border">Total</th>
-                        { !blocked &&
-                        <th scope="col" className="py-3 border"><MdDelete size={22} title="Eliminar" className="text-red-800 clickeable" onClick={()=>onClickOrder(OptionsClickOrder.delete)} /></th>
-                        }
+                        <th scope="col" className="py-3 border"></th>
                         </tr>
                     </thead>
                     <tbody>

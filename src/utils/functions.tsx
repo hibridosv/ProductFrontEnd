@@ -515,6 +515,28 @@ export function groupInvoiceProductsByCodSpecial(invoice: any) {
 }
 
 
+// agrupa los productos de restaurante por numero de cliente
+export function filterInvoiceProductsByClientNumber(invoice: any, clientNumber: number) {
+  // Filtrar los productos cuyo cliente coincida con el número pasado como parámetro
+  if (!invoice?.invoiceproducts) return;
+  const filteredProducts = invoice.invoiceproducts.filter(
+      (product: any) => product.attributes.client === clientNumber
+  );
+
+  // Agregar el nuevo item al objeto original
+  // return {
+  //     ...invoice,
+  //     invoiceproductsByClientNumber: filteredProducts
+  // };
+  return {
+      ...invoice,
+      invoiceproducts: filteredProducts
+  };
+}
+
+
+
+
 //// contar cuantos productos estan en cero de imprimir
 export function countSendPrintZero(invoice: any) {
   if (!invoice?.invoiceproducts) return;

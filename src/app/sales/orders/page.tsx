@@ -30,6 +30,7 @@ import { SalesEspecialModal } from "@/components/restaurant/sales/sales-special"
 import { ShowPercentSalesType } from "@/components/restaurant/sales/show-percent-sales-type";
 import { ClientsTables } from "@/components/restaurant/sales/clients-tables";
 import { Tables } from "@/components/restaurant/sales/tables";
+import { SalesDivideAccountModal } from "@/components/sales-components/sales-divide-account";
 
 
 export default function ViewSales() {
@@ -59,7 +60,8 @@ export default function ViewSales() {
       const modalQuantity = useIsOpen(false);
       const modalContactGt = useIsOpen(false);
       const modalSalesSpecial = useIsOpen(false);
-
+      const modalDivideAccount = useIsOpen(false);
+      
       useEffect(() => {
             if (config?.configurations) {
                   setConfiguration(extractActiveFeature(config.configurations));
@@ -273,6 +275,8 @@ export default function ViewSales() {
                   break;
                   case OptionsClickOrder.ventaSpecial: (() => { modalSalesSpecial.setIsOpen(true); })();
                   break;
+                  case OptionsClickOrder.divideAccount: (() => { modalDivideAccount.setIsOpen(true); })();
+                  break;
                   case OptionsClickOrder.addClientTable: (() => { orderAddOtherClient() })();
                   break;
                   default: ()=>{};
@@ -296,13 +300,14 @@ export default function ViewSales() {
             };
             
 
-            const payOrder = async (cash: number) => {
+            const payOrder = async (cash: number, client_number = null) => {
               let values = {
               order_id: order?.id,
               payment_type: paymentType, // efectivo, tarjeta, transferencia, cheque, credito
               cash: cash,
               invoice_type_id: order?.invoice_type_id,
-              client_active: clientActive // Cliente activo para asignar producto
+              client_active: clientActive, // Cliente activo para asignar producto
+              client_number: client_number
             };
             try {
               setIsSending(true);
@@ -369,6 +374,7 @@ export default function ViewSales() {
                   <OptionsSelect onClickOrder={handleClickOptionOrder} payType={paymentType} order={order} setOrder={setOrder} />
                   <ShowPercentSalesType order={order} config={configuration} />
             </div>
+            <SalesDivideAccountModal isShow={modalDivideAccount.isOpen} order={order} onClose={()=>modalDivideAccount.setIsOpen(false)} isLoading={isLoading} cashDrawer={cashDrawer} payOrder={payOrder} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType} />
             <SalesSelectInvoiceTypeModal isShow={modalInvoiceType.isOpen} onClose={()=>modalInvoiceType.setIsOpen(false)} order={order} />
             <SalesDiscountProductModal isShow={modalDiscount.isOpen} discountType={isDiscountType} order={order} product={productSelected} onClose={()=>closeModalDiscount()} byCode />
             <SelectPayTypeModal isShow={modalPaymentsType.isOpen} onClose={()=>modalPaymentsType.setIsOpen(false)} payments={systemInformation?.payMethods} setPayment={setPaymentType} />

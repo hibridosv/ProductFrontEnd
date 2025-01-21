@@ -14,7 +14,6 @@ export interface ClientsTablesProps {
 export function ClientsTables(props: ClientsTablesProps) {
   const { isShow, order, setClientActive, clientActive, isLoading } = props;
 
-        console.log("isLoading: ", isLoading)
         if (!isShow) return <></>
 
         const listItems = Array.from({ length: order?.attributes?.clients_quantity || 1 }).map((_, index) => {
