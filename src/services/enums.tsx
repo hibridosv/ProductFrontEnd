@@ -2,10 +2,10 @@
  * Tipos de contacto que podrian llevas las ordenes de venta y sus respectivas rutas
  */
 export enum ContactTypeToGet {
-    clients = 'contacts?filterWhere[is_client]==1&',
-    providers = 'contacts?filterWhere[is_provider]==1&',
+    clients = 'contacts?filterWhere[is_client]==1&filterWhere[status]==1&',
+    providers = 'contacts?filterWhere[is_provider]==1&filterWhere[status]==1&',
     employees = 'users?',
-    referrals = 'contacts?filterWhere[is_referred]==1&'
+    referrals = 'contacts?filterWhere[is_referred]==1&filterWhere[status]==1&'
 }
 
 /**
