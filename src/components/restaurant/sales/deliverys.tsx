@@ -58,7 +58,7 @@ export function Deliverys(props: DeliverysProps) {
                                     <Image src="/img/delivery.jpg" alt="Delivery" width={146} height={146} className="rounded-full" />
                                     <p className={`w-full -mt-8 content-center text-center rounded overflow-hidden uppercase text-xs text-black font-medium h-9 ${record.status == 0 ? 'bg-lime-300' : 'bg-white'}`} 
                                     style={{ maxWidth: '146px',  wordBreak: 'keep-all', lineHeight: '1.2em' }}>
-                                        { record?.employee?.name }
+                                        { record?.client?.name }
                                     </p>
                                 </div>
                             </div>
