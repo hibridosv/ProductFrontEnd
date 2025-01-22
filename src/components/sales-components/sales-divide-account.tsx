@@ -7,10 +7,10 @@ import { ProductsClientTable } from "../restaurant/sales/products-client-table";
 import { useEffect, useState } from "react";
 import { ProductsTable } from "../restaurant/sales/products-table";
 import { RestaurantShowTotal } from "../restaurant/sales/show-total";
-import { SalesButtonsRestaurant } from "../restaurant/sales/sales-buttons-restaurant";
 import { OptionsSelect } from "../restaurant/sales/options-select";
-import { OptionsClickOrder, PaymentType } from "@/services/enums";
+import {  PaymentType } from "@/services/enums";
 import { SalesButtonsRestaurantMin } from "../restaurant/sales/sales-buttons-restaurant-min";
+import { NothingHere } from "../nothing-here/nothing-here";
 
 export interface SalesDivideAccountProps {
     onClose: () => void;
@@ -19,12 +19,12 @@ export interface SalesDivideAccountProps {
     isLoading?: boolean;
 
 
-        payOrder: (cash: number) => void
-        payType: PaymentType;
-        config: string[];
-        isSending:boolean;
-        cashDrawer?: boolean;
-        selectType: number;
+    payOrder: (cash: number) => void
+    payType: PaymentType;
+    config: string[];
+    isSending:boolean;
+    cashDrawer?: boolean;
+    selectType: number;
 }
 
 export function SalesDivideAccountModal(props: SalesDivideAccountProps){
@@ -33,7 +33,7 @@ const {
   config, isSending, cashDrawer, selectType } = props;
 
 const [orderData, setOrderData] = useState<any>(order);
-const [clientActive, setClientActive] = useState(1); // Cliente seleccionado de la cuenta
+const [clientActive, setClientActive] = useState(1); // Cliente seleccionado de la cuenta (en este modal) 
 
 useEffect(() => {
     if (order && isShow) {
@@ -41,7 +41,7 @@ useEffect(() => {
     }
 }, [order, clientActive, isShow]);
 console.log("orderData : ", orderData); 
-console.log("order : ", order); 
+// console.log("order : ", order); 
 
 return (
 <Modal show={isShow} position="center" onClose={onClose} size="5xl">
@@ -53,6 +53,7 @@ return (
         <div>
             <ProductsClientTable order={order} clientActive={clientActive} onClickProduct={()=>{}} />
         </div>
+        { orderData?.invoiceproducts?.length > 0 ?
         <div>
             <ProductsTable order={orderData} onClickOrder={()=>{}} onClickProduct={()=>{}} blocked />
             <div className="flex justify-center">
@@ -60,7 +61,11 @@ return (
             </div>  
               <SalesButtonsRestaurantMin cashDrawer={cashDrawer} payOrder={payOrder} order={order} payType={payType} config={config} isSending={isSending} selectType={selectType} clientActive={clientActive} />
               <OptionsSelect onClickOrder={()=>{}} payType={payType} order={order} setOrder={()=>{}} />
+        </div> :
+        <div>
+          <NothingHere text="Sin productos que cobrar" />
         </div>
+      }
       </div>
     </div>
   </Modal.Body>

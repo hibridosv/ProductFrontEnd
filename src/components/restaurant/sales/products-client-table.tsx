@@ -2,16 +2,12 @@
 import { NothingHere } from "@/components/nothing-here/nothing-here";
 import { OptionsClickSales } from "@/components/sales-components/sales-quick-table";
 import { ConfigContext } from "@/contexts/config-context";
-import { OptionsClickOrder } from "@/services/enums";
-import { getUrlFromCookie } from "@/services/oauth";
 import { Product } from "@/services/products";
-import { groupInvoiceProductsByCodAll, numberToMoney } from "@/utils/functions";
-import Image from "next/image";
+import {  numberToMoney } from "@/utils/functions";
 import { useContext } from "react";
 import toast from "react-hot-toast";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { FaCheckSquare } from "react-icons/fa";
-import { MdCheck, MdDelete } from "react-icons/md";
 
 
 export interface ProductsClientTableProps {

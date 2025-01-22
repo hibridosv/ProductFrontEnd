@@ -1,13 +1,11 @@
 'use client';
-import { OptionsClickOrder, PaymentType, PresetTheme } from '@/services/enums';
-import { Tooltip } from 'flowbite-react';
-import { AiFillPrinter, AiFillSave } from 'react-icons/ai';
+import { PaymentType, PresetTheme } from '@/services/enums';
+import { AiFillPrinter } from 'react-icons/ai';
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
-import { IoMdOptions } from 'react-icons/io';
 import { style } from '@/theme';
 import { useForm } from 'react-hook-form';
 import { useContext, useEffect, useState } from 'react';
-import { countSendPrintZero, getCountryProperty, sumarCantidad } from '@/utils/functions';
+import { sumarCantidad } from '@/utils/functions';
 import { Alert } from '@/components/alert/alert';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
@@ -15,7 +13,6 @@ import { ConfigContext } from '@/contexts/config-context';
 
 
 export interface SalesButtonsRestaurantMinProps {
-    onClickOrder: (option: OptionsClickOrder)=>void
     order?: any;
     payOrder: (cash: number, client_number?: number ) => void
     payType: PaymentType;
@@ -27,7 +24,7 @@ export interface SalesButtonsRestaurantMinProps {
 }
 
 export function SalesButtonsRestaurantMin(props: SalesButtonsRestaurantMinProps) {
-  const {onClickOrder, order, payOrder, payType, config, isSending, cashDrawer, clientActive } = props
+  const { order, payOrder, payType, config, isSending, cashDrawer, clientActive } = props
   const { register, handleSubmit, reset, setFocus, setValue } = useForm();
   const [input, setInput] = useState('');
   const [keyboard, setKeyboard] = useState<any>(null);

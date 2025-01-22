@@ -74,6 +74,7 @@ export default function ViewSales() {
       // eslint-disable-next-line
       }, [configuration]);
 
+      console.log("selectedTable", selectedTable);
 
       const selectLastOrder = async () => {
             setIsLoading(true);
@@ -82,6 +83,7 @@ export default function ViewSales() {
               if (response?.data) {
                 setOrder(response.data);   
                 setSelectType(response?.data?.order_type) 
+                setSelectedTable(response?.data?.attributes?.restaurant_table_id)
                 if(configuration?.includes("sales-sound")) successSound()
               }
             } catch (error) {
@@ -91,14 +93,14 @@ export default function ViewSales() {
             }
           };
         
-          
           useEffect(() => {
             if (!modalInvoiceType.isOpen 
               && !modalDiscount.isOpen 
               && !modalContact.isOpen 
               && !modalOthers.isOpen 
               && !modalComment.isOpen 
-              && !modalSalesSpecial.isOpen) {
+              && !modalSalesSpecial.isOpen
+              && !modalDivideAccount.isOpen) {
               (async () => await selectLastOrder())()
             }
             // eslint-disable-next-line
@@ -107,7 +109,8 @@ export default function ViewSales() {
             modalContact.isOpen, 
             modalOthers.isOpen, 
             modalComment.isOpen, 
-            modalSalesSpecial.isOpen]);
+            modalSalesSpecial.isOpen,
+            modalDivideAccount.isOpen]);
           
           const resetOrder = () =>{
             setOrder([]);
@@ -132,6 +135,8 @@ export default function ViewSales() {
               const response = await postData(`sales/order/select/${order}`, "POST");
               if (response.type !== "error") {
                 setOrder(response.data);
+                setSelectType(response?.data?.order_type);
+                setSelectedTable(response?.data?.attributes?.restaurant_table_id)
               } else {
                 toast.error(response.message);
               }
@@ -319,6 +324,9 @@ export default function ViewSales() {
                 resetOrder()
               } else {
                 toast.error(response.message);
+              }
+              if (client_number) {
+                modalDivideAccount.setIsOpen(false)
               }
             } catch (error) {
               console.error(error);
