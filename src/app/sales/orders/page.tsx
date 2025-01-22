@@ -408,9 +408,9 @@ export default function ViewSales() {
                   <DeliverysLateral isShow={selectType == 3 && !deliverySelected?.id} onClick={setDeliverySelected} />
 
                   <div className="flex justify-center">
-                        <RestaurantShowTotal isShow={order?.invoiceproducts} order={order} isSending={isSending}  />
+                        <RestaurantShowTotal isShow={order?.invoiceproducts?.length > 0} order={order} isSending={isSending}  />
                   </div>  
-                  <SalesButtonsRestaurant isShow={order?.invoiceproducts} cashDrawer={cashDrawer} payOrder={payOrder} onClickOrder={handleClickOptionOrder} order={order} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType}/>
+                  <SalesButtonsRestaurant isShow={order?.invoiceproducts?.length > 0} cashDrawer={cashDrawer} payOrder={payOrder} onClickOrder={handleClickOptionOrder} order={order} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType}/>
                   <OptionsSelect onClickOrder={handleClickOptionOrder} payType={paymentType} order={order} setOrder={setOrder} />
                   <ShowPercentSalesType order={order} config={configuration} />
                   <DeliveryCancelBtn isShow={selectType == 3 && deliverySelected?.id && !order?.invoiceproducts} onClick={setDeliverySelected} />

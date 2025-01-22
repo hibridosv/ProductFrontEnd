@@ -5,7 +5,7 @@ import { useContext } from "react";
 export interface RestaurantShowTotalProps {
     isSending?: boolean;
     order: any;
-    isShow: boolean;
+    isShow?: boolean;
 }
 
 export function RestaurantShowTotal(props: RestaurantShowTotalProps) {
@@ -14,7 +14,6 @@ export function RestaurantShowTotal(props: RestaurantShowTotalProps) {
 
 
   if (!isShow) return <></>
-  if (order?.invoiceproducts.length == 0) return <></>
 
   const total = sumarCantidad(order?.invoiceproducts);
   const subtotal = sumarTotalesWithoutDIscount(order?.invoiceproducts);

@@ -23,7 +23,7 @@ export interface SalesButtonsRestaurantProps {
     isSending:boolean;
     cashDrawer?: boolean;
     selectType: number;
-    isShow: boolean;
+    isShow?: boolean;
 }
 
 export function SalesButtonsRestaurant(props: SalesButtonsRestaurantProps) {
@@ -81,7 +81,6 @@ const handleKeyboardChange = (inputValue: string) => {
 //////// termina keyboard
 
 if (!isShow) return <></>
-if (order?.invoiceproducts.length == 0) return <></>
 
   return (
     <div className="border rounded-md shadow-md m-2">
