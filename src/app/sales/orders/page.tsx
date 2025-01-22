@@ -33,9 +33,12 @@ import { Tables } from "@/components/restaurant/sales/tables";
 import { SalesDivideAccountModal } from "@/components/sales-components/sales-divide-account";
 import { Deliverys } from "@/components/restaurant/sales/deliverys";
 import { DeliverysLateral } from "@/components/restaurant/sales/deliverys-lateral";
+import { DeliveryCancelBtn } from "@/components/restaurant/sales/deliverys-cancel-btn";
+import { DeliveryClientInfo } from "@/components/restaurant/sales/deliverys-client-info";
 
 
 export default function ViewSales() {
+      const { config, cashDrawer, systemInformation } = useContext(ConfigContext);
       const [isLoading, setIsLoading] = useState(false);
       const [isSending, setIsSending] = useState(false);
       const [order, setOrder] = useState([] as any); // orden que se obtiene
@@ -46,12 +49,12 @@ export default function ViewSales() {
       const [clientActive, setClientActive] = useState(1); // Cliente seleccionado de la cuenta
       const [typeOfPrice, setTypeOfPrice] = useState(1); // 1 tipo de precio, 1: normal, 2: Promocion
       const [selectedTable, setSelectedTable] = useState(""); // Mesa seleccionada
-      const { config, cashDrawer, systemInformation } = useContext(ConfigContext);
       const [configuration, setConfiguration] = useState([] as any); // configuraciones que vienen de config
       const [isDiscountType, setIsDiscountType] = useState(0);
       const [productSelected, setProductSelected] = useState([]) as any;
       const [typeOfClient, setTypeOfClient] = useState<ContactTypeToGet>(ContactTypeToGet.clients); // tipo de cliente a buscar en el endpoint
       const [clientNametoUpdate, setClientNametoUpdate] = useState<ContactNameOfOrder>(ContactNameOfOrder.client); // tipo de cliente a buscar en el endpoint
+      const [deliverySelected, setDeliverySelected] = useState([]) as any; // cliente temporal para el delivery
       const modalPayed = useIsOpen(false);
       const modalPaymentsType = useIsOpen(false);
       const modalInvoiceType = useIsOpen(false);
@@ -140,6 +143,9 @@ export default function ViewSales() {
                 setSelectType(response?.data?.order_type);
                 setSelectedTable(response?.data?.attributes?.restaurant_table_id)
                 setClientActive(JSON.parse(response?.data?.attributes?.clients)[0] ?? 1);
+                if (response?.data?.order_type == 3) {
+                  setDeliverySelected(response?.data?.client)
+                }
               } else {
                 toast.error(response.message);
               }
@@ -151,6 +157,7 @@ export default function ViewSales() {
             }
           };
           
+          
           const sendProduct = async (producId: any, quantity = 1) => {
             if (!producId){
               toast.error("Error en el codigo!");
@@ -160,7 +167,8 @@ export default function ViewSales() {
               product_id: producId,
               request_type: 1, // 1: id, 2: cod
               delivery_type: deliveryType, // 1: Aqui, 2: Llevar, 3: delivery
-              order_type: selectType, // venta, consignacion, ecommerce
+              delivery_client: deliverySelected ? deliverySelected?.id : null, // id del cliente delivery
+              order_type: selectType, // 1. rapida, 2. Mesas, 3. Delivery
               price_type: typeOfPrice, // tipo de precio del producto
               clients_quantity: 1, // Numero de clientes
               client_active: clientActive, // Cliente activo para asignar producto
@@ -168,6 +176,7 @@ export default function ViewSales() {
               restaurant_table_id: selectedTable,
               special: modalSalesSpecial.isOpen ? 1 : 0,
             };
+          console.log(selectType)
             
             try {
               setIsSending(true);
@@ -384,15 +393,16 @@ export default function ViewSales() {
           return (
             <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
             <div className="col-span-6 border-r md:border-sky-600">
+            <DeliveryClientInfo isShow={selectType == 3 && deliverySelected?.id} deliveryInfo={deliverySelected} onClick={()=>{}} />
             <ClientsTables isShow={selectType == 2 && selectedTable != ""} order={order} clientActive={clientActive} setClientActive={setClientActive} isLoading={isLoading}  />
-            <IconsMenu isShow={selectType == 1 || (selectType == 2 && selectedTable != "") || order?.invoiceproducts} selectedIcon={sendProduct} config={configuration} isSending={isSending} />
+            <IconsMenu isShow={selectType == 1 || (selectType == 2 && selectedTable != "") || order?.invoiceproducts || (selectType == 3 && deliverySelected?.id)} selectedIcon={sendProduct} config={configuration} isSending={isSending} />
             <Tables isShow={selectType == 2 && selectedTable === ""} setSelectedTable={setSelectedTable} order={order} handleChangeOrder={handleChangeOrder} />
-            <Deliverys isShow={selectType == 3} onClick={handleChangeOrder} />
+            <Deliverys isShow={selectType == 3 && !deliverySelected?.id} onClick={handleChangeOrder} />
             </div>
             <div className="col-span-4 border-l md:border-sky-600">
-                  <ServiceTypeSelect setSelectType={setSelectType} selectType={selectType} order={order} onClickOrder={handleClickOptionOrder} setSelectedTable={setSelectedTable} configuration={configuration} isSending={isSending}/>
-                  <ProductsTable isShow={selectType != 3} order={order} onClickOrder={handleClickOptionOrder} onClickProduct={handleClickOptionProduct} />
-                  <DeliverysLateral isShow={selectType == 3} onClick={console.log} />
+                  <ServiceTypeSelect setDeliverySelected={setDeliverySelected} setSelectType={setSelectType} selectType={selectType} order={order} onClickOrder={handleClickOptionOrder} setSelectedTable={setSelectedTable} configuration={configuration} isSending={isSending}/>
+                  <ProductsTable isShow={(selectType != 3)  || (selectType == 3 && deliverySelected?.id)} order={order} onClickOrder={handleClickOptionOrder} onClickProduct={handleClickOptionProduct} />
+                  <DeliverysLateral isShow={selectType == 3 && !deliverySelected?.id} onClick={setDeliverySelected} />
 
                   <div className="flex justify-center">
                         <RestaurantShowTotal order={order} isSending={isSending}  />
@@ -400,6 +410,7 @@ export default function ViewSales() {
                   <SalesButtonsRestaurant cashDrawer={cashDrawer} payOrder={payOrder} onClickOrder={handleClickOptionOrder} order={order} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType}/>
                   <OptionsSelect onClickOrder={handleClickOptionOrder} payType={paymentType} order={order} setOrder={setOrder} />
                   <ShowPercentSalesType order={order} config={configuration} />
+                  <DeliveryCancelBtn isShow={selectType == 3 && deliverySelected?.id && !order?.invoiceproducts} onClick={setDeliverySelected} />
             </div>
             <SalesDivideAccountModal onClickProduct={handleClickOptionProduct} isShow={modalDivideAccount.isOpen} order={order} onClose={()=>modalDivideAccount.setIsOpen(false)} isLoading={isLoading} cashDrawer={cashDrawer} payOrder={payOrder} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType} />
             <SalesSelectInvoiceTypeModal isShow={modalInvoiceType.isOpen} onClose={()=>modalInvoiceType.setIsOpen(false)} order={order} />

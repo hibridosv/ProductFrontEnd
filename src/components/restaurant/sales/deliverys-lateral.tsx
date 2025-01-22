@@ -34,21 +34,9 @@ export function DeliverysLateral(props: DeliverysLateralProps) {
       return (
         <div className="h-full">
                   <MinimalSearch records={contacts} handleSearchTerm={handleSearchTerm} placeholder="Buscar Contacto" statics={false} />
-                  <DeliveryContactList records={contacts} random={setRandomNumber} />
+                  <DeliveryContactList records={contacts} random={setRandomNumber} onClick={onClick} />
                   <Pagination records={contacts} handlePageNumber={handlePageNumber} />
                   <ContactAddModal isShow={isAdContactModal} onClose={()=>setIsAdContactModal(false)} />
-
-            {/* <div className="flex flex-wrap justify-center mt-24">
-                <div  className="m-2 clickeable"  onClick={() => onClick(1)}>
-                    <div className="rounded-full drop-shadow-lg shadow-lg">
-                        <Image src="/img/plus.jpg" alt="Delivery" width={146} height={146} className="rounded-full" />
-                        <p className={`w-full -mt-8 content-center text-center rounded overflow-hidden uppercase text-xs text-black font-medium h-9 bg-white`} 
-                        style={{ maxWidth: '146px',  wordBreak: 'keep-all', lineHeight: '1.2em' }}>
-                            Agregar
-                        </p>
-                    </div>
-                </div>
-            </div> */}
         </div>
   );
 

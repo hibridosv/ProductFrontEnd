@@ -2,6 +2,7 @@ import { OptionsClickOrder } from '@/services/enums';
 import toast, { Toaster } from 'react-hot-toast';
 
 export interface ServiceTypeSelectProps {
+  setDeliverySelected: (option: any)=>void
   setSelectType: (type: number)=> void
   selectType: number;
   order: any;
@@ -13,7 +14,7 @@ export interface ServiceTypeSelectProps {
 }
 
 export function ServiceTypeSelect(props: ServiceTypeSelectProps) {
-  const { setSelectType, selectType, order, configuration,  onClickOrder, setSelectedTable, isSending } = props;
+  const { setDeliverySelected, setSelectType, selectType, order, configuration,  onClickOrder, setSelectedTable, isSending } = props;
 
 
   const countFeatures = () => {
@@ -46,7 +47,7 @@ export function ServiceTypeSelect(props: ServiceTypeSelectProps) {
       if(order?.invoiceproducts){
         onClickOrder(OptionsClickOrder.save)
       }
-      setSelectedTable("");
+      setDeliverySelected([]);
     }
     setSelectType(option)
   }
