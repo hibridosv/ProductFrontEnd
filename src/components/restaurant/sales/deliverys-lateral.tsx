@@ -34,7 +34,7 @@ export function DeliverysLateral(props: DeliverysLateralProps) {
       return (
         <div className="h-full">
                   <MinimalSearch records={contacts} handleSearchTerm={handleSearchTerm} placeholder="Buscar Contacto" statics={false} />
-                  <DeliveryContactList records={contacts} random={setRandomNumber} onDelete={()=>{}} />
+                  <DeliveryContactList records={contacts} random={setRandomNumber} />
                   <Pagination records={contacts} handlePageNumber={handlePageNumber} />
                   <ContactAddModal isShow={isAdContactModal} onClose={()=>setIsAdContactModal(false)} />
 
