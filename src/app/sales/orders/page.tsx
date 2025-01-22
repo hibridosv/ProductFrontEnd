@@ -393,10 +393,12 @@ export default function ViewSales() {
               } 
           }
 
+          
+
           return (
             <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
             <div className="col-span-6 border-r md:border-sky-600">
-            <DeliveryClientInfo isShow={selectType == 3 && deliverySelected?.id} deliveryInfo={deliverySelected} onClick={()=>{}} />
+            <DeliveryClientInfo isShow={selectType == 3 && deliverySelected?.id} deliveryInfo={deliverySelected} onClick={()=>modalContact.setIsOpen(true)} order={order} />
             <ClientsTables isShow={selectType == 2 && selectedTable != ""} order={order} clientActive={clientActive} setClientActive={setClientActive} isLoading={isLoading}  />
             <IconsMenu isShow={selectType == 1 || (selectType == 2 && selectedTable != "") || order?.invoiceproducts || (selectType == 3 && deliverySelected?.id)} selectedIcon={sendProduct} config={configuration} isSending={isSending} />
             <Tables isShow={selectType == 2 && selectedTable === ""} setSelectedTable={setSelectedTable} order={order} handleChangeOrder={handleChangeOrder} />

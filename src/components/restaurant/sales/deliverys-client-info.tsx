@@ -1,23 +1,23 @@
 "use client";
-import { Button, Preset } from "@/components/button/button";
 import Image from "next/image";
 import { BiEdit } from "react-icons/bi";
 import { GoEye } from "react-icons/go";
 
 export interface DeliveryClientInfoProps {
   isShow?: boolean;
-  onClick: (option: any) => void;
+  onClick: () => void;
   deliveryInfo: any
+  order: any;
 }
 
 export function DeliveryClientInfo(props: DeliveryClientInfoProps) {
-    const { isShow, onClick, deliveryInfo} = props;
+    const { isShow, onClick, deliveryInfo, order } = props;
 
       if (!isShow ) return <></>
 
       return (
         <div className="m-2">
-            <div className="w-full px-2 clickeable">
+            <div className={`w-full px-2 ${order?.invoiceproducts?.length > 0 && 'clickeable'}`} onClick={order?.invoiceproducts?.length > 0 ? onClick : ()=>{}}>
                 <div className="flex border rounded-full shadow-md">
                     <div className="rounded-full drop-shadow-lg shadow-lg">
                         <Image src="/img/delivery.jpg" alt="Delivery" width={60} height={60} className="rounded-full" />

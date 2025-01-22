@@ -51,7 +51,7 @@ export function Deliverys(props: DeliverysProps) {
                 <div className="flex flex-wrap justify-center">
                     {
                     isLoading ? <Loading text="Buscando deliverys" />  : 
-                    orders ? orders.map((record: any) => {
+                    orders?.length > 0 ? orders.map((record: any) => {
                         return (
                             <div key={record?.id} className="m-2 clickeable" >
                                 <div className="rounded-full drop-shadow-lg shadow-lg" onClick={() => onClick(record.id)}>
