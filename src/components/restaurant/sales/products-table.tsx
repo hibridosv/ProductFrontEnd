@@ -15,17 +15,22 @@ import { MdDelete } from "react-icons/md";
 
 export interface ProductsTableProps {
   order: any
+  isShow?: boolean;
   onClickOrder: (option: OptionsClickOrder)=>void
   onClickProduct: (product: Product, option: OptionsClickSales)=>void
   blocked?: boolean;
 }
 
 export function ProductsTable(props: ProductsTableProps) {
-  const { order, onClickOrder, onClickProduct, blocked = false } = props;
+  const { order, onClickOrder, onClickProduct, blocked, isShow = false } = props;
   const { systemInformation } = useContext(ConfigContext);
   const remoteUrl = getUrlFromCookie();
   
-        const imageLoader = ({ src, width, quality }: any) => {
+  
+  if (!isShow ) return <></>
+  
+  
+    const imageLoader = ({ src, width, quality }: any) => {
             return `${remoteUrl}/images/logo/${src}?w=${width}&q=${quality || 75}`
             }
 

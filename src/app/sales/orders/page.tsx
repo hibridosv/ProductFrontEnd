@@ -31,6 +31,8 @@ import { ShowPercentSalesType } from "@/components/restaurant/sales/show-percent
 import { ClientsTables } from "@/components/restaurant/sales/clients-tables";
 import { Tables } from "@/components/restaurant/sales/tables";
 import { SalesDivideAccountModal } from "@/components/sales-components/sales-divide-account";
+import { Deliverys } from "@/components/restaurant/sales/deliverys";
+import { DeliverysLateral } from "@/components/restaurant/sales/deliverys-lateral";
 
 
 export default function ViewSales() {
@@ -137,13 +139,13 @@ export default function ViewSales() {
                 setOrder(response.data);
                 setSelectType(response?.data?.order_type);
                 setSelectedTable(response?.data?.attributes?.restaurant_table_id)
-                setClientActive(JSON.parse(order?.attributes.clients)[0] ?? 1);
+                setClientActive(JSON.parse(response?.data?.attributes?.clients)[0] ?? 1);
               } else {
                 toast.error(response.message);
               }
             } catch (error) {
               console.error(error);
-              toast.error("Ha ocurrido un error!");
+              toast.error("Ha ocurrido un error desconocido!");
             } finally {
               setIsLoading(false);
             }
@@ -385,11 +387,12 @@ export default function ViewSales() {
             <ClientsTables isShow={selectType == 2 && selectedTable != ""} order={order} clientActive={clientActive} setClientActive={setClientActive} isLoading={isLoading}  />
             <IconsMenu isShow={selectType == 1 || (selectType == 2 && selectedTable != "") || order?.invoiceproducts} selectedIcon={sendProduct} config={configuration} isSending={isSending} />
             <Tables isShow={selectType == 2 && selectedTable === ""} setSelectedTable={setSelectedTable} order={order} handleChangeOrder={handleChangeOrder} />
+            <Deliverys isShow={selectType == 3} onClick={handleChangeOrder} />
             </div>
             <div className="col-span-4 border-l md:border-sky-600">
                   <ServiceTypeSelect setSelectType={setSelectType} selectType={selectType} order={order} onClickOrder={handleClickOptionOrder} setSelectedTable={setSelectedTable} configuration={configuration} isSending={isSending}/>
-                  <ProductsTable order={order} onClickOrder={handleClickOptionOrder} onClickProduct={handleClickOptionProduct} />
-
+                  <ProductsTable isShow={selectType != 3} order={order} onClickOrder={handleClickOptionOrder} onClickProduct={handleClickOptionProduct} />
+                  <DeliverysLateral isShow={selectType == 3} onClick={console.log} />
 
                   <div className="flex justify-center">
                         <RestaurantShowTotal order={order} isSending={isSending}  />

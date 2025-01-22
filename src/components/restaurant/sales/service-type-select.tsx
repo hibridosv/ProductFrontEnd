@@ -43,6 +43,10 @@ export function ServiceTypeSelect(props: ServiceTypeSelectProps) {
       setSelectedTable("");
     }
     if (selectType == 3) {
+      if(order?.invoiceproducts){
+        onClickOrder(OptionsClickOrder.save)
+      }
+      setSelectedTable("");
     }
     setSelectType(option)
   }
