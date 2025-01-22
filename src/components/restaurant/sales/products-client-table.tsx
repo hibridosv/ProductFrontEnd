@@ -12,7 +12,7 @@ import { FaCheckSquare } from "react-icons/fa";
 
 export interface ProductsClientTableProps {
   order: any
-  onClickProduct: (product: Product, option: OptionsClickSales)=>void
+  onClickProduct: (product: Product, option: OptionsClickSales, extra: any)=>void
   clientActive: number;
 }
 
@@ -24,22 +24,21 @@ export function ProductsClientTable(props: ProductsClientTableProps) {
 
         const listItems = order.invoiceproducts && order?.invoiceproducts.map((record: any) => (
             <tr key={record.id} className="border-b bg-white" >
-            <td className='py-3 px-6 clickeable' onClick={record.options.length > 0 ? ()=> toast.error('Opción no disponible en este producto') : ()=> onClickProduct(record, OptionsClickSales.quantity)}>{ record.quantity }</td>
+            <td className='py-3 px-6'>{ record.quantity }</td>
             <td className="py-3 px-6">{ record.product }</td>
-            <td className="py-3 px-6 clickeable truncate" onClick={()=> onClickProduct(record, OptionsClickSales.discount)}>{ numberToMoney(record.unit_price, systemInformation) }</td> 
+            <td className="py-3 px-6  truncate">{ numberToMoney(record.unit_price, systemInformation) }</td> 
             <td className="py-2 truncate">
             <span className="flex justify-between">
                 {
                     record.attributes.client == clientActive ? 
                     <AiFillCloseCircle size={24} className="text-red-600" /> 
                     :
-                    <FaCheckSquare size={24} className="text-green-600 clickeable" />
+                    <FaCheckSquare size={24} className="text-green-600 clickeable" onClick={()=>onClickProduct(record, OptionsClickSales.selectClient, clientActive)}/>
                 }
             </span>
             </td>
             </tr>
         ));
-
 
       return (
             <div className="rounded-sm shadow-md w-full ">

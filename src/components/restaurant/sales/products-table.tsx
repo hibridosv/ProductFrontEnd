@@ -38,7 +38,6 @@ export function ProductsTable(props: ProductsTableProps) {
             </div>
             )
 
-
         order?.invoiceproducts && groupInvoiceProductsByCodAll(order);
         const listItems = order?.invoiceproductsGroup.map((record: any) => (
             <tr key={record.id} className="border-b bg-white" >

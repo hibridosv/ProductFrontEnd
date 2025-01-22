@@ -16,16 +16,17 @@ export function ClientsTables(props: ClientsTablesProps) {
 
         if (!isShow) return <></>
 
-        const listItems = Array.from({ length: order?.attributes?.clients_quantity || 1 }).map((_, index) => {
+
+        const listItems = order?.attributes && JSON.parse(order?.attributes.clients)?.map((record: any) => {
             return (
-                <div key={index} className="m-2 clickeable" onClick={()=>setClientActive(index + 1)}>
+                <div key={record} className="m-2 clickeable" onClick={()=>setClientActive(record)}>
                     <div className="rounded-md drop-shadow-lg">
                         <div className="w-full flex justify-center">
-                        <BiUser size={48} className={`${clientActive == index + 1 ? 'text-lime-900' : 'text-red-900'}`} />
+                        <BiUser size={48} className={`${clientActive == record ? 'text-lime-900' : 'text-red-900'}`} />
                         </div>
-                        <p className={`w-full content-center text-center rounded-b-md overflow-hidden uppercase text-xs text-black font-medium p-1 ${clientActive == index + 1 ? 'bg-lime-300' : 'bg-red-300'}`} 
+                        <p className={`w-full content-center text-center rounded-b-md overflow-hidden uppercase text-xs text-black font-medium p-1 ${clientActive == record ? 'bg-lime-300' : 'bg-red-300'}`} 
                            style={{ maxWidth: '146px',  wordBreak: 'keep-all', lineHeight: '1.2em' }}>
-                            Cliente {index + 1}
+                            Cliente {record}
                         </p>
                     </div>
                 </div>
@@ -48,12 +49,28 @@ export function ClientsTables(props: ClientsTablesProps) {
             )
         }
   
+
+        const clientAlone = ()=>{
+            return (
+                <div className="m-2" >
+                    <div className="rounded-md drop-shadow-lg">
+                        <div className="w-full flex justify-center">
+                        <BiUser size={48} className='text-lime-900' />
+                        </div>
+                        <p className={`w-full content-center text-center rounded-b-md overflow-hidden uppercase text-xs text-black font-medium p-1 bg-lime-300`}
+                           style={{ maxWidth: '146px',  wordBreak: 'keep-all', lineHeight: '1.2em' }}>
+                            Cliente 1
+                        </p>
+                    </div>
+                </div>
+            )
+        }
       
       return (
         <div className="border-b-2 border-slate-500">
             <div>
                 <div className="flex flex-wrap justify-center">
-                { isLoading ? clientMock() : listItems }
+                { isLoading ? clientMock() : listItems ? listItems : clientAlone() }
                 </div>
             </div>
         </div>

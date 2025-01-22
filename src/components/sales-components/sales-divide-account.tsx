@@ -11,6 +11,8 @@ import { OptionsSelect } from "../restaurant/sales/options-select";
 import {  PaymentType } from "@/services/enums";
 import { SalesButtonsRestaurantMin } from "../restaurant/sales/sales-buttons-restaurant-min";
 import { NothingHere } from "../nothing-here/nothing-here";
+import { Product } from "@/services/products";
+import { OptionsClickSales } from "./sales-quick-table";
 
 export interface SalesDivideAccountProps {
     onClose: () => void;
@@ -18,7 +20,7 @@ export interface SalesDivideAccountProps {
     order: any; // arreglo de la orden
     isLoading?: boolean;
 
-
+    onClickProduct: (product: Product, option: OptionsClickSales, extra: any)=>void
     payOrder: (cash: number) => void
     payType: PaymentType;
     config: string[];
@@ -30,18 +32,23 @@ export interface SalesDivideAccountProps {
 export function SalesDivideAccountModal(props: SalesDivideAccountProps){
 const { 
   onClose, isShow, order, isLoading, payOrder, payType, 
-  config, isSending, cashDrawer, selectType } = props;
+  config, isSending, cashDrawer, selectType, onClickProduct } = props;
 
 const [orderData, setOrderData] = useState<any>(order);
-const [clientActive, setClientActive] = useState(1); // Cliente seleccionado de la cuenta (en este modal) 
+const [clientActive, setClientActive] = useState(0); // Cliente seleccionado de la cuenta (en este modal) 
 
 useEffect(() => {
     if (order && isShow) {
       setOrderData(filterInvoiceProductsByClientNumber(order, clientActive));
     }
 }, [order, clientActive, isShow]);
-console.log("orderData : ", orderData); 
-// console.log("order : ", order); 
+
+
+useEffect(() => {
+  if (isShow) {
+      setClientActive(JSON.parse(order?.attributes.clients)[0]);
+  }
+}, [isShow]);
 
 return (
 <Modal show={isShow} position="center" onClose={onClose} size="5xl">
@@ -51,7 +58,12 @@ return (
             <ClientsTables isShow={isShow} order={order} clientActive={clientActive} setClientActive={setClientActive} isLoading={isLoading}  />
       <div className="flex justify-between mt-2">
         <div>
-            <ProductsClientTable order={order} clientActive={clientActive} onClickProduct={()=>{}} />
+          {
+            clientActive > 0 ?
+            <ProductsClientTable order={order} clientActive={clientActive} onClickProduct={onClickProduct} />
+            :
+            <NothingHere text="Seleccione un cliente" />
+          }
         </div>
         { orderData?.invoiceproducts?.length > 0 ?
         <div>

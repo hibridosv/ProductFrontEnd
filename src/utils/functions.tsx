@@ -523,17 +523,11 @@ export function filterInvoiceProductsByClientNumber(invoice: any, clientNumber: 
       (product: any) => product.attributes.client === clientNumber
   );
 
-  // Agregar el nuevo item al objeto original
-  // return {
-  //     ...invoice,
-  //     invoiceproductsByClientNumber: filteredProducts
-  // };
   return {
       ...invoice,
       invoiceproducts: filteredProducts
   };
 }
-
 
 
 

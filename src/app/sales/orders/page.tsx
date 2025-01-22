@@ -74,7 +74,6 @@ export default function ViewSales() {
       // eslint-disable-next-line
       }, [configuration]);
 
-      console.log("selectedTable", selectedTable);
 
       const selectLastOrder = async () => {
             setIsLoading(true);
@@ -84,6 +83,7 @@ export default function ViewSales() {
                 setOrder(response.data);   
                 setSelectType(response?.data?.order_type) 
                 setSelectedTable(response?.data?.attributes?.restaurant_table_id)
+                setClientActive(JSON.parse(response?.data?.attributes.clients)[0] ?? 1);
                 if(configuration?.includes("sales-sound")) successSound()
               }
             } catch (error) {
@@ -115,7 +115,7 @@ export default function ViewSales() {
           const resetOrder = () =>{
             setOrder([]);
             setSelectedTable("");
-            setClientActive(1);
+            setClientActive(JSON.parse(order?.attributes.clients)[0] ?? 1);
           }
 
           const onFinish = () => {
@@ -137,6 +137,7 @@ export default function ViewSales() {
                 setOrder(response.data);
                 setSelectType(response?.data?.order_type);
                 setSelectedTable(response?.data?.attributes?.restaurant_table_id)
+                setClientActive(JSON.parse(order?.attributes.clients)[0] ?? 1);
               } else {
                 toast.error(response.message);
               }
@@ -290,13 +291,15 @@ export default function ViewSales() {
               };
               
               
-              const handleClickOptionProduct = (product: Product, option: OptionsClickSales) => { // opciones del producto
+              const handleClickOptionProduct = (product: Product, option: OptionsClickSales, extra = null) => { // opciones del producto
                 switch (option) {
                   case OptionsClickSales.delete: deleteProduct(product.cod)
                   break;
                   case OptionsClickSales.discount: (() => { setProductSelected(product); modalDiscount.setIsOpen(true); setIsDiscountType(1); })();
                 break;
                 case OptionsClickSales.quantity: (() => { setProductSelected(product); modalQuantity.setIsOpen(true); })();
+                break;
+                case OptionsClickSales.selectClient: (() => { changeClientAtProduct(product.id, extra); })();
                 break;
                 default: ()=>{};
                 break;
@@ -349,6 +352,19 @@ export default function ViewSales() {
             } 
           };
 
+          const changeClientAtProduct = async (product: any, client: any) => {
+            console.log("client", client);
+            try {
+              const response = await postData(`restaurant/sales/product/change/${product}/${client}`, "PUT");
+              if (response.data) {
+                setOrder(response.data)
+              }
+            } catch (error) {
+              console.error(error);
+              toast.error("Ha ocurrido un error!");
+            } 
+          };
+
 
           const updateProductOption = async (data: any) => {
             try {
@@ -382,7 +398,7 @@ export default function ViewSales() {
                   <OptionsSelect onClickOrder={handleClickOptionOrder} payType={paymentType} order={order} setOrder={setOrder} />
                   <ShowPercentSalesType order={order} config={configuration} />
             </div>
-            <SalesDivideAccountModal isShow={modalDivideAccount.isOpen} order={order} onClose={()=>modalDivideAccount.setIsOpen(false)} isLoading={isLoading} cashDrawer={cashDrawer} payOrder={payOrder} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType} />
+            <SalesDivideAccountModal onClickProduct={handleClickOptionProduct} isShow={modalDivideAccount.isOpen} order={order} onClose={()=>modalDivideAccount.setIsOpen(false)} isLoading={isLoading} cashDrawer={cashDrawer} payOrder={payOrder} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType} />
             <SalesSelectInvoiceTypeModal isShow={modalInvoiceType.isOpen} onClose={()=>modalInvoiceType.setIsOpen(false)} order={order} />
             <SalesDiscountProductModal isShow={modalDiscount.isOpen} discountType={isDiscountType} order={order} product={productSelected} onClose={()=>closeModalDiscount()} byCode />
             <SelectPayTypeModal isShow={modalPaymentsType.isOpen} onClose={()=>modalPaymentsType.setIsOpen(false)} payments={systemInformation?.payMethods} setPayment={setPaymentType} />
