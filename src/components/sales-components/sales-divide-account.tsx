@@ -48,7 +48,7 @@ useEffect(() => {
   if (isShow) {
       setClientActive(JSON.parse(order?.attributes.clients)[0]);
   }
-}, [isShow]);
+}, [isShow, order?.attributes]);
 
 return (
 <Modal show={isShow} position="center" onClose={onClose} size="5xl">
