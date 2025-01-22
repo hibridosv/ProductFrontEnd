@@ -39,8 +39,6 @@ export function Deliverys(props: DeliverysProps) {
 
       if (!isShow ) return <></>
 
-      console.log(orders)
-
       return (
         <div>
             <div>
@@ -52,7 +50,7 @@ export function Deliverys(props: DeliverysProps) {
                 <div className="flex flex-wrap justify-center">
                     {
                     isLoading ? <Loading text="Buscando deliverys" />  : 
-                    orders ? orders.map((record: any, index: any) => {
+                    orders ? orders.map((record: any) => {
                         return (
                             <div key={record?.id} className="m-2 clickeable" >
                                 <div className="rounded-full drop-shadow-lg shadow-lg" onClick={() => onClick(record.id)}>
@@ -64,7 +62,7 @@ export function Deliverys(props: DeliverysProps) {
                                 </div>
                             </div>
                         )
-                    }) : <NothingHere width="500" text="No hay deliverys" /> }
+                    }) : <NothingHere width="350" text="No hay ordenes pendientes" /> }
                 </div>
             </div>
         </div>

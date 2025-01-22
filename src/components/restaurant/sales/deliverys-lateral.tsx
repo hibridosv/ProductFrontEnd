@@ -6,7 +6,6 @@ import { Pagination } from "@/components/pagination";
 import { usePagination } from "@/hooks/usePagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { loadData } from "@/utils/functions";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { DeliveryContactList } from "./delivery-contact-list-table";
 
@@ -24,15 +23,15 @@ export function DeliverysLateral(props: DeliverysLateralProps) {
     const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number"], 500);
 
     useEffect(() => {
-        if (!isAdContactModal) {
+        if (searchTerm) {
         (async () => setContacts(await loadData(`contacts?sort=-created_at&perPage=10${currentPage}${searchTerm}&filterWhere[status]==1&filterWhere[is_client]==1`)))();
         }
-    }, [currentPage, searchTerm, isAdContactModal, randomNumber]);
+    }, [currentPage, searchTerm, randomNumber]);
 
       if (!isShow ) return <></>
 
       return (
-        <div className="h-full">
+        <div className="m-2">
                   <MinimalSearch records={contacts} handleSearchTerm={handleSearchTerm} placeholder="Buscar Contacto" statics={false} />
                   <DeliveryContactList records={contacts} random={setRandomNumber} onClick={onClick} />
                   <Pagination records={contacts} handlePageNumber={handlePageNumber} />

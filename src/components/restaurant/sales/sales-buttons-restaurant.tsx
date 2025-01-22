@@ -23,10 +23,11 @@ export interface SalesButtonsRestaurantProps {
     isSending:boolean;
     cashDrawer?: boolean;
     selectType: number;
+    isShow: boolean;
 }
 
 export function SalesButtonsRestaurant(props: SalesButtonsRestaurantProps) {
-  const {onClickOrder, order, payOrder, payType, config, isSending, cashDrawer, selectType } = props
+  const {onClickOrder, order, payOrder, payType, config, isSending, cashDrawer, selectType, isShow } = props
   const { register, handleSubmit, reset, setFocus, setValue } = useForm();
   const [input, setInput] = useState('');
   const [keyboard, setKeyboard] = useState<any>(null);
@@ -79,7 +80,7 @@ const handleKeyboardChange = (inputValue: string) => {
   };
 //////// termina keyboard
 
-if (!order?.invoiceproducts) return <></>
+if (!isShow) return <></>
 if (order?.invoiceproducts.length == 0) return <></>
 
   return (

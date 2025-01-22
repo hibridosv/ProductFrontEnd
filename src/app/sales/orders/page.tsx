@@ -89,6 +89,9 @@ export default function ViewSales() {
                 setSelectType(response?.data?.order_type) 
                 setSelectedTable(response?.data?.attributes?.restaurant_table_id)
                 setClientActive(JSON.parse(response?.data?.attributes.clients)[0] ?? 1);
+                if (response?.data?.order_type == 3) {
+                  setDeliverySelected(response?.data?.client)
+                }
                 if(configuration?.includes("sales-sound")) successSound()
               }
             } catch (error) {
@@ -121,6 +124,7 @@ export default function ViewSales() {
             setOrder([]);
             setSelectedTable("");
             setClientActive(JSON.parse(order?.attributes.clients)[0] ?? 1);
+            setDeliverySelected([])
           }
 
           const onFinish = () => {
@@ -176,7 +180,6 @@ export default function ViewSales() {
               restaurant_table_id: selectedTable,
               special: modalSalesSpecial.isOpen ? 1 : 0,
             };
-          console.log(selectType)
             
             try {
               setIsSending(true);
@@ -405,9 +408,9 @@ export default function ViewSales() {
                   <DeliverysLateral isShow={selectType == 3 && !deliverySelected?.id} onClick={setDeliverySelected} />
 
                   <div className="flex justify-center">
-                        <RestaurantShowTotal order={order} isSending={isSending}  />
+                        <RestaurantShowTotal isShow={order?.invoiceproducts} order={order} isSending={isSending}  />
                   </div>  
-                  <SalesButtonsRestaurant cashDrawer={cashDrawer} payOrder={payOrder} onClickOrder={handleClickOptionOrder} order={order} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType}/>
+                  <SalesButtonsRestaurant isShow={order?.invoiceproducts} cashDrawer={cashDrawer} payOrder={payOrder} onClickOrder={handleClickOptionOrder} order={order} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType}/>
                   <OptionsSelect onClickOrder={handleClickOptionOrder} payType={paymentType} order={order} setOrder={setOrder} />
                   <ShowPercentSalesType order={order} config={configuration} />
                   <DeliveryCancelBtn isShow={selectType == 3 && deliverySelected?.id && !order?.invoiceproducts} onClick={setDeliverySelected} />

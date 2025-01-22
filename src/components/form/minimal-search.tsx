@@ -21,7 +21,7 @@ return (<div>
     </div>
     <TextInput id="search" placeholder={placeholder} required={true} addon={<HiSearch />} onChange={(e) => handleSearchTerm(e.target.value)} />
     </div>
-    { !records.data ? <Loading text="" /> : 
+    { records.data && 
        statics && <CreditsShowTotal quantity={records?.meta?.total} text="REGISTROS" number />
     }
 </div>)

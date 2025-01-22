@@ -19,8 +19,8 @@ export function DeliveryContactList(props: DeliveryContactListProps) {
   const [isAdContactViewModal, setIsAdContactViewModal] = useState(false);
   const [recordSelect, setRecordSelect] = useState<any>(null);
 
-  if (!records.data) return <NothingHere width="164" height="98" />;
-  if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
+  if (!records.data) return <NothingHere width="70" height="50" text="Sin contactos" />;
+  if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="70" height="50" />;
 
   const handleRecordSelect = (record: any) => {
     setRecordSelect(record);
