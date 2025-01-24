@@ -37,20 +37,6 @@ export default function Page() {
         // eslint-disable-next-line
     }, [pusherEvent]);
 
-
-    const processData = async (values: any) => {
-        try {
-          const response = await postData(`${values.url}`, "PUT", values);
-          if (response.data) {
-            setOrders(response.data)
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-console.log(orders)
-
   return (
       <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
           <div className="col-span-7 border-r md:border-sky-600">
