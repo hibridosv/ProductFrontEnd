@@ -46,7 +46,7 @@ export default function ViewSales() {
       const [paymentType, setPaymentType] = useState(1); // Efectivo, Tarjeta, Otros
       const [deliveryType, setDeliveryType] = useState(2); // 1: Aqui, 2: Llevar, 3: delivery
       const [selectType, setSelectType] = useState(1); // 1: venta Rapida, 2: Servicio a mesa, 3: delivery
-      const [clientActive, setClientActive] = useState(1); // Cliente seleccionado de la cuenta
+      const [clientActive, setClientActive] = useState(1); // Cliente seleccionado de la cuenta (numero de cliente)
       const [typeOfPrice, setTypeOfPrice] = useState(1); // 1 tipo de precio, 1: normal, 2: Promocion
       const [selectedTable, setSelectedTable] = useState(""); // Mesa seleccionada
       const [configuration, setConfiguration] = useState([] as any); // configuraciones que vienen de config
@@ -54,7 +54,7 @@ export default function ViewSales() {
       const [productSelected, setProductSelected] = useState([]) as any;
       const [typeOfClient, setTypeOfClient] = useState<ContactTypeToGet>(ContactTypeToGet.clients); // tipo de cliente a buscar en el endpoint
       const [clientNametoUpdate, setClientNametoUpdate] = useState<ContactNameOfOrder>(ContactNameOfOrder.client); // tipo de cliente a buscar en el endpoint
-      const [deliverySelected, setDeliverySelected] = useState([]) as any; // cliente temporal para el delivery
+      const [deliverySelected, setDeliverySelected] = useState([]) as any; // cliente temporal para el delivery (a quien se le lleva el pedido)
       const modalPayed = useIsOpen(false);
       const modalPaymentsType = useIsOpen(false);
       const modalInvoiceType = useIsOpen(false);
@@ -79,6 +79,14 @@ export default function ViewSales() {
       // eslint-disable-next-line
       }, [configuration]);
 
+      useEffect(() => { 
+        if (selectType == 2) {
+          setDeliveryType(1)
+        } else {
+          setDeliveryType(2)
+        }
+      }, [selectType]);
+
 
       const selectLastOrder = async () => {
             setIsLoading(true);
@@ -88,6 +96,7 @@ export default function ViewSales() {
                 setOrder(response.data);   
                 setSelectType(response?.data?.order_type) 
                 setSelectedTable(response?.data?.attributes?.restaurant_table_id)
+                setDeliveryType(response?.data?.delivery_type)
                 setClientActive(JSON.parse(response?.data?.attributes.clients)[0] ?? 1);
                 if (response?.data?.order_type == 3) {
                   setDeliverySelected(response?.data?.client)
@@ -145,6 +154,7 @@ export default function ViewSales() {
               if (response.type !== "error") {
                 setOrder(response.data);
                 setSelectType(response?.data?.order_type);
+                setDeliveryType(response?.data?.delivery_type);
                 setSelectedTable(response?.data?.attributes?.restaurant_table_id)
                 setClientActive(JSON.parse(response?.data?.attributes?.clients)[0] ?? 1);
                 if (response?.data?.order_type == 3) {
