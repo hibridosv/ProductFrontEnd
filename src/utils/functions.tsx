@@ -596,3 +596,9 @@ export function hasOptionsActive(invoice: any) {
     return product.options.some((option: any) => option.status === 0);
   });
 }
+
+
+export const urlConstructor = (data: any, url: string)=>{
+  let dir = encodeURI(`${url}?option=${data.option}${data.initialDate ? `&initialDate=${data.initialDate}` : ``}${data.finalDate ? `&finalDate=${data.finalDate}` : ``}${data.product_id ? `&product_id=${data.product_id}` : ``}${data.userId ? `&userId=${data.userId}` : ``}${data.clientId ? `&clientId=${data.clientId}` : ``}`)
+  return dir;
+}

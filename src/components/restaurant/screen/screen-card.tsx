@@ -1,11 +1,9 @@
 import { useRelativeTime } from '@/hooks/useRelativeTime';
 import { formatDate, formatHourAsHM } from '@/utils/date-formats';
 import { deliveryType, filterProductsOrInvoiceProducts } from '@/utils/functions';
-import { url } from 'inspector';
 import React, { Fragment } from 'react';
 import { BiCar, BiCheckDouble, BiUser } from 'react-icons/bi';
 import { FaClock } from 'react-icons/fa';
-import { GrChatOption } from 'react-icons/gr';
 import { TbPointFilled } from 'react-icons/tb';
 
 export interface ScreenCardProps {

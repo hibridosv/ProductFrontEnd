@@ -4,7 +4,8 @@ import { Loading } from "@/components/loading/loading";
 import { NothingHere } from "@/components/nothing-here/nothing-here";
 import { useRelativeTime } from "@/hooks/useRelativeTime";
 import { BiInfoCircle } from "react-icons/bi";
-import React from "react";
+import React, { useState } from "react";
+import { OrderDetailsModal } from "./order-details-modal";
 
 
 interface OrderRowProps {
@@ -12,7 +13,14 @@ interface OrderRowProps {
   }
   
   function OrderRow({ record }: OrderRowProps) {
+    const [isShowDetailsModal, setIsShowDetailsModal] = useState(false);
+    const [orderSelected, setOrderSelected] = useState(null);
     const relativeTime = useRelativeTime(record?.created_at);
+
+    const handleShowDetails = (order: any) => {
+      setOrderSelected(order);
+      setIsShowDetailsModal(true);
+    }
   
     return (
       <tr className="border-b">
@@ -24,8 +32,9 @@ interface OrderRowProps {
         <td className="py-2 px-4 truncate">{relativeTime}</td>
         <th className="py-2 px-4">{orderStatus(record?.status)}</th>
         <td className="py-2 px-4">
-          <BiInfoCircle size={24} className="text-teal-500" />
+          <BiInfoCircle size={24} className="text-teal-500 clickeable" onClick={()=>handleShowDetails(record)}/>
         </td>
+        <OrderDetailsModal isShow={isShowDetailsModal} order={orderSelected} onClose={()=>setIsShowDetailsModal(false)} />
       </tr>
     );
   }

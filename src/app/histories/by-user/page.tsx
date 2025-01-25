@@ -3,17 +3,14 @@
 import { useEffect, useState } from "react";
 import { ViewTitle } from "@/components"
 import { DateRange } from "@/components/form/date-range"
-import { postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { DateTime } from 'luxon';
 import { HistoriesByUserTable } from "@/components/histories-components/histories-by-user-table";
-import { loadData } from "@/utils/functions";
+import { loadData, urlConstructor } from "@/utils/functions";
 import { style } from "@/theme";
 import { useForm } from "react-hook-form";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
 import { LinksList } from "@/components/common/links-list";
-import { useDateUrlConstructor } from "@/hooks/useDateUrlConstructor";
-
 
 export default function Page() {
   const [sales, setSales] = useState([]);
@@ -21,8 +18,6 @@ export default function Page() {
   const [isSending, setIsSending] = useState(false);
   const { register, watch } = useForm();
   const { links, addLink} = AddNewDownloadLink()
-  const { url, constructor } = useDateUrlConstructor()
-
 
   useEffect(() => {
       (async () => setUsers(await loadData(`register`)))();
@@ -34,7 +29,7 @@ export default function Page() {
       data.userId = watch("userId")
         try {
           setIsSending(true);
-          constructor(data, 'histories/by-user')
+          let url = urlConstructor(data, 'histories/by-user')
           const response = await loadData(url);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
