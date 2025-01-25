@@ -6,12 +6,12 @@ import { CreditsShowTotal } from "../credits-components/credits-show-total";
 export interface MinimalSearchProps {
     records?: any;
     handleSearchTerm: (term: string) => void;
-    statics?: any;
+    statics?: boolean;
     placeholder?: string;
 }
 
 export function MinimalSearch(props: MinimalSearchProps){
-const { records, handleSearchTerm, placeholder = "Buscar" } = props;
+const { records, handleSearchTerm, placeholder = "Buscar", statics = true } = props;
 
 
 return (<div>
@@ -21,8 +21,8 @@ return (<div>
     </div>
     <TextInput id="search" placeholder={placeholder} required={true} addon={<HiSearch />} onChange={(e) => handleSearchTerm(e.target.value)} />
     </div>
-    { !records.data ? <Loading text="" /> : 
-        <CreditsShowTotal quantity={records?.meta?.total} text="REGISTROS" number />
+    { records.data && 
+       statics && <CreditsShowTotal quantity={records?.meta?.total} text="REGISTROS" number />
     }
 </div>)
 

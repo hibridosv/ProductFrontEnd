@@ -3,21 +3,17 @@
 import { useEffect, useState } from "react";
 import { ViewTitle } from "@/components"
 import { DateRange, DateRangeValues } from "@/components/form/date-range"
-import { postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { DateTime } from 'luxon';
 import { HistoriesCutTable } from "@/components/histories-components/histories-cut-table";
 import { LinksList } from "@/components/common/links-list";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
-import { loadData } from "@/utils/functions";
-import { useDateUrlConstructor } from "@/hooks/useDateUrlConstructor";
+import { loadData, urlConstructor } from "@/utils/functions";
 
 export default function Page() {
   const [sales, setSales] = useState([]);
   const [isSending, setIsSending] = useState(false);
   const { links, addLink} = AddNewDownloadLink()
-  const { url, constructor } = useDateUrlConstructor()
-
 
 
   useEffect(() => {
@@ -32,7 +28,7 @@ export default function Page() {
     const handlegetSales = async (data: DateRangeValues) => {
         try {
           setIsSending(true);
-          constructor(data, 'histories/cuts')
+          let url = urlConstructor(data, 'histories/cuts')
           const response = await loadData(url);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");

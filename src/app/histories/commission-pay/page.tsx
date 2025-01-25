@@ -3,18 +3,16 @@
 import { useEffect, useState } from "react";
 import { ViewTitle } from "@/components"
 import { DateRange } from "@/components/form/date-range"
-import { getData, postData } from "@/services/resources";
+import { getData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { DateTime } from 'luxon';
-import { HistoriesByUserTable } from "@/components/histories-components/histories-by-user-table";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
 import { LinksList } from "@/components/common/links-list";
 import { SearchInput } from "@/components/form/search";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
-import { getRandomInt, loadData } from "@/utils/functions";
+import { getRandomInt, loadData, urlConstructor } from "@/utils/functions";
 import { Button, Preset } from "@/components/button/button";
 import { CommissionsListTable } from "@/components/tools-components/commissions-list-table";
-import { useDateUrlConstructor } from "@/hooks/useDateUrlConstructor";
 
 
 export default function Page() {
@@ -25,7 +23,6 @@ export default function Page() {
   const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number"], 500);
   const [contacts, setContacts] = useState([]) as any;
   const [contactSelected, setContactSelected] = useState(null) as any;
-  const { url, constructor } = useDateUrlConstructor()
 
 
   const loadDataContacts = async () => {
@@ -52,7 +49,7 @@ export default function Page() {
         data.referredId = contactSelected?.id
         try {
           setIsSending(true);
-          constructor(data, 'histories/commissions')
+          let url = urlConstructor(data, 'histories/commissions')
           const response = await loadData(url);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");

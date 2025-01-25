@@ -28,23 +28,33 @@ import { ProductsTable } from "@/components/restaurant/sales/products-table";
 import { SalesContactSearchGtModal } from "@/components/restaurant/sales/sales-contact-search-gt";
 import { SalesEspecialModal } from "@/components/restaurant/sales/sales-special";
 import { ShowPercentSalesType } from "@/components/restaurant/sales/show-percent-sales-type";
+import { ClientsTables } from "@/components/restaurant/sales/clients-tables";
+import { Tables } from "@/components/restaurant/sales/tables";
+import { SalesDivideAccountModal } from "@/components/sales-components/sales-divide-account";
+import { Deliverys } from "@/components/restaurant/sales/deliverys";
+import { DeliverysLateral } from "@/components/restaurant/sales/deliverys-lateral";
+import { DeliveryCancelBtn } from "@/components/restaurant/sales/deliverys-cancel-btn";
+import { DeliveryClientInfo } from "@/components/restaurant/sales/deliverys-client-info";
 
 
 export default function ViewSales() {
+      const { config, cashDrawer, systemInformation } = useContext(ConfigContext);
       const [isLoading, setIsLoading] = useState(false);
       const [isSending, setIsSending] = useState(false);
       const [order, setOrder] = useState([] as any); // orden que se obtiene
       const [ payedInvoice, setPayedInvoice ] = useState([] as any); // orden pagada para mostrar el modal de pago
       const [paymentType, setPaymentType] = useState(1); // Efectivo, Tarjeta, Otros
       const [deliveryType, setDeliveryType] = useState(2); // 1: Aqui, 2: Llevar, 3: delivery
-      const [clientActive, setClientActive] = useState(1); // Cliente seleccionado de la cuenta
+      const [selectType, setSelectType] = useState(1); // 1: venta Rapida, 2: Servicio a mesa, 3: delivery
+      const [clientActive, setClientActive] = useState(1); // Cliente seleccionado de la cuenta (numero de cliente)
       const [typeOfPrice, setTypeOfPrice] = useState(1); // 1 tipo de precio, 1: normal, 2: Promocion
-      const { config, cashDrawer, systemInformation } = useContext(ConfigContext);
+      const [selectedTable, setSelectedTable] = useState(""); // Mesa seleccionada
       const [configuration, setConfiguration] = useState([] as any); // configuraciones que vienen de config
       const [isDiscountType, setIsDiscountType] = useState(0);
       const [productSelected, setProductSelected] = useState([]) as any;
       const [typeOfClient, setTypeOfClient] = useState<ContactTypeToGet>(ContactTypeToGet.clients); // tipo de cliente a buscar en el endpoint
       const [clientNametoUpdate, setClientNametoUpdate] = useState<ContactNameOfOrder>(ContactNameOfOrder.client); // tipo de cliente a buscar en el endpoint
+      const [deliverySelected, setDeliverySelected] = useState([]) as any; // cliente temporal para el delivery (a quien se le lleva el pedido)
       const modalPayed = useIsOpen(false);
       const modalPaymentsType = useIsOpen(false);
       const modalInvoiceType = useIsOpen(false);
@@ -55,7 +65,8 @@ export default function ViewSales() {
       const modalQuantity = useIsOpen(false);
       const modalContactGt = useIsOpen(false);
       const modalSalesSpecial = useIsOpen(false);
-
+      const modalDivideAccount = useIsOpen(false);
+      
       useEffect(() => {
             if (config?.configurations) {
                   setConfiguration(extractActiveFeature(config.configurations));
@@ -68,13 +79,28 @@ export default function ViewSales() {
       // eslint-disable-next-line
       }, [configuration]);
 
+      useEffect(() => { 
+        if (selectType == 2) {
+          setDeliveryType(1)
+        } else {
+          setDeliveryType(2)
+        }
+      }, [selectType]);
+
 
       const selectLastOrder = async () => {
             setIsLoading(true);
             try {
               const response = await getData(`sales/order/select`);
               if (response?.data) {
-                setOrder(response.data);    
+                setOrder(response.data);   
+                setSelectType(response?.data?.order_type) 
+                setSelectedTable(response?.data?.attributes?.restaurant_table_id)
+                setDeliveryType(response?.data?.delivery_type)
+                setClientActive(JSON.parse(response?.data?.attributes.clients)[0] ?? 1);
+                if (response?.data?.order_type == 3) {
+                  setDeliverySelected(response?.data?.client)
+                }
                 if(configuration?.includes("sales-sound")) successSound()
               }
             } catch (error) {
@@ -84,14 +110,14 @@ export default function ViewSales() {
             }
           };
         
-          
           useEffect(() => {
             if (!modalInvoiceType.isOpen 
               && !modalDiscount.isOpen 
               && !modalContact.isOpen 
               && !modalOthers.isOpen 
               && !modalComment.isOpen 
-              && !modalSalesSpecial.isOpen) {
+              && !modalSalesSpecial.isOpen
+              && !modalDivideAccount.isOpen) {
               (async () => await selectLastOrder())()
             }
             // eslint-disable-next-line
@@ -100,11 +126,16 @@ export default function ViewSales() {
             modalContact.isOpen, 
             modalOthers.isOpen, 
             modalComment.isOpen, 
-            modalSalesSpecial.isOpen]);
+            modalSalesSpecial.isOpen,
+            modalDivideAccount.isOpen]);
           
           const resetOrder = () =>{
             setOrder([]);
+            setSelectedTable("");
+            setClientActive(JSON.parse(order?.attributes.clients)[0] ?? 1);
+            setDeliverySelected([])
           }
+
           const onFinish = () => {
             setPayedInvoice([]);
             modalPayed.setIsOpen(false)
@@ -117,18 +148,29 @@ export default function ViewSales() {
       }
       
       const handleChangeOrder = async (order: any) => {
+        setIsLoading(true);
         try {
               const response = await postData(`sales/order/select/${order}`, "POST");
               if (response.type !== "error") {
                 setOrder(response.data);
+                setSelectType(response?.data?.order_type);
+                setDeliveryType(response?.data?.delivery_type);
+                setSelectedTable(response?.data?.attributes?.restaurant_table_id)
+                setClientActive(JSON.parse(response?.data?.attributes?.clients)[0] ?? 1);
+                if (response?.data?.order_type == 3) {
+                  setDeliverySelected(response?.data?.client)
+                }
               } else {
                 toast.error(response.message);
               }
             } catch (error) {
               console.error(error);
-              toast.error("Ha ocurrido un error!");
+              toast.error("Ha ocurrido un error desconocido!");
+            } finally {
+              setIsLoading(false);
             }
           };
+          
           
           const sendProduct = async (producId: any, quantity = 1) => {
             if (!producId){
@@ -139,11 +181,13 @@ export default function ViewSales() {
               product_id: producId,
               request_type: 1, // 1: id, 2: cod
               delivery_type: deliveryType, // 1: Aqui, 2: Llevar, 3: delivery
-              order_type: 1, // venta, consignacion, ecommerce
+              delivery_client: deliverySelected ? deliverySelected?.id : null, // id del cliente delivery
+              order_type: selectType, // 1. rapida, 2. Mesas, 3. Delivery
               price_type: typeOfPrice, // tipo de precio del producto
               clients_quantity: 1, // Numero de clientes
               client_active: clientActive, // Cliente activo para asignar producto
               quantity,
+              restaurant_table_id: selectedTable,
               special: modalSalesSpecial.isOpen ? 1 : 0,
             };
             
@@ -202,9 +246,38 @@ export default function ViewSales() {
             }
           };
           
+          const saveOrder = async () => {
+            setIsLoading(true);
+            try {
+              const response = await postData(`sales/order/save/${order.id}`, "POST");
+              toast.success(response.message);
+              if (response.type !== "error") {
+                resetOrder()
+              }
+            } catch (error) {
+              console.error(error);
+              toast.error("Ha ocurrido un error!");
+            } finally {
+              setIsLoading(false);
+            }
+          };
+
+          const orderAddOtherClient = async () => {
+            try {
+              const response = await postData(`restaurant/sales/add-client/${order.id}`, "PUT");
+              if (response.type !== "error") {
+                toast.success("cliente Agregado");
+                setOrder(response.data)
+              }
+            } catch (error) {
+              console.error(error);
+              toast.error("Ha ocurrido un error!");
+            }
+          };
+
           const handleClickOptionOrder = (option: OptionsClickOrder) => { // opciones de la orden
             switch (option) {
-              case OptionsClickOrder.save: (() => { })();
+              case OptionsClickOrder.save: (() => saveOrder())();
                   break;
                   case OptionsClickOrder.delete: (() => { deleteOrder() })();
                   break;
@@ -232,19 +305,25 @@ export default function ViewSales() {
                   break;
                   case OptionsClickOrder.ventaSpecial: (() => { modalSalesSpecial.setIsOpen(true); })();
                   break;
+                  case OptionsClickOrder.divideAccount: (() => { modalDivideAccount.setIsOpen(true); })();
+                  break;
+                  case OptionsClickOrder.addClientTable: (() => { orderAddOtherClient() })();
+                  break;
                   default: ()=>{};
                   break;
                 }
               };
               
               
-              const handleClickOptionProduct = (product: Product, option: OptionsClickSales) => { // opciones del producto
+              const handleClickOptionProduct = (product: Product, option: OptionsClickSales, extra = null) => { // opciones del producto
                 switch (option) {
                   case OptionsClickSales.delete: deleteProduct(product.cod)
                   break;
                   case OptionsClickSales.discount: (() => { setProductSelected(product); modalDiscount.setIsOpen(true); setIsDiscountType(1); })();
                 break;
                 case OptionsClickSales.quantity: (() => { setProductSelected(product); modalQuantity.setIsOpen(true); })();
+                break;
+                case OptionsClickSales.selectClient: (() => { changeClientAtProduct(product.id, extra); })();
                 break;
                 default: ()=>{};
                 break;
@@ -253,13 +332,14 @@ export default function ViewSales() {
             };
             
 
-            const payOrder = async (cash: number) => {
+            const payOrder = async (cash: number, client_number = null) => {
               let values = {
               order_id: order?.id,
               payment_type: paymentType, // efectivo, tarjeta, transferencia, cheque, credito
               cash: cash,
               invoice_type_id: order?.invoice_type_id,
-              client_active: clientActive // Cliente activo para asignar producto
+              client_active: clientActive, // Cliente activo para asignar producto
+              client_number: client_number
             };
             try {
               setIsSending(true);
@@ -271,6 +351,9 @@ export default function ViewSales() {
                 resetOrder()
               } else {
                 toast.error(response.message);
+              }
+              if (client_number) {
+                modalDivideAccount.setIsOpen(false)
               }
             } catch (error) {
               console.error(error);
@@ -293,6 +376,19 @@ export default function ViewSales() {
             } 
           };
 
+          const changeClientAtProduct = async (product: any, client: any) => {
+            console.log("client", client);
+            try {
+              const response = await postData(`restaurant/sales/product/change/${product}/${client}`, "PUT");
+              if (response.data) {
+                setOrder(response.data)
+              }
+            } catch (error) {
+              console.error(error);
+              toast.error("Ha ocurrido un error!");
+            } 
+          };
+
 
           const updateProductOption = async (data: any) => {
             try {
@@ -306,25 +402,32 @@ export default function ViewSales() {
                 toast.error("Ha ocurrido un error!");
               } 
           }
-       
+
+          
 
           return (
             <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
             <div className="col-span-6 border-r md:border-sky-600">
-                  <IconsMenu isShow={true} selectedIcon={sendProduct} config={configuration} isSending={isSending} />
+            <DeliveryClientInfo isShow={selectType == 3 && deliverySelected?.id} deliveryInfo={deliverySelected} onClick={()=>modalContact.setIsOpen(true)} order={order} />
+            <ClientsTables isShow={selectType == 2 && selectedTable != ""} order={order} clientActive={clientActive} setClientActive={setClientActive} isLoading={isLoading}  />
+            <IconsMenu isShow={selectType == 1 || (selectType == 2 && selectedTable != "") || order?.invoiceproducts || (selectType == 3 && deliverySelected?.id)} selectedIcon={sendProduct} config={configuration} isSending={isSending} />
+            <Tables isShow={selectType == 2 && selectedTable === ""} setSelectedTable={setSelectedTable} order={order} handleChangeOrder={handleChangeOrder} />
+            <Deliverys isShow={selectType == 3 && !deliverySelected?.id} onClick={handleChangeOrder} />
             </div>
             <div className="col-span-4 border-l md:border-sky-600">
-                  <ServiceTypeSelect selectType={()=>{}} />
-                  <ProductsTable order={order} onClickOrder={handleClickOptionOrder} onClickProduct={handleClickOptionProduct} />
-
+                  <ServiceTypeSelect setDeliverySelected={setDeliverySelected} setSelectType={setSelectType} selectType={selectType} order={order} onClickOrder={handleClickOptionOrder} setSelectedTable={setSelectedTable} configuration={configuration} isSending={isSending}/>
+                  <ProductsTable isShow={(selectType != 3)  || (selectType == 3 && deliverySelected?.id)} order={order} onClickOrder={handleClickOptionOrder} onClickProduct={handleClickOptionProduct} />
+                  <DeliverysLateral isShow={selectType == 3 && !deliverySelected?.id} onClick={setDeliverySelected} />
 
                   <div className="flex justify-center">
-                        <RestaurantShowTotal order={order} isSending={isSending}  />
+                        <RestaurantShowTotal isShow={order?.invoiceproducts?.length > 0} order={order} isSending={isSending}  />
                   </div>  
-                  <SalesButtonsRestaurant cashDrawer={cashDrawer} payOrder={payOrder} onClickOrder={handleClickOptionOrder} order={order} payType={paymentType} config={configuration} isSending={isSending} />
+                  <SalesButtonsRestaurant isShow={order?.invoiceproducts?.length > 0} cashDrawer={cashDrawer} payOrder={payOrder} onClickOrder={handleClickOptionOrder} order={order} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType}/>
                   <OptionsSelect onClickOrder={handleClickOptionOrder} payType={paymentType} order={order} setOrder={setOrder} />
                   <ShowPercentSalesType order={order} config={configuration} />
+                  <DeliveryCancelBtn isShow={selectType == 3 && deliverySelected?.id && !order?.invoiceproducts} onClick={setDeliverySelected} />
             </div>
+            <SalesDivideAccountModal onClickProduct={handleClickOptionProduct} isShow={modalDivideAccount.isOpen} order={order} onClose={()=>modalDivideAccount.setIsOpen(false)} isLoading={isLoading} cashDrawer={cashDrawer} payOrder={payOrder} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType} />
             <SalesSelectInvoiceTypeModal isShow={modalInvoiceType.isOpen} onClose={()=>modalInvoiceType.setIsOpen(false)} order={order} />
             <SalesDiscountProductModal isShow={modalDiscount.isOpen} discountType={isDiscountType} order={order} product={productSelected} onClose={()=>closeModalDiscount()} byCode />
             <SelectPayTypeModal isShow={modalPaymentsType.isOpen} onClose={()=>modalPaymentsType.setIsOpen(false)} payments={systemInformation?.payMethods} setPayment={setPaymentType} />

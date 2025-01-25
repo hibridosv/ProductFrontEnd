@@ -4,16 +4,16 @@ import { useContext } from "react";
 
 export interface RestaurantShowTotalProps {
     isSending?: boolean;
-    order: any
+    order: any;
+    isShow?: boolean;
 }
 
 export function RestaurantShowTotal(props: RestaurantShowTotalProps) {
-  const { isSending, order } = props;
+  const { isSending, order, isShow } = props;
   const { systemInformation } = useContext(ConfigContext);
 
 
-  if (!order?.invoiceproducts) return <></>
-  if (order?.invoiceproducts.length == 0) return <></>
+  if (!isShow) return <></>
 
   const total = sumarCantidad(order?.invoiceproducts);
   const subtotal = sumarTotalesWithoutDIscount(order?.invoiceproducts);

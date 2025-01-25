@@ -22,10 +22,12 @@ export interface SalesButtonsRestaurantProps {
     config: string[];
     isSending:boolean;
     cashDrawer?: boolean;
+    selectType: number;
+    isShow?: boolean;
 }
 
 export function SalesButtonsRestaurant(props: SalesButtonsRestaurantProps) {
-  const {onClickOrder, order, payOrder, payType, config, isSending, cashDrawer } = props
+  const {onClickOrder, order, payOrder, payType, config, isSending, cashDrawer, selectType, isShow } = props
   const { register, handleSubmit, reset, setFocus, setValue } = useForm();
   const [input, setInput] = useState('');
   const [keyboard, setKeyboard] = useState<any>(null);
@@ -78,8 +80,7 @@ const handleKeyboardChange = (inputValue: string) => {
   };
 //////// termina keyboard
 
-if (!order?.invoiceproducts) return <></>
-if (order?.invoiceproducts.length == 0) return <></>
+if (!isShow) return <></>
 
   return (
     <div className="border rounded-md shadow-md m-2">
@@ -132,7 +133,12 @@ if (order?.invoiceproducts.length == 0) return <></>
                     { config.includes("sales-special") && 
                     <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.ventaSpecial)}> Venta Especial </div>}
                     <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>{}}> Imprimir pre cuenta</div>
-                    <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.sendNit)}> Buscar por NIT</div>
+                    { selectType == 2 &&
+                      <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.addClientTable)}> Agregar cliente a la mesa</div>}
+                    { selectType == 2 &&
+                      <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.divideAccount)}> Dividir Cuenta</div>}
+                    { systemInformation?.system?.country == 3 &&
+                    <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.sendNit)}> Buscar por NIT</div> }
                     </div>
                 } style="light" >
                     <div className='button-grey clickeable w-4/10'><IoMdOptions className='mr-1' /> Opciones</div>

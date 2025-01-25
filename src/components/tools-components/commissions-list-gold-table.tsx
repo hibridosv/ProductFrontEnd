@@ -47,7 +47,6 @@ export function CommissionsListGoldTable(props: CommissionsListGoldTableProps) {
     setIsViewCommissionModal(true)
   }
 
-  console.log("Records: ", records)
 
   const listItems = records.data.map((record: any, key: any) => (
     <tr key={record.id} className="border-b">

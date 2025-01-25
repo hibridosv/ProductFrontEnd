@@ -28,8 +28,6 @@ export function CommissionGoldViewModal(props: CommissionGoldViewModalProps) {
     const [ordersCommission, setOrdersCommission] = useState({} as any);
     const [orderProduct, setOrderProduct] = useState({} as any);
 
-    console.log("ordersCommission: ", ordersCommission)
-
     const handleGetCommissions = async () => {
         try {
             const active = await getData(`tools/commissions/gold/${record?.id}`);

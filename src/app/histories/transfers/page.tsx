@@ -3,10 +3,9 @@
 import { useEffect, useState } from "react";
 import { ViewTitle } from "@/components"
 import { DateRange } from "@/components/form/date-range"
-import { postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { DateTime } from 'luxon';
-import { loadData } from "@/utils/functions";
+import { loadData, urlConstructor } from "@/utils/functions";
 import { style } from "@/theme";
 import { useForm } from "react-hook-form";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
@@ -14,8 +13,6 @@ import { LinksList } from "@/components/common/links-list";
 import { TransfersReceiveTable } from "@/components/transfers-components/transfers-receive-table";
 import { Option, RadioButton } from "@/components/radio-button/radio-button";
 import { TransferShowModal } from "@/components/transfers-components/transfer-show-modal";
-import { useDateUrlConstructor } from "@/hooks/useDateUrlConstructor";
-
 
 export default function Page() {
   const [transfers, setTransfers] = useState([]);
@@ -32,8 +29,6 @@ export default function Page() {
     { id: 2, name: "Recibidas" },
   ];
   const [selectedOption, setSelectedOption] = useState<Option | null>(optionsRadioButton[0] ? optionsRadioButton[0] : null);
-  const { url, constructor } = useDateUrlConstructor()
-
 
   useEffect(() => {
       (async () => setTenants(await loadData(`linkedsystems`)))();
@@ -45,7 +40,7 @@ export default function Page() {
       data.show = selectedOption?.id
         try {
           setIsSending(true);
-          constructor(data, 'histories/transfers')
+          let url = urlConstructor(data, 'histories/transfers')
           const response = await loadData(url);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");

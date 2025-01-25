@@ -515,6 +515,22 @@ export function groupInvoiceProductsByCodSpecial(invoice: any) {
 }
 
 
+// agrupa los productos de restaurante por numero de cliente
+export function filterInvoiceProductsByClientNumber(invoice: any, clientNumber: number) {
+  // Filtrar los productos cuyo cliente coincida con el número pasado como parámetro
+  if (!invoice?.invoiceproducts) return;
+  const filteredProducts = invoice.invoiceproducts.filter(
+      (product: any) => product.attributes.client === clientNumber
+  );
+
+  return {
+      ...invoice,
+      invoiceproducts: filteredProducts
+  };
+}
+
+
+
 //// contar cuantos productos estan en cero de imprimir
 export function countSendPrintZero(invoice: any) {
   if (!invoice?.invoiceproducts) return;
@@ -550,6 +566,27 @@ export const deliveryType = (type: number) => {
   }
 }
 
+export const orderType = (type: number) => {
+  switch (type) {
+    case 1: return "Venta Rapida";
+    case 2: return "En mesa";
+    case 3: return "Delivery";
+    default: return "En mesa";
+  }
+}
+
+
+
+export const orderStatus = (type: number) => {
+  switch (type) {
+    case 1: return <div className="status-info">Activo</div>;
+    case 2: return <div className="status-success">Guardado</div>;
+    case 3: return <div className="status-danger">Pagado</div>;
+    case 3: return <div className="status-warning">Anulado</div>;
+    default: return "Activo";
+  }
+}
+
 
 /// verifica si hay opciones para elegien en la orden de restaurante
 export function hasOptionsActive(invoice: any) {
@@ -558,4 +595,10 @@ export function hasOptionsActive(invoice: any) {
     if (!product.options) return false;
     return product.options.some((option: any) => option.status === 0);
   });
+}
+
+
+export const urlConstructor = (data: any, url: string)=>{
+  let dir = encodeURI(`${url}?option=${data.option}${data.initialDate ? `&initialDate=${data.initialDate}` : ``}${data.finalDate ? `&finalDate=${data.finalDate}` : ``}${data.product_id ? `&product_id=${data.product_id}` : ``}${data.userId ? `&userId=${data.userId}` : ``}${data.clientId ? `&clientId=${data.clientId}` : ``}`)
+  return dir;
 }

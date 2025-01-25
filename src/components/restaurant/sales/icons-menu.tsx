@@ -36,11 +36,13 @@ export function IconsMenu(props: IconsMenuProps) {
       };
       
       useEffect(() => {
-        if (isShow) {
+        if (isShow && !images.data) {
             (async () => { await loadImages() })();
         }
         // eslint-disable-next-line
       }, [isShow]);
+
+      if (!isShow) return <></>
 
       const imageLoader = ({ src, width, quality }: any) => {
           return `${URL}/images/ico/${src}?w=${width}&q=${quality || 75}`

@@ -28,6 +28,7 @@ export enum OptionsClickSales {
   productView = 7,
   price = 8,
   changeName = 9,
+  selectClient = 10, // asignar cliente al producto para ventas divididas
 }
 
 

@@ -15,16 +15,22 @@ import { MdDelete } from "react-icons/md";
 
 export interface ProductsTableProps {
   order: any
+  isShow?: boolean;
   onClickOrder: (option: OptionsClickOrder)=>void
   onClickProduct: (product: Product, option: OptionsClickSales)=>void
+  blocked?: boolean;
 }
 
 export function ProductsTable(props: ProductsTableProps) {
-  const { order, onClickOrder, onClickProduct } = props;
+  const { order, onClickOrder, onClickProduct, blocked, isShow = false } = props;
   const { systemInformation } = useContext(ConfigContext);
   const remoteUrl = getUrlFromCookie();
   
-        const imageLoader = ({ src, width, quality }: any) => {
+  
+  if (!isShow ) return <></>
+  
+  
+    const imageLoader = ({ src, width, quality }: any) => {
             return `${remoteUrl}/images/logo/${src}?w=${width}&q=${quality || 75}`
             }
 
@@ -37,7 +43,6 @@ export function ProductsTable(props: ProductsTableProps) {
             </div>
             )
 
-
         order?.invoiceproducts && groupInvoiceProductsByCodAll(order);
         const listItems = order?.invoiceproductsGroup.map((record: any) => (
             <tr key={record.id} className="border-b bg-white" >
@@ -45,11 +50,13 @@ export function ProductsTable(props: ProductsTableProps) {
             <td className="py-3 px-6">{ record.product }</td>
             <td className="py-3 px-6 clickeable truncate" onClick={()=> onClickProduct(record, OptionsClickSales.discount)}>{ numberToMoney(record.unit_price, systemInformation) }</td> 
             <td className="py-3 px-6 truncate">{ numberToMoney(record.total, systemInformation) }</td>
+            { !blocked &&
             <td className="py-2 truncate">
             <span className="flex justify-between">
                 <AiFillCloseCircle size={20} title="Editar" className="text-red-600 clickeable" onClick={()=> onClickProduct(record, OptionsClickSales.delete) } />
             </span>
             </td>
+            }
             </tr>
         ));
 
@@ -64,7 +71,9 @@ export function ProductsTable(props: ProductsTableProps) {
                         <th scope="col" className="py-3 px-4 border">Producto</th>
                         <th scope="col" className="py-3 px-4 border">Precio</th>
                         <th scope="col" className="py-3 px-4 border">Total</th>
+                        { !blocked &&
                         <th scope="col" className="py-3 border"><MdDelete size={22} title="Eliminar" className="text-red-800 clickeable" onClick={()=>onClickOrder(OptionsClickOrder.delete)} /></th>
+                        }
                         </tr>
                     </thead>
                     <tbody>
