@@ -69,7 +69,7 @@ export function ProductModifierUpdateModal(props: ProductModifierUpdateModalProp
     const sendDataDelete = async(data: any) => {
         setIsSending(true)
         try {
-            const response = await postData(`restaurant/options/${data}`, 'DELETE', { product_id: dataInit.product });
+            const response = await postData(`restaurant/options/product/${data}`, 'DELETE', { product_id: dataInit.product });
             if (response.data) {
                 setOptionsAll(response.data)
             }
