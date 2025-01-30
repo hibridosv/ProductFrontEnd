@@ -3,9 +3,7 @@ import { useEffect, useState } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "@/components/button/button";
 import { getData, postData } from "@/services/resources";
-import { Category } from "@/services/products";
-import { ArrowIcon} from "@/theme/svg"
-import { FaPlus, FaPlusCircle } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Loading } from "@/components/loading/loading";
 import { AiOutlineLoading } from "react-icons/ai";

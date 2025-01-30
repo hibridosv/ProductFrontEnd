@@ -5,7 +5,7 @@ import { useRelativeTime } from "@/hooks/useRelativeTime";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import { deliveryType, numberToMoney, orderStatus, orderType } from "@/utils/functions";
 import { Modal } from "flowbite-react";
-import { use, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TbPointFilled } from "react-icons/tb";
 
 export interface OrderDetailsModalProps {
@@ -30,7 +30,7 @@ export function OrderDetailsModal(props: OrderDetailsModalProps) {
       const listItems = orderProducts?.map((record: any) => (
         <>
         <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
-          <td className="py-3 px-6">{ numberToMoney(record.quantity, systemInformation) }</td>
+          <td className="py-3 px-6">{ record.quantity }</td>
           <td className="py-3 px-6">{ record.product }</td>
           <td className="py-3 px-6">{ numberToMoney(record.unit_price, systemInformation) }</td>
           <td className="py-3 px-6">{ numberToMoney(record.discount, systemInformation) }</td>

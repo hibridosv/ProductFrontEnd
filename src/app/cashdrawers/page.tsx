@@ -11,7 +11,7 @@ import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { RiRefreshFill } from "react-icons/ri";
-import { BiUser, BiUserCircle } from "react-icons/bi";
+import { BiUserCircle } from "react-icons/bi";
 
 
 export default function CashDrawerPage() {

@@ -7,8 +7,6 @@ import { ProductView } from "@/components/restaurant/product/product-view";
 import { AiOutlineLoading } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import { OptionsUpdateModal } from "@/components/restaurant/product/options-update-modal";
-import { set } from "react-hook-form";
-import { RiPulseFill } from "react-icons/ri";
 import { BiPlusCircle } from "react-icons/bi";
 import { AddOptionsModal } from "@/components/restaurant/product/add-options-modal";
 

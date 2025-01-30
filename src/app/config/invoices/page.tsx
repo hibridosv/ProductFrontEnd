@@ -6,7 +6,7 @@ import { ConfigContext } from "@/contexts/config-context";
 import usePusher from "@/hooks/usePusher";
 import { PresetTheme } from "@/services/enums";
 import { getData, postData } from "@/services/resources";
-import { getLastElement, numberToMoney, sumarTotales, sumarTotalesStatus } from "@/utils/functions";
+import { getLastElement, sumarTotalesStatus } from "@/utils/functions";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 
