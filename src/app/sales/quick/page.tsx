@@ -25,6 +25,7 @@ import { SalesPriceModal } from "@/components/sales-components/sales-price-modal
 import { SalesEspecialProductsModal } from "@/components/sales-components/sales-special-products";
 import { useIsOpen } from "@/hooks/useIsOpen";
 import { SalesChangeCommentModal } from "@/components/sales-components/sales-change-comment-modal";
+import { SalesButtonsInitial } from "@/components/sales-components/sales-buttons-initial";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -311,6 +312,7 @@ export default function ViewSales() {
           }
         <div className="relative z-0">
           <SalesQuickTable records={productsOfInvoice?.invoiceproducts} onClick={handleClickOptionProduct} config={configuration} />
+          <SalesButtonsInitial onClick={handleClickOptionOrder} isShow={order ? false : true} />
         </div>
       </div>
       <div className="col-span-4 flex justify-center ">

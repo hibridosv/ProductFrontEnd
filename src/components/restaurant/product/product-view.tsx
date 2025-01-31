@@ -201,7 +201,7 @@ export function ProductView(props: ProductViewProps) {
                     </div>
                     <div onClick={()=>{ updateSpecial(record, { field: "special", data: record.menu_order?.special == 0 ? 1 : 0 }) }} className={`flex justify-items-start w-full font-semibold clickeable ${record.menu_order?.special === 0 ? 'text-slate-700 py-2 px-4 hover:bg-slate-100' : 'text-red-700 py-2 px-4 hover:bg-red-100'}`}>
                         <span className="mt-1">{record.menu_order?.special == 0 ? <FaCheckCircle color="green" /> : <IoMdCloseCircleOutline /> }</span> 
-                        <span className="ml-2">{record.menu_order?.special == 0 ? 'Mostrar Producto' : 'Ocultar Producto'}</span> 
+                        <span className="ml-2">{record.menu_order?.special == 0 ? 'Mostrar en Ventas Esp.' : 'Ocultar en Ventas Esp.'}</span> 
                     </div>
                     <div onClick={()=>updateStatus(record.id, record.menu_order?.status)} className={`flex justify-items-start w-full font-semibold clickeable ${record.menu_order?.status === 0 ? 'text-slate-700 py-2 px-4 hover:bg-slate-100' : 'text-red-700 py-2 px-4 hover:bg-red-100'}`}>
                         <span className="mt-1">{record.menu_order?.status === 0 ? <FaCheckCircle color="green" /> : <IoMdCloseCircleOutline /> }</span> 

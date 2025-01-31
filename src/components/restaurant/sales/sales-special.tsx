@@ -1,14 +1,9 @@
 import { Button, Preset } from "@/components/button/button";
-import { SearchInput } from "@/components/form/search";
-import { Loading } from "@/components/loading/loading";
 import { postData } from "@/services/resources";
 import { Modal } from "flowbite-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import { IconsMenu } from "./icons-menu";
-import { ProductsTable } from "./products-table";
-import { RestaurantShowTotal } from "./show-total";
 import { IconsMenuSpecial } from "./icons-menu-special";
 import { Product } from "@/services/products";
 import { OptionsClickSales } from "@/components/sales-components/sales-quick-table";

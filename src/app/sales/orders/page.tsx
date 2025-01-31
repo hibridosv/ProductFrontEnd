@@ -35,6 +35,7 @@ import { Deliverys } from "@/components/restaurant/sales/deliverys";
 import { DeliverysLateral } from "@/components/restaurant/sales/deliverys-lateral";
 import { DeliveryCancelBtn } from "@/components/restaurant/sales/deliverys-cancel-btn";
 import { DeliveryClientInfo } from "@/components/restaurant/sales/deliverys-client-info";
+import { SalesButtonsInitial } from "@/components/sales-components/sales-buttons-initial";
 
 
 export default function ViewSales() {
@@ -404,7 +405,7 @@ export default function ViewSales() {
           }
 
           
-
+console.log("order?.invoiceproducts?.length: ", order?.invoiceproducts?.length)
           return (
             <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
             <div className="col-span-6 border-r md:border-sky-600">
@@ -426,6 +427,7 @@ export default function ViewSales() {
                   <OptionsSelect onClickOrder={handleClickOptionOrder} payType={paymentType} order={order} setOrder={setOrder} />
                   <ShowPercentSalesType order={order} config={configuration} />
                   <DeliveryCancelBtn isShow={selectType == 3 && deliverySelected?.id && !order?.invoiceproducts} onClick={setDeliverySelected} />
+                  <SalesButtonsInitial onClick={handleClickOptionOrder} isShow={!order?.invoiceproducts && selectType == 1} />
             </div>
             <SalesDivideAccountModal onClickProduct={handleClickOptionProduct} isShow={modalDivideAccount.isOpen} order={order} onClose={()=>modalDivideAccount.setIsOpen(false)} isLoading={isLoading} cashDrawer={cashDrawer} payOrder={payOrder} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType} />
             <SalesSelectInvoiceTypeModal isShow={modalInvoiceType.isOpen} onClose={()=>modalInvoiceType.setIsOpen(false)} order={order} />
