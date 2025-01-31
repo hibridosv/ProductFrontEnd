@@ -20,12 +20,12 @@ export default function CashDrawerPage() {
   const [cashDrawerSelected, setCashDrawerSelected] = useState("");
   const [cashDrawerOpenModal, setCashDrawerOpenModal] = useState(false);
   const [cashDrawerCloseModal, setCashDrawerCloseModal] = useState(false);
-  const { cashDrawer, setCashDrawer } = useContext(ConfigContext);
+  const { cashDrawer, setCashDrawer, systemInformation } = useContext(ConfigContext);
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const [isLoading, setIsLoading] = useState(false);
   const [showAll, setShowAll] = useState(false);
 
-
+ console.log("systemInformation: ", systemInformation);
   useEffect(() => {
     if (!cashDrawerOpenModal && !cashDrawerCloseModal) {
       
