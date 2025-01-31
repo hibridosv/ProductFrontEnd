@@ -6,7 +6,6 @@ import { ListGroup } from "flowbite-react";
 import { BiCategoryAlt, BiCurrentLocation, BiDollar } from "react-icons/bi";
 import { GiWeight } from "react-icons/gi";
 import { TbBrandOnlyfans, TbCash } from "react-icons/tb";
-import { AiFillCrown } from "react-icons/ai";
 import { QuantityUnitList } from '@/components/products-components/quantity-units-list';
 import { CategoryAddList } from '@/components/products-components/category-add-list';
 import { BrandAddList } from '@/components/products-components/brand-add-list';

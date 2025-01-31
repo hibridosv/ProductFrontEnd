@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { Label, Modal, TextInput } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { Modal, TextInput } from "flowbite-react";
 import { getData } from "@/services/resources";
 import { Button, Preset } from "@/components/button/button";
 import Image from "next/image";

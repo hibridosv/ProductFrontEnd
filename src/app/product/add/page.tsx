@@ -229,7 +229,7 @@ useEffect(() => {
 
                 <div className="w-full md:w-1/2 px-3 mb-2">
                     <label htmlFor="document_number" className={style.inputLabel}>Numero de Documento</label>
-                    <input type="number" id="document_number" {...register("document_number")} className={style.input} step="any" min={0} />
+                    <input type="text" id="document_number" {...register("document_number")} className={style.input} />
                 </div>
 
                 <div className="w-full md:w-1/2 px-3 mb-2">

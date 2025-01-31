@@ -1,5 +1,5 @@
 'use client'
-import { Alert, Loading, NothingHere, ViewTitle } from "@/components";
+import { Alert, NothingHere, ViewTitle } from "@/components";
 import { Button, Preset } from "@/components/button/button";
 import { CashBillsTable } from "@/components/cash-components/cash-bills-table";
 import { BillsCategoriesModal } from "@/components/modals/bills-categories-modal";

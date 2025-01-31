@@ -2,13 +2,10 @@
 import { useState } from "react";
 import { Modal } from "flowbite-react";
 import toast, { Toaster } from 'react-hot-toast';
-
 import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
 import { style } from "@/theme";
-import { PresetTheme } from "@/services/enums";
 import { Button, Preset } from "@/components/button/button";
-import { Alert } from "@/components/alert/alert";
 import { AddImageModal } from "./add-image-modal";
 import Image from "next/image";
 import { URL } from "@/constants";

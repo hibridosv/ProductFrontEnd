@@ -58,15 +58,15 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         showIten("cashdrawer", <MenuItem icon={<FaCashRegister />} component={<Link href="/cashdrawers" />}>Control de cajas</MenuItem>)
         }
         
-          { hasAnyPermission(["restaurant-add-product", "restaurant-producs", "restaurant-screen", "restaurant-counter"]) && (sys == 2 || sys == 4) &&
-              <SubMenu label="Restaurant" icon={<IoMdCash />}>
-              {showIten("restaurant-add-product", <MenuItem component={<Link className="text-sm" href="/restaurant/add-product" />}>Agregar Producto </MenuItem>)}
-              {showIten("restaurant-producs", <MenuItem component={<Link className="text-sm" href="/restaurant/products" />}>Productos de Menu </MenuItem>)}
-              {showIten("restaurant-screen", <MenuItem component={<Link className="text-sm" href="/restaurant/screen" />}>Pantalla </MenuItem>)}
-              {showIten("restaurant-counter", <MenuItem component={<Link className="text-sm" href="/restaurant/counter" />}>Pantalla Despacho </MenuItem>)}
-              {showIten("restaurant-orders", <MenuItem component={<Link className="text-sm" href="/restaurant/orders" />}>Ordenes del dia </MenuItem>)}
-              </SubMenu>
-          }
+        { hasAnyPermission(["restaurant-add-product", "restaurant-producs", "restaurant-screen", "restaurant-counter"]) && (sys == 2 || sys == 4) &&
+            <SubMenu label="Restaurante" icon={<IoMdCash />}>
+            {showIten("restaurant-add-product", <MenuItem component={<Link className="text-sm" href="/restaurant/add-product" />}>Agregar Producto </MenuItem>)}
+            {showIten("restaurant-producs", <MenuItem component={<Link className="text-sm" href="/restaurant/products" />}>Productos de Menu </MenuItem>)}
+            {showIten("restaurant-screen", <MenuItem component={<Link className="text-sm" href="/restaurant/screen" />}>Pantalla </MenuItem>)}
+            {showIten("restaurant-counter", <MenuItem component={<Link className="text-sm" href="/restaurant/counter" />}>Pantalla Despacho </MenuItem>)}
+            {showIten("restaurant-orders", <MenuItem component={<Link className="text-sm" href="/restaurant/orders" />}>Listado de Ordenes</MenuItem>)}
+            </SubMenu>
+        }
 
         { hasAnyPermission(["inventory", "inventory-register", "inventory-edit", "inventory-add", "inventory-failure", "inventory-linked", "inventory-stock", "inventory-expiration", "inventory-karex"]) &&
         <SubMenu label="Inventario" icon={<HiOutlineChartSquareBar />}>
