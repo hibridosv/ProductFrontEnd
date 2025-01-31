@@ -12,6 +12,7 @@ import { useContext, useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { RiRefreshFill } from "react-icons/ri";
 import { BiUserCircle } from "react-icons/bi";
+import { ExpiresInvoice } from "@/components/common/expires-invoice";
 
 
 export default function CashDrawerPage() {
@@ -25,7 +26,6 @@ export default function CashDrawerPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showAll, setShowAll] = useState(false);
 
- console.log("systemInformation: ", systemInformation);
   useEffect(() => {
     if (!cashDrawerOpenModal && !cashDrawerCloseModal) {
       
@@ -111,6 +111,7 @@ const onDeleteCut = async(cutId: any)=>{
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
     <div className="col-span-5 border-r md:border-sky-600">
         <ViewTitle text="CAJAS DISPONIBLES" />
+        <ExpiresInvoice isShow={systemInformation?.isInvoiceExpires > 0 && systemInformation?.invoiceExist} expiresDays={systemInformation?.isInvoiceExpires} />
         <div  className="flex justify-center py-4 px-4">
         {
           cashDrawers?.data && cashDrawers?.data.map((cash: any) => (
