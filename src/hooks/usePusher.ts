@@ -18,7 +18,6 @@ const usePusher = (channelName: string, eventName: string, status = false, rando
         };
         channel.bind(eventName, handleEvent);
         // Limpia la suscripción al desmontar el componente
-        // console.log("EN PUSHER")
         return () => {
             channel.unbind(eventName, handleEvent);
             pusher.unsubscribe(channelName);

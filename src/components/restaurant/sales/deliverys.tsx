@@ -39,7 +39,6 @@ export function Deliverys(props: DeliverysProps) {
 
       if (!isShow ) return <></>
 
-      console.log("orders: ", orders.length)
       return (
         <div>
             <div>

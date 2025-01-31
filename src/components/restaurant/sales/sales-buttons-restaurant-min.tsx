@@ -111,7 +111,7 @@ if (order?.invoiceproducts.length == 0) return <></>
         }
         </>}
         <div className='flex justify-center'>
-            <div className='button-lime clickeable w-2/10 relative' title='Guardar' onClick={isSending ? ()=>{} : ()=>{console.log("Debe mandarse a imprimir precuenta")}} >
+            <div className='button-lime clickeable w-2/10 relative' title='Guardar' >
                 <AiFillPrinter size={24} className='mr-1' title='Imprimir Precuenta' />
             </div>
 

@@ -28,10 +28,8 @@ export function ErrorsGtModal(props: ErrorTableProps) {
     return <></>;
   }
 
-  if (!Array.isArray(parsedErrors)) {
-    // console.log("Invalid data provided. Expected an array of errors");
-    return <></>;
-  }
+  if (!Array.isArray(parsedErrors)) return <></>;
+  
 
   const organizedErrors = parsedErrors
     .map((error: any) => ({

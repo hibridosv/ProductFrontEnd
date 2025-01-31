@@ -54,8 +54,6 @@ let special = order?.invoiceproducts && groupInvoiceProductsByCodSpecial(order);
   }, [isShow, searchType]);
 
 
-  console.log("isShow: ", isShow)
-
 const onSubmitSpecial = async (data: any) => {
     
     if (!data.description|| !data.total){

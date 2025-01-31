@@ -20,7 +20,6 @@ export function ProductSearchModal(props: ProductSearchModalProps) {
 
 
 // const loadProduct = async () => {
-//   console.log("productSelected: ", productSelected?.id)
 //   try {
 //     setIsLoading(true)
 //     const product = await getData(`products/${productSelected?.id}`);       
