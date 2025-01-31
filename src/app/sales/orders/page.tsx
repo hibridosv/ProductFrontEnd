@@ -378,7 +378,6 @@ export default function ViewSales() {
           };
 
           const changeClientAtProduct = async (product: any, client: any) => {
-            console.log("client", client);
             try {
               const response = await postData(`restaurant/sales/product/change/${product}/${client}`, "PUT");
               if (response.data) {
@@ -405,7 +404,6 @@ export default function ViewSales() {
           }
 
           
-console.log("order?.invoiceproducts?.length: ", order?.invoiceproducts?.length)
           return (
             <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
             <div className="col-span-6 border-r md:border-sky-600">

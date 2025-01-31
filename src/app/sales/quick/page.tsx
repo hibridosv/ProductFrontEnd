@@ -339,7 +339,7 @@ export default function ViewSales() {
       <SalesCommissionModal isShow={isCommissionModal} product={productSelected} onClose={()=>setIsCommissionModal(false)} />
       <SalesProductViewModal isShow={isProductViewModal} product={productSelected} onClose={()=>setIsProductViewModal(false)} />
       <SalesPayModal isShow={isPayModal} invoice={productsOfInvoice} onFinish={resetOrder} onClose={()=>setIsPayModal(false)} config={configuration} />
-      <SalesEspecialProductsModal isShow={modalSalesSpecial.isOpen} onClose={()=>modalSalesSpecial.setIsOpen(false)} order={productsOfInvoice} handleClickOptionProduct={handleClickOptionProduct} setTypeOfSearch={setTypeOfSearch} typeOfSearch={typeOfSearch} onFormSubmit={onSubmit} onSubmit={onSubmit} isLoading={isLoading}/>
+      <SalesEspecialProductsModal isShow={modalSalesSpecial.isOpen} onClose={()=>modalSalesSpecial.setIsOpen(false)} order={productsOfInvoice} handleClickOptionProduct={handleClickOptionProduct} searchType={typeOfSearch} onFormSubmit={onSubmit} onSubmit={onSubmit} isLoading={isLoading}/>
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );

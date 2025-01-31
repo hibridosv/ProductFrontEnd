@@ -10,7 +10,6 @@ export interface SalesButtonsInitialProps {
 export function SalesButtonsInitial(props: SalesButtonsInitialProps) {
   const {onClick, isShow } = props
 
-  console.log("isShow: ", isShow)
     if (!isShow) return <></>;
 
   return (

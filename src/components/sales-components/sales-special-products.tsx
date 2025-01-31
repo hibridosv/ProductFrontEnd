@@ -25,8 +25,7 @@ export interface SalesEspecialProductsModalProps {
     order: any;
     onFormSubmit: (data: FormData) => void;
     isLoading: boolean;
-    typeOfSearch?: boolean; // tipo de busqueda
-    setTypeOfSearch: (type: boolean) => void;
+    searchType: boolean; // tipo de busqueda
     handleClickOptionProduct: (product: Product, option: OptionsClickSales)=>void
     onSubmit: (product : Product) => void;
 }
@@ -36,7 +35,7 @@ interface FormData {
 }
 
 export function SalesEspecialProductsModal(props: SalesEspecialProductsModalProps){
-const { onClose, isShow, order, handleClickOptionProduct, onFormSubmit, onSubmit } = props;
+const { onClose, isShow, order, handleClickOptionProduct, onFormSubmit, onSubmit, searchType } = props;
 const [isSending, setIsSending] = useState(false);
 const { register, handleSubmit, reset, setValue } = useForm();
 const [typeOfSearch, setTypeOfSearch] = useState(false); // false: codigo, true: busqueda por nombre
@@ -47,6 +46,15 @@ let optionsRadioButton: Option[] = [
 ];
 const [selectedOption, setSelectedOption] = useState<Option>({ id: 1, name: "Gravado" });
 let special = order?.invoiceproducts && groupInvoiceProductsByCodSpecial(order);
+
+  useEffect(() => {
+    if (isShow) {
+      setTypeOfSearch(searchType)
+    }
+  }, [isShow, searchType]);
+
+
+  console.log("isShow: ", isShow)
 
 const onSubmitSpecial = async (data: any) => {
     
