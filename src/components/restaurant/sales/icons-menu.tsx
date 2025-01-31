@@ -56,7 +56,7 @@ export function IconsMenu(props: IconsMenuProps) {
         const listItems = images?.data && images.data.map((record: any) => {
             if (record.icon_type == 1 && record.product.category_id != categoryId || record.icon_type == 2 && record.category.id == categoryId) return
             return (
-                <div key={record?.id} className="m-2 clickeable">
+                <div key={record?.id} className="m-2 clickeable" title={record.icon_type == 1 ? record?.product?.description : record?.category?.name }>
                     <div onClick={record.icon_type == 1 ? (isSending ? ()=>{} : () => selectedIcon(record.product_id)) : ()=>{setSelectedcategory(record.category_id); modalCategory.setIsOpen(true)} }
                      className="rounded-md drop-shadow-lg">
                         <Image loader={imageLoader} src={record.icon_type == 1 ? record?.product?.restaurant?.image : record?.category?.img } alt="Icono de imagen" width={96} height={96} className="rounded-t-md" />
