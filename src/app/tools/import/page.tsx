@@ -40,19 +40,21 @@ export default function Page() {
     }
   };
 
-  console.log("uploads: ", uploads)
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className={`col-span-7 border-r md:border-sky-600`}>
-          <ViewTitle text="Importar Productos" />
+          <ViewTitle text="IMPORTAR PRODUCTOS A INVENTARIO" />
           {
             isSending &&
-            <Alert info="Importante" theme={PresetTheme.warning} text="En este momento se estan importanto los productos, por favor no salga de esta pagina y espere que el proceso haya finalizado, es probable que esto tarde unos pocos minutos"  isDismisible={false} className="m-4"  />
+            <Alert info="Importante" theme={PresetTheme.danger} text="En este momento se estan importanto los productos, por favor no salga de esta pagina y espere que el proceso haya finalizado, es probable que esto tarde unos pocos minutos"  isDismisible={false} className="m-4"  />
           }
           {
-            uploads?.data?.length === 0 &&
-            <NothingHere text="No se encuentran productos ingresados en este momento"/> 
+            !uploads?.data &&
+            <div>
+              <NothingHere text="No se encuentran productos ingresados en este momento"/> 
+              <Alert info="Importante" theme={PresetTheme.info} text="La importación de productos debe ser desde un documento de Excel y debe llevar el formato correcto, de lo contrario fallará o la información no se agregaran los productos correctamente" isDismisible={false} className="m-4" />
+            </div>
           }
 
           {
@@ -68,9 +70,14 @@ export default function Page() {
           </div>
           }
 
+{
+          uploads?.data && uploads.data.length === 0 &&
+            <Alert info="Productos Importados" theme={PresetTheme.info} text="La importacion finalizo pero sin nuevos productos agregados, es posible que estos productos ya esten registrados en su sistema, por favor revise su inventario" isDismisible={false} className="m-4" />
+          }
+
         </div>
         <div className={`col-span-3`}>
-        <ViewTitle text={`BUSCAR PRODUCTOS`} />
+        <ViewTitle text={`AGREGAR ARCHIVO`} />
           <div className="m-3">
             { isSending ? <Loading text="Importando productos" /> :
             <form className="max-w-lg" onSubmit={handleSubmit(onSubmit)} >
