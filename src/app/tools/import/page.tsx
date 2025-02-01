@@ -50,7 +50,7 @@ export default function Page() {
             <Alert info="Importante" theme={PresetTheme.danger} text="En este momento se estan importanto los productos, por favor no salga de esta pagina y espere que el proceso haya finalizado, es probable que esto tarde unos pocos minutos"  isDismisible={false} className="m-4"  />
           }
           {
-            !uploads?.data &&
+           !isSending && !uploads?.data &&
             <div>
               <NothingHere text="No se encuentran productos ingresados en este momento"/> 
               <Alert info="Importante" theme={PresetTheme.info} text="La importación de productos debe ser desde un documento de Excel y debe llevar el formato correcto, de lo contrario fallará o la información no se agregaran los productos correctamente" isDismisible={false} className="m-4" />
