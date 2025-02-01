@@ -99,7 +99,7 @@ export default function Page() {
                       </div>
         
                       <div className="flex justify-center">
-                      <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
+                      <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} text="Subir Archivo" />
                       </div>
               </form>
             }
