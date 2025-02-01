@@ -100,15 +100,13 @@ export default function ViewProducts() {
               <div className="col-span-3">
                 <ViewTitle text="PRODUCTOS" />
 
-              { isLoading ? <SkeletonTable rows={11} columns={7} /> : <>
+              { isLoading ? <SkeletonTable rows={11} columns={7} /> :
                 <ProductsTable 
                 products={productos}
                 onDelete={deleteProduct} 
                 withOutRows={[RowTable.brand]}
                 updatePrice={updatePrice}
                  />
-                
-                </>
               }
               <Pagination 
                 records={productos}

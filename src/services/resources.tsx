@@ -88,6 +88,38 @@ import { getAuthTokenFromCookie, getUrlFromCookie } from "./oauth";
   }
 
 
+  export async function postDataFile(url = '', method = 'POST', data: any) {
+    const token = getAuthTokenFromCookie();
+    if (!token) return 
+    const Authorization = `Bearer ${token}`;
+    const remoteUrl = getUrlFromCookie();
+     try {
+      const formData = new FormData();    
+        formData.append('user', data?.user);
+        formData.append('file', data?.file[0]);
+        formData.append('description', data.description);
+        const response = await fetch(`${remoteUrl}/api/${url}`, {
+          method: method,
+          mode: 'cors',
+          cache: 'no-cache',
+          credentials: 'same-origin',
+          redirect: 'follow',
+          referrerPolicy: 'no-referrer',
+          body: formData, // Utiliza el objeto FormData en lugar de JSON.stringify(data)
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': Authorization,
+          },
+        });
+        return await response.json();
+     } catch (error) {
+      console.error(error);
+     }
+
+  }
+
+
+
   export async function postWithOutToken(url = '', method = 'POST', data = {}) {
   // Esta peticion debe llevar toda la url por parametros
       try {
