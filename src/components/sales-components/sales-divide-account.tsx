@@ -50,14 +50,16 @@ useEffect(() => {
   }
 }, [isShow, order?.attributes]);
 
+console.log("orderData: ", orderData)
+
 return (
 <Modal show={isShow} position="center" onClose={onClose} size="5xl">
   <Modal.Header>Dividir Cuenta</Modal.Header>
   <Modal.Body>
     <div className="mx-4">
             <ClientsTables isShow={isShow} order={order} clientActive={clientActive} setClientActive={setClientActive} isLoading={isLoading}  />
-      <div className="flex justify-between mt-2">
-        <div>
+      <div className="grid grid-cols-1 md:grid-cols-10 mt-2">
+        <div className="col-span-5 border-r md:border-sky-600 md:px-4">
           {
             clientActive > 0 ?
             <ProductsClientTable order={order} clientActive={clientActive} onClickProduct={onClickProduct} />
@@ -65,19 +67,19 @@ return (
             <NothingHere text="Seleccione un cliente" />
           }
         </div>
+        <div className="col-span-5 border-l md:border-sky-600 mt-4 md:mt-0">
         { orderData?.invoiceproducts?.length > 0 ?
-        <div>
-            <ProductsTable order={orderData} onClickOrder={()=>{}} onClickProduct={()=>{}} blocked />
+          <div>
+              <ProductsTable order={orderData} onClickOrder={()=>{}} onClickProduct={()=>{}} blocked isShow={true} />
             <div className="flex justify-center">
-                  <RestaurantShowTotal order={orderData} isSending={isLoading}  />
+                  <RestaurantShowTotal order={orderData} isSending={isLoading} isShow={true}  />
             </div>  
               <SalesButtonsRestaurantMin cashDrawer={cashDrawer} payOrder={payOrder} order={order} payType={payType} config={config} isSending={isSending} selectType={selectType} clientActive={clientActive} />
               <OptionsSelect onClickOrder={()=>{}} payType={payType} order={order} setOrder={()=>{}} />
-        </div> :
-        <div>
-          <NothingHere text="Sin productos que cobrar" />
-        </div>
-      }
+          </div> :
+            <NothingHere text="Sin productos que cobrar" />
+          }
+        </div> 
       </div>
     </div>
   </Modal.Body>
