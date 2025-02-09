@@ -18,6 +18,7 @@ import { transformFields } from "@/utils/functions";
 import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
 import { ContactAddModal } from "@/components/contacts-components/contact-add-modal";
 import { SearchInputProduct } from "@/components/form/search-product";
+import { AddLocationsModal } from "@/components/modals/add-locations-modal";
 
 
   export default function GetProduct() {
@@ -37,7 +38,9 @@ import { SearchInputProduct } from "@/components/form/search-product";
     const [productSelected, setProductSelected] = useState(null);
     const [showModalCategories, setShowModalCategories] = useState(false);
     const [showModalProvider, setShowModalProvider] = useState(false);
-    
+    const [locationsStatus, setLocationsStatus] = useState<boolean>(false);
+    const [showModalLocations, setShowModalLocations] = useState(false);
+
     const { register, handleSubmit, setValue } = useForm();
   
     useEffect(() => {
@@ -46,6 +49,7 @@ import { SearchInputProduct } from "@/components/form/search-product";
       setPrescriptionStatus(getConfigStatus("product-prescription"))
       setDiscountStatus(getConfigStatus("product-default-discount"))
       setCommissionStatus(getConfigStatus("product-default-commission"));
+      setLocationsStatus(getConfigStatus("product-locations"));
     // eslint-disable-next-line
     }, [config])
   
@@ -57,7 +61,7 @@ import { SearchInputProduct } from "@/components/form/search-product";
     }
     
     useEffect(() => {
-      if (productSelected && !showModalCategories && !showModalProvider) {
+      if (productSelected && !showModalCategories && !showModalProvider && !showModalLocations) {
         
       (async () => {
         setIsLoading(true);
@@ -73,7 +77,7 @@ import { SearchInputProduct } from "@/components/form/search-product";
       })();
     }
       // eslint-disable-next-line
-    }, [productSelected, showModalCategories, showModalProvider]);
+    }, [productSelected, showModalCategories, showModalProvider, showModalLocations]);
 
 
     useEffect(() => {
@@ -96,6 +100,7 @@ import { SearchInputProduct } from "@/components/form/search-product";
       setValue("quantity_unit_id", selectedProduct?.data?.quantity_unit_id)
       setValue("provider_id", selectedProduct?.data?.provider_id)
       setValue("brand_id", selectedProduct?.data?.brand_id)
+      setValue("location_id", selectedProduct?.data?.location_id)
 
       setValue("measure", selectedProduct?.data?.measure)
       setValue("default_discount", selectedProduct?.data?.default_discount)
@@ -136,6 +141,7 @@ import { SearchInputProduct } from "@/components/form/search-product";
     setProductSelected(product.id)
   }
 
+  console.log("fieldsModified: ", fieldsModified)
     return (
       <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
         {productSelected ? <>
@@ -227,7 +233,7 @@ import { SearchInputProduct } from "@/components/form/search-product";
                   {...register("brand_id")}
                   className={style.input}
                 >
-                  {fieldsModified[10]?.values?.map((value: any) => {
+                  {fieldsModified[11]?.values?.map((value: any) => {
                     return (
                       <option key={value.id} value={value.id}>
                         {value.name}
@@ -236,6 +242,23 @@ import { SearchInputProduct } from "@/components/form/search-product";
                   })}
                 </select>
               </div>)}
+
+              <div className="w-full md:w-1/3 px-3 mb-2">
+                <label htmlFor="location_id" className={`${style.inputLabel} clickeable`} onClick={()=>setShowModalLocations(true)}>Ubicación (Click para agregar)</label>
+                <select
+                  id="location_id"
+                  {...register("location_id")}
+                  className={style.input}
+                >
+                  {fieldsModified[10]?.values?.map((value: any) => {
+                    return (
+                      <option key={value.id} value={value.id}>
+                        {value.name}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
 
               { (selectedProduct?.data?.product_type == 1 && measuresStatus) && (<div className="w-full md:w-1/3 px-3 mb-4">
                 <label htmlFor="measure" className={style.inputLabel}>Medida</label>
@@ -331,6 +354,7 @@ import { SearchInputProduct } from "@/components/form/search-product";
         <ProductImageModal isShow={isShowImagesModal} product={selectedProduct?.data} onClose={()=>setIsShowImagesModal(false)} />
         <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} />
         <ContactAddModal isShow={showModalProvider} onClose={()=>setShowModalProvider(false)} />
+        <AddLocationsModal isShow={showModalLocations} onClose={() => setShowModalLocations(false)} />
       <Toaster position="top-right" reverseOrder={false} />
       </div>
     );

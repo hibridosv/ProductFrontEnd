@@ -15,6 +15,7 @@ import { ProductLinkedModal } from "@/components/products-components/product-add
 import { PresetTheme } from "@/services/enums";
 import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
 import { ContactAddModal } from "@/components/contacts-components/contact-add-modal";
+import { AddLocationsModal } from "@/components/modals/add-locations-modal";
 
 export default function AddProduct() {
   const [message, setMessage] = useState<any>({});
@@ -32,6 +33,8 @@ export default function AddProduct() {
   const [isShowLinkedModal, setIsShowLinkedModal] = useState<boolean>(false);
   const [showModalCategories, setShowModalCategories] = useState(false);
   const [showModalProvider, setShowModalProvider] = useState(false);
+  const [locationsStatus, setLocationsStatus] = useState<boolean>(false);
+  const [showModalLocations, setShowModalLocations] = useState(false);
 
 
   const { register, handleSubmit, reset, watch, setValue } = useForm();
@@ -43,12 +46,13 @@ export default function AddProduct() {
     setPrescriptionStatus(getConfigStatus("product-prescription", config));
     setDiscountStatus(getConfigStatus("product-default-discount", config));
     setCommissionStatus(getConfigStatus("product-default-commission", config));
+    setLocationsStatus(getConfigStatus("product-locations", config));
     // eslint-disable-next-line
   }, [config]);
 
   
   useEffect(() => {
-    if (!showModalCategories && !showModalProvider) {
+    if (!showModalCategories && !showModalProvider && !showModalLocations) {
     (async () => {
       setIsLoading(true);
       try {
@@ -63,7 +67,7 @@ export default function AddProduct() {
     })();
   }
     // eslint-disable-next-line
-  }, [showModalCategories, showModalProvider]);
+  }, [showModalCategories, showModalProvider, showModalLocations]);
 
   useEffect(() => {
     (async () => {
@@ -111,6 +115,8 @@ export default function AddProduct() {
         break;
       case "provider_id": setShowModalProvider(true)
         break;
+      case "location_id": setShowModalLocations(true)
+        break;
       default: ()=>{}
         break;
     }
@@ -125,6 +131,7 @@ export default function AddProduct() {
             "category_id",
             "brand_id",
             "provider_id",
+            "location_id",
             "quantity",
             "minimum_stock",
             "quantity_unit_id",
@@ -133,6 +140,7 @@ export default function AddProduct() {
             // "default_commission",
           ];
     if (!brandStatus) hiddenFields.push("brand_id");
+    if (!locationsStatus) hiddenFields.push("location_id");
     if (!measuresStatus) hiddenFields.push("measure");
     if (!discountStatus) hiddenFields.push("default_discount");
     if (!commissionStatus) hiddenFields.push("default_commission");
@@ -267,6 +275,7 @@ export default function AddProduct() {
         <ProductLinkedModal isShow={isShowLinkedModal} product={message.data} onClose={() => setIsShowLinkedModal(false)} />
         <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} />
         <ContactAddModal isShow={showModalProvider} onClose={()=>setShowModalProvider(false)} />
+        <AddLocationsModal isShow={showModalLocations} onClose={() => setShowModalLocations(false)} />
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );

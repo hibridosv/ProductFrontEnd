@@ -51,6 +51,7 @@ export const transformFields = (Fields: any, specialData: any): any => {
   const quantityUnits = specialData.quantityUnits;
   const providers = specialData.providers;
   const brands = specialData.brands;
+  const locations = specialData.locations;
 
   const categoriesData = Array.isArray(categorys) ? categorys : [];
   const categoryValues = categoriesData.map((category) => ({
@@ -108,6 +109,22 @@ export const transformFields = (Fields: any, specialData: any): any => {
         }))
       : [];
   }
+
+  const LocationField = Array.isArray(FieldsFormProduct)
+  ? FieldsFormProduct.find((field) => field.id === "location_id")
+  : null;
+
+if (LocationField) {
+  LocationField.values = Array.isArray(locations)
+    ? locations.map((location: any) => ({
+        id: location.id,
+        name: location.name,
+        isSelected: false,
+      }))
+    : [];
+}
+
+
   return FieldsFormProduct;
 }
 

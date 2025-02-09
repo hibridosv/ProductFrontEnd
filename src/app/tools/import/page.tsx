@@ -4,7 +4,6 @@ import {  useContext, useState } from "react";
 import { Alert, Loading, NothingHere, ProductsTable, ViewTitle } from "@/components"
 import {  postDataFile } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
-import { getUrlFromCookie } from "@/services/oauth";
 import { useForm } from "react-hook-form";
 import { style } from "@/theme";
 import { Button, Preset } from "@/components/button/button";

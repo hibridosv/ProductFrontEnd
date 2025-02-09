@@ -78,6 +78,14 @@ export const FieldsFormProduct = [
     isClickeable: true,
   },
   {
+    id: "location_id",
+    type: "select",
+    name: "Ubicación",
+    style: "tercio",
+    values: [],
+    isClickeable: true,
+  },
+  {
     id: "brand_id",
     type: "select",
     name: "Marca",
