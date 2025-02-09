@@ -141,7 +141,6 @@ import { AddLocationsModal } from "@/components/modals/add-locations-modal";
     setProductSelected(product.id)
   }
 
-  console.log("fieldsModified: ", fieldsModified)
     return (
       <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
         {productSelected ? <>
@@ -243,7 +242,7 @@ import { AddLocationsModal } from "@/components/modals/add-locations-modal";
                 </select>
               </div>)}
 
-              <div className="w-full md:w-1/3 px-3 mb-2">
+              { (selectedProduct?.data?.product_type == 1 && locationsStatus) && (<div className="w-full md:w-1/3 px-3 mb-2">
                 <label htmlFor="location_id" className={`${style.inputLabel} clickeable`} onClick={()=>setShowModalLocations(true)}>Ubicación (Click para agregar)</label>
                 <select
                   id="location_id"
@@ -258,7 +257,7 @@ import { AddLocationsModal } from "@/components/modals/add-locations-modal";
                     );
                   })}
                 </select>
-              </div>
+              </div>)}
 
               { (selectedProduct?.data?.product_type == 1 && measuresStatus) && (<div className="w-full md:w-1/3 px-3 mb-4">
                 <label htmlFor="measure" className={style.inputLabel}>Medida</label>
