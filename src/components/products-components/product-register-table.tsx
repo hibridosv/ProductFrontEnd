@@ -35,7 +35,7 @@ export function ProductRegisterTable(props: ProductRegisterProps) {
         <td className="py-2 px-2">{ record?.quantity }</td>
         <td className="py-2 px-2">{ numberToMoney(record.unit_cost ? record.unit_cost : 0, systemInformation) }</td>
         <td className="py-2 px-2">{ numberToMoney((record.unit_cost ? record.unit_cost : 0) * record?.quantity, systemInformation) }</td>
-        <td className="py-2 px-2 truncate">{ record?.document_number }</td>
+        <td className="py-2 px-2 truncate">{ record?.lot }</td>
         <td className="py-2 px-2 truncate">{ formatDateAsDMY(record.created_at) }</td>
         <td className="py-2 px-2"><Button preset={productPrincipal ? Preset.smallClose : Preset.smallCloseDisable} noText onClick={productPrincipal ? ()=>onDelete(record.id) : ()=>{}} /></td>
       </tr>
@@ -52,7 +52,7 @@ export function ProductRegisterTable(props: ProductRegisterProps) {
           <th scope="col" className="py-2 px-2 border">Cant</th>
           <th scope="col" className="py-2 px-2 border">Precio Costo</th>
           <th scope="col" className="py-2 px-2 border">Total Costo</th>
-          <th scope="col" className="py-2 px-2 border">Documento</th>
+          <th scope="col" className="py-2 px-2 border">Lote</th>
           <th scope="col" className="py-2 px-2 border">Fecha</th>
           <th scope="col" className="py-2 px-2 border"></th>
         </tr>

@@ -20,7 +20,6 @@ export function ProductRegisterPrincipalTable(props: ProductRegisterPrincipalPro
       <td className="py-2 px-2 truncate uppercase">{ documentType(record?.document_type) }</td>
       <td className="py-2 px-2">{ record?.document_number }</td>
       <td className="py-2 px-2">{ record?.provider?.name }</td>
-      <td className="py-2 px-2 truncate">{ record?.lot }</td>
       <td className="py-2 px-2 truncate">{ record.comment }</td>
     </tr>
   ));
@@ -34,7 +33,6 @@ export function ProductRegisterPrincipalTable(props: ProductRegisterPrincipalPro
           <th scope="col" className="py-2 px-2 border">Tipo Documento</th>
           <th scope="col" className="py-2 px-2 border">Documento</th>
           <th scope="col" className="py-2 px-2 border">Proveedor</th>
-          <th scope="col" className="py-2 px-2 border">Lote</th>
           <th scope="col" className="py-2 px-2 border">Descripción</th>
         </tr>
       </thead>

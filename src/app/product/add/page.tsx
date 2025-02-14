@@ -41,7 +41,7 @@ export default function ProductAdd() {
     data.provider_id = productPrincipal.provider_id
     data.employee_id = productPrincipal.employee_id
     data.document_type = productPrincipal.document_type
-    data.lot = productPrincipal.lot
+    //data.lot = productPrincipal.lot
     data.comment = productPrincipal.comment
     data.product_register_principal = productPrincipal.id
     data.unit_cost = isTaxesActive ? data.unit_cost * 1.13 : data.unit_cost;
@@ -253,9 +253,13 @@ useEffect(() => {
                 </div>
 
                 <div className="w-full md:w-1/2 px-3 mb-2">
-                    <label htmlFor="lot" className={style.inputLabel}> Lote </label>
-                    <input
-                          type="number" id="lot" {...register("lot")} className={style.input} step="any" min={0} />
+                  <label className={`${style.inputLabel} mb-2`}> Sumar Impuestos </label>
+                        <div>
+                            <ToggleSwitch
+                            checked={isTaxesActive}
+                            label={isTaxesActive ? 'Activo' : 'Inactivo'}
+                            onChange={() => setIsTaxesActive(!isTaxesActive)} />
+                      </div>
                 </div>
 
                 <div className="w-full md:w-full px-3 mb-4">
@@ -268,7 +272,7 @@ useEffect(() => {
                 </div>
 
 
-                <div className="w-full md:w-full px-2 mb-3 flex justify-center">
+                {/* <div className="w-full md:w-full px-2 mb-3 flex justify-center">
                       <div className='mr-2 font-semibold'>Sumar impuestos</div>
                         <div>
                             <ToggleSwitch
@@ -276,7 +280,7 @@ useEffect(() => {
                             label={isTaxesActive ? 'Activo' : 'Inactivo'}
                             onChange={() => setIsTaxesActive(!isTaxesActive)} />
                       </div>
-                </div>
+                </div> */}
                 
                 <div className="uppercase text-xl font-semibold text-slate-800 m-2 bg-slate-400 w-full px-6 clickeable rounded-md border shadow-md shadow-slate-400" onClick={()=>setIsBillsActive(!isBillsActive)}>{ isBillsActive ? "Cancelar" : "Activar"} ingreso como gasto</div>
                 
@@ -416,10 +420,6 @@ useEffect(() => {
                   <div>{ productPrincipal?.provider?.name }</div>
                 </div>
                 <div className="flex justify-between border-b-2">
-                  <div>Lote</div>
-                  <div>{ productPrincipal.lot }</div>
-                </div>
-                <div className="flex justify-between border-b-2">
                   <div>{ productPrincipal.comment }</div>
                 </div>
                 <div className="flex justify-between border-b-2">
@@ -460,6 +460,11 @@ useEffect(() => {
                           step="any"
                           min={0}
                         />
+                </div>
+
+                <div className="w-full md:w-1/2 px-3 mb-2">
+                    <label htmlFor="lot" className={style.inputLabel}> Lote </label>
+                    <input type="text" id="lot" {...register("lot")} className={style.input} />
                 </div>
 
                 {productSelected?.expires ?
