@@ -29,6 +29,7 @@ export enum OptionsClickSales {
   price = 8,
   changeName = 9,
   selectClient = 10, // asignar cliente al producto para ventas divididas
+  changeComment = 11,
 }
 
 
@@ -57,8 +58,10 @@ export function SalesQuickTable(props: SalesQuickProps) {
       <td className="py-1 px-2 truncate uppercase">
         <div className="flex justify-between" >
           <span className="clickeable w-full" onClick={()=> onClick(record, OptionsClickSales.productView)}>{ record.product.slice(0, 50) }</span>
-          {config.includes("sales-change-comment") && <span title={record.comment ? record.comment : "Sin comentarios"} className="ml-2 mt-1 clickeable" 
-          onClick={()=> onClick(record, OptionsClickSales.changeName)}><FaPen color={record.comment ? 'green' : 'black'} /></span> }
+          {config.includes("sales-change-name") && <span title="Cambiar Nombre del producto" className="ml-2 mt-1 clickeable" 
+          onClick={()=> onClick(record, OptionsClickSales.changeName)}><FaPen color="black" /></span> }
+          {config.includes("sales-change-comment") && <span title={record?.comment ?? "Sin comentarios"} className="ml-2 mt-1 clickeable" 
+          onClick={()=> onClick(record, OptionsClickSales.changeComment)}><FaPen color={record.comment ? 'green' : 'black'} /></span> }
         </div>
       </td>
       <td className="py-1 px-2  cursor-pointer" onClick={codeRequestPice.requestPrice && codeRequestPice.required ?
