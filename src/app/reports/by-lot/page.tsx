@@ -2,14 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { ViewTitle } from "@/components"
-import { DateRange, DateRangeValues } from "@/components/form/date-range"
-import { postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
-import { DateTime } from 'luxon';
 import { LinksList } from "@/components/common/links-list";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
-import { AiOutlineSearch } from "react-icons/ai";
-import { ReportsProductsModal } from "@/components/reports-components/reports-products-modal";
 import { ReportsByLotTable } from "@/components/reports-components/reports-by-lot-table";
 import { SearchIcon } from "@/theme/svg";
 import { getData } from "@/services/resources";

@@ -1,7 +1,7 @@
 'use client'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { getData, postData } from "@/services/resources";
-import { ProductsTable, RightSideProducts, Loading, Pagination, ViewTitle } from "@/components";
+import { RightSideProducts, Pagination, ViewTitle } from "@/components";
 import { usePagination } from "@/components/pagination";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import toast, { Toaster } from 'react-hot-toast';
@@ -9,21 +9,43 @@ import { RowTable } from "@/components/products-components/products-table";
 import { LinksList } from "@/components/common/links-list";
 import { getUrlFromCookie } from "@/services/oauth";
 import SkeletonTable from "@/components/common/skeleton-table";
+import { ProductsAllTable } from "@/components/products-components/products-all-table";
+import { ConfigContext } from "@/contexts/config-context";
+import { getConfigStatus } from "@/utils/functions";
 
 export default function ViewProducts() {
   const [isLoading, setIsLoading] = useState(false);
   const [productos, setProductos] = useState([]);
+  const [sortBy, setSortBy] = useState("-cod");
   const [ links, setLinks ] = useState([] as any)
   const [ statics, setStatics ] = useState([])
   const {currentPage, handlePageNumber} = usePagination("&page=1");
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
   const [searchTermNew, setSearchTermNew] = useState("");
   const remoteUrl = getUrlFromCookie();
+  const { config, systemInformation } = useContext(ConfigContext);
+  const [rowsFormated, setRowsFormated] = useState([RowTable.brand, RowTable.location]);
+
+    useEffect(() => {
+      setRowsFormated((prevRows) => {
+        let updatedRows = [...prevRows];
+        if (getConfigStatus("product-brand", config)) {
+          updatedRows = updatedRows.filter((row) => row !== RowTable.brand);
+        }
+        if (getConfigStatus("product-locations", config)) {
+          updatedRows = updatedRows.filter((row) => row !== RowTable.location);
+        }
+        return updatedRows;
+      });
+      // eslint-disable-next-line
+    }, [config, systemInformation]);
+
+    console.log("rowsFormated", rowsFormated);
 
   const loadData = async () => {
       setIsLoading(true);
       try {
-        const response = await getData(`products?sort=-cod&filterWhere[status]==1&filterWhere[is_restaurant]==0&perPage=10${currentPage}${searchTerm}`);
+        const response = await getData(`products?sort=${sortBy}&filterWhere[status]==1&filterWhere[is_restaurant]==0&perPage=10${currentPage}${searchTerm}`);
         setProductos(response);
         setLinks([
           {"name": `DESCARGAR EN EXCEL`, "link": encodeURI(`${remoteUrl}/download/excel/inventory/`), "isUrl": true}, 
@@ -36,6 +58,12 @@ export default function ViewProducts() {
       }
   };
     
+  const handleSortBy = (sort: string) => {
+    setSortBy(sort);
+    handlePageNumber("&page=1");
+    console.log("sortBy", sortBy);
+  }
+
 
   useEffect(() => {
     (async () => { 
@@ -48,7 +76,7 @@ export default function ViewProducts() {
          }
         })();   
     // eslint-disable-next-line
-  }, [currentPage, searchTerm]);
+  }, [currentPage, searchTerm, sortBy]);
 
   
   useEffect(() => {
@@ -101,11 +129,12 @@ export default function ViewProducts() {
                 <ViewTitle text="PRODUCTOS" />
 
               { isLoading ? <SkeletonTable rows={11} columns={7} /> :
-                <ProductsTable 
+                <ProductsAllTable
                 products={productos}
                 onDelete={deleteProduct} 
-                withOutRows={[RowTable.brand]}
+                withOutRows={rowsFormated}
                 updatePrice={updatePrice}
+                handleSortBy={handleSortBy}
                  />
               }
               <Pagination 
