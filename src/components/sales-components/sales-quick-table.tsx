@@ -53,7 +53,7 @@ export function SalesQuickTable(props: SalesQuickProps) {
     <tr key={record.id} className="bg-white border-b text-slate-950 font-semibold" >
        { record.cod == 9999999999 ?
       <td className="py-1 px-2"> { record.quantity } </td> :
-      <td className="py-1 px-2 cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.quantity)}> { record.quantity } </td> }
+      <td className={`py-1 px-2 ${!record.lot_id && 'cursor-pointer'}`} onClick={record.lot_id ? ()=>{} : ()=> onClick(record, OptionsClickSales.quantity)}> { record.quantity } </td> }
       {config.includes("sales-show-code") &&
       <td className="py-1 px-2">{ record.cod }</td>
       }

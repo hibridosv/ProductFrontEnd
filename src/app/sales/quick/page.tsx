@@ -179,6 +179,12 @@ export default function ViewSales() {
       toast.error("Error en el codigo!");
       return
     }
+    const productToFind = productsOfInvoice?.invoiceproducts.find((producto: any) => producto.cod === data.cod);
+    if (productToFind?.lot_id) {
+      toast.error("No puede modificar la cantidad de un producto con lote asignado!");
+      return
+    }
+
     let values = {
       product_id: data.cod,
       order_id: order,

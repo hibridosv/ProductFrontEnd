@@ -41,8 +41,7 @@ export function SalesChangeLotModal(props: SalesChangeLotModalProps){
         }
         // eslint-disable-next-line
       }, [isShow]);
-    
-    console.log(lot)
+
     
     const onSubmit = async (lot_id: string) => {
         
@@ -74,10 +73,12 @@ export function SalesChangeLotModal(props: SalesChangeLotModalProps){
             <tr key={record.id} className={`border-b ${product?.lot_id === record.id ? 'bg-blue-200 font-bold text-blue-900' : 'bg-white'}`} >
                 <td className='py-3 px-6'>{ record.actual_stock }</td>
                 <td className="py-3 px-6">{ formatDate(record.created_at) } { formatHourAsHM(record.created_at) }</td>
+                <td className="py-3 px-6">{ record.lot }</td>
                 <td className="py-2 truncate">
                 <span className="flex justify-between">
                     {
                     product?.lot_id === record.id ? <RiCloseCircleFill size={20} className="text-red-600 clickeable" onClick={()=>onSubmit("")} /> :
+                    record.actual_stock < product.quantity ? <FaRegSave size={20} className="text-gray-700 clickeable" onClick={()=> toast.error("No existen cantidades suficientes en este lote")} /> : 
                     <FaRegSave size={20} className="text-lime-700 clickeable" onClick={()=>onSubmit(record.id)} />
                     }
                 </span>
@@ -86,7 +87,7 @@ export function SalesChangeLotModal(props: SalesChangeLotModalProps){
     ))
     
     return (
-    <Modal show={isShow} position="center" onClose={onClose} size="md">
+    <Modal show={isShow} position="center" onClose={onClose} size="lg">
       <Modal.Header>Seleccionar el lote a descontar</Modal.Header>
       <Modal.Body>
 
@@ -103,8 +104,9 @@ export function SalesChangeLotModal(props: SalesChangeLotModalProps){
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                    <th scope="col" className="py-3 px-4 border">Disponible</th>
+                    <th scope="col" className="py-3 px-4 border">Cant.</th>
                     <th scope="col" className="py-3 px-4 border">Fecha</th>
+                    <th scope="col" className="py-3 px-4 border">Lote</th>
                     <th scope="col" className="py-3 border"></th>
                     </tr>
                 </thead>
