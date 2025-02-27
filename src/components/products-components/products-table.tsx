@@ -10,8 +10,6 @@ import { Dropdown } from "flowbite-react";
 import { DeleteModal, ProductViewModal } from "..";
 import { numberToMoney, permissionExists } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
-import toast, { Toaster } from 'react-hot-toast';
-
 
 export enum RowTable {
   cod = "cod",
@@ -140,7 +138,6 @@ export function ProductsTable(props: ProductsTableProps) {
           editable={canEdit}
           isShow={showProductDetail}
           /> 
-      <Toaster position="top-right" reverseOrder={false} />
 
  </div>
  );

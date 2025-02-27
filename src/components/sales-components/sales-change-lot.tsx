@@ -1,0 +1,124 @@
+'use client'
+import {  useEffect, useState } from "react";
+import { Modal } from "flowbite-react";
+import { Button, Preset } from "../button/button";
+import { getData, postData } from "@/services/resources";
+import toast, { Toaster } from "react-hot-toast";
+import { formatDate, formatHourAsHM } from "@/utils/date-formats";
+import { FaRegSave } from "react-icons/fa";
+import { Loading } from "../loading/loading";
+import { MdClose } from "react-icons/md";
+import { RiCloseCircleFill } from "react-icons/ri";
+
+export interface SalesChangeLotModalProps {
+    onClose: () => void;
+    isShow?: boolean;
+    product: any;
+}
+
+export function SalesChangeLotModal(props: SalesChangeLotModalProps){
+    const { onClose, isShow, product } = props;
+    const [isSending, setIsSending] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [lot, setLot] = useState([]);
+    
+    
+    const loadInvoiceLots = async () => {
+        try {
+            setIsLoading(true);
+          const response = await getData(`registers/product?filterWhere[product_id]==${product?.product_id}&filterWhere[status]==1`);
+          setLot(response.data);
+        } catch (error) {
+          console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
+      };
+    
+      useEffect(() => {
+        if (isShow) {
+            (async () => { await loadInvoiceLots(); })();
+        }
+        // eslint-disable-next-line
+      }, [isShow]);
+    
+    console.log(lot)
+    
+    const onSubmit = async (lot_id: string) => {
+        
+        let values = {
+            product_id: product?.id,
+            order_id: product?.ticket_order_id,
+            value: lot_id,
+            row_to_update: "lot_id",
+        };
+    
+        try {
+          setIsSending(true);
+          const response = await postData(`sales/product/update`, "POST", values);
+          if (response.type === "error") {
+            toast.error(response.message);
+          } else {
+            toast.success("Lote Actualizado Correctamente!");
+            onClose();
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error("Ha Ocurrido un Error!");
+        } finally {
+            setIsSending(false);
+        }
+      };
+    
+      const listItems = lot?.map((record: any):any => (
+            <tr key={record.id} className={`border-b ${product?.lot_id === record.id ? 'bg-blue-200 font-bold text-blue-900' : 'bg-white'}`} >
+                <td className='py-3 px-6'>{ record.actual_stock }</td>
+                <td className="py-3 px-6">{ formatDate(record.created_at) } { formatHourAsHM(record.created_at) }</td>
+                <td className="py-2 truncate">
+                <span className="flex justify-between">
+                    {
+                    product?.lot_id === record.id ? <RiCloseCircleFill size={20} className="text-red-600 clickeable" onClick={()=>onSubmit("")} /> :
+                    <FaRegSave size={20} className="text-lime-700 clickeable" onClick={()=>onSubmit(record.id)} />
+                    }
+                </span>
+                </td>
+            </tr>
+    ))
+    
+    return (
+    <Modal show={isShow} position="center" onClose={onClose} size="md">
+      <Modal.Header>Seleccionar el lote a descontar</Modal.Header>
+      <Modal.Body>
+
+        <div className="text-center text-gray-500 dark:text-gray-400 font-semibold text-xl mb-2 uppercase">
+            {product?.product }
+        </div>
+        <div>
+            { lot.length == 0 && <p className="text-center text-gray-500 dark:text-gray-400">No hay lotes disponibles</p> }
+        </div>
+        {
+            isLoading ? <Loading text="Obteniendo Lotes" /> :
+            <div className="rounded-sm shadow-md w-full ">
+            <div className="overflow-auto">
+                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                    <th scope="col" className="py-3 px-4 border">Disponible</th>
+                    <th scope="col" className="py-3 px-4 border">Fecha</th>
+                    <th scope="col" className="py-3 border"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {listItems}
+                </tbody>
+                </table>
+            </div>
+        </div>
+        }
+      <Toaster position="top-right" reverseOrder={false} />
+      </Modal.Body>
+      <Modal.Footer className="flex justify-end">
+        <Button onClick={onClose} preset={Preset.close} isFull disabled={isSending} /> 
+      </Modal.Footer>
+    </Modal>)
+}

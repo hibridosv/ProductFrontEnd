@@ -8,6 +8,7 @@ import { RequestCodeModal } from "../common/request-code-modal";
 import { useCodeRequest } from "@/hooks/useCodeRequest";
 import { IoMdLock, IoMdUnlock } from "react-icons/io";
 import { FaPen, FaPenAlt } from "react-icons/fa";
+import { MdBallot } from "react-icons/md";
 
 
 
@@ -30,6 +31,7 @@ export enum OptionsClickSales {
   changeName = 9,
   selectClient = 10, // asignar cliente al producto para ventas divididas
   changeComment = 11,
+  changeLot = 12,
 }
 
 
@@ -62,6 +64,8 @@ export function SalesQuickTable(props: SalesQuickProps) {
           onClick={()=> onClick(record, OptionsClickSales.changeName)}><FaPen color="black" /></span> }
           {config.includes("sales-change-comment") && <span title={record?.comment ?? "Sin comentarios"} className="ml-2 mt-1 clickeable" 
           onClick={()=> onClick(record, OptionsClickSales.changeComment)}><FaPen color={record.comment ? 'green' : 'black'} /></span> }
+          {config.includes("sales-change-lot") && <span title="Cambiar lote predeterminado" className="ml-2 mt-1 clickeable" 
+          onClick={()=> onClick(record, OptionsClickSales.changeLot)}><MdBallot color={record.lot_id ? 'red' : 'gray'} /></span> }
         </div>
       </td>
       <td className="py-1 px-2  cursor-pointer" onClick={codeRequestPice.requestPrice && codeRequestPice.required ?

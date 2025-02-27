@@ -26,6 +26,7 @@ import { SalesEspecialProductsModal } from "@/components/sales-components/sales-
 import { useIsOpen } from "@/hooks/useIsOpen";
 import { SalesChangeProductModal } from "@/components/sales-components/sales-change-product-modal";
 import { SalesButtonsInitial } from "@/components/sales-components/sales-buttons-initial";
+import { SalesChangeLotModal } from "@/components/sales-components/sales-change-lot";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -43,6 +44,7 @@ export default function ViewSales() {
   const [isSalesOtherModal, setIsSalesOtherModal] = useState(false);
   const [isSalesCommentModal, setIsSalesCommentModal] = useState(false);
   const [isSalesChangeProductModal, setIsSalesChangeProductModal] = useState(false);
+  const [isSalesChangeLotModal, setIsSalesChangeLotModal] = useState(false);
   const [typeOfClient, setTypeOfClient] = useState<ContactTypeToGet>(ContactTypeToGet.clients); // tipo de cliente a buscar en el endpoint
   const [clientNametoUpdate, setClientNametoUpdate] = useState<ContactNameOfOrder>(ContactNameOfOrder.client); // tipo de cliente a buscar en el endpoint
   const [isDiscountType, setIsDiscountType] = useState(0);
@@ -90,7 +92,8 @@ export default function ViewSales() {
       && !isPriceModal
       && !isSalesChangeProductModal
       && !isSalesSelectInvoiceType
-      && !modalSalesSpecial.isOpen) {      
+      && !modalSalesSpecial.isOpen
+      && !isSalesChangeLotModal) {      
         (async () => await selectLastOrder())()
       }
     // eslint-disable-next-line
@@ -103,7 +106,8 @@ export default function ViewSales() {
     isPriceModal, 
     isSalesChangeProductModal, 
     isSalesSelectInvoiceType,
-    modalSalesSpecial.isOpen]);
+    modalSalesSpecial.isOpen,
+    isSalesChangeLotModal]);
 
 
   const deleteProduct = async (iden: number) => {
@@ -271,6 +275,8 @@ export default function ViewSales() {
         break;
       case OptionsClickSales.changeComment: (() => { setRowToUpdate("comment"); setProductSelected(product); setIsSalesChangeProductModal(true);  })();
         break;
+      case OptionsClickSales.changeLot: (() => {  setProductSelected(product); setIsSalesChangeLotModal(true);  })();
+        break;
     }
   };
 
@@ -335,6 +341,7 @@ export default function ViewSales() {
       <SalesContactSearchModal handleChangeOrder={handleChangeOrder}  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={productsOfInvoice} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />
       <SalesOthers isShow={isSalesOtherModal} order={productsOfInvoice} onClose={()=>setIsSalesOtherModal(false)} />
       <SalesCommentModal isShow={isSalesCommentModal} order={productsOfInvoice} onClose={()=>setIsSalesCommentModal(false)} />
+      <SalesChangeLotModal isShow={isSalesChangeLotModal} product={productSelected} onClose={()=>setIsSalesChangeLotModal(false)} />
       
       <SalesChangeProductModal isShow={isSalesChangeProductModal} order={order} product={productSelected} onClose={()=>setIsSalesChangeProductModal(false)} rowToUpdate={rowToUpdate} />
       
