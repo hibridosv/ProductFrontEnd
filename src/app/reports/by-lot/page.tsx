@@ -71,7 +71,7 @@ useEffect(() => {
   const handlegetSales = async () => {
     try {
       setIsSending(true);
-      const response = await getData(`histories/cost?perPage=25${productSelected?.id ? `&product_id=${productSelected?.id}` : ''}`);
+      const response = await getData(`registers/product?perPage=25${productSelected?.id ? `&filterWhere[product_id]==${productSelected?.id}` : ''}&included=product`);
       if (!response.message) {
         toast.success("Datos obtenidos correctamente");
         setProductData(response);
@@ -90,6 +90,8 @@ useEffect(() => {
 // eslint-disable-next-line
 }, [productSelected]);
 
+
+console.log("productData", productData)
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600"> 

@@ -27,7 +27,7 @@ export function ReportsByLotTable(props: ReportsByLotTableProps) {
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.product?.description }</th>
       <td className="py-2 px-6">{ record?.product?.cod }</td>
       <td className="py-2 px-6">{ record?.quantity }</td>
-      <td className="py-2 px-6">{ record?.actual_stock }</td>
+      <td className={`py-2 px-6 font-bold ${record?.actual_stock <= 0 ? 'text-red-600' : 'text-black'}`}>{ record?.actual_stock }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.unit_cost ?? 0, systemInformation) }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.sale_price ?? 0, systemInformation) }</td>
       <td className="py-2 px-6">{ record?.expiration ? formatDateAsDMY(record?.expiration) : "N/A" }</td>

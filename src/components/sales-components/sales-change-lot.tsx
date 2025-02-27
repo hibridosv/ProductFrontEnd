@@ -73,6 +73,7 @@ export function SalesChangeLotModal(props: SalesChangeLotModalProps){
             <tr key={record.id} className={`border-b ${product?.lot_id === record.id ? 'bg-blue-200 font-bold text-blue-900' : 'bg-white'}`} >
                 <td className='py-3 px-6'>{ record.actual_stock }</td>
                 <td className="py-3 px-6">{ formatDate(record.created_at) } { formatHourAsHM(record.created_at) }</td>
+                <td className="py-3 px-6">{ formatDate(record.expiration)}</td>
                 <td className="py-3 px-6">{ record.lot }</td>
                 <td className="py-2 truncate">
                 <span className="flex justify-between">
@@ -87,7 +88,7 @@ export function SalesChangeLotModal(props: SalesChangeLotModalProps){
     ))
     
     return (
-    <Modal show={isShow} position="center" onClose={onClose} size="lg">
+    <Modal show={isShow} position="center" onClose={onClose} size="2xl">
       <Modal.Header>Seleccionar el lote a descontar</Modal.Header>
       <Modal.Body>
 
@@ -106,6 +107,7 @@ export function SalesChangeLotModal(props: SalesChangeLotModalProps){
                     <tr>
                     <th scope="col" className="py-3 px-4 border">Cant.</th>
                     <th scope="col" className="py-3 px-4 border">Fecha</th>
+                    <th scope="col" className="py-3 px-4 border">Vence</th>
                     <th scope="col" className="py-3 px-4 border">Lote</th>
                     <th scope="col" className="py-3 border"></th>
                     </tr>
