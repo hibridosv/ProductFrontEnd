@@ -40,8 +40,6 @@ export default function ViewProducts() {
       // eslint-disable-next-line
     }, [config, systemInformation]);
 
-    console.log("rowsFormated", rowsFormated);
-
   const loadData = async () => {
       setIsLoading(true);
       try {
@@ -61,7 +59,6 @@ export default function ViewProducts() {
   const handleSortBy = (sort: string) => {
     setSortBy(sort);
     handlePageNumber("&page=1");
-    console.log("sortBy", sortBy);
   }
 
 
