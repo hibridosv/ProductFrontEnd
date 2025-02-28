@@ -42,6 +42,9 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
   const [isShowCode, setIsShowCode] = useState(false);
   const [isShowCountry, setIsShowCountry] = useState(false);
   const [isExcluded, setIsExcluded] = useState(false);
+  const [isSeller, setIsSeller] = useState(false);
+  const [users, setUsers] = useState([] as any);
+
 
   useEffect(() => {
     if (record) {
@@ -67,6 +70,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
         setValue("is_credit_block", record.is_credit_block);
         setValue("excluded", record.excluded);
         setValue("country", record.country);
+        setValue("employee_id", record.employee_id);
         
         setDepartament(record.departament_doc)
         setTown(record.town_doc)
@@ -74,9 +78,9 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
     setIsShowCode(getConfigStatus("contact-code", config));
     setIsShowCountry(getConfigStatus("contact-country", config))
     setIsExcluded(getConfigStatus("contact-excluded", config))
+    setIsSeller(getConfigStatus("contact-user-seller", config))
     setIsChangedRecord(false);
   }, [record, setValue, setIsChangedRecord, setIsShowCountry, config]);
-
 
   const onSubmit = async (data: any) => {
       if (!data.is_client && !data.is_provider && !data.is_employee && !data.is_referred) {
@@ -139,7 +143,14 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
 
   }, [setCountries, isShow, config]);
 
-  
+  useEffect(() => {
+    if (isSeller && isShow) {
+      (async () => setUsers(await loadData(`register`)))();
+    }
+  }, [isSeller, isShow]);
+
+
+
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
       <Modal.Header>{record ? "EDITAR CONTACTO" : "AGREGAR NUEVO CONTACTO"}</Modal.Header>
@@ -276,6 +287,17 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
                       <div className={style.input} onClick={()=>setIsCountryModal(true)}>
                           { getCountryNameByCode(country, countries) }
                       </div>
+                    </div>
+                  }
+
+                  
+                  { isSeller &&
+                    <div className={`w-full px-3 mb-2`}>
+                    <label htmlFor="employee_id" className={style.inputLabel}> Asignar Vendedor </label>
+                    <select defaultValue={record?.employee?.name ? record?.employee?.id : ""} id="employee_id" {...register("employee_id")} className={style.input}>
+                        <option value="">Seleccionar...</option>
+                        {users?.data?.map((value: any) => <option key={value.id} value={value.id}> {value.name}</option>)}
+                    </select>
                     </div>
                   }
 

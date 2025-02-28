@@ -164,6 +164,11 @@ if (!locations || !record) {
                     <div className={`${style.inputLabel} text-red-600`} >Cliente Excuido de impuestos</div>
                     </div> }
 
+                    {record?.employee_id && <div className="w-full px-3 mb-2  shadow-lg border-2">
+                        <div className={style.inputLabel}>Vendedor Asignado</div>
+                        <div> {record?.employee?.name} </div>
+                    </div> }
+
                 </div>
             </div>
         </div>
