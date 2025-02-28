@@ -25,6 +25,7 @@ export function SalesShowTotal(props: SalesShowTotalProps) {
   const [wholesalerStatus, setWholesalerStatus] = useState<boolean>(false)
   const [promotionStatus, setPromotionStatus] = useState<boolean>(false)
   const [showSeller, setShowSeller] = useState<boolean>(false)
+  
   let pricesActive = [TypeOfPrice.normal];
   const { codeRequestPice, verifiedCode, isRequestCodeModal, setIsRequestCodeModal, isShowError, setIsShowError } = useCodeRequest('code-request-prices', false);
 
