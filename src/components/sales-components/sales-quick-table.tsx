@@ -8,6 +8,7 @@ import { RequestCodeModal } from "../common/request-code-modal";
 import { useCodeRequest } from "@/hooks/useCodeRequest";
 import { IoMdLock, IoMdUnlock } from "react-icons/io";
 import { FaPen, FaPenAlt } from "react-icons/fa";
+import { MdBallot } from "react-icons/md";
 
 
 
@@ -29,6 +30,8 @@ export enum OptionsClickSales {
   price = 8,
   changeName = 9,
   selectClient = 10, // asignar cliente al producto para ventas divididas
+  changeComment = 11,
+  changeLot = 12,
 }
 
 
@@ -50,14 +53,19 @@ export function SalesQuickTable(props: SalesQuickProps) {
     <tr key={record.id} className="bg-white border-b text-slate-950 font-semibold" >
        { record.cod == 9999999999 ?
       <td className="py-1 px-2"> { record.quantity } </td> :
-      <td className="py-1 px-2 cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.quantity)}> { record.quantity } </td> }
+      <td className={`py-1 px-2 ${!record.lot_id && 'cursor-pointer'}`} onClick={record.lot_id ? ()=>{} : ()=> onClick(record, OptionsClickSales.quantity)}> { record.quantity } </td> }
       {config.includes("sales-show-code") &&
       <td className="py-1 px-2">{ record.cod }</td>
       }
       <td className="py-1 px-2 truncate uppercase">
         <div className="flex justify-between" >
           <span className="clickeable w-full" onClick={()=> onClick(record, OptionsClickSales.productView)}>{ record.product.slice(0, 50) }</span>
-          {config.includes("sales-change-comment") && <span title={record.comment ? record.comment : "Sin comentarios"} className="ml-2 mt-1 clickeable" onClick={()=> onClick(record, OptionsClickSales.changeName)}><FaPen color={record.comment ? 'green' : 'black'} /></span> }
+          {config.includes("sales-change-name") && <span title="Cambiar Nombre del producto" className="ml-2 mt-1 clickeable" 
+          onClick={()=> onClick(record, OptionsClickSales.changeName)}><FaPen color="black" /></span> }
+          {config.includes("sales-change-comment") && <span title={record?.comment ?? "Sin comentarios"} className="ml-2 mt-1 clickeable" 
+          onClick={()=> onClick(record, OptionsClickSales.changeComment)}><FaPen color={record.comment ? 'green' : 'black'} /></span> }
+          {config.includes("sales-change-lot") && <span title="Cambiar lote predeterminado" className="ml-2 mt-1 clickeable" 
+          onClick={()=> onClick(record, OptionsClickSales.changeLot)}><MdBallot color={record.lot_id ? 'red' : 'gray'} /></span> }
         </div>
       </td>
       <td className="py-1 px-2  cursor-pointer" onClick={codeRequestPice.requestPrice && codeRequestPice.required ?

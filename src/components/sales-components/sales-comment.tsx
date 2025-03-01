@@ -49,7 +49,7 @@ const onSubmit = async (data: any) => {
 
 return (
 <Modal show={isShow} position="center" onClose={onClose} size="md">
-  <Modal.Header>Agregar Comentario</Modal.Header>
+  <Modal.Header>Agregar Comentario a la orden</Modal.Header>
   <Modal.Body>
     <div className="mx-4">
         <form className="max-w-lg mt-4" onSubmit={handleSubmit(onSubmit)} >

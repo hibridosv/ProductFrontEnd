@@ -10,29 +10,19 @@ import { Dropdown } from "flowbite-react";
 import { DeleteModal, ProductViewModal } from "..";
 import { numberToMoney, permissionExists } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
-
-export enum RowTable {
-  cod = "cod",
-  description = "description",
-  quantity = "quantity",
-  prices = "prices",
-  category = "category",
-  brand = "brand",
-  location = "location",
-  minimum_stock = "minimum_stock",
-  options = "options"
-}
+import { RowTable } from "./products-table";
 
 
-interface ProductsTableProps {
+interface ProductsAllTableProps {
   products?: ProductsInterface | any;
   onDelete: (id: number) => void;
   updatePrice: (cod: string) => void;
   withOutRows?: RowTable[];
+  handleSortBy?: (sort: string) => void;
 }
 
-export function ProductsTable(props: ProductsTableProps) {
-  const { products, onDelete, withOutRows, updatePrice } = props;
+export function ProductsAllTable(props: ProductsAllTableProps) {
+  const { products, onDelete, withOutRows, updatePrice, handleSortBy } = props;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showProductDetail, setShowProductDetail] = useState(false);
   const [canDelete, setCanDelete] = useState(false);
@@ -40,6 +30,7 @@ export function ProductsTable(props: ProductsTableProps) {
   const [canTransfer, setCanTransfer] = useState(false);
   const [selectProduct, setSelectProduct] = useState<Product>({} as Product);
   const { systemInformation } = useContext(ConfigContext);
+  const [sortPreview, setSortPreview] = useState("-cod");
 
   
   useEffect(() => {
@@ -53,6 +44,15 @@ export function ProductsTable(props: ProductsTableProps) {
   if (!products.data) return <NothingHere width="164" height="98" />;
   if (products.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
 
+  const sortBySelected = (sort: string) => {
+    if (handleSortBy) {
+      if (sortPreview.slice(0, 1) != "-") {
+        sort = "-" + sort;
+      }
+      setSortPreview(sort);
+      handleSortBy(sort);
+    }
+  }
 
   const isDeleteProduct = (product:Product) => {
     setSelectProduct(product);
@@ -92,6 +92,7 @@ export function ProductsTable(props: ProductsTableProps) {
       { !withOutRows?.includes(RowTable.quantity) && <td className="py-3 px-6">{product.quantity}</td>}
       { !withOutRows?.includes(RowTable.category) && <td className="py-3 px-6 whitespace-nowrap">{product.category.name}</td>}
       { !withOutRows?.includes(RowTable.brand) && <td className="py-3 px-6">{product?.brand?.name}</td>}
+      { !withOutRows?.includes(RowTable.location) && <td className="py-3 px-6">{product?.location?.name}</td>}
       { !withOutRows?.includes(RowTable.minimum_stock) && <td className="py-3 px-6">{product.minimum_stock}</td>}
       { !withOutRows?.includes(RowTable.options) && <td className="py-3 px-6">
         <Dropdown label={<IoMdOptions size="1.2em" />} inline={true} dismissOnClick={true}>
@@ -112,12 +113,13 @@ export function ProductsTable(props: ProductsTableProps) {
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          { !withOutRows?.includes(RowTable.cod) && <th scope="col" className="py-3 px-4">Cod</th>}
-          { !withOutRows?.includes(RowTable.description) && <th scope="col" className="py-3 px-4">Producto</th>}
+          { !withOutRows?.includes(RowTable.cod) && <th scope="col" className="py-3 px-4 clickeable" onClick={()=>sortBySelected("cod")}>Cod</th>}
+          { !withOutRows?.includes(RowTable.description) && <th scope="col" className="py-3 px-4 clickeable" onClick={()=>sortBySelected("description")}>Producto</th>}
           { !withOutRows?.includes(RowTable.prices) && <th scope="col" className="py-3 px-4">Precio</th>}
-          { !withOutRows?.includes(RowTable.quantity) && <th scope="col" className="py-3 px-4">Cantidad</th>}
-          { !withOutRows?.includes(RowTable.category) && <th scope="col" className="py-3 px-4">Categoria</th>}
-          { !withOutRows?.includes(RowTable.brand) && <th scope="col" className="py-3 px-4">Marca</th>}
+          { !withOutRows?.includes(RowTable.quantity) && <th scope="col" className="py-3 px-4 clickeable" onClick={()=>sortBySelected("quantity")}>Cantidad</th>}
+          { !withOutRows?.includes(RowTable.category) && <th scope="col" className="py-3 px-4 clickeable" onClick={()=>sortBySelected("category_id")}>Categoria</th>}
+          { !withOutRows?.includes(RowTable.brand) && <th scope="col" className="py-3 px-4 clickeable" onClick={()=>sortBySelected("brand_id")}>Marca</th>}
+          { !withOutRows?.includes(RowTable.location) && <th scope="col" className="py-3 px-4 clickeable" onClick={()=>sortBySelected("location_id")}>Ubicación</th>}
           { !withOutRows?.includes(RowTable.minimum_stock) && <th scope="col" className="py-3 px-4">Minimo</th>}
           { !withOutRows?.includes(RowTable.options) && <th scope="col" className="py-3 px-4">Opciones</th>}
           

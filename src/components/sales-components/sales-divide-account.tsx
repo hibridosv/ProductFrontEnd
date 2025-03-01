@@ -50,8 +50,6 @@ useEffect(() => {
   }
 }, [isShow, order?.attributes]);
 
-console.log("orderData: ", orderData)
-
 return (
 <Modal show={isShow} position="center" onClose={onClose} size="5xl">
   <Modal.Header>Dividir Cuenta</Modal.Header>

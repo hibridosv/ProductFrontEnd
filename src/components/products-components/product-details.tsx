@@ -174,10 +174,10 @@ const listPrices = product?.prices?.map((price: Price):any => (
             </dd>
           </div>)}
 
-          {(product?.product_type === 1 && product?.locations?.name) && (<div className="px-4 py-2 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          {(product?.product_type === 1 && product?.location?.name) && (<div className="px-4 py-2 bg-gray-50 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt className="text-sm font-medium text-gray-500">Ubicación del producto</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {product?.locations?.name}
+              {product?.location?.name}
             </dd>
           </div>)}
 

@@ -9,42 +9,46 @@ import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
 
 
-export interface SalesChangeCommentModalProps {
+export interface SalesChangeProductModalProps {
   onClose: () => void;
   product: any;
   isShow: boolean;
+  rowToUpdate: "comment" | "product";
   order: any;
 }
 
 
 
-export function SalesChangeCommentModal(props: SalesChangeCommentModalProps) {
-  const { onClose, product, isShow, order } = props;
+export function SalesChangeProductModal(props: SalesChangeProductModalProps) {
+  const { onClose, product, isShow, order, rowToUpdate } = props;
   const { register, handleSubmit, resetField, setFocus, setValue } = useForm();
   const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     if (product) {
-      setValue("comment", product?.comment)
-      setFocus('comment', {shouldSelect: true})      
+      if (rowToUpdate) {
+        setValue("value", product[rowToUpdate]);
+        setFocus('value', { shouldSelect: true });
+      }
     }
-  }, [setFocus, isShow, product, setValue])
+  }, [setFocus, isShow, product, setValue, rowToUpdate]);
 
   const onSubmit = async (data: any) => {
-    if (data.comment == null) onClose();
+    if (data.value == null) onClose();
     let values = {
         product_id: product.id,
         order_id: order,
-        comment: data.comment,
+        value: data.value,
+        row_to_update: rowToUpdate
       };
 
     try {
         setIsSending(true);
-        const response = await postData(`sales/update-comment`, "POST", values);
+        const response = await postData(`sales/product/update`, "POST", values);
         if (response.type === "error") {
           toast.error(response.message);
         } else {
-          resetField("comment")
+          resetField("value")
         } 
       } catch (error) {
         console.error(error);
@@ -56,15 +60,17 @@ export function SalesChangeCommentModal(props: SalesChangeCommentModalProps) {
 
   return (
     <Modal show={isShow} position="center" onClose={onClose} size="xl">
-      <Modal.Header>Cambiar Comentario del Producto</Modal.Header>
+      <Modal.Header>Cambiar {rowToUpdate == "comment" ? "comentario" : "nombre"} del Producto</Modal.Header>
       <Modal.Body>
         <div className="mx-4">
 
         <form className="max-w-lg mt-4" onSubmit={handleSubmit(onSubmit)} >
 
             <div className="w-full md:w-full px-3 mb-4">
-              <label htmlFor="comment" className={style.inputLabel} >Comentario del producto</label>
-              <textarea rows={8} {...register("comment", { required: true, max:250, min:5 })} className={`${style.input} w-full`} />
+              <label htmlFor="value" className={style.inputLabel} >{rowToUpdate == "comment" ? "Comentario" : "Nombre"} del producto</label>
+              {rowToUpdate == "comment" ? 
+              <textarea rows={8} {...register("value", { required: true, max:250, min:5 })} className={`${style.input} w-full`} /> : 
+              <input type="text" {...register("value", { required: true, max:250, min:5 })} className={`${style.input} w-full`} /> }
             </div>
 
               <div className="flex justify-center">
