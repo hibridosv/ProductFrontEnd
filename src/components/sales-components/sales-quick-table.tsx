@@ -49,49 +49,53 @@ export function SalesQuickTable(props: SalesQuickProps) {
   if (!records) return <NothingHere width="164" height="98" text="Agregue un producto" />;
   if (records.length == 0) return <NothingHere text="Agregue un producto" width="164" height="98" />;
 
-  const listItems = records.map((record: any) => (
-    <tr key={record.id} className="bg-white border-b text-slate-950 font-semibold" >
-       { record.cod == 9999999999 ?
-      <td className="py-1 px-2"> { record.quantity } </td> :
-      <td className={`py-1 px-2 ${!record.lot_id && 'cursor-pointer'}`} onClick={record.lot_id ? ()=>{} : ()=> onClick(record, OptionsClickSales.quantity)}> { record.quantity } </td> }
-      {config.includes("sales-show-code") &&
-      <td className="py-1 px-2">{ record.cod }</td>
-      }
-      <td className="py-1 px-2 truncate uppercase">
-        <div className="flex justify-between" >
-          <span className="clickeable w-full" onClick={()=> onClick(record, OptionsClickSales.productView)}>{ record.product.slice(0, 50) }</span>
-          {config.includes("sales-change-name") && <span title="Cambiar Nombre del producto" className="ml-2 mt-1 clickeable" 
-          onClick={()=> onClick(record, OptionsClickSales.changeName)}><FaPen color="black" /></span> }
-          {config.includes("sales-change-comment") && <span title={record?.comment ?? "Sin comentarios"} className="ml-2 mt-1 clickeable" 
-          onClick={()=> onClick(record, OptionsClickSales.changeComment)}><FaPen color={record.comment ? 'green' : 'black'} /></span> }
-          {config.includes("sales-change-lot") && <span title="Cambiar lote predeterminado" className="ml-2 mt-1 clickeable" 
-          onClick={()=> onClick(record, OptionsClickSales.changeLot)}><MdBallot color={record.lot_id ? 'red' : 'gray'} /></span> }
-        </div>
-      </td>
-      <td className="py-1 px-2  cursor-pointer" onClick={codeRequestPice.requestPrice && codeRequestPice.required ?
-         ()=> setIsRequestCodeModal(true) : 
-         ()=> onClick(record, OptionsClickSales.price)}>
-        { numberToMoney(record.unit_price ? record.unit_price : 0, systemInformation) }
-      </td>
-      {
-        config.includes("sales-discount") ?
-        <td className="py-1 px-2 truncate cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.discount)}>
-        { numberToMoney(record.discount ? record.discount : 0, systemInformation) }</td>
-        :
-        <td className="py-1 px-2 truncate" >
-        { numberToMoney(record.discount ? record.discount : 0, systemInformation) }</td>
-      }
-      {config.includes("product-default-commission") &&
-      <td className="py-1 px-2 clickeable" onClick={()=> onClick(record, OptionsClickSales.commisssion)}>{ record.commission ? record.commission : 0 } % -  { numberToMoney(getTotalPercentage(record?.subtotal, record?.commission), systemInformation) }</td>
-      }
-      <td className="py-1 px-2 truncate">{ numberToMoney(record.total ? record.total : 0, systemInformation) }</td>
-      <td className="py-1 px-2">
-      { record.cod == 9999999999 ? <Button preset={Preset.smallMinusDisable} noText /> : <Button preset={Preset.smallMinus} noText onClick={()=> onClick(record, OptionsClickSales.minus)} /> }
-      { record.cod == 9999999999 ? <Button preset={Preset.smallPlusDisable} noText /> : <Button preset={Preset.smallPlus} noText onClick={()=> onClick(record, OptionsClickSales.plus)} /> }
-      </td>
-      <td className="py-1 px-2"><Button preset={Preset.smallClose} noText onClick={()=> onClick(record, OptionsClickSales.delete)} /></td>
-    </tr>
-  ));
+  const listItems = records.map((record: any) => {
+    let isDisabled = record.cod == 9999999999 || record.lot_id;
+
+    return (
+      <tr key={record.id} className="bg-white border-b text-slate-950 font-semibold" >
+         { isDisabled ?
+        <td className="py-1 px-2"> { record.quantity } </td> :
+        <td className={`py-1 px-2 cursor-pointer`} onClick={()=> onClick(record, OptionsClickSales.quantity)}> { record.quantity } </td> }
+        {config.includes("sales-show-code") &&
+        <td className="py-1 px-2">{ record.cod }</td>
+        }
+        <td className="py-1 px-2 truncate uppercase">
+          <div className="flex justify-between" >
+            <span className="clickeable w-full" onClick={()=> onClick(record, OptionsClickSales.productView)}>{ record.product.slice(0, 50) }</span>
+            {config.includes("sales-change-name") && <span title="Cambiar Nombre del producto" className="ml-2 mt-1 clickeable" 
+            onClick={()=> onClick(record, OptionsClickSales.changeName)}><FaPen color="black" /></span> }
+            {config.includes("sales-change-comment") && <span title={record?.comment ?? "Sin comentarios"} className="ml-2 mt-1 clickeable" 
+            onClick={()=> onClick(record, OptionsClickSales.changeComment)}><FaPen color={record.comment ? 'green' : 'black'} /></span> }
+            {config.includes("sales-change-lot") && <span title="Cambiar lote predeterminado" className="ml-2 mt-1 clickeable" 
+            onClick={()=> onClick(record, OptionsClickSales.changeLot)}><MdBallot color={record.lot_id ? 'red' : 'gray'} /></span> }
+          </div>
+        </td>
+        <td className="py-1 px-2  cursor-pointer" onClick={codeRequestPice.requestPrice && codeRequestPice.required ?
+           ()=> setIsRequestCodeModal(true) : 
+           ()=> onClick(record, OptionsClickSales.price)}>
+          { numberToMoney(record.unit_price ? record.unit_price : 0, systemInformation) }
+        </td>
+        {
+          config.includes("sales-discount") ?
+          <td className="py-1 px-2 truncate cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.discount)}>
+          { numberToMoney(record.discount ? record.discount : 0, systemInformation) }</td>
+          :
+          <td className="py-1 px-2 truncate" >
+          { numberToMoney(record.discount ? record.discount : 0, systemInformation) }</td>
+        }
+        {config.includes("product-default-commission") &&
+        <td className="py-1 px-2 clickeable" onClick={()=> onClick(record, OptionsClickSales.commisssion)}>{ record.commission ? record.commission : 0 } % -  { numberToMoney(getTotalPercentage(record?.subtotal, record?.commission), systemInformation) }</td>
+        }
+        <td className="py-1 px-2 truncate">{ numberToMoney(record.total ? record.total : 0, systemInformation) }</td>
+        <td className="py-1 px-2 flex">
+        <Button disabled={isDisabled} preset={isDisabled ? Preset.smallMinusDisable : Preset.smallMinus} noText onClick={()=> onClick(record, OptionsClickSales.minus)} />
+        <Button disabled={isDisabled} preset={isDisabled ? Preset.smallPlusDisable : Preset.smallPlus} noText onClick={()=> onClick(record, OptionsClickSales.plus)} />
+        </td>
+        <td className="py-1 px-2"><Button preset={Preset.smallClose} noText onClick={()=> onClick(record, OptionsClickSales.delete)} /></td>
+      </tr>
+    )
+  });
 
   const commissionTotal = (records: any)=>{
     let commission = 0;
