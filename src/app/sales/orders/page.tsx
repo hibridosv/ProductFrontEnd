@@ -310,6 +310,8 @@ export default function ViewSales() {
                   break;
                   case OptionsClickOrder.addClientTable: (() => { orderAddOtherClient() })();
                   break;
+                  case OptionsClickOrder.printPreAccount: (() => { setOrderPrinter(true) })();
+                  break;
                   default: ()=>{};
                   break;
                 }
@@ -365,9 +367,9 @@ export default function ViewSales() {
           };
           
 
-          const setOrderPrinter = async () => {
+          const setOrderPrinter = async (withOrder = false) => {
             try {
-              const response = await postData(`restaurant/sales/printer/${order.id}`, "PUT");
+              const response = await postData(`restaurant/sales/printer/${order.id}`, "PUT", { with_order: withOrder });
               if (response.data) {
                 setOrder(response.data)
               }

@@ -46,6 +46,7 @@ export enum OptionsClickOrder {
     ventaSpecial = 26, // Venta especial
     addClientTable = 27, // agregar cliente a la mesa
     divideAccount = 28, // Dividir cuenta de la mesa
+    printPreAccount = 29, // Imprimir precuenta
   }
   
 
