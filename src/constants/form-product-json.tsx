@@ -125,4 +125,11 @@ export const FieldsFormProduct = [
     style: "tercio",
     isClickeable: false,
   },
+  {
+    id: "lot_id",
+    type: "text",
+    name: "Número de Lote",
+    style: "tercio",
+    isClickeable: false,
+  },
 ];
