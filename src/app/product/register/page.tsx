@@ -138,6 +138,7 @@ export default function AddProduct() {
             "quantity_unit_id",
             "measure",
             "default_discount",
+            "lot_id",
             // "default_commission",
           ];
     if (!brandStatus) hiddenFields.push("brand_id");
