@@ -106,6 +106,7 @@ import { AddLocationsModal } from "@/components/modals/add-locations-modal";
       setValue("default_discount", selectedProduct?.data?.default_discount)
       setValue("default_commission", selectedProduct?.data?.default_commission)
       setValue("prescription", selectedProduct?.data?.prescription)
+      setValue("saved", selectedProduct?.data?.saved)
 
       // eslint-disable-next-line
     }, [selectedProduct])
@@ -163,16 +164,27 @@ import { AddLocationsModal } from "@/components/modals/add-locations-modal";
                 <input type="text" id="description" {...register("description")} className={style.input} />
               </div>
 
-              <div className="w-full md:w-1/2 px-3 mb-4">
+              <div className="w-full md:w-1/3 px-3 mb-4">
                 <label htmlFor="quantity" className={style.inputLabel}>Cantidad</label>
                 <input type="number" id="quantity" readOnly {...register("quantity")} className={style.input} />
               </div>
 
-              <div className="w-full md:w-1/2 px-3 mb-4">
+              <div className="w-full md:w-1/3 px-3 mb-4">
                 <label htmlFor="minimum_stock" className={style.inputLabel}>Minimo de Stock</label>
                 <input type="number" id="minimum_stock" disabled={selectedProduct?.data?.product_type != 1 ? true : false} {...register("minimum_stock")} className={style.input} />
               </div>
 
+              <div className="w-full md:w-1/3 px-3 mb-2">
+                <label htmlFor="saved" className={`${style.inputLabel}`}>Gavado</label>
+                <select
+                  id="saved"
+                  {...register("saved")}
+                  className={style.input}
+                >
+                  <option value={1}> Gravado </option>
+                  <option  value={0}> Exento </option>
+                </select>
+              </div>
 
               <div className="w-full md:w-1/3 px-3 mb-2">
                 <label htmlFor="category_id" className={`${style.inputLabel} clickeable`} onClick={() => setShowModalCategories(true)}>Categoria (Click para agregar)</label>
@@ -181,7 +193,7 @@ import { AddLocationsModal } from "@/components/modals/add-locations-modal";
                   {...register("category_id")}
                   className={style.input}
                 >
-                  {fieldsModified[7]?.values?.map((value: any) => {
+                  {fieldsModified[8]?.values?.map((value: any) => {
                     return (
                       <option key={value.id} value={value.id}>
                         {value.name}
@@ -198,7 +210,7 @@ import { AddLocationsModal } from "@/components/modals/add-locations-modal";
                   {...register("quantity_unit_id")}
                   className={style.input}
                 >
-                  {fieldsModified[8]?.values?.map((value: any) => {
+                  {fieldsModified[9]?.values?.map((value: any) => {
                     return (
                       <option key={value.id} value={value.id}>
                         {value.name}
@@ -215,7 +227,7 @@ import { AddLocationsModal } from "@/components/modals/add-locations-modal";
                   {...register("provider_id")}
                   className={style.input}
                 >
-                  {fieldsModified[9]?.values?.map((value: any) => {
+                  {fieldsModified[10]?.values?.map((value: any) => {
                     return (
                       <option key={value.id} value={value.id}>
                         {value.name}
@@ -232,7 +244,7 @@ import { AddLocationsModal } from "@/components/modals/add-locations-modal";
                   {...register("brand_id")}
                   className={style.input}
                 >
-                  {fieldsModified[11]?.values?.map((value: any) => {
+                  {fieldsModified[12]?.values?.map((value: any) => {
                     return (
                       <option key={value.id} value={value.id}>
                         {value.name}
@@ -249,7 +261,7 @@ import { AddLocationsModal } from "@/components/modals/add-locations-modal";
                   {...register("location_id")}
                   className={style.input}
                 >
-                  {fieldsModified[10]?.values?.map((value: any) => {
+                  {fieldsModified[11]?.values?.map((value: any) => {
                     return (
                       <option key={value.id} value={value.id}>
                         {value.name}

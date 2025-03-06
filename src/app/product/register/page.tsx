@@ -16,6 +16,7 @@ import { PresetTheme } from "@/services/enums";
 import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
 import { ContactAddModal } from "@/components/contacts-components/contact-add-modal";
 import { AddLocationsModal } from "@/components/modals/add-locations-modal";
+import { ToggleSwitch } from "flowbite-react";
 
 export default function AddProduct() {
   const [message, setMessage] = useState<any>({});
@@ -87,6 +88,8 @@ export default function AddProduct() {
     if (!data.unit_cost) data.unit_cost = 0;
     if (!data.sale_price) data.sale_price = 0;
     data.taxes = getCountryProperty(parseInt(systemInformation?.system?.country)).taxes;
+    console.log(data);
+    return
     try {
       setIsSending(true);
       const response = await postData(`products`, "POST", data);
@@ -152,7 +155,7 @@ export default function AddProduct() {
           onClick={()=>getModal(field.id)}>
             {field.name} {field.isClickeable && " (Click para agregar)"}
           </label>
-          {field.type === "select" ? (
+          {field.type === "select" && (
             <select
               defaultValue={field.values[0] ? field.values[0].id : null}
               id={field.id}
@@ -167,7 +170,8 @@ export default function AddProduct() {
                 );
               })}
             </select>
-          ) : (
+          )}
+          {field.type === "number" && (
             <input
               type={field.type}
               id={field.id}
@@ -175,6 +179,14 @@ export default function AddProduct() {
               className={style.input}
               step="any"
               min={0}
+            />
+          )}
+          {field.type === "text" && (
+            <input
+              type={field.type}
+              id={field.id}
+              {...register(field.id)}
+              className={style.input}
             />
           )}
         </div>

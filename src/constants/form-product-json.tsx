@@ -43,15 +43,26 @@ export const FieldsFormProduct = [
     id: "unit_cost",
     type: "number",
     name: "Precio de Costo",
-    style: "medio",
+    style: "tercio",
     isClickeable: false,
   },
   {
     id: "sale_price",
     type: "number",
     name: "Precio de Venta",
-    style: "medio",
+    style: "tercio",
     isClickeable: false,
+  },
+  {
+    id: "saved",
+    type: "select",
+    name: "Gravado",
+    style: "tercio",
+    isClickeable: false,
+    values: [
+      { id: 1, name: "Gravado", isSelected: true },
+      { id: 0, name: "Exento", isSelected: false },
+    ],
   },
   {
     id: "category_id",
