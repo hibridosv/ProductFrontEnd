@@ -88,8 +88,6 @@ export default function AddProduct() {
     if (!data.unit_cost) data.unit_cost = 0;
     if (!data.sale_price) data.sale_price = 0;
     data.taxes = getCountryProperty(parseInt(systemInformation?.system?.country)).taxes;
-    console.log(data);
-    return
     try {
       setIsSending(true);
       const response = await postData(`products`, "POST", data);
