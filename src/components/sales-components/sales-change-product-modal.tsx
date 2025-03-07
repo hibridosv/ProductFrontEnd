@@ -68,9 +68,7 @@ export function SalesChangeProductModal(props: SalesChangeProductModalProps) {
 
             <div className="w-full md:w-full px-3 mb-4">
               <label htmlFor="value" className={style.inputLabel} >{rowToUpdate == "comment" ? "Comentario" : "Nombre"} del producto</label>
-              {rowToUpdate == "comment" ? 
-              <textarea rows={8} {...register("value", { required: true, max:250, min:5 })} className={`${style.input} w-full`} /> : 
-              <input type="text" {...register("value", { required: true, max:250, min:5 })} className={`${style.input} w-full`} /> }
+              <textarea rows={rowToUpdate == "comment" ? 8 : 2} {...register("value", { required: true, max:250, min:5 })} className={`${style.input} w-full`} />
             </div>
 
               <div className="flex justify-center">
