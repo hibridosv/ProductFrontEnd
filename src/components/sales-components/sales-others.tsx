@@ -23,7 +23,15 @@ let optionsRadioButton: Option[] = [
   { id: 2, name: "Exento" },
   { id: 3, name: "No Sujeto" },
 ];
+
+
 const [selectedOption, setSelectedOption] = useState<Option>({ id: 1, name: "Gravado" });
+
+let optionsRadioButtonType: Option[] = [
+  { id: 1, name: "Producto" },
+  { id: 2, name: "Servicio" },
+];
+const [selectedOptionType, setSelectedOptionType] = useState<Option>({ id: 1, name: "Producto" });
 
 
 const onSubmit = async (data: any) => {
@@ -38,7 +46,10 @@ const onSubmit = async (data: any) => {
         total: data.total,
         order_id: order.id,
         exempt: selectedOption.id,
+        product_type: selectedOptionType.id
     };
+    console.log(values)
+    return ;
     try {
       setIsSending(true);
       const response = await postData(`sales/other/sales`, "POST", values);
@@ -82,6 +93,9 @@ return (
             </div>
             <div className="w-full md:w-full px-3 mb-4 flex justify-center">
               <RadioButton options={optionsRadioButton} onSelectionChange={setSelectedOption} />
+            </div>
+            <div className="w-full md:w-full px-3 mb-4 flex justify-center border-t border-sky-600 pt-2">
+              <RadioButton options={optionsRadioButtonType} onSelectionChange={setSelectedOptionType} />
             </div>
             <div className="flex justify-center">
             <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
