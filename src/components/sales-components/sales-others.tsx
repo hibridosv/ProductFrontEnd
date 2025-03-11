@@ -48,8 +48,6 @@ const onSubmit = async (data: any) => {
         exempt: selectedOption.id,
         product_type: selectedOptionType.id
     };
-    console.log(values)
-    return ;
     try {
       setIsSending(true);
       const response = await postData(`sales/other/sales`, "POST", values);
