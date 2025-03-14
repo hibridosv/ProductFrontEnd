@@ -141,6 +141,26 @@ export const sumarSubtotal = (datos: any): number => {
 }
 
 
+
+export const sumarTotalRetentionSujetoExcluido = (datos: any, records: any): number => {
+  let totalSuma = 0;
+
+  datos?.forEach((elemento: any) => {
+    if (elemento.hasOwnProperty('total')) {
+      if (records?.invoice_assigned?.type == 4) { // sujeto excluido
+        if (elemento.operation_type == 1 && elemento.product_type ==2) {
+          totalSuma += elemento.total;
+        }
+      } else {
+        totalSuma += elemento.total;
+      }
+    }
+  });
+
+  return totalSuma * 0.10;
+}
+
+
 /**
  * 
  * @param records (datos de la factura)
@@ -156,7 +176,7 @@ export const sumarSalesTotal = (records: any): number => {
   }
 
   if (records?.invoice_assigned?.type == 4) { // sujeto excluido
-    let retention = total * 0.10;
+    let retention = sumarTotalRetentionSujetoExcluido(records?.invoiceproducts, records);
     return (total - retention)
   }
   return total;

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Loading, Pagination, ViewTitle } from "@/components";
 import { getData, postData } from "@/services/resources";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,10 @@ import { SalesSearchByName } from "@/components/sales-components/sales-search-by
 import { ProductFailureTable } from "@/components/products-components/product-failure-table";
 import { ProductFailureProductsTable } from "@/components/products-components/product-failure-products-table";
 import { usePagination } from "@/hooks/usePagination";
+import { ConfigContext } from "@/contexts/config-context";
+import { extractActiveFeature } from "@/utils/functions";
+import { MdBallot } from "react-icons/md";
+import { ProductChangeLotModal } from "@/components/products-components/product-change-lot-modal";
 
 
 export default function InsertProduct() {
@@ -22,7 +26,18 @@ export default function InsertProduct() {
   const [failures, setFailures] = useState(null as any);
   const [randomNumber, setRandomNumber] = useState(0);
   const {currentPage, handlePageNumber} = usePagination("&page=1");
+  const { config } = useContext(ConfigContext);
+  const [configuration, setConfiguration] = useState([] as any); // configuraciones que vienen de config
+  const [lotSelected, setLotSelected] = useState(null as any);
+  const [isShowLotModal, setIsShowLotModal] = useState(false);
 
+
+  useEffect(() => {
+    if (config?.configurations) {
+      setConfiguration(extractActiveFeature(config.configurations))
+    }
+    // eslint-disable-next-line
+  }, [config]);
 
   const loadData = async () => {
     setIsLoading(true)
@@ -85,6 +100,8 @@ export default function InsertProduct() {
       data.failure_id = initialData?.id
       data.type = initialData?.type
       data.reason = initialData?.reason
+      data.lot_id = lotSelected?.id
+
       try {
         setIsSending(true);
         const response = await postData(`failures`, "POST", data);
@@ -94,6 +111,7 @@ export default function InsertProduct() {
           toast.success("Producto agregado correctamente");
           setInitialData(response?.data)
           setProductSelected(null)
+          setLotSelected(null)
           reset();
         }
       } catch (error) {
@@ -208,18 +226,23 @@ export default function InsertProduct() {
                   <div className="text-center text-xl font-semibold uppercase text-cyan-900">Producto seleccionado</div>
                   <div className="text-xl font-semibold uppercase">{ productSelected?.description }</div>
                   <div className="text-xl font-semibold flex justify-between">
-                    <span>Codigo: { productSelected?.cod } </span><span className="text-right">Cantidad: { productSelected?.quantity }</span></div>
+                    <span>Codigo: { productSelected?.cod } </span><span className="text-right">Existencia: { productSelected?.quantity }</span></div>
                 </div>
                 <div className="m-4 border-2 shadow-xl rounded-md">
 
                 <form onSubmit={handleSubmit(addProduct)} className="w-full">
                     <div className="flex flex-wrap mb-6">
 
-                      <div className="w-full px-3 mb-2">
-                        <label htmlFor="prescription" className={style.inputLabel}>
-                          Cantidad{" "}
-                        </label>
-                        <input type="number" id="quantity" {...register("quantity")} className={style.input} step="any" min={0} />
+                      <div className="flex justify-between mx-2 w-full mb-4">
+                        <div className='w-11/12'>
+                          <label htmlFor="quantity" className={style.inputLabel}>
+                            Cantidad{" "}
+                          </label>
+                          <input type="number" id="quantity" {...register("quantity")} className={style.input} step="any" min={0} />
+                        </div>
+                        <div className="w-1/12">
+                          <MdBallot size={42} className="w-full mt-4 mx-auto clickeable" color={lotSelected?.id ? 'red' : 'gray'} onClick={()=>setIsShowLotModal(true)} />
+                        </div>
                       </div>
 
                       <div className='w-full'>
@@ -264,6 +287,7 @@ export default function InsertProduct() {
                 </span> }
             </div>
       </div>
+      <ProductChangeLotModal isShow={isShowLotModal} onClose={()=>setIsShowLotModal(false)} product={productSelected} lotSelected={lotSelected} setLotSelected={setLotSelected}  />
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
