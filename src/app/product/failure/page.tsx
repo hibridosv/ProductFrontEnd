@@ -234,15 +234,15 @@ export default function InsertProduct() {
                     <div className="flex flex-wrap mb-6">
 
                       <div className="flex justify-between mx-2 w-full mb-4">
-                        <div className={`${ configuration.includes('sales-change-lot') ? 'w-11/12' : 'w-full'}`}>
+                        <div className='w-11/12'>
                           <label htmlFor="quantity" className={style.inputLabel}>
                             Cantidad{" "}
                           </label>
                           <input type="number" id="quantity" {...register("quantity")} className={style.input} step="any" min={0} />
                         </div>
-                        {configuration.includes("sales-change-lot") && <div className="w-1/12">
+                        <div className="w-1/12">
                           <MdBallot size={42} className="w-full mt-4 mx-auto clickeable" color={lotSelected?.id ? 'red' : 'gray'} onClick={()=>setIsShowLotModal(true)} />
-                        </div> }
+                        </div>
                       </div>
 
                       <div className='w-full'>
