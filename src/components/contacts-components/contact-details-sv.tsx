@@ -15,7 +15,7 @@ export function ContactDetailsSV(props: ContactDetailsSVProps) {
   const { record } = props;
   const [locations, setLocaltions] = useState({} as any);
   const [countries, setCountries] = useState({} as any);
-  const { config } = useContext(ConfigContext);
+  const { config, systemInformation } = useContext(ConfigContext);
 
   useEffect(() => {
     if (record) {
@@ -73,7 +73,7 @@ if (!locations || !record) {
             </div>
 
             { record?.code && <div className="w-full md:w-full px-3 mb-2 shadow-lg border-2">
-                <div className={style.inputLabel}>Código</div>
+                <div className={style.inputLabel}>{ systemInformation?.system?.contact_search ?? "Código"}</div>
                 <div> {record?.code} </div>
             </div>
             }

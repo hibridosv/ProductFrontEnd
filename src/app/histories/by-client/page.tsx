@@ -20,7 +20,7 @@ export default function Page() {
   const [isSending, setIsSending] = useState(false);
   const { links, addLink} = AddNewDownloadLink()
   const [ randNumber, setrandNumber] = useState(0) as any;
-  const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number"], 500);
+  const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number", "code"], 500);
   const [contacts, setContacts] = useState([]) as any;
   const [contactSelected, setContactSelected] = useState(null) as any;
 

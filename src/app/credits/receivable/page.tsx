@@ -22,7 +22,7 @@ export default function CreditPayablePage() {
   const [creditsTotal, setCreditsTotal] = useState(0);
   const [creditsQuantity, setCreditsQuantity] = useState(0);
   const [ randNumber, setrandNumber] = useState(0) as any;
-  const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number"], 500);
+  const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number", "code"], 500);
   const [contacts, setContacts] = useState([]) as any;
   const [contactSelected, setContactSelected] = useState(null) as any;
 
