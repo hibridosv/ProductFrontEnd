@@ -10,7 +10,7 @@ import { style } from "../../theme";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 import { ContactDetails } from "./contact-details.";
-import { formatDocument, formatDuiWithAll, formatNumberPhone, getConfigStatus, getCountryNameByCode, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
+import { formatDocument, formatDuiWithAll, getConfigStatus, getCountryNameByCode, getDepartmentNameById, getMunicipioNameById, loadData } from "@/utils/functions";
 import { ContactDepartamentModal } from "./contact-departament-modal";
 import { ContactTownModal } from "./contact-town-modal";
 import { ConfigContext } from "@/contexts/config-context";
@@ -38,7 +38,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
   const [isContactDepartamentModal, setIsContactDepartamentModal] = useState(false);
   const [isContactTowModal, setIsContactTowModal] = useState(false);
   const [isCountryModal, setIsCountryModal] = useState(false);
-  const { config } = useContext(ConfigContext);
+  const { config, systemInformation } = useContext(ConfigContext);
   const [isShowCode, setIsShowCode] = useState(false);
   const [isShowCountry, setIsShowCountry] = useState(false);
   const [isExcluded, setIsExcluded] = useState(false);
@@ -81,6 +81,8 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
     setIsSeller(getConfigStatus("contact-user-seller", config))
     setIsChangedRecord(false);
   }, [record, setValue, setIsChangedRecord, setIsShowCountry, config]);
+
+
 
   const onSubmit = async (data: any) => {
       if (!data.is_client && !data.is_provider && !data.is_employee && !data.is_referred) {
@@ -181,7 +183,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
             {
               isShowCode && 
               <div className="w-full md:w-full px-3 mb-2">
-                  <label htmlFor="code" className={style.inputLabel}>Código</label>
+                  <label htmlFor="code" className={style.inputLabel}>{ systemInformation?.system?.contact_search ?? "Código"}</label>
                   <input type="text" id="code" {...register("code")} className={`${style.input}`} />
               </div> 
             }

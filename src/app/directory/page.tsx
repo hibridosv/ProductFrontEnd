@@ -17,7 +17,7 @@ const [isAdContactModal, setIsAdContactModal] = useState(false);
 const [contacts, setContacts] = useState(false);
 const {currentPage, handlePageNumber} = usePagination("&page=1");
 const [randomNumber, setRandomNumber] = useState(0);
-const { searchTerm, handleSearchTerm } = useSearchTerm(["code", "name", "id_number"], 500);
+const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number", "code"], 500);
 
 useEffect(() => {
   if (!isAdContactModal) {

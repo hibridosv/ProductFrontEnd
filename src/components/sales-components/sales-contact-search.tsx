@@ -26,7 +26,7 @@ const { ContactTypeToGet, onClose, isShow, order, clientToUpdate, handleChangeOr
 const [contacts, setContacts] = useState([]) as any;
 const [ randNumber, setrandNumber] = useState(0) as any;
 const [ randomAfterEdit, setRandomAfterEdit] = useState(0) as any;
-const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number"], 500);
+const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number", "code"], 500);
 const [isSending, setIsSending] = useState(false);
 const [isContactModal, setIsContactModal] = useState(false);
 const [isAddContactModal, setIsAddContactModal] = useState(false);
