@@ -19,7 +19,6 @@ export default function UsersPage() {
     const [randomNumber, setRandomNumber] = useState(0);
     const { systemInformation } = useContext(ConfigContext);
     const userType  = systemInformation?.system?.tenant?.system == 2 || systemInformation?.system?.tenant?.system == 4 ? "Mesero" : "Usuario";
-  console.log("userType", userType)
 
     useEffect(() => {
         (async () => setUsers(await loadData(`register`)) )();

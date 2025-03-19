@@ -131,9 +131,13 @@ export default function ViewSales() {
             modalDivideAccount.isOpen]);
           
           const resetOrder = () =>{
+            if (order?.attributes?.clients) {
+              setClientActive(JSON.parse(order.attributes.clients)[0]);
+            } else {
+              setClientActive(1);
+            }
             setOrder([]);
             setSelectedTable("");
-            setClientActive(JSON.parse(order?.attributes.clients)[0] ?? 1);
             setDeliverySelected([])
           }
 
@@ -152,7 +156,7 @@ export default function ViewSales() {
         setIsLoading(true);
         try {
               const response = await postData(`sales/order/select/${order}`, "POST");
-              if (response.type !== "error") {
+              if (response.data) {
                 setOrder(response.data);
                 setSelectType(response?.data?.order_type);
                 setDeliveryType(response?.data?.delivery_type);
@@ -163,6 +167,7 @@ export default function ViewSales() {
                 }
               } else {
                 toast.error(response.message);
+                resetOrder();
               }
             } catch (error) {
               console.error(error);
@@ -414,7 +419,7 @@ export default function ViewSales() {
             <div className="col-span-6 border-r md:border-sky-600">
             <DeliveryClientInfo isShow={selectType == 3 && deliverySelected?.id} deliveryInfo={deliverySelected} onClick={()=>modalContact.setIsOpen(true)} order={order} />
             <ClientsTables isShow={selectType == 2 && selectedTable != ""} order={order} clientActive={clientActive} setClientActive={setClientActive} isLoading={isLoading}  />
-            <IconsMenu isShow={selectType == 1 || (selectType == 2 && selectedTable != "") || order?.invoiceproducts || (selectType == 3 && deliverySelected?.id)} selectedIcon={sendProduct} config={configuration} isSending={isSending} />
+            <IconsMenu isShow={selectType == 1 || (selectType == 2 && selectedTable != "") || order?.invoiceproducts || (selectType == 3 && deliverySelected?.id)} selectedIcon={sendProduct} config={configuration} isSending={isSending || isLoading} />
             <Tables isShow={selectType == 2 && selectedTable === ""} setSelectedTable={setSelectedTable} order={order} handleChangeOrder={handleChangeOrder} />
             <Deliverys isShow={selectType == 3 && !deliverySelected?.id} onClick={handleChangeOrder} />
             </div>
