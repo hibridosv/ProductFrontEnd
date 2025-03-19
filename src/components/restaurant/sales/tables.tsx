@@ -27,7 +27,6 @@ export function Tables(props: TablesProps) {
   };
 
 
-
   // Función que maneja el click y actualiza el estado con las tablas
   const handleLocationClick = (tables: any) => {
     setSelectedTables(tables);
@@ -86,12 +85,12 @@ export function Tables(props: TablesProps) {
         <div>
             <div>
                 <div className="flex justify-around w-full h-7 shadow-md">
-                    {listZones}
+                  {listZones}
                 </div>
             </div>
             <div>
                 <div className="flex flex-wrap justify-center">
-                {listItems }
+                  {listItems }
                 </div>
             </div>
         </div>

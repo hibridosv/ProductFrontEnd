@@ -25,7 +25,6 @@ export function OrderDetailsModal(props: OrderDetailsModalProps) {
           setOrderProducts(order?.invoiceproducts?.length > 0 ? order?.invoiceproducts : order?.products.length > 0 ? order?.products : [])
         }
     }, [order, isShow]);
-    
 
       const listItems = orderProducts?.map((record: any) => (
         <>
@@ -93,9 +92,9 @@ export function OrderDetailsModal(props: OrderDetailsModalProps) {
             </div>
 
             <div className="flex justify-between font-semibold">
-                <span className="w-full text-center border border-gray-300 py-2 rounded-tl-full rounded-bl-full mx-2 mt-4 shadow-lg bg-lime-100 text-lime-800">{orderType(order?.order_type)} </span>
-                <span className="w-full text-center border border-gray-300 py-2 mx-2 mt-4 shadow-xl">{orderStatus(order?.status)} </span>
-                <span className="w-full text-center border border-gray-300 py-2 rounded-tr-full rounded-br-full mx-2 mt-4 shadow-lg bg-teal-100 text-teal-800">{deliveryType(order?.delivery_type)}</span>
+                <span className="w-full text-center border border-gray-300 py-2 rounded-tl-full rounded-bl-full mt-4 shadow-lg bg-lime-100 text-lime-800">{orderType(order?.order_type)} </span>
+                <span className="w-full text-center border border-gray-300 py-2 mt-4 shadow-xl">{orderStatus(order?.status)} </span>
+                <span className="w-full text-center border border-gray-300 py-2 rounded-tr-full rounded-br-full mt-4 shadow-lg bg-teal-100 text-teal-800">{deliveryType(order?.delivery_type)}</span>
             </div>
 
 

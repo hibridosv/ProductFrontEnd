@@ -35,6 +35,8 @@ export function SalesButtonsRestaurant(props: SalesButtonsRestaurantProps) {
   const { systemInformation } = useContext(ConfigContext);
   const total = sumarCantidad(order?.invoiceproducts);
   const blockMaxQuantityWithOutNit = systemInformation?.system?.country == 3 && total >= 2500 && !order?.client_id;
+  const disabledButonPay = isSending || !cashDrawer || blockMaxQuantityWithOutNit;
+
 
   useEffect(() => {
     if (payType == 1 && config.includes("input-sales-focus")) {
@@ -85,9 +87,8 @@ if (!isShow) return <></>
   return (
     <div className="border rounded-md shadow-md m-2">
         { !cashDrawer && <Alert
-          theme={PresetTheme.danger}
-          info="Error"
-          text="Debe seleccionar una caja para poder cobrar"
+          theme={PresetTheme.info}
+          text="Usuario sin caja aperturada. Puede crear ordenes y guardar"
           isDismisible={false}
           className='my-1'
           /> }
@@ -101,7 +102,7 @@ if (!isShow) return <></>
           /> }
 
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        { payType == 1 && <>
+        { payType == 1 && cashDrawer && <>
         { config.includes("input-sales-keyboard") ? <>
         { showInput &&
         <Keyboard inputName='cash' display={{'{bksp}': '<'}} layout={{ default: ["1 2 3", "4 5 6", "7 8 9", ". 0 {bksp}"] }}  onKeyPress={handleKeyPress} keyboardRef={r => setKeyboard(r)}/> }
@@ -154,9 +155,9 @@ if (!isShow) return <></>
             </div>
 
             { payType == 1 ?
-            <button disabled={isSending || !cashDrawer || blockMaxQuantityWithOutNit} type='submit'  className='button-cyan clickeable w-full'><FaRegMoneyBillAlt className='mr-1' /> Cobrar</button>
+            <button disabled={disabledButonPay} type='submit'  className={`${disabledButonPay ? 'button-cyan w-full' : 'button-cyan clickeable w-full'}`}><FaRegMoneyBillAlt className='mr-1' /> Cobrar</button>
             : 
-            <div className='button-cyan clickeable w-full' title='Cobrar' onClick={(isSending || !cashDrawer || blockMaxQuantityWithOutNit) ? ()=>{} : ()=>payOrder(0)}><FaRegMoneyBillAlt className='mr-1' /> Cobrar</div>
+            <div className='button-cyan clickeable w-full' title='Cobrar' onClick={(disabledButonPay) ? ()=>{} : ()=>payOrder(0)}><FaRegMoneyBillAlt className='mr-1' /> Cobrar</div>
             }
         </div>
         </form>

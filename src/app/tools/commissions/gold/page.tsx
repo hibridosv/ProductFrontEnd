@@ -13,7 +13,7 @@ export default function Page() {
   const [isSending, setIsSending] = useState(false);
   const [randomNumber, setRandomNumber] = useState(0);
 
-  const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number", "code"], 500);
+  const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number", "code", "phone"], 500);
   const [contacts, setContacts] = useState([]) as any;
   const [contactSelected, setContactSelected] = useState(null) as any;
 
