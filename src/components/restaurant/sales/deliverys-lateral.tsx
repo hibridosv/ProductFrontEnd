@@ -20,7 +20,7 @@ export function DeliverysLateral(props: DeliverysLateralProps) {
     const [contacts, setContacts] = useState(false);
     const {currentPage, handlePageNumber} = usePagination("&page=1");
     const [randomNumber, setRandomNumber] = useState(0);
-    const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number", "code"], 500);
+    const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number", "code", "phone"], 500);
 
     useEffect(() => {
         if (searchTerm) {
