@@ -2,10 +2,13 @@
 
 import { Loading } from "@/components/loading/loading";
 import { NothingHere } from "@/components/nothing-here/nothing-here";
+import { ConfigContext } from "@/contexts/config-context";
+import usePusher from "@/hooks/usePusher";
+import { getTenant } from "@/services/oauth";
 import { getData } from "@/services/resources";
-import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
+import { getConfigStatus } from "@/utils/functions";
 import Image from "next/image";
-import { use, useEffect, useState } from "react";
+import {  useContext, useEffect, useState } from "react";
 
 export interface DeliverysProps {
   isShow?: boolean;
@@ -17,6 +20,10 @@ export function Deliverys(props: DeliverysProps) {
   const { isShow, onClick} = props;
   const [isLoading, setIsLoading] = useState(false);
   const [orders, setOrders] = useState([]) as any;
+  const { config } = useContext(ConfigContext);
+  const tenant = getTenant();
+  let pusherEvent = usePusher(`${tenant}-channel-orders`, 'get-orders-event', getConfigStatus("realtime-orders", config)).random;
+
 
   const loadAllOrders = async () => {
     setIsLoading(true);
@@ -35,7 +42,7 @@ export function Deliverys(props: DeliverysProps) {
       (async () =>  await loadAllOrders())();
     }
     // eslint-disable-next-line
-  }, [isShow]);
+  }, [isShow, pusherEvent]);
 
       if (!isShow ) return <></>
 

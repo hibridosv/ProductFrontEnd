@@ -1,8 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getData } from "@/services/resources";
 import Image from "next/image";
-import { Loading } from "@/components/loading/loading";
+import usePusher from "@/hooks/usePusher";
+import { getConfigStatus } from "@/utils/functions";
+import { getTenant } from "@/services/oauth";
+import { ConfigContext } from "@/contexts/config-context";
 
 
 export interface TablesProps {
@@ -17,6 +20,9 @@ export function Tables(props: TablesProps) {
   const [ tables, setTables ] = useState([] as any)
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTables, setSelectedTables] = useState([]);
+  const { config } = useContext(ConfigContext);
+  const tenant = getTenant();
+  let pusherEvent = usePusher(`${tenant}-channel-orders`, 'get-orders-event', getConfigStatus("realtime-orders", config)).random;
 
 
   const handleClickSelectTable = (option: any) => {
@@ -49,7 +55,7 @@ export function Tables(props: TablesProps) {
             (async () => { await loadTables() })();
         }
         // eslint-disable-next-line
-      }, [isShow]);
+      }, [isShow, pusherEvent]);
 
       useEffect(() => {
         const principalLocation = tables?.data && tables?.data?.find((location: any) => location.is_principal === 1);
