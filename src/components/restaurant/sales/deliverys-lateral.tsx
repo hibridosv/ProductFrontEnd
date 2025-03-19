@@ -8,6 +8,7 @@ import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { loadData } from "@/utils/functions";
 import { useEffect, useState } from "react";
 import { DeliveryContactList } from "./delivery-contact-list-table";
+import { Button, Preset } from "@/components/button/button";
 
 export interface DeliverysLateralProps {
   isShow?: boolean;
@@ -35,6 +36,9 @@ export function DeliverysLateral(props: DeliverysLateralProps) {
                   <MinimalSearch records={contacts} handleSearchTerm={handleSearchTerm} placeholder="Buscar Contacto" statics={false} />
                   <DeliveryContactList records={contacts} random={setRandomNumber} onClick={onClick} />
                   <Pagination records={contacts} handlePageNumber={handlePageNumber} />
+                  <div className="flex justify-center mt-4">
+                    <Button preset={Preset.add} onClick={()=>setIsAdContactModal(true)} text="Agregar Contacto" />
+                  </div>
                   <ContactAddModal isShow={isAdContactModal} onClose={()=>setIsAdContactModal(false)} />
         </div>
   );

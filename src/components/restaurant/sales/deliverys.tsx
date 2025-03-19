@@ -3,9 +3,8 @@
 import { Loading } from "@/components/loading/loading";
 import { NothingHere } from "@/components/nothing-here/nothing-here";
 import { getData } from "@/services/resources";
-import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import Image from "next/image";
-import { use, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 
 export interface DeliverysProps {
   isShow?: boolean;

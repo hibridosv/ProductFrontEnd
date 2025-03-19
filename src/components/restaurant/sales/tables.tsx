@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { getData } from "@/services/resources";
 import Image from "next/image";
-import { Loading } from "@/components/loading/loading";
 
 
 export interface TablesProps {
