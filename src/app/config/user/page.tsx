@@ -2,11 +2,12 @@
 import { Alert, ViewTitle } from "@/components";
 import { Button, Preset } from "@/components/button/button";
 import { ConfigUsersTable } from "@/components/config-components/config-users-table";
+import { ConfigContext } from "@/contexts/config-context";
 import { PresetTheme } from "@/services/enums";
 import { postData } from "@/services/resources";
 import { style } from "@/theme";
 import { loadData } from "@/utils/functions";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -16,7 +17,9 @@ export default function UsersPage() {
     const [message, setMessage] = useState<any>({});
     const [users, setUsers] = useState([]);
     const [randomNumber, setRandomNumber] = useState(0);
-
+    const { systemInformation } = useContext(ConfigContext);
+    const userType  = systemInformation?.system?.tenant?.system == 2 || systemInformation?.system?.tenant?.system == 4 ? "Mesero" : "Usuario";
+  console.log("userType", userType)
 
     useEffect(() => {
         (async () => setUsers(await loadData(`register`)) )();
@@ -93,7 +96,7 @@ export default function UsersPage() {
                   <option value="Gerencia">Gerencia</option>
                   <option value="Administracion">Administracion</option>
                   <option value="Cajero">Cajero</option>
-                  <option value="Usuario">Usuario</option>
+                  <option value={userType}>{userType}</option>
                   <option value="Contador">Contador</option>
                 </select>
               </div>
