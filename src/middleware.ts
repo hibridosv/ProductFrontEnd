@@ -28,6 +28,7 @@ export function middleware(request: NextRequest) {
       const response = NextResponse.redirect(new URL("/login", request.url));
       response.cookies.delete("authToken");
       response.cookies.delete("remoteUrl");
+      response.cookies.delete("status");
       return response;
     }
     if (authTokens && request.nextUrl.pathname.startsWith("/login")) {
