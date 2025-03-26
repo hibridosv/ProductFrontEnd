@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export function AccountSuspendedPage() {
   return (
@@ -28,13 +29,15 @@ export function AccountSuspendedPage() {
         </p>
         
         <p className="mt-4 text-lg text-slate-500 font-semibold uppercase">
-          Para más información, por favor <span className="text-sky-700">Contáctenos</span>
+          Para más información, por favor <span className="text-sky-700"><a target="_blank" href="https://wa.me/50368275365" >
+          Contáctenos
+          </a></span>
         </p>
         
         <div className="mt-6">
-          <a target="_blank" href="https://wa.me/50368275365" className="bg-sky-700 text-white px-4 py-2 rounded-full hover:bg-sky-600 focus:outline-none transition">
-            Contactar con ventas
-          </a>
+          <Link className="bg-sky-700 text-white px-4 py-2 rounded-full hover:bg-sky-600 focus:outline-none transition" href="/error/303" >
+            Ver Facturas pendientes
+          </Link>
         </div>
       </div>
       <a href="/logout" className="bg-gray-700 text-white px-4 py-2 rounded-full hover:bg-gray-400 focus:outline-none transition">

@@ -14,6 +14,7 @@ export const AuthContext = createContext({
   login: (authToken: string) => {},
   remoteUrl: (url: string) => {},
   tenant: (tenant: string) => {},
+  status: (status: string) => {},
   logout: () => {},
 });
 
@@ -36,10 +37,15 @@ export default function AuthContextProvider({
     Cookies.set("tenant", tenant);
   }, []);
 
+  const status = useCallback(function (status: string) {
+    Cookies.set("status", status);
+  }, []);
+
   const logout = useCallback(function () {
     Cookies.remove("authToken");
     Cookies.remove("remoteUrl");
     Cookies.remove("tenant");
+    Cookies.remove("status");
   }, []);
 
   const value = useMemo(
@@ -47,9 +53,10 @@ export default function AuthContextProvider({
       login,
       remoteUrl,
       tenant,
+      status,
       logout,
     }),
-    [login, remoteUrl, tenant, logout]
+    [login, remoteUrl, tenant, status, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
