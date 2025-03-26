@@ -18,7 +18,7 @@ export default function Home() {
   const [isRedirect, setIsRedirect] = useState(false);
   const { register, handleSubmit } = useForm();
   const router = useRouter();
-  const { login, remoteUrl, tenant } = useAuthContext();
+  const { login, remoteUrl, tenant, status } = useAuthContext();
   const { setRandomInit } = useContext(ConfigContext);
   
 
@@ -29,12 +29,9 @@ export default function Home() {
       if (response.type == "error") {
         setIsMessage("Usuario no registrado"); 
       } else {
-        if (response.status == 2) {
-          router.push("/error/401");
-          return
-        }
         remoteUrl(response?.url);
         tenant(response?.system);
+        status(response?.status);
         data.username = data.email;
         await handleSubmitLogin(data, response)
       }
