@@ -9,7 +9,7 @@ import { useAuthContext } from "@/contexts/authContext";
 import { API_URL, AUTH_CLIENT, AUTH_SECRET } from "@/constants";
 import { style } from '@/theme';
 import { ConfigContext } from '@/contexts/config-context';
-
+import CryptoJS from "crypto-js";
 
 
 export default function Home() {
@@ -31,7 +31,7 @@ export default function Home() {
       } else {
         remoteUrl(response?.url);
         tenant(response?.system);
-        status(response?.status);
+        status(CryptoJS.MD5(response?.status+response?.url.toString()).toString());
         data.username = data.email;
         await handleSubmitLogin(data, response)
       }
