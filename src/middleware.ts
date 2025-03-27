@@ -35,10 +35,10 @@ export function middleware(request: NextRequest) {
       return response;
     }
     // verifcar el estado del usuario, si es 1, continuar con la ejecución normal, sino redirigir al /config/invoice
-    // if (request.nextUrl.pathname.startsWith(route) && status != statusEncrypted) {
-    //   const response = NextResponse.redirect(new URL("/error/401", request.url));
-    //   return response;
-    // }
+    if (request.nextUrl.pathname.startsWith(route) && status != statusEncrypted) {
+      const response = NextResponse.redirect(new URL("/error/401", request.url));
+      return response;
+    }
 
     // si el usuario ya está autenticado y trata de acceder a la página de inicio de sesión, redirigirlo al panel de control
     if (authTokens && request.nextUrl.pathname.startsWith("/login")) {
