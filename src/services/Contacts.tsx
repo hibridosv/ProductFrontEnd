@@ -9,4 +9,5 @@ export interface Contact {
     phone?:        string;
     document?:     string;
     contact_type?:  number;
+    excluded?:  number;
 }

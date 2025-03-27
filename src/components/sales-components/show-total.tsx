@@ -12,18 +12,21 @@ export interface ShowTotalProps {
 export function ShowTotal(props: ShowTotalProps) {
   const { records, isSending } = props;
   const { systemInformation } = useContext(ConfigContext);
-
+  const isExcludedClient = records?.client?.excluded == 1;
 
   if (!records?.invoiceproducts) return <></>
   if (records?.invoiceproducts.length == 0) return <></>
 
   const texStyle = isSending ? "flex justify-center text-7xl mb-4 text-gray-500 animate-pulse" : "flex justify-center text-7xl mb-4"; 
 
+  console.log("records", records)
 
   return (
     <div className="w-full my-4 shadow-neutral-600 shadow-lg rounded-md">
       <div className="flex justify-center pt-2">TOTAL</div>
-      <div className={`${texStyle} pb-4`}>{ getCountryProperty(parseInt(systemInformation?.system?.country)).currency} { sumarSalesTotal(records).toFixed(2)} </div>
+      <div className={`${texStyle} pb-4`}>{ getCountryProperty(parseInt(systemInformation?.system?.country)).currency} 
+        { isExcludedClient ? sumarSubtotal(records?.invoiceproducts).toFixed(2) : sumarSalesTotal(records).toFixed(2)} 
+        </div>
     </div>
     );
 }

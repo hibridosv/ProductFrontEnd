@@ -271,7 +271,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
 
                   { isExcluded && 
                     <div className="w-full md:w-1/4 px-3 mb-2">
-                        <label htmlFor="phone" className={style.inputLabel}>Excluido</label>
+                        <label htmlFor="phone" className={style.inputLabel}>Exento</label>
                         <Checkbox {...register("excluded")} />
                     </div> 
                   }

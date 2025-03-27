@@ -161,7 +161,7 @@ if (!locations || !record) {
                     </div> }
 
                     {record?.excluded == 1 && <div className="w-full md:w-full px-3 mb-2  shadow-lg border-2">
-                    <div className={`${style.inputLabel} text-red-600`} >Cliente Excuido de impuestos</div>
+                    <div className={`${style.inputLabel} text-red-600`} >Cliente Exento de impuestos</div>
                     </div> }
 
                     {record?.employee_id && <div className="w-full px-3 mb-2  shadow-lg border-2">
