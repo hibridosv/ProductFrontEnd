@@ -13,6 +13,8 @@ export interface SalesSearchByNameProps {
 export function SalesSearchByName(props: SalesSearchByNameProps){
 const {  setTypeOfSearch, typeOfSearch, onSubmit, showButton = true } = props;
 
+if (!typeOfSearch) return <></> 
+
 const handleProductSelected = (product: Product) => {
   if (product) {
     onSubmit(product)
