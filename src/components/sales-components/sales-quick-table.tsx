@@ -6,8 +6,7 @@ import { ConfigContext } from "@/contexts/config-context";
 import { useContext } from "react";
 import { RequestCodeModal } from "../common/request-code-modal";
 import { useCodeRequest } from "@/hooks/useCodeRequest";
-import { IoMdLock, IoMdUnlock } from "react-icons/io";
-import { FaPen, FaPenAlt } from "react-icons/fa";
+import { FaPen } from "react-icons/fa";
 import { MdBallot } from "react-icons/md";
 
 
