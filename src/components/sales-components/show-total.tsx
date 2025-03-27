@@ -1,6 +1,6 @@
 import { ConfigContext } from "@/contexts/config-context";
 import { Order } from "@/services/order";
-import { getCountryProperty, sumarCantidad, sumarSalesTotal, sumarSubtotal } from "@/utils/functions";
+import { getCountryProperty, sumarSalesTotal, sumarSubtotal } from "@/utils/functions";
 import { useContext } from "react";
 
 
@@ -17,14 +17,12 @@ export function ShowTotal(props: ShowTotalProps) {
   if (!records?.invoiceproducts) return <></>
   if (records?.invoiceproducts.length == 0) return <></>
 
-  const texStyle = isSending ? "flex justify-center text-7xl mb-4 text-gray-500 animate-pulse" : "flex justify-center text-7xl mb-4"; 
-
-  console.log("records", records)
+  const texStyle = isSending ? "flex justify-center text-7xl mb-4 text-gray-500 animate-pulse pb-4" : "flex justify-center text-7xl mb-4 pb-4"; 
 
   return (
     <div className="w-full my-4 shadow-neutral-600 shadow-lg rounded-md">
       <div className="flex justify-center pt-2">TOTAL</div>
-      <div className={`${texStyle} pb-4`}>{ getCountryProperty(parseInt(systemInformation?.system?.country)).currency} 
+      <div className={texStyle}>{ getCountryProperty(parseInt(systemInformation?.system?.country)).currency} 
         { isExcludedClient ? sumarSubtotal(records?.invoiceproducts).toFixed(2) : sumarSalesTotal(records).toFixed(2)} 
         </div>
     </div>
