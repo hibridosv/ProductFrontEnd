@@ -62,7 +62,7 @@ const getRemoteUrl = async () => {
           login(response.access_token);
           remoteUrl(isRemoteUrl?.url);
           tenant(isRemoteUrl?.system);
-          status(CryptoJS.MD5(response?.status+response?.url.toString()).toString());
+          status(CryptoJS.MD5(isRemoteUrl?.status+isRemoteUrl?.url.toString()).toString());
           setRandomInit(Math.random())
           // router.push("/config/transfers");
           onClose()
