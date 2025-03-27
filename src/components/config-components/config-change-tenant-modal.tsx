@@ -10,6 +10,7 @@ import { style } from '@/theme';
 import { ConfigContext } from '@/contexts/config-context';
 import toast, { Toaster } from 'react-hot-toast';
 import { API_URL, AUTH_CLIENT, AUTH_SECRET } from "@/constants";
+import CryptoJS from "crypto-js";
 
 
 export interface ConfigChangeTenantModalProps {
@@ -25,7 +26,7 @@ export function ConfigChangeTenantModal(props: ConfigChangeTenantModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isRemoteUrl, setIsRemoteUrl] = useState<any>("");
   const { register, handleSubmit, setValue, watch } = useForm();
-  const { login, remoteUrl, tenant } = useAuthContext();
+  const { login, remoteUrl, tenant, status } = useAuthContext();
   const { setRandomInit, systemInformation } = useContext(ConfigContext);
 
 const getRemoteUrl = async () => {
@@ -61,6 +62,7 @@ const getRemoteUrl = async () => {
           login(response.access_token);
           remoteUrl(isRemoteUrl?.url);
           tenant(isRemoteUrl?.system);
+          status(CryptoJS.MD5(response?.status+response?.url.toString()).toString());
           setRandomInit(Math.random())
           // router.push("/config/transfers");
           onClose()
