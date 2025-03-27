@@ -44,7 +44,12 @@ export function SalesQuickTable(props: SalesQuickProps) {
     setIsRequestCodeModal, 
     isShowError, 
     setIsShowError } = useCodeRequest('code-request-change-price', false);
-
+  const isChangeName = config.includes("sales-change-name");
+  const isChangeComment = config.includes("sales-change-comment");
+  const isChangeLot = config.includes("sales-change-lot");
+  const isDefaultCommission = config.includes("product-default-commission");
+  const isShowCode = config.includes("sales-show-code");
+  const isShowDiscount = config.includes("sales-discount");
     
   if (!records) return <NothingHere width="164" height="98" text="Agregue un producto" />;
   if (records.length == 0) return <NothingHere text="Agregue un producto" width="164" height="98" />;
@@ -57,34 +62,42 @@ export function SalesQuickTable(props: SalesQuickProps) {
          { isDisabled ?
         <td className="py-1 px-2"> { record.quantity } </td> :
         <td className={`py-1 px-2 cursor-pointer`} onClick={()=> onClick(record, OptionsClickSales.quantity)}> { record.quantity } </td> }
-        {config.includes("sales-show-code") &&
+        { isShowCode &&
         <td className="py-1 px-2">{ record.cod }</td>
         }
         <td className="py-1 px-2 truncate uppercase">
           <div className="flex justify-between" >
-            <span className="clickeable w-full" onClick={()=> onClick(record, OptionsClickSales.productView)}>{ record.product.slice(0, 50) }</span>
-            {config.includes("sales-change-name") && <span title="Cambiar Nombre del producto" className="ml-2 mt-1 clickeable" 
+            
+            <span className={`${record.cod != 9999999999 && 'clickeable ' } w-full`} 
+            onClick={record.cod == 9999999999 ? ()=>{} : ()=> onClick(record, OptionsClickSales.productView)}>
+            { record.product.slice(0, 50) } {record.operation_type == 2 && <span title="Exento" className="text-red-600">(E)</span> }
+            </span>
+
+            { isChangeName && <span title="Cambiar Nombre del producto" className="ml-2 mt-1 clickeable" 
             onClick={()=> onClick(record, OptionsClickSales.changeName)}><FaPen color="black" /></span> }
-            {config.includes("sales-change-comment") && <span title={record?.comment ?? "Sin comentarios"} className="ml-2 mt-1 clickeable" 
+
+            { isChangeComment && <span title={record?.comment ?? "Sin comentarios"} className="ml-2 mt-1 clickeable" 
             onClick={()=> onClick(record, OptionsClickSales.changeComment)}><FaPen color={record.comment ? 'green' : 'black'} /></span> }
-            {config.includes("sales-change-lot") && <span title="Cambiar lote predeterminado" className="ml-2 mt-1 clickeable" 
+
+            { isChangeLot && <span title="Cambiar lote predeterminado" className="ml-2 mt-1 clickeable" 
             onClick={()=> onClick(record, OptionsClickSales.changeLot)}><MdBallot color={record.lot_id ? 'red' : 'gray'} /></span> }
+
           </div>
         </td>
         <td className="py-1 px-2  cursor-pointer" onClick={codeRequestPice.requestPrice && codeRequestPice.required ?
            ()=> setIsRequestCodeModal(true) : 
            ()=> onClick(record, OptionsClickSales.price)}>
           { numberToMoney(record.unit_price ? record.unit_price : 0, systemInformation) }
-        </td>
+        </td> 
         {
-          config.includes("sales-discount") ?
+          isShowDiscount ?
           <td className="py-1 px-2 truncate cursor-pointer" onClick={()=> onClick(record, OptionsClickSales.discount)}>
           { numberToMoney(record.discount ? record.discount : 0, systemInformation) }</td>
           :
           <td className="py-1 px-2 truncate" >
           { numberToMoney(record.discount ? record.discount : 0, systemInformation) }</td>
         }
-        {config.includes("product-default-commission") &&
+        { isDefaultCommission &&
         <td className="py-1 px-2 clickeable" onClick={()=> onClick(record, OptionsClickSales.commisssion)}>{ record.commission ? record.commission : 0 } % -  { numberToMoney(getTotalPercentage(record?.subtotal, record?.commission), systemInformation) }</td>
         }
         <td className="py-1 px-2 truncate">{ numberToMoney(record.total ? record.total : 0, systemInformation) }</td>
@@ -113,13 +126,13 @@ export function SalesQuickTable(props: SalesQuickProps) {
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
           <th scope="col" className="py-2 px-2 border">Cant</th>
-          {config.includes("sales-show-code") &&
+          { isShowCode &&
           <th scope="col" className="py-2 px-2 border">Cod</th>
           }
           <th scope="col" className="py-2 px-2 border">Producto</th>
           <th scope="col" className="py-2 px-2 border">Precio</th>
           <th scope="col" className="py-2 px-2 border">Descuento</th>
-          {config.includes("product-default-commission") &&
+          { isDefaultCommission &&
           <th scope="col" className="py-2 px-2 border">Comisión</th>
           }
           <th scope="col" className="py-2 px-2 border">Total</th>
@@ -131,13 +144,13 @@ export function SalesQuickTable(props: SalesQuickProps) {
       <tfoot>
       <tr>
           <th scope="col"></th>
-          {config.includes("sales-show-code") &&
+          { isShowCode &&
           <th scope="col"></th>
           }
           <th scope="col"></th>
           <th scope="col"></th>
           <th scope="col" className="py-2 px-2 border">{ numberToMoney(sumarDiscount(records), systemInformation)}</th>
-          {config.includes("product-default-commission") &&
+          { isDefaultCommission &&
           <th scope="col" className="py-2 px-2 border">{ numberToMoney(commissionTotal(records), systemInformation) }</th>
           }
           <th scope="col" className="py-2 px-2 border">{ numberToMoney(sumarTotales(records), systemInformation) }</th>
