@@ -24,10 +24,11 @@ export interface SalesShowOrdersProps {
     setPrice:  (option: OptionsClickOrder) => void;
     priceType: number;
     order: any; // no deben haver una orden cargada para que se carguen los datos de esta pagina
+    isShow: boolean;
 }
 
 export function SalesShowOrders(props: SalesShowOrdersProps) {
-  const { onClick, setPrice, priceType, order  } = props;
+  const { onClick, setPrice, priceType, order, isShow  } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [orders, setOrders] = useState([]) as any;
   const { config, systemInformation } = useContext(ConfigContext);
@@ -63,22 +64,25 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
       (async () =>  await loadAllOrders())();
     }
     // eslint-disable-next-line
-  }, [pusherEvent]);
+  }, [pusherEvent, order]);
   
   
   useEffect(() => {
-      setMultiPriceStatus(getConfigStatus("is-multi-price", config))
-      setWholesalerStatus(getConfigStatus("product-price-wolesaler", config))
-      setPromotionStatus(getConfigStatus("product-price-promotion", config))
-      setDownloadStatus(getConfigStatus("sales-download", config))
+      if(!order){
+        setMultiPriceStatus(getConfigStatus("is-multi-price", config))
+        setWholesalerStatus(getConfigStatus("product-price-wolesaler", config))
+        setPromotionStatus(getConfigStatus("product-price-promotion", config))
+        setDownloadStatus(getConfigStatus("sales-download", config))
+      }
     // eslint-disable-next-line
-  }, [config])
+  }, [config, order])
   
     if(wholesalerStatus) pricesActive.push(TypeOfPrice.wholesaler)
     if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
     
       
   if (isLoading) return <Loading />;
+  if (!isShow) return null;
 
   const imageLoader = ({ src, width, quality }: any) => {
     return `${remoteUrl}/images/logo/${src}?w=${width}&q=${quality || 75}`

@@ -315,11 +315,8 @@ export default function ViewSales() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
       <div className="col-span-6 border-r md:border-sky-600">
-          { typeOfSearch ? 
             <SalesSearchByName setTypeOfSearch={setTypeOfSearch} typeOfSearch={typeOfSearch} onSubmit={onSubmit}  /> 
-            : 
             <SalesSearchByCode setTypeOfSearch={setTypeOfSearch} typeOfSearch={typeOfSearch} onFormSubmit={onSubmit} isLoading={isLoading} /> 
-          }
         <div className="relative z-0">
           <SalesQuickTable records={productsOfInvoice?.invoiceproducts} onClick={handleClickOptionProduct} config={configuration} />
           <SalesButtonsInitial onClick={handleClickOptionOrder} isShow={order ? false : true} />
@@ -327,13 +324,11 @@ export default function ViewSales() {
       </div>
       <div className="col-span-4 flex justify-center ">
         <div className="w-full mx-4">
-          {order ? 
-            <SalesShowTotal isSending={isSending} records={productsOfInvoice} invoiceType={()=>setIsSalesSelectInvoiceType(true)} setPrice={handleClickOptionOrder} priceType={typeOfPrice} /> :
-            <SalesShowOrders order={order} onClick={handleChangeOrder} setPrice={handleClickOptionOrder} priceType={typeOfPrice} />
-          }
+          <SalesShowTotal isSending={isSending} records={productsOfInvoice} invoiceType={()=>setIsSalesSelectInvoiceType(true)} setPrice={handleClickOptionOrder} priceType={typeOfPrice} /> 
+          <SalesShowOrders isShow={order ? false : true} order={order} onClick={handleChangeOrder} setPrice={handleClickOptionOrder} priceType={typeOfPrice} />
         </div>
         <div className="absolute bottom-2">
-          {order && <SalesButtons invoice={productsOfInvoice} onClick={handleClickOptionOrder} cashDrawer={cashDrawer} config={configuration} />}
+          <SalesButtons order={order} invoice={productsOfInvoice} onClick={handleClickOptionOrder} cashDrawer={cashDrawer} config={configuration} />
         </div>
       </div>
       <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} priceType={typeOfPrice} />

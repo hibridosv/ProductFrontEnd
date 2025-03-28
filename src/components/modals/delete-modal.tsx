@@ -1,4 +1,7 @@
+import { title } from "process";
+
 export interface DeleteModalProps {
+  title?: string;
   text?: string;
   onDelete: (id: any) => void;
   onClose: () => void;
@@ -7,7 +10,7 @@ export interface DeleteModalProps {
 }
 
 export function DeleteModal(props: DeleteModalProps) {
-  const { onDelete,  onClose, text = "Esta seguro que desea eliminar este elemento?", isShow, isSending = false } = props;
+  const { onDelete,  onClose, text = "Esta seguro que desea eliminar este elemento?", isShow, isSending = false, title = "Eliminar Elemento" } = props;
 
   if (!isShow) return null;
   
@@ -43,7 +46,7 @@ export function DeleteModal(props: DeleteModalProps) {
                   </svg>
                 </div>
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                  <h3 className="text-lg font-medium leading-6 text-gray-900" id="modal-title" > Eliminar Elemento </h3>
+                  <h3 className="text-lg font-medium leading-6 text-gray-900" id="modal-title" >{title}</h3>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">{text}</p>
                   </div>

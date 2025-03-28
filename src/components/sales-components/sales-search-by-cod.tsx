@@ -23,6 +23,8 @@ export function SalesSearchByCode(props: SalesSearchByCodeProps) {
         }
     }, [typeOfSearch, inputRef]);
 
+    if (typeOfSearch) return <></> 
+
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (inputRef.current) {

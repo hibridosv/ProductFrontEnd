@@ -99,6 +99,7 @@ export interface Contact {
     comment:         string;
     created_at:      Date;
     updated_at:      Date;
+    excluded:        number;
 }
 
 export interface User {

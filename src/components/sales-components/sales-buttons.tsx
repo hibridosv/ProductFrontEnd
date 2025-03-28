@@ -1,23 +1,33 @@
 'use client';
 import { OptionsClickOrder, PresetTheme } from '@/services/enums';
-import { Button, Dropdown, Tooltip } from 'flowbite-react';
+import { Tooltip } from 'flowbite-react';
 import { AiFillSave } from 'react-icons/ai';
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 import { GiCancel } from 'react-icons/gi';
 import { IoMdOptions } from 'react-icons/io';
 import { Alert } from '../alert/alert';
 import { requiredFieldsCCF, requiredFieldsFactura, validateInvoiceFields, validateInvoiceFieldsCount } from '@/utils/validator-functions';
+import { DeleteModal } from '../modals/delete-modal';
+import { useState } from 'react';
 
 export interface SalesButtonsProps {
   onClick: (option: number) => void;
   cashDrawer?: boolean;
   config: string[];
   invoice?: any;
+  order?: any;
 }
 
 export function SalesButtons(props: SalesButtonsProps) {
-  const {onClick, cashDrawer, config, invoice } = props
-
+  const {onClick, cashDrawer, config, invoice, order } = props
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const isDiscount = config.includes("sales-discount");
+  const isOtherSeller = config.includes("sales-other-seller");
+  const isReferred = config.includes("sales-referred");
+  const isDelivery = config.includes("sales-delivery-man");
+  const isOtherSales = config.includes("sales-other-sales");
+  const isSpecial = config.includes("sales-special");
+  const isComment = config.includes("sales-comment");
 
   //const validateFields = ()=>{
   //  if (invoice?.client_id && (invoice?.invoice_assigned?.type == 2 || invoice?.invoice_assigned?.type == 3)) {
@@ -25,6 +35,7 @@ export function SalesButtons(props: SalesButtonsProps) {
   //  }
   // }
 
+  if(!order) return null;
 
   const validateFields = ()=>{
     if (invoice?.client_id && invoice?.invoice_assigned?.type == 3) {
@@ -58,23 +69,23 @@ export function SalesButtons(props: SalesButtonsProps) {
            <div className='flex'>
             <Tooltip animation="duration-300" content={
                 <div className="w-8/10">
-                { config.includes("sales-discount") && 
-                <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.discount)}>  Agregar Descuento</div>}
-                <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.client)}> Asignar Cliente</div>
-                { config.includes("sales-other-seller") && 
-                <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.seller)}>Asignar Vendedor</div>}
-                { config.includes("sales-referred") && 
-                <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.referred)}> Asignar Referido</div>}
-                { config.includes("sales-delivery-man") && 
-                <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.delivery)}> Asignar Repartidor </div>}
-                { config.includes("sales-other-sales") && 
-                <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.otrasVentas)}> Otras Ventas</div>}
-                { config.includes("sales-special") && 
-                    <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.ventaSpecial)}> Venta Especial </div>}
-                { config.includes("sales-comment") && 
-                <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.comment)}> Agregar comentario </div>}
-                <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.documentType)}> Tipo de Documento </div>
-                <div className='w-full font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={()=>onClick(OptionsClickOrder.quotes)}> Guardar como Cotización</div>
+                { isDiscount && 
+                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.discount)}>  Agregar Descuento</div>}
+                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.client)}> Asignar Cliente</div>
+                { isOtherSeller && 
+                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.seller)}>Asignar Vendedor</div>}
+                { isReferred && 
+                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.referred)}> Asignar Referido</div>}
+                { isDelivery && 
+                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.delivery)}> Asignar Repartidor </div>}
+                { isOtherSales && 
+                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.otrasVentas)}> Otras Ventas</div>}
+                { isSpecial && 
+                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.ventaSpecial)}> Venta Especial </div>}
+                { isComment && 
+                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.comment)}> Agregar comentario </div>}
+                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.documentType)}> Tipo de Documento </div>
+                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.quotes)}> Guardar como Cotización</div>
                 </div>
               } style="light" >
                 <div className='button-left-grey clickeable'><IoMdOptions className='mr-1' /> Opciones</div>
@@ -82,8 +93,15 @@ export function SalesButtons(props: SalesButtonsProps) {
             
               <div className='button-cyan clickeable' onClick={()=>onClick(2)}> <AiFillSave className='mr-1' /> Guardar </div>
               <div className={`button-lime ${payDisabled ? 'cursor-not-allowed' : 'clickeable'}`} onClick={payDisabled ? ()=>{} : ()=>onClick(1)}> <FaRegMoneyBillAlt className='mr-1' /> Cobrar </div>
-              <div className='button-red rounded-r-lg clickeable' onClick={()=>onClick(3)}><GiCancel className='mr-1' /> Cancelar </div>
+              <div className='button-red rounded-r-lg clickeable' onClick={()=>setShowDeleteModal(true)}><GiCancel className='mr-1' /> Cancelar </div>
            </div>
-            
+          <DeleteModal isShow={showDeleteModal}
+            title="Eliminar Orden"
+            text="¿Estas seguro de anular esta orden?"
+            onDelete={()=>{
+              setShowDeleteModal(false)
+              onClick(3); 
+            }} 
+            onClose={()=>setShowDeleteModal(false)} />
     </div>);
 }

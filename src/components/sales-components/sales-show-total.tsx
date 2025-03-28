@@ -102,6 +102,15 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
           isDismisible={false}
           className='my-2'
           /> }
+
+        { (records?.client?.excluded == 1) && <Alert
+          theme={PresetTheme.danger}
+          info="Importante"
+          text="Cliente Exento de impuestos"
+          isDismisible={false}
+          className='my-2'
+          /> }
+
       <RequestCodeModal isShow={isRequestCodeModal}  
       onClose={()=>setIsRequestCodeModal(false)} 
       verifiedCode={verifiedCode} 
