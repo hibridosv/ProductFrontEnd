@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
-import { postData } from "@/services/resources";
+import { postData, postForPrint } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { numberToMoney } from "@/utils/functions";
 import { ShowTotal } from "./show-total";
@@ -40,7 +40,8 @@ export function SalesPayModal(props: SalesPayModalProps) {
   const [isPayInvoice, setIsPayInvoice] = useState(false);
   const [dataInvoice, setDataInvoice] = useState({}) as any;
   const { systemInformation } = useContext(ConfigContext);
-
+  
+  console.log("config", config.includes("print-local"))
 
   useEffect(() => {
     setFocus('cash')
@@ -68,6 +69,9 @@ export function SalesPayModal(props: SalesPayModalProps) {
       if (response.type === 'successful') {
         setIsPayInvoice(true)
         setDataInvoice(response.data)
+        if (config.includes("print-local")) {
+          await postForPrint('http://127.0.0.1/impresiones_connect/', 'POST', response.data);
+        }
       } else {
         toast.error(response.message);
           handleFinish()

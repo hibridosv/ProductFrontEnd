@@ -1,14 +1,14 @@
 'use client'
 import { useState, useEffect, useContext } from "react";
 import { Alert, DeleteModal, Loading, ViewTitle } from "@/components";
-import { getData, postData } from "@/services/resources";
+import { getData, postData, postForPrint } from "@/services/resources";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { SearchInput } from "@/components/form/search";
 import { Product } from "@/services/products";
 import toast, { Toaster } from 'react-hot-toast';
 import { Button, Preset } from "@/components/button/button";
 import { formatDateAsDMY } from "@/utils/date-formats";
-import {  getConfigStatus, getPaymentTypeName, getRandomInt, numberToMoney } from "@/utils/functions";
+import {  extractActiveFeature, getConfigStatus, getPaymentTypeName, getRandomInt, numberToMoney } from "@/utils/functions";
 import { FaPrint } from "react-icons/fa";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { ConfigContext } from "@/contexts/config-context";
@@ -26,8 +26,12 @@ export default function Page() {
     const [randNumber, setRandNumber] = useState(0);
     const [showCodeStatus, setShowCodeStatus] = useState<boolean>(false);
     const { config, systemInformation } = useContext(ConfigContext);
+    const [configuration, setConfiguration] = useState([] as any); // configuraciones que vienen de config
   
     useEffect(() => {
+      if (config?.configurations) {
+        setConfiguration(extractActiveFeature(config.configurations))
+      }
       setShowCodeStatus(getConfigStatus("sales-show-code", config));
       // eslint-disable-next-line
     }, [config]);
@@ -82,8 +86,11 @@ export default function Page() {
     try {
       setIsSending(true)
       const response = await postData(`invoices/print`, "POST", {invoice: iden});
-      if (response.message) {
-        toast.success(response.message);
+      if (response.type === 'successful') {
+        if (configuration.includes("print-local")) {
+          await postForPrint('http://127.0.0.1/impresiones_connect/', 'POST', response.data);
+        }
+        toast.success("Imprimiendo documento");
       }
     } catch (error) {
       console.error(error);

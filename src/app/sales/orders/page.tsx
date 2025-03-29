@@ -7,7 +7,7 @@ import { RestaurantShowTotal } from "@/components/restaurant/sales/show-total";
 import toast, { Toaster } from 'react-hot-toast';
 import { ConfigContext } from "@/contexts/config-context";
 import { errorSound, extractActiveFeature, hasOptionsActive, successSound } from "@/utils/functions";
-import { getData, postData } from "@/services/resources";
+import { getData, postData, postForPrint } from "@/services/resources";
 import { ContactNameOfOrder, ContactTypeToGet, OptionsClickOrder } from "@/services/enums";
 import { OptionsClickSales } from "@/components/sales-components/sales-quick-table";
 import { Product } from "@/services/products";
@@ -355,6 +355,9 @@ export default function ViewSales() {
               modalPayed.setIsOpen(true)
               const response = await postData(`restaurant/sales`, "PUT", values);
               if (response.type === 'successful') {
+                if (configuration.includes("print-local")) {
+                  await postForPrint('http://127.0.0.1/impresiones_connect/', 'POST', response.data);
+                }
                 setPayedInvoice(response.data);
                 resetOrder()
               } else {
@@ -379,6 +382,9 @@ export default function ViewSales() {
                 setOrder(response.data)
                 if (withOrder) {
                   toast.success("Imprimiendo pre cuenta");
+                  if (configuration.includes("print-local")) {
+                    await postForPrint('http://127.0.0.1/impresiones_connect/', 'POST', response.data);
+                  }
                 }
               }
             } catch (error) {
