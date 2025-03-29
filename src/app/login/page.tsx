@@ -20,9 +20,11 @@ export default function Home() {
   const router = useRouter();
   const { login, remoteUrl, tenant, status } = useAuthContext();
   const { setRandomInit } = useContext(ConfigContext);
-  
+
+
 
   const getRemoteUrl = async (data: any) => {
+    data.email = data.email.includes("@") ? data.email : data.email + "@hibridosv.com";
     try {
       setIsSending(true);
       const response = await postWithOutToken(`${API_URL}oauth`, "POST", data);
@@ -84,7 +86,7 @@ export default function Home() {
                     <form onSubmit={handleSubmit(getRemoteUrl)} className="w-full">
                     <div className="md:w-full max-w-sm">
                       <label htmlFor="email" className={style.inputLabel}> Email </label>
-                      <input type="email" {...register("email")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
+                      <input type="text" {...register("email")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
 
                       <label htmlFor="password" className={style.inputLabel}> Contraseña </label>
                       <input type="password" {...register("password")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
