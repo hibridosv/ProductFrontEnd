@@ -4,9 +4,9 @@ import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast';
-import { postData } from "@/services/resources";
+import { postData, postForPrint } from "@/services/resources";
 import { style } from "../../theme";
-import { documentType, loadData, numberToMoney } from "@/utils/functions";
+import { documentType, extractActiveFeature, loadData, numberToMoney } from "@/utils/functions";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 import { formatDateAsDMY } from "@/utils/date-formats";
@@ -35,8 +35,16 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
   const [message, setMessage] = useState<any>({});
   const [payments, setPayments] = useState([] as any);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const { cashDrawer, systemInformation } = useContext(ConfigContext);
+  const { cashDrawer, systemInformation, config } = useContext(ConfigContext);
+  const [configuration, setConfiguration] = useState([] as any); // configuraciones que vienen de config
 
+
+  useEffect(() => {
+    if (config?.configurations) {
+      setConfiguration(extractActiveFeature(config.configurations))
+    }
+    // eslint-disable-next-line
+  }, [config]);
 
   useEffect(() => {
     if (isShow) {
@@ -113,6 +121,9 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
       const response = await postData(`credits/payment/${creditSelected.id}/print`, 'PUT');
       if (response.type == "successful") {
           toast.success("Imprimiendo");
+          if (configuration.includes("print-local")) {
+            await postForPrint('http://127.0.0.1/impresiones_connect/', 'POST', response.data);
+          }
       } else {
           toast.error("Error al imprimir");
       }
