@@ -435,7 +435,7 @@ export default function ViewSales() {
                   <OptionsSelect onClickOrder={handleClickOptionOrder} payType={paymentType} order={order} setOrder={setOrder} />
                   <ShowPercentSalesType order={order} config={configuration} />
                   <DeliveryCancelBtn isShow={selectType == 3 && deliverySelected?.id && !order?.invoiceproducts} onClick={setDeliverySelected} />
-                  <SalesButtonsInitial onClick={handleClickOptionOrder} isShow={!order?.invoiceproducts && selectType == 1} />
+                  <SalesButtonsInitial onClick={handleClickOptionOrder} isShow={!order?.invoiceproducts && selectType == 1} config={configuration} />
             </div>
             <SalesDivideAccountModal onClickProduct={handleClickOptionProduct} isShow={modalDivideAccount.isOpen} order={order} onClose={()=>modalDivideAccount.setIsOpen(false)} isLoading={isLoading} cashDrawer={cashDrawer} payOrder={payOrder} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType} />
             <SalesSelectInvoiceTypeModal isShow={modalInvoiceType.isOpen} onClose={()=>modalInvoiceType.setIsOpen(false)} order={order} />
