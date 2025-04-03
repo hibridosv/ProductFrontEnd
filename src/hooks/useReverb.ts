@@ -32,6 +32,8 @@ const useReverb = (channelName: string, eventName: string, status = false, rando
 
     const channel = echo.channel(channelName);
     console.log("channel: ", channel)
+    console.log("REVERB_HOST: ", REVERB_HOST)
+    
     const handleEvent = (eventData: string) => {
       if (randomData) {
         setRandom(Math.random());
