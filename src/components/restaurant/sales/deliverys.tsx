@@ -22,7 +22,7 @@ export function Deliverys(props: DeliverysProps) {
   const [orders, setOrders] = useState([]) as any;
   const { config } = useContext(ConfigContext);
   const tenant = getTenant();
-  let pusherEvent = useReverb(`${tenant}-channel-orders`, 'get-orders-event', getConfigStatus("realtime-orders", config)).random;
+  let pusherEvent = useReverb(`${tenant}-channel-orders`, 'PusherOrderEvent', getConfigStatus("realtime-orders", config)).random;
 
 
   const loadAllOrders = async () => {

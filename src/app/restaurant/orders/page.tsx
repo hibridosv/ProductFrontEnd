@@ -17,7 +17,7 @@ export default function Page() {
   const tenant = getTenant();
   const { config } = useContext(ConfigContext);
   const {currentPage, handlePageNumber} = usePagination("&page=1");
-  let pusherEvent = useReverb(`${tenant}-channel-screen`, 'event-screen', getConfigStatus("screen-push-active", config)).random;
+  let pusherEvent = useReverb(`${tenant}-channel-screen`, 'PusherScreenEvent', getConfigStatus("screen-push-active", config)).random;
 
     const loadData = async () => {
         setIsLoading(true);

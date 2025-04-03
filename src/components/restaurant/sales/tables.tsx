@@ -22,7 +22,7 @@ export function Tables(props: TablesProps) {
   const [selectedTables, setSelectedTables] = useState([]);
   const { config } = useContext(ConfigContext);
   const tenant = getTenant();
-  let pusherEvent = useReverb(`${tenant}-channel-orders`, 'get-orders-event', getConfigStatus("realtime-orders", config)).random;
+  let pusherEvent = useReverb(`${tenant}-channel-orders`, 'PusherOrderEvent', getConfigStatus("realtime-orders", config)).random;
 
 
   const handleClickSelectTable = (option: any) => {

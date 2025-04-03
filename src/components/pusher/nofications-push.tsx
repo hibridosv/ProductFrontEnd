@@ -17,7 +17,7 @@ export function NotificationsPush(props: NotificationsPushProps){
   const { config } = props
   const tenant = getTenant();
   const isConfig = getConfigStatus("notifications", config);
-  let pusherEvent = useReverb(`${tenant}-channel`, 'transfer-new-event', isConfig, false).data;
+  let pusherEvent = useReverb(`${tenant}-channel`, 'PusherSendMessageToTenant', isConfig, false).data;
 
 
   useEffect(() => {

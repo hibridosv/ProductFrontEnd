@@ -15,7 +15,7 @@ export default function Page() {
   const [ orders, setOrders ] = useState([])
   const tenant = getTenant();
   const { config } = useContext(ConfigContext);
-  let pusherEvent = useReverb(`${tenant}-channel-screen`, 'event-screen', getConfigStatus("screen-push-active", config)).random;
+  let pusherEvent = useReverb(`${tenant}-channel-screen`, 'PusherScreenEvent', getConfigStatus("screen-push-active", config)).random;
 
     const loadData = async () => {
         setIsLoading(true);
