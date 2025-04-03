@@ -70,7 +70,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
         setIsPayInvoice(true)
         setDataInvoice(response.data)
         if (config.includes("print-local")) {
-          await postForPrint('http://127.0.0.1/impresiones_connect/', 'POST', response.data);
+          await postForPrint('http://127.0.0.1/impresiones/', 'POST', response.data);
         }
       } else {
         toast.error(response.message);

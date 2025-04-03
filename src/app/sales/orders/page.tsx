@@ -356,7 +356,7 @@ export default function ViewSales() {
               const response = await postData(`restaurant/sales`, "PUT", values);
               if (response.type === 'successful') {
                 if (configuration.includes("print-local")) {
-                  await postForPrint('http://127.0.0.1/impresiones_connect/', 'POST', response.data);
+                  await postForPrint('http://127.0.0.1/impresiones/', 'POST', response.data);
                 }
                 setPayedInvoice(response.data);
                 resetOrder()
@@ -383,7 +383,7 @@ export default function ViewSales() {
                 if (withOrder) {
                   toast.success("Imprimiendo pre cuenta");
                   if (configuration.includes("print-local")) {
-                    await postForPrint('http://127.0.0.1/impresiones_connect/', 'POST', response.data);
+                    await postForPrint('http://127.0.0.1/impresiones/', 'POST', response.data);
                   }
                 }
               }

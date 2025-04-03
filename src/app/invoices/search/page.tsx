@@ -88,7 +88,7 @@ export default function Page() {
       const response = await postData(`invoices/print`, "POST", {invoice: iden});
       if (response.type === 'successful') {
         if (configuration.includes("print-local")) {
-          await postForPrint('http://127.0.0.1/impresiones_connect/', 'POST', response.data);
+          await postForPrint('http://127.0.0.1/impresiones/', 'POST', response.data);
         }
         toast.success("Imprimiendo documento");
       }
