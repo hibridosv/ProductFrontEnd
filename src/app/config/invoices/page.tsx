@@ -19,7 +19,7 @@ export default function Invoices() {
     const [lastInvoice, setLastInvoice] = useState({}) as any;
     const { systemInformation } = useContext(ConfigContext);
     const total = sumarTotalesStatus(invoices?.data)
-    let pusherEvent = useReverb(`${systemInformation?.system?.tenant?.id}-channel-pay`, 'pay-event', true).random;
+    let pusherEvent = useReverb(`${systemInformation?.system?.tenant?.id}-channel-pay`, 'PusherPayInvoiceEvent', true).random;
     
     
     const loadInvoices = async () => {
