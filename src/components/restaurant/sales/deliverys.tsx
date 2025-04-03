@@ -3,7 +3,7 @@
 import { Loading } from "@/components/loading/loading";
 import { NothingHere } from "@/components/nothing-here/nothing-here";
 import { ConfigContext } from "@/contexts/config-context";
-import usePusher from "@/hooks/usePusher";
+import useReverb from "@/hooks/useReverb";
 import { getTenant } from "@/services/oauth";
 import { getData } from "@/services/resources";
 import { getConfigStatus } from "@/utils/functions";
@@ -22,7 +22,7 @@ export function Deliverys(props: DeliverysProps) {
   const [orders, setOrders] = useState([]) as any;
   const { config } = useContext(ConfigContext);
   const tenant = getTenant();
-  let pusherEvent = usePusher(`${tenant}-channel-orders`, 'get-orders-event', getConfigStatus("realtime-orders", config)).random;
+  let pusherEvent = useReverb(`${tenant}-channel-orders`, 'get-orders-event', getConfigStatus("realtime-orders", config)).random;
 
 
   const loadAllOrders = async () => {

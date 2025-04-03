@@ -1,11 +1,10 @@
 'use client'
 import { toast, Toaster } from "react-hot-toast";
-import Pusher from 'pusher-js';
 import { IoIosNotifications } from "react-icons/io";
 import { getTenant } from "@/services/oauth";
-import usePusher from "@/hooks/usePusher";
 import { getConfigStatus } from "@/utils/functions";
 import { useEffect } from "react";
+import useReverb from "@/hooks/useReverb";
 
 interface NotificationsPushProps {
     theme?: any;
@@ -18,7 +17,7 @@ export function NotificationsPush(props: NotificationsPushProps){
   const { config } = props
   const tenant = getTenant();
   const isConfig = getConfigStatus("notifications", config);
-  let pusherEvent = usePusher(`${tenant}-channel`, 'transfer-new-event', isConfig, false).data;
+  let pusherEvent = useReverb(`${tenant}-channel`, 'transfer-new-event', isConfig, false).data;
 
 
   useEffect(() => {

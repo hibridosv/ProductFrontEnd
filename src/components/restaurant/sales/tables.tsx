@@ -2,10 +2,10 @@
 import { useContext, useEffect, useState } from "react";
 import { getData } from "@/services/resources";
 import Image from "next/image";
-import usePusher from "@/hooks/usePusher";
 import { getConfigStatus } from "@/utils/functions";
 import { getTenant } from "@/services/oauth";
 import { ConfigContext } from "@/contexts/config-context";
+import useReverb from "@/hooks/useReverb";
 
 
 export interface TablesProps {
@@ -22,7 +22,7 @@ export function Tables(props: TablesProps) {
   const [selectedTables, setSelectedTables] = useState([]);
   const { config } = useContext(ConfigContext);
   const tenant = getTenant();
-  let pusherEvent = usePusher(`${tenant}-channel-orders`, 'get-orders-event', getConfigStatus("realtime-orders", config)).random;
+  let pusherEvent = useReverb(`${tenant}-channel-orders`, 'get-orders-event', getConfigStatus("realtime-orders", config)).random;
 
 
   const handleClickSelectTable = (option: any) => {

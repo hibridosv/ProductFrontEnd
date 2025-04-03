@@ -5,9 +5,9 @@ import { getData, postData } from "@/services/resources";
 import { getTenant } from "@/services/oauth";
 import { getConfigStatus, screenSound } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
-import usePusher from "@/hooks/usePusher";
 import { NothingHere } from "@/components";
 import { ScreenCardAll } from "@/components/restaurant/screen/screen-card-all";
+import useReverb from "@/hooks/useReverb";
 
 
 export default function Page() {
@@ -15,7 +15,7 @@ export default function Page() {
   const [ orders, setOrders ] = useState([])
   const tenant = getTenant();
   const { config } = useContext(ConfigContext);
-  let pusherEvent = usePusher(`${tenant}-channel-screen`, 'event-screen', getConfigStatus("screen-push-active", config)).random;
+  let pusherEvent = useReverb(`${tenant}-channel-screen`, 'event-screen', getConfigStatus("screen-push-active", config)).random;
 
     const loadData = async () => {
         setIsLoading(true);

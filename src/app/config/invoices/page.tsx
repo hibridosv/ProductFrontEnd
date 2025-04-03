@@ -3,7 +3,7 @@
 import { Alert, Loading, ViewTitle } from "@/components"
 import { InvoiceSystemTable } from "@/components/config-components/invoice-system-table";
 import { ConfigContext } from "@/contexts/config-context";
-import usePusher from "@/hooks/usePusher";
+import useReverb from "@/hooks/useReverb";
 import { PresetTheme } from "@/services/enums";
 import { getData, postData } from "@/services/resources";
 import { getLastElement, sumarTotalesStatus } from "@/utils/functions";
@@ -19,7 +19,7 @@ export default function Invoices() {
     const [lastInvoice, setLastInvoice] = useState({}) as any;
     const { systemInformation } = useContext(ConfigContext);
     const total = sumarTotalesStatus(invoices?.data)
-    let pusherEvent = usePusher(`${systemInformation?.system?.tenant?.id}-channel-pay`, 'pay-event', true).random;
+    let pusherEvent = useReverb(`${systemInformation?.system?.tenant?.id}-channel-pay`, 'pay-event', true).random;
     
     
     const loadInvoices = async () => {
