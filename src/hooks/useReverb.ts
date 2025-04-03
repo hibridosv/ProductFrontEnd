@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { REVERB_HOST, REVERB_PORT, REVERB_SCHEME, REVERB_KEY } from "@/constants";
 
 // Extend the Window interface to include Pusher
 declare global {
@@ -17,12 +18,6 @@ const useReverb = (channelName: string, eventName: string, status = false, rando
     if (!status) return;
    
     window.Pusher = Pusher;
-
-    const REVERB_HOST = process.env.NEXT_PUBLIC_REVERB_HOST;
-    const REVERB_PORT = process.env.NEXT_PUBLIC_REVERB_PORT;
-    const REVERB_SCHEME = process.env.NEXT_PUBLIC_REVERB_SCHEME;
-    const REVERB_KEY = process.env.NEXT_PUBLIC_REVERB_KEY;
-    
     const echo = new Echo({
       broadcaster: 'reverb',
       key: REVERB_KEY,
