@@ -15,7 +15,7 @@ import { ButtonDownload } from "../button/button-download";
 import { useCodeRequest } from "@/hooks/useCodeRequest";
 import { RequestCodeModal } from "../common/request-code-modal";
 import { IoMdLock, IoMdUnlock } from "react-icons/io";
-import usePusher from "@/hooks/usePusher";
+import useReverb from "@/hooks/useReverb";
 
 
 
@@ -45,7 +45,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
     setIsShowError } = useCodeRequest('code-request-prices', false);
   const remoteUrl = getUrlFromCookie();
   const tenant = getTenant();
-  let pusherEvent = usePusher(`${tenant}-channel-orders`, 'get-orders-event', getConfigStatus("realtime-orders", config)).random;
+  let pusherEvent = useReverb(`${tenant}-channel-orders`, 'PusherOrderEvent', getConfigStatus("realtime-orders", config)).random;
   
   const loadAllOrders = async () => {
     setIsLoading(true);

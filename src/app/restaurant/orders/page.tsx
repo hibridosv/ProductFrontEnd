@@ -5,10 +5,10 @@ import { getData } from "@/services/resources";
 import { getTenant } from "@/services/oauth";
 import { getConfigStatus, screenSound } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
-import usePusher from "@/hooks/usePusher";
 import {  Pagination, ViewTitle } from "@/components";
 import { RestaurantOrdersTable } from "@/components/restaurant/orders/restaurant-orders-table";
 import { usePagination } from "@/hooks/usePagination";
+import useReverb from "@/hooks/useReverb";
 
 
 export default function Page() {
@@ -17,7 +17,7 @@ export default function Page() {
   const tenant = getTenant();
   const { config } = useContext(ConfigContext);
   const {currentPage, handlePageNumber} = usePagination("&page=1");
-  let pusherEvent = usePusher(`${tenant}-channel-screen`, 'event-screen', getConfigStatus("screen-push-active", config)).random;
+  let pusherEvent = useReverb(`${tenant}-channel-screen`, 'PusherScreenEvent', getConfigStatus("screen-push-active", config)).random;
 
     const loadData = async () => {
         setIsLoading(true);
