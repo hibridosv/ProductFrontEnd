@@ -122,7 +122,7 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
       if (response.type == "successful") {
           toast.success("Imprimiendo");
           if (configuration.includes("print-local")) {
-            await postForPrint('http://127.0.0.1/impresiones/', 'POST', response.data);
+            await postForPrint(systemInformation?.system?.local_url_print ?? 'http://127.0.0.1/impresiones/', 'POST', response.data);
           }
       } else {
           toast.error("Error al imprimir");

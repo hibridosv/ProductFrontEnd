@@ -41,7 +41,8 @@ export function SalesPayModal(props: SalesPayModalProps) {
   const [dataInvoice, setDataInvoice] = useState({}) as any;
   const { systemInformation } = useContext(ConfigContext);
   
-  console.log("config", config.includes("print-local"))
+  console.log("systemInformation: ", systemInformation?.system?.local_url_print)
+
 
   useEffect(() => {
     setFocus('cash')
@@ -70,7 +71,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
         setIsPayInvoice(true)
         setDataInvoice(response.data)
         if (config.includes("print-local")) {
-          await postForPrint('http://127.0.0.1/impresiones/', 'POST', response.data);
+          await postForPrint(systemInformation?.system?.local_url_print ?? 'http://127.0.0.1/impresiones/', 'POST', response.data);
         }
       } else {
         toast.error(response.message);
