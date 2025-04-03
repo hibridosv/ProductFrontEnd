@@ -18,10 +18,10 @@ const useReverb = (channelName: string, eventName: string, status = false, rando
    
     window.Pusher = Pusher;
 
-    const REVERB_HOST = "websocket.test";
-    const REVERB_PORT = "8080";
-    const REVERB_SCHEME: string = "http";
-    const REVERB_KEY = "r5gsgfdulgh7cxpt3k8y";
+    const REVERB_HOST = process.env.NEXT_PUBLIC_REVERB_HOST;
+    const REVERB_PORT = process.env.NEXT_PUBLIC_REVERB_PORT;
+    const REVERB_SCHEME = process.env.NEXT_PUBLIC_REVERB_SCHEME;
+    const REVERB_KEY = process.env.NEXT_PUBLIC_REVERB_KEY;
     
     const echo = new Echo({
       broadcaster: 'reverb',
