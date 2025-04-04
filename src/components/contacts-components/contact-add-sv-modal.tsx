@@ -147,7 +147,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
 
   useEffect(() => {
     if (isSeller && isShow) {
-      (async () => setUsers(await loadData(`register`)))();
+      (async () => setUsers(await loadData(`users`)))();
     }
   }, [isSeller, isShow]);
 

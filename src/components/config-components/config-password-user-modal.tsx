@@ -29,7 +29,7 @@ export function ConfigPasswordUserModal(props: ConfigPasswordUserModalProps) {
         data.user = user.id
         try {
           setIsSending(true)
-          const response = await postData(`register`, "PUT", data);
+          const response = await postData(`users`, "PUT", data);
           if (response.type == "successful") {
             toast.success("Password actualizado correctamente");
             reset()

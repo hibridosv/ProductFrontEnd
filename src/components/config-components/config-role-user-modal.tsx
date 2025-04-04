@@ -24,7 +24,7 @@ export function ConfigRoleUserModal(props: ConfigRoleUserModalProps) {
 
   useEffect(() => {
     if (isShow) {
-        (async () => setRoles(await loadData(`register/roles`)))(); 
+        (async () => setRoles(await loadData(`roles/user`)))(); 
     }  
     }, [isShow]);
 
@@ -33,7 +33,7 @@ export function ConfigRoleUserModal(props: ConfigRoleUserModalProps) {
         var data = { role: role, user: user.id };
         try {
           setIsSending(true)
-          const response = await postData(`register/role`, "POST", data);
+          const response = await postData(`roles/update`, "POST", data);
           if (response.type == "successful") {
             random && random(Math.random());
             onClose()

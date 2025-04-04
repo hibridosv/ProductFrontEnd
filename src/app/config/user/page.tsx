@@ -21,13 +21,13 @@ export default function UsersPage() {
     const userType  = systemInformation?.system?.tenant?.system == 2 || systemInformation?.system?.tenant?.system == 4 ? "Mesero" : "Usuario";
 
     useEffect(() => {
-        (async () => setUsers(await loadData(`register`)) )();
+        (async () => setUsers(await loadData(`users`)) )();
     }, [randomNumber]);
 
     const onSubmit = async (data: any) => {
         try {
           setIsSending(true)
-          const response = await postData(`register`, "POST", data);
+          const response = await postData(`users`, "POST", data);
           if (!response.message) {
             toast.success("Usuario agregado correctamente");
             setMessage({});
@@ -47,7 +47,7 @@ export default function UsersPage() {
 
       const handleDeleteUsers = async (user: any)=>{
         try {
-            const response = await postData(`register/${user}`, "DELETE");
+            const response = await postData(`users/${user}`, "DELETE");
             if (!response.message) {
               toast.success("Usuario Eliminado correctamente");
               setUsers(response)
