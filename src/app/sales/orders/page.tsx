@@ -218,7 +218,7 @@ export default function ViewSales() {
               
           const deleteOrder = async () => {
               try {
-                const response = await postData(`sales/order/${order.id}`, "DELETE");
+                const response = await postData(`order/${order.id}`, "DELETE");
                 toast.success(response.message);
                 if (response.type == "successful") {
                   resetOrder()
