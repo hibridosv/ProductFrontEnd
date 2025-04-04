@@ -50,7 +50,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   const loadAllOrders = async () => {
     setIsLoading(true);
     try {
-      const response = await getData(`sales?included=employee,client,invoiceproducts&filterWhere[status]==2`);
+      const response = await getData(`order?included=employee,client,invoiceproducts&filterWhere[status]==2`);
       setOrders(response.data);
     } catch (error) {
       console.error(error);

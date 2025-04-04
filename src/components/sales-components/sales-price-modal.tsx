@@ -42,7 +42,7 @@ export function SalesPriceModal(props: SalesPriceModalProps) {
 
     try {
       setIsSending(true);
-      const response = await postData(`sales/update-price`, "POST", values);
+      const response = await postData(`sales/product/update/price`, "POST", values);
       if (response.type === "error") {
         toast.error(response.message);
       } else {

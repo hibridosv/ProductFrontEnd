@@ -40,7 +40,7 @@ export function SalesCommissionModal(props: SalesCommissionModalProps) {
 
     try {
       setIsSending(true);
-      const response = await postData(`sales/update/commision`, "POST", values);
+      const response = await postData(`order/commision/update`, "POST", values);
       if (response.type === "error") {
         toast.error(response.message);
       } else {

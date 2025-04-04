@@ -92,7 +92,7 @@ export default function ViewSales() {
       const selectLastOrder = async () => {
             setIsLoading(true);
             try {
-              const response = await getData(`sales/order/select`);
+              const response = await getData(`order/select`);
               if (response?.data) {
                 setOrder(response.data);   
                 setSelectType(response?.data?.order_type) 
@@ -155,7 +155,7 @@ export default function ViewSales() {
       const handleChangeOrder = async (order: any) => {
         setIsLoading(true);
         try {
-              const response = await postData(`sales/order/select/${order}`, "POST");
+              const response = await postData(`order/select/${order}`, "POST");
               if (response.data) {
                 setOrder(response.data);
                 setSelectType(response?.data?.order_type);
@@ -255,7 +255,7 @@ export default function ViewSales() {
           const saveOrder = async () => {
             setIsLoading(true);
             try {
-              const response = await postData(`sales/order/save/${order.id}`, "POST");
+              const response = await postData(`order/save/${order.id}`, "POST");
               toast.success(response.message);
               if (response.type !== "error") {
                 resetOrder()

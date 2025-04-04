@@ -47,7 +47,7 @@ export function SalesDiscountProductModal(props: SalesDiscountProductModalProps)
       };
       try {
         setIsSending(true);
-        const response = await postData(discountType == 1 ? `sales/update-discount` :  `sales/update-discount-all`, "POST", values);
+        const response = await postData(discountType == 1 ? `sales/update/discount/product` :  `sales/update/discount/order`, "POST", values);
         if (response.type === "error") {
             toast.error(response.message);
           } else {

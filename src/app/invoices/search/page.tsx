@@ -58,7 +58,7 @@ export default function Page() {
     setDocumentSelected(true)
     try {
       setIsSending(true)
-      const response = await getData(`sales/${iden}`);
+      const response = await getData(`order/${iden}`);
       if (!response.message) {
         setRecords(response)
         // toast.success("Petición realizada correctamente");

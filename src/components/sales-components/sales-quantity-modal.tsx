@@ -58,7 +58,7 @@ export function SalesQuantityModal(props: SalesQuantityModalProps) {
 
     try {
       setIsSending(true);
-      const response = await postData(`sales`, "POST", values);
+      const response = await postData(`order`, "POST", values);
       if (response.type === "error") {
         toast.error(response.message);
       } else {

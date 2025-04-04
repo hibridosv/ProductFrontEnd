@@ -33,7 +33,7 @@ export function InvoiceDetailsModal(props: InvoiceDetailsModalProps) {
     const handleFormSubmit = async (iden: string) => {
         try {
           setIsSending(true)
-          const response = await getData(`sales/${iden}`);
+          const response = await getData(`order/${iden}`);
           if (!response.message) {
             setRecords(response)
             // toast.success("Petición realizada correctamente");

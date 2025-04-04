@@ -70,7 +70,7 @@ export default function ViewSales() {
   const selectLastOrder = async () => {
     setIsLoading(true);
     try {
-      const response = await getData(`sales/order/select`);
+      const response = await getData(`order/select`);
       if (response?.data) {
         setProductsOfInvoice(response.data);
         setOrder(response.data.id);    
@@ -143,7 +143,7 @@ export default function ViewSales() {
 
   const saveOrder = async () => {
     try {
-      const response = await postData(`sales/order/save/${order}`, "POST");
+      const response = await postData(`order/save/${order}`, "POST");
       toast.success(response.message);
       if (response.type !== "error") {
         resetOrder()
@@ -193,7 +193,7 @@ export default function ViewSales() {
 
     try {
       setIsSending(true);
-      const response = await postData(`sales`, "POST", values);
+      const response = await postData(`order`, "POST", values);
       if (response.type === "error") {
         toast.error(response.message);
         if(configuration?.includes("sales-sound")) errorSound()
@@ -299,7 +299,7 @@ export default function ViewSales() {
 
   const handleChangeOrder = async (order: any) => {
     try {
-      const response = await postData(`sales/order/select/${order}`, "POST");
+      const response = await postData(`order/select/${order}`, "POST");
       if (response.type !== "error") {
         setProductsOfInvoice(response.data);
         setOrder(response.data.id);    
