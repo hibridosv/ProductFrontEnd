@@ -113,7 +113,7 @@ export default function ViewSales() {
   const deleteProduct = async (iden: number) => {
     setIsSending(true);
     try {
-      const response = await postData(`sales/${iden}`, "DELETE");
+      const response = await postData(`order/product/${iden}`, "DELETE");
       if (response.type === "successful") {
         resetOrder()
       } else {
@@ -130,7 +130,7 @@ export default function ViewSales() {
 
   const deleteOrder = async () => {
     try {
-      const response = await postData(`sales/order/${order}`, "DELETE");
+      const response = await postData(`order/${order}`, "DELETE");
       toast.success(response.message);
       if (response.type !== "error") {
         resetOrder()
