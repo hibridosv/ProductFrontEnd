@@ -37,7 +37,7 @@ const sendNit = async (data: any) => {
     }
     setIsSending(true)
     try {
-        const response = await postData(`restaurant/sales/nit`, 'PUT', { order: order.id, nit: data.nit });
+        const response = await postData(`orders/restaurant/nit`, 'PUT', { order: order.id, nit: data.nit });
         if (response.data) {
             setOrder(response.data)
             reset()

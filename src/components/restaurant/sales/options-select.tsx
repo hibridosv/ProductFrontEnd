@@ -29,7 +29,7 @@ export function OptionsSelect(props: OptionsSelectProps) {
       delivery_type: order?.delivery_type == 1 ? 2 : 1, 
     };
     try {
-      const response = await postData(`restaurant/sales/update/delivery`, "PUT", values);
+      const response = await postData(`orders/restaurant/update/delivery`, "PUT", values);
       if (response.data) {
         setOrder(response.data)
       }
