@@ -22,7 +22,7 @@ export default function Page() {
     const loadData = async () => {
         setIsLoading(true);
         try {
-          const response = await getData(`sales?included=employee,client,invoiceproducts.attributes,invoiceproducts.options.option,products.attributes,products.options.option,attributes&sort=-created_at&perPage=15${currentPage}`);
+          const response = await getData(`order?included=employee,client,invoiceproducts.attributes,invoiceproducts.options.option,products.attributes,products.options.option,attributes&sort=-created_at&perPage=15${currentPage}`);
           if (response.data) {
             setOrders(response);
           }

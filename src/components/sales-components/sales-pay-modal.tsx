@@ -66,7 +66,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
 
     try {
       setIsSending(true);
-      const response = await postData(`sales/pay`, "POST", values);
+      const response = await postData(`order/pay`, "POST", values);
       if (response.type === 'successful') {
         setIsPayInvoice(true)
         setDataInvoice(response.data)

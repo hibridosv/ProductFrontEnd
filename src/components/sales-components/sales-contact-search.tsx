@@ -82,7 +82,7 @@ const handleContactSelected = async(contact: Contact, isAfterUpdate = false) => 
   try {
     setContacts([]);
     setIsSending(true)
-    const response = await postData(`sales/order/contact`, "POST", data);
+    const response = await postData(`order/contact/update`, "POST", data);
     if (!response.message) {
       toast.error(response.message);
     } else {

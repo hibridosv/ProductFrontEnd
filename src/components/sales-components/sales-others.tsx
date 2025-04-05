@@ -50,7 +50,7 @@ const onSubmit = async (data: any) => {
     };
     try {
       setIsSending(true);
-      const response = await postData(`sales/other/sales`, "POST", values);
+      const response = await postData(`other/sales`, "POST", values);
       if (response.type === "error") {
         toast.error(response.message);
       }

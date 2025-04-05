@@ -25,7 +25,7 @@ const onSubmit = async (data: any) => {
     let values = {  comment: data.comment, order_id: order.id };
     try {
       setIsSending(true);
-      const response = await postData(`sales/update/comment`, "POST", values);
+      const response = await postData(`order/comment/update`, "POST", values);
       if (response.type === "error") {
         toast.error(response.message);
       } else {

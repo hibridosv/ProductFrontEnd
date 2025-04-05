@@ -32,7 +32,7 @@ useEffect(() => {
     const loadData = async () =>{
         try {
             setIsLoading(true)
-            setProductQuantity(await getData(`sales/product/quantity/${product.id}`))
+            setProductQuantity(await getData(`sales/product/update/quantity/${product.id}`))
         } catch (error) {
             console.error(error)
         } finally {

@@ -66,7 +66,7 @@ import { AddLocationsModal } from "@/components/modals/add-locations-modal";
       (async () => {
         setIsLoading(true);
         try {
-          const specialData = await getData("special/initial-add");
+          const specialData = await getData("special/initial");
           const FieldsFormProduct = transformFields(Fields, specialData);    
           setFieldsModified(FieldsFormProduct);
         } catch (error) {
