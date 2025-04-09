@@ -40,7 +40,6 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
   const [configuration, setConfiguration] = useState([] as any); // configuraciones que vienen de config
   const [showInvoiceModal, setShowInvoiceModal] = useState<boolean>(false);
 
-console.log("creditSelected", creditSelected)
   useEffect(() => {
     if (config?.configurations) {
       setConfiguration(extractActiveFeature(config.configurations))

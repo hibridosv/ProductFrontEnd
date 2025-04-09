@@ -40,8 +40,6 @@ export function SalesPayModal(props: SalesPayModalProps) {
   const [isPayInvoice, setIsPayInvoice] = useState(false);
   const [dataInvoice, setDataInvoice] = useState({}) as any;
   const { systemInformation } = useContext(ConfigContext);
-  
-  console.log("systemInformation: ", systemInformation?.system?.local_url_print)
 
 
   useEffect(() => {
