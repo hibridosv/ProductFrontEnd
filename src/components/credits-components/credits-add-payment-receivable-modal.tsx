@@ -14,6 +14,7 @@ import { DeleteModal } from "../modals/delete-modal";
 import { CredistPaymentsTable } from "./credits-payments-table";
 import { ConfigContext } from "@/contexts/config-context";
 import { NothingHere } from "../nothing-here/nothing-here";
+import { InvoiceDetailsModal } from "../invoice-components/invoice-details-modal";
 
 
 export enum Type {
@@ -37,8 +38,9 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { cashDrawer, systemInformation, config } = useContext(ConfigContext);
   const [configuration, setConfiguration] = useState([] as any); // configuraciones que vienen de config
+  const [showInvoiceModal, setShowInvoiceModal] = useState<boolean>(false);
 
-
+console.log("creditSelected", creditSelected)
   useEffect(() => {
     if (config?.configurations) {
       setConfiguration(extractActiveFeature(config.configurations))
@@ -241,9 +243,12 @@ export function CreditAddPaymentReceivableModal(props: CreditAddPaymentReceivabl
             </div>}
 
           <DeleteModal isShow={showDeleteModal} text="¿Estas seguro de eliminar este elemento?" onDelete={handleDeleteCredit}  onClose={()=>setShowDeleteModal(false)} /> 
+          <InvoiceDetailsModal isShow={showInvoiceModal} onClose={()=>setShowInvoiceModal(false)} record={creditSelected?.order?.id} onElectronic={true} />
+          
       <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
+      <Button onClick={()=>setShowInvoiceModal(true)} preset={Preset.primary} disabled={isSending} text="Ver Factura Asociada" />
         {
           payments?.balance == 0 && creditSelected?.order?.status == 5 && 
           <Button onClick={handleCheckIn} preset={isSending ? Preset.saving : Preset.save} text="Facturar Credito" disabled={isSending} />

@@ -146,13 +146,13 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         </SubMenu>
         }
 
-        { hasAnyPermission(["invoices-documents","invoices-electronic","invoices-search"]) && 
+        { hasAnyPermission(["invoices-documents","invoices-correlative","invoices-electronic","invoices-search"]) && 
         <SubMenu label="Facturación" icon={<HiOutlineChartSquareBar />}>
         {showIten("invoices-documents", <MenuItem component={<Link className="text-sm" href="/invoices/documents" />}>Documentos Emitidos </MenuItem>)}
         {showIten("invoices-correlative", <MenuItem component={<Link className="text-sm" href="/invoices/correlative" />}>Correlativo de Documentos </MenuItem>)}
         { systemInformation?.system?.country == 1 &&
         showIten("invoices-electronic", <MenuItem component={<Link className="text-sm" href="/invoices/electronic" />}>Documentos Electrónicos </MenuItem>)
-          }
+        }
         { systemInformation?.system?.country == 3 &&
         showIten("invoices-electronic", <MenuItem component={<Link className="text-sm" href="/invoices/electronic-gt" />}>Documentos Electrónicos </MenuItem>)
         }
