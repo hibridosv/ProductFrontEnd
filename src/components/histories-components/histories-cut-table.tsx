@@ -20,7 +20,6 @@ export function HistoriesCutTable(props: HistoriesCutTableProps) {
   const { systemInformation } = useContext(ConfigContext);
 
 
-
   if (isLoading) return <Loading />;
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
@@ -34,7 +33,7 @@ export function HistoriesCutTable(props: HistoriesCutTableProps) {
     <tr key={record.id} className={`border-b ${record?.status == 0 && 'bg-red-200'}`}>
       <td className="py-2 px-6 truncate">{ formatDate(record?.opening) } | { formatHourAsHM(record?.opening)} </td>
       <td className="py-2 px-6 truncate">{ formatDate(record?.close) } | { formatHourAsHM(record?.close)} </td>
-      <td className="py-2 px-6">{ numberToMoney(record?.initial_cash ? record?.initial_cash : 0, systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(record?.inicial_cash ? record?.inicial_cash : 0, systemInformation) }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.final_cash ? record?.final_cash : 0, systemInformation) }</td>
 
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.employee?.name } </th>

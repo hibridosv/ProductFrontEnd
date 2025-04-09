@@ -43,8 +43,6 @@ export function ConfigUsersTable(props: ConfigUsersTableProps) {
   }
 
 
-console.log("showAll", showAll)
-
   const listItems = records.data.map((record: any) => {
     if (showAll == false && record.status == 0) return null
     return (

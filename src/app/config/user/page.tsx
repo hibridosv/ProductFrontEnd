@@ -26,7 +26,7 @@ export default function UsersPage() {
     useEffect(() => {
         (async () => setUsers(await loadData(`users`)) )();
     }, [randomNumber]);
-    console.log(users)
+
     const onSubmit = async (data: any) => {
         try {
           setIsSending(true)
