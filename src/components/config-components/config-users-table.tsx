@@ -11,10 +11,11 @@ interface ConfigUsersTableProps {
   records?:  any;
   onDelete: (id: string) => void;
   random: (value: number) => void;
+  showAll?: boolean;
 }
 
 export function ConfigUsersTable(props: ConfigUsersTableProps) {
-  const { records, onDelete, random } = props;
+  const { records, onDelete, random, showAll } = props;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showRoleUserModal, setShowRoleUserModal] = useState(false);
   const [showPasswordUserModal, setShowPasswordUserModal] = useState(false);
@@ -42,16 +43,19 @@ export function ConfigUsersTable(props: ConfigUsersTableProps) {
   }
 
 
+console.log("showAll", showAll)
 
-
-  const listItems = records.data.map((record: any) => (
-    <tr key={record.id} className={`border-b  ${record.status == 1 ? 'bg-white' : 'bg-red-200'}`} >
-      <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white clickeable" onClick={()=>isUserSelected(record, 3)}>{ record.name }</th>
-      <td className="py-2 px-6">{ record.email }</td>
-      <td className="py-2 px-6 uppercase clickeable" onClick={()=>isUserSelected(record, 2)}>{ record.roles[0].name }</td>
-      <td className="py-2 px-6 truncate"><Button preset={record.status == 1 ? Preset.smallClose : Preset.smallCloseDisable} disabled={record.status == 0} noText onClick={()=>isUserSelected(record, 1)} /> </td>
-    </tr>
-  ));
+  const listItems = records.data.map((record: any) => {
+    if (showAll == false && record.status == 0) return null
+    return (
+      <tr key={record.id} className={`border-b  ${record.status == 1 ? 'bg-white' : 'bg-red-200'}`} >
+        <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white clickeable" onClick={()=>isUserSelected(record, 3)}>{ record.name }</th>
+        <td className="py-2 px-6">{ record.email }</td>
+        <td className="py-2 px-6 uppercase clickeable" onClick={()=>isUserSelected(record, 2)}>{ record.roles[0].name }</td>
+        <td className="py-2 px-6 truncate"><Button preset={record.status == 1 ? Preset.smallClose : Preset.smallCloseDisable} disabled={record.status == 0} noText onClick={()=>isUserSelected(record, 1)} /> </td>
+      </tr>
+    )
+  });
 
 
   return (<div>

@@ -10,6 +10,8 @@ import { loadData } from "@/utils/functions";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from 'react-hot-toast';
+import { BiUserCircle } from "react-icons/bi";
+import { RiRefreshFill } from "react-icons/ri";
 
 export default function UsersPage() {
     const { register, handleSubmit, reset} = useForm();
@@ -19,11 +21,12 @@ export default function UsersPage() {
     const [randomNumber, setRandomNumber] = useState(0);
     const { systemInformation } = useContext(ConfigContext);
     const userType  = systemInformation?.system?.tenant?.system == 2 || systemInformation?.system?.tenant?.system == 4 ? "Mesero" : "Usuario";
+    const [showAll, setShowAll] = useState(false);
 
     useEffect(() => {
         (async () => setUsers(await loadData(`users`)) )();
     }, [randomNumber]);
-
+    console.log(users)
     const onSubmit = async (data: any) => {
         try {
           setIsSending(true)
@@ -124,9 +127,12 @@ export default function UsersPage() {
 
             </div>
             <div className="col-span-6">
-                <ViewTitle text="LISTADO DE USUARIOS" />
-
-                    <ConfigUsersTable records={users} onDelete={handleDeleteUsers} random={setRandomNumber} />
+                
+                    <div className="flex justify-between">
+                        <ViewTitle text="LISTADO DE USUARIOS" />
+                        <div title={ showAll ? "Ocultar usuarios eliminados" : "Mostrar todos los usuarios"} onClick={()=>setShowAll(!showAll)} className="text-sm text-right">{ showAll ? <RiRefreshFill size={32} className="col-span-11 m-4 text-2xl text-sky-900 clickeable" /> : <BiUserCircle size={32} className="col-span-11 m-4 text-2xl text-red-900 clickeable" /> }</div>
+                      </div>
+                    <ConfigUsersTable records={users} onDelete={handleDeleteUsers} random={setRandomNumber} showAll={showAll} />
             </div>
         <Toaster position="top-right" reverseOrder={false} />
       </div>
