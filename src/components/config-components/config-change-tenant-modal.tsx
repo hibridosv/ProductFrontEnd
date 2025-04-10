@@ -11,6 +11,7 @@ import { ConfigContext } from '@/contexts/config-context';
 import toast, { Toaster } from 'react-hot-toast';
 import { API_URL, AUTH_CLIENT, AUTH_SECRET } from "@/constants";
 import CryptoJS from "crypto-js";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
 export interface ConfigChangeTenantModalProps {
@@ -28,6 +29,8 @@ export function ConfigChangeTenantModal(props: ConfigChangeTenantModalProps) {
   const { register, handleSubmit, setValue, watch } = useForm();
   const { login, remoteUrl, tenant, status } = useAuthContext();
   const { setRandomInit, systemInformation } = useContext(ConfigContext);
+  const [isShowPassword, setIsShowPassword] = useState(false);
+
 
 const getRemoteUrl = async () => {
     setIsSending(true);
@@ -100,8 +103,24 @@ const getRemoteUrl = async () => {
                     <div className="md:w-full max-w-sm">
                       <div className={style.input}>{ systemInformation?.user?.email }</div>
                       <input type="hidden" {...register("username")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
-                      <label htmlFor="password" className={style.inputLabel}> Contraseña </label>
+                      
+                      {/* <label htmlFor="password" className={style.inputLabel}> Contraseña </label>
                       <input type="password" {...register("password")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
+                       */}
+                      <div className='flex justify-between items-center mt-4'>
+                        <div className='w-full'>
+                          <label htmlFor="password" className={style.inputLabel}> Contraseña </label>
+                          <input type={isShowPassword ? "text" : "password"} {...register("password")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
+                        </div>
+                        <div className='flex items-center justify-center w-6 h-6 bg-gray-200 rounded-full cursor-pointer hover:bg-gray-300 transition duration-200 ease-in-out mt-4 ml-2'>
+                          { isShowPassword ? (
+                            <FaEyeSlash className='text-gray-600' onClick={() => setIsShowPassword(false)} />
+                          ) : (
+                            <FaEye className='text-gray-600' onClick={() => setIsShowPassword(true)} />
+                          )}
+                        </div>
+                      </div>
+                      
                       <div className="text-center md:text-left mt-4">
                         <Button type="submit" text='Ingresar' disabled={isSending} preset={isSending ? Preset.saving : Preset.send} isFull />
                       </div>
