@@ -28,7 +28,7 @@ export function Deliverys(props: DeliverysProps) {
   const loadAllOrders = async () => {
     setIsLoading(true);
     try {
-      const response = await getData(`sales?included=employee,client,invoiceproducts&filterWhere[status]==2&filterWhere[order_type]==3`);
+      const response = await getData(`order?included=employee,client,invoiceproducts&filterWhere[status]==2&filterWhere[order_type]==3`);
       setOrders(response.data);
     } catch (error) {
       console.error(error);

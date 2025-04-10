@@ -40,8 +40,6 @@ export function SalesPayModal(props: SalesPayModalProps) {
   const [isPayInvoice, setIsPayInvoice] = useState(false);
   const [dataInvoice, setDataInvoice] = useState({}) as any;
   const { systemInformation } = useContext(ConfigContext);
-  
-  console.log("systemInformation: ", systemInformation?.system?.local_url_print)
 
 
   useEffect(() => {
@@ -66,7 +64,7 @@ export function SalesPayModal(props: SalesPayModalProps) {
 
     try {
       setIsSending(true);
-      const response = await postData(`sales/pay`, "POST", values);
+      const response = await postData(`order/pay`, "POST", values);
       if (response.type === 'successful') {
         setIsPayInvoice(true)
         setDataInvoice(response.data)

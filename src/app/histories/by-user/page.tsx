@@ -20,7 +20,7 @@ export default function Page() {
   const { links, addLink} = AddNewDownloadLink()
 
   useEffect(() => {
-      (async () => setUsers(await loadData(`register`)))();
+      (async () => setUsers(await loadData(`users`)))();
   }, []);
 
 

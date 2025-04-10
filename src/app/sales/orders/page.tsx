@@ -92,7 +92,7 @@ export default function ViewSales() {
       const selectLastOrder = async () => {
             setIsLoading(true);
             try {
-              const response = await getData(`sales/order/select`);
+              const response = await getData(`order/select`);
               if (response?.data) {
                 setOrder(response.data);   
                 setSelectType(response?.data?.order_type) 
@@ -155,7 +155,7 @@ export default function ViewSales() {
       const handleChangeOrder = async (order: any) => {
         setIsLoading(true);
         try {
-              const response = await postData(`sales/order/select/${order}`, "POST");
+              const response = await postData(`order/select/${order}`, "POST");
               if (response.data) {
                 setOrder(response.data);
                 setSelectType(response?.data?.order_type);
@@ -199,7 +199,7 @@ export default function ViewSales() {
             
             try {
               setIsSending(true);
-              const response = await postData(`restaurant/sales`, "POST", values);
+              const response = await postData(`orders/restaurant`, "POST", values);
               if (response.type === "error") {
                 toast.error(response.message);
                     if(configuration?.includes("sales-sound")) errorSound()
@@ -218,7 +218,7 @@ export default function ViewSales() {
               
           const deleteOrder = async () => {
               try {
-                const response = await postData(`sales/order/${order.id}`, "DELETE");
+                const response = await postData(`order/${order.id}`, "DELETE");
                 toast.success(response.message);
                 if (response.type == "successful") {
                   resetOrder()
@@ -232,7 +232,7 @@ export default function ViewSales() {
           const deleteProduct = async (iden: string) => {
             setIsSending(true);
             try {
-              const response = await postData(`restaurant/sales/product/${iden}/${order.id}`, "DELETE");
+              const response = await postData(`orders/restaurant/product/${iden}/${order.id}`, "DELETE");
               if (response.data) {
                 setOrder(response.data)
                 toast.success("Producto Eliminado");
@@ -255,7 +255,7 @@ export default function ViewSales() {
           const saveOrder = async () => {
             setIsLoading(true);
             try {
-              const response = await postData(`sales/order/save/${order.id}`, "POST");
+              const response = await postData(`order/save/${order.id}`, "POST");
               toast.success(response.message);
               if (response.type !== "error") {
                 resetOrder()
@@ -270,7 +270,7 @@ export default function ViewSales() {
 
           const orderAddOtherClient = async () => {
             try {
-              const response = await postData(`restaurant/sales/add-client/${order.id}`, "PUT");
+              const response = await postData(`orders/restaurant/add-client/${order.id}`, "PUT");
               if (response.type !== "error") {
                 toast.success("cliente Agregado");
                 setOrder(response.data)
@@ -353,7 +353,7 @@ export default function ViewSales() {
               setIsSending(true);
               setPayedInvoice(order);
               modalPayed.setIsOpen(true)
-              const response = await postData(`restaurant/sales`, "PUT", values);
+              const response = await postData(`orders/restaurant`, "PUT", values);
               if (response.type === 'successful') {
                 if (configuration.includes("print-local")) {
                   await postForPrint(systemInformation?.system?.local_url_print ?? 'http://127.0.0.1/impresiones/', 'POST', response.data);
@@ -377,7 +377,7 @@ export default function ViewSales() {
 
           const setOrderPrinter = async (withOrder = false) => {
             try {
-              const response = await postData(`restaurant/sales/printer/${order.id}`, "PUT", { with_order: withOrder });
+              const response = await postData(`orders/restaurant/printer/${order.id}`, "PUT", { with_order: withOrder });
               if (response.data) {
                 setOrder(response.data)
                 if (withOrder) {
@@ -395,7 +395,7 @@ export default function ViewSales() {
 
           const changeClientAtProduct = async (product: any, client: any) => {
             try {
-              const response = await postData(`restaurant/sales/product/change/${product}/${client}`, "PUT");
+              const response = await postData(`orders/restaurant/product/change/${product}/${client}`, "PUT");
               if (response.data) {
                 setOrder(response.data)
               }
@@ -408,7 +408,7 @@ export default function ViewSales() {
 
           const updateProductOption = async (data: any) => {
             try {
-                const response = await postData(`restaurant/sales/option`, 'PUT', data);
+                const response = await postData(`orders/restaurant/option`, 'PUT', data);
                 if (response.data) {
                   setOrder(response.data)
                   if(configuration?.includes("sales-sound")) successSound()

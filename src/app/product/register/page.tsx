@@ -57,7 +57,7 @@ export default function AddProduct() {
     (async () => {
       setIsLoading(true);
       try {
-        const specialData = await getData("special/initial-add");
+        const specialData = await getData("special/initial");
         const FieldsFormProduct = transformFields(Fields, specialData);    
         setFieldsModified(FieldsFormProduct);
       } catch (error) {
