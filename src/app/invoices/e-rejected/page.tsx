@@ -66,7 +66,13 @@ export default function Page() {
 
         </div>
         <div className="col-span-3">
-        {/* <ViewTitle text="SELECCIONAR FECHA" /> */}
+        <ViewTitle text="TOTAL DE DOCUMENTOS" />
+            <div className="m-5 border-2 shadow-xl rounded-md">
+                <div className="m-2 grid grid-cols-6">
+                    <span className="col-span-4 px-2 xl:text-xl">Total: </span>
+                    <span className="col-span-2 px-2 xl:text-xl text-right">{!documents.data ? 0 : documents.data.length }</span>
+                </div>
+            </div>
         </div>
       <Toaster position="top-right" reverseOrder={false} />
     </div>
