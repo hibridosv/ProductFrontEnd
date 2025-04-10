@@ -10,12 +10,14 @@ import { API_URL, AUTH_CLIENT, AUTH_SECRET } from "@/constants";
 import { style } from '@/theme';
 import { ConfigContext } from '@/contexts/config-context';
 import CryptoJS from "crypto-js";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 
 export default function Home() {
   const [isSending, setIsSending] = useState(false);
   const [isMessage, setIsMessage] = useState("");
   const [isRedirect, setIsRedirect] = useState(false);
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const { register, handleSubmit } = useForm();
   const router = useRouter();
   const { login, remoteUrl, tenant, status } = useAuthContext();
@@ -85,11 +87,24 @@ export default function Home() {
                 <div className='md:w-1/2 flex justify-center items-center my-2 mx-5'>
                     <form onSubmit={handleSubmit(getRemoteUrl)} className="w-full">
                     <div className="md:w-full max-w-sm">
-                      <label htmlFor="email" className={style.inputLabel}> Email </label>
-                      <input type="text" {...register("email")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
+                      <div>
+                        <label htmlFor="email" className={style.inputLabel}> Email </label>
+                        <input type="text" {...register("email")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
+                      </div>
 
-                      <label htmlFor="password" className={style.inputLabel}> Contraseña </label>
-                      <input type="password" {...register("password")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
+                      <div className='flex justify-between items-center mt-4'>
+                        <div className='w-full'>
+                          <label htmlFor="password" className={style.inputLabel}> Contraseña </label>
+                          <input type={isShowPassword ? "text" : "password"} {...register("password")} className="text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded" />
+                        </div>
+                        <div className='flex items-center justify-center w-6 h-6 bg-gray-200 rounded-full cursor-pointer hover:bg-gray-300 transition duration-200 ease-in-out mt-4 ml-2'>
+                          { isShowPassword ? (
+                            <FaEyeSlash className='text-gray-600' onClick={() => setIsShowPassword(false)} />
+                          ) : (
+                            <FaEye className='text-gray-600' onClick={() => setIsShowPassword(true)} />
+                          )}
+                        </div>
+                      </div>
 
 
                          <div className="text-center md:text-left mt-4">
