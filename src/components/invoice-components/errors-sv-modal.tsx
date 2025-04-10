@@ -8,7 +8,6 @@ interface ErrorTableProps {
   errors: string | any[]; // errors puede ser una cadena o un array
   onClose: () => void;
   isShow: boolean;
-  description?: string;
 }
 
 // Función para enumerar los errores
@@ -17,7 +16,7 @@ function formatErrors(errorsArray: string[]): string[] {
 }
 
 export function ErrorsSVModal(props: ErrorTableProps) {
-  const { onClose, errors, isShow, description } = props;
+  const { onClose, errors, isShow } = props;
 
   let parsedErrors: string[] = [];
 
@@ -73,7 +72,6 @@ export function ErrorsSVModal(props: ErrorTableProps) {
               {parsedErrors.map((error, idx) => (
                 <li key={idx} className="text-red-600">{error}</li>
               ))}
-              { (description || description !== "RECIBIDO") && (<li className="text-red-600">{ description}</li>) }
             </ul>
           )}
         </div>
