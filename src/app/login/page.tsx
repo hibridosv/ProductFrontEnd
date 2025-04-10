@@ -76,7 +76,7 @@ export default function Home() {
 
                 <div className='md:w-1/2 flex justify-center items-center my-2 mx-5'>
                   <Image
-                        src="/img/login.png"
+                        src="/img/login2.png"
                         alt="Login"
                         width={400}
                         height={400}
