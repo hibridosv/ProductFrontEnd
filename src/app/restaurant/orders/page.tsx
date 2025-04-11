@@ -3,7 +3,7 @@
 import { useState, useEffect, useContext } from "react";
 import { getData } from "@/services/resources";
 import { getTenant } from "@/services/oauth";
-import { getConfigStatus, screenSound } from "@/utils/functions";
+import { countOrdersWithStatusX, getConfigStatus } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
 import {  Pagination, ViewTitle } from "@/components";
 import { RestaurantOrdersTable } from "@/components/restaurant/orders/restaurant-orders-table";
@@ -47,7 +47,24 @@ export default function Page() {
           </div>
           <div className="col-span-3">
           <ViewTitle text="DATOS GENERALES" />
-
+            <div className="mb-2 mx-3 border-2 shadow-xl rounded-md">
+                <div className="m-2 grid grid-cols-6">
+                    <span className="col-span-4 px-2 xl:text-xl">Ordenes Pendientes: </span>
+                    <span className="col-span-2 px-2 xl:text-xl text-right">{ countOrdersWithStatusX(orders.data, "status", 2) }</span>
+                </div>
+            </div>
+            <div className="mb-2 mx-3 border-2 shadow-xl rounded-md">
+                <div className="m-2 grid grid-cols-6">
+                    <span className="col-span-4 px-2 xl:text-xl">Servicio en Mesa: </span>
+                    <span className="col-span-2 px-2 xl:text-xl text-right">{ countOrdersWithStatusX(orders.data, "order_type", 2) }</span>
+                </div>
+            </div>
+            <div className="mb-2 mx-3 border-2 shadow-xl rounded-md">
+                <div className="m-2 grid grid-cols-6">
+                    <span className="col-span-4 px-2 xl:text-xl">Delivery: </span>
+                    <span className="col-span-2 px-2 xl:text-xl text-right">{ countOrdersWithStatusX(orders.data, "order_type", 3) }</span>
+                </div>
+            </div>
           </div>
       </div>
   )
