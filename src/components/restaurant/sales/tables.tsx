@@ -75,7 +75,7 @@ export function Tables(props: TablesProps) {
                            style={{ maxWidth: '146px',  wordBreak: 'keep-all', lineHeight: '1.2em' }}>
                             {record?.name }
                         </p>
-                        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 bg-white text-gray-500">
+                        <div className="absolute border-b-2 rounded-md shadow-md top-[38%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
                           <OrderTime record={record} isShow={record.status == 1} rowSearch="updated_at" />
                         </div>
                     </div>
