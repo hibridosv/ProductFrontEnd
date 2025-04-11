@@ -642,5 +642,6 @@ export const urlConstructor = (data: any, url: string)=>{
 
 
 export function countOrdersWithStatusX(data: any[], value: string, status: number): number {
+  if (!data || data.length === 0) return 0;
   return data.reduce((count, order) => order[value] === status ? count + 1 : count, 0);
 }
