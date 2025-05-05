@@ -28,7 +28,11 @@ export function HistoriesPaymentTable(props: HistoriesPaymentTableProps) {
     <tr key={record.id} className="border-b">
       <td className="py-2 px-6 truncate">{ formatDate(record?.created_at) } | { formatHourAsHM(record?.created_at)} </td>
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.employee?.name } </th>
-      <td className="py-2 px-6">{ record?.credit?.order?.invoice }</td>
+      <td className="py-2 px-6">
+      <span>{ record?.credit?.order?.invoice_assigned?.name  }:</span>
+      <span className="ml-3">{ record?.credit?.order?.invoice }</span>
+      </td>
+      <td className="py-2 px-6">{ record?.credit?.order?.client?.name }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.quantity ? record?.quantity : 0, systemInformation) }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.balance ? record?.balance : 0, systemInformation) }</td>
     </tr>
@@ -43,6 +47,7 @@ export function HistoriesPaymentTable(props: HistoriesPaymentTableProps) {
           <th scope="col" className="py-3 px-4 border">Fecha cobrada</th>
           <th scope="col" className="py-3 px-4 border">Cajero</th>
           <th scope="col" className="py-3 px-4 border">Factura</th>
+          <th scope="col" className="py-3 px-4 border">Cliente</th>
           <th scope="col" className="py-3 px-4 border">Abono</th>
           <th scope="col" className="py-3 px-4 border">Saldo</th>
         </tr>

@@ -35,6 +35,7 @@ export function HistoriesByUserTable(props: HistoriesByUserTableProps) {
         <span>{ record?.invoice_assigned?.name }:</span>
         <span className="ml-3">{ record?.invoice }</span>
       </td>
+      <td className="py-2 px-6">{ record?.client?.name }</td>
       <td className="py-2 px-6">{ getPaymentTypeName(record?.payment_type) }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.discount ? record?.discount : 0, systemInformation) }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0, systemInformation) }</td>
@@ -50,6 +51,7 @@ export function HistoriesByUserTable(props: HistoriesByUserTableProps) {
           <th scope="col" className="py-3 px-4 border">Fecha cobrada</th>
           <th scope="col" className="py-3 px-4 border">Cajero</th>
           <th scope="col" className="py-3 px-4 border">Factura</th>
+          <th scope="col" className="py-3 px-4 border">Cliente</th>
           <th scope="col" className="py-3 px-4 border">Tipo Pago</th>
           <th scope="col" className="py-3 px-4 border">Descuento</th>
           <th scope="col" className="py-3 px-4 border">Total</th>

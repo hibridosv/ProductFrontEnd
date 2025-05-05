@@ -319,7 +319,7 @@ export default function ViewSales() {
             <SalesSearchByCode setTypeOfSearch={setTypeOfSearch} typeOfSearch={typeOfSearch} onFormSubmit={onSubmit} isLoading={isLoading} /> 
         <div className="relative z-0">
           <SalesQuickTable records={productsOfInvoice?.invoiceproducts} onClick={handleClickOptionProduct} config={configuration} />
-          <SalesButtonsInitial onClick={handleClickOptionOrder} isShow={order ? false : true} />
+          <SalesButtonsInitial onClick={handleClickOptionOrder} isShow={order ? false : true} config={configuration} />
         </div>
       </div>
       <div className="col-span-4 flex justify-center ">
