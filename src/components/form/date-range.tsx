@@ -10,6 +10,7 @@ export type DateRangeValues = {
   initialDate?: string | any;
   finalDate?: string | any;
   product_id?: string | any;
+  invoiceId?: string | any;
 };
 
 type DateRangeProps = {
@@ -18,6 +19,7 @@ type DateRangeProps = {
 
 export const DateRange: React.FC<DateRangeProps> = ({ onSubmit }) => {
   const [option, setOption] = useState('1');
+  const [invoiceId, setinvoiceId] = useState('');
   const [initialDate, setInitialDate] = useState('');
   const [finalDate, setFinalDate] = useState('');
   const [dateValues, setDateValues] = useState<DateRangeValues>({});
@@ -32,6 +34,7 @@ export const DateRange: React.FC<DateRangeProps> = ({ onSubmit }) => {
 
     const values: DateRangeValues = {
       option: option,
+      invoiceId: invoiceId,
       initialDate: option == '1' ? initialDate ? `${initialDate} 00:00:00` : `${formatedDate} 00:00:00` : initialDate ? `${initialDate} 00:00:00` : `${startOfMonth.toISODate()} 00:00:00`,
       finalDate: option == '2' ? finalDate ? `${finalDate} 23:59:59` : `${endOfMonth.toISODate()} 23:59:59` : "",
     };
