@@ -41,7 +41,7 @@ export default function Page() {
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setDocuments(response);
-            if(response.data.length > 0) addLink(links, data, 'excel/electronic/');
+            if(response.data.length > 0) addLink(links, data, 'excel/electronic/', data.invoiceId ? [{name: "invoiceId", value: data.invoiceId}] : null);
           } else {
             toast.error("Faltan algunos datos importantes!");
           }
