@@ -6,6 +6,7 @@ import { getConfigStatus } from "@/utils/functions";
 import { getTenant } from "@/services/oauth";
 import { ConfigContext } from "@/contexts/config-context";
 import useReverb from "@/hooks/useReverb";
+import { OrderTime } from "./tables-time";
 
 
 export interface TablesProps {
@@ -68,12 +69,15 @@ export function Tables(props: TablesProps) {
         const listItems = selectedTables && selectedTables.map((record: any) => {
             return (
                 <div key={record?.id} className="m-2 clickeable" onClick={()=>handleClickSelectTable(record)}>
-                    <div className="rounded-md drop-shadow-lg">
+                    <div className="rounded-md drop-shadow-lg relative">
                         <Image src="/img/table.jpg" alt="Mesa" width={146} height={146} className="rounded-t-md" />
                         <p className={`w-full content-center text-center rounded-b-md overflow-hidden uppercase text-xs text-black font-medium p-1 h-9 ${record.status == 0 ? 'bg-lime-300' : 'bg-red-300'}`} 
                            style={{ maxWidth: '146px',  wordBreak: 'keep-all', lineHeight: '1.2em' }}>
                             {record?.name }
                         </p>
+                        <div className="absolute border-b-2 rounded-md shadow-md top-[38%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+                          <OrderTime record={record} isShow={record.status == 1} rowSearch="updated_at" />
+                        </div>
                     </div>
                 </div>
             )

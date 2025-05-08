@@ -30,18 +30,17 @@ export function ProductsTable(props: ProductsTableProps) {
   if (!isShow ) return <></>
   
   
-    const imageLoader = ({ src, width, quality }: any) => {
-            return `${remoteUrl}/images/logo/${src}?w=${width}&q=${quality || 75}`
-            }
-
+        const imageLoader = ({ src, width, quality }: any) => `${remoteUrl}/images/logo/${src}?w=${width}&q=${quality || 75}`
+            
         if (!order?.invoiceproducts) return (
-            <div className="w-full flex justify-center">
+            <div className="hidden w-full md:grid place-items-center">
                 { systemInformation && systemInformation?.system?.logo ? 
-                <Image loader={imageLoader} src={systemInformation && systemInformation?.system?.logo} alt="Hibrido" width={500} height={500} /> :
+                <Image loader={imageLoader} src={systemInformation && systemInformation?.system?.logo} alt="Hibrido" width={500} height={500} className="w-full max-w-[500px]"
+                sizes="(max-width: 768px) 100vw, 500px" /> :
                 <NothingHere width="500" text=" " />
                 }
             </div>
-            )
+        )
 
         order?.invoiceproducts && groupInvoiceProductsByCodAll(order);
         const listItems = order?.invoiceproductsGroup.map((record: any) => (

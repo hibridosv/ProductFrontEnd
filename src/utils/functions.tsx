@@ -639,3 +639,9 @@ export const urlConstructor = (data: any, url: string)=>{
   let dir = encodeURI(`${url}?option=${data.option}${data.initialDate ? `&initialDate=${data.initialDate}` : ``}${data.finalDate ? `&finalDate=${data.finalDate}` : ``}${data.product_id ? `&product_id=${data.product_id}` : ``}${data.userId ? `&userId=${data.userId}` : ``}${data.clientId ? `&clientId=${data.clientId}` : ``}`)
   return dir;
 }
+
+
+export function countOrdersWithStatusX(data: any[], value: string, status: number): number {
+  if (!data || data.length === 0) return 0;
+  return data.reduce((count, order) => order[value] === status ? count + 1 : count, 0);
+}

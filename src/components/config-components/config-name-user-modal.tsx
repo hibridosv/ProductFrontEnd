@@ -12,14 +12,15 @@ import { PresetTheme } from "@/services/enums";
 
 
 
-export interface ConfigPasswordUserModalProps {
+export interface ConfigNameUserModalProps {
   onClose: () => void;
   isShow: boolean;
   user: any; 
+  random: (value: number) => void;
 }
 
-export function ConfigPasswordUserModal(props: ConfigPasswordUserModalProps) {
-  const { onClose, isShow, user } = props;
+export function ConfigNameUserModal(props: ConfigNameUserModalProps) {
+  const { onClose, isShow, user, random } = props;
   const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState<any>({});
   const { register, handleSubmit, reset} = useForm();
@@ -28,11 +29,12 @@ export function ConfigPasswordUserModal(props: ConfigPasswordUserModalProps) {
       const onSubmit = async (data: any) => {
         try {
           setIsSending(true)
-          const response = await postData(`users/${user.id}/password`, "PUT", data);
+          const response = await postData(`users/${user.id}/name`, "PUT", data);
           if (response.type == "successful") {
-            toast.success("Password actualizado correctamente");
+            toast.success("Nombre de usuario actualizado correctamente");
             reset()
             setMessage({});
+            random && random(Math.random());
             onClose()
           } else {
             toast.error("Faltan algunos datos importantes!");
@@ -48,20 +50,15 @@ export function ConfigPasswordUserModal(props: ConfigPasswordUserModalProps) {
 
   return (
     <Modal size="md" show={isShow} position="center" onClose={onClose}>
-      <Modal.Header>CAMBIAR PASSWORD</Modal.Header>
+      <Modal.Header>CAMBIAR NOMBRE DE USUARIO</Modal.Header>
       <Modal.Body>
       <div className="mx-4"> 
           <form onSubmit={handleSubmit(onSubmit)} className="w-full">
             <div className="flex flex-wrap -mx-3 mb-6">
 
               <div className="w-full md:w-full px-3 mb-2">
-                <label htmlFor="password" className={style.inputLabel}>Password *</label>
-                <input  type="password"  id="password" {...register("password")} className={style.input} />
-              </div>
-
-              <div className="w-full md:w-full px-3 mb-2">
-                <label htmlFor="password_confirmation" className={style.inputLabel}>Repeat Password *</label>
-                <input type="password" id="password_confirmation" {...register("password_confirmation")} className={style.input} />
+                <label htmlFor="name" className={style.inputLabel}>Nombre de usuario *</label>
+                <input  type="text"  id="name" {...register("name")} className={style.input} />
               </div>
 
             </div>

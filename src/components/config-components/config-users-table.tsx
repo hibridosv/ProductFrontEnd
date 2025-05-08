@@ -5,6 +5,7 @@ import { Button, Preset } from "../button/button";
 import { DeleteModal } from "../modals/delete-modal";
 import { ConfigRoleUserModal } from "./config-role-user-modal";
 import { ConfigPasswordUserModal } from "./config-password-user-modal";
+import { ConfigNameUserModal } from "./config-name-user-modal";
 
 
 interface ConfigUsersTableProps {
@@ -19,6 +20,7 @@ export function ConfigUsersTable(props: ConfigUsersTableProps) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showRoleUserModal, setShowRoleUserModal] = useState(false);
   const [showPasswordUserModal, setShowPasswordUserModal] = useState(false);
+  const [showNameUserModal, setShowNameUserModal] = useState(false);
   const [selectUser, setSelectUser] = useState<any>({});
 
  
@@ -32,6 +34,8 @@ export function ConfigUsersTable(props: ConfigUsersTableProps) {
       case 1: setShowDeleteModal(true); break;
       case 2: setShowRoleUserModal(true); break;
       case 3: setShowPasswordUserModal(true); break;
+      case 4: setShowNameUserModal(true); break;
+      default: break;
     }
 
   }
@@ -47,9 +51,9 @@ export function ConfigUsersTable(props: ConfigUsersTableProps) {
     if (showAll == false && record.status == 0) return null
     return (
       <tr key={record.id} className={`border-b  ${record.status == 1 ? 'bg-white' : 'bg-red-200'}`} >
-        <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white clickeable" onClick={()=>isUserSelected(record, 3)}>{ record.name }</th>
-        <td className="py-2 px-6">{ record.email }</td>
-        <td className="py-2 px-6 uppercase clickeable" onClick={()=>isUserSelected(record, 2)}>{ record.roles[0].name }</td>
+        <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white clickeable" onClick={()=>isUserSelected(record, 4)} title="Cambiar nombre de usuario">{ record.name }</th>
+        <td className="py-2 px-6 clickeable" onClick={()=>isUserSelected(record, 3)} title="Cambiar password">{ record.email }</td>
+        <td className="py-2 px-6 uppercase clickeable" onClick={()=>isUserSelected(record, 2)} title="Cambiar rol de usuario">{ record.roles[0].name }</td>
         <td className="py-2 px-6 truncate"><Button preset={record.status == 1 ? Preset.smallClose : Preset.smallCloseDisable} disabled={record.status == 0} noText onClick={()=>isUserSelected(record, 1)} /> </td>
       </tr>
     )
@@ -72,6 +76,7 @@ export function ConfigUsersTable(props: ConfigUsersTableProps) {
     <DeleteModal isShow={showDeleteModal} text="¿Estas seguro de eliminar este usuario?" onDelete={handleDelete}  onClose={()=>setShowDeleteModal(false)} /> 
     <ConfigRoleUserModal user={selectUser} isShow={showRoleUserModal} onClose={()=>setShowRoleUserModal(false)} random={random} />
     <ConfigPasswordUserModal user={selectUser} isShow={showPasswordUserModal} onClose={()=>setShowPasswordUserModal(false)} />
+    <ConfigNameUserModal user={selectUser} isShow={showNameUserModal} onClose={()=>setShowNameUserModal(false)} random={random} />
  </div>
  </div>);
 }
