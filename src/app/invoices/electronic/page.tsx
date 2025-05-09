@@ -34,6 +34,7 @@ export default function Page() {
 
     const handleDocuments = async (data: any) => {
       data.invoiceId = watch("invoiceId")
+      data.status = watch("status")
       if (data.invoiceId == 2) data.invoiceId = '01';
       if (data.invoiceId == 3) data.invoiceId = '03';
       if (data.invoiceId == 4) data.invoiceId = '14';
@@ -153,7 +154,7 @@ export default function Page() {
                 <div className="w-full md:w-full px-3 mb-2">
                     <label htmlFor="status" className={style.inputLabel}> Seleccione el estado del documento </label>
                     <select defaultValue={documentStatus} id="status" {...register("status")} className={style.input}>
-                        <option value="0"> Emitidos</option>
+                        <option value="0"> Todos</option>
                         <option value="1"> Enviados</option>
                         <option value="2"> Firmados</option>
                         <option value="3"> Rechazados</option>
