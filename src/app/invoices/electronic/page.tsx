@@ -44,6 +44,7 @@ export default function Page() {
             if(response.data.length > 0) addLink(links, data, 'excel/electronic/', data.invoiceId ? [{name: "invoiceId", value: data.invoiceId}] : null);
           } else {
             toast.error("Faltan algunos datos importantes!");
+            setDocuments([]);
           }
         } catch (error) {
           console.error(error);
