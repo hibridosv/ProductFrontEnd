@@ -38,9 +38,9 @@ export default function Page() {
       if (data.invoiceId == 3) data.invoiceId = '03';
       if (data.invoiceId == 4) data.invoiceId = '14';
       if (data.invoiceId == 5) data.invoiceId = '05';
-      data.status = documentStatus;
         try {
           setIsSending(true);
+          setDocumentStatus(data.status);
           const response = await postData(`electronic/documents`, "POST", data);
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
@@ -88,19 +88,19 @@ export default function Page() {
     const setIcon = () => {
       switch (documentStatus) {
         case 0:
-          return <MdDoneAll size={32} className={`col-span-11 m-4 text-2xl text-lime-900 ${isSending ? "cursor-wait" : "clickeable"}`} onClick={isSending ? () => {} : ()=>setDocumentStatus(1)} />;
+          return <MdDoneAll size={32} className={`col-span-11 m-4 text-2xl text-lime-900`} />;
         case 1:
-          return <MdSend size={32} className={`col-span-11 m-4 text-2xl text-sky-900 ${isSending ? "cursor-wait" : "clickeable"}`} onClick={isSending ? () => {} : ()=>setDocumentStatus(2)} />;
+          return <MdSend size={32} className={`col-span-11 m-4 text-2xl text-sky-900`} />;
         case 2:
-          return <MdFingerprint size={32} className={`col-span-11 m-4 text-2xl text-blue-900 ${isSending ? "cursor-wait" : "clickeable"}`} onClick={isSending ? () => {} : ()=>setDocumentStatus(3)} />;
+          return <MdFingerprint size={32} className={`col-span-11 m-4 text-2xl text-blue-900`} />;
         case 3:
-          return <MdOutlineDeleteSweep size={32} className={`col-span-11 m-4 text-2xl text-red-900 ${isSending ? "cursor-wait" : "clickeable"}`} onClick={isSending ? () => {} : ()=>setDocumentStatus(4)} />;
+          return <MdOutlineDeleteSweep size={32} className={`col-span-11 m-4 text-2xl text-red-900`} />;
         case 4:
-          return <MdOutlineDoneAll size={32} className={`col-span-11 m-4 text-2xl text-lime-900 ${isSending ? "cursor-wait" : "clickeable"}`} onClick={isSending ? () => {} : ()=>setDocumentStatus(5)} />;
+          return <MdOutlineDoneAll size={32} className={`col-span-11 m-4 text-2xl text-lime-900`} />;
         case 5:
-            return <MdDeleteForever size={32} className={`col-span-11 m-4 text-2xl text-red-900 ${isSending ? "cursor-wait" : "clickeable"}`} onClick={isSending ? () => {} : ()=>setDocumentStatus(0)} />;
+            return <MdDeleteForever size={32} className={`col-span-11 m-4 text-2xl text-red-900`} />;
         default:
-          return <MdDoneAll size={32} className={`col-span-11 m-4 text-2xl text-sky-900 ${isSending ? "cursor-wait" : "clickeable"}`} onClick={isSending ? () => {} : ()=>setDocumentStatus(0)} />;
+          return <MdDoneAll size={32} className={`col-span-11 m-4 text-2xl text-sky-900`} />;
       }
     }
 
@@ -147,6 +147,18 @@ export default function Page() {
                             <option key={value.id} value={value.type}> {value.name}</option>
                           );
                         })}
+                    </select>
+                </div>
+
+                <div className="w-full md:w-full px-3 mb-2">
+                    <label htmlFor="status" className={style.inputLabel}> Seleccione el estado del documento </label>
+                    <select defaultValue={documentStatus} id="status" {...register("status")} className={style.input}>
+                        <option value="0"> Emitidos</option>
+                        <option value="1"> Enviados</option>
+                        <option value="2"> Firmados</option>
+                        <option value="3"> Rechazados</option>
+                        <option value="4"> Procesados</option>
+                        <option value="5"> Anulados</option>
                     </select>
                 </div>
             </div>
