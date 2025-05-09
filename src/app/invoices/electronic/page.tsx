@@ -116,7 +116,7 @@ export default function Page() {
           return "RECHAZADOS";
         case 4:
           return  "PROCESADOS";
-        case 4:
+        case 5:
             return  "ANULADOS";
         default:
           return "EMITIDOS";
