@@ -452,7 +452,7 @@ export default function ViewSales() {
             <SalesSelectInvoiceTypeModal isShow={modalInvoiceType.isOpen} onClose={()=>modalInvoiceType.setIsOpen(false)} order={order} />
             <SalesDiscountProductModal isShow={modalDiscount.isOpen} discountType={isDiscountType} order={order} product={productSelected} onClose={()=>closeModalDiscount()} byCode />
             <SelectPayTypeModal isShow={modalPaymentsType.isOpen} onClose={()=>modalPaymentsType.setIsOpen(false)} payments={systemInformation?.payMethods} setPayment={setPaymentType} />
-            <SalesContactSearchModal handleChangeOrder={handleChangeOrder}  isShow={modalContact.isOpen} ContactTypeToGet={typeOfClient} order={order} onClose={()=>modalContact.setIsOpen(false)} clientToUpdate={clientNametoUpdate}  />
+            <SalesContactSearchModal isShow={modalContact.isOpen} ContactTypeToGet={typeOfClient} order={order} onClose={()=>modalContact.setIsOpen(false)} clientToUpdate={clientNametoUpdate}  />
             <SalesOthers isShow={modalOthers.isOpen} order={order} onClose={()=>modalOthers.setIsOpen(false)} />
             <SalesCommentModal isShow={modalComment.isOpen} order={order} onClose={()=>modalComment.setIsOpen(false)} />
             <SalesSetQuantityModal isShow={modalQuantity.isOpen} onClose={()=>modalQuantity.setIsOpen(false)} product={productSelected} sendProduct={sendProduct} />

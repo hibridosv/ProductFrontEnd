@@ -85,6 +85,7 @@ export default function ViewSales() {
 
   useEffect(() => {
      if (!isQuantityModal
+      && !isContactSearchModal 
       && !isCommissionModal 
       && !isSalesCommentModal 
       && !isDiscountProductModal
@@ -99,6 +100,7 @@ export default function ViewSales() {
     // eslint-disable-next-line
   }, [changeOrder, 
     isQuantityModal,
+    isContactSearchModal,
     isCommissionModal, 
     isSalesCommentModal, 
     isDiscountProductModal, 
@@ -333,7 +335,7 @@ export default function ViewSales() {
       <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} priceType={typeOfPrice} />
       <SalesPriceModal isShow={isPriceModal} order={order} product={productSelected} onClose={()=>setIsPriceModal(false)} />
       <SalesDiscountProductModal isShow={isDiscountProductModal} discountType={isDiscountType} order={productsOfInvoice} product={productSelected} onClose={()=>closeModalDiscount()} />
-      <SalesContactSearchModal handleChangeOrder={handleChangeOrder}  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={productsOfInvoice} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />
+      <SalesContactSearchModal  isShow={isContactSearchModal} ContactTypeToGet={typeOfClient} order={productsOfInvoice} onClose={()=>setIsContactSearchModal(false)} clientToUpdate={clientNametoUpdate}  />
       <SalesOthers isShow={isSalesOtherModal} order={productsOfInvoice} onClose={()=>setIsSalesOtherModal(false)} />
       <SalesCommentModal isShow={isSalesCommentModal} order={productsOfInvoice} onClose={()=>setIsSalesCommentModal(false)} />
       <SalesChangeLotModal isShow={isSalesChangeLotModal} product={productSelected} onClose={()=>setIsSalesChangeLotModal(false)} />

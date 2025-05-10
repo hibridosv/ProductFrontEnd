@@ -18,11 +18,10 @@ export interface SalesContactSearchModalProps {
     isShow?: boolean;
     order: any; // numero de orden
     clientToUpdate: ContactNameOfOrder;
-    handleChangeOrder: (order: string)=>void
 }
 
 export function SalesContactSearchModal(props: SalesContactSearchModalProps){
-const { ContactTypeToGet, onClose, isShow, order, clientToUpdate, handleChangeOrder } = props;
+const { ContactTypeToGet, onClose, isShow, order, clientToUpdate } = props;
 const [contacts, setContacts] = useState([]) as any;
 const [ randNumber, setrandNumber] = useState(0) as any;
 const [ randomAfterEdit, setRandomAfterEdit] = useState(0) as any;
@@ -91,7 +90,6 @@ const handleContactSelected = async(contact: Contact, isAfterUpdate = false) => 
       } else {
         toast.success(response.message)
       }         
-      handleChangeOrder(order.id)
       onClose()
     }
   } catch (error) {
