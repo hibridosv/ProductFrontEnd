@@ -198,9 +198,8 @@ export default function ViewSales() {
         toast.error(response.message);
         if(configuration?.includes("sales-sound")) errorSound()
       } else {
-        if (!order) setOrder(response.data.id);
+        if (order != response.data.id) setOrder(response.data.id);
         setProductsOfInvoice(response.data);
-
         if(configuration?.includes("sales-sound")) successSound()
       }
       if (response.type === "successful") {
