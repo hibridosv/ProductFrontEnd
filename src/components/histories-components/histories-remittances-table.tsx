@@ -50,7 +50,7 @@ export function HistoriesRemittancesTable(props: HistoriesRemittancesTableProps)
       <tbody>{listItems}</tbody>
     </table>
 
-        <div className="uppercase shadow-lg border-x-2 ml-4 mt-4 ">
+        <div className="uppercase shadow-lg border-x-2 mx-4 mt-4 mb-4 p-4 bg-white rounded-lg">
             <div>Numero total remesas: <span className=" font-semibold">{ records?.data.length }</span></div>
             <div>Total en remesas: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "quantity"), systemInformation) }</span></div>
         </div>
