@@ -74,6 +74,8 @@ export default function Page() {
     }
   };
 
+ console.log(systemInformation)
+
     const handleNewSearch = () => {
       setDocumentSelected(false)
       setDocuments([])
@@ -233,20 +235,22 @@ export default function Page() {
 
           {
             records?.invoice_assigned?.type == 9 && 
-            <Alert text="Este Documento tiene una numeración temporal" />
+            <Alert className="m-2" text="Este Documento tiene una numeración temporal" />
           }
           {
             records?.invoice_assigned?.is_electronic == 1 && 
-            <Alert info="Atención: " text="Este Documento se envió electronicamente" isDismisible={false}  />
+            <Alert className="m-2" info="Atención: " text="Este Documento se envió electronicamente" isDismisible={false}  />
           }
           {
             records?.creditnotes?.length > 0 && 
             <div>
-              <Alert info="Atención: " text={`Este documento contiene ${records?.creditnotes?.length} nota${records?.creditnotes?.length > 1 ? 's' : ''} de credito`} isDismisible={false}  />
+              <Alert className="m-2" info="Atención: " text={`Este documento contiene ${records?.creditnotes?.length} nota${records?.creditnotes?.length > 1 ? 's' : ''} de credito`} isDismisible={false}  />
               <ul>
                 {records?.creditnotes?.map((record: any, key: any) => (
-                  <li key={key} className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer"> 
+                  <li key={key} className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer uppercase"> 
+                  <a target="_blank" href={`${API_URL}documents/download/pdf/${record?.codigo_generacion}/${systemInformation?.system?.client?.id}`} title="Descargar PDF">
                     {record?.id} | {record?.invoice} | { formatDateAsDMY(record?.emited_at) } { formatHourAsHM(record?.emited_at) }
+                  </a> 
                   </li>
                 ))}
               </ul>
