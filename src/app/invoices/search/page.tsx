@@ -13,6 +13,7 @@ import { FaPrint } from "react-icons/fa";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { ConfigContext } from "@/contexts/config-context";
 import { MdOutlineDelete } from "react-icons/md";
+import { API_URL } from "@/constants";
 
 
 export default function Page() {
@@ -73,6 +74,11 @@ export default function Page() {
     }
   };
 
+<<<<<<< Updated upstream
+=======
+ console.log(systemInformation)
+
+>>>>>>> Stashed changes
     const handleNewSearch = () => {
       setDocumentSelected(false)
       setDocuments([])
@@ -231,6 +237,7 @@ export default function Page() {
             </div>
 
           {
+<<<<<<< Updated upstream
             records?.data?.invoice_assigned?.type == 9 && 
             <Alert text="Este Documento tiene una numeración temporal" />
           }
@@ -238,6 +245,31 @@ export default function Page() {
             records?.data?.invoice_assigned?.is_electronic == 1 && 
             <Alert info="Atención: " text="Este Documento se envió electronicamente" isDismisible={false}  />
           }
+=======
+            records?.invoice_assigned?.type == 9 && 
+            <Alert className="m-2" text="Este Documento tiene una numeración temporal" />
+          }
+          {
+            records?.invoice_assigned?.is_electronic == 1 && 
+            <Alert className="m-2" info="Atención: " text="Este Documento se envió electronicamente" isDismisible={false}  />
+          }
+          {
+            records?.creditnotes?.length > 0 && 
+            <div>
+              <Alert className="m-2" info="Atención: " text={`Este documento contiene ${records?.creditnotes?.length} nota${records?.creditnotes?.length > 1 ? 's' : ''} de credito`} isDismisible={false}  />
+              <ul>
+                {records?.creditnotes?.map((record: any, key: any) => (
+                  <li key={key} className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer uppercase"> 
+                  <a target="_blank" href={`${API_URL}documents/download/pdf/${record?.codigo_generacion}/${systemInformation?.system?.client?.id}`} title="Descargar PDF">
+                    {record?.id} | {record?.invoice} | { formatDateAsDMY(record?.emited_at) } { formatHourAsHM(record?.emited_at) }
+                  </a> 
+                  </li>
+                ))}
+              </ul>
+              
+            </div>
+          }
+>>>>>>> Stashed changes
             </div>
           }
         </div>
