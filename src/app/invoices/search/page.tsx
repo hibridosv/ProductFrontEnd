@@ -7,7 +7,7 @@ import { SearchInput } from "@/components/form/search";
 import { Product } from "@/services/products";
 import toast, { Toaster } from 'react-hot-toast';
 import { Button, Preset } from "@/components/button/button";
-import { formatDateAsDMY } from "@/utils/date-formats";
+import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import {  extractActiveFeature, getConfigStatus, getPaymentTypeName, getRandomInt, numberToMoney } from "@/utils/functions";
 import { FaPrint } from "react-icons/fa";
 import { RiDeleteBin2Line } from "react-icons/ri";
@@ -74,11 +74,7 @@ export default function Page() {
     }
   };
 
-<<<<<<< Updated upstream
-=======
- console.log(systemInformation)
 
->>>>>>> Stashed changes
     const handleNewSearch = () => {
       setDocumentSelected(false)
       setDocuments([])
@@ -237,21 +233,12 @@ export default function Page() {
             </div>
 
           {
-<<<<<<< Updated upstream
             records?.data?.invoice_assigned?.type == 9 && 
             <Alert text="Este Documento tiene una numeración temporal" />
           }
           {
             records?.data?.invoice_assigned?.is_electronic == 1 && 
             <Alert info="Atención: " text="Este Documento se envió electronicamente" isDismisible={false}  />
-          }
-=======
-            records?.invoice_assigned?.type == 9 && 
-            <Alert className="m-2" text="Este Documento tiene una numeración temporal" />
-          }
-          {
-            records?.invoice_assigned?.is_electronic == 1 && 
-            <Alert className="m-2" info="Atención: " text="Este Documento se envió electronicamente" isDismisible={false}  />
           }
           {
             records?.creditnotes?.length > 0 && 
@@ -269,7 +256,6 @@ export default function Page() {
               
             </div>
           }
->>>>>>> Stashed changes
             </div>
           }
         </div>
