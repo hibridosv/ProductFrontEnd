@@ -7,7 +7,7 @@ import { SearchInput } from "@/components/form/search";
 import { Product } from "@/services/products";
 import toast, { Toaster } from 'react-hot-toast';
 import { Button, Preset } from "@/components/button/button";
-import { formatDateAsDMY } from "@/utils/date-formats";
+import { formatDate, formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
 import {  extractActiveFeature, getConfigStatus, getPaymentTypeName, getRandomInt, numberToMoney } from "@/utils/functions";
 import { FaPrint } from "react-icons/fa";
 import { RiDeleteBin2Line } from "react-icons/ri";
@@ -58,9 +58,9 @@ export default function Page() {
     setDocumentSelected(true)
     try {
       setIsSending(true)
-      const response = await getData(`order/select/${iden}`);
-      if (!response.message) {
-        setRecords(response)
+      const response = await getData(`order?&filterWhere[id]==${iden}&included=creditnotes,products,invoiceAssigned,employee,client,referred,delivery`);
+      if (response.data) {
+        setRecords(response?.data[0] ?? [])
         // toast.success("Petición realizada correctamente");
       } else {
         toast.error("Faltan algunos datos importantes!");
@@ -72,7 +72,7 @@ export default function Page() {
       setIsSending(false)
     }
   };
-
+ console.log(records && records)
     const handleNewSearch = () => {
       setDocumentSelected(false)
       setDocuments([])
@@ -148,7 +148,7 @@ export default function Page() {
         </div>
     ))
 
-    const listProducts = records?.data?.products.map((record: any, key: any) => (
+    const listProducts = records.products && records?.products.map((record: any, key: any) => (
       <tr key={record.id} className="border-b">
         <td className="py-2 px-6 truncate">{ record?.quantity} </td>
         { showCodeStatus &&
@@ -177,19 +177,19 @@ export default function Page() {
               <div className="grid grid-cols-4 md:grid-cols-8 gap-3 bg-white dark:bg-gray-900">
                         <div className={`col-span-2 border-2 border-slate-600 shadow-md shadow-cyan-500 rounded-md w-full`}>
                           <div className="w-full text-center">Cajero</div>
-                          <div className="w-full text-center text-xl my-2 font-bold">{records?.data?.employee?.name}</div>
+                          <div className="w-full text-center text-xl my-2 font-bold">{records?.employee?.name}</div>
                         </div>
                         <div className={`col-span-2 border-2 border-slate-600 shadow-md shadow-cyan-500 rounded-md w-full`}>
                           <div className="w-full text-center">Fecha</div>
-                          <div className="w-full text-center text-xl my-2 font-bold">{ formatDateAsDMY(records?.data?.charged_at) }</div>
+                          <div className="w-full text-center text-xl my-2 font-bold">{ formatDateAsDMY(records?.charged_at) }</div>
                         </div>
                         <div className={`col-span-2 border-2 border-slate-600 shadow-md shadow-cyan-500 rounded-md w-full`}>
                           <div className="w-full text-center">Tipo</div>
-                          <div className="w-full text-center text-xl my-2 font-bold">{ records?.data?.invoice_assigned?.name }</div>
+                          <div className="w-full text-center text-xl my-2 font-bold">{ records?.invoice_assigned?.name }</div>
                         </div>
                         <div className={`col-span-2 border-2 border-slate-600 shadow-md shadow-cyan-500 rounded-md w-full`}>
                           <div className="w-full text-center">Pago</div>
-                          <div className="w-full text-center text-xl my-2 font-bold">{ getPaymentTypeName(records?.data?.payment_type) }</div>
+                          <div className="w-full text-center text-xl my-2 font-bold">{ getPaymentTypeName(records?.payment_type) }</div>
                         </div>
               </div>
 
@@ -214,29 +214,43 @@ export default function Page() {
                       {listProducts}
                       <tr>
                         <th scope="col" className="py-3 px-4 border" colSpan={showCodeStatus ? 4 : 3} ></th>
-                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.subtotal, systemInformation) }</th>
-                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.taxes, systemInformation) }</th>
-                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.discount, systemInformation) }</th>
-                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.data?.total, systemInformation) }</th>
+                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.subtotal, systemInformation) }</th>
+                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.taxes, systemInformation) }</th>
+                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.discount, systemInformation) }</th>
+                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(records?.total, systemInformation) }</th>
                       </tr>
                     </tbody>
                   </table>
               </div>
 
               <div className="uppercase shadow-lg border-x-2 ml-4 my-4 p-2">
-                {records?.data?.employee && <div>Atendido por: <span className="font-semibold">{records?.data?.employee?.name}</span></div>}
-                {records?.data?.referred && <div>Nombre de referido: <span className="font-semibold">{records?.data?.referred?.name}</span></div>}
-                {records?.data?.client && <div>Nombre del cliente: <span className="font-semibold">{records?.data?.client?.name}</span></div>}
-                {records?.data?.delivery && <div>Nombre del repartidor: <span className="font-semibold">{records?.data?.delivery?.name}</span></div>}
+                {records?.employee && <div>Atendido por: <span className="font-semibold">{records?.employee?.name}</span></div>}
+                {records?.referred && <div>Nombre de referido: <span className="font-semibold">{records?.referred?.name}</span></div>}
+                {records?.client && <div>Nombre del cliente: <span className="font-semibold">{records?.client?.name}</span></div>}
+                {records?.delivery && <div>Nombre del repartidor: <span className="font-semibold">{records?.data?.delivery?.name}</span></div>}
             </div>
 
           {
-            records?.data?.invoice_assigned?.type == 9 && 
+            records?.invoice_assigned?.type == 9 && 
             <Alert text="Este Documento tiene una numeración temporal" />
           }
           {
-            records?.data?.invoice_assigned?.is_electronic == 1 && 
+            records?.invoice_assigned?.is_electronic == 1 && 
             <Alert info="Atención: " text="Este Documento se envió electronicamente" isDismisible={false}  />
+          }
+          {
+            records?.creditnotes?.length > 0 && 
+            <div>
+              <Alert info="Atención: " text={`Este documento contiene ${records?.creditnotes?.length} nota${records?.creditnotes?.length > 1 ? 's' : ''} de credito`} isDismisible={false}  />
+              <ul>
+                {records?.creditnotes?.map((record: any, key: any) => (
+                  <li key={key} className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer"> 
+                    {record?.id} | {record?.invoice} | { formatDateAsDMY(record?.emited_at) } { formatHourAsHM(record?.emited_at) }
+                  </li>
+                ))}
+              </ul>
+              
+            </div>
           }
             </div>
           }
@@ -246,20 +260,20 @@ export default function Page() {
           <div className="mt-4">
 
             <div className="m-3 flex justify-between mb-8">
-              <div title="Imprimir"><FaPrint className="clickeable" size={45} color="blue" onClick={()=>printOrder(records?.data?.id)} /></div>
+              <div title="Imprimir"><FaPrint className="clickeable" size={45} color="blue" onClick={()=>printOrder(records?.id)} /></div>
               {
-                (records?.data?.invoice_assigned?.type == 3 || records?.data?.invoice_assigned?.type == 2) &&
+                (records?.invoice_assigned?.type == 3 || records?.invoice_assigned?.type == 2) &&
                 <div title="Crear nota de credito"><MdOutlineDelete className="clickeable" size={45} color="#2F81B9" 
-                  onClick={records?.data?.status == 3 ? ()=>setShowNoteModal(true) : ()=>toast.error("Este documento ya se encuentra eliminado")} /></div>
+                  onClick={records?.status == 3 ? ()=>setShowNoteModal(true) : ()=>toast.error("Este documento ya se encuentra eliminado")} /></div>
               }
 
               <div title="Eliminar orden"><RiDeleteBin2Line className="clickeable" size={45} color="red" 
-              onClick={records?.data?.status == 3 ? ()=>setShowDeleteModal(true) : ()=>toast.error("Este documento ya se encuentra eliminado")} /></div>
+              onClick={records?.status == 3 ? ()=>setShowDeleteModal(true) : ()=>toast.error("Este documento ya se encuentra eliminado")} /></div>
             </div>
             
             <Button text='Nueva busqueda' isFull type="submit" preset={Preset.cancel} onClick={() => handleNewSearch()} />
             {
-              records?.data?.status == 4 && <div className="mt-4"><Alert info="Atención: " text="Este documento se encuentra eliminado" isDismisible={false}  /></div>
+              records?.status == 4 && <div className="mt-4"><Alert info="Atención: " text="Este documento se encuentra eliminado" isDismisible={false}  /></div>
             }
           </div>
         </div> </> :
