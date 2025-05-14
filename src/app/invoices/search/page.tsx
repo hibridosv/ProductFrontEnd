@@ -248,7 +248,7 @@ export default function Page() {
               <ul>
                 {records?.creditnotes?.map((record: any, key: any) => (
                   <li key={key} className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer uppercase"> 
-                  <a target="_blank" href={`${API_URL}documents/download/pdf/${record?.codigo_generacion}/${systemInformation?.system?.client?.id}`} title="Descargar PDF">
+                  <a target="_blank" href={`${API_URL}documents/download/pdf/${record?.id}/${systemInformation?.system?.client?.id}`} title="Descargar PDF">
                     {record?.id} | {record?.invoice} | { formatDateAsDMY(record?.emited_at) } { formatHourAsHM(record?.emited_at) }
                   </a> 
                   </li>
