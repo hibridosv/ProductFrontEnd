@@ -2,32 +2,30 @@
 import { useState, useEffect, useContext } from "react";
 import { Alert, DeleteModal, Loading, ViewTitle } from "@/components";
 import { getData, postData, postForPrint } from "@/services/resources";
-import { useSearchTerm } from "@/hooks/useSearchTerm";
-import { SearchInput } from "@/components/form/search";
-import { Product } from "@/services/products";
 import toast, { Toaster } from 'react-hot-toast';
 import { Button, Preset } from "@/components/button/button";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
-import {  extractActiveFeature, getConfigStatus, getPaymentTypeName, getRandomInt, numberToMoney } from "@/utils/functions";
+import {  extractActiveFeature, getConfigStatus, getPaymentTypeName, numberToMoney } from "@/utils/functions";
 import { FaPrint } from "react-icons/fa";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { ConfigContext } from "@/contexts/config-context";
-import { MdCreditScore, MdOutlineDelete } from "react-icons/md";
+import { MdCreditScore } from "react-icons/md";
 import { API_URL } from "@/constants";
 import Link from "next/link";
+import { InvoiceNCModal } from "@/components/invoice-components/invoice-nc-modal";
 
 
 export default function Page({ params }: { params: { id: string } }) {
-    const { id } = params;
-    const [records, setRecords] = useState([]) as any;
-    const [isSending, setIsSending] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [showNoteModal, setShowNoteModal] = useState(false);
-    const [randNumber, setRandNumber] = useState(0);
-    const [showCodeStatus, setShowCodeStatus] = useState<boolean>(false);
-    const { config, systemInformation } = useContext(ConfigContext);
-    const [configuration, setConfiguration] = useState([] as any); // configuraciones que vienen de config
-  
+  const { id } = params;
+  const [records, setRecords] = useState([]) as any;
+  const [isSending, setIsSending] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showNoteModal, setShowNoteModal] = useState(false);
+
+  const [showCodeStatus, setShowCodeStatus] = useState<boolean>(false);
+  const { config, systemInformation } = useContext(ConfigContext);
+  const [configuration, setConfiguration] = useState([] as any); // configuraciones que vienen de config
+
     useEffect(() => {
       if (config?.configurations) {
         setConfiguration(extractActiveFeature(config.configurations))
@@ -53,12 +51,13 @@ export default function Page({ params }: { params: { id: string } }) {
         setIsSending(false)
       }
     };
-      console.log(records)
   
     useEffect(() => {
-            (async () => { await handleGetInvoice() })();
+      if (!showNoteModal && id) {
+        (async () => { await handleGetInvoice() })();
+      }
       // eslint-disable-next-line
-    }, []);
+    }, [showNoteModal]);
 
  
   const printOrder = async () => {
@@ -98,22 +97,6 @@ export default function Page({ params }: { params: { id: string } }) {
     }
   };
 
-  const noteOrder = async () => {
-    setShowNoteModal(false)
-    try {
-      setIsSending(true)
-      const response = await postData(`invoices/credit-note`, "POST", {invoice: id});
-      if (response.message) {
-        await handleGetInvoice()
-        toast.success(response.message);
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Ha ocurrido un error!");
-    } finally {
-      setIsSending(false)
-    }
-  };
 
     const listProducts = records.products && records?.products.map((record: any, key: any) => (
       <tr key={record.id} className="border-b">
@@ -206,15 +189,28 @@ export default function Page({ params }: { params: { id: string } }) {
             records?.creditnotes?.length > 0 && 
             <div>
               <Alert className="m-2" info="Atención: " text={`Este documento contiene ${records?.creditnotes?.length} nota${records?.creditnotes?.length > 1 ? 's' : ''} de credito`} isDismisible={false}  />
-              <ul>
-                {records?.creditnotes?.map((record: any, key: any) => (
-                  <li key={key} className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer uppercase"> 
-                  <a target="_blank" href={`${API_URL}documents/download/pdf/${record?.id}/${systemInformation?.system?.client?.id}`} title="Descargar PDF">
-                    {record?.id} | {record?.invoice} | { formatDateAsDMY(record?.emited_at) } { formatHourAsHM(record?.emited_at) }
-                  </a> 
-                  </li>
-                ))}
-              </ul>
+                  <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                      <tr>
+                        <th scope="col" className="py-3 px-4 border">ID</th>
+                        <th scope="col" className="py-3 px-4 border">Numero</th>
+                        <th scope="col" className="py-3 px-4 border">Fecha</th>
+                        <th scope="col" className="py-3 px-4 border">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {records?.creditnotes?.map((record: any, key: any) => (
+                        <tr key={key} className="border-b">
+                          <th className="py-2 px-6 text-gray-900 whitespace-nowrap uppercase" scope="row">
+                            <a target="_blank" href={`${API_URL}documents/download/pdf/${record?.id}/${systemInformation?.system?.client?.id}`} title="Descargar PDF">{record?.id}</a> 
+                            </th>
+                          <td className="py-2 px-6">{record?.invoice}</td>
+                          <td className="py-2 px-6">{ formatDateAsDMY(record?.emited_at) } { formatHourAsHM(record?.emited_at) }</td>
+                          <td className="py-2 px-6">{ numberToMoney(record?.total, systemInformation) }</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
               
             </div>
           }
@@ -250,14 +246,13 @@ export default function Page({ params }: { params: { id: string } }) {
             }
           </div>
         </div> 
+        
+        <InvoiceNCModal isShow={showNoteModal} onClose={()=>setShowNoteModal(false)} record={records} />
         <DeleteModal isShow={showDeleteModal}
           text="¿Estas seguro de anular este documento?"
           onDelete={()=>deleteOrder()} 
           onClose={()=>setShowDeleteModal(false)} />
-        <DeleteModal isShow={showNoteModal}
-          text="¿Estas seguro desea crear una nota de credito de este documento?"
-          onDelete={()=>noteOrder()} 
-          onClose={()=>setShowNoteModal(false)} />
+
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
