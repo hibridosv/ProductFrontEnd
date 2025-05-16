@@ -10,6 +10,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { InvoiceSearchTable } from "@/components/invoice-components/invoice-search-table";
 import { usePagination } from "@/hooks/usePagination";
 import SkeletonTable from "@/components/common/skeleton-table";
+import Link from "next/link";
 
 
 export default function Page() {
@@ -70,6 +71,7 @@ export default function Page() {
 
     const listItems = documents?.map((document: any):any => (
         <div key={document.id} >
+            <Link href={`/invoices/search/${document.id}`}>
             <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
             {document?.invoice_assigned?.name} | {document.invoice}
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
@@ -77,6 +79,7 @@ export default function Page() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
             </li>
+            </Link>
         </div>
     ))
 
