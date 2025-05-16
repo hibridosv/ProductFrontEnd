@@ -53,7 +53,7 @@ export default function Page({ params }: { params: { id: string } }) {
         setIsSending(false)
       }
     };
-      
+      console.log(records)
   
     useEffect(() => {
             (async () => { await handleGetInvoice() })();
@@ -135,7 +135,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
     <div className="grid grid-cols-1 md:grid-cols-4 pb-10">
         <div className="col-span-3">
-          <ViewTitle text="BUSCAR DOCUMENTOS" />
+          <ViewTitle text={`${records?.invoice_assigned?.name}: ${records?.invoice_assigned?.prefix}${String(records?.invoice).padStart(15, '0')}`} />
           {isSending ? <Loading /> :
             <div className="mx-3 my-8 ">
 
@@ -220,6 +220,11 @@ export default function Page({ params }: { params: { id: string } }) {
           }
             </div>
           }
+          {
+            records?.invoice_assigned?.is_electronic == 1 && 
+            <a target="_blank" href={`${API_URL}documents/download/pdf/${id}/${systemInformation?.system?.client?.id}`} title="Descargar PDF"><span className="m-4 font-semibold uppercase text-slate-700 text-sm">{ id }</span></a> 
+          }
+          
         </div>
         <div>
           <ViewTitle text="OPCIONES" />
