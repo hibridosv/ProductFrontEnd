@@ -25,7 +25,7 @@ export default function Page() {
       const getDocuments = async () => {
           try {
             setIsLoading(true)
-            const response = await getData(`order?&filterWhere[status]==3&included=invoiceAssigned,client,casheir&sort=-payed_at&perPage=15${searchTerm}`);
+            const response = await getData(`order?&filterWhere[status]==3&included=invoiceAssigned,client,casheir&sort=-charged_at&perPage=15${searchTerm}`);
             if (response.data) {
               setInvoices(response)
             } else {
@@ -72,13 +72,13 @@ export default function Page() {
     const listItems = documents?.map((document: any):any => (
         <div key={document.id} >
             <Link href={`/invoices/search/${document.id}`}>
-            <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
-            {document?.invoice_assigned?.name} | {document.invoice}
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-            </li>
+              <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer">
+              {document?.invoice_assigned?.name} | {document.invoice}
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+              </li>
             </Link>
         </div>
     ))

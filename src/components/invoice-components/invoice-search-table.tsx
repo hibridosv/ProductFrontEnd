@@ -31,12 +31,12 @@ export function InvoiceSearchTable(props: InvoiceSearchTableProps) {
 
   const listItems = records.data.map((record: any, key: any) => (
     <tr key={key} className="border-b">
-      <td className="py-2 px-6 truncate">{ formatDateAsDMY(record?.charged_at) } | { formatHourAsHM(record?.charged_at)} </td>
-      <td className="py-2 px-6 font-bold clickeable" onClick={()=>{ setRecordSelect(record?.id); setShowInvoiceModal(true)}}>{ record?.invoice_assigned?.name } </td>
+      <td className="py-2 px-3 truncate">{ formatDateAsDMY(record?.charged_at) } | { formatHourAsHM(record?.charged_at)} </td>
+      <td className="py-2 px-2 font-bold clickeable" onClick={()=>{ setRecordSelect(record?.id); setShowInvoiceModal(true)}}>{ record?.invoice_assigned?.name } </td>
       <td className="py-2 px-6">{ record?.invoice }</td>
-      <td className="py-2 px-6">{ record?.client?.name ? record?.client?.name : "N/A" }</td>
+      <td className="py-2 px-3">{ record?.client?.name ? record?.client?.name : "N/A" }</td>
       <td className="py-2 px-6">{ getPaymentTypeName(record?.payment_type) }</td>
-      <td className="py-2 px-6">{ record?.casheir?.name } </td>
+      <td className="py-2 px-3">{ record?.casheir?.name } </td>
       <td className="py-2 px-6">{ numberToMoney(record?.total ? record?.total : 0, systemInformation) }</td>
       <td className="py-2 px-6"><Link href={`/invoices/search/${record?.id}`}><GoArrowRight size={20} color="green" /></Link></td>
     </tr>
