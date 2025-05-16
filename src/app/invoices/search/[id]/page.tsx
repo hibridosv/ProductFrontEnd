@@ -5,7 +5,7 @@ import { getData, postData, postForPrint } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { Button, Preset } from "@/components/button/button";
 import { formatDateAsDMY, formatHourAsHM } from "@/utils/date-formats";
-import {  extractActiveFeature, getConfigStatus, getPaymentTypeName, numberToMoney } from "@/utils/functions";
+import {  extractActiveFeature, getConfigStatus, getPaymentTypeName, getTotalOfItem, numberToMoney } from "@/utils/functions";
 import { FaPrint } from "react-icons/fa";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { ConfigContext } from "@/contexts/config-context";
@@ -209,6 +209,10 @@ export default function Page({ params }: { params: { id: string } }) {
                           <td className="py-2 px-6">{ numberToMoney(record?.total, systemInformation) }</td>
                         </tr>
                       ))}
+                      <tr>
+                        <th scope="col" className="py-3 px-4 border" colSpan={3} ></th>
+                        <th scope="col" className="py-3 px-4 border">{ numberToMoney(getTotalOfItem(records?.creditnotes, "total"), systemInformation) }</th>
+                      </tr>
                     </tbody>
                   </table>
               
