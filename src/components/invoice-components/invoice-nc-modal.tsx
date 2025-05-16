@@ -41,13 +41,20 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
   }, [record.products, setValue, isShow]);
 
   const handleNc = async(data: any) => {
-    const formattedData = formProducts.map((product: any) => ({
+const formattedData = formProducts
+  .map((product: any) => {
+    const quantity = Number(watch(`product-${product.id}`)) || 0;
+    if (quantity === 0) return null;
+
+    return {
       id: product.id,
       product_id: product.product_id,
       product_type: product.product_type,
       lot_id: product.lot_id,
-      quantity: Number(data[`product-${product.id}`]),
-    }));
+      quantity,
+    };
+  })
+  .filter((item) => item !== null);
     const hasZeroQuantity = formattedData.some((product: any) => product.quantity === 0);
     if (hasZeroQuantity) {
         toast.error("No se puede crear una nota de crédito con productos con cantidad 0");
@@ -58,6 +65,8 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
         invoice: record.id,
         total: grantTotal,
     }
+    console.log("newData: ", newData)
+    return;
 
         try {
             setIsSending(true)
@@ -120,7 +129,7 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
                               <input
                                 type="number"
                                 {...field}
-                                min={1}
+                                min={0}
                                 max={product.quantity}
                                 className="w-20 bg-transparent border border-white rounded text-center focus:outline-none focus:ring-1 focus:ring-blue-500"
                               />
