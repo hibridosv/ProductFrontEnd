@@ -51,6 +51,8 @@ const formattedData = formProducts
       product_id: product.product_id,
       product_type: product.product_type,
       lot_id: product.lot_id,
+      product_name: product.product,
+      product_total: product.total,
       quantity,
     };
   })
@@ -66,7 +68,7 @@ const formattedData = formProducts
         total: grantTotal,
     }
     console.log("newData: ", newData)
-    return;
+    // return;
 
         try {
             setIsSending(true)
