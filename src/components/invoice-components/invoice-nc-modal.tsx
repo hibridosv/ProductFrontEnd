@@ -53,6 +53,7 @@ const formattedData = formProducts
       product_type: product.product_type,
       lot_id: product.lot_id,
       product_name: product.product,
+      product_price: product.unit_price,
       product_subtotal: product.total / taxesPercent,
       product_taxes: product.total - (product.total / taxesPercent),
       product_total: product.total,
