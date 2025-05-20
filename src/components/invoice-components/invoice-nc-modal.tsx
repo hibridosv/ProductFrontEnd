@@ -42,25 +42,27 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
   }, [record.products, setValue, isShow]);
 
   const handleNc = async(data: any) => {
-const formattedData = formProducts
-  .map((product: any) => {
-    const quantity = Number(watch(`product-${product.id}`)) || 0;
-    if (quantity === 0) return null;
-
-    return {
-      id: product.id,
-      product_id: product.product_id,
-      product_type: product.product_type,
-      lot_id: product.lot_id,
-      product_name: product.product,
-      product_price: product.unit_price,
-      product_subtotal: product.total / taxesPercent,
-      product_taxes: product.total - (product.total / taxesPercent),
-      product_total: product.total,
-      quantity,
-    };
-  })
-  .filter((item) => item !== null);
+    const formattedData = formProducts
+    .map((product: any) => {
+        const quantity = Number(watch(`product-${product.id}`)) || 0;
+        if (quantity === 0) return null;
+        let total = quantity * product.unit_price;
+        let subtotal = total / taxesPercent;
+        let taxes = total - subtotal;
+        return {
+        id: product.id,
+        product_id: product.product_id,
+        product_type: product.product_type,
+        lot_id: product.lot_id,
+        product_name: product.product,
+        product_price: product.unit_price,
+        product_subtotal: subtotal,
+        product_taxes: taxes,
+        product_total: total,
+        quantity,
+        };
+    })
+    .filter((item) => item !== null);
     const hasZeroQuantity = formattedData.some((product: any) => product.quantity === 0);
     if (hasZeroQuantity) {
         toast.error("No se puede crear una nota de crédito con productos con cantidad 0");
