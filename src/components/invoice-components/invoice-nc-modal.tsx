@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
-import { numberToMoney } from "@/utils/functions";
+import { getCountryProperty, numberToMoney } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
 import { useForm, Controller } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
@@ -24,6 +24,7 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
   const [isSending, setIsSending] = useState(false);
   const [formProducts, setFormProducts] = useState<any[]>([]);
   const { control, handleSubmit, watch, setValue } = useForm();
+  const taxesPercent  = 1 + (getCountryProperty(parseInt(systemInformation?.system?.country)).taxes / 100);
 
   useEffect(() => {
     if (record.products && isShow) {
@@ -52,6 +53,8 @@ const formattedData = formProducts
       product_type: product.product_type,
       lot_id: product.lot_id,
       product_name: product.product,
+      product_subtotal: product.total / taxesPercent,
+      product_taxes: product.total - (product.total / taxesPercent),
       product_total: product.total,
       quantity,
     };
@@ -65,10 +68,10 @@ const formattedData = formProducts
     let newData = {
         products: formattedData,
         invoice: record.id,
+        subtotal: grantTotal / taxesPercent,
+        taxes: grantTotal - (grantTotal / taxesPercent),
         total: grantTotal,
     }
-    console.log("newData: ", newData)
-    // return;
 
         try {
             setIsSending(true)
@@ -87,7 +90,7 @@ const formattedData = formProducts
         }
 
   };
-
+  console.log("Products: ", record.products)
   const grantTotal = formProducts.reduce((acc, p) => {
                           const q = Number(watch(`product-${p.id}`)) || 0;
                           return acc + q * p.unit_price;
