@@ -172,7 +172,7 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
                                 type="number"
                                 {...field}
                                 min={0}
-                                max={product.quantity}
+                                // max={product.quantity}
                                 className="w-20 bg-transparent border border-white rounded text-center focus:outline-none focus:ring-1 focus:ring-blue-500"
                                 onBlur={(e) => {
                                   field.onBlur();
