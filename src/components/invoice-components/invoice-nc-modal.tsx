@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useMemo } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { getCountryProperty, numberToMoney } from "@/utils/functions";
@@ -22,7 +22,7 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
   const { systemInformation } = useContext(ConfigContext);
   const [isSending, setIsSending] = useState(false);
   const [formProducts, setFormProducts] = useState<any[]>([]);
-  const { control, handleSubmit, watch, setValue } = useForm();
+  const { control, handleSubmit, setValue, getValues } = useForm();
   const taxesPercent = 1 + (getCountryProperty(parseInt(systemInformation?.system?.country)).taxes / 100);
 
   useEffect(() => {
@@ -42,28 +42,28 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
     }
   }, [record.products, setValue, isShow]);
 
-  const watchedValues = formProducts.map((p) => ({
-    id: p.id,
-    quantity: Number(watch(`product-${p.id}`)) || 0,
-    price: Number(watch(`price-${p.id}`)) || 0,
-  }));
+  const calculateTotal = () => {
+    let total = 0;
+    formProducts.forEach((p) => {
+      const quantity = Number(getValues(`product-${p.id}`)) || 0;
+      const price = Number(getValues(`price-${p.id}`)) || 0;
+      total += quantity * price;
+    });
+    return total;
+  };
 
-  const grantTotal = formProducts.reduce((acc, p) => {
-    const item = watchedValues.find((val) => val.id === p.id);
-    const total = (item?.quantity || 0) * (item?.price || 0);
-    return acc + total;
-  }, 0);
+  const grantTotal = useMemo(() => calculateTotal(), [formProducts]);
 
-  const handleNc = async (data: any) => {
+  const handleNc = async () => {
     const formattedData = formProducts
       .map((product: any) => {
-        const quantity = Number(watch(`product-${product.id}`)) || 0;
-        const unit_price = Number(watch(`price-${product.id}`)) || 0;
-        const name = watch(`name-${product.id}`);
+        const quantity = Number(getValues(`product-${product.id}`)) || 0;
+        const unit_price = Number(getValues(`price-${product.id}`)) || 0;
+        const name = getValues(`name-${product.id}`);
         if (quantity === 0) return null;
-        let total = quantity * unit_price;
-        let subtotal = total / taxesPercent;
-        let taxes = total - subtotal;
+        const total = quantity * unit_price;
+        const subtotal = total / taxesPercent;
+        const taxes = total - subtotal;
         return {
           id: product.id,
           product_id: product.product_id,
@@ -137,65 +137,62 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
                     </tr>
                   </thead>
                   <tbody>
-                    {formProducts.map((product: any) => {
-                      const watched = watchedValues.find((val) => val.id === product.id);
-                      const quantity = watched?.quantity || 0;
-                      const price = watched?.price || 0;
-                      const total = quantity * price;
-
-                      return (
-                        <tr key={product.id} className="border-b">
-                          <td className="py-2 px-6">
-                            <Controller
-                              name={`product-${product.id}`}
-                              control={control}
-                              defaultValue={product.quantity}
-                              render={({ field }) => (
-                                <input
-                                  type="number"
-                                  {...field}
-                                  min={0}
-                                  max={product.quantity}
-                                  className="w-20 bg-transparent border border-white rounded text-center focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                />
-                              )}
-                            />
-                          </td>
-                          <td className="py-2 px-6 truncate">{product.cod}</td>
-                          <td className="py-2 px-6">
-                            <Controller
-                              name={`name-${product.id}`}
-                              control={control}
-                              defaultValue={product.product}
-                              render={({ field }) => (
-                                <input
-                                  type="text"
-                                  {...field}
-                                  className="w-full bg-transparent border border-white rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                />
-                              )}
-                            />
-                          </td>
-                          <td className="py-2 px-6">
-                            <Controller
-                              name={`price-${product.id}`}
-                              control={control}
-                              defaultValue={product.unit_price}
-                              render={({ field }) => (
-                                <input
-                                  type="number"
-                                  {...field}
-                                  className="w-24 bg-transparent border border-white rounded px-2 py-1 text-right focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                />
-                              )}
-                            />
-                          </td>
-                          <td className="py-2 px-6">
-                            {numberToMoney(total, systemInformation)}
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {formProducts.map((product: any) => (
+                      <tr key={product.id} className="border-b">
+                        <td className="py-2 px-6">
+                          <Controller
+                            name={`product-${product.id}`}
+                            control={control}
+                            defaultValue={product.quantity}
+                            render={({ field }) => (
+                              <input
+                                type="number"
+                                {...field}
+                                min={0}
+                                max={product.quantity}
+                                className="w-20 bg-transparent border border-white rounded text-center focus:outline-none focus:ring-1 focus:ring-blue-500"
+                              />
+                            )}
+                          />
+                        </td>
+                        <td className="py-2 px-6 truncate">{product.cod}</td>
+                        <td className="py-2 px-6">
+                          <Controller
+                            name={`name-${product.id}`}
+                            control={control}
+                            defaultValue={product.product}
+                            render={({ field }) => (
+                              <input
+                                type="text"
+                                {...field}
+                                className="w-full bg-transparent border border-white rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                              />
+                            )}
+                          />
+                        </td>
+                        <td className="py-2 px-6">
+                          <Controller
+                            name={`price-${product.id}`}
+                            control={control}
+                            defaultValue={product.unit_price}
+                            render={({ field }) => (
+                              <input
+                                type="number"
+                                {...field}
+                                className="w-24 bg-transparent border border-white rounded px-2 py-1 text-right focus:outline-none focus:ring-1 focus:ring-blue-500"
+                              />
+                            )}
+                          />
+                        </td>
+                        <td className="py-2 px-6">
+                          {numberToMoney(
+                            (Number(getValues(`product-${product.id}`)) || 0) *
+                              (Number(getValues(`price-${product.id}`)) || 0),
+                            systemInformation
+                          )}
+                        </td>
+                      </tr>
+                    ))}
                     <tr>
                       <td colSpan={4}></td>
                       <td className="py-3 px-4 border">
