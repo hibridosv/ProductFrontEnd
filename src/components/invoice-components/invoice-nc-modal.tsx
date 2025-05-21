@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState, useMemo } from "react";
+import { useContext, useEffect, useState, useMemo, useRef } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { getCountryProperty, numberToMoney } from "@/utils/functions";
@@ -22,8 +22,12 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
   const { systemInformation } = useContext(ConfigContext);
   const [isSending, setIsSending] = useState(false);
   const [formProducts, setFormProducts] = useState<any[]>([]);
-  const { control, handleSubmit, setValue, getValues } = useForm();
+  const [totalState, setTotalState] = useState(0);
+  const { control, handleSubmit, setValue, getValues } = useForm({
+    shouldUnregister: false,
+  });
   const taxesPercent = 1 + (getCountryProperty(parseInt(systemInformation?.system?.country)).taxes / 100);
+  const productsRef = useRef<any[]>([]);
 
   useEffect(() => {
     if (record.products && isShow) {
@@ -33,18 +37,22 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
         discount: product.discount || 0,
       }));
       setFormProducts(initializedProducts);
+      productsRef.current = initializedProducts;
 
       initializedProducts.forEach((product: any) => {
         setValue(`product-${product.id}`, product.quantity);
         setValue(`name-${product.id}`, product.product);
         setValue(`price-${product.id}`, product.unit_price);
       });
+      
+      // Calculate initial total
+      setTotalState(calculateTotal(initializedProducts));
     }
   }, [record.products, setValue, isShow]);
 
-  const calculateTotal = () => {
+  const calculateTotal = (products = formProducts) => {
     let total = 0;
-    formProducts.forEach((p) => {
+    products.forEach((p) => {
       const quantity = Number(getValues(`product-${p.id}`)) || 0;
       const price = Number(getValues(`price-${p.id}`)) || 0;
       total += quantity * price;
@@ -52,9 +60,18 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
     return total;
   };
 
-  const grantTotal = useMemo(() => calculateTotal(), [formProducts]);
+  // Update the total after blur (focus lost) rather than on every change
+  const updateTotalAfterBlur = () => {
+    setTimeout(() => {
+      setTotalState(calculateTotal());
+    }, 0);
+  };
 
   const handleNc = async () => {
+    // Calculate the final total before submission
+    const currentTotal = calculateTotal();
+    setTotalState(currentTotal);
+    
     const formattedData = formProducts
       .map((product: any) => {
         const quantity = Number(getValues(`product-${product.id}`)) || 0;
@@ -79,18 +96,17 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
       })
       .filter((item) => item !== null);
 
-    const hasZeroQuantity = formattedData.some((product: any) => product.quantity === 0);
-    if (hasZeroQuantity) {
-      toast.error("No se puede crear una nota de crédito con productos con cantidad 0");
+    if (formattedData.length === 0) {
+      toast.error("Debe tener al menos un producto con cantidad mayor a 0");
       return;
     }
 
     const newData = {
       products: formattedData,
       invoice: record.id,
-      subtotal: grantTotal / taxesPercent,
-      taxes: grantTotal - (grantTotal / taxesPercent),
-      total: grantTotal,
+      subtotal: currentTotal / taxesPercent,
+      taxes: currentTotal - (currentTotal / taxesPercent),
+      total: currentTotal,
     };
 
     try {
@@ -108,6 +124,13 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
     } finally {
       setIsSending(false);
     }
+  };
+
+  // Calculate product total for display in table
+  const getProductTotal = (productId: any) => {
+    const quantity = Number(getValues(`product-${productId}`)) || 0;
+    const price = Number(getValues(`price-${productId}`)) || 0;
+    return quantity * price;
   };
 
   return (
@@ -131,7 +154,7 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
                     <tr>
                       <th className="py-3 px-4 border">Cant</th>
                       <th className="py-3 px-4 border">Código</th>
-                      <th className="py-3 px-4 border">Producto</th>
+                      <th className="py-3 px-4 border w-full">Producto</th>
                       <th className="py-3 px-4 border">Precio</th>
                       <th className="py-3 px-4 border">Total</th>
                     </tr>
@@ -151,6 +174,10 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
                                 min={0}
                                 max={product.quantity}
                                 className="w-20 bg-transparent border border-white rounded text-center focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                onBlur={(e) => {
+                                  field.onBlur();
+                                  updateTotalAfterBlur();
+                                }}
                               />
                             )}
                           />
@@ -162,8 +189,9 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
                             control={control}
                             defaultValue={product.product}
                             render={({ field }) => (
-                              <input
-                                type="text"
+                              <textarea
+                                rows={1}
+                                maxLength={250}
                                 {...field}
                                 className="w-full bg-transparent border border-white rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500"
                               />
@@ -180,23 +208,26 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
                                 type="number"
                                 {...field}
                                 className="w-24 bg-transparent border border-white rounded px-2 py-1 text-right focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                onBlur={(e) => {
+                                  field.onBlur();
+                                  updateTotalAfterBlur();
+                                }}
                               />
                             )}
                           />
                         </td>
                         <td className="py-2 px-6">
                           {numberToMoney(
-                            (Number(getValues(`product-${product.id}`)) || 0) *
-                              (Number(getValues(`price-${product.id}`)) || 0),
+                            getProductTotal(product.id),
                             systemInformation
                           )}
                         </td>
                       </tr>
                     ))}
                     <tr>
-                      <td colSpan={4}></td>
-                      <td className="py-3 px-4 border">
-                        {numberToMoney(grantTotal, systemInformation)}
+                      <td colSpan={4} className="text-right font-bold py-3 px-4 border">TOTAL:</td>
+                      <td className="py-3 px-4 border font-bold">
+                        {numberToMoney(totalState, systemInformation)}
                       </td>
                     </tr>
                   </tbody>
