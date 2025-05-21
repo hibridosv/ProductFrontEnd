@@ -11,7 +11,6 @@ import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 import { Loading } from "../loading/loading";
 
-
 export interface InvoiceNCModalProps {
   onClose: () => void;
   isShow: boolean;
@@ -24,7 +23,7 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
   const [isSending, setIsSending] = useState(false);
   const [formProducts, setFormProducts] = useState<any[]>([]);
   const { control, handleSubmit, watch, setValue } = useForm();
-  const taxesPercent  = 1 + (getCountryProperty(parseInt(systemInformation?.system?.country)).taxes / 100);
+  const taxesPercent = 1 + (getCountryProperty(parseInt(systemInformation?.system?.country)).taxes / 100);
 
   useEffect(() => {
     if (record.products && isShow) {
@@ -37,147 +36,193 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
 
       initializedProducts.forEach((product: any) => {
         setValue(`product-${product.id}`, product.quantity);
+        setValue(`name-${product.id}`, product.product);
+        setValue(`price-${product.id}`, product.unit_price);
       });
     }
   }, [record.products, setValue, isShow]);
 
-  const handleNc = async(data: any) => {
+  const watchedValues = formProducts.map((p) => ({
+    id: p.id,
+    quantity: Number(watch(`product-${p.id}`)) || 0,
+    price: Number(watch(`price-${p.id}`)) || 0,
+  }));
+
+  const grantTotal = formProducts.reduce((acc, p) => {
+    const item = watchedValues.find((val) => val.id === p.id);
+    const total = (item?.quantity || 0) * (item?.price || 0);
+    return acc + total;
+  }, 0);
+
+  const handleNc = async (data: any) => {
     const formattedData = formProducts
-    .map((product: any) => {
+      .map((product: any) => {
         const quantity = Number(watch(`product-${product.id}`)) || 0;
+        const unit_price = Number(watch(`price-${product.id}`)) || 0;
+        const name = watch(`name-${product.id}`);
         if (quantity === 0) return null;
-        let total = quantity * product.unit_price;
+        let total = quantity * unit_price;
         let subtotal = total / taxesPercent;
         let taxes = total - subtotal;
         return {
-        id: product.id,
-        product_id: product.product_id,
-        product_type: product.product_type,
-        lot_id: product.lot_id,
-        product_name: product.product,
-        product_price: product.unit_price,
-        product_subtotal: subtotal,
-        product_taxes: taxes,
-        product_total: total,
-        quantity,
+          id: product.id,
+          product_id: product.product_id,
+          product_type: product.product_type,
+          lot_id: product.lot_id,
+          product_name: name,
+          product_price: unit_price,
+          product_subtotal: subtotal,
+          product_taxes: taxes,
+          product_total: total,
+          quantity,
         };
-    })
-    .filter((item) => item !== null);
+      })
+      .filter((item) => item !== null);
+
     const hasZeroQuantity = formattedData.some((product: any) => product.quantity === 0);
     if (hasZeroQuantity) {
-        toast.error("No se puede crear una nota de crédito con productos con cantidad 0");
-        return;
-    }
-    let newData = {
-        products: formattedData,
-        invoice: record.id,
-        subtotal: grantTotal / taxesPercent,
-        taxes: grantTotal - (grantTotal / taxesPercent),
-        total: grantTotal,
+      toast.error("No se puede crear una nota de crédito con productos con cantidad 0");
+      return;
     }
 
-        try {
-            setIsSending(true)
-            const response = await postData(`invoices/credit-note`, "POST", newData);
-            if (response.type === "successful") {
-                toast.success("Nota de crédito enviada correctamente");
-                onClose();
-            } else {
-                toast.error(response.message);
-            }
-        } catch (error) {
-            console.error(error);
-            toast.error("Ha ocurrido un error!");
-        } finally {
-            setIsSending(false)
-        }
+    const newData = {
+      products: formattedData,
+      invoice: record.id,
+      subtotal: grantTotal / taxesPercent,
+      taxes: grantTotal - (grantTotal / taxesPercent),
+      total: grantTotal,
+    };
 
+    try {
+      setIsSending(true);
+      const response = await postData(`invoices/credit-note`, "POST", newData);
+      if (response.type === "successful") {
+        toast.success("Nota de crédito enviada correctamente");
+        onClose();
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    } finally {
+      setIsSending(false);
+    }
   };
-  console.log("Products: ", record.products)
-  const grantTotal = formProducts.reduce((acc, p) => {
-                          const q = Number(watch(`product-${p.id}`)) || 0;
-                          return acc + q * p.unit_price;
-                        }, 0);
-  return (
-    <Modal
-      size={isSending ? "sm" : "5xl"}
-      show={isShow}
-      position="center"
-      onClose={onClose}
-    >
-      { !isSending && <Modal.Header>CREAR NOTA DE CREDITO</Modal.Header> }
-      <Modal.Body>
-        { isSending ? <Loading text="Creando nota de crédito" /> :
-        <form onSubmit={handleSubmit(handleNc)}>
-          <div className="mx-3">
-            <Alert theme={PresetTheme.info} text="Para enviar una Nota de Crédito del documento total haga click en el boton de Agregar Nota de Crédito, para enviar una Nota de Crédito parcial cambie las cantidades de los productos en el formulario antes de enviar" isDismisible={false} className="mb-8" />
-            <div className="w-full overflow-auto mt-4">
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                    <th className="py-3 px-4 border">Cant</th>
-                    <th className="py-3 px-4 border">Código</th>
-                    <th className="py-3 px-4 border">Producto</th>
-                    <th className="py-3 px-4 border">Precio</th>
-                    <th className="py-3 px-4 border">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {formProducts.map((product: any) => {
-                    const quantity = Number(watch(`product-${product.id}`)) || 0;
-                    const total = quantity * product.unit_price;
-                    return (
-                      <tr key={product.id} className="border-b">
-                        <td className="py-2 px-6">
-                          <Controller
-                            name={`product-${product.id}`}
-                            control={control}
-                            defaultValue={product.quantity}
-                            render={({ field }) => (
-                              <input
-                                type="number"
-                                {...field}
-                                min={0}
-                                max={product.quantity}
-                                className="w-20 bg-transparent border border-white rounded text-center focus:outline-none focus:ring-1 focus:ring-blue-500"
-                              />
-                            )}
-                          />
-                        </td>
-                        <td className="py-2 px-6 truncate">{product.cod}</td>
-                        <td className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white">
-                          {product.product}
-                        </td>
-                        <td className="py-2 px-6">
-                          {numberToMoney(product.unit_price, systemInformation)}
-                        </td>
-                        <td className="py-2 px-6">
-                          {numberToMoney(total, systemInformation)}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                  <tr>
-                    <td colSpan={4}></td>
-                    <td className="py-3 px-4 border">
-                      {numberToMoney(grantTotal, systemInformation)}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
 
-            <div className="mt-6 flex justify-end">
-              <Button type="submit" preset={Preset.save} text="Crear Nota de Crédito" disabled={isSending} />
+  return (
+    <Modal size={isSending ? "sm" : "5xl"} show={isShow} position="center" onClose={onClose}>
+      {!isSending && <Modal.Header>CREAR NOTA DE CREDITO</Modal.Header>}
+      <Modal.Body>
+        {isSending ? (
+          <Loading text="Creando nota de crédito" />
+        ) : (
+          <form onSubmit={handleSubmit(handleNc)}>
+            <div className="mx-3">
+              <Alert
+                theme={PresetTheme.info}
+                text="Para enviar una Nota de Crédito del documento total haga click en el botón de Agregar Nota de Crédito. Para enviar una Nota de Crédito parcial cambie las cantidades de los productos en el formulario antes de enviar."
+                isDismisible={false}
+                className="mb-8"
+              />
+              <div className="w-full overflow-auto mt-4">
+                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                      <th className="py-3 px-4 border">Cant</th>
+                      <th className="py-3 px-4 border">Código</th>
+                      <th className="py-3 px-4 border">Producto</th>
+                      <th className="py-3 px-4 border">Precio</th>
+                      <th className="py-3 px-4 border">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {formProducts.map((product: any) => {
+                      const watched = watchedValues.find((val) => val.id === product.id);
+                      const quantity = watched?.quantity || 0;
+                      const price = watched?.price || 0;
+                      const total = quantity * price;
+
+                      return (
+                        <tr key={product.id} className="border-b">
+                          <td className="py-2 px-6">
+                            <Controller
+                              name={`product-${product.id}`}
+                              control={control}
+                              defaultValue={product.quantity}
+                              render={({ field }) => (
+                                <input
+                                  type="number"
+                                  {...field}
+                                  min={0}
+                                  max={product.quantity}
+                                  className="w-20 bg-transparent border border-white rounded text-center focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                />
+                              )}
+                            />
+                          </td>
+                          <td className="py-2 px-6 truncate">{product.cod}</td>
+                          <td className="py-2 px-6">
+                            <Controller
+                              name={`name-${product.id}`}
+                              control={control}
+                              defaultValue={product.product}
+                              render={({ field }) => (
+                                <input
+                                  type="text"
+                                  {...field}
+                                  className="w-full bg-transparent border border-white rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                />
+                              )}
+                            />
+                          </td>
+                          <td className="py-2 px-6">
+                            <Controller
+                              name={`price-${product.id}`}
+                              control={control}
+                              defaultValue={product.unit_price}
+                              render={({ field }) => (
+                                <input
+                                  type="number"
+                                  {...field}
+                                  className="w-24 bg-transparent border border-white rounded px-2 py-1 text-right focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                />
+                              )}
+                            />
+                          </td>
+                          <td className="py-2 px-6">
+                            {numberToMoney(total, systemInformation)}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                    <tr>
+                      <td colSpan={4}></td>
+                      <td className="py-3 px-4 border">
+                        {numberToMoney(grantTotal, systemInformation)}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className="mt-6 flex justify-end">
+                <Button
+                  type="submit"
+                  preset={Preset.save}
+                  text="Crear Nota de Crédito"
+                  disabled={isSending}
+                />
+              </div>
             </div>
-          </div>
-        </form> }
+          </form>
+        )}
         <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
-      {!isSending && <Modal.Footer className="flex justify-end gap-4">
-        <Button onClick={onClose} preset={Preset.close} />
-      </Modal.Footer>
-    }
+      {!isSending && (
+        <Modal.Footer className="flex justify-end gap-4">
+          <Button onClick={onClose} preset={Preset.close} />
+        </Modal.Footer>
+      )}
     </Modal>
   );
 }
