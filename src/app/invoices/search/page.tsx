@@ -22,27 +22,29 @@ export default function Page() {
     const {currentPage, handlePageNumber} = usePagination("&page=1");
 
 
-      const getDocuments = async () => {
-          try {
-            setIsLoading(true)
-            const response = await getData(`order?&filterWhere[status]==3&included=invoiceAssigned,client,casheir&sort=-charged_at&perPage=15${searchTerm}`);
-            if (response.data) {
-              setInvoices(response)
-            } else {
-              toast.error("Faltan algunos datos importantes!");
-            }
-          } catch (error) {
-            console.error(error);
-            toast.error("Ha ocurrido un error!");
-          } finally {
-            setIsLoading(false)
-          }
-      };
+
 
 
       useEffect(() => {
+              const getDocuments = async () => {
+                try {
+                  setIsLoading(true)
+                  const response = await getData(`order?&filterWhere[status]==3&included=invoiceAssigned,client,casheir&sort=-charged_at&perPage=15${searchTerm}`);
+                  if (response.data) {
+                    setInvoices(response)
+                  } else {
+                    toast.error("Faltan algunos datos importantes!");
+                  }
+                } catch (error) {
+                  console.error(error);
+                  toast.error("Ha ocurrido un error!");
+                } finally {
+                  setIsLoading(false)
+                }
+            };
+
           (async () => { await getDocuments() })();
-      }, [currentPage, getDocuments]);
+      }, [currentPage]);
     
 
       const loadDocuments = async () => {
