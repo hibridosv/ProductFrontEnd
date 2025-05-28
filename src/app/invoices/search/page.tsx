@@ -42,7 +42,7 @@ export default function Page() {
 
       useEffect(() => {
           (async () => { await getDocuments() })();
-      }, [currentPage]);
+      }, [currentPage, getDocuments]);
     
 
       const loadDocuments = async () => {
