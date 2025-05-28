@@ -6,6 +6,7 @@ import { Button, Preset } from "../button/button";
 import { DeleteModal } from "../modals/delete-modal";
 import { InOut } from "@/services/Account";
 import { ConfigContext } from "@/contexts/config-context";
+import { formatDateAsDMY } from "@/utils/date-formats";
 
 
 interface CashInOutTableProps {
@@ -43,7 +44,7 @@ export function CashInOutTable(props: CashInOutTableProps) {
 
   const listItems = records.data.map((record: any) => (
     <tr key={record.id} className={`border-b  ${record.status == 1 ? 'bg-white' : 'bg-red-200'}`} >
-      <td className={`py-3 px-6 whitespace-nowrap font-bold  ${record.transaction_type == 1 ? 'text-green-500' : 'text-red-500'}`}>
+      <td className={`py-3 px-6 whitespace-nowrap font-bold  ${record.transaction_type == 1 ? 'text-green-500' : 'text-red-500'}`} title={`Fecha: ${formatDateAsDMY(record?.created_at)}`}>
         { transactionType(record?.transaction_type) }</td>
       <td className="py-3 px-6 whitespace-nowrap">{ record?.description }</td>
       <td className="py-3 px-6 truncate">{ record?.employee?.name }</td>
