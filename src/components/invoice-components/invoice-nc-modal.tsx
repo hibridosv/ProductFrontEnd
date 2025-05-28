@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState, useMemo, useRef } from "react";
+import { useContext, useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { getCountryProperty, numberToMoney } from "@/utils/functions";
@@ -29,7 +29,8 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
   const taxesPercent = 1 + (getCountryProperty(parseInt(systemInformation?.system?.country)).taxes / 100);
   const productsRef = useRef<any[]>([]);
 
-  const calculateTotal = (products = formProducts) => {
+  const calculateTotal = useCallback(
+    (products = formProducts) => {
       let total = 0;
       products.forEach((p) => {
         const quantity = Number(getValues(`product-${p.id}`)) || 0;
@@ -37,7 +38,9 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
         total += quantity * price;
       });
       return total;
-    };
+    },
+    [formProducts, getValues]
+  );
 
 
   useEffect(() => {
