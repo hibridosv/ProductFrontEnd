@@ -25,7 +25,6 @@ export function Deliverys(props: DeliverysProps) {
   const tenant = getTenant();
   let pusherEvent = useReverb(`${tenant}-channel-orders`, 'PusherOrderEvent', getConfigStatus("realtime-orders", config)).random;
 
- console.log("orders :>>", orders)
   const loadAllOrders = async () => {
     setIsLoading(true);
     try {

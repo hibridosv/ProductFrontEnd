@@ -44,7 +44,6 @@ export default function Page() {
           (async () => { await getDocuments() })();
       }, [currentPage]);
     
-      console.log("invoices: ", invoices)
 
       const loadDocuments = async () => {
           try {
