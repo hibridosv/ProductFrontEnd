@@ -26,13 +26,15 @@ export default function InOutPage() {
         setAccounts(await loadData(`cash/accounts`));
       })();
   }, []);
+console.log("accounts: ", accounts)
+
 
   useEffect(() => {
     (async () => { 
         setInOuts(await loadData(`cash/in-out?included=employee,account&sort=-created_at&perPage=10${currentPage}`));
       })();
   }, [currentPage]);
-console.log(inOuts)
+console.log("inOuts: ", inOuts)
 
 const onSubmit = async (data: any) => {
   data.status = 1;
