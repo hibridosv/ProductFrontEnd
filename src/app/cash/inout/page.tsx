@@ -1,7 +1,8 @@
 'use client'
-import { Alert, ViewTitle } from "@/components";
+import { Alert, Pagination, ViewTitle } from "@/components";
 import { Button, Preset } from "@/components/button/button";
 import { CashInOutTable } from "@/components/cash-components/cash-in-out-table";
+import { usePagination } from "@/hooks/usePagination";
 import { PresetTheme } from "@/services/enums";
 import { postData } from "@/services/resources";
 import { style } from "@/theme";
@@ -17,14 +18,21 @@ export default function InOutPage() {
   const [message, setMessage] = useState<any>({});
   const [accounts, setAccounts] = useState([] as any);
   const [inOuts, setInOuts] = useState([] as any);
+  const {currentPage, handlePageNumber} = usePagination("&page=1");
 
 
   useEffect(() => {
     (async () => { 
       setAccounts(await loadData(`cash/accounts`));
-      setInOuts(await loadData(`cash/in-out`));
     })();
 }, []);
+
+  useEffect(() => {
+    (async () => { 
+        setInOuts(await loadData(`cash/in-out?included=employee,account&sort=-created_at&perPage=10${currentPage}`));
+      })();
+  }, [currentPage]);
+
 
 const onSubmit = async (data: any) => {
   data.status = 1;
@@ -151,6 +159,10 @@ const handleDeleteInOuts = async (iden: string) => {
         <div className="col-span-6">
             <ViewTitle text="LISTADO DE TRANSACCIONES" />
             <CashInOutTable records={inOuts} onDelete={handleDeleteInOuts} />
+            <Pagination 
+                records={inOuts}
+                handlePageNumber={handlePageNumber } 
+                />
         </div>
         <Toaster position="top-right" reverseOrder={false} />
     </div>
