@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState, useMemo, useRef, useCallback } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { getCountryProperty, numberToMoney } from "@/utils/functions";
@@ -29,20 +29,6 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
   const taxesPercent = 1 + (getCountryProperty(parseInt(systemInformation?.system?.country)).taxes / 100);
   const productsRef = useRef<any[]>([]);
 
-  const calculateTotal = useCallback(
-    (products = formProducts) => {
-      let total = 0;
-      products.forEach((p) => {
-        const quantity = Number(getValues(`product-${p.id}`)) || 0;
-        const price = Number(getValues(`price-${p.id}`)) || 0;
-        total += quantity * price;
-      });
-      return total;
-    },
-    [formProducts, getValues]
-  );
-
-
   useEffect(() => {
     if (record.products && isShow) {
       const initializedProducts = record.products.map((product: any) => ({
@@ -62,7 +48,17 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
       // Calculate initial total
       setTotalState(calculateTotal(initializedProducts));
     }
-  }, [record.products, setValue, isShow, calculateTotal]);
+  }, [record.products, setValue, isShow]);
+
+  const calculateTotal = (products = formProducts) => {
+    let total = 0;
+    products.forEach((p) => {
+      const quantity = Number(getValues(`product-${p.id}`)) || 0;
+      const price = Number(getValues(`price-${p.id}`)) || 0;
+      total += quantity * price;
+    });
+    return total;
+  };
 
   // Update the total after blur (focus lost) rather than on every change
   const updateTotalAfterBlur = () => {
