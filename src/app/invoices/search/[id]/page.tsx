@@ -13,6 +13,7 @@ import { MdCreditScore } from "react-icons/md";
 import { API_URL } from "@/constants";
 import Link from "next/link";
 import { InvoiceNCModal } from "@/components/invoice-components/invoice-nc-modal";
+import { ButtonDownload } from "@/components/button/button-download";
 
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -231,7 +232,11 @@ export default function Page({ params }: { params: { id: string } }) {
           <div className="mt-4">
 
             <div className="m-3 flex justify-between mb-8">
+              { configuration.includes("print-link") ? <ButtonDownload autoclass={false} href={`/download/pdf/invoice/${records.id}`}>
+              <FaPrint className="clickeable" size={45} color="blue" />
+              </ButtonDownload> : 
               <div title="Imprimir"><FaPrint className="clickeable" size={45} color="blue" onClick={()=>printOrder()} /></div>
+              }
               {
                 (records?.invoice_assigned?.type == 3 || records?.invoice_assigned?.type == 2) &&
                 <div title="Crear nota de credito"><MdCreditScore className="clickeable" size={45} color="#2F81B9" 

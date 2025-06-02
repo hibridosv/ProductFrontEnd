@@ -7,6 +7,7 @@ import { Modal } from "flowbite-react";
 import { ConfigContext } from "@/contexts/config-context";
 import { useContext } from "react";
 import { NothingHere } from "@/components/nothing-here/nothing-here";
+import { ButtonDownload } from "@/components/button/button-download";
 
 
 
@@ -15,10 +16,11 @@ export interface PayFinishModalProps {
   invoice?: any;
   isShow?: boolean;
   isSending?: boolean;
+  config: string[];
 }
 
 export function PayFinishModal(props: PayFinishModalProps) {
-  const { onClose, invoice, isShow, isSending } = props;
+  const { onClose, invoice, isShow, isSending, config } = props;
   const { systemInformation } = useContext(ConfigContext);
 
   return (
@@ -57,7 +59,8 @@ export function PayFinishModal(props: PayFinishModalProps) {
             </div>
         </div>
       </Modal.Body>
-      <Modal.Footer className="flex justify-end">
+      <Modal.Footer className={`${!config.includes("print-link") && 'flex justify-end'}`}>
+        { !isSending && config.includes("print-link") && <ButtonDownload autoclass={false} href={`/download/pdf/invoice/${invoice.id}`}><Button text="Imprimir" preset={Preset.primary} isFull disabled={isSending} /></ButtonDownload>  }
         <Button onClick={onClose} preset={Preset.close} isFull disabled={isSending} /> 
       </Modal.Footer>
     </Modal>
