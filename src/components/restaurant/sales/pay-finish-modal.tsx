@@ -60,7 +60,7 @@ export function PayFinishModal(props: PayFinishModalProps) {
         </div>
       </Modal.Body>
       <Modal.Footer className={`${!config.includes("print-link") && 'flex justify-end'}`}>
-        { !isSending && config.includes("print-link") && <ButtonDownload autoclass={false} href={`/download/pdf/invoice/${invoice.id}`}><Button text="Imprimir" preset={Preset.primary} isFull disabled={isSending} /></ButtonDownload>  }
+        { !isSending && invoice.status != 1 && config.includes("print-link") && <ButtonDownload autoclass={false} href={`/download/pdf/invoice/${invoice.id}`}><Button text="Imprimir" preset={Preset.primary} isFull disabled={isSending} /></ButtonDownload>  }
         <Button onClick={onClose} preset={Preset.close} isFull disabled={isSending} /> 
       </Modal.Footer>
     </Modal>
