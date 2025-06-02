@@ -457,7 +457,7 @@ export default function ViewSales() {
             <SalesCommentModal isShow={modalComment.isOpen} order={order} onClose={()=>modalComment.setIsOpen(false)} />
             <SalesSetQuantityModal isShow={modalQuantity.isOpen} onClose={()=>modalQuantity.setIsOpen(false)} product={productSelected} sendProduct={sendProduct} />
             <SelectOptionsModal selectOption={updateProductOption} isShow={hasOptionsActive(order)}  order={order} isSending={isSending} />
-            <PayFinishModal isShow={modalPayed.isOpen} onClose={onFinish} invoice={payedInvoice} isSending={isSending} />
+            <PayFinishModal isShow={modalPayed.isOpen} onClose={onFinish} invoice={payedInvoice} isSending={isSending} config={configuration}/>
             <SalesContactSearchGtModal isShow={modalContactGt.isOpen} onClose={()=>modalContactGt.setIsOpen(false)} setOrder={setOrder} order={order} onOpenContact={()=>modalContact.setIsOpen(true)} />
             <SalesEspecialModal isShow={modalSalesSpecial.isOpen} onClose={()=>modalSalesSpecial.setIsOpen(false)} setOrder={setOrder} order={order} 
             config={configuration} handleClickOptionProduct={handleClickOptionProduct} sendProduct={sendProduct} />

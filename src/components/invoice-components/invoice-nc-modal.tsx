@@ -45,9 +45,9 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
         setValue(`price-${product.id}`, product.unit_price);
       });
       
-      // Calculate initial total
       setTotalState(calculateTotal(initializedProducts));
     }
+    // eslint-disable-next-line
   }, [record.products, setValue, isShow]);
 
   const calculateTotal = (products = formProducts) => {

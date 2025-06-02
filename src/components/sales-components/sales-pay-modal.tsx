@@ -10,6 +10,7 @@ import { ShowTotal } from "./show-total";
 import { Alert } from "../alert/alert";
 import { PresetTheme } from "@/services/enums";
 import { ConfigContext } from "@/contexts/config-context";
+import { ButtonDownload } from "../button/button-download";
 
 
 
@@ -164,9 +165,12 @@ export function SalesPayModal(props: SalesPayModalProps) {
                   <span className='mx-1 text-sm font-bold animatex' onClick={()=>setPaymentType(5)}>Credito</span>
                 }
               </div> }
-      <Modal.Footer className="flex justify-end">
-        { isPayInvoice ?
-        <Button onClick={handleFinish} text="Terminar" preset={Preset.close} isFull disabled={isSending} /> :
+      <Modal.Footer className={`${!config.includes("print-link") && 'flex justify-end'}`}>
+        { isPayInvoice ? <>
+          { config.includes("print-link") && <ButtonDownload autoclass={false} href={`/download/pdf/invoice/${invoice.id}`}><Button text="Imprimir" preset={Preset.primary} isFull disabled={isSending} /></ButtonDownload>  }
+          <Button onClick={handleFinish} text="Terminar" preset={Preset.close} isFull disabled={isSending} />
+          </>
+         :
         <Button onClick={onClose} preset={Preset.close} isFull disabled={isSending} /> }
       </Modal.Footer>
     </Modal>

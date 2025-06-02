@@ -35,7 +35,7 @@ export function SalesButtonsRestaurant(props: SalesButtonsRestaurantProps) {
   const { systemInformation } = useContext(ConfigContext);
   const total = sumarCantidad(order?.invoiceproducts);
   const blockMaxQuantityWithOutNit = systemInformation?.system?.country == 3 && total >= 2500 && !order?.client_id;
-  const disabledButonPay = isSending || !cashDrawer || blockMaxQuantityWithOutNit;
+  const disabledButonPay = isSending || !cashDrawer || blockMaxQuantityWithOutNit || (!order?.client_id && (order?.invoice_assigned?.type == 3 || order?.invoice_assigned?.type == 4));
 
 
   useEffect(() => {
@@ -97,6 +97,14 @@ if (!isShow) return <></>
           theme={PresetTheme.info}
           info="Importante: "
           text="Debe ingresar un NIT para realizar esta venta"
+          isDismisible={false}
+          className='my-1'
+          /> }
+
+          { (!order?.client_id && (order?.invoice_assigned?.type == 3 || order?.invoice_assigned?.type == 4)) && <Alert
+          theme={PresetTheme.danger}
+          info="Error"
+          text={`Seleccione un cliente para el ${order?.invoice_assigned?.type == 3 ? "CCF" : "Sujeto Excluido"}`}
           isDismisible={false}
           className='my-1'
           /> }
