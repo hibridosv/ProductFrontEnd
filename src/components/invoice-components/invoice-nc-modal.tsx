@@ -71,6 +71,7 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
     // Calculate the final total before submission
     const currentTotal = calculateTotal();
     setTotalState(currentTotal);
+    const totalIsDiferent = currentTotal !== record.total;
     
     const formattedData = formProducts
       .map((product: any) => {
@@ -107,6 +108,7 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
       subtotal: currentTotal / taxesPercent,
       taxes: currentTotal - (currentTotal / taxesPercent),
       total: currentTotal,
+      credit_note_type: totalIsDiferent ? 2 : 1, // 1 for full credit note, 2 for partial
     };
 
     try {
