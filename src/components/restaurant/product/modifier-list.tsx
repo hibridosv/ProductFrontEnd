@@ -59,11 +59,11 @@ export function ModifierList(props: ModifierListProps) {
     };
 
     useEffect(() => {
-        if (!showModalOptions && !isShowOptionModal) {
+        if (!isShowOptionModal) {
             (async () => { await loadOptions() })();
         }
     // eslint-disable-next-line
-    }, [showModalOptions, isShowOptionModal]);
+    }, [isShowOptionModal]);
 
 
       const listModifier = options?.map((option: any):any => (
@@ -93,7 +93,7 @@ export function ModifierList(props: ModifierListProps) {
         </div>
         </>}
 
-        <AddOptionsModal isShow={showModalOptions} onClose={() => setShowModalOptions(false)} />
+        <AddOptionsModal isShow={showModalOptions} onClose={() => setShowModalOptions(false)} reload={loadOptions} />
                 <OptionsUpdateModal onClose={()=>setIsShowOptionModal(false)} option={optionSelected} isShow={isShowOptionModal} random={loadOptions} />
                   <DeleteModal isShow={showDeleteModal}
                     text="¿Estas seguro de eliminar esta Opción?"
