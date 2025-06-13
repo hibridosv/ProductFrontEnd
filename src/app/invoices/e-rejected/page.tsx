@@ -11,7 +11,6 @@ import { InvoiceDocumentsElectronicTable } from "@/components/invoice-components
 export default function Page() {
   const [documents, setDocuments] = useState([] as any);
   const [isSending, setIsSending] = useState(false);
-  const [randomNumber, setRandomNumber] = useState(0);
 
     const handleDocuments = async () => {
         try {
@@ -36,7 +35,7 @@ export default function Page() {
           await handleDocuments()
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [randomNumber]);
+    }, []);
 
     const resendDocument = async (invoice: string) => {
       try {
@@ -46,7 +45,7 @@ export default function Page() {
           toast.error("Ocurrio un error");
         } else {
           toast.success("Datos obtenidos correctamente");
-          setRandomNumber(Math.random());
+          await handleDocuments();
         }
       } catch (error) {
         console.error(error);
