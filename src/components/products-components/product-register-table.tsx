@@ -31,7 +31,7 @@ export function ProductRegisterTable(props: ProductRegisterProps) {
       total += subtotal;
    return (
       <tr key={record.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" >
-        <td className="py-2 px-2 truncate uppercase">{ record?.product?.description }</td>
+        <td className="py-2 px-2 truncate uppercase"  title={`Codigo: ${record?.product?.cod }`} >{ record?.product?.description }</td>
         <td className="py-2 px-2">{ record?.quantity }</td>
         <td className="py-2 px-2">{ numberToMoney(record.unit_cost ? record.unit_cost : 0, systemInformation) }</td>
         <td className="py-2 px-2">{ numberToMoney((record.unit_cost ? record.unit_cost : 0) * record?.quantity, systemInformation) }</td>
