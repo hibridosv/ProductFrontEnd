@@ -58,7 +58,6 @@ export function CategoriesList(props: CategoriesListProps) {
     // eslint-disable-next-line
     }, []);
 
-    console.log("categories", categories);
 
       const listCategories = categories?.map((option: any):any => (
             <div key={option.id} >
