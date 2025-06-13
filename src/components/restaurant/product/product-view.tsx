@@ -243,13 +243,13 @@ export function ProductView(props: ProductViewProps) {
         text="¿Está seguro de eliminar este producto?"
         onDelete={handleDeleteProduct}  
         onClose={()=>modalDelete.setIsOpen(false)} />
-      <Toaster position="top-right" reverseOrder={false} />
       <ProductUpdateModal isShow={modalUpdate.isOpen} onClose={()=>modalUpdate.setIsOpen(false)} dataInit={dataUpdate} onSubmit={updateProduct} />
       <ProductCategoryUpdateModal isShow={modalCategory.isOpen} onClose={()=>modalCategory.setIsOpen(false)} dataInit={dataUpdate} onSubmit={updateProduct} />
       <ProductPanelUpdateModal isShow={modalPanel.isOpen} onClose={()=>modalPanel.setIsOpen(false)} dataInit={dataUpdate} onSubmit={updateProduct} />
       <ProductModifierUpdateModal isShow={modalModif.isOpen} onClose={()=>modalModif.setIsOpen(false)} dataInit={dataUpdate} reload={reload} />
       <AddImageModal isShow={modalImg.isOpen} onClose={()=> modalImg.setIsOpen(false)} selectedImage={handleChangeImage} />
       <ProductLinkedModal isShow={modalProd.isOpen} product={selectProduct} onClose={()=>modalProd.setIsOpen(false)} />
+      <Toaster position="top-right" reverseOrder={false} />
 
  </div>
   );
