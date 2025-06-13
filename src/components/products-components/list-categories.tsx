@@ -25,7 +25,9 @@ export function ListCategories(props: ListCategoriesProps) {
               )}
             </div>
           </div>
-          {item?.subcategories.map((sub: any) => (
+          {item?.subcategories.map((sub: any) =>{
+            if (sub.is_restaurant == 1) return null; // Skip principal categories    
+            return (
             <div className="grid grid-cols-12 border-y-2" key={sub.id}>
               <div className="col-span-10 m-1 ml-4 font-semibold"> - {sub.name.toUpperCase()} </div>
               <div className="col-span-2 m-1">
@@ -37,7 +39,8 @@ export function ListCategories(props: ListCategoriesProps) {
                 )}
               </div>
             </div>
-          ))}
+          )
+          } )}
         </div>
       ))}
     </div>
