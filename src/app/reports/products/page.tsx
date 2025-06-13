@@ -34,9 +34,9 @@ export default function Page() {
           setIsSending(true);
           const response = await postData(`reports/products-in`, "POST", document ? {document} : data );
           if (!response.message) {
-            toast.success("Datos obtenidos correctamente");
             setProducts(response);
             if(response.data.length > 0) addLink(links, data, 'excel/reports/products-in/', [{name: "document", value: document}]);
+            toast.success("Datos obtenidos correctamente");
           } else {
             toast.error("Faltan algunos datos importantes!");
           }
@@ -68,9 +68,8 @@ export default function Page() {
         <DateRange onSubmit={handlegetSales} />
         <LinksList links={links} />
         </div>
-      <Toaster position="top-right" reverseOrder={false} />
       <ReportsProductsModal isShow={isShowModal} onClose={()=>setIsShowModal(false)} setDocument={setDocument} />
-
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   )
 }

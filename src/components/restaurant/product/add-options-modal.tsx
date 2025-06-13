@@ -158,9 +158,9 @@ export function AddOptionsModal(props: AddOptionsModalProps) {
         <Loading text="Enviando..." />
         }
 
-      <Toaster position="top-right" reverseOrder={false} />
       <AddImageModal isShow={isShowImagesModal} onClose={()=> setIsShowImagesModal(false)} selectedImage={setSelectedImage} />
 
+      <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         <Button onClick={closeComponent} preset={Preset.close} />

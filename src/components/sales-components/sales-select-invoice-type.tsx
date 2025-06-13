@@ -81,8 +81,8 @@ return (
         {
           isSending ? <Loading text="Actualizando" /> : invoiceType && listItems         
         }
-      <Toaster position="top-right" reverseOrder={false} />
     </div>
+  <Toaster position="top-right" reverseOrder={false} />
   </Modal.Body>
   <Modal.Footer className="flex justify-end">
     <Button onClick={onClose} preset={Preset.close} isFull disabled={isSending} /> 
