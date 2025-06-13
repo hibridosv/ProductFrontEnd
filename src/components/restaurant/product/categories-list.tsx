@@ -54,11 +54,9 @@ export function CategoriesList(props: CategoriesListProps) {
     };
 
     useEffect(() => {
-        if (!showModalCategories) {
-            (async () => { await loadOptions() })();
-        }
+        (async () => { await loadOptions() })();
     // eslint-disable-next-line
-    }, [showModalCategories]);
+    }, []);
 
     console.log("categories", categories);
 
@@ -90,7 +88,7 @@ export function CategoriesList(props: CategoriesListProps) {
         </div>
         </>}
 
-        <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} />
+        <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} reload={loadOptions} />
 
             <DeleteModal isShow={showDeleteModal}
             text="¿Estas seguro de eliminar esta Categoría? Al eliminarla los productos asociados pasarán a la categoría por principal."
