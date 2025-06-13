@@ -21,6 +21,10 @@ export default function Page() {
     const [isLoading, setIsLoading] = useState(false);
     const {currentPage, handlePageNumber} = usePagination("&page=1");
 
+      const handleNewSearch = () => {
+            setDocuments([])
+            setRandNumber(getRandomInt(100))
+      }
 
 
     useEffect(() => {
@@ -46,7 +50,8 @@ export default function Page() {
       };
 
       getDocuments();
-    }, [currentPage]);
+      handleNewSearch();
+    }, [currentPage, handleNewSearch]);
 
 
       const loadDocuments = async () => {
@@ -66,10 +71,6 @@ export default function Page() {
         // eslint-disable-next-line
       }, [searchTerm]);
 
-      const handleNewSearch = () => {
-            setDocuments([])
-            setRandNumber(getRandomInt(100))
-      }
 
 
     const listItems = documents?.map((document: any):any => (
