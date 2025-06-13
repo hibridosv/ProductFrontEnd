@@ -31,31 +31,54 @@ export default function Page() {
   const { register, handleSubmit, reset } = useForm();
   const { systemInformation } = useContext(ConfigContext);
 
-  
-
-    const loadData = async () => {
-        setIsLoading(true);
+    const loadCategories = async () => {
         try {
           const cat = await getData(`categories?sort=created_at&filterWhere[category_type]==2&filterWhere[is_restaurant]==1`);
           setCategories(cat.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const loadOptions = async () => {
+        try {
           const opt = await getData(`restaurant/options`);
           setOptions(opt.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const loadWorkStations = async () => {
+        try {
           const work = await getData(`restaurant/workstations?filterWhere[status]==1`);
           setWorkStations(work.data);
         } catch (error) {
             console.error(error);
-        } finally {
-            setIsLoading(false);
         }
     };
 
 
+
+
     useEffect(() => {
-      if (!showModalCategories && !showModalOptions) {
-            (async () => { await loadData() })();
-        }
+          const loadData = async () => {
+                setIsLoading(true);
+                try {
+                  await Promise.all([
+                    loadCategories(),
+                    loadOptions(),
+                    loadWorkStations()
+                  ]);
+                } catch (error) {
+                  console.error(error);
+                } finally {
+                  setIsLoading(false);
+                }                 
+          };
+          loadData();
         // eslint-disable-next-line
-    }, [showModalCategories, showModalOptions]);
+    }, []);
 
   const onSubmit = async (data: any) => {
 
@@ -134,7 +157,7 @@ export default function Page() {
                 }
               </div>
 
-
+               {options?.length > 0 ?  
               <div className="w-full md:w-1/3 px-3 mb-4">
                 <label htmlFor="options" className={`${style.inputLabel} clickeable`} onClick={() => setShowModalOptions(true)}>Modificadores (Click para agregar)</label>
                 {options?.map((value: any) => {
@@ -145,8 +168,12 @@ export default function Page() {
                     </div>
                      );
                     })}
-              </div>
-              
+              </div> :
+              <div className="w-full md:w-1/3 px-3 mb-4">
+                <label htmlFor="sale_price" className={style.inputLabel}>Modificadores</label>
+                <div className={`${style.input} h-10`} >Sin Modificadores</div>
+              </div>}
+
               {workStations?.length > 0 ?
               <div className="w-full md:w-1/3 px-3 mb-4">
                 <label htmlFor="work_station_id" className={style.inputLabel}>Espacio de trabajo</label>
@@ -158,8 +185,8 @@ export default function Page() {
                 </select>
               </div> :
               <div className="w-full md:w-1/3 px-3 mb-4">
-                <label htmlFor="sale_price" className={style.inputLabel}>Precio de venta</label>
-                <div className={style.input} />
+                <label htmlFor="sale_price" className={style.inputLabel}>Espacio de trabajo</label>
+                <div className={`${style.input} h-10`} >No existen espacios de trabajo</div>
               </div>}
 
               <div className="w-full md:w-1/3 px-3 mb-4">
@@ -200,8 +227,8 @@ export default function Page() {
         {/* <ViewTitle text="ULTIMOS PRODUCTOS" /> */}
 
         </div>
-        <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} />
-        <AddOptionsModal isShow={showModalOptions} onClose={() => setShowModalOptions(false)} />
+        <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} reload={loadCategories} />
+        <AddOptionsModal isShow={showModalOptions} onClose={() => setShowModalOptions(false)} reload={loadOptions} />
         <AddImageModal isShow={isShowImagesModal} onClose={()=> setIsShowImagesModal(false)} selectedImage={setSelectedImage} />
       <Toaster position="top-right" reverseOrder={false} />
     </div>
