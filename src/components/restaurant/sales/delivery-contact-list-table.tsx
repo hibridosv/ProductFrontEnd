@@ -49,9 +49,9 @@ export function DeliveryContactList(props: DeliveryContactListProps) {
   return (<div>
   <div className="w-full overflow-auto">
     {listItems}
-    <Toaster position="top-right" reverseOrder={false} />
     <ContactAddModal isShow={isAdContactModal} onClose={()=>setIsAdContactModal(false)} record={recordSelect} random={random} />
     <ContactViewModal isShow={isAdContactViewModal} onClose={()=>setIsAdContactViewModal(false)} record={recordSelect} />
+    <Toaster position="top-right" reverseOrder={false} />
  </div>
  </div>);
 }

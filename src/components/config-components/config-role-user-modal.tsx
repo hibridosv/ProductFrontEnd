@@ -77,11 +77,11 @@ export function ConfigRoleUserModal(props: ConfigRoleUserModalProps) {
               </ul>
             </div> 
         }
+      <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         <Button onClick={onClose} preset={Preset.close} disabled={isSending} />
       </Modal.Footer>
-    <Toaster position="top-right" reverseOrder={false} />
     </Modal>
   );
 }

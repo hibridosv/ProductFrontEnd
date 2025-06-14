@@ -29,7 +29,7 @@ export default function Page() {
           setIsLoading(true);
 
           const response = await getData(
-            `order?&filterWhere[status]==3&included=invoiceAssigned,client,casheir&sort=-charged_at&perPage=15${searchTerm}`
+            `order?&filterWhere[status]==3&included=invoiceAssigned,client,casheir&sort=-charged_at&perPage=15${currentPage}`
           );
 
           if (response?.data) {
@@ -46,7 +46,7 @@ export default function Page() {
       };
 
       getDocuments();
-    }, [currentPage, searchTerm]);
+    }, [currentPage]);
 
 
       const loadDocuments = async () => {
