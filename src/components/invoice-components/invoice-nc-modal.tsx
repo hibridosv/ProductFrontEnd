@@ -1,6 +1,6 @@
 "use client";
 import { useContext, useEffect, useState, useRef } from "react";
-import { Modal } from "flowbite-react";
+import { Modal, ToggleSwitch } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import { getCountryProperty, numberToMoney } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
@@ -21,6 +21,7 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
   const { onClose, record, isShow = false } = props;
   const { systemInformation } = useContext(ConfigContext);
   const [isSending, setIsSending] = useState(false);
+  const [isProductReturn, setIsProductReturn] = useState(true);
   const [formProducts, setFormProducts] = useState<any[]>([]);
   const [totalState, setTotalState] = useState(0);
   const { control, handleSubmit, setValue, getValues } = useForm({
@@ -92,6 +93,7 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
           product_subtotal: subtotal,
           product_taxes: taxes,
           product_total: total,
+          is_product_return: isProductReturn,
           quantity,
         };
       })
@@ -134,6 +136,8 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
     const price = Number(getValues(`price-${productId}`)) || 0;
     return quantity * price;
   };
+  console.log("record", record);
+  console.log("records?.invoice_assigned", record?.invoice_assigned);
 
   return (
     <Modal size={isSending ? "sm" : "5xl"} show={isShow} position="center" onClose={onClose}>
@@ -232,17 +236,37 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
                         {numberToMoney(totalState, systemInformation)}
                       </td>
                     </tr>
+                    <tr>
+                      <td colSpan={4} className="text-right font-bold py-3 px-4 border">RETORNAR PRODUCTOS AL INVENTARIO:</td>
+                      <td className="py-3 px-4 border font-bold">
+                        <ToggleSwitch
+                            disabled={false}
+                            checked={isProductReturn}
+                            label={isProductReturn ? "Activo" : "Inactivo"}
+                            onChange={() => setIsProductReturn(!isProductReturn)}
+                          />
+                      </td>
+                    </tr>  
                   </tbody>
                 </table>
               </div>
-              <div className="mt-6 flex justify-end">
-                <Button
-                  type="submit"
-                  preset={Preset.save}
-                  text="Crear Nota de Crédito"
-                  disabled={isSending}
-                />
+              { record?.invoice_assigned?.type == 2 && record?.client?.register == null ? (
+                <Alert
+                theme={PresetTheme.danger}
+                text="Para crear una Nota de Crédito, el cliente de la factura debe estar asignado y ser contribuyente."
+                isDismisible={false}
+                className="my-8"
+              />
+              ) : (
+                <div className="mt-6 flex justify-end">
+                  <Button
+                    type="submit"
+                    preset={Preset.save}
+                    text="Crear Nota de Crédito"
+                    disabled={isSending}
+                  />
               </div>
+              )}
             </div>
           </form>
         )}
