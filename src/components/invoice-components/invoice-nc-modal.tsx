@@ -250,6 +250,14 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
                   </tbody>
                 </table>
               </div>
+              { record?.invoice_assigned?.type != 3 ? (
+                <Alert
+                theme={PresetTheme.danger}
+                text="No se puede crear una nota de credito en este documento."
+                isDismisible={false}
+                className="my-8"
+              />
+              ) : (
                 <div className="mt-6 flex justify-end">
                   <Button
                     type="submit"
@@ -258,6 +266,7 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
                     disabled={isSending}
                   />
               </div>
+              )}
             </div>
           </form>
         )}
