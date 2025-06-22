@@ -11,7 +11,7 @@ import { getUrlFromCookie } from "@/services/oauth";
 import SkeletonTable from "@/components/common/skeleton-table";
 import { ProductsAllTable } from "@/components/products-components/products-all-table";
 import { ConfigContext } from "@/contexts/config-context";
-import { getConfigStatus } from "@/utils/functions";
+import { getConfigStatus, permissionExists } from "@/utils/functions";
 
 export default function ViewProducts() {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,6 +25,8 @@ export default function ViewProducts() {
   const remoteUrl = getUrlFromCookie();
   const { config, systemInformation } = useContext(ConfigContext);
   const [rowsFormated, setRowsFormated] = useState([RowTable.brand, RowTable.location]);
+
+  console.log("permissionExists", permissionExists(systemInformation?.permission, "inventory-download"));
 
     useEffect(() => {
       setRowsFormated((prevRows) => {
@@ -145,15 +147,19 @@ export default function ViewProducts() {
                 handleSearchTerm={handleSearchTerm}
                 statics={statics}
                  />
-
-              <LinksList links={links} separator="?" />
-                    <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer" onClick={()=>updatePrice(null)}>
-                        ACTUALIZAR PRECIOS
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </li>
+              
+              { permissionExists(systemInformation?.permission, "inventory-download") && 
+                    <div>
+                      <LinksList links={links} separator="?" />
+                      <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer" onClick={()=>updatePrice(null)}>
+                          ACTUALIZAR PRECIOS
+                          <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                              stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                          </svg>
+                      </li>
+                    </div>
+              } 
             </div>
       <Toaster position="top-right" reverseOrder={false} />
       </div>
