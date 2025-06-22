@@ -93,24 +93,24 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
           product_subtotal: subtotal,
           product_taxes: taxes,
           product_total: total,
-          is_product_return: isProductReturn,
           quantity,
         };
       })
       .filter((item) => item !== null);
-
-    if (formattedData.length === 0) {
-      toast.error("Debe tener al menos un producto con cantidad mayor a 0");
-      return;
-    }
-
-    const newData = {
-      products: formattedData,
-      invoice: record.id,
-      subtotal: currentTotal / taxesPercent,
-      taxes: currentTotal - (currentTotal / taxesPercent),
-      total: currentTotal,
-      credit_note_type: totalIsDiferent ? 2 : 1, // 1 for full credit note, 2 for partial
+      
+      if (formattedData.length === 0) {
+        toast.error("Debe tener al menos un producto con cantidad mayor a 0");
+        return;
+      }
+      
+      const newData = {
+        products: formattedData,
+        invoice: record.id,
+        subtotal: currentTotal / taxesPercent,
+        taxes: currentTotal - (currentTotal / taxesPercent),
+        total: currentTotal,
+        credit_note_type: totalIsDiferent ? 2 : 1, // 1 for full credit note, 2 for partial
+        is_product_return: isProductReturn
     };
 
     try {
@@ -250,10 +250,10 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
                   </tbody>
                 </table>
               </div>
-              { record?.invoice_assigned?.type == 2 && record?.client?.register == null ? (
+              { record?.invoice_assigned?.type != 2 ? (
                 <Alert
                 theme={PresetTheme.danger}
-                text="Para crear una Nota de Crédito, el cliente de la factura debe estar asignado y ser contribuyente."
+                text="No se puede crear una nota de credito en este documento."
                 isDismisible={false}
                 className="my-8"
               />
