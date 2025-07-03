@@ -31,7 +31,7 @@ export default function Page() {
     };
 
     useEffect(() => {
-              (async () => { 
+      (async () => { 
         if (searchTerm != searchTermNew) {
           handlePageNumber("&page=1");
           setSearchTermNew(searchTerm);
