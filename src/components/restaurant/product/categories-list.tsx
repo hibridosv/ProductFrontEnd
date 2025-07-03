@@ -90,7 +90,7 @@ export function CategoriesList(props: CategoriesListProps) {
         <AddCategoriesModal isShow={showModalCategories} onClose={() => setShowModalCategories(false)} reload={loadOptions} />
 
             <DeleteModal isShow={showDeleteModal}
-            text="¿Estas seguro de eliminar esta Categoría? Al eliminarla los productos asociados pasarán a la categoría por principal."
+            text="¿Estas seguro de eliminar esta Categoría? Al eliminarla los productos asociados pasarán a la categoría principal."
             onDelete={()=>sendDataDelete(selectOption)} 
             onClose={()=>setShowDeleteModal(false)} />
     </div>
