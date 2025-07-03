@@ -26,8 +26,6 @@ export default function ViewProducts() {
   const { config, systemInformation } = useContext(ConfigContext);
   const [rowsFormated, setRowsFormated] = useState([RowTable.brand, RowTable.location]);
 
-  console.log("permissionExists", permissionExists(systemInformation?.permission, "inventory-download"));
-
     useEffect(() => {
       setRowsFormated((prevRows) => {
         let updatedRows = [...prevRows];
