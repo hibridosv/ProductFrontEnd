@@ -21,12 +21,13 @@ export function IconsMenu(props: IconsMenuProps) {
   const [selectedcategory, setSelectedcategory] = useState("");
   const imageQuantity = 35;
   const modalCategory = useIsOpen(false);
+  const orderIcon =  config?.includes("restaurant-sales-order-menu-alp") ? "alphabet" : "-order";
 
 
   const loadImages = async () => {
     setIsLoading(true);
     try {
-      const response = await getData(`restaurant/menu?sort=-order&filterWhere[status]==1&included=product.restaurant,category,`);
+      const response = await getData(`restaurant/menu?sort=${orderIcon}&filterWhere[status]==1&included=product.restaurant,category,`);
       setImages(response);
         } catch (error) {
           console.error(error);
@@ -40,7 +41,7 @@ export function IconsMenu(props: IconsMenuProps) {
             (async () => { await loadImages() })();
         }
         // eslint-disable-next-line
-      }, [isShow]);
+      }, [isShow, orderIcon]);
 
       if (!isShow) return <></>
 

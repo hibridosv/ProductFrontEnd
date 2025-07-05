@@ -20,7 +20,7 @@ export function Tables(props: TablesProps) {
   const { isShow, setSelectedTable, order, handleChangeOrder} = props;
   const [ tables, setTables ] = useState([] as any)
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedTables, setSelectedTables] = useState([]);
+  const [selectedTables, setSelectedTables] = useState<any[]>([]);
   const { config } = useContext(ConfigContext);
   const tenant = getTenant();
   let pusherEvent = useReverb(`${tenant}-channel-orders`, 'PusherOrderEvent', getConfigStatus("realtime-orders", config)).random;
@@ -32,7 +32,6 @@ export function Tables(props: TablesProps) {
     }
     setSelectedTable(option.id);
   };
-
 
   // Función que maneja el click y actualiza el estado con las tablas
   const handleLocationClick = (tables: any) => {
@@ -85,11 +84,8 @@ export function Tables(props: TablesProps) {
         
         
         const listZones = tables?.data && tables.data.map((record: any) => {
-            return (<div key={record.id} className="w-full font-medium clickeable bg-slate-200 items-center text-center" onClick={() => handleLocationClick(record.tables)}>{record.name}</div>)
+            return (<div key={record.id} className={`w-full font-medium clickeable bg-slate-200 items-center text-center ${record.id == selectedTables[0]?.restaurant_table_location_id ? 'bg-slate-200 text-black' : 'bg-slate-600 text-white'}`} onClick={() => handleLocationClick(record.tables)}>{record.name}</div>)
         });
-
-
-          
       
       return (
         <div>

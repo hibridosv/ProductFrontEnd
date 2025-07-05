@@ -65,13 +65,16 @@ const onSubmit = async (invoice_type_id: any) => {
   const style = "flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer"
   const styleSelect = "flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer bg-cyan-200"
   
-  const listItems = invoiceType?.map((type: any):any => (
+  const listItems = invoiceType?.map((type: any):any => {
+    if (type?.type === 8) return null; 
+    return (
     <div key={type.id} onClick={()=>onSubmit(type.id)}>
         <li className={ type.status == 1 ? styleSelect : style}>
               {type.name}  { ArrowIcon }
         </li>
     </div>
-))
+    );
+  })
 
 return (
 <Modal show={isShow} position="center" onClose={onClose} size="md">

@@ -23,6 +23,7 @@ import { AddImageModal } from "./add-image-modal";
 import { Loading } from "@/components/loading/loading";
 import { ConfigContext } from "@/contexts/config-context";
 import { ProductLinkedModal } from "@/components/products-components/product-add-linked-modal";
+import { NothingHere } from "@/components/nothing-here/nothing-here";
 
 
 
@@ -46,6 +47,7 @@ export function ProductView(props: ProductViewProps) {
   const { systemInformation } = useContext(ConfigContext);
 
   if (!products) return <></>;
+  if (products.length === 0) return <NothingHere width="164" height="98"  text="No se encontraron productos" />;
 
 
   const imageLoader = ({ src, width, quality }: any) => {

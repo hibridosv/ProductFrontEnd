@@ -1,5 +1,5 @@
 import { ConfigContext } from "@/contexts/config-context";
-import { formatDuiWithAll, getCountryProperty, numberToMoney, sumarCantidad, sumarDiscount, sumarSubtotal, sumarTotalesWithoutDIscount } from "@/utils/functions";
+import { formatDuiWithAll, numberToMoney, sumarCantidad, sumarDiscount, sumarTotalesWithoutDIscount } from "@/utils/functions";
 import { useContext } from "react";
 
 export interface RestaurantShowTotalProps {
@@ -18,7 +18,7 @@ export function RestaurantShowTotal(props: RestaurantShowTotalProps) {
   const total = sumarCantidad(order?.invoiceproducts);
   const subtotal = sumarTotalesWithoutDIscount(order?.invoiceproducts);
   const discount = sumarDiscount(order?.invoiceproducts);
-
+  const tips_percentage = order?.attributes?.tips_percentage ?? 0;
 
     return (
         <div className="p-2 mt-4 w-full">
@@ -37,10 +37,19 @@ export function RestaurantShowTotal(props: RestaurantShowTotalProps) {
                     </div>
                 </div>
 
+            { tips_percentage > 0 &&
+                <div className={`flex justify-between ${isSending && 'text-red-800 animate-pulse'}`}>
+                    <div className="w-full text-sm items-center pl-4 text-left">Propina | { tips_percentage } %</div>
+                    <div className="w-full text-sm items-center flex pr-4 justify-end">
+                        { numberToMoney((tips_percentage / 100 * total), systemInformation)}
+                    </div>
+                </div>
+            }
+
                 <div className={`flex justify-between ${isSending && 'text-red-800 animate-pulse'}`}>
                     <div className="w-full  font-bold text-2xl items-center pl-4 text-left">Total</div>
                     <div className="w-full  font-bold text-2xl items-center flex pr-4 justify-end">
-                        { numberToMoney(total, systemInformation)}
+                        { numberToMoney(total + (tips_percentage / 100 * total), systemInformation)}
                     </div>
                 </div>
             </div>

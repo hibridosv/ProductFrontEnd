@@ -47,6 +47,7 @@ export enum OptionsClickOrder {
     addClientTable = 27, // agregar cliente a la mesa
     divideAccount = 28, // Dividir cuenta de la mesa
     printPreAccount = 29, // Imprimir precuenta
+    tips = 30, // restaurant Propinas
   }
   
 

@@ -126,6 +126,7 @@ if (!isShow) return <></>
                     <div className="">
                     { config.includes("sales-discount") && 
                     <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.discount)}>  Agregar Descuento</div>}
+                    <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.tips)}> Asignar Propina</div>
                     <div className='font-semibold text-slate-700 py-2 px-4 hover:bg-slate-100 clickeable' onClick={isSending ? ()=>{} : ()=>onClickOrder(OptionsClickOrder.client)}> Asignar Cliente</div>
 
                     { config.includes("sales-other-seller") && 
