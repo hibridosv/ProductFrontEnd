@@ -425,7 +425,6 @@ export default function ViewSales() {
               } 
           }
 
-          console.log("Order updated:", order);
           return (
             <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
             <div className="col-span-6 border-r md:border-sky-600">
