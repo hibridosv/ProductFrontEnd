@@ -63,6 +63,7 @@ const tipoDTE = (dte: string)=>{
         }
       </td>
       <td className={`py-2 px-6 ${(record?.tipo_dte == "01" || record?.tipo_dte == "03") && 'clickeable'}`} onClick={(record?.tipo_dte == "01" || record?.tipo_dte == "03") ? ()=>{ setRecordSelect(record?.codigo_generacion); setShowInvoiceModal(true)} : ()=>{} } title="Ver detalles de documento"> { record?.numero_control } </td>
+      <td className="py-2 px-6">{ record?.receptor_nombre }</td>
       <td className={`py-2 px-6 ${record?.status == 3 && 'clickeable'}`} title={record?.descripcion_msg} onClick={ record?.status == 3 ? ()=>{ setErrorsSelect(record?.observaciones); setShowErrorsModal(true); } : ()=>{}}>{ status(record?.status, record?.codigo_generacion) }</td>
       <td className="py-2 px-6">{ record?.email == 1 ? "Enviado" : "Sin Enviar" }</td>
       <td className="py-2 px-6">
@@ -104,6 +105,7 @@ const tipoDTE = (dte: string)=>{
           <th scope="col" className="py-3 px-4 border">Fecha</th>
           <th scope="col" className="py-3 px-4 border">Tipo DTE</th>
           <th scope="col" className="py-3 px-4 border">Numero de control</th>
+          <th scope="col" className="py-3 px-4 border">Cliente</th>
           <th scope="col" className="py-3 px-4 border">Estado</th>
           <th scope="col" className="py-3 px-4 border">Email</th>
           <th scope="col" className="py-3 px-4 border">OP</th>

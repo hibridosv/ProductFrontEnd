@@ -64,6 +64,7 @@ export function HistoriesByProductTable(props: HistoriesByProductTableProps) {
     </table>
 
         <div className="uppercase shadow-lg border-x-2 mx-4 mt-4 mb-4 p-4 bg-white rounded-lg">
+            <div>Total de Productos: <span className=" font-semibold">{ getTotalOfItem(records?.data , "quantity") }</span></div>
             <div>Total descuentos: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "discount"), systemInformation) }</span></div>
             <div>Total de ventas: <span className=" font-semibold">{ numberToMoney(getTotalOfItem(records?.data, "total"), systemInformation) }</span></div>
         </div>
