@@ -115,11 +115,11 @@ export function TransferProductListTable(props: TransferProductListTableProps) {
     </table>
     <div className=" font-medium uppercase text-lg text-teal-700 text-right mt-3">Total: {numberToMoney(total, systemInformation)}</div>
     <ChangeQuantityModal isShow={showQuantityModal} onClose={()=>setShowQuantityModal(false)} handleUpdateQuantity={updateQuantity} />
-    <Toaster position="top-right" reverseOrder={false} />
     <DeleteModal isShow={showDeleteModal}
               text="¿Está seguro de eliminar este producto?"
               onDelete={()=>handleRecordDelete(recordSelect)}
               onClose={()=>setShowDeleteModal(false)} /> 
+    <Toaster position="top-right" reverseOrder={false} />
  </div>
  </div>);
 }

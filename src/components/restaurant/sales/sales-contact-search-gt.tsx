@@ -84,8 +84,8 @@ return (
         </div>
         </form>
         }
-        <Toaster position="top-right" reverseOrder={false} />
     </div>
+  <Toaster position="top-right" reverseOrder={false} />
   </Modal.Body>
   <Modal.Footer className="flex justify-end">
     <Button onClick={()=>{ onOpenContact(); onClose()}} text="Buscar Cliente" disabled={isSending} preset={Preset.add} />

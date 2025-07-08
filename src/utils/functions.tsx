@@ -461,7 +461,7 @@ export function formatDuiWithAll(cadena: string) {
 
 
 export const permissionExists = (permissions: any, permission: string) => {
-  if(!permissions) return; 
+  if(!permissions) return false; 
   return permissions.some((perm: any) => perm.name === permission);
 };
 

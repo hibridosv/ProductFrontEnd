@@ -36,6 +36,7 @@ import { DeliverysLateral } from "@/components/restaurant/sales/deliverys-latera
 import { DeliveryCancelBtn } from "@/components/restaurant/sales/deliverys-cancel-btn";
 import { DeliveryClientInfo } from "@/components/restaurant/sales/deliverys-client-info";
 import { SalesButtonsInitial } from "@/components/sales-components/sales-buttons-initial";
+import { SalesTipsModal } from "@/components/sales-components/sales-tips-modal";
 
 
 export default function ViewSales() {
@@ -60,6 +61,7 @@ export default function ViewSales() {
       const modalPaymentsType = useIsOpen(false);
       const modalInvoiceType = useIsOpen(false);
       const modalDiscount = useIsOpen(false);
+      const modalTips = useIsOpen(false);
       const modalContact = useIsOpen(false);
       const modalOthers = useIsOpen(false);
       const modalComment = useIsOpen(false);
@@ -118,7 +120,8 @@ export default function ViewSales() {
               && !modalOthers.isOpen 
               && !modalComment.isOpen 
               && !modalSalesSpecial.isOpen
-              && !modalDivideAccount.isOpen) {
+              && !modalDivideAccount.isOpen
+              && !modalTips.isOpen) {
               (async () => await selectLastOrder())()
             }
             // eslint-disable-next-line
@@ -128,7 +131,8 @@ export default function ViewSales() {
             modalOthers.isOpen, 
             modalComment.isOpen, 
             modalSalesSpecial.isOpen,
-            modalDivideAccount.isOpen]);
+            modalDivideAccount.isOpen, 
+            modalTips.isOpen]);
           
           const resetOrder = () =>{
             if (order?.attributes?.clients) {
@@ -317,6 +321,8 @@ export default function ViewSales() {
                   break;
                   case OptionsClickOrder.printPreAccount: (() => { setOrderPrinter(true) })();
                   break;
+                  case OptionsClickOrder.tips: (() => { modalTips.setIsOpen(true); })();
+                  break;
                   default: ()=>{};
                   break;
                 }
@@ -419,7 +425,6 @@ export default function ViewSales() {
               } 
           }
 
-          
           return (
             <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
             <div className="col-span-6 border-r md:border-sky-600">
@@ -451,6 +456,7 @@ export default function ViewSales() {
             <SalesDivideAccountModal onClickProduct={handleClickOptionProduct} isShow={modalDivideAccount.isOpen} order={order} onClose={()=>modalDivideAccount.setIsOpen(false)} isLoading={isLoading} cashDrawer={cashDrawer} payOrder={payOrder} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType} />
             <SalesSelectInvoiceTypeModal isShow={modalInvoiceType.isOpen} onClose={()=>modalInvoiceType.setIsOpen(false)} order={order} />
             <SalesDiscountProductModal isShow={modalDiscount.isOpen} discountType={isDiscountType} order={order} product={productSelected} onClose={()=>closeModalDiscount()} byCode />
+            <SalesTipsModal isShow={modalTips.isOpen} order={order} onClose={()=>modalTips.setIsOpen(false)} />
             <SelectPayTypeModal isShow={modalPaymentsType.isOpen} onClose={()=>modalPaymentsType.setIsOpen(false)} payments={systemInformation?.payMethods} setPayment={setPaymentType} />
             <SalesContactSearchModal isShow={modalContact.isOpen} ContactTypeToGet={typeOfClient} order={order} onClose={()=>modalContact.setIsOpen(false)} clientToUpdate={clientNametoUpdate}  />
             <SalesOthers isShow={modalOthers.isOpen} order={order} onClose={()=>modalOthers.setIsOpen(false)} />

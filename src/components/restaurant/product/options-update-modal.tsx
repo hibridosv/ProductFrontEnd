@@ -19,7 +19,6 @@ export interface OptionsUpdateModalProps {
 
 export function OptionsUpdateModal(props: OptionsUpdateModalProps) {
   const { onClose, option, isShow, random } = props;
-  const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [ optionsAll, setOptionsAll ] = useState([])
 
@@ -69,12 +68,10 @@ export function OptionsUpdateModal(props: OptionsUpdateModalProps) {
     <Modal size="sm" show={isShow} position="center" onClose={closeModal}>
       <Modal.Header>{option?.name}</Modal.Header>
       <Modal.Body>
-        { isLoading ? <Loading /> : <>
         <div className="mx-4">
             <li className="flex font-semibold text-red-800"> Modificadores Agregados</li>
             { listModifier }
         </div>
-        </>}
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
         <Button onClick={closeModal} preset={Preset.close} />

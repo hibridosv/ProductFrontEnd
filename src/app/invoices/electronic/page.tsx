@@ -13,6 +13,7 @@ import { InvoiceDocumentsElectronicTable } from "@/components/invoice-components
 import { LinksList } from "@/components/common/links-list";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
 import { MdDeleteForever, MdDoneAll, MdFingerprint, MdOutlineDeleteSweep, MdOutlineDoneAll, MdSend } from "react-icons/md";
+import { stat } from "fs";
 
 
 export default function Page() {
@@ -20,7 +21,6 @@ export default function Page() {
   const [invoices, setInvoices] = useState([] as any);
   const [isSending, setIsSending] = useState(false);
   const { register, watch } = useForm();
-  const [randomNumber, setRandomNumber] = useState(0);
   const { links, addLink} = AddNewDownloadLink()
   const [documentsUrl, setDocumentsUrl] = useState(null);
   const [documentStatus, setDocumentStatus] = useState(0);
@@ -49,7 +49,7 @@ export default function Page() {
             setDocumentsUrl(data);
             if(response.data.length > 0) addLink(links, data, 'excel/electronic/', data.invoiceId ? [{name: "invoiceId", value: data.invoiceId}] : null);
           } else {
-            toast.error("Faltan algunos datos importantes!");
+            toast.error("No se encontraron datos!");
             setDocuments([]);
           }
         } catch (error) {
@@ -62,12 +62,10 @@ export default function Page() {
 
       useEffect(() => {
         (async () => { 
-          const actualDate = DateTime.now();
-          const formatedDate = actualDate.toFormat('yyyy-MM-dd');
-          await handleDocuments( documentsUrl ?? {option: "1", initialDate: `${formatedDate} 00:00:00`, status: documentStatus });
+          await handleDocuments(documentsUrl ?? {option: "1", initialDate: `${DateTime.now().toFormat('yyyy-MM-dd')} 00:00:00`, status: documentStatus });
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [randomNumber, documentStatus]);
+    }, []);
 
     const resendDocument = async (invoice: string) => {
       try {
@@ -77,7 +75,7 @@ export default function Page() {
           toast.error("Ocurrio un error");
         } else {
           toast.success("Datos obtenidos correctamente");
-          setRandomNumber(Math.random());
+          await handleDocuments(documentsUrl ?? {option: "1", initialDate: `${DateTime.now().toFormat('yyyy-MM-dd')} 00:00:00`, status: documentStatus });
         }
       } catch (error) {
         console.error(error);
@@ -87,38 +85,38 @@ export default function Page() {
       }
     };
 
-    const setIcon = () => {
-      switch (documentStatus) {
-        case 0:
+    const setIcon = (status: string) => {
+      switch (status) {
+        case "0":
           return <MdDoneAll size={32} className={`col-span-11 m-4 text-2xl text-lime-900`} />;
-        case 1:
+        case "1":
           return <MdSend size={32} className={`col-span-11 m-4 text-2xl text-sky-900`} />;
-        case 2:
+        case "2":
           return <MdFingerprint size={32} className={`col-span-11 m-4 text-2xl text-blue-900`} />;
-        case 3:
+        case "3":
           return <MdOutlineDeleteSweep size={32} className={`col-span-11 m-4 text-2xl text-red-900`} />;
-        case 4:
+        case "4":
           return <MdOutlineDoneAll size={32} className={`col-span-11 m-4 text-2xl text-lime-900`} />;
-        case 5:
-            return <MdDeleteForever size={32} className={`col-span-11 m-4 text-2xl text-red-900`} />;
+        case "5":
+          return <MdDeleteForever size={32} className={`col-span-11 m-4 text-2xl text-red-900`} />;
         default:
           return <MdDoneAll size={32} className={`col-span-11 m-4 text-2xl text-sky-900`} />;
       }
     }
 
-    const setName = () => {
-      switch (documentStatus) {
-        case 0:
+    const setName = (status: string) => {
+      switch (status) {
+        case "0":
           return "EMITIDOS";
-        case 1:
+        case "1":
           return "ENVIADOS";
-        case 2:
+        case "2":
           return "FIRMADOS";
-        case 3:
+        case "3":
           return "RECHAZADOS";
-        case 4:
+        case "4":
           return  "PROCESADOS";
-        case 5:
+        case "5":
             return  "ANULADOS";
         default:
           return "EMITIDOS";
@@ -129,7 +127,7 @@ export default function Page() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600">
-        <ViewTitle text={`REPORTE DOCUMENTOS ${setName()}` } />
+        <ViewTitle text={`REPORTE DOCUMENTOS ${setName(watch("status"))}` } />
 
         <InvoiceDocumentsElectronicTable records={documents} isLoading={isSending} resendDocument={resendDocument} />
 
@@ -137,7 +135,7 @@ export default function Page() {
         <div className="col-span-3">
           <div className="flex justify-between">
             <ViewTitle text="SELECCIONAR FECHA" />
-            { setIcon() }
+            { setIcon(watch("status")) }
           </div>
           <div className="flex flex-wrap m-4 shadow-lg border-2 rounded-md mb-8">
               <div className="w-full md:w-full px-3 mb-2">

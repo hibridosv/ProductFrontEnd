@@ -11,20 +11,20 @@ import { AiOutlineLoading } from "react-icons/ai";
 
 export interface ProductModifierUpdateModalProps {
   onClose: () => void;
-  random: (value: number) => void;
+  reload: () => void;
   dataInit: any;
   isShow: boolean;
 }
 
 export function ProductModifierUpdateModal(props: ProductModifierUpdateModalProps) {
-  const { onClose, dataInit, isShow, random } = props;
+  const { onClose, dataInit, isShow, reload } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [ options, setOptions ] = useState([])
   const [ optionsAll, setOptionsAll ] = useState([])
 
   const closeModal = ()=>{
-    random && random(Math.random());
+    reload && reload();
     onClose();
   }
 

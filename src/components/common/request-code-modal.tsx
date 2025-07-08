@@ -59,7 +59,6 @@ return (
             <Button type="submit"  preset={Preset.save} />
             </div>
         </form>
-      <Toaster position="top-right" reverseOrder={false} />
     </div>
     <Toaster position="top-right" reverseOrder={false} />
   </Modal.Body>

@@ -14,6 +14,7 @@ import { Loading } from "@/components/loading/loading";
 export interface AddOptionsModalProps {
   onClose: () => void;
   isShow?: boolean;
+  reload: () => void;
 }
 
 interface Variant {
@@ -23,7 +24,7 @@ interface Variant {
 }
 
 export function AddOptionsModal(props: AddOptionsModalProps) {
-  const { onClose, isShow } = props;
+  const { onClose, isShow, reload } = props;
   const { register, handleSubmit, resetField, reset, setValue, setFocus } = useForm();
   const [isSending, setIsSending] = useState(false);
 
@@ -88,6 +89,11 @@ export function AddOptionsModal(props: AddOptionsModalProps) {
         setIsSending(false)
       }
   };
+
+  const closeComponent = () => {
+    reload();
+    onClose();
+  }
   
     const imageLoader = ({ src, width, quality }: any) => {
         return `${URL}/images/ico/${src}?w=${width}&q=${quality || 75}`
@@ -95,7 +101,7 @@ export function AddOptionsModal(props: AddOptionsModalProps) {
 
   if (!isShow) return null;
   return (
-    <Modal size="lg" show={isShow} position="center" onClose={onClose}>
+    <Modal size="lg" show={isShow} position="center" onClose={closeComponent}>
       <Modal.Header>Agregar modificadores</Modal.Header>
       <Modal.Body>
 
@@ -152,12 +158,12 @@ export function AddOptionsModal(props: AddOptionsModalProps) {
         <Loading text="Enviando..." />
         }
 
-      <Toaster position="top-right" reverseOrder={false} />
       <AddImageModal isShow={isShowImagesModal} onClose={()=> setIsShowImagesModal(false)} selectedImage={setSelectedImage} />
 
+      <Toaster position="top-right" reverseOrder={false} />
       </Modal.Body>
       <Modal.Footer className="flex justify-end gap-4">
-        <Button onClick={onClose} preset={Preset.close} />
+        <Button onClick={closeComponent} preset={Preset.close} />
       </Modal.Footer>
     </Modal>
   );

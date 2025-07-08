@@ -82,13 +82,13 @@ export function ContactListTable(props: ContactListTableProps) {
       </thead>
       <tbody>{listItems}</tbody>
     </table>
-    <Toaster position="top-right" reverseOrder={false} />
     <ContactAddModal isShow={isAdContactModal} onClose={()=>setIsAdContactModal(false)} record={recordSelect} random={random} />
     <ContactViewModal isShow={isAdContactViewModal} onClose={()=>setIsAdContactViewModal(false)} record={recordSelect} />
     <DeleteModal isShow={showDeleteModal}
               text="¿Está seguro de eliminar este contacto?"
               onDelete={()=>handleRecordDelete(recordSelect)}
               onClose={()=>setShowDeleteModal(false)} /> 
+    <Toaster position="top-right" reverseOrder={false} />
 
  </div>
  </div>);

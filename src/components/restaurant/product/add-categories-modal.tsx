@@ -13,10 +13,11 @@ import { URL } from "@/constants";
 export interface AddCategoriesModalProps {
   onClose: () => void;
   isShow?: boolean;
+  reload: () => void;
 }
 
 export function AddCategoriesModal(props: AddCategoriesModalProps) {
-  const { onClose, isShow } = props;
+  const { onClose, isShow, reload } = props;
   const { register, handleSubmit, resetField, setFocus } = useForm();
   const [isSending, setIsSending] = useState(false);
 
@@ -25,7 +26,6 @@ export function AddCategoriesModal(props: AddCategoriesModalProps) {
   const [isShowImagesModal, setIsShowImagesModal] = useState(false);
 
 
-      
       const onSubmit = async (data: any) => {
         if (!data.name){
             toast.error("Ingrese el nombre de la categoria");
@@ -38,6 +38,7 @@ export function AddCategoriesModal(props: AddCategoriesModalProps) {
           if (response.type == "successful") {
             toast.success( "Categoría Agregada correctamente");
             resetField("name")
+            reload();
             onClose();
         } else {
           toast.error("Faltan algunos datos importantes!");

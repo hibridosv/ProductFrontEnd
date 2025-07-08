@@ -23,17 +23,18 @@ import { AddImageModal } from "./add-image-modal";
 import { Loading } from "@/components/loading/loading";
 import { ConfigContext } from "@/contexts/config-context";
 import { ProductLinkedModal } from "@/components/products-components/product-add-linked-modal";
+import { NothingHere } from "@/components/nothing-here/nothing-here";
 
 
 
 export interface ProductViewProps {
   products?: any;
   isLoading: boolean;
-  random: (value: number) => void;
+  reload: () => void;
 }
 
 export function ProductView(props: ProductViewProps) {
-  const { products, random, isLoading } = props;
+  const { products, reload, isLoading } = props;
   const modalUpdate = useIsOpen(false);
   const modalModif = useIsOpen(false);
   const modalCategory = useIsOpen(false);
@@ -46,6 +47,7 @@ export function ProductView(props: ProductViewProps) {
   const { systemInformation } = useContext(ConfigContext);
 
   if (!products) return <></>;
+  if (products.length === 0) return <NothingHere width="164" height="98"  text="No se encontraron productos" />;
 
 
   const imageLoader = ({ src, width, quality }: any) => {
@@ -68,7 +70,7 @@ export function ProductView(props: ProductViewProps) {
       const response = await postData(`restaurant/products/${iden}`, 'DELETE');
       if (response.type == "successful") {
           toast.success(response.message);
-          random && random(Math.random());
+          reload && reload();
       } else {
         toast.error(response.message)
       }
@@ -80,10 +82,10 @@ export function ProductView(props: ProductViewProps) {
 
   const updateStatus = async (iden: number, status: number) => {
     try {
-      const response = await postData(`restaurant/products/status/${iden}`, 'PUT', { status: status == 0 ? 1 : 0 });
+      const response = await postData(`restaurant/products/${iden}/status`, 'PUT', { status: status == 0 ? 1 : 0 });
       if (response.type == "successful") {
         toast.success(response.message);
-        random && random(Math.random());
+        reload && reload();
     } else {
       toast.error(response.message)
     }
@@ -120,7 +122,7 @@ export function ProductView(props: ProductViewProps) {
         const response = await postData(`restaurant/products/${selectProduct.id}`, 'PUT', data);
         if (response.type == "successful") {
           toast.success(response.message);
-          random && random(Math.random());
+          reload && reload();
       } else {
         toast.error(response.message)
       }
@@ -140,7 +142,7 @@ export function ProductView(props: ProductViewProps) {
           const response = await postData(`restaurant/products/${order.id}`, 'PUT', data);
           if (response.type == "successful") {
             toast.success(response.message);
-            random && random(Math.random());
+            reload && reload();
         } else {
           toast.error(response.message)
         }
@@ -243,13 +245,13 @@ export function ProductView(props: ProductViewProps) {
         text="¿Está seguro de eliminar este producto?"
         onDelete={handleDeleteProduct}  
         onClose={()=>modalDelete.setIsOpen(false)} />
-      <Toaster position="top-right" reverseOrder={false} />
       <ProductUpdateModal isShow={modalUpdate.isOpen} onClose={()=>modalUpdate.setIsOpen(false)} dataInit={dataUpdate} onSubmit={updateProduct} />
       <ProductCategoryUpdateModal isShow={modalCategory.isOpen} onClose={()=>modalCategory.setIsOpen(false)} dataInit={dataUpdate} onSubmit={updateProduct} />
       <ProductPanelUpdateModal isShow={modalPanel.isOpen} onClose={()=>modalPanel.setIsOpen(false)} dataInit={dataUpdate} onSubmit={updateProduct} />
-      <ProductModifierUpdateModal isShow={modalModif.isOpen} onClose={()=>modalModif.setIsOpen(false)} dataInit={dataUpdate} random={random} />
+      <ProductModifierUpdateModal isShow={modalModif.isOpen} onClose={()=>modalModif.setIsOpen(false)} dataInit={dataUpdate} reload={reload} />
       <AddImageModal isShow={modalImg.isOpen} onClose={()=> modalImg.setIsOpen(false)} selectedImage={handleChangeImage} />
       <ProductLinkedModal isShow={modalProd.isOpen} product={selectProduct} onClose={()=>modalProd.setIsOpen(false)} />
+      <Toaster position="top-right" reverseOrder={false} />
 
  </div>
   );
