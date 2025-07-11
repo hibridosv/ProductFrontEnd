@@ -4,10 +4,8 @@ import { Modal } from "flowbite-react";
 import { Button, Preset } from "../button/button";
 import toast, { Toaster } from 'react-hot-toast';
 import { style } from "@/theme";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { postData } from "@/services/resources";
-import { Button as Boton } from "flowbite-react";
-import {  sumarCantidad } from "@/utils/functions";
 
 
 export interface SalesNameOrderModalProps {
@@ -28,11 +26,10 @@ export function SalesNameOrderModal(props: SalesNameOrderModalProps) {
   useEffect(() => {
     setFocus('name_table', {shouldSelect: true})
     setValue("name_table", order?.attributes?.table?.identification || "");
-  }, [setFocus, isShow])
+  }, [setFocus, setValue, isShow])
 
   
   const onSubmit = async (data: any) => {
-    console.log("data", data);
     data.order_id = order.id;
     try {
         setIsSending(true);
