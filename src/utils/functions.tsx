@@ -328,9 +328,9 @@ export const getTotalOfItem = (datos: any, item: string): any => {
 
 
 // obtiene el ultimo elemento de un arreglo
-export const getLastElement = (items: any, status = 1)=> {
+export const getLastElement = (items: any, row = "status", status = 1)=> {
   if(!items) return null;
-  const elementsWithStatus1 = items.filter((element:any) => element.status === status);
+  const elementsWithStatus1 = items.filter((element:any) => element[row] === status);
 
   if (elementsWithStatus1 && elementsWithStatus1.length > 0) {
       const lastElementWithStatus1 = elementsWithStatus1[elementsWithStatus1.length - 1];
@@ -341,8 +341,8 @@ export const getLastElement = (items: any, status = 1)=> {
 }
 
 // obtiene el primer elemento de un arreglo
-export const getFirstElement = (items: any, status =  1)=> {
-  const elementsWithStatus1 = items.filter((element: any) => element.status === status);
+export const getFirstElement = (items: any, row = "status", status = 1)=> {
+  const elementsWithStatus1 = items.filter((element: any) => element[row] === status);
 
   if (elementsWithStatus1 && elementsWithStatus1.length > 0) {
       const firstElementWithStatus1 = elementsWithStatus1[0];
@@ -488,7 +488,7 @@ export function getModalSize(imagesFiltered: any) {
   if (count <= 3) return 'sm';
   if (count >= 4 && count <= 6) return 'md';
   if (count >= 7 && count <= 12) return 'xl';
-  if (count >= 16 && count <= 20) return '2xl';
+  if (count >= 13 && count <= 20) return '2xl';
   if (count >= 21 && count <= 35) return '4xl';
   if (count >= 36 && count <= 40) return '6xl';
   // Si hay más de 45 elementos, devolvemos el tamaño más grande '7xl'
@@ -576,6 +576,33 @@ export function countSendPrintZero(invoice: any) {
 
   invoice.invoiceproducts.forEach((product: any) => {
       if (product.attributes && product.attributes.work_station_id && product.attributes.send_print === 0) {
+          count++;
+      }
+  });
+
+  return count;
+}
+
+
+//// Verfifica si hay productos esta pendiente de mandar a imprimir o a comanda
+export function isProductPendientToSend(product: any) {
+  if (!product) return false;
+  console.log("Product: ",product);
+  const sendPrint = product?.attributes?.send_print;
+  const isValidPrintStatus = [1, 2, 3].includes(sendPrint ?? -1);
+  return product.attributes && product.attributes.work_station_id && (isValidPrintStatus);
+}
+
+/// cuanta cuantos productos se han enviado a imprimir
+export function countSendPrint(invoice: any) {
+  if (!invoice?.invoiceproducts) return;
+
+  let count = 0;
+
+  invoice.invoiceproducts.forEach((product: any) => {
+      const sendPrint = product?.attributes?.send_print;
+      const isValidPrintStatus = [1, 2, 3].includes(sendPrint ?? -1);
+      if (product.attributes && product.attributes.work_station_id && isValidPrintStatus) {
           count++;
       }
   });

@@ -7,7 +7,6 @@ import { FieldsFormProduct as Fields } from "@/constants/form-product-json";
 import { postData, getData } from "@/services/resources";
 import { Button, Preset } from "@/components/button/button";
 import toast, { Toaster } from 'react-hot-toast';
-
 import { ConfigContext } from "@/contexts/config-context";
 import { style } from "@/theme";
 import { getConfigStatus, fieldWidth, transformFields, getCountryProperty } from "@/utils/functions";
@@ -16,7 +15,7 @@ import { PresetTheme } from "@/services/enums";
 import { AddCategoriesModal } from "@/components/modals/add-categories-modal";
 import { ContactAddModal } from "@/components/contacts-components/contact-add-modal";
 import { AddLocationsModal } from "@/components/modals/add-locations-modal";
-import { ToggleSwitch } from "flowbite-react";
+
 
 export default function AddProduct() {
   const [message, setMessage] = useState<any>({});

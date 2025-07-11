@@ -21,8 +21,6 @@ export function SalesNameOrderModal(props: SalesNameOrderModalProps) {
   const { register, handleSubmit, resetField, setFocus, setValue } = useForm();
   const [isSending, setIsSending] = useState(false);
 
-  console.log("order", order?.attributes?.table?.name);
-
   useEffect(() => {
     setFocus('name_table', {shouldSelect: true})
     setValue("name_table", order?.attributes?.table?.identification || "");

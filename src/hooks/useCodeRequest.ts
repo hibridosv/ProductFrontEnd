@@ -10,7 +10,7 @@ import { md5 } from 'js-md5';
  * @returns 
  */
 
-export function useCodeRequest(permmission: string, reverseRequired: boolean = true) {
+export function useCodeRequest(permmission: string, reverseRequired: boolean = true, reload: any = "") {
   const [codeRequest, setCodeRequest] = useState({ requestCode: false, required: false });
   const { systemInformation } = useContext(ConfigContext);
   const [isRequestCodeModal, setIsRequestCodeModal] = useState(false);
@@ -28,7 +28,7 @@ export function useCodeRequest(permmission: string, reverseRequired: boolean = t
     }
 
     // eslint-disable-next-line
-  }, [systemInformation, reverseRequired]);
+  }, [systemInformation, reverseRequired, reload]);
 
   const verifiedCode = (code: string) => {
     const permissionExistsFlag = permissionExists(systemInformation?.permission, permmission);
