@@ -37,7 +37,7 @@ export enum OptionsClickSales {
 export function SalesQuickTable(props: SalesQuickProps) {
   const { records, onClick, config } = props;
   const { systemInformation } = useContext(ConfigContext);
-  const { codeRequestPice, 
+  const { codeRequest, 
     verifiedCode, 
     isRequestCodeModal, 
     setIsRequestCodeModal, 
@@ -83,7 +83,7 @@ export function SalesQuickTable(props: SalesQuickProps) {
 
           </div>
         </td>
-        <td className="py-1 px-2  cursor-pointer" onClick={codeRequestPice.requestPrice && codeRequestPice.required ?
+        <td className="py-1 px-2  cursor-pointer" onClick={codeRequest.requestCode && codeRequest.required ?
            ()=> setIsRequestCodeModal(true) : 
            ()=> onClick(record, OptionsClickSales.price)}>
           { numberToMoney(record.unit_price ? record.unit_price : 0, systemInformation) }

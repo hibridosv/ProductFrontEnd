@@ -37,7 +37,7 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
   const [promotionStatus, setPromotionStatus] = useState<boolean>(false)
   const [downloadStatus, setDownloadStatus] = useState<boolean>(false)
   let pricesActive = [TypeOfPrice.normal];
-  const { codeRequestPice, 
+  const { codeRequest, 
     verifiedCode, 
     isRequestCodeModal, 
     setIsRequestCodeModal, 
@@ -143,12 +143,12 @@ export function SalesShowOrders(props: SalesShowOrdersProps) {
         <div className="mt-4">
           <div className='flex justify-center border-2 border-sky-500 rounded mb-2'>
             <span className='mx-2 text-sm font-bold animatex flex' onClick={
-              codeRequestPice.requestPrice && codeRequestPice.required ? 
+              codeRequest.requestCode && codeRequest.required ? 
               ()=> setIsRequestCodeModal(true) : 
               ()=>setPrice(setPriceOptions(priceType, pricesActive)) }>
 
                 {setPriceName(priceType)} 
-              <span className="mt-1 ml-2">{codeRequestPice.requestPrice && codeRequestPice.required ? 
+              <span className="mt-1 ml-2">{codeRequest.requestCode && codeRequest.required ? 
               <IoMdLock color="red" /> : <IoMdUnlock color="green" />}</span></span>
           </div>
         { priceType != TypeOfPrice.normal && <div className="flex justify-center"><Alert text={`EL PRECIO ESTA COMO ${setPriceName(priceType)}`} theme={PresetTheme.danger} isDismisible={false} /></div> }
