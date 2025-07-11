@@ -24,7 +24,7 @@ export function SalesNameOrderModal(props: SalesNameOrderModalProps) {
   useEffect(() => {
     setFocus('name_table', {shouldSelect: true})
     setValue("name_table", order?.attributes?.table?.identification || "");
-  }, [setFocus, setValue, isShow])
+  }, [setFocus, setValue, isShow, order])
 
   
   const onSubmit = async (data: any) => {
