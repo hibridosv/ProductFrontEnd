@@ -1,6 +1,6 @@
 'use client'
 import { useContext, useEffect, useState } from "react";
-import { getFirstElement, getLastElement, numberToMoney } from "@/utils/functions";
+import { getFirstElement, numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import {  formatDate, formatDateAsDMY, formatTime } from "@/utils/date-formats";
 import { Button, Preset } from "../button/button";
