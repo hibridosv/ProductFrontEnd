@@ -4,6 +4,7 @@ import { Button, Preset } from "@/components/button/button";
 import Image from "next/image";
 import { URL } from "@/constants";
 import { getModalSize } from "@/utils/functions";
+import { useEffect } from "react";
 
 export interface IconMenuCategoryModalProps {
   onClose: () => void;
@@ -16,7 +17,18 @@ export interface IconMenuCategoryModalProps {
 
 export function IconMenuCategoryModal(props: IconMenuCategoryModalProps) {
   const { onClose, isShow, selectedIcon, images, filter, config } = props;
+  
+  useEffect(() => {
+    if (isShow) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
 
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isShow]);
 
         if (!images || !isShow) return <></>
 

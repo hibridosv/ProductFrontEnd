@@ -37,6 +37,7 @@ import { DeliveryCancelBtn } from "@/components/restaurant/sales/deliverys-cance
 import { DeliveryClientInfo } from "@/components/restaurant/sales/deliverys-client-info";
 import { SalesButtonsInitial } from "@/components/sales-components/sales-buttons-initial";
 import { SalesTipsModal } from "@/components/sales-components/sales-tips-modal";
+import { SalesNameOrderModal } from "@/components/sales-components/sales-name-order-modal";
 
 
 export default function ViewSales() {
@@ -62,6 +63,7 @@ export default function ViewSales() {
       const modalInvoiceType = useIsOpen(false);
       const modalDiscount = useIsOpen(false);
       const modalTips = useIsOpen(false);
+      const modalNameOrder = useIsOpen(false);
       const modalContact = useIsOpen(false);
       const modalOthers = useIsOpen(false);
       const modalComment = useIsOpen(false);
@@ -323,6 +325,8 @@ export default function ViewSales() {
                   break;
                   case OptionsClickOrder.tips: (() => { modalTips.setIsOpen(true); })();
                   break;
+                  case OptionsClickOrder.nameOrder: (() => { modalNameOrder.setIsOpen(true); })();
+                  break;
                   default: ()=>{};
                   break;
                 }
@@ -457,6 +461,7 @@ export default function ViewSales() {
             <SalesSelectInvoiceTypeModal isShow={modalInvoiceType.isOpen} onClose={()=>modalInvoiceType.setIsOpen(false)} order={order} />
             <SalesDiscountProductModal isShow={modalDiscount.isOpen} discountType={isDiscountType} order={order} product={productSelected} onClose={()=>closeModalDiscount()} byCode />
             <SalesTipsModal isShow={modalTips.isOpen} order={order} onClose={()=>modalTips.setIsOpen(false)} />
+            <SalesNameOrderModal order={order} isShow={modalNameOrder.isOpen} onClose={()=>modalNameOrder.setIsOpen(false)} />
             <SelectPayTypeModal isShow={modalPaymentsType.isOpen} onClose={()=>modalPaymentsType.setIsOpen(false)} payments={systemInformation?.payMethods} setPayment={setPaymentType} />
             <SalesContactSearchModal isShow={modalContact.isOpen} ContactTypeToGet={typeOfClient} order={order} onClose={()=>modalContact.setIsOpen(false)} clientToUpdate={clientNametoUpdate}  />
             <SalesOthers isShow={modalOthers.isOpen} order={order} onClose={()=>modalOthers.setIsOpen(false)} />

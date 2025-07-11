@@ -56,7 +56,7 @@ export function SalesTipsModal(props: SalesTipsModalProps) {
 
     try {
         setIsSending(true);
-        const response = await postData(`sales/tips/update`, "POST", values);
+        const response = await postData(`orders/restaurant/tips/update'`, "POST", values);
         if (response.type === "error") {
             toast.error(response.message);
         } else {
