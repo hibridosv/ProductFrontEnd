@@ -22,6 +22,8 @@ export interface PayFinishModalProps {
 export function PayFinishModal(props: PayFinishModalProps) {
   const { onClose, invoice, isShow, isSending, config } = props;
   const { systemInformation } = useContext(ConfigContext);
+  const tips = invoice?.attributes?.tips ?? 0;
+  const total = invoice?.total + tips;
 
   return (
     <Modal show={isShow} position="center" onClose={onClose} size="md">
@@ -42,10 +44,10 @@ export function PayFinishModal(props: PayFinishModalProps) {
                 { isSending ? <Loading text="Facturando..." /> :
                 <div>
                     <div className="flex justify-center mt-4">TOTAL</div>
-                    <div className="flex justify-center text-7xl mb-4 font-bold">{numberToMoney(invoice?.total - invoice?.retention, systemInformation)}</div>
+                    <div className="flex justify-center text-7xl mb-4 font-bold">{numberToMoney(total - invoice?.retention, systemInformation)}</div>
                     { invoice?.payment_type === 1 && invoice?.invoice_assigned?.type != 8 ? <>
                     <div className="flex justify-center">CAMBIO</div>
-                    <div className="flex justify-center text-7xl mb-4 text-red-600 font-bold">{numberToMoney(invoice?.change, systemInformation)}
+                    <div className="flex justify-center text-7xl mb-4 text-red-600 font-bold">{numberToMoney(invoice?.change - tips, systemInformation)}
                     </div></> : 
                     <div className='flex justify-center text-lg font-semibold uppercase text-blue-600'>
                       { invoice?.payment_type === 5 ? 
