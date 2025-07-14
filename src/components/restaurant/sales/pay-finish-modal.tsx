@@ -26,10 +26,10 @@ export function PayFinishModal(props: PayFinishModalProps) {
   const total = invoice?.total + tips;
 
   return (
-    <Modal show={isShow} position="center" onClose={onClose} size="md">
+    <Modal show={isShow} position="center" onClose={isSending ? undefined : onClose} size="md">
       <Modal.Body>
         <div className="mx-4">
-              <div onClick={onClose} className='cursor-pointer'>
+              <div onClick={isSending ? undefined : onClose} className={`${isSending ? 'cursor-not-allowed' : 'cursor-pointer'}`}>
                 { !isSending && invoice.status == 1 && invoice.total == null ? <div>
                   <NothingHere text="Ocurrió un error al facturar, intentelo de nuevo!" />
                 </div> : 
