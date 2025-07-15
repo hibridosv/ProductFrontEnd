@@ -48,6 +48,7 @@ export enum OptionsClickOrder {
     divideAccount = 28, // Dividir cuenta de la mesa
     printPreAccount = 29, // Imprimir precuenta
     tips = 30, // restaurant Propinas
+    nameOrder = 31, // restaurant Nombre de la orden
   }
   
 

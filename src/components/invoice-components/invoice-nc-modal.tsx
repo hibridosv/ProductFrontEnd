@@ -136,8 +136,7 @@ export function InvoiceNCModal(props: InvoiceNCModalProps) {
     const price = Number(getValues(`price-${productId}`)) || 0;
     return quantity * price;
   };
-  console.log("record", record);
-  console.log("records?.invoice_assigned", record?.invoice_assigned);
+
 
   return (
     <Modal size={isSending ? "sm" : "5xl"} show={isShow} position="center" onClose={onClose}>

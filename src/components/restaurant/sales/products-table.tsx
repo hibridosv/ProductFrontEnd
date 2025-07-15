@@ -1,11 +1,13 @@
 'use client'
+import { RequestCodeModal } from "@/components/common/request-code-modal";
 import { NothingHere } from "@/components/nothing-here/nothing-here";
 import { OptionsClickSales } from "@/components/sales-components/sales-quick-table";
 import { ConfigContext } from "@/contexts/config-context";
+import { useCodeRequest } from "@/hooks/useCodeRequest";
 import { OptionsClickOrder } from "@/services/enums";
 import { getUrlFromCookie } from "@/services/oauth";
 import { Product } from "@/services/products";
-import { groupInvoiceProductsByCodAll, numberToMoney } from "@/utils/functions";
+import { groupInvoiceProductsByCodAll, isProductPendientToSend, numberToMoney, countSendPrint, getLastElement } from "@/utils/functions";
 import Image from "next/image";
 import { useContext } from "react";
 import toast from "react-hot-toast";
@@ -25,8 +27,16 @@ export function ProductsTable(props: ProductsTableProps) {
   const { order, onClickOrder, onClickProduct, blocked, isShow = false } = props;
   const { systemInformation } = useContext(ConfigContext);
   const remoteUrl = getUrlFromCookie();
-  
-  
+  const { codeRequest, 
+    verifiedCode, 
+    isRequestCodeModal, 
+    setIsRequestCodeModal, 
+    isShowError, 
+    setIsShowError } = useCodeRequest('code-request-delete-product', false, order?.id);
+
+    const isCodeRequired = codeRequest.requestCode && codeRequest.required;
+    const isCodeRequiredOrder = codeRequest.requestCode && codeRequest.required && countSendPrint(order) != 0;
+    
   if (!isShow ) return <></>
   
   
@@ -43,7 +53,8 @@ export function ProductsTable(props: ProductsTableProps) {
         )
 
         order?.invoiceproducts && groupInvoiceProductsByCodAll(order);
-        const listItems = order?.invoiceproductsGroup.map((record: any) => (
+        const listItems = order?.invoiceproductsGroup.map((record: any) => { 
+            return (
             <tr key={record.id} className="border-b bg-white" >
             <td className='py-3 px-6 clickeable' onClick={record.options.length > 0 ? ()=> toast.error('Opción no disponible en este producto') : ()=> onClickProduct(record, OptionsClickSales.quantity)}>{ record.quantity }</td>
             <td className="py-3 px-6">{ record.product }</td>
@@ -52,12 +63,17 @@ export function ProductsTable(props: ProductsTableProps) {
             { !blocked &&
             <td className="py-2 truncate">
             <span className="flex justify-between">
-                <AiFillCloseCircle size={20} title="Editar" className="text-red-600 clickeable" onClick={()=> onClickProduct(record, OptionsClickSales.delete) } />
+                <AiFillCloseCircle size={20} title="Editar" className={`${isCodeRequired && isProductPendientToSend(getLastElement(order?.invoiceproducts, "cod", record?.cod)) ? 'text-grey-800' : 'text-red-800'} clickeable`} onClick={
+                                  isCodeRequired && isProductPendientToSend(getLastElement(order?.invoiceproducts, "cod", record?.cod)) ? 
+                                  ()=> setIsRequestCodeModal(true) : 
+                                  ()=> onClickProduct(record, OptionsClickSales.delete)
+                                   } />
             </span>
             </td>
             }
             </tr>
-        ));
+        )
+        });
 
 
       return (
@@ -71,7 +87,11 @@ export function ProductsTable(props: ProductsTableProps) {
                         <th scope="col" className="py-3 px-4 border">Precio</th>
                         <th scope="col" className="py-3 px-4 border">Total</th>
                         { !blocked &&
-                        <th scope="col" className="py-3 border"><MdDelete size={22} title="Eliminar" className="text-red-800 clickeable" onClick={()=>onClickOrder(OptionsClickOrder.delete)} /></th>
+                        <th scope="col" className="py-3 border"><MdDelete size={22} title="Eliminar" className={`${isCodeRequiredOrder ? 'text-grey-800' : 'text-red-800'} clickeable`} onClick={
+                                   isCodeRequiredOrder ? 
+                                  ()=> setIsRequestCodeModal(true) : 
+                                  ()=>onClickOrder(OptionsClickOrder.delete)
+                        } /></th>
                         }
                         </tr>
                     </thead>
@@ -80,6 +100,11 @@ export function ProductsTable(props: ProductsTableProps) {
                     </tbody>
                     </table>
                 </div>
+                <RequestCodeModal isShow={isRequestCodeModal}  
+                    onClose={()=>setIsRequestCodeModal(false)} 
+                    verifiedCode={verifiedCode} 
+                    isShowError={isShowError} 
+                    setIsShowError={()=>setIsShowError(false)} />
             </div>
   );
 

@@ -1,5 +1,9 @@
 import { OptionsClickOrder } from '@/services/enums';
 import toast, { Toaster } from 'react-hot-toast';
+import { ConfigContext } from "@/contexts/config-context";
+import { useContext } from "react";
+import { permissionExists } from "@/utils/functions";
+
 
 export interface ServiceTypeSelectProps {
   setDeliverySelected: (option: any)=>void
@@ -15,6 +19,7 @@ export interface ServiceTypeSelectProps {
 
 export function ServiceTypeSelect(props: ServiceTypeSelectProps) {
   const { setDeliverySelected, setSelectType, selectType, order, configuration,  onClickOrder, setSelectedTable, isSending } = props;
+  const { systemInformation } = useContext(ConfigContext);
 
 
   const countFeatures = () => {
@@ -55,15 +60,15 @@ export function ServiceTypeSelect(props: ServiceTypeSelectProps) {
       return (
             <div>
               <div className="flex justify-around w-full h-7 shadow-md">
-                { configuration?.includes("restaurant-sales-delivery") && 
+                { configuration?.includes("restaurant-sales-delivery") && permissionExists(systemInformation?.permission, "restaurant-sales-delivery") &&
                 <div className={`w-full font-medium clickeable ${selectType == 3 ? 'bg-slate-200 text-black' : 'bg-slate-600 text-white'} items-center text-center`} 
                 onClick={isSending ? ()=>{} : ()=>handleSelected(3)}>Delivery</div> 
                 }
-                { configuration?.includes("restaurant-sales-quick") && 
+                { configuration?.includes("restaurant-sales-quick") &&  permissionExists(systemInformation?.permission, "restaurant-sales-quick") &&
                 <div className={`w-full font-medium clickeable ${selectType == 1 ? 'bg-slate-200 text-black' : 'bg-slate-600 text-white'} items-center text-center`} 
                 onClick={isSending ? ()=>{} : ()=>handleSelected(1)}>Venta Rapida</div> 
                 }
-                { configuration?.includes("restaurant-sales-here") && 
+                { configuration?.includes("restaurant-sales-here") &&  permissionExists(systemInformation?.permission, "restaurant-sales-here") &&
                 <div className={`w-full font-medium clickeable ${selectType == 2 ? 'bg-slate-200 text-black' : 'bg-slate-600 text-white'} items-center text-center`} 
                 onClick={isSending ? ()=>{} : ()=>handleSelected(2)}>Servicio Mesa</div> 
                 }

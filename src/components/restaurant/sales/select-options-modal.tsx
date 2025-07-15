@@ -22,7 +22,7 @@ export function SelectOptionsModal(props: SelectOptionsModalProps) {
     }
 
     const lastElement = getLastElement(order?.invoiceproducts)
-    const lastOption = getLastElement(lastElement?.options, 0)
+    const lastOption = getLastElement(lastElement?.options, "status", 0)
 
 
   const listItems = lastElement && lastElement?.options.map((record: any) => {

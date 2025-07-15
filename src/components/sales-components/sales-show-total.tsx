@@ -27,7 +27,7 @@ export function SalesShowTotal(props: SalesShowTotalProps) {
   const [showSeller, setShowSeller] = useState<boolean>(false)
   
   let pricesActive = [TypeOfPrice.normal];
-  const { codeRequestPice, verifiedCode, isRequestCodeModal, setIsRequestCodeModal, isShowError, setIsShowError } = useCodeRequest('code-request-prices', false);
+  const { codeRequest, verifiedCode, isRequestCodeModal, setIsRequestCodeModal, isShowError, setIsShowError } = useCodeRequest('code-request-prices', false);
 
   useEffect(() => {
     setMultiPriceStatus(getConfigStatus("is-multi-price", config))
@@ -57,10 +57,10 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
       <span className='mx-2 text-sm font-bold animatex' onClick={invoiceType} >{ records?.invoice_assigned?.name.toUpperCase() }</span> 
       { multiPriceStatus ? 
       <span className='mx-2 text-sm font-bold animatex flex' onClick={
-        codeRequestPice.requestPrice && codeRequestPice.required ? 
+        codeRequest.requestCode && codeRequest.required ? 
         ()=> setIsRequestCodeModal(true) : 
         ()=>setPrice(setPriceOptions(priceType, pricesActive))
-        }>{setPriceName(priceType)}<span className="mt-1 ml-2">{codeRequestPice.requestPrice && codeRequestPice.required ? 
+        }>{setPriceName(priceType)}<span className="mt-1 ml-2">{codeRequest.requestCode && codeRequest.required ? 
           <IoMdLock color="red" /> : <IoMdUnlock color="green" />}</span></span> :
       <span className='mx-2 text-sm font-bold'>{setPriceName(priceType)}</span> 
       }

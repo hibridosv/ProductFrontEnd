@@ -10,8 +10,8 @@ import { md5 } from 'js-md5';
  * @returns 
  */
 
-export function useCodeRequest(permmission: string, reverseRequired: boolean = true) {
-  const [codeRequestPice, setCodeRequestPice] = useState({ requestPrice: false, required: false });
+export function useCodeRequest(permmission: string, reverseRequired: boolean = true, reload: any = "") {
+  const [codeRequest, setCodeRequest] = useState({ requestCode: false, required: false });
   const { systemInformation } = useContext(ConfigContext);
   const [isRequestCodeModal, setIsRequestCodeModal] = useState(false);
   const [isShowError, setIsShowError] = useState(false);
@@ -20,22 +20,22 @@ export function useCodeRequest(permmission: string, reverseRequired: boolean = t
     if (systemInformation?.permission) {
       const permissionExistsFlag = permissionExists(systemInformation?.permission, permmission);
       // Modificar el valor de `required` basado en `reverseRequired`
-      setCodeRequestPice(prevState => ({
+      setCodeRequest(prevState => ({
         ...prevState,
-        requestPrice: reverseRequired ? permissionExistsFlag : !permissionExistsFlag,
+        requestCode: reverseRequired ? permissionExistsFlag : !permissionExistsFlag,
         required: reverseRequired ? permissionExistsFlag : !permissionExistsFlag
       }));
     }
 
     // eslint-disable-next-line
-  }, [systemInformation, reverseRequired]);
+  }, [systemInformation, reverseRequired, reload]);
 
   const verifiedCode = (code: string) => {
     const permissionExistsFlag = permissionExists(systemInformation?.permission, permmission);
     if (code.toUpperCase() === md5(dateToNumberValidate()).substring(0, 4).toUpperCase()) {
-      setCodeRequestPice(prevState => ({
+      setCodeRequest(prevState => ({
         ...prevState,
-        requestPrice: reverseRequired ? permissionExistsFlag : !permissionExistsFlag,
+        requestCode: reverseRequired ? permissionExistsFlag : !permissionExistsFlag,
         required: false
       }));
       setIsRequestCodeModal(false);
@@ -45,7 +45,7 @@ export function useCodeRequest(permmission: string, reverseRequired: boolean = t
   };
 
   return {
-    codeRequestPice,
+    codeRequest,
     verifiedCode,
     isRequestCodeModal,
     setIsRequestCodeModal,
