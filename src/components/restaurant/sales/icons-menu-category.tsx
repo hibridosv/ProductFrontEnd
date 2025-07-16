@@ -49,8 +49,8 @@ export function IconMenuCategoryModal(props: IconMenuCategoryModalProps) {
                         }}
                          className="rounded-md drop-shadow-lg">
                             <Image loader={imageLoader} src={record?.product?.restaurant?.image} alt="Icono de imagen" width={96} height={96} className="rounded-t-md" />
-                            <p className={`w-full content-center text-center rounded-b-md overflow-hidden uppercase text-xs text-black font-medium p-1 h-9 bg-slate-300`} 
-                               style={{ maxWidth: '96px',  wordBreak: 'keep-all', lineHeight: '1.2em' }}>
+                            <p className={`w-full content-center text-center rounded-b-md overflow-hidden uppercase text-black font-medium p-1 h-9 bg-slate-300`} 
+                               style={{ maxWidth: '96px',  wordBreak: 'keep-all',  fontSize: '10px', lineHeight: '1em' }}>
                                 {record?.product?.description}
                             </p>
                         </div>
