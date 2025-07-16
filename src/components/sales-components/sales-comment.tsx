@@ -55,7 +55,7 @@ return (
         <form className="max-w-lg mt-4" onSubmit={handleSubmit(onSubmit)} >
             <div className="w-full md:w-full px-3 mb-4">
                 <label htmlFor="comment" className={style.inputLabel} >Comentario</label>
-                <textarea rows={5} {...register("comment", { required: true })} className={`${style.input} w-full`} />
+                <textarea rows={5} {...register("comment")} className={`${style.input} w-full`} />
             </div>
             <div className="flex justify-center">
             <Button type="submit" disabled={isSending} preset={isSending ? Preset.saving : Preset.save} />
