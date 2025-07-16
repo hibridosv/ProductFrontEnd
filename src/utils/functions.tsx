@@ -273,7 +273,6 @@ export const getRandomInt = (max: number): number => {
 }
 
 
-
 export const setPriceOptions = (priceType: number, pricesActive: number[]): OptionsClickOrder => {
   if (priceType === TypeOfPrice.normal) return pricesActive.includes(TypeOfPrice.wholesaler) ? OptionsClickOrder.wholesalerPrice : pricesActive.includes(TypeOfPrice.promotion) ? OptionsClickOrder.promotionPrice : OptionsClickOrder.normalPrice;
 
@@ -324,7 +323,6 @@ export const getTotalOfItem = (datos: any, item: string): any => {
 
   return totalSuma;
 }
-
 
 
 // obtiene el ultimo elemento de un arreglo
@@ -457,7 +455,6 @@ export function formatDuiWithAll(cadena: string) {
   }
 
 }
-
 
 
 export const permissionExists = (permissions: any, permission: string) => {
