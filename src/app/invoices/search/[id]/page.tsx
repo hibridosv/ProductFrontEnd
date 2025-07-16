@@ -41,7 +41,6 @@ export default function Page({ params }: { params: { id: string } }) {
         const response = await getData(`order?&filterWhere[id]==${id}&included=creditnotes,products,invoiceAssigned,employee,client,referred,delivery`);
         if (response.data) {
           setRecords(response?.data[0] ?? [])
-          // toast.success("Petición realizada correctamente");
         } else {
           toast.error("Faltan algunos datos importantes!");
         }
