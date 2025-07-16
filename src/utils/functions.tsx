@@ -587,7 +587,6 @@ export function countSendPrintZero(invoice: any) {
 //// Verfifica si hay productos esta pendiente de mandar a imprimir o a comanda
 export function isProductPendientToSend(product: any) {
   if (!product) return false;
-  console.log("Product: ",product);
   const sendPrint = product?.attributes?.send_print;
   const isValidPrintStatus = [1, 2, 3].includes(sendPrint ?? -1);
   return product.attributes && product.attributes.work_station_id && (isValidPrintStatus);
