@@ -273,7 +273,6 @@ export const getRandomInt = (max: number): number => {
 }
 
 
-
 export const setPriceOptions = (priceType: number, pricesActive: number[]): OptionsClickOrder => {
   if (priceType === TypeOfPrice.normal) return pricesActive.includes(TypeOfPrice.wholesaler) ? OptionsClickOrder.wholesalerPrice : pricesActive.includes(TypeOfPrice.promotion) ? OptionsClickOrder.promotionPrice : OptionsClickOrder.normalPrice;
 
@@ -324,7 +323,6 @@ export const getTotalOfItem = (datos: any, item: string): any => {
 
   return totalSuma;
 }
-
 
 
 // obtiene el ultimo elemento de un arreglo
@@ -459,7 +457,6 @@ export function formatDuiWithAll(cadena: string) {
 }
 
 
-
 export const permissionExists = (permissions: any, permission: string) => {
   if(!permissions) return false; 
   return permissions.some((perm: any) => perm.name === permission);
@@ -587,7 +584,6 @@ export function countSendPrintZero(invoice: any) {
 //// Verfifica si hay productos esta pendiente de mandar a imprimir o a comanda
 export function isProductPendientToSend(product: any) {
   if (!product) return false;
-  console.log("Product: ",product);
   const sendPrint = product?.attributes?.send_print;
   const isValidPrintStatus = [1, 2, 3].includes(sendPrint ?? -1);
   return product.attributes && product.attributes.work_station_id && (isValidPrintStatus);

@@ -5,7 +5,7 @@ import { getData } from "@/services/resources";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { Product } from "@/services/products";
 import { SearchInput } from "@/components/form/search";
-import { getRandomInt, loadData } from "@/utils/functions";
+import { getRandomInt } from "@/utils/functions";
 import toast, { Toaster } from 'react-hot-toast';
 import { InvoiceSearchTable } from "@/components/invoice-components/invoice-search-table";
 import { usePagination } from "@/hooks/usePagination";
