@@ -642,7 +642,8 @@ export const orderStatus = (type: number) => {
     case 1: return <div className="status-info">Activo</div>;
     case 2: return <div className="status-success">Guardado</div>;
     case 3: return <div className="status-danger">Pagado</div>;
-    case 3: return <div className="status-warning">Anulado</div>;
+    case 4: return <div className="status-warning">Anulado</div>;
+    case 6: return <div className="status-warning">Eliminada</div>;
     default: return "Activo";
   }
 }
