@@ -27,12 +27,12 @@ export function TransfersListTable(props: TransfersListTableProps) {
     <tr key={record.id} className={`border-b ${record.status == 6 && record.to_tenant_id == tenant || record.status == 7 && record.from_tenant_id == tenant ? "bg-red-100 clickeable" : record.status == 8 && record.from_tenant_id == tenant ? "bg-blue-100 clickeable" : "bg-white"}`} 
       onClick={record.status == 6 && record.to_tenant_id == tenant || record.status == 7 && record.from_tenant_id == tenant ? 
       ()=>getRequest(record.id) : record.status == 8 && record.from_tenant_id == tenant ? ()=>updateStatus(record?.id, 1, true) : ()=>{} }>
-      <td className="py-3 px-6">
+      <td className="py-3 px-6 truncate">
       { record?.received_at ? formatDateAsDMY(record?.received_at) : "N/A" } { record?.received_at && formatHourAsHM(record?.received_at) }</td>
-      <td className="py-3 px-6 whitespace-nowrap">{ record?.from?.description }</td> 
-      <td className="py-3 px-6 whitespace-nowrap">{ record?.to?.description }</td> 
-      <td className="py-3 px-6 truncate">{ record?.send }</td>
-      <td className="py-3 px-6 truncate">{ record?.receive ? record?.receive : "PENDIENTE" }</td>
+      <td className="py-3 px-6">{ record?.from?.description }</td> 
+      <td className="py-3 px-6">{ record?.to?.description }</td> 
+      <td className="py-3 px-6">{ record?.send }</td>
+      <td className="py-3 px-6">{ record?.receive ? record?.receive : "PENDIENTE" }</td>
       <td className="py-3 px-6">{ statusOfTransfer(record?.status) }</td>
       <td className="py-3 px-6">
         { isSending ? <FaSpinner size={20} className="text-teal-500 animate-spin" /> : 
