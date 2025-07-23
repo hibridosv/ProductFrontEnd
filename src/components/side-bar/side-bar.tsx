@@ -144,6 +144,7 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         {showIten("reports-products", <MenuItem component={<Link className="text-sm" href="/reports/products" />}>Productos ingresados </MenuItem>)}
         {showIten("reports-products", <MenuItem component={<Link className="text-sm" href="/reports/by-lot" />}>Productos por lote </MenuItem>)}
         {showIten("reports-products", <MenuItem component={<Link className="text-sm" href="/reports/failures" />}>Productos Averiados </MenuItem>)}
+        {showIten("reports-products", <MenuItem component={<Link className="text-sm" href="/reports/anexos-iva" />}>Anexos IVA </MenuItem>)}
         </SubMenu>
         }
 
