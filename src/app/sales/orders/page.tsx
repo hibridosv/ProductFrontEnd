@@ -71,7 +71,8 @@ export default function ViewSales() {
       const modalContactGt = useIsOpen(false);
       const modalSalesSpecial = useIsOpen(false);
       const modalDivideAccount = useIsOpen(false);
-      
+      const [orderLoaded, setOrderLoaded] = useState(false);
+
       useEffect(() => {
             if (config?.configurations) {
                   setConfiguration(extractActiveFeature(config.configurations));
@@ -80,17 +81,20 @@ export default function ViewSales() {
       }, [config]);
 
       useEffect(() => {
-        if(configuration?.includes("sales-quick-here")) setDeliveryType(1)
-      // eslint-disable-next-line
-      }, [configuration]);
+        if (!orderLoaded && configuration?.includes("sales-quick-here")) {
+          setDeliveryType(1)
+        }
+      }, [configuration, orderLoaded]);
 
       useEffect(() => { 
-        if (selectType == 2) {
-          setDeliveryType(1)
-        } else {
-          setDeliveryType(2)
+        if (!orderLoaded) {
+          if (selectType == 2) {
+            setDeliveryType(1)
+          } else {
+            setDeliveryType(2)
+          }
         }
-      }, [selectType]);
+      }, [selectType, orderLoaded]);
 
 
       const selectLastOrder = async () => {
@@ -101,7 +105,8 @@ export default function ViewSales() {
                 setOrder(response.data);   
                 setSelectType(response?.data?.order_type) 
                 setSelectedTable(response?.data?.attributes?.restaurant_table_id)
-                setDeliveryType(response?.data?.delivery_type)
+                setDeliveryType(response?.data?.delivery_type);
+                setOrderLoaded(true);
                 setClientActive(JSON.parse(response?.data?.attributes.clients)[0] ?? 1);
                 if (response?.data?.order_type == 3) {
                   setDeliverySelected(response?.data?.client)
@@ -145,6 +150,7 @@ export default function ViewSales() {
             setOrder([]);
             setSelectedTable("");
             setDeliverySelected([])
+            setOrderLoaded(false);
           }
 
           const onFinish = () => {
@@ -166,6 +172,7 @@ export default function ViewSales() {
                 setOrder(response.data);
                 setSelectType(response?.data?.order_type);
                 setDeliveryType(response?.data?.delivery_type);
+                setOrderLoaded(true);
                 setSelectedTable(response?.data?.attributes?.restaurant_table_id)
                 setClientActive(JSON.parse(response?.data?.attributes?.clients)[0] ?? 1);
                 if (response?.data?.order_type == 3) {
