@@ -71,7 +71,8 @@ export default function Page() {
                         <option value="0"> Seleccionar</option>
                         <option value="1"> Ventas a Consumidor Final</option>
                         <option value="2"> Ventas a Contribuyentes</option>
-                        <option value="3"> Anulados</option>
+                        <option value="3"> Documentos Anulados</option>
+                        <option value="14"> Compras a Sujetos Excluidos</option>
                     </select>
                 </div>
             </div>
