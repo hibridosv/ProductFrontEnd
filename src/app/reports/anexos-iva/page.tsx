@@ -30,7 +30,7 @@ export default function Page() {
 
 
     const handleDocuments = async (data: any) => {
-      data.invoiceId = watch("invoiceId")
+      data.sucursal = watch("sucursal")
       data.anexo = watch("anexo")
     
         try {
@@ -41,7 +41,7 @@ export default function Page() {
             toast.success("Datos obtenidos correctamente");
             setDocuments(response);
             setDocumentsUrl(data);
-            addLink(links, data, 'excel/electronic/', data.anexo ? [{name: "anexo", value: data.anexo}] : null);
+            addLink(links, data, 'excel/electronic/', data.anexo ? [{name: "anexo", value: data.anexo } , { name: "sucursal", value: data.sucursal }] : null);
           } else {
             toast.error("No se encontraron datos!");
             setDocuments([]);
@@ -73,6 +73,13 @@ export default function Page() {
                         <option value="2"> Ventas a Contribuyentes</option>
                         <option value="3"> Documentos Anulados</option>
                         <option value="14"> Compras a Sujetos Excluidos</option>
+                    </select>
+                </div>
+                <div className="w-full md:w-full px-3 mb-2">
+                    <label htmlFor="sucursal" className={style.inputLabel}> Seleccione </label>
+                    <select defaultValue={documentStatus} id="sucursal" {...register("sucursal")} className={style.input}>
+                        <option value="0"> Esta Sucursal</option>
+                        <option value="1"> Todas Las Sucursales</option>
                     </select>
                 </div>
             </div>
