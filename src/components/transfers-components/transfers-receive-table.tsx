@@ -34,11 +34,11 @@ export function TransfersReceiveTable(props: TransfersReceiveTableProps) {
 
   const listItems = records.data.map((record: any) => (
     <tr key={record.id} className={`border-b bg-white ${record.status == 2 && 'bg-lime-100'}`} >
-      <td className="py-3 px-6 whitespace-nowrap"> { formatDateAsDMY(record?.created_at) } { formatHourAsHM(record?.created_at) }</td>
-      <td className="py-3 px-6 whitespace-nowrap">{ record?.from?.description }</td> 
-      <td className="py-3 px-6 whitespace-nowrap">{ record?.to?.description }</td> 
-      <td className="py-3 px-6 truncate">{ record?.send }</td>
-      <td className="py-3 px-6 truncate">{ record?.receive ? record?.receive : "N/A" }</td>
+      <td className="py-3 px-6 truncate"> { formatDateAsDMY(record?.created_at) } { formatHourAsHM(record?.created_at) }</td>
+      <td className="py-3 px-6"> { record?.from?.description }</td> 
+      <td className="py-3 px-6"> { record?.to?.description }</td> 
+      <td className="py-3 px-6"> { record?.send }</td>
+      <td className="py-3 px-6"> { record?.receive ? record?.receive : "N/A" }</td>
       <td className="py-3 px-6 truncate font-extrabold">{ record?.products ? record?.products?.length : "N/A" }</td>
       <td className="py-3 px-6 truncate">{ record?.received_at ? formatDate(record?.received_at) : "N/A" }</td>
       <td className="py-3 px-6 truncate clickeable" onClick={()=>showTransfer(record)}>{ statusOfTransfer(record?.status) }</td>
