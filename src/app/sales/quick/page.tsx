@@ -175,6 +175,20 @@ export default function ViewSales() {
     }
   };
 
+   const addRetentionRenta = async () => {
+    try {
+      console.log("order", order);
+      const response = await postData(`order/renta/${order}`, "POST");
+      toast.success(response.message);
+      if (response.type !== "error") {
+        resetOrder()
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ha ocurrido un error!");
+    }
+  };
+
   const onSubmit = async (data: any) => {
     
     if (!data.cod){
@@ -246,6 +260,8 @@ export default function ViewSales() {
       case OptionsClickOrder.promotionPrice: (() => { setTypeOfPrice(3); })();
         break;
       case OptionsClickOrder.quotes: saveAsQuote();
+        break;
+      case OptionsClickOrder.renta: addRetentionRenta();
         break;
       case OptionsClickOrder.ventaSpecial: (() => { modalSalesSpecial.setIsOpen(true); })();
         break;

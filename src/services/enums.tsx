@@ -49,6 +49,7 @@ export enum OptionsClickOrder {
     printPreAccount = 29, // Imprimir precuenta
     tips = 30, // restaurant Propinas
     nameOrder = 31, // restaurant Nombre de la orden
+    renta = 32, // Retención de Renta
   }
   
 
