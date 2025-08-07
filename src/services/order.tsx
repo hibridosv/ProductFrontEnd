@@ -19,6 +19,7 @@ export interface Order {
     total?:            null;
     change?:           null;
     retention?:        number;
+    retention_renta?:  number;
     charged_at?:       null;
     canceled_at?:      null;
     status:           number;

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { OptionsClickOrder, PresetTheme, TypeOfPrice } from "@/services/enums";
 import { Order } from "@/services/order";
-import { formatDuiWithAll, getConfigStatus, getCountryProperty, setPriceName, setPriceOptions, sumarSubtotal, sumarTotales, sumarTotalRetentionSujetoExcluido } from "@/utils/functions";
+import { formatDuiWithAll, getConfigStatus, getCountryProperty, setPriceName, setPriceOptions, sumarSubtotal, sumarTotales, sumarTotalRetentionSujetoExcluido, sumarTotalRetentionRenta } from "@/utils/functions";
 import { ConfigContext } from "@/contexts/config-context";
 import { Alert } from "../alert/alert";
 import { ShowTotal } from "./show-total";
@@ -51,6 +51,13 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
     <div className="border-2 border-red-700 rounded mb-2">
       <div className="mx-2 text-sm font-bold uppercase">Retención: { getCountryProperty(parseInt(systemInformation?.system?.country)).currency} 
         {sumarTotalRetentionSujetoExcluido(records).toFixed(2)}</div>
+    </div>
+    }
+      
+    { (records?.retention_renta ?? 0) > 0 &&
+    <div className="border-2 border-red-700 rounded mb-2">
+      <div className="mx-2 text-sm font-bold uppercase">Retención Renta: { getCountryProperty(parseInt(systemInformation?.system?.country)).currency} 
+         {(sumarTotalRetentionRenta(records)).toFixed(2)}</div>
     </div>
     }
     <div className='flex justify-between border-2 border-sky-500 rounded mb-2'>
