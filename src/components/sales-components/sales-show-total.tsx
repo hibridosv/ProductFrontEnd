@@ -54,7 +54,7 @@ if(promotionStatus) pricesActive.push(TypeOfPrice.promotion)
     </div>
     }
       
-    { (records?.retention_renta ?? 0) > 0 &&
+    { (records?.retention_rent ?? 0) > 0 &&
     <div className="border-2 border-red-700 rounded mb-2">
       <div className="mx-2 text-sm font-bold uppercase">Retención Renta: { getCountryProperty(parseInt(systemInformation?.system?.country)).currency} 
          {(sumarTotalRetentionRenta(records)).toFixed(2)}</div>

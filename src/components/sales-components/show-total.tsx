@@ -13,7 +13,7 @@ export function ShowTotal(props: ShowTotalProps) {
   const { records, isSending } = props;
   const { systemInformation } = useContext(ConfigContext);
   const isExcludedClient = records?.client?.excluded == 1;
-  const retencionRenta = records?.retention_renta ?? 0 ;
+  const retencionRenta = records?.retention_rent ?? 0 ;
 
   if (!records?.invoiceproducts) return <></>
   if (records?.invoiceproducts.length == 0) return <></>
