@@ -1,6 +1,6 @@
 import { ConfigContext } from "@/contexts/config-context";
 import { Order } from "@/services/order";
-import { getCountryProperty, sumarSalesTotal, sumarSubtotal } from "@/utils/functions";
+import { getCountryProperty, sumarSalesTotal, sumarSubtotal, sumarTotalRetentionRenta } from "@/utils/functions";
 import { useContext } from "react";
 
 
@@ -13,6 +13,7 @@ export function ShowTotal(props: ShowTotalProps) {
   const { records, isSending } = props;
   const { systemInformation } = useContext(ConfigContext);
   const isExcludedClient = records?.client?.excluded == 1;
+  const retencionRenta = records?.retention_rent ?? 0 ;
 
   if (!records?.invoiceproducts) return <></>
   if (records?.invoiceproducts.length == 0) return <></>
@@ -23,7 +24,7 @@ export function ShowTotal(props: ShowTotalProps) {
     <div className="w-full my-4 shadow-neutral-600 shadow-lg rounded-md">
       <div className="flex justify-center pt-2">TOTAL</div>
       <div className={texStyle}>{ getCountryProperty(parseInt(systemInformation?.system?.country)).currency} 
-        { isExcludedClient ? sumarSubtotal(records?.invoiceproducts).toFixed(2) : sumarSalesTotal(records).toFixed(2)} 
+        { isExcludedClient ? sumarSubtotal(records?.invoiceproducts).toFixed(2) : (retencionRenta > 0 ? (sumarSalesTotal(records) - sumarTotalRetentionRenta(records)).toFixed(2) : sumarSalesTotal(records).toFixed(2))}
         </div>
     </div>
     );

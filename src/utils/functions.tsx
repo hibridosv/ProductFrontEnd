@@ -142,7 +142,21 @@ export const sumarSubtotal = (datos: any): number => {
 
 
 
-export const sumarTotalRetentionSujetoExcluido = (datos: any): number => {
+export const sumarTotalRetentionRenta = (datos: any): number => {
+  let totalSuma = 0;
+
+  datos?.invoiceproducts?.forEach((elemento: any) => {
+    if (elemento.hasOwnProperty('subtotal')) {
+        if (elemento.operation_type == 1 && elemento.product_type == 2) {
+          totalSuma += elemento.subtotal;
+        } 
+    }
+  });
+
+  return totalSuma * 0.10;
+}
+
+export const sumarTotalRetentionSujetoExcluido= (datos: any): number => {
   let totalSuma = 0;
 
   datos?.invoiceproducts?.forEach((elemento: any) => {
