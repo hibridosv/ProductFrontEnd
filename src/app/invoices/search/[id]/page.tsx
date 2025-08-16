@@ -101,14 +101,13 @@ export default function Page({ params }: { params: { id: string } }) {
     try {
       const response = await postData(`invoices/delete`, "POST", {
         invoice: id,
-        dte_type: "05", // valor fijo
+        dte_type: "05", // Nota de crédito
       });
 
-      console.log("Respuesta backend:", response);
-      toast.success(`Documento ${id} eliminado correctamente`);
+       toast.success(response.message);
     } catch (error) {
-      console.error(error);
-      toast.error("Error al eliminar el documento");
+
+      toast.error("Error al Invalidar la Nota de Crédito");
     }
   };
 
