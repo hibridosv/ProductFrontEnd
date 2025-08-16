@@ -97,6 +97,21 @@ export default function Page({ params }: { params: { id: string } }) {
     }
   };
 
+   const handleDelete = async (id: string) => {
+    try {
+      const response = await postData(`invoices/delete`, "POST", {
+        invoice: id,
+        dte_type: "05", // valor fijo
+      });
+
+      console.log("Respuesta backend:", response);
+      toast.success(`Documento ${id} eliminado correctamente`);
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al eliminar el documento");
+    }
+  };
+
 
     const listProducts = records.products && records?.products.map((record: any, key: any) => (
       <tr key={record.id} className="border-b">
@@ -196,6 +211,7 @@ export default function Page({ params }: { params: { id: string } }) {
                         <th scope="col" className="py-3 px-4 border">Numero</th>
                         <th scope="col" className="py-3 px-4 border">Fecha</th>
                         <th scope="col" className="py-3 px-4 border">Total</th>
+                        <th scope="col" className="py-3 px-4 border">Eliminar</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -207,6 +223,9 @@ export default function Page({ params }: { params: { id: string } }) {
                           <td className="py-2 px-6">{record?.invoice}</td>
                           <td className="py-2 px-6">{ formatDateAsDMY(record?.emited_at) } { formatHourAsHM(record?.emited_at) }</td>
                           <td className="py-2 px-6">{ numberToMoney(record?.total, systemInformation) }</td>
+                          <div title="Eliminar Nota de Crédito"><RiDeleteBin2Line className="clickeable" size={35} color="red" 
+                           onClick={records?.status == 3 ? ()=>handleDelete(record.id) : ()=>toast.error("Este documento ya se encuentra eliminado")} /></div>
+                          
                         </tr>
                       ))}
                       <tr>
