@@ -155,7 +155,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
 
     useEffect(() => {
     if (country && country != "9300" && isShow) {
-      setRegex("^[a-zA-Z0-9]+$");
+      setRegex("^[a-zA-Z0-9-]+$");
     }
   }, [country, isShow]);
 
