@@ -20,7 +20,7 @@ export function ContactCountryModal(props: ContactCountryModalProps) {
     
     return (
         <Modal size="lg" show={isShow} position="center" onClose={onClose}>
-            <Modal.Header>AGREGAR DEPARTAMENTO</Modal.Header>
+            <Modal.Header>AGREGAR PAIS</Modal.Header>
             <Modal.Body>
                 {
                     Array.isArray(countries) && countries.map((country: Country) => (
