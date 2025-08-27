@@ -133,11 +133,11 @@ useEffect(() => {
     }
   }
   
-  const listItems = products?.map((product: any):any => {
-  if (product.id === productSelected?.id) return null; // Avoid selecting the same product
+  const listItems = products?.map((productMap: any):any => {
+  if (product.id === productMap.id) return null; // Avoid selecting the same product
   return (
-      <li onClick={()=>handleProductSelected(product)} key={product.id} className="text-ellipsis flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800">
-        {product.cod} | {product.description}
+      <li onClick={()=>handleProductSelected(productMap)} key={productMap.id} className="text-ellipsis flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800">
+        {productMap.cod} | {productMap.description}
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
