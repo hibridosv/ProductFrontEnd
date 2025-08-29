@@ -44,6 +44,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
   const [isExcluded, setIsExcluded] = useState(false);
   const [isSeller, setIsSeller] = useState(false);
   const [users, setUsers] = useState([] as any);
+  const [regex, setRegex] = useState("^([0-9]{8}-[0-9]{1}|[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1})?$");
 
 
   useEffect(() => {
@@ -92,9 +93,9 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
     data.departament_doc = departament
     data.town_doc = town
     data.country = country
-    data.id_number = formatDocument(data.id_number ? data.id_number : data.document) // se registr sin guiones
-    data.document = formatDocument(data.document ? data.document : data.id_number) // se registr sin guiones
-    data.register = formatDocument(data.register) // se registr sin guiones
+    data.id_number = formatDocument(data.id_number ? data.id_number : data.document) // se registra sin guiones
+    data.document = formatDocument(data.document ? data.document : data.id_number) // se registra sin guiones
+    data.register = formatDocument(data.register) // se registra sin guiones
     try {
       setIsSending(true)
       const response = await postData(`contacts`, "POST", data);
@@ -152,6 +153,11 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
   }, [isSeller, isShow]);
 
 
+    useEffect(() => {
+    if (country && country != "9300" && isShow) {
+      setRegex("^[a-zA-Z0-9-]+$");
+    }
+  }, [country, isShow]);
 
   return (
     <Modal size="lg" show={isShow} position="center" onClose={onClose}>
@@ -190,7 +196,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
             <div className="w-full md:w-1/2 px-3 mb-2">
                 <label htmlFor="id_number" className={style.inputLabel}>Numero de documento</label>
                 <input type="text" id="id_number" {...register("id_number")} 
-                 onBlur={(e) => setValue('document', e.target.value)} placeholder="0207-210690-102-9" pattern="^([0-9]{8}-[0-9]{1}|[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1})?$" className={`${style.input}`} />
+                 onBlur={(e) => setValue('document', e.target.value)} placeholder="0207-210690-102-9" pattern={regex} className={`${style.input}`} />
             </div> 
 
             <div className="w-full md:w-1/2 px-3 mb-2">
@@ -229,7 +235,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
                 
                     <div className="w-full md:w-1/2 px-3 mb-2">
                         <label htmlFor="document" className={style.inputLabel}>Documento</label>
-                        <input type="text" id="document" {...register("document")} placeholder="0207-210690-102-9" pattern="^([0-9]{8}-[0-9]{1}|[0-9]{4}-[0-9]{6}-[0-9]{3}-[0-9]{1})?$" className={style.input} />
+                        <input type="text" id="document" {...register("document")} placeholder="0207-210690-102-9" pattern={regex} className={style.input} />
                     </div>
 
                     <div className="w-full md:w-1/2 px-3 mb-2">

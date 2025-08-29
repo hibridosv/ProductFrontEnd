@@ -7,7 +7,7 @@ import { CredistReceivableTable } from "@/components/credits-components/credits-
 import { usePagination } from "@/hooks/usePagination";
 import { getRandomInt, getTotalOfItem, loadData } from "@/utils/functions";
 import { useEffect, useState } from "react";
-import { getData } from "@/services/resources";
+import { getData, postData } from "@/services/resources";
 import { Button, Preset } from "@/components/button/button";
 import { SearchInput } from "@/components/form/search";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
@@ -31,6 +31,9 @@ export default function CreditPayablePage() {
   const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number", "code", "phone"], 500);
   const [contacts, setContacts] = useState([]) as any;
   const [contactSelected, setContactSelected] = useState(null) as any;
+  const { links, addLink} = AddNewDownloadLink()
+  const [isSending, setIsSending] = useState(false);
+  
 
   let optionsRadioButton: Option[] = [
     { id: 2, name: "Todos" },
@@ -43,6 +46,27 @@ export default function CreditPayablePage() {
     setSelectedOption(option)
     handlePageNumber("&page=1")
   }
+
+   const handleCredits = async (data: any) => {
+        try {
+          setIsSending(true);
+          const response = await loadData(`credits/receivable?${selectedOption?.id != 2 ? `filterWhere[status]==${selectedOption?.id}&`:``}${contactSelected?.id ? `filterWhere[client_id]==${contactSelected.id}&` : ``}sort=-created_at&perPage=10${currentPage}`);
+          if (!response.message) {
+            toast.success("Datos obtenidos correctamente");
+            addLink(links, data, 'excel/credits/',
+              [ ...(contactSelected?.id ? [{ name: "client", value: contactSelected?.id }] : []),
+                ...(selectedOption?.id != 2 ? [{ name: "status", value: selectedOption?.id }] : [])
+              ]); 
+          } else {
+            toast.error("No se encontraron datos!");
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error("Ha ocurrido un error!");
+        } finally {
+          setIsSending(false);
+        }
+      };
 
 
   useEffect(() => {
@@ -148,11 +172,17 @@ useEffect(() => {
               }
 
             <RadioButton options={optionsRadioButton} onSelectionChange={setOption} />
+            < div className="flex justify-between">
+                  <ViewTitle text="SELECCIONAR FECHA" />
+            </div>
+            <DateRange onSubmit={handleCredits} />
+            <LinksList links={links} />
 
           </div>
         </div>
 
         <CreditAddPaymentReceivableModal isShow={isAddPaymentModal} onClose={()=>setIsAddPaymentModal(false)} accountType={Type.receivable} creditSelected={isCreditSelect} />
+          <Toaster position="top-right" reverseOrder={false} />
     </div>
       );
 }
