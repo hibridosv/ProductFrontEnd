@@ -12,6 +12,9 @@ import { Button, Preset } from "@/components/button/button";
 import { SearchInput } from "@/components/form/search";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { Option, RadioButton } from "@/components/radio-button/radio-button";
+import { getUrlFromCookie } from "@/services/oauth";
+import { ButtonDownload } from "@/components/button/button-download";
+
 
 
 export default function CreditPayablePage() {
@@ -127,10 +130,19 @@ useEffect(() => {
                   </ul>
               </div>
               { contactSelected &&
-              <div className="flex justify-between px-2 mb-3 uppercase text-lg font-semibold shadow-md rounded-md">
-                  <span>{ contactSelected?.name }</span> 
-                  <span className="text-right"><Button noText preset={Preset.smallClose} onClick={handleCancelContact} /></span>
-              </div> }
+                <div className="px-2 mb-3 uppercase text-lg font-semibold shadow-md rounded-md">
+                  <div className="flex justify-between">
+                    <span>{contactSelected?.name}</span>
+                    <span className="text-right">
+                      <Button noText preset={Preset.smallClose} onClick={handleCancelContact} />
+                    </span>
+                  </div>
+                  <div className="pb-3 flex justify-center">
+                  <ButtonDownload href={`/download/pdf/creditStatement/${contactSelected?.id}`}>Descargar Estado de Cuenta</ButtonDownload>
+                    
+                  </div>
+                </div>
+              }
 
             <RadioButton options={optionsRadioButton} onSelectionChange={setOption} />
 
