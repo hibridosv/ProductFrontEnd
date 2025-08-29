@@ -175,6 +175,23 @@ export default function ViewSales() {
     }
   };
 
+    const saveAsRemission = async () => {
+      if (!productsOfInvoice?.client) {
+      toast.error("Debe seleccionar un cliente para usar esta función!");
+      return
+      }
+      try {
+        const response = await postData(`remissions/${order}`, "PUT");
+        toast.success(response.message);
+        if (response.type !== "error") {
+          resetOrder()
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Ha ocurrido un error!");
+      }
+    }
+
    const addRetentionRenta = async () => {
     try {
       console.log("order", order);
@@ -264,6 +281,8 @@ export default function ViewSales() {
       case OptionsClickOrder.renta: addRetentionRenta();
         break;
       case OptionsClickOrder.ventaSpecial: (() => { modalSalesSpecial.setIsOpen(true); })();
+        break;
+      case OptionsClickOrder.remission: saveAsRemission();
         break;
       default: ()=>{};
         break;

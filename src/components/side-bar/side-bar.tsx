@@ -161,7 +161,11 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         { systemInformation?.system?.country == 3 &&
         showIten("invoices-electronic", <MenuItem component={<Link className="text-sm" href="/invoices/electronic-gt" />}>Documentos Electrónicos </MenuItem>)
         }
+        { systemInformation?.system?.country == 1 &&
+        showIten("invoices-electronic", <MenuItem component={<Link className="text-sm" href="/invoices/remission" />}>Notas de Remisión </MenuItem>)
+        }
         {showIten("invoices-search", <MenuItem component={<Link className="text-sm" href="/invoices/search" />}>Buscar Documentos </MenuItem>)}
+
         </SubMenu>
         }
 

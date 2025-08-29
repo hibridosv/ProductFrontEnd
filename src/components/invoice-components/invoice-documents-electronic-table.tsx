@@ -46,6 +46,7 @@ const tipoDTE = (dte: string)=>{
         case "14": return <span>FSE</span>;
         case "11": return <span>FEX</span>;
         case "05": return <span>NC</span>;
+        case "04": return <span>NR</span>;
     }
 }
 
