@@ -6,20 +6,20 @@ import { DeleteModal } from "../modals/delete-modal";
 import { IoIosCloseCircle } from "react-icons/io";
 import { formatDate } from "@/utils/date-formats";
 import { formatDuiWithAll } from "@/utils/functions";
+import { RemissionsViewModal } from "./remission-details-modal";
 
 
 interface RemissionsListTableProps {
   records?:  any;
   onDelete: (id: string) => void;
-  sendRemissions: (quote: any) => void;
   isSending: boolean;
 }
 
 export function RemissionsListTable(props: RemissionsListTableProps) {
-  const { records, onDelete, sendRemissions, isSending } = props;
+  const { records, onDelete, isSending } = props;
   const [recordSelect, setRecordSelect] = useState<any>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showQuotesModal, setShowQuotesModal] = useState(false);
+  const [showRemissionModal, setShowRemissionModal] = useState(false);
 
   if (!records.data) return <NothingHere width="164" height="98" />;
   if (records.data.length == 0) return <NothingHere text="No se encontraron datos" width="164" height="98" />;
@@ -39,7 +39,7 @@ export function RemissionsListTable(props: RemissionsListTableProps) {
 
   const handleRecordSelectModal = (record: any) => {
     setRecordSelect(record);
-    setShowQuotesModal(true);
+    setShowRemissionModal(true);
   }
 
   const listItems = records.data.map((record: any) => (
@@ -51,8 +51,8 @@ export function RemissionsListTable(props: RemissionsListTableProps) {
       <td className="py-3 px-6 truncate">Enviada</td>
       <td className="py-2 px-6 truncate">
         <span className="flex justify-between">
-        <TbListDetails size={20} title="Ver detalles" className="text-cyan-600 clickeable" onClick={()=>handleRecordSelectModal(record)} />
-        <IoIosCloseCircle size={20} title="Ver detalles" className="text-red-600 clickeable" onClick={()=>handleRecordSelectDelete(record)} />
+        <TbListDetails  size={20} title="Ver detalles" className="text-cyan-600 clickeable" onClick={isSending ? ()=>{} : ()=>handleRecordSelectModal(record)} />
+        <IoIosCloseCircle  size={20} title="Ver detalles" className="text-red-600 clickeable" onClick={isSending ? ()=>{} : ()=>handleRecordSelectDelete(record)} />
         </span>
         </td>
     </tr>
@@ -80,6 +80,6 @@ export function RemissionsListTable(props: RemissionsListTableProps) {
               onClose={()=>setShowDeleteModal(false)} /> 
 
  </div>
- {/* <RemissionsViewModal isShow={showQuotesModal} record={recordSelect} onClose={()=>setShowQuotesModal(false)} sendRemissions={sendRemissions} isSending={isSending} /> */}
+ <RemissionsViewModal isShow={showRemissionModal} record={recordSelect} onClose={()=>setShowRemissionModal(false)} />
  </div>);
 }

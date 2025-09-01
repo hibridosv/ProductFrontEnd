@@ -9,7 +9,6 @@ import { postData } from "@/services/resources";
 import { loadData } from "@/utils/functions";
 import { toast, Toaster } from "react-hot-toast";
 import { removeElementById } from "@/utils/functions-elements";
-import { useRouter } from "next/navigation";
 import { RemissionsListTable } from "@/components/invoice-components/remission-list-table";
 
 
@@ -18,11 +17,10 @@ export default function Page() {
     const {currentPage, handlePageNumber} = usePagination("&page=1");
     const { searchTerm, handleSearchTerm } = useSearchTerm(["client_name", "quote_number"], 500);
     const [isSending, setIsSending] = useState(false);
-    const router = useRouter();
 
 
     useEffect(() => {
-        (async () => setRemissions(await loadData(`remissions?sort=-created_at&included=products,client&perPage=10${currentPage}${searchTerm}`)))();
+        (async () => setRemissions(await loadData(`remissions?sort=-created_at&included=products,client,employee,delivery,referred,invoiceAssigned&perPage=10${currentPage}${searchTerm}`)))();
     }, [currentPage, searchTerm]);
 
 
@@ -49,32 +47,13 @@ export default function Page() {
     }
 
 
-    const sendRemissions = async (recordSelect: any) => {
-    setIsSending(true)
-    try {
-        const response = await postData(`remissions/charge/${recordSelect.id}`, 'PUT');
-        if (response.type === "error") {
-        toast.error("Ha Ocurrido un Error!");
-        } else {
-        toast.success( "Cotización enviada a facturar");
-        router.push("/sales/quick");
-        }
-    } catch (error) {
-        console.error(error);
-        toast.error("Ha Ocurrido un Error!");
-    } finally {
-        setIsSending(false)
-    }
-    }
-
-
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
     <div className="col-span-7 border-r md:border-sky-600">
       <ViewTitle text="LISTA DE NOTAS DE REMISION" />
 
-      <RemissionsListTable records={remissions} onDelete={deleteRemissions} sendRemissions={sendRemissions} isSending={isSending} />
+      <RemissionsListTable records={remissions} onDelete={deleteRemissions} isSending={isSending} />
       <Pagination records={remissions} handlePageNumber={handlePageNumber} />
     </div>
     <div className="col-span-3">
