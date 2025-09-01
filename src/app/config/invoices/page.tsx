@@ -114,7 +114,7 @@ export default function Invoices() {
                         <div><span>Numero de Cuenta: </span><span className="ml-2">20000066001071</span></div>
                         <div><span>Nombre: </span><span className="ml-2">Erick Adonai Nuñez Martinez</span></div>
                         <div><span>Concepto: </span><span className="ml-2 uppercase">Factura { systemInformation?.system?.tenant?.id }-{lastInvoice?.id.slice(-4)}</span></div>
-                        <div><span className="text-sm text-red-700 uppercase">Es importante incluya el concepto en la Transferencia para identificar su factura</span></div>
+                        <div><span className="text-xs text-red-700">Es importante incluya el concepto en la Transferencia para identificar su factura</span></div>
                     </div>
                 </div> :
                 <div className="m-3 border-slate-700 shadow-md shadow-lime-700 rounded-md">
