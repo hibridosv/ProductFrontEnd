@@ -1,64 +1,72 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { ViewTitle } from "@/components"
+import { Alert, ViewTitle } from "@/components"
 import { DateRange } from "@/components/form/date-range"
-import { getData, postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
-import { DateTime } from 'luxon';
 import { loadData } from "@/utils/functions";
 import { style } from "@/theme";
 import { useForm } from "react-hook-form";
 import { LinksList } from "@/components/common/links-list";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
+import { PresetTheme } from "@/services/enums";
+import { API_URL } from "@/constants";
 
 
 export default function Page() {
-  const [documents, setDocuments] = useState([] as any);
-  const [invoices, setInvoices] = useState([] as any);
-  const [isSending, setIsSending] = useState(false);
+  const [downloads, setDownloads] = useState([] as any);
   const { register, watch } = useForm();
   const { links, addLink} = AddNewDownloadLink()
   const [documentsUrl, setDocumentsUrl] = useState(null);
   const [documentStatus, setDocumentStatus] = useState(0);
 
 
+
   useEffect(() => {
-      (async () => setInvoices(await loadData(`invoice/type/electronic`)))();
+      (async () => setDownloads(await loadData(`document/download`)))();
   }, []);
-
-
 
     const handleDocuments = async (data: any) => {
       data.sucursal = watch("sucursal")
       data.anexo = watch("anexo")
-    
         try {
-          setIsSending(true);
           setDocumentStatus(data.status);
-          const response = await postData(`electronic/documents`, "POST", data);
-          if (!response.message) {
             toast.success("Datos obtenidos correctamente");
-            setDocuments(response);
             setDocumentsUrl(data);
             addLink(links, data, 'excel/electronic/', data.anexo ? [{name: "anexo", value: data.anexo } , { name: "sucursal", value: data.sucursal }] : null);
-          } else {
-            toast.error("No se encontraron datos!");
-            setDocuments([]);
-          }
         } catch (error) {
-          console.error(error);
           toast.error("Ha ocurrido un error!");
-        } finally {
-          setIsSending(false);
         }
       };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600">
-        <ViewTitle text={`REPORTES DE ANEXOS DE IVA` } />
+        <ViewTitle text="REPORTES DE ANEXOS DE IVA Y DESCARGAS" />
+          <Alert theme={PresetTheme.info} isDismisible={false} text="Descarga de documentos PDF y JSON en formato .zip" className="m-4" />
 
+          <div className="m-4 p-4 border-2 rounded-md">
+            <div className="uppercase flex justify-center font-bold">Documentos disponibles:</div>
+            {
+              downloads.data && downloads.data.length > 0 ?
+              
+              <ul className="mt-4 border-t border-teal-700" >
+                {downloads.data.map((download: any) => (
+                    <a href={`${API_URL}zip/download/${download?.id}`} target="_blank" title="Descargar" key={download?.id}>
+                    <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800">
+                        {download.comments}
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </li>
+                    </a>
+                ))}
+              </ul> 
+              :
+              <p>No hay documentos disponibles para descargar.</p>
+            }
+            </div>
         </div>
         <div className="col-span-3">
           <div className="flex justify-between">
