@@ -42,7 +42,7 @@ export default function Page() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600">
-        <ViewTitle text={`REPORTES DE ANEXOS DE IVA` } />
+        <ViewTitle text="REPORTES DE ANEXOS DE IVA Y DESCARGAS" />
           <Alert theme={PresetTheme.info} isDismisible={false} text="Descarga de documentos PDF y JSON en formato .zip" className="m-4" />
 
           <div className="m-4 p-4 border-2 rounded-md">
