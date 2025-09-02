@@ -112,6 +112,10 @@ export function TransferShowModal(props: TransferShowModalProps) {
                  <div className="text-right mx-4 mt-2 font-semibold">
                     Cantidad Aceptada: { countRequestedProductsStatus(transfer) }
                 </div>
+
+                <div className="text-right mx-4 mt-2 text-xs ">
+                    { transfer.id }
+                </div>
         
 
         </div>
