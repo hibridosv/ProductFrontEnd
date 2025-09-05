@@ -86,6 +86,7 @@ export function SalesButtons(props: SalesButtonsProps) {
                 <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.comment)}> Agregar comentario </div>}
                 <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.documentType)}> Tipo de Documento </div>
                 <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.quotes)}> Guardar como Cotización</div>
+                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.remission)}> Crear Nota de Remisión</div>
                 <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.renta)}> Agregar Retención Renta</div>
                 </div>
               } style="light" >

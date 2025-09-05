@@ -39,6 +39,7 @@ export default function Page() {
       if (data.invoiceId == 3) data.invoiceId = '03';
       if (data.invoiceId == 4) data.invoiceId = '14';
       if (data.invoiceId == 5) data.invoiceId = '05';
+      if (data.invoiceId == 8) data.invoiceId = '04';
         try {
           setIsSending(true);
           setDocumentStatus(data.status);

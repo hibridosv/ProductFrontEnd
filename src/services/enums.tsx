@@ -50,6 +50,7 @@ export enum OptionsClickOrder {
     tips = 30, // restaurant Propinas
     nameOrder = 31, // restaurant Nombre de la orden
     renta = 32, // Retención de Renta
+    remission = 33, // Nota de Remisión
   }
   
 
