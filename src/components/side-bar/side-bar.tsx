@@ -137,14 +137,14 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         </SubMenu>
         }
 
-        { hasAnyPermission(["reports-sales","reports-bills","reports-products"]) && 
+        { hasAnyPermission(["reports-sales","reports-bills","reports-products","reports-attaches"]) && 
         <SubMenu label="Reportes" icon={<HiOutlineChartSquareBar />}>
         {showIten("reports-sales", <MenuItem component={<Link className="text-sm" href="/reports/sales" />}>Detalles de ventas </MenuItem>)}
         {showIten("reports-bills", <MenuItem component={<Link className="text-sm" href="/reports/bills" />}>Detalles de gastos </MenuItem>)}
         {showIten("reports-products", <MenuItem component={<Link className="text-sm" href="/reports/products" />}>Productos ingresados </MenuItem>)}
         {showIten("reports-products", <MenuItem component={<Link className="text-sm" href="/reports/by-lot" />}>Productos por lote </MenuItem>)}
         {showIten("reports-products", <MenuItem component={<Link className="text-sm" href="/reports/failures" />}>Productos Averiados </MenuItem>)}
-        {showIten("reports-products", <MenuItem component={<Link className="text-sm" href="/reports/anexos-iva" />}>Anexos IVA </MenuItem>)}
+        {showIten("reports-attaches", <MenuItem component={<Link className="text-sm" href="/reports/anexos-iva" />}>Anexos IVA y Descargas </MenuItem>)}
         </SubMenu>
         }
 
@@ -161,7 +161,11 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         { systemInformation?.system?.country == 3 &&
         showIten("invoices-electronic", <MenuItem component={<Link className="text-sm" href="/invoices/electronic-gt" />}>Documentos Electrónicos </MenuItem>)
         }
+        { systemInformation?.system?.country == 1 &&
+        showIten("invoices-electronic", <MenuItem component={<Link className="text-sm" href="/invoices/remission" />}>Notas de Remisión </MenuItem>)
+        }
         {showIten("invoices-search", <MenuItem component={<Link className="text-sm" href="/invoices/search" />}>Buscar Documentos </MenuItem>)}
+
         </SubMenu>
         }
 

@@ -28,6 +28,8 @@ export function SalesButtons(props: SalesButtonsProps) {
   const isOtherSales = config.includes("sales-other-sales");
   const isSpecial = config.includes("sales-special");
   const isComment = config.includes("sales-comment");
+  const isRemission = config.includes("sales-remission");
+  const isQuote = config.includes("sales-quote");
 
   //const validateFields = ()=>{
   //  if (invoice?.client_id && (invoice?.invoice_assigned?.type == 2 || invoice?.invoice_assigned?.type == 3)) {
@@ -85,7 +87,10 @@ export function SalesButtons(props: SalesButtonsProps) {
                 { isComment && 
                 <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.comment)}> Agregar comentario </div>}
                 <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.documentType)}> Tipo de Documento </div>
-                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.quotes)}> Guardar como Cotización</div>
+                { isQuote &&
+                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.quotes)}> Guardar como Cotización</div> }
+                { isRemission && 
+                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.remission)}> Crear Nota de Remisión</div> }
                 <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.renta)}> Agregar Retención Renta</div>
                 </div>
               } style="light" >

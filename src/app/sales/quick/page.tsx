@@ -27,6 +27,7 @@ import { useIsOpen } from "@/hooks/useIsOpen";
 import { SalesChangeProductModal } from "@/components/sales-components/sales-change-product-modal";
 import { SalesButtonsInitial } from "@/components/sales-components/sales-buttons-initial";
 import { SalesChangeLotModal } from "@/components/sales-components/sales-change-lot";
+import { SalesSelectRemissionTypeModal } from "@/components/sales-components/sales-select-remission-type";
 
 export default function ViewSales() {
   const [isLoading, setIsLoading] = useState(false);
@@ -45,6 +46,7 @@ export default function ViewSales() {
   const [isSalesCommentModal, setIsSalesCommentModal] = useState(false);
   const [isSalesChangeProductModal, setIsSalesChangeProductModal] = useState(false);
   const [isSalesChangeLotModal, setIsSalesChangeLotModal] = useState(false);
+  const [isSalesRemissionModal, setIsSalesRemissionModal] = useState(false);
   const [typeOfClient, setTypeOfClient] = useState<ContactTypeToGet>(ContactTypeToGet.clients); // tipo de cliente a buscar en el endpoint
   const [clientNametoUpdate, setClientNametoUpdate] = useState<ContactNameOfOrder>(ContactNameOfOrder.client); // tipo de cliente a buscar en el endpoint
   const [isDiscountType, setIsDiscountType] = useState(0);
@@ -175,6 +177,23 @@ export default function ViewSales() {
     }
   };
 
+    const saveAsRemission = async (type: string) => {
+      if (!productsOfInvoice?.client) {
+      toast.error("Debe seleccionar un cliente para usar esta función!");
+      return
+      }
+      try {
+        const response = await postData(`remissions/${order}/${type}`, "PUT");
+        toast.success(response.message);
+        if (response.type !== "error") {
+          resetOrder()
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Ha ocurrido un error!");
+      }
+    }
+
    const addRetentionRenta = async () => {
     try {
       console.log("order", order);
@@ -231,7 +250,7 @@ export default function ViewSales() {
 
   const handleClickOptionOrder = (option: OptionsClickOrder) => { // opciones de la orden
     switch (option) {
-      case OptionsClickOrder.pay: (() => { setIsPayModal(true) })();
+      case OptionsClickOrder.pay: setIsPayModal(true);
         break;
       case OptionsClickOrder.save: saveOrder();
         break;
@@ -247,23 +266,25 @@ export default function ViewSales() {
         break;
       case OptionsClickOrder.delivery: (() => { setIsContactSearchModal(true); setTypeOfClient(ContactTypeToGet.employees); setClientNametoUpdate(ContactNameOfOrder.delivery) })();
         break;
-      case OptionsClickOrder.otrasVentas: (() => { setIsSalesOtherModal(true); })();
+      case OptionsClickOrder.otrasVentas: setIsSalesOtherModal(true);
         break;
-      case OptionsClickOrder.documentType: (() => { setIsSalesSelectInvoiceType(true); })();
+      case OptionsClickOrder.documentType: setIsSalesSelectInvoiceType(true);
         break;
-      case OptionsClickOrder.comment: (() => { setIsSalesCommentModal(true); })();
+      case OptionsClickOrder.comment: setIsSalesCommentModal(true);
         break;
-      case OptionsClickOrder.normalPrice: (() => { setTypeOfPrice(1); })();
+      case OptionsClickOrder.normalPrice: setTypeOfPrice(1);
         break;
-      case OptionsClickOrder.wholesalerPrice : (() => { setTypeOfPrice(2); })();
+      case OptionsClickOrder.wholesalerPrice : setTypeOfPrice(2);
         break;
-      case OptionsClickOrder.promotionPrice: (() => { setTypeOfPrice(3); })();
+      case OptionsClickOrder.promotionPrice: setTypeOfPrice(3);
         break;
       case OptionsClickOrder.quotes: saveAsQuote();
         break;
       case OptionsClickOrder.renta: addRetentionRenta();
         break;
-      case OptionsClickOrder.ventaSpecial: (() => { modalSalesSpecial.setIsOpen(true); })();
+      case OptionsClickOrder.ventaSpecial: modalSalesSpecial.setIsOpen(true);
+        break;
+      case OptionsClickOrder.remission: setIsSalesRemissionModal(true);
         break;
       default: ()=>{};
         break;
@@ -357,7 +378,7 @@ export default function ViewSales() {
       <SalesChangeLotModal isShow={isSalesChangeLotModal} product={productSelected} onClose={()=>setIsSalesChangeLotModal(false)} />
       
       <SalesChangeProductModal isShow={isSalesChangeProductModal} order={order} product={productSelected} onClose={()=>setIsSalesChangeProductModal(false)} rowToUpdate={rowToUpdate} />
-      
+      <SalesSelectRemissionTypeModal isShow={isSalesRemissionModal} onClose={()=>setIsSalesRemissionModal(false)} saveAsRemission={saveAsRemission} />
       <SalesSelectInvoiceTypeModal isShow={isSalesSelectInvoiceType} onClose={()=>setIsSalesSelectInvoiceType(false)} order={productsOfInvoice} />
       <SalesCommissionModal isShow={isCommissionModal} product={productSelected} onClose={()=>setIsCommissionModal(false)} />
       <SalesProductViewModal isShow={isProductViewModal} product={productSelected} onClose={()=>setIsProductViewModal(false)} />
