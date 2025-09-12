@@ -56,14 +56,14 @@ export default function Page() {
       };
 
 
-      const handleGenerateDocuments = async () => {
+      const handleGenerateDocuments = async (type: 'pdf' | 'json') => {
         if (systemInformation?.system?.client_id == null) {
           toast.error("No se pudo obtener el ID del cliente.");
           return;
         }
         const data = {
           client_id: systemInformation?.system?.client_id,
-          type: "pdf",
+          type: type,
         }
         try {
           setIsSending(true);
@@ -119,22 +119,29 @@ export default function Page() {
                       <p className="mb-2">Puede generar los documentos en formato PDF si no se han generado previamente, esto puede tardar unos minutos dependiendo de la cantidad de documentos a procesar.</p>  
                       <div className="flex gap-4">
                         <Button text={ isSending ? "Generando..." : "Generar PDF"} 
-                        onClick={ () => handleGenerateDocuments() } 
+                        onClick={ () => handleGenerateDocuments('pdf') } 
                         disabled={ isSending } 
                         preset={isSending ? Preset.saving : Preset.save}
                         />
                       </div>
                     </div>
-                    // <li className="flex justify-between p-3 bg-red-100 hover:bg-lime-200 font-semibold">
-                    //     Generar Documentos { download.mimetype === "json" ? "(PDF)" : "(JSON)" }
-                    // </li>
                     }
                     </div>
                 )
                 })}
               </ul> 
               :
-              <p>No hay documentos disponibles para descargar.</p>
+              <div className="m-4 p-4 border-2 rounded-md">
+                      <p className="font-bold mb-2">Generar Documentos</p>
+                      <p className="mb-2">No hay documentos disponibles para descargar. Puede generar los documentos en formato JSON si no se han generado previamente, esto puede tardar unos minutos dependiendo de la cantidad de documentos a procesar.</p>  
+                      <div className="flex gap-4">
+                        <Button text={ isSending ? "Generando..." : "Generar JSON"} 
+                        onClick={ () => handleGenerateDocuments('json') } 
+                        disabled={ isSending } 
+                        preset={isSending ? Preset.saving : Preset.save}
+                        />
+                      </div>
+                    </div>
             }
             </div>
         </div>
