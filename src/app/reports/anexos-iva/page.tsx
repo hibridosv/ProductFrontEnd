@@ -113,7 +113,7 @@ export default function Page() {
                         <Spinner size="md"/>
                     </li>
                     }
-                    { downloads.data.length === 1 && 
+                    { downloads.data.length === 1 && download.status == 1 &&
                     <div className="m-4 p-4 border-2 rounded-md">
                       <p className="font-bold mb-2">Generar Documentos</p>
                       <p className="mb-2">Puede generar los documentos en formato PDF si no se han generado previamente, esto puede tardar unos minutos dependiendo de la cantidad de documentos a procesar.</p>  
