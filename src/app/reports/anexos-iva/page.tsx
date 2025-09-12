@@ -1,16 +1,20 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Alert, ViewTitle } from "@/components"
 import { DateRange } from "@/components/form/date-range"
 import toast, { Toaster } from 'react-hot-toast';
 import { loadData } from "@/utils/functions";
 import { style } from "@/theme";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { LinksList } from "@/components/common/links-list";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
 import { PresetTheme } from "@/services/enums";
 import { API_URL } from "@/constants";
+import { postData } from "@/services/resources";
+import { Button, Preset } from "@/components/button/button";
+import { ConfigContext } from "@/contexts/config-context";
+import { Spinner } from "flowbite-react";
 
 
 export default function Page() {
@@ -19,11 +23,23 @@ export default function Page() {
   const { links, addLink} = AddNewDownloadLink()
   const [documentsUrl, setDocumentsUrl] = useState(null);
   const [documentStatus, setDocumentStatus] = useState(0);
-
-
+  const [isSending, setIsSending] = useState(false);
+  const {systemInformation} = useContext(ConfigContext);
+ 
+  const getZipDownloads = async () => {
+    try {
+      setIsSending(true);
+      const data = await loadData(`document/download`);
+      setDownloads(data);
+    } catch (error) {
+      toast.error("Error al cargar los documentos");
+    } finally {
+      setIsSending(false);
+    }
+  }
 
   useEffect(() => {
-      (async () => setDownloads(await loadData(`document/download`)))();
+      getZipDownloads();
   }, []);
 
     const handleDocuments = async (data: any) => {
@@ -39,6 +55,34 @@ export default function Page() {
         }
       };
 
+
+      const handleGenerateDocuments = async () => {
+        if (systemInformation?.system?.client_id == null) {
+          toast.error("No se pudo obtener el ID del cliente.");
+          return;
+        }
+        const data = {
+          client_id: systemInformation?.system?.client_id,
+          type: "pdf",
+        }
+        try {
+          setIsSending(true);
+          const response = await postData(`document/zip/generate`, "POST", data);
+          if (response.type == "successful") {
+            getZipDownloads();
+            toast.success(response.message);
+          } else {
+            toast.error(response.message);
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error("Ha ocurrido un error!");
+        } finally {
+          setIsSending(false);
+        }
+      };
+
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
         <div className="col-span-7 border-r md:border-sky-600">
@@ -51,8 +95,11 @@ export default function Page() {
               downloads.data && downloads.data.length > 0 ?
               
               <ul className="mt-4 border-t border-teal-700" >
-                {downloads.data.map((download: any) => (
-                    <a href={`${API_URL}zip/download/${download?.id}`} target="_blank" title="Descargar" key={download?.id}>
+                {downloads.data.map((download: any) => {
+                  return (
+                    <div key={download?.id}>
+                    {
+                      download.status == 1 ? <a href={`${API_URL}zip/download/${download?.id}`} target="_blank" title="Descargar">
                     <li className="flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800">
                         {download.comments}
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
@@ -60,8 +107,31 @@ export default function Page() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
                     </li>
-                    </a>
-                ))}
+                    </a> :
+                    <li className="flex justify-between p-3 hover:bg-red-200 hover:text-red-800 clickeable" onClick={isSending ? ()=>{} : () => getZipDownloads() }>
+                        Se esta procesando el archivo de descarga (Click para actualizar)
+                        <Spinner size="md"/>
+                    </li>
+                    }
+                    { downloads.data.length === 1 && 
+                    <div className="m-4 p-4 border-2 rounded-md">
+                      <p className="font-bold mb-2">Generar Documentos</p>
+                      <p className="mb-2">Puede generar los documentos en formato PDF si no se han generado previamente, esto puede tardar unos minutos dependiendo de la cantidad de documentos a procesar.</p>  
+                      <div className="flex gap-4">
+                        <Button text={ isSending ? "Generando..." : "Generar PDF"} 
+                        onClick={ () => handleGenerateDocuments() } 
+                        disabled={ isSending } 
+                        preset={isSending ? Preset.saving : Preset.save}
+                        />
+                      </div>
+                    </div>
+                    // <li className="flex justify-between p-3 bg-red-100 hover:bg-lime-200 font-semibold">
+                    //     Generar Documentos { download.mimetype === "json" ? "(PDF)" : "(JSON)" }
+                    // </li>
+                    }
+                    </div>
+                )
+                })}
               </ul> 
               :
               <p>No hay documentos disponibles para descargar.</p>
