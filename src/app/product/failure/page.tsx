@@ -194,6 +194,7 @@ export default function InsertProduct() {
                         <option value="2">Traslado</option>
                         <option value="3">Devolución</option>
                         <option value="4">Cambio</option>
+                        <option value="5">Otro</option>
                     </select>
                 </div>
 
