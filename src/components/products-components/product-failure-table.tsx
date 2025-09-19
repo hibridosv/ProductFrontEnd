@@ -14,6 +14,7 @@ export const typeFailure = (status: number) => {
     case 2: return <span className="status-success">Traslado</span>
     case 3: return <span className="status-info">Devolución</span>
     case 4: return <span className="status-warning">Cambio</span>
+    case 5: return <span className="status-success">Otro</span>
   }
 }
 
