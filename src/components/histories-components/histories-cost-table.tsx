@@ -31,9 +31,9 @@ export function HistoriesCostTable(props: HistoriesCostTableProps) {
       <th className="py-2 px-6">{ record?.actual_stock } </th>
       <td className="py-2 px-6">{ numberToMoney(record?.unit_cost ? record?.unit_cost : 0, systemInformation) }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.sale_price ? record?.sale_price : 0, systemInformation) }</td>
-      <td className="py-2 px-6">{ numberToMoney((record?.sale_price) - (record?.unit_cost), systemInformation) }</td>
-      <td className="py-2 px-6">{ numberToMoney((record?.sale_price * record?.quantity) - (record?.unit_cost * record?.quantity), systemInformation) }</td>
-      <td className="py-2 px-6">{ percentage(record?.unit_cost * record?.quantity, record?.sale_price * record?.quantity).toFixed(2) } %</td>
+      <td className="py-2 px-6">{ numberToMoney((record?.sale_price / 1.13) - (record?.unit_cost), systemInformation) }</td>
+      <td className="py-2 px-6">{ numberToMoney(((record?.sale_price / 1.13) * record?.quantity) - (record?.unit_cost * record?.quantity), systemInformation) }</td>
+      <td className="py-2 px-6">{ percentage(record?.unit_cost * record?.quantity, (record?.sale_price /1.13) * record?.quantity).toFixed(2) } %</td>
       <th className="py-2 px-6 text-gray-900 whitespace-nowrap dark:text-white" scope="row">{ record?.provider?.name } </th>
     </tr>
   ));
