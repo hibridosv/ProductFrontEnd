@@ -48,7 +48,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
 
 
   useEffect(() => {
-    if (record && users?.data) {
+    if (record) {
         setValue("is_client", record.is_client);
         setValue("is_provider", record.is_provider);
         setValue("is_employee", record.is_employee);
@@ -81,7 +81,7 @@ export function ContactAddSVModal(props: ContactAddSVModalProps) {
     setIsExcluded(getConfigStatus("contact-excluded", config))
     setIsSeller(getConfigStatus("contact-user-seller", config))
     setIsChangedRecord(false);
-  }, [record, setValue, users, setIsChangedRecord, setIsShowCountry, config]);
+  }, [record, setValue, setIsChangedRecord, setIsShowCountry, config]);
 
 
 
