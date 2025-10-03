@@ -35,6 +35,7 @@ export function HistoriesByProductTable(props: HistoriesByProductTableProps) {
       <td className="py-2 px-6">{ record?.order?.client ? record?.order?.client?.name : "N/A" }</td>
       <td className="py-2 px-6">{ record?.cod }</td>
       <td className="py-2 px-6">{ record?.product }</td>
+       <td className="py-2 px-6">{ record?.lot ? record?.lot?.lot : "N/A" }</td>
       <td className="py-2 px-6">{ record?.quantity }</td>
       <td className="py-2 px-6">{ numberToMoney((record?.total / record?.quantity), systemInformation) }</td>
       <td className="py-2 px-6">{ numberToMoney(record?.discount ? record?.discount : 0, systemInformation) }</td>
@@ -54,6 +55,7 @@ export function HistoriesByProductTable(props: HistoriesByProductTableProps) {
           <th scope="col" className="py-3 px-4 border">Cliente</th>
           <th scope="col" className="py-3 px-4 border">Codigo</th>
           <th scope="col" className="py-3 px-4 border">Producto</th>
+          <th scope="col" className="py-3 px-4 border">Lote</th>
           <th scope="col" className="py-3 px-4 border">Cantidad</th>
           <th scope="col" className="py-3 px-4 border">Precio</th>
           <th scope="col" className="py-3 px-4 border">Descuento</th>
