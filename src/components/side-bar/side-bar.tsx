@@ -71,7 +71,7 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         { hasAnyPermission(["inventory", "inventory-register", "inventory-edit", "inventory-add", "inventory-failure", "inventory-linked", "inventory-stock", "inventory-expiration", "inventory-karex"]) &&
         <SubMenu label="Inventario" icon={<HiOutlineChartSquareBar />}>
           {showIten("inventory", <MenuItem component={<Link className="text-sm" href="/product" />}>Ver Productos</MenuItem>)}
-          {showIten("inventory-register", <MenuItem component={<Link className="text-sm" href="/product/register" />}>Registrar Producto</MenuItem>)}
+          {showIten("inventory-register", <MenuItem component={<Link className="text-sm" href="/product/register" />}>Registrar Nuevo Producto</MenuItem>)}
           {showIten("inventory-edit", <MenuItem component={<Link className="text-sm" href="/product/edit" />}>Editar Producto</MenuItem>)}
           {showIten("inventory-add", <MenuItem component={<Link className="text-sm" href="/product/add" />}>Agregar Productos</MenuItem>)}
           {showIten("inventory-failure", <MenuItem component={<Link className="text-sm" href="/product/failure" />}>Descontar Productos</MenuItem>)}
