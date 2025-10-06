@@ -41,7 +41,8 @@ export function HistoriesCostTable(props: HistoriesCostTableProps) {
 
   return (<div>
             <div className="uppercase shadow-lg border-x-2 mx-4 mt-4 font-bold text-2xl">
-                <div>{ productSected ? `${productSected?.cod} | ${productSected?.description}` : "Ultimos ingresos" }</div>
+                <div className="mx-2">{ productSected ? `${productSected?.cod} | ${productSected?.description}` : "Ultimos ingresos" }</div>
+                <div className="mx-2 text-sm">{ productSected ? `Costo Promedio : ${numberToMoney(productSected?.unit_cost, systemInformation) }` : "" }</div>
             </div>
   <div className="w-full overflow-auto">
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
