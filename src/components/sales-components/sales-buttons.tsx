@@ -91,7 +91,7 @@ export function SalesButtons(props: SalesButtonsProps) {
                 <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.quotes)}> Guardar como Cotización</div> }
                 { isRemission && 
                 <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.remission)}> Crear Nota de Remisión</div> }
-                <div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.renta)}> Agregar Retención Renta</div>
+                {/*<div className='button-options-sales' onClick={()=>onClick(OptionsClickOrder.renta)}> Agregar Retención Renta</div>*/}
                 </div>
               } style="light" >
                 <div className='button-left-grey clickeable'><IoMdOptions className='mr-1' /> Opciones</div>
