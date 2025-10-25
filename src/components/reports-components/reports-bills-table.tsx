@@ -32,7 +32,7 @@ export function ReportsBillsTable(props: ReportsBillsTableProps) {
         <div className="font-bold">{ record?.name }</div>
         <span className="small">{ record?.description }</span>
       </td>
-      <td className="py-2 px-6">{ getPaymentTypeName(record?.type) }</td>
+      <td className="py-2 px-6">{ getPaymentTypeName(record?.payment_type) }</td>
       <td className="py-2 px-6">{ record?.account?.account ? record?.account?.account : "N/A" }</td>
       <th className="py-2 px-6">{ numberToMoney(record?.quantity ? record?.quantity : 0, systemInformation) }</th>
     </tr>

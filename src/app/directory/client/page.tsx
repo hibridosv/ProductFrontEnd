@@ -11,6 +11,8 @@ import { postData } from "@/services/resources";
 import { loadData } from "@/utils/functions";
 import { useEffect, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
+import { getUrlFromCookie } from "@/services/oauth";
+import { LinksList } from "@/components/common/links-list";
 
 export default function Page() {
 const [isAdContactModal, setIsAdContactModal] = useState(false);
@@ -18,10 +20,13 @@ const [contacts, setContacts] = useState(false);
 const {currentPage, handlePageNumber} = usePagination("&page=1");
 const [randomNumber, setRandomNumber] = useState(0);
 const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number", "code", "phone"], 500);
+const [ links, setLinks ] = useState([] as any)
+const remoteUrl = getUrlFromCookie();
 
 useEffect(() => {
   if (!isAdContactModal) {
     (async () => setContacts(await loadData(`contacts?sort=-created_at&perPage=10${currentPage}${searchTerm}&filterWhere[status]==1&filterWhere[is_client]==1`)))();
+    setLinks([{"name": `Descargar clientes` , "link": encodeURI(`${remoteUrl}/download/excel/contacts/?sort=name&filterWhere[is_client]==1`), "isUrl": true},])
   }
 }, [currentPage, searchTerm, isAdContactModal, randomNumber]);
 
@@ -55,6 +60,7 @@ const deleteContact = async (recordSelect: any) => {
     <div className="col-span-3">
       <ViewTitle text="DETALLES" />
       <MinimalSearch records={contacts} handleSearchTerm={handleSearchTerm} placeholder="Buscar Contacto" />
+      <LinksList links={links} />
     </div>
     <ContactAddModal isShow={isAdContactModal} onClose={()=>setIsAdContactModal(false)} />
     <Toaster position="top-right" reverseOrder={false} />
