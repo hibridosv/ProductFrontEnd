@@ -58,7 +58,7 @@ export default function Page() {
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setSales(response);
-            if(response.data.length > 0) addLink(links, data, 'excel/by-product/', [{name: "productId", value: productSelected?.id}]);
+            if(response.data.length > 0) addLink(links, data, 'excel/by-product/', [{name: "product_id", value: productSelected?.id}]);
           } else {
             toast.error("Faltan algunos datos importantes!");
           }

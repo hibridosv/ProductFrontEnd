@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { ViewTitle } from "@/components"
+import { ViewTitle, Pagination } from "@/components"
 import toast, { Toaster } from 'react-hot-toast';
 import { LinksList } from "@/components/common/links-list";
 import { AddNewDownloadLink } from "@/hooks/addNewDownloadLink";
@@ -11,6 +11,7 @@ import { getData } from "@/services/resources";
 import { MdDelete } from "react-icons/md";
 import { useSearchTerm } from "@/hooks/useSearchTerm";
 import { useForm } from "react-hook-form";
+import { usePagination } from "@/components/pagination";
 
 export default function Page() {
   const [products, setProducts] = useState([]);
@@ -20,6 +21,7 @@ export default function Page() {
   const [productSelected, setProductSelected] = useState(null as any);
   const { searchTerm, handleSearchTerm } = useSearchTerm(["cod", "description"], 500);
   const { register, watch, setValue } = useForm();
+  const {currentPage, handlePageNumber} = usePagination("&page=1");
 
   const loadData = async () => {
       try {
@@ -39,6 +41,7 @@ export default function Page() {
     }
   // eslint-disable-next-line
   }, [searchTerm]);
+
 
   useEffect(() => {
     handleSearchTerm(watch('search'))
@@ -71,11 +74,10 @@ useEffect(() => {
   const handlegetSales = async () => {
     try {
       setIsSending(true);
-      const response = await getData(`registers/product?perPage=25${productSelected?.id ? `&filterWhere[product_id]==${productSelected?.id}` : ''}&included=product`);
+      const response = await getData(`registers/product?perPage=25${currentPage}${productSelected?.id ? `&filterWhere[product_id]==${productSelected?.id}` : ''}&included=product&sort=-created_at`);
       if (!response.message) {
         toast.success("Datos obtenidos correctamente");
         setProductData(response);
-        if(response.data.length > 0) addLink(links, {}, 'excel/reports/by-lot/', productSelected?.id ? [{name: "product_id", value: productSelected?.id}] : []);
       } else {
         toast.error("Faltan algunos datos importantes!");
       }
@@ -88,6 +90,17 @@ useEffect(() => {
   };
   handlegetSales() 
 // eslint-disable-next-line
+}, [productSelected, currentPage]);
+
+useEffect(() => {
+  addLink(links, {}, "excel/reports/by-lot/", []);
+}, []); 
+
+useEffect(() => {
+  if (productSelected?.id) {
+    addLink(links,{},"excel/reports/by-lot/",[{ name: "product_id", value: productSelected.id }]
+    );
+  }
 }, [productSelected]);
 
 
@@ -97,6 +110,10 @@ useEffect(() => {
         <div className="col-span-7 border-r md:border-sky-600"> 
         <ViewTitle text="INGRESOS POR LOTES" />
         <ReportsByLotTable records={productData} isLoading={isSending} />
+        <Pagination 
+              records={productData}
+              handlePageNumber={handlePageNumber } 
+        />
 
         </div>
         <div className="col-span-3">
