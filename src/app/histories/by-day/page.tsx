@@ -34,7 +34,7 @@ export default function Page() {
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setSales(response);
-            if(response.data.length > 0) addLink(links, data, 'excel/list/');
+            if(response.data.length > 0) addLink(links, data, 'excel/by-day/');
           } else {
             toast.error("Faltan algunos datos importantes!");
           }

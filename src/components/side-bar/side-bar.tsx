@@ -118,6 +118,7 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         {showIten("histories-cut", <MenuItem component={<Link className="text-sm" href="/histories/cut" />}>Cortes de caja  </MenuItem>)}
         {showIten("histories-discount", <MenuItem component={<Link className="text-sm" href="/histories/discount" />}>Ventas con descuento  </MenuItem>)}
         {showIten("histories-list", <MenuItem component={<Link className="text-sm" href="/histories/list" />}>Listado de ventas  </MenuItem>)}
+        {showIten("histories-by-client", <MenuItem component={<Link className="text-sm" href="/histories/by-day" />}>Ventas por dia  </MenuItem>)}
         {showIten("histories-by-user", <MenuItem component={<Link className="text-sm" href="/histories/by-user" />}>Ventas por usuario  </MenuItem>)}
         {showIten("histories-by-client", <MenuItem component={<Link className="text-sm" href="/histories/by-client" />}>Ventas por cliente  </MenuItem>)}
         {showIten("histories-by-client", <MenuItem component={<Link className="text-sm" href="/histories/by-product" />}>Ventas por producto  </MenuItem>)}
