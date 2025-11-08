@@ -26,8 +26,8 @@ export function HistoriesByDayTable(props: HistoriesByDayTableProps) {
 
 
 
-  const listItems = records.data.map((record: any) => (
-    <tr className="border-b">
+  const listItems = records.data.map((record: any , key: any) => (
+    <tr key={key} className="border-b">
       <td className="py-2 px-6">{ formatDate(record?.date) } </td>
       <td className="py-2 px-6">{ numberToMoney(record?.subtotal ? record?.subtotal : 0, systemInformation) } </td>
       <td className="py-2 px-6">{ numberToMoney(record?.taxes ? record?.taxes : 0, systemInformation) } </td>
