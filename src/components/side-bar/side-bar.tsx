@@ -76,6 +76,7 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
           {showIten("inventory-add", <MenuItem component={<Link className="text-sm" href="/product/add" />}>Agregar Productos</MenuItem>)}
           {showIten("inventory-failure", <MenuItem component={<Link className="text-sm" href="/product/failure" />}>Descontar Productos</MenuItem>)}
           {showIten("inventory-linked", <MenuItem component={<Link className="text-sm" href="/product/linked" />}>Productos Relacionados</MenuItem>)}
+          {showIten("inventory", <MenuItem component={<Link className="text-sm" href="/product/history" />}>Historial de Inventario</MenuItem>)}
           {showIten("inventory-stock", <MenuItem component={<Link className="text-sm" href="/product/stock" />}>Bajas Existencias</MenuItem>)}
           {showIten("inventory-expiration", <MenuItem component={<Link className="text-sm" href="/product/expiration" />}>Proximos Vencimientos</MenuItem>)}
           {showIten("inventory-karex", <MenuItem component={<Link className="text-sm" href="/product/kardex" />}>Kardex</MenuItem>)}
