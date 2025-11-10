@@ -458,7 +458,7 @@ export default function ViewSales() {
                   <div className="flex justify-center">
                         <RestaurantShowTotal isShow={order?.invoiceproducts?.length > 0} order={order} isSending={isSending}  />
                   </div>  
-                  <SalesButtonsRestaurant isShow={order?.invoiceproducts?.length > 0} cashDrawer={cashDrawer} payOrder={payOrder} onClickOrder={handleClickOptionOrder} order={order} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType}/>
+                  <SalesButtonsRestaurant isLoading={isLoading} isShow={order?.invoiceproducts?.length > 0} cashDrawer={cashDrawer} payOrder={payOrder} onClickOrder={handleClickOptionOrder} order={order} payType={paymentType} config={configuration} isSending={isSending} selectType={selectType}/>
                   <OptionsSelect onClickOrder={handleClickOptionOrder} payType={paymentType} order={order} setOrder={setOrder} />
                   <ShowPercentSalesType order={order} config={configuration} />
                   <DeliveryCancelBtn isShow={selectType == 3 && deliverySelected?.id && !order?.invoiceproducts} onClick={setDeliverySelected} />

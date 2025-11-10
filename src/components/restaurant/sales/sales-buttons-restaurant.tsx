@@ -24,10 +24,11 @@ export interface SalesButtonsRestaurantProps {
     cashDrawer?: boolean;
     selectType: number;
     isShow?: boolean;
+    isLoading: boolean;
 }
 
 export function SalesButtonsRestaurant(props: SalesButtonsRestaurantProps) {
-  const {onClickOrder, order, payOrder, payType, config, isSending, cashDrawer, selectType, isShow } = props
+  const {onClickOrder, order, payOrder, payType, config, isSending, cashDrawer, selectType, isShow, isLoading } = props
   const { register, handleSubmit, reset, setFocus, setValue } = useForm();
   const [input, setInput] = useState('');
   const [keyboard, setKeyboard] = useState<any>(null);
@@ -35,7 +36,7 @@ export function SalesButtonsRestaurant(props: SalesButtonsRestaurantProps) {
   const { systemInformation } = useContext(ConfigContext);
   const total = sumarCantidad(order?.invoiceproducts);
   const blockMaxQuantityWithOutNit = systemInformation?.system?.country == 3 && total >= 2500 && !order?.client_id;
-  const disabledButonPay = isSending || !cashDrawer || blockMaxQuantityWithOutNit || (!order?.client_id && (order?.invoice_assigned?.type == 3 || order?.invoice_assigned?.type == 4));
+  const disabledButonPay = isLoading || isSending  || !cashDrawer || blockMaxQuantityWithOutNit || (!order?.client_id && (order?.invoice_assigned?.type == 3 || order?.invoice_assigned?.type == 4));
 
 
   useEffect(() => {

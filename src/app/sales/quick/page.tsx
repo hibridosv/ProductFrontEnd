@@ -366,7 +366,7 @@ export default function ViewSales() {
           <SalesShowOrders isShow={order ? false : true} order={order} onClick={handleChangeOrder} setPrice={handleClickOptionOrder} priceType={typeOfPrice} />
         </div>
         <div className="absolute bottom-2">
-          <SalesButtons order={order} invoice={productsOfInvoice} onClick={handleClickOptionOrder} cashDrawer={cashDrawer} config={configuration} />
+          <SalesButtons isLoading={isLoading} order={order} invoice={productsOfInvoice} onClick={handleClickOptionOrder} cashDrawer={cashDrawer} config={configuration} />
         </div>
       </div>
       <SalesQuantityModal isShow={isQuantityModal} order={order} product={productSelected} onClose={()=>setIsQuantityModal(false)} priceType={typeOfPrice} />

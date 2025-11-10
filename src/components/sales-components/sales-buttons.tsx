@@ -16,10 +16,11 @@ export interface SalesButtonsProps {
   config: string[];
   invoice?: any;
   order?: any;
+  isLoading: boolean;
 }
 
 export function SalesButtons(props: SalesButtonsProps) {
-  const {onClick, cashDrawer, config, invoice, order } = props
+  const {onClick, cashDrawer, config, invoice, order, isLoading } = props
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const isDiscount = config.includes("sales-discount");
   const isOtherSeller = config.includes("sales-other-seller");
@@ -46,7 +47,7 @@ export function SalesButtons(props: SalesButtonsProps) {
   }
 
   let fieldsRequired = validateFields();
-  let payDisabled = !cashDrawer || (!invoice?.client_id && invoice?.invoice_assigned?.type == 3) || fieldsRequired && fieldsRequired.length > 0;
+  let payDisabled = isLoading || !cashDrawer || (!invoice?.client_id && invoice?.invoice_assigned?.type == 3) || fieldsRequired && fieldsRequired.length > 0;
 
   return (<div>
           { !cashDrawer && <Alert

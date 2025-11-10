@@ -53,6 +53,7 @@ const onSubmit = async (invoice_type_id: any) => {
         toast.error(response.message);
       } else {
         setInvoiceType(response.data);
+        onClose();
       }
     } catch (error) {
       console.error(error);
@@ -77,7 +78,7 @@ const onSubmit = async (invoice_type_id: any) => {
   })
 
 return (
-<Modal show={isShow} position="center" onClose={onClose} size="md">
+<Modal show={isShow} position="center" size="md">
   <Modal.Header>Seleccionar tipo de Factura</Modal.Header>
   <Modal.Body>
     <div className="mx-4">
