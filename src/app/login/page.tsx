@@ -111,8 +111,6 @@ export default function Home() {
                         <Button type="submit" text={isRedirect ? 'Ingresando...' : 'Ingresar'} disabled={isSending || isRedirect} preset={isSending ? Preset.saving : Preset.send} isFull />
                       </div>
                       {isMessage && <div className="text-red-500 text-center mt-4">{isMessage}</div>}
-                      <div className="text-red-500 text-center mt-4">Es posible que en este momento nuestro sistema tenga problemas, esto se debe a una caida mundial de los servicios de Cloudflare que esta afectando miles de sistemas como ChatGpt, X, Canva, e incluido nuestro sistema. Estamos trabajando para restablecer el servicio lo antes posible.  Disculpa las molestias ocasionadas.
-                      </div>
                     </div>
                   </form>
    
