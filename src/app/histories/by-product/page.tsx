@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
+import React, { useRef } from "react";
 import { ViewTitle } from "@/components"
 import { DateRange } from "@/components/form/date-range"
 import { getData } from "@/services/resources";
@@ -23,6 +24,17 @@ export default function Page() {
   const { searchTerm, handleSearchTerm } =  useSearchTerm(["cod", "description"], 500);
   const [products, setProducts] = useState([]) as any;
   const [productSelected, setProductselected] = useState(null) as any;
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = () => {
+    if (inputRef.current) {
+      const actualDate = DateTime.now();
+      const formatedDate = actualDate.toFormat('yyyy-MM-dd');
+      const lot = inputRef.current.value;
+      handlegetSales({ lot, option: "1", initialDate: `${formatedDate} 00:00:00`} );
+      inputRef.current.value = "";
+    }
+  };
 
 
   const loadDataProducts = async () => {
@@ -58,7 +70,7 @@ export default function Page() {
           if (!response.message) {
             toast.success("Datos obtenidos correctamente");
             setSales(response);
-            if(response.data.length > 0) addLink(links, data, 'excel/by-product/', [{name: "product_id", value: productSelected?.id}]);
+            if(response.data.length > 0) addLink(links, data, 'excel/by-product/', [{name: "product_id", value: productSelected?.id}, ...(data?.lot ? [{ name: "lot", value: data.lot }] : []) ]);
           } else {
             toast.error("Faltan algunos datos importantes!");
           }
@@ -89,6 +101,7 @@ export default function Page() {
         setrandNumber(getRandomInt(100));
         setProducts([])
     }
+
   
     const listItems = products?.map((product: any):any => (
         <div key={product.id} onClick={()=>handleSelectProduct(product)}>
@@ -104,39 +117,53 @@ export default function Page() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-10 pb-10">
-        <div className="col-span-7 border-r md:border-sky-600">
+      <div className="col-span-7 border-r md:border-sky-600">
         <ViewTitle text="LISTADO DE VENTAS POR PRODUCTO" />
 
         <HistoriesByProductTable records={sales} isLoading={isSending} />
 
-        </div>
-        <div className="col-span-3">
+      </div>
+      <div className="col-span-3">
         <ViewTitle text="SELECCIONAR PRODUCTO" />
         <div className="mx-2">
-            <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Producto" randNumber={randNumber} />
-            <div className="w-full bg-white rounded-lg shadow-lg mt-4">
-                <ul className="divide-y-2 divide-gray-400">
-                { listItems }
-                { products && products.length > 0 && 
-                        <li className="flex justify-between p-3 hover:bg-red-200 hover:text-red-800 cursor-pointer" onClick={handleCancelProduct}>
-                            CANCELAR
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                            </svg>
-                        </li> }
-                </ul>
+          <SearchInput handleSearchTerm={handleSearchTerm} placeholder="Buscar Producto" randNumber={randNumber} />
+          <div className="w-full bg-white rounded-lg shadow-lg mt-4">
+            <ul className="divide-y-2 divide-gray-400">
+              {listItems}
+              {products && products.length > 0 &&
+                <li className="flex justify-between p-3 hover:bg-red-200 hover:text-red-800 cursor-pointer" onClick={handleCancelProduct}>
+                  CANCELAR
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </li>}
+            </ul>
+          </div>
+          {productSelected &&
+            <div className="px-2 mb-3 uppercase text-lg font-semibold shadow-md rounded-md">
+              <div className="flex justify-between items-center mb-2">
+                <span>{productSelected?.description}</span>
+                <Button noText preset={Preset.smallClose} onClick={handleCancelProduct} />
+              </div>
+              <div className="flex gap-2 pb-2">
+                <div className="w-full">
+                  <input 
+                    type="text" 
+                    placeholder="Buscar por lote" 
+                    ref={inputRef} 
+                    className="w-full text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:font-normal"
+                  />
+              </div>
+                  <Button onClick={handleSubmit} text="Buscar" />
+             </div>
             </div>
-            { productSelected &&
-            <div className="flex justify-between px-2 mb-3 uppercase text-lg font-semibold shadow-md rounded-md">
-                <span>{ productSelected?.description }</span> 
-                <span className="text-right"><Button noText preset={Preset.smallClose} onClick={handleCancelProduct} /></span>
-            </div> }
+          }
         </div>
         <ViewTitle text="SELECCIONAR FECHA" />
         <DateRange onSubmit={handlegetSales} />
         <LinksList links={links} />
-        </div>
+      </div>
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   )
