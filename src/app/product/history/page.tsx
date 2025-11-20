@@ -30,7 +30,7 @@ const handlegetInventory = async (data: DateValue) => {
       if (!response.message) {
         toast.success("Datos obtenidos correctamente");
         setProducts(response);
-        if(response.data.length > 0) addLink(links, data, 'inventory/history');
+        if(response.data.length > 0) addLink(links, data, 'excel/inventoryHistory');
       } else {
         toast.error("Faltan algunos datos importantes!");
       }

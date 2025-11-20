@@ -76,6 +76,7 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
           {showIten("inventory-add", <MenuItem component={<Link className="text-sm" href="/product/add" />}>Agregar Productos</MenuItem>)}
           {showIten("inventory-failure", <MenuItem component={<Link className="text-sm" href="/product/failure" />}>Descontar Productos</MenuItem>)}
           {showIten("inventory-linked", <MenuItem component={<Link className="text-sm" href="/product/linked" />}>Productos Relacionados</MenuItem>)}
+          {showIten("inventory", <MenuItem component={<Link className="text-sm" href="/product/history" />}>Historial de Inventario</MenuItem>)}
           {showIten("inventory-stock", <MenuItem component={<Link className="text-sm" href="/product/stock" />}>Bajas Existencias</MenuItem>)}
           {showIten("inventory-expiration", <MenuItem component={<Link className="text-sm" href="/product/expiration" />}>Proximos Vencimientos</MenuItem>)}
           {showIten("inventory-karex", <MenuItem component={<Link className="text-sm" href="/product/kardex" />}>Kardex</MenuItem>)}
@@ -117,6 +118,7 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
         {showIten("histories-cut", <MenuItem component={<Link className="text-sm" href="/histories/cut" />}>Cortes de caja  </MenuItem>)}
         {showIten("histories-discount", <MenuItem component={<Link className="text-sm" href="/histories/discount" />}>Ventas con descuento  </MenuItem>)}
         {showIten("histories-list", <MenuItem component={<Link className="text-sm" href="/histories/list" />}>Listado de ventas  </MenuItem>)}
+        {showIten("histories-by-client", <MenuItem component={<Link className="text-sm" href="/histories/by-day" />}>Ventas por dia  </MenuItem>)}
         {showIten("histories-by-user", <MenuItem component={<Link className="text-sm" href="/histories/by-user" />}>Ventas por usuario  </MenuItem>)}
         {showIten("histories-by-client", <MenuItem component={<Link className="text-sm" href="/histories/by-client" />}>Ventas por cliente  </MenuItem>)}
         {showIten("histories-by-client", <MenuItem component={<Link className="text-sm" href="/histories/by-product" />}>Ventas por producto  </MenuItem>)}
