@@ -20,7 +20,7 @@ export default function Page() {
     const loadData = async () => {
         setIsLoading(true);
         try {
-          const products = await getData(`order?included=employee,client,invoiceproducts.attributes,invoiceproducts.options.option,products.attributes,products.options.option,attributes&filter[status]==3&filter[status]==1&filterWhere[active_station]==1`);
+          const products = await getData(`order?included=employee,client,table,invoiceproducts.attributes,invoiceproducts.options.option,products.attributes,products.options.option,attributes&filter[status]==3&filter[status]==1&filterWhere[active_station]==1`);
           if (products.data) {
             setOrders(products.data);
             screenSound()
