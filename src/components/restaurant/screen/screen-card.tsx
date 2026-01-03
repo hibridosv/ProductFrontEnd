@@ -2,7 +2,7 @@ import { useRelativeTime } from '@/hooks/useRelativeTime';
 import { formatDate, formatHourAsHM } from '@/utils/date-formats';
 import { deliveryType, filterProductsOrInvoiceProducts } from '@/utils/functions';
 import React, { Fragment } from 'react';
-import { BiCar, BiCheckDouble, BiUser } from 'react-icons/bi';
+import { BiCar, BiRestaurant, BiCheckDouble, BiUser } from 'react-icons/bi';
 import { FaClock } from 'react-icons/fa';
 import { TbPointFilled } from 'react-icons/tb';
 
@@ -23,9 +23,16 @@ export function ScreenCard(props: ScreenCardProps) {
                                                     status: 2,
                                                     url: "screen/order/process"})}>
                 <div className="w-full">
-                    <div className="w-full text-xl font-bold flex justify-around">
+                    <div className="w-full text-xl font-bold flex justify-between items-center">
                         <div className="w-1/2">Orden # {order.number}</div>
-                        <div className="text-sm text-gray-600 pt-1 text-right w-1/2"></div>
+                        {order.status == 6 && (
+                        <span className="text-xs px-2 py-1 rounded-full bg-red-100 text-red-700">
+                            ELIMINADA
+                        </span>
+                    )}
+                    </div>
+                    <div className="w-full text-xl font-bold flex justify-around">
+                        <div className="w-full">{order.order_type == 2 ? order.table?.name : order.client?.name}</div>
                     </div>
                     <div className="text-sm text-gray-800 flex">
                         <FaClock size={12} color="red" className="mt-1 mr-2 animate-spin-slow" />
@@ -71,7 +78,8 @@ export function ScreenCard(props: ScreenCardProps) {
                         <BiUser className="mt-1 mr-2" /> <span>{order.employee.name}</span>
                     </li>
                     <li className="flex">
-                        <BiCar className="mt-1 mr-2" /> <span>{deliveryType(order.delivery_type)}</span>
+                        { order.delivery_type == 1 ? <BiRestaurant className="mt-1 mr-2" /> : <BiCar className="mt-1 mr-2" />}
+                        <span>{deliveryType(order.delivery_type)}</span>
                     </li>
                 </ul>
             </div>
