@@ -683,3 +683,58 @@ export function countOrdersWithStatusX(data: any[], value: string, status: numbe
   if (!data || data.length === 0) return 0;
   return data.reduce((count, order) => order[value] === status ? count + 1 : count, 0);
 }
+
+// agrupa los productos para las comandas en pantalla
+export function contarProductos(productos: any[]) {
+    const contador: Record<
+        string,
+        { id: string; cantidad: number; options: any[] }
+    > = {};
+
+    const resultado: {
+        id: string;
+        producto: string;
+        cantidad: number;
+        options: any[];
+    }[] = [];
+
+    productos.forEach(p => {
+        const nombre = p.product;
+        const options = p.options || [];
+        const tieneOpciones = options.length > 0;
+
+        if (tieneOpciones) {
+            // 👉 Producto individual con opciones
+            resultado.push({
+                id: p.id,
+                producto: nombre,
+                cantidad: p.quantity,
+                options
+            });
+        } else {
+            // 👉 Producto acumulable (SIN opciones)
+            if (!contador[nombre]) {
+                contador[nombre] = {
+                    id: p.id,
+                    cantidad: 0,
+                    options: [] // 👈 siempre existe
+                };
+            }
+
+            contador[nombre].cantidad += p.quantity;
+        }
+    });
+
+    // Agregamos los productos acumulados
+    Object.entries(contador).forEach(([producto, data]) => {
+        resultado.push({
+            id: data.id,
+            producto,
+            cantidad: data.cantidad,
+            options: data.options // 👈 siempre []
+        });
+    });
+
+    return resultado;
+}
+
