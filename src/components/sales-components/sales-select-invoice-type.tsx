@@ -53,6 +53,7 @@ const onSubmit = async (invoice_type_id: any) => {
         toast.error(response.message);
       } else {
         setInvoiceType(response.data);
+        onClose();
       }
     } catch (error) {
       console.error(error);
@@ -66,7 +67,7 @@ const onSubmit = async (invoice_type_id: any) => {
   const styleSelect = "flex justify-between p-3 hover:bg-blue-200 hover:text-blue-800 cursor-pointer bg-cyan-200"
   
   const listItems = invoiceType?.map((type: any):any => {
-    if (type?.type === 8) return null; 
+    if (type?.type === 8 || type?.type === 5) return null; 
     return (
     <div key={type.id} onClick={()=>onSubmit(type.id)}>
         <li className={ type.status == 1 ? styleSelect : style}>
