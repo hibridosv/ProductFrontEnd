@@ -1,6 +1,6 @@
 import { useRelativeTime } from '@/hooks/useRelativeTime';
 import { formatDate, formatHourAsHM } from '@/utils/date-formats';
-import { deliveryType, filterProductsOrInvoiceProducts, contarProductos } from '@/utils/functions';
+import { deliveryType, filterProductsOrInvoiceProducts, groupProducts } from '@/utils/functions';
 import React, { Fragment } from 'react';
 import { BiCar, BiRestaurant, BiCheckDouble, BiUser, BiX  } from 'react-icons/bi';
 import { FaClock } from 'react-icons/fa';
@@ -15,7 +15,7 @@ export function ScreenCard(props: ScreenCardProps) {
     const { order, processData } = props;
 
     const filteredResult = filterProductsOrInvoiceProducts(order);
-    const agrupados = contarProductos(filteredResult);
+    const groupedProducts = groupProducts(filteredResult);
 
     const time = useRelativeTime(order.created_at);
 
@@ -48,7 +48,7 @@ export function ScreenCard(props: ScreenCardProps) {
 
             <table className="table-auto w-full text-sm text-left">
                 <tbody>
-                    {agrupados.map((product: any) => {
+                    {groupedProducts.map((product: any) => {
                         return (<Fragment key={product.id}>
                             <tr  className="bg-slate-100 border-y-2 border-slate-600" 
                                onClick={()=>processData({order: order?.id,
@@ -56,7 +56,7 @@ export function ScreenCard(props: ScreenCardProps) {
                                                         status: 2,
                                                         url: "screen/product/process"})}>
                                 <td className="font-medium h-9 flex p-2 uppercase">
-                                    {product.cantidad}<BiX size={16} className="mt-1 mr-2"/> {product.producto}
+                                    {product.quantity}<BiX size={16} className="mt-1 mr-2"/> {product.product}
                                 </td>
                             </tr>
                                {product?.options?.length > 0 && 

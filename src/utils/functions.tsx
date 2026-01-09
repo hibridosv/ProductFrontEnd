@@ -685,56 +685,64 @@ export function countOrdersWithStatusX(data: any[], value: string, status: numbe
 }
 
 // agrupa los productos para las comandas en pantalla
-export function contarProductos(productos: any[]) {
-    const contador: Record<
+export function groupProducts(products: any[]) {
+    const counter: Record<
         string,
-        { id: string; cantidad: number; options: any[] }
+        {
+            id: string;
+            cod: string;
+            product: string;
+            quantity: number;
+            options: any[];
+        }
     > = {};
 
-    const resultado: {
+    const groupedProducts: {
         id: string;
-        producto: string;
-        cantidad: number;
+        cod: string;
+        product: string;
+        quantity: number;
         options: any[];
     }[] = [];
 
-    productos.forEach(p => {
-        const nombre = p.product;
+    products.forEach(p => {
+        const cod = p.cod;  
         const options = p.options || [];
-        const tieneOpciones = options.length > 0;
+        const withOptions = options.length > 0;
 
-        if (tieneOpciones) {
-            // 👉 Producto individual con opciones
-            resultado.push({
+        if (withOptions) { //productos con opciones
+            groupedProducts.push({
                 id: p.id,
-                producto: nombre,
-                cantidad: p.quantity,
+                cod: cod,
+                product: p.product,
+                quantity: p.quantity,
                 options
             });
-        } else {
-            // 👉 Producto acumulable (SIN opciones)
-            if (!contador[nombre]) {
-                contador[nombre] = {
+        } else { //productos sin opciones
+            if (!counter[cod]) {
+                counter[cod] = {
                     id: p.id,
-                    cantidad: 0,
-                    options: [] // 👈 siempre existe
+                    cod: cod,
+                    product: p.product,
+                    quantity: 0,
+                    options: [] 
                 };
             }
 
-            contador[nombre].cantidad += p.quantity;
+            counter[cod].quantity += p.quantity;
         }
     });
-
     // Agregamos los productos acumulados
-    Object.entries(contador).forEach(([producto, data]) => {
-        resultado.push({
+    Object.values(counter).forEach(data => {
+        groupedProducts.push({
             id: data.id,
-            producto,
-            cantidad: data.cantidad,
-            options: data.options // 👈 siempre []
+            cod: data.cod,
+            product: data.product,
+            quantity: data.quantity,
+            options: data.options
         });
     });
 
-    return resultado;
+    return groupedProducts;
 }
 
