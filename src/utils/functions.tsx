@@ -683,3 +683,66 @@ export function countOrdersWithStatusX(data: any[], value: string, status: numbe
   if (!data || data.length === 0) return 0;
   return data.reduce((count, order) => order[value] === status ? count + 1 : count, 0);
 }
+
+// agrupa los productos para las comandas en pantalla
+export function groupProducts(products: any[]) {
+    const counter: Record<
+        string,
+        {
+            id: string;
+            cod: string;
+            product: string;
+            quantity: number;
+            options: any[];
+        }
+    > = {};
+
+    const groupedProducts: {
+        id: string;
+        cod: string;
+        product: string;
+        quantity: number;
+        options: any[];
+    }[] = [];
+
+    products.forEach(p => {
+        const cod = p.cod;  
+        const options = p.options || [];
+        const withOptions = options.length > 0;
+
+        if (withOptions) { //productos con opciones
+            groupedProducts.push({
+                id: p.id,
+                cod: cod,
+                product: p.product,
+                quantity: p.quantity,
+                options
+            });
+        } else { //productos sin opciones
+            if (!counter[cod]) {
+                counter[cod] = {
+                    id: p.id,
+                    cod: cod,
+                    product: p.product,
+                    quantity: 0,
+                    options: [] 
+                };
+            }
+
+            counter[cod].quantity += p.quantity;
+        }
+    });
+    // Agregamos los productos acumulados
+    Object.values(counter).forEach(data => {
+        groupedProducts.push({
+            id: data.id,
+            cod: data.cod,
+            product: data.product,
+            quantity: data.quantity,
+            options: data.options
+        });
+    });
+
+    return groupedProducts;
+}
+
