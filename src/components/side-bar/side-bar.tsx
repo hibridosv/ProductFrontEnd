@@ -65,6 +65,7 @@ const showIten = (permission: string, item: ReactElement): ReactElement => {
             {showIten("restaurant-screen", <MenuItem component={<Link className="text-sm" href="/restaurant/screen" />}>Pantalla </MenuItem>)}
             {showIten("restaurant-counter", <MenuItem component={<Link className="text-sm" href="/restaurant/counter" />}>Pantalla Despacho </MenuItem>)}
             {showIten("restaurant-orders", <MenuItem component={<Link className="text-sm" href="/restaurant/orders" />}>Listado de Ordenes</MenuItem>)}
+            {showIten("restaurant-orders", <MenuItem component={<Link className="text-sm" href="/restaurant/order-deleted" />}>Ordenes Eliminadas</MenuItem>)}
             </SubMenu>
         }
 
