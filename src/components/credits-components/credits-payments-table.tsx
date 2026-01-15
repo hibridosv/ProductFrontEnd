@@ -1,11 +1,13 @@
 'use client'
 import { useContext, useEffect, useState } from "react";
-import { getFirstElement, numberToMoney } from "@/utils/functions";
+import { extractActiveFeature, getFirstElement, numberToMoney } from "@/utils/functions";
 import { NothingHere } from "../nothing-here/nothing-here";
 import {  formatDate, formatDateAsDMY, formatTime } from "@/utils/date-formats";
 import { Button, Preset } from "../button/button";
 import { Tooltip } from "flowbite-react";
 import { ConfigContext } from "@/contexts/config-context";
+import { ButtonDownload } from "../button/button-download";
+import { FaPrint } from "react-icons/fa";
 
 
 
@@ -19,10 +21,14 @@ interface CredistPaymentsTableProps {
 export function CredistPaymentsTable(props: CredistPaymentsTableProps) {
   const { records, onDelete, isDisabled, isPrint } = props;
   const [isLasElement, setIsLasElement] = useState([] as any);
-  const { systemInformation } = useContext(ConfigContext);
+  const { systemInformation, config } = useContext(ConfigContext);
+  const [configuration, setConfiguration] = useState([] as any); // configuraciones que vienen de config
 
-
-  useEffect(() => setIsLasElement(getFirstElement(records?.data)), [records]);
+  useEffect(() => {
+    setIsLasElement(getFirstElement(records?.data))
+    setConfiguration(extractActiveFeature(config.configurations))
+  }, 
+  [records, config]);
 
 
   if (!records.data) return <NothingHere width="100" height="65" />;
@@ -56,12 +62,14 @@ export function CredistPaymentsTable(props: CredistPaymentsTableProps) {
                                         record.payment_type == 0 ||
                                         record?.status == 0 || 
                                         isDisabled || 
-                                        isLasElement?.id != record?.id || 
-                                        formatDateAsDMY(isLasElement?.created_at) != formatDateAsDMY(new Date()) ? true : false} 
+                                        isLasElement?.id != record?.id} 
                                         noText onClick={()=>onDelete(record)} />
 
-                                    {isLasElement?.id == record?.id && !isDisabled &&          
-                                      <Button preset={Preset.smallPrint} noText onClick={()=>isPrint()} style="ml-2" />
+                                    {isLasElement?.id == record?.id && !isDisabled && (
+                                    configuration.includes("print-link") ? <ButtonDownload autoclass={false} href={`/download/pdf/creditPayment/${record.id}`}>
+                                                      <FaPrint className="clickeable ml-2" size={25} color="blue" />
+                                                      </ButtonDownload> :          
+                                      <Button preset={Preset.smallPrint} noText onClick={()=>isPrint()} style="ml-2" />)
                                     }
       </td>
     </tr>
