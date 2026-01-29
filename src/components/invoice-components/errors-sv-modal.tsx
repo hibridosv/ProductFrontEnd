@@ -36,7 +36,14 @@ export function ErrorsSVModal(props: ErrorTableProps) {
     }
   } else if (Array.isArray(errors)) {
     // Si errors es un array, simplemente convertir a string
-    parsedErrors = errors.map(error => error.toString());
+    const errorsToString = errors.join('","');
+    const cleanedErrors = errorsToString
+      .replace(/^\[|\]$/g, '') // Quitar corchetes al inicio y final
+      .split('","') // Dividir los errores en base a la coma y comillas
+      .map(error => error.replace(/^"|"$/g, '')); // Quitar comillas alrededor de cada error
+
+    parsedErrors = cleanedErrors;
+
   } else {
     // Si errors no es un string ni un array, mostrar mensaje de error
     // console.error("El parámetro 'errors' no es una cadena de texto ni un array.");
