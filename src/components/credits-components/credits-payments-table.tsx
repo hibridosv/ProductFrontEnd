@@ -56,7 +56,7 @@ export function CredistPaymentsTable(props: CredistPaymentsTableProps) {
       { record?.status == 0 ? <Tooltip animation="duration-300" 
       content={deleted(record)} >{ status(record?.status) }</Tooltip> : status(record?.status) }
       </td>
-      <td className="py-1 px-6 flex"><Button preset={record?.status == 0 ? Preset.smallInfo : 
+      <td className="py-1 px-6 flex m-1"><Button preset={record?.status == 0 ? Preset.smallInfo : 
                                         isLasElement?.id == record?.id && !isDisabled ? Preset.smallClose : Preset.smallCloseDisable} 
                                         disabled={
                                         record.payment_type == 0 ||
