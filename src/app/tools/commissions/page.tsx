@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { ViewTitle } from "@/components"
+import { ViewTitle,  Pagination } from "@/components"
 import { getData, postData } from "@/services/resources";
 import toast, { Toaster } from 'react-hot-toast';
 import { getRandomInt } from "@/utils/functions";
@@ -14,12 +14,14 @@ import { CreditsShowTotal } from "@/components/credits-components/credits-show-t
 import { ButtonDownload } from "@/components/button/button-download";
 import { FaDownload } from "react-icons/fa";
 import { ButtonLink } from "@/components/button/button-link";
+import { usePagination } from "@/hooks/usePagination";
 
 export default function Page() {
   const [commissions, setCommissions] = useState([]);
   const [initialCommission, setInitialCommission] = useState(null as any);
   const [isSending, setIsSending] = useState(false);
   const [randomNumber, setRandomNumber] = useState(0);
+  const {currentPage, handlePageNumber} = usePagination("&page=1");
 
   const [ randNumber, setrandNumber] = useState(0) as any;
   const { searchTerm, handleSearchTerm } = useSearchTerm(["name", "id_number", "code", "phone"], 500);
@@ -94,7 +96,7 @@ export default function Page() {
           if (!active.message) {
             setInitialCommission(active)
           } else {
-            const response = await getData(`tools/commissions${contactSelected ? `?filterWhere[referred_id]==${contactSelected?.id}&` : `?`}filterWhere[type]==1&included=employee_deleted,referred,linked.product.order&sort=-created_at`);
+            const response = await getData(`tools/commissions${contactSelected ? `?filterWhere[referred_id]==${contactSelected?.id}&` : `?`}filterWhere[type]==1&included=employee_deleted,referred,linked.product.order&sort=-created_at&perPage=10${currentPage}`);
             if (!response.message) {
               setCommissions(response);
               toast.success("Datos obtenidos correctamente");
@@ -113,7 +115,7 @@ export default function Page() {
     useEffect(() => {
         (async () => await handleGetSales())();
     // eslint-disable-next-line
-    }, [contactSelected, randomNumber]);
+    }, [contactSelected, randomNumber, currentPage]);
  
   
   const handleCancelContact = () => {
@@ -169,7 +171,10 @@ export default function Page() {
 
             { initialCommission ?
             <CommissionsProductsTable record={initialCommission} setProducts={setProducts} /> :
+            <div>
             <CommissionsListTable records={commissions} isLoading={isSending} random={setRandomNumber}/>
+            <Pagination records={commissions} handlePageNumber={handlePageNumber } />
+            </div>
             }
         </div>
         <div className="col-span-3">
