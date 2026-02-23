@@ -1,7 +1,7 @@
 'use client';
 import { OptionsClickOrder, PaymentType, PresetTheme } from '@/services/enums';
 import { Tooltip } from 'flowbite-react';
-import { AiFillSave } from 'react-icons/ai';
+import { AiFillSave, AiOutlineStop} from 'react-icons/ai';
 import { FaRegMoneyBillAlt } from 'react-icons/fa';
 import { IoMdOptions } from 'react-icons/io';
 import { style } from '@/theme';
@@ -155,8 +155,8 @@ if (!isShow) return <></>
                 } style="light" >
                     <div className='button-grey clickeable w-4/10'><IoMdOptions className='mr-1' /> Opciones</div>
                 </Tooltip>
-            <div className='button-lime clickeable w-2/10 relative' title='Guardar' onClick={isSending ? ()=>{} : () => onClickOrder(OptionsClickOrder.setPrinter)} >
-                <AiFillSave size={24} className='mr-1' />
+            <div  className={`button-lime clickeable w-2/10 relative ${isSending ? 'pointer-events-none cursor-not-allowed' : ''}`} title='Guardar' onClick={isSending ? ()=>{} : () => onClickOrder(OptionsClickOrder.setPrinter)} >
+                {isSending ? <AiOutlineStop size={24} className='mr-1' /> : <AiFillSave size={24} className='mr-1' />}
                 { countSendPrintZero(order) != 0 &&
                     <span className="absolute top-0 right-0 flex h-3 w-3">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>

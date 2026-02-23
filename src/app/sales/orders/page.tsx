@@ -394,6 +394,7 @@ export default function ViewSales() {
 
           const setOrderPrinter = async (withOrder = false) => {
             try {
+              setIsSending(true);
               const response = await postData(`orders/restaurant/printer/${order.id}`, "PUT", { with_order: withOrder });
               if (response.data) {
                 setOrder(response.data)
@@ -404,9 +405,11 @@ export default function ViewSales() {
                   }
                 }
               }
+              setIsSending(false);
             } catch (error) {
               console.error(error);
               toast.error("Ha ocurrido un error!");
+              setIsSending(false);
             } 
           };
 

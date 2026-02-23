@@ -41,7 +41,7 @@ export function CredistReceivableTable(props: CredistReceivableTableProps) {
       <Tooltip animation="duration-300" 
       content={`Fecha: ${formatDateAsDMY(record.created_at)}`} >{ record?.client?.name }</Tooltip>
       </td>
-      <td className="py-3 px-6 truncate">{ record?.order?.invoice == 5 ? "N/A" : record?.order?.invoice }</td>
+      <td className="py-3 px-6 truncate">{ record?.order?.invoice }</td>
       <td className="py-3 px-6 whitespace-nowrap">{ record?.expiration ? formatDateAsDMY(record?.expiration) : "N/A"}</td> 
       {/* <td className="py-2 px-6">{ record?.description }</td> */}
       <td className="py-3 px-6 truncate">{ numberToMoney(record?.order?.total ? record?.order?.total : 0, systemInformation) }</td>
